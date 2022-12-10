@@ -1,9 +1,7 @@
-# Azeroth-Core-Patches
-A set of patch files to be stored on the client WOW_Directory/Data/
+# Client
+Download the client from here:
 
-Delete the Cache folder for changes made on the server to take effect on the client
-
-![image](https://user-images.githubusercontent.com/5217306/206147066-8c78be7f-7bfa-434b-98dc-21cf1a1c5979.png)
+https://www.wowdl.net/download/3.3.5a-win-us
 
 # .EXE Patch
 To prevent the client from caching items and reading the internal .DBC files, replace the .EXE file with the one provided here and run the WoWPatcher program to select the settings.
@@ -12,3 +10,7 @@ To prevent the client from caching items and reading the internal .DBC files, re
 
 This allows for server side item modifications to be made without the need for client patches or cache clearing.
 
+# MPQ Patches
+A set of patch files containing custom spells to be stored on the client WOW_Directory/Data/
+
+![image](https://user-images.githubusercontent.com/5217306/206147066-8c78be7f-7bfa-434b-98dc-21cf1a1c5979.png)
