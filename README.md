@@ -8,5 +8,7 @@ Delete the Cache folder for changes made on the server to take effect on the cli
 # .EXE Patch
 To prevent the client from caching items and reading the internal .DBC files, replace the .EXE file with the one provided here and run the WoWPatcher program to select the settings.
 
+![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
+
 This allows for server side item modifications to be made without the need for client patches or cache clearing.
 
