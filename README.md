@@ -24,3 +24,21 @@ These patches provide an upgraded UI and graphic models used in later versions o
 https://drive.google.com/drive/folders/1FtM28SyzSWJB3iiK85nvtI3zc8faQweW?usp=share_link
 
 Download and save in the client WOW_Directory/Data/
+
+patch-5.MPQ - Music
+patch-6.MPQ - Music
+patch-7.MPQ - Cleaner login page and password Saving
+patch-8.MPQ - High Resolution Classic Armors
+patch-9.MPQ - High Resolution Classic Shields
+patch-C.MPQ - HD Character Creator and Login
+patch-D.MPQ - HD Goblins
+patch-F.MPQ - Mounts, Druid forms & NPCs Part 1(won't work without P2)
+patch-G.MPQ - Mounts, Druid forms & NPCs Part 2(won't work without P1)
+patch-H.MPQ - HD Character Models
+patch-M.MPQ - Loading Screens
+patch-S.MPQ - Sunlight
+patch-T.MPQ - Tilesets, Grass & Buildings
+patch-W.MPQ - HD Lava/Slime(no water)
+patch-X.MPQ - HD Trees & Flowers
+patch-Y.MPQ - Blood Splatters
+patch-Z.MPQ - Darker Nights
