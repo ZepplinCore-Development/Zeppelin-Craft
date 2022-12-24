@@ -3,7 +3,7 @@ Download the client from here:
 
 https://www.wowdl.net/download/3.3.5a-win-us
 
-# .EXE Patch
+# Application Patch
 This is required to prevent the client from caching items and reading the internal items.dbc file.
 This allows for server side item modifications to be made without the need for client patches or cache clearing.
 
