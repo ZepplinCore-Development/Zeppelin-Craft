@@ -51,7 +51,7 @@ patch-S.MPQ - Sunlight
 
 patch-T.MPQ - Tilesets, Grass & Buildings
 
-patch-W.MPQ - HD Lava/Slime(no water)
+patch-W.MPQ - HD Water
 
 patch-X.MPQ - HD Trees & Flowers
 
