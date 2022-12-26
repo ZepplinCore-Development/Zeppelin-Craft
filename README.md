@@ -69,4 +69,7 @@ patch-Z.MPQ - Darker Nights
 
 ![WoWScrnShot_122622_145810](https://user-images.githubusercontent.com/5217306/209514998-88e5485e-cbf4-418d-87ab-fa83af813605.jpg)
 
+# Server Modules
+
+![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
