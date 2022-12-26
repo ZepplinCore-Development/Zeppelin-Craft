@@ -73,3 +73,19 @@ patch-Z.MPQ - Darker Nights
 
 ![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
+##Congrats on Level:
+players receive bonus rewards at level milestones.
+
+Level 10
+1 Gold / Blessing of Kings
+Reagent Portal / Zeppelin Bag
+
+Level 20
+10 Gold / Power Word Fortitude
+Compressed Thermal Anvil / Zeppelin Bag
+
+Level 30
+15 Gold / Mark of the Wild
+Zeppelin Bag / Zeppelin Bag
+
+
