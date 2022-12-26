@@ -78,20 +78,14 @@ players receive bonus rewards at level milestones.
 
 Level 10
 
-1 Gold / Blessing of Kings
-
-Reagent Portal / Zeppelin Bag
+1 Gold / Blessing of Kings / Reagent Portal / Zeppelin Bag
 
 Level 20
 
-10 Gold / Power Word Fortitude
-
-Compressed Thermal Anvil / Zeppelin Bag
+10 Gold / Power Word Fortitude / Compressed Thermal Anvil / Zeppelin Bag
 
 Level 30
 
-15 Gold / Mark of the Wild
-
-Zeppelin Bag / Zeppelin Bag
+15 Gold / Mark of the Wild / Zeppelin Bag / Zeppelin Bag
 
 
