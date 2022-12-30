@@ -17,13 +17,14 @@ This allows for server side item modifications to be made without the need for c
 ![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
 
 # Mandatory MPQ Patch
-A patch file containing custom spells to be stored in the client WOW_Directory/Data/
+Download the Patch-4.MPQ file from this repository containing custom spells and place it in the client WOW_Directory/Data/
 Without this patch file custom spells will not function correctly for the client.
 
 ![MPQs](https://user-images.githubusercontent.com/5217306/209437969-d538f3f2-5855-468b-b7a2-6731550e6584.png)
 
 # Optional MPQ Patches
-These patches provide an upgraded UI and graphic models used in later versions of the game
+These patches provide an upgraded UI and graphic models used in later versions of the game.
+Download from the link below and put them in the same folder as above.
 
 https://drive.google.com/drive/folders/1FtM28SyzSWJB3iiK85nvtI3zc8faQweW?usp=share_link
 
@@ -65,6 +66,8 @@ patch-Z.MPQ - Darker Nights
 
 # Custom Items
 
+Some of the custom items added to the server, so far.
+
 ![WoWScrnShot_122622_144701](https://user-images.githubusercontent.com/5217306/209514341-fe68ff04-a423-48c0-b775-cf1564be2cc5.jpg)
 
 ![WoWScrnShot_122622_144717](https://user-images.githubusercontent.com/5217306/209514348-5aa92d3e-7aec-4353-a1a3-faa233e7cc13.jpg)
@@ -74,6 +77,8 @@ patch-Z.MPQ - Darker Nights
 ![WoWScrnShot_122622_145810](https://user-images.githubusercontent.com/5217306/209514998-88e5485e-cbf4-418d-87ab-fa83af813605.jpg)
 
 # Server Modules
+
+The extra modules used on the server, these are used to further customise the game.
 
 ![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
