@@ -82,6 +82,9 @@ The extra modules used on the server, these are used to further customise the ga
 
 ![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
+https://github.com/azerothcore/mod-racial-trait-swap
+https://github.com/ZhengPeiRu21/mod-individual-progression
+
 ## Congrats on Level:
 players receive bonus rewards at level milestones.
 
