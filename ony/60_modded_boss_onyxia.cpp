@@ -514,7 +514,7 @@ public:
             {
                 if (Creature* trigger = me->SummonCreature(12758, *me, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
-                    trigger->CastSpell(trigger, 17731, false);
+                    trigger->CastSpell(trigger, SPELL_ERUPTION, false);
                 }
                 break;
             }
