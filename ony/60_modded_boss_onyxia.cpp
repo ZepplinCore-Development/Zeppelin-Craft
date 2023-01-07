@@ -115,10 +115,10 @@ enum Yells
     SAY_EVADE                   = 5
 };
 
-struct boss_onyxia : public BossAI
+struct boss_onyxia_40 : public BossAI
 {
 public:
-    boss_onyxia(Creature* pCreature) : BossAI(pCreature, DATA_ONYXIA)
+    boss_onyxia_40(Creature* pCreature) : BossAI(pCreature, DATA_ONYXIA)
     {
         Initialize();
     }
@@ -548,70 +548,7 @@ private:
     bool  bManyWhelpsAvailable;
 };
 
-struct npc_onyxian_lair_guard : public ScriptedAI
+void AddSC_boss_onyxia_40()
 {
-public:
-    npc_onyxian_lair_guard(Creature* creature) : ScriptedAI(creature) {}
-
-    EventMap events;
-
-    void EnterCombat(Unit* /*who*/) override
-    {
-        events.Reset();
-        events.ScheduleEvent(EVENT_OLG_SPELL_BLASTNOVA, 15000);
-        events.ScheduleEvent(EVENT_OLG_SPELL_IGNITEWEAPON, 10000);
-    }
-
-    void UpdateAI(uint32 diff) override
-    {
-        if (!UpdateVictim())
-        {
-            return;
-        }
-
-        events.Update(diff);
-
-        if (me->HasUnitState(UNIT_STATE_CASTING))
-        {
-            return;
-        }
-
-        switch (events.ExecuteEvent())
-        {
-            case EVENT_OLG_SPELL_BLASTNOVA:
-                DoCastAOE(SPELL_OLG_BLASTNOVA);
-                events.RepeatEvent(15000);
-                break;
-            case EVENT_OLG_SPELL_IGNITEWEAPON:
-                if (me->HasUnitFlag(UNIT_FLAG_DISARMED))
-                {
-                    events.RepeatEvent(5000);
-                }
-                else
-                {
-                    DoCastSelf(SPELL_OLG_IGNITEWEAPON);
-                    events.RepeatEvent(urand(18000, 21000));
-                }
-                break;
-        }
-
-        if (!me->HasUnitState(UNIT_STATE_CASTING) && me->isAttackReady())
-        {
-            if (me->HasUnitFlag(UNIT_FLAG_DISARMED))
-            {
-                if (me->HasAura(SPELL_OLG_IGNITEWEAPON))
-                {
-                    me->RemoveAura(SPELL_OLG_IGNITEWEAPON);
-                }
-            }
-        }
-
-        DoMeleeAttackIfReady();
-    }
-};
-
-void AddSC_boss_onyxia()
-{
-    RegisterOnyxiasLairCreatureAI(boss_onyxia);
-    RegisterOnyxiasLairCreatureAI(npc_onyxian_lair_guard);
+    RegisterOnyxiasLairCreatureAI(boss_onyxia_40);
 }
