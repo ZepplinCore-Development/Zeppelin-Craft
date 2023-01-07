@@ -65,6 +65,7 @@ public:
                     {
                         go->CastSpell((Unit*)nullptr, 17646);
                     }
+                    // this only triggers for the non 60 Ony, what is action -1? could it have something to do with whelp behaviour at spawn...
                     if (Creature* onyxia = GetCreature(DATA_ONYXIA))
                     {
                         onyxia->AI()->DoAction(-1);
@@ -190,6 +191,7 @@ public:
 };
 
 class global_onyxia_tuning_script : public GlobalScript
+// this script is tuning down spell damages, it may need to have values tuned up if ONY spells are too underpowered in raid with Autobalance enabled.
 {
 public:
     global_onyxia_tuning_script() : GlobalScript("global_onyxia_tuning_script") { }
