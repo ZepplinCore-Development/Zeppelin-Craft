@@ -40,7 +40,7 @@ enum eCreatures
 
     NPC_ONYXIA_40               = 301000,
     NPC_ONYXIAN_WHELP_40        = 301001,
-    NPC_ONYXIAN_LAIR_GUARD_40   = 301002,
+    NPC_ONYXIAN_LAIR_GUARD_40   = 36571,
 };
 
 enum eGameObjects
