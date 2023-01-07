@@ -65,7 +65,6 @@ public:
                     {
                         go->CastSpell((Unit*)nullptr, 17646);
                     }
-                    // this only triggers for the non 60 Ony, what is action -1? could it have something to do with whelp behaviour at spawn...
                     if (Creature* onyxia = GetCreature(DATA_ONYXIA))
                     {
                         onyxia->AI()->DoAction(-1);
@@ -323,12 +322,12 @@ public:
                 spellInfo->Effects[EFFECT_0].DieSides = 225;
                 spellInfo->Effects[EFFECT_0].BasePoints = 1387;
                 break;
-//            case 90003:
-//                spellInfo->Targets |= TARGET_FLAG_DEST_LOCATION;
-//                spellInfo->Effects[EFFECT_0].TargetA = SpellImplicitTargetInfo(TARGET_DEST_DEST);
-//                spellInfo->RangeEntry = sSpellRangeStore.LookupEntry(13); // 50000yd
-//                spellInfo->DurationEntry = sSpellDurationStore.LookupEntry(5);
-//                break;
+            case 90003:
+                spellInfo->Targets |= TARGET_FLAG_DEST_LOCATION;
+                spellInfo->Effects[EFFECT_0].TargetA = SpellImplicitTargetInfo(TARGET_DEST_DEST);
+                spellInfo->RangeEntry = sSpellRangeStore.LookupEntry(13); // 50000yd
+                spellInfo->DurationEntry = sSpellDurationStore.LookupEntry(5);
+                break;
         }
     }
 };
