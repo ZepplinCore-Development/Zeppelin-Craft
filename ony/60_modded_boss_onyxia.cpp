@@ -32,7 +32,7 @@ enum Spells
     SPELL_BELLOWINGROAR             = 18431,
 
     SPELL_SUMMON_WHELP              = 90003,
-    SPELL_SUMMON_LAIR_GUARD         = 68968,
+    SPELL_SUMMON_LAIR_GUARD         = 90004,
     SPELL_ERUPTION                  = 17731,
 
     SPELL_OLG_BLASTNOVA             = 68958,
