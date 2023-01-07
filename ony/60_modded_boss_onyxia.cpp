@@ -187,7 +187,7 @@ public:
         instance->DoStartTimedAchievement(ACHIEVEMENT_TIMED_TYPE_EVENT, ACHIEV_TIMED_START_EVENT);
         BossAI::EnterCombat(who);
 
-        me->SummonCreature(NPC_ONYXIAN_LAIR_GUARD, -167.837936f, -200.549332f, -66.343231f, 5.598287f, TEMPSUMMON_MANUAL_DESPAWN);
+        me->SummonCreature(NPC_ONYXIAN_LAIR_GUARD_40, -167.837936f, -200.549332f, -66.343231f, 5.598287f, TEMPSUMMON_MANUAL_DESPAWN);
     }
 
     void DamageTaken(Unit*, uint32& damage, DamageEffectType, SpellSchoolMask) override
@@ -207,12 +207,12 @@ public:
     {
         summons.Summon(summon);
 
-        if (summon->GetEntry() != NPC_ONYXIAN_WHELP && summon->GetEntry() != NPC_ONYXIAN_LAIR_GUARD)
+        if (summon->GetEntry() != NPC_ONYXIAN_WHELP_40 && summon->GetEntry() != NPC_ONYXIAN_LAIR_GUARD_40)
         {
             return;
         }
 
-        if (summon->GetEntry() == NPC_ONYXIAN_LAIR_GUARD && Phase != PHASE_LANDED)
+        if (summon->GetEntry() == NPC_ONYXIAN_LAIR_GUARD_40 && Phase != PHASE_LANDED)
         {
             return;
         }
