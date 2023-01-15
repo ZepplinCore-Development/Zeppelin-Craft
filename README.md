@@ -16,11 +16,11 @@ This allows for server side item modifications to be made without the need for c
 
 ![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
 
-# Mandatory MPQ Patch
-Download the Patch-4.MPQ file from this repository containing custom spells and place it in the client WOW_Directory/Data/
-Without this patch file custom spells will not function correctly for the client.
+# Mandatory MPQ Patches
+Download the Patch-4.MPQ and Patch-V.MPQ files from this repository containing custom spells and models. Place the MPQs in the client WOW_Directory/Data/
+Without this patches custom spells and models will not function correctly for the client.
 
-![MPQs](https://user-images.githubusercontent.com/5217306/209437969-d538f3f2-5855-468b-b7a2-6731550e6584.png)
+![MPQs](https://user-images.githubusercontent.com/5217306/212516621-70d89d35-3791-4711-81cf-29b4bcca6f54.png)
 
 # Optional MPQ Patches
 These patches provide an upgraded UI and graphic models used in later versions of the game.
