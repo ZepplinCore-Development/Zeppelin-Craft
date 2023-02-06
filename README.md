@@ -90,18 +90,6 @@ https://github.com/azerothcore/mod-racial-trait-swap
 https://github.com/ZhengPeiRu21/mod-individual-progression
 
 ## Congrats on Level:
-players receive bonus rewards at level milestones.
-
-Level 10
-
-1 Gold / Blessing of Kings / Reagent Portal / Zeppelin Bag
-
-Level 20
-
-10 Gold / Power Word Fortitude / Compressed Thermal Anvil / Zeppelin Bag
-
-Level 30
-
-15 Gold / Mark of the Wild / Zeppelin Bag / Zeppelin Bag
+players receive bonus rewards at level milestones. Mostly quality of life custom items shown above.
 
 
