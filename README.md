@@ -1,13 +1,13 @@
-# Client
+# 1. Get the Client
 Download the client from here:
 
 https://www.wowdl.net/download/3.3.5a-win-us
 
-# Realmlist
+# 2. Swap the Realmlist
 Replace the realmlist.wtf in the WoW_Directory/data/enUS folder.
 The realmlist is available on Discord.
 
-# Application Patch
+# 3. Apply the Application Patch
 This is required to prevent the client from caching items and reading the internal items.dbc file.
 This allows for server side item modifications to be made without the need for client patches or cache clearing.
 
@@ -16,13 +16,13 @@ This allows for server side item modifications to be made without the need for c
 
 ![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
 
-# Mandatory MPQ Patches
+# 4. Download the Mandatory MPQ Patches
 Download the Patch-4.MPQ and Patch-V.MPQ files from this repository containing custom spells and models. Place the MPQs in the client WOW_Directory/Data/
 Without this patches custom spells and models will not function correctly for the client.
 
 ![MPQs](https://user-images.githubusercontent.com/5217306/212516621-70d89d35-3791-4711-81cf-29b4bcca6f54.png)
 
-# Optional MPQ Patches
+# 4.b. Download the Optional MPQ Patches
 These patches provide an upgraded UI and graphic models used in later versions of the game.
 Download from the link below and put them in the same folder as above.
 
@@ -68,7 +68,7 @@ patch-Y.MPQ - Blood Splatters
 
 patch-Z.MPQ - Darker Nights
 
-# Custom Items
+# Info - Custom Items
 
 Some of the custom items added to the server, so far.
 
@@ -80,16 +80,23 @@ Some of the custom items added to the server, so far.
 
 ![WoWScrnShot_122622_145810](https://user-images.githubusercontent.com/5217306/209514998-88e5485e-cbf4-418d-87ab-fa83af813605.jpg)
 
-# Server Modules
+# Info - Server Modules
 
 The extra modules used on the server, these are used to further customise the game.
 
 ![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
+## Info - Racial Trait Swap
+Players can select the racials from a second raise to add to there own. The module is meant to be a swap but removal of the original racial is bugged. What racial ability combinations will be the most overpowered?
+
 https://github.com/azerothcore/mod-racial-trait-swap
+
+## Info - Individual Progression:
+Player progression is locked until certain milestones are met. All Vanilla raids must be cleared before access to Outland is possible. Similarly all TBC raids must be cleared before access to Northrend is unlocked. Progress is recorded against each character, so the progression must be repeated on each alt created as well.
+
 https://github.com/ZhengPeiRu21/mod-individual-progression
 
-## Congrats on Level:
+## Info - Congrats on Level:
 players receive bonus rewards at level milestones. Mostly quality of life custom items shown above.
 
 
