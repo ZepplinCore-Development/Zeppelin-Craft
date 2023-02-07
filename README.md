@@ -87,9 +87,10 @@ The extra modules used on the server, these are used to further customise the ga
 ![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
 
 ## Info - Racial Trait Swap
-Players can select the racials from a second race to add to there own. The module is meant to be a swap but removal of the original racial is bugged. What racial ability combinations will be the most overpowered?
+Players can select the racials from a second race to add to their own. The module is meant to be a swap, but removal of the original racial is bugged. What racial ability combinations will be the most overpowered?
 
-The NPC to complete the swap is located in Booty Bay Inn, and can also be spawned by a GM account using NPC ID 98888 
+The NPC to complete the swap is located in Booty Bay Inn, and can also be spawned by a GM account using NPC ID 98888.
+A small fee 100G is charged for the second racial.
 
 https://github.com/azerothcore/mod-racial-trait-swap
 
