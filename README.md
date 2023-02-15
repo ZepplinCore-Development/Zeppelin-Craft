@@ -11,7 +11,7 @@ The realmlist is available on Discord.
 This is required to prevent the client from caching items and reading the internal items.dbc file.
 This allows for server side item modifications to be made without the need for client patches or cache clearing.
 
- 1. Replace the wow.exe file with the one provided here
+ 1. Replace the wow.exe file with the one provided in this GitHub repository.
  2. Run the WoWPatcher program and select the settings as per the screenshot below:
 
 ![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
@@ -37,7 +37,7 @@ Patch-enUS-4.MPQ - Custom Maps
 patch-5.MPQ - Custom Spells
 
 See screenshots below for MPQ file reference.
-![MPQ files](https://user-images.githubusercontent.com/5217306/219007080-3af0c126-27a5-4bff-8f4b-6310efce5e12.png)
+![MPQ files](https://user-images.githubusercontent.com/5217306/219009374-9360b7f4-e385-42cd-8fe8-41bfc6aa8bf6.png)
 ![MPQ files2](https://user-images.githubusercontent.com/5217306/219007099-52f58ebb-b1d7-4fad-82ea-d079afa12532.png)
 
 # 4.b. Download the Optional MPQ Patches
