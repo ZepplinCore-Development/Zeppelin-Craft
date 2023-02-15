@@ -17,20 +17,36 @@ This allows for server side item modifications to be made without the need for c
 ![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
 
 # 4. Download the Mandatory MPQ Patches
-Download the Patch-4.MPQ and Patch-V.MPQ files from this repository containing custom spells and models. Place the MPQs in the client WOW_Directory/Data/
-Without this patches custom spells and models will not function correctly for the client.
+This is where it gets complicated. There is a large mandatory MPQ set for the custom maps. 
 
-![MPQs](https://user-images.githubusercontent.com/5217306/212516621-70d89d35-3791-4711-81cf-29b4bcca6f54.png)
+Downlod it here:
+https://drive.google.com/drive/folders/1ydFeKNugdBlzKHPf7fqL30oidcyCxOr_?usp=sharing
+
+Extract the zip and look inside, notice there are two files. The first goes into the WOW_Directory/Data/ folder and the other in the WOW_Directory/Data/enUS folder.
+It should be pretty clear which goes where. If not ask for help.
+
+The other mandatory patch is for spell tweaks and other customisations, and is kept in this GitHub repository.
+Download the Patch-5.MPQ files from this repository containing custom spells. Place the MPQ in the client WOW_Directory/Data/
+Without this patch custom spells will not function correctly in your client.
+
+To Summarise:
+Patch-4.MPQ - Custom Maps
+
+Patch-enUS-4.MPQ - Custom Maps
+
+patch-5.MPQ - Custom Spells
+
+See screenshots below for MPQ file reference.
+![MPQ files](https://user-images.githubusercontent.com/5217306/219007080-3af0c126-27a5-4bff-8f4b-6310efce5e12.png)
+![MPQ files2](https://user-images.githubusercontent.com/5217306/219007099-52f58ebb-b1d7-4fad-82ea-d079afa12532.png)
 
 # 4.b. Download the Optional MPQ Patches
 These patches provide an upgraded UI and graphic models used in later versions of the game.
 Download from the link below and put them in the same folder as above.
 
-https://drive.google.com/drive/folders/1FtM28SyzSWJB3iiK85nvtI3zc8faQweW?usp=share_link
+https://drive.google.com/drive/folders/1n8AqZTaeb8x8-aWFkWZ-nc0jvaGCJ9TI?usp=sharing
 
 Download and save in the client WOW_Directory/Data/
-
-patch-5.MPQ - Music
 
 patch-6.MPQ - Music
 
