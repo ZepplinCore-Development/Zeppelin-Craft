@@ -66,10 +66,6 @@ patch-G.MPQ - Mounts, Druid forms & NPCs Part 2(won't work without P1)
 
 patch-H.MPQ - HD Character Models
 
-patch-I.MPQ - New Areas and Zones P1
-
-patch-J.MPQ - New Areas and Zones P2
-
 patch-M.MPQ - Loading Screens
 
 patch-S.MPQ - Sunlight
