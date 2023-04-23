@@ -72,6 +72,8 @@ patch-S.MPQ - Sunlight
 
 patch-T.MPQ - Tilesets, Grass & Buildings
 
+patch-V.MPQ - Updated character and spell book UI
+
 patch-W.MPQ - HD Water
 
 patch-X.MPQ - HD Trees & Flowers
