@@ -26,7 +26,7 @@ Extract the zip and look inside, notice there are two files. The first goes into
 It should be pretty clear which goes where. If not ask for help.
 
 The other mandatory patch is for spell tweaks and other customisations, and is kept in this GitHub repository.
-Download the Patch-5.MPQ files from this repository containing custom spells. Place the MPQ in the client WOW_Directory/Data/
+Download the Patch-5.MPQ file from this repository containing custom spells. Place the MPQ in the client WOW_Directory/Data/
 Without this patch custom spells will not function correctly in your client.
 
 To Summarise:
