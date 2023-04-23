@@ -50,13 +50,11 @@ Download and save in the client WOW_Directory/Data/
 
 patch-6.MPQ - Music
 
-patch-7.MPQ - Cleaner login page and password Saving
-
 patch-8.MPQ - High Resolution Classic Armors
 
 patch-9.MPQ - High Resolution Classic Shields
 
-patch-C.MPQ - HD Character Creator and Login
+patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 patch-D.MPQ - HD Goblins
 
@@ -65,8 +63,6 @@ patch-F.MPQ - Mounts, Druid forms & NPCs Part 1(won't work without P2)
 patch-G.MPQ - Mounts, Druid forms & NPCs Part 2(won't work without P1)
 
 patch-H.MPQ - HD Character Models
-
-patch-M.MPQ - Loading Screens
 
 patch-S.MPQ - Sunlight
 
