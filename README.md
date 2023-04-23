@@ -19,7 +19,7 @@ This allows for server side item modifications to be made without the need for c
 # 4. Download the Mandatory MPQ Patches
 This is where it gets complicated. There is a large mandatory MPQ set for the custom maps. 
 
-Downlod it here:
+Download it here:
 https://drive.google.com/drive/folders/1ydFeKNugdBlzKHPf7fqL30oidcyCxOr_?usp=sharing
 
 Extract the zip and look inside, notice there are two files. The first goes into the WOW_Directory/Data/ folder and the other in the WOW_Directory/Data/enUS folder.
