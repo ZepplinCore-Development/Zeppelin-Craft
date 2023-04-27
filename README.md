@@ -1,117 +1,115 @@
-# Engineering
+# 1. Get the Client
+Download the client from here:
 
-#### To add recipes to Engineering use the skill line ID 202 in SkillLineAbility.DBC <a href="#to-add-recipes-to-engineering-use-the-skill-line-id-202-in-skilllineabilitydbc" id="to-add-recipes-to-engineering-use-the-skill-line-id-202-in-skilllineabilitydbc"></a>
+https://www.wowdl.net/download/3.3.5a-win-us
 
-#### &#x20;<a href="#schematic-skill-injector" id="schematic-skill-injector"></a>
+# 2. Swap the Realmlist
+Replace the realmlist.wtf in the WoW_Directory/data/enUS folder.
+The realmlist is available on Discord.
+
+# 3. Apply the Application Patch
+This is required to prevent the client from caching items and reading the internal items.dbc file.
+This allows for server side item modifications to be made without the need for client patches or cache clearing.
+
+ 1. Replace the wow.exe file with the one provided in this GitHub repository.
+ 2. Run the WoWPatcher program and select the settings as per the screenshot below:
+
+![image](https://user-images.githubusercontent.com/5217306/206838045-e2261791-9745-47b2-9a75-43a412760d4c.png)
+
+# 4. Download the Mandatory MPQ Patches
+This is where it gets complicated. There is a large mandatory MPQ set for the custom maps. 
+
+Download it here:
+https://drive.google.com/drive/folders/1ydFeKNugdBlzKHPf7fqL30oidcyCxOr_?usp=sharing
+
+Extract the zip and look inside, notice there are two files. The first goes into the WOW_Directory/Data/ folder and the other in the WOW_Directory/Data/enUS folder.
+It should be pretty clear which goes where. If not ask for help.
+
+The other mandatory patch is for spell tweaks and other customisations, and is kept in this GitHub repository.
+Download the Patch-5.MPQ file from this repository containing custom spells. Place the MPQ in the client WOW_Directory/Data/
+Without this patch custom spells will not function correctly in your client.
+
+To Summarise:
+Patch-4.MPQ - Custom Maps
+
+Patch-enUS-4.MPQ - Custom Maps
+
+patch-5.MPQ - Custom Spells
+
+See screenshots below for MPQ file reference.
+![MPQ files](https://user-images.githubusercontent.com/5217306/219009374-9360b7f4-e385-42cd-8fe8-41bfc6aa8bf6.png)
+![MPQ files2](https://user-images.githubusercontent.com/5217306/219007099-52f58ebb-b1d7-4fad-82ea-d079afa12532.png)
+
+# 4.b. Download the Optional MPQ Patches
+These patches provide an upgraded UI and graphic models used in later versions of the game.
+Download from the link below and put them in the same folder as above.
+
+https://drive.google.com/drive/folders/1n8AqZTaeb8x8-aWFkWZ-nc0jvaGCJ9TI?usp=sharing
+
+Download and save in the client WOW_Directory/Data/
+
+patch-6.MPQ - Music
+
+patch-8.MPQ - High Resolution Classic Armors
+
+patch-9.MPQ - High Resolution Classic Shields
+
+patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
+
+patch-D.MPQ - HD Goblins
+
+patch-F.MPQ - Mounts, Druid forms & NPCs Part 1(won't work without P2)
+
+patch-G.MPQ - Mounts, Druid forms & NPCs Part 2(won't work without P1)
+
+patch-H.MPQ - HD Character Models
+
+patch-S.MPQ - Sunlight
+
+patch-T.MPQ - Tilesets, Grass & Buildings
+
+patch-V.MPQ - Updated character and spell book UI
+
+patch-W.MPQ - HD Water
+
+patch-X.MPQ - HD Trees & Flowers
+
+patch-Y.MPQ - Blood Splatters
+
+patch-Z.MPQ - Darker Nights
+
+# Info - Custom Items
+
+Some of the custom items added to the server, so far.
+
+![WoWScrnShot_122622_144701](https://user-images.githubusercontent.com/5217306/209514341-fe68ff04-a423-48c0-b775-cf1564be2cc5.jpg)
+
+![WoWScrnShot_122622_144717](https://user-images.githubusercontent.com/5217306/209514348-5aa92d3e-7aec-4353-a1a3-faa233e7cc13.jpg)
+
+![WoWScrnShot_122622_145708](https://user-images.githubusercontent.com/5217306/209514899-4c7ed90a-8849-4a7c-938a-caaba1eeb86c.jpg)
+
+![WoWScrnShot_122622_145810](https://user-images.githubusercontent.com/5217306/209514998-88e5485e-cbf4-418d-87ab-fa83af813605.jpg)
+
+# Info - Server Modules
+
+The extra modules used on the server, these are used to further customise the game.
+
+![image](https://user-images.githubusercontent.com/5217306/209515282-0454a0f3-ff56-469e-b7f2-234f48b91406.png)
+
+## Info - Racial Trait Swap
+Players can select the racials from a second race to add to their own. The module is meant to be a swap, but removal of the original racial is bugged. What racial ability combinations will be the most overpowered?
+
+The NPC to complete the swap is located in Booty Bay Inn, and can also be spawned by a GM account using NPC ID 98888.
+A small fee 100G is charged for the second racial.
+
+https://github.com/azerothcore/mod-racial-trait-swap
+
+## Info - Individual Progression:
+Player progression is locked until certain milestones are met. All Vanilla raids must be cleared before access to Outland is possible. Similarly all TBC raids must be cleared before access to Northrend is unlocked. Progress is recorded against each character, so the progression must be repeated on each alt created as well.
+
+https://github.com/ZhengPeiRu21/mod-individual-progression
+
+## Info - Congrats on Level:
+players receive bonus rewards at level milestones. Mostly quality of life custom items shown above.
 
 
-
-
-
-<details>
-
-<summary>Schematic: Skill Injector</summary>
-
-Recipe ID 5041
-
-Quest reward from Dreegz Knutz in Molten Core
-
-Crafting Spell ID 80810
-
-![](.gitbook/assets/image.png)
-
-[zz\_schematic\_skill\_injector.SQL](file:///C:/Users/Viktor/.config/joplin-desktop/resources/1c57155839a04c1d8c28776b8f23bebe.SQL)
-
-</details>
-
-#### Schematic: Elementium Targeting Matrix <a href="#schematic-elementium-targeting-matrix" id="schematic-elementium-targeting-matrix"></a>
-
-Recipe ID 1492
-
-Drops from Flamemaw, Ebonroc and Flamegor in BWL
-
-![eeff3c7ff194f7647ae58743a427eb82.png](file:///C:/Users/Viktor/.config/joplin-desktop/resources/aaa65747cb194a1b8f5e3f5a26b4d00f.png)
-
-Crafting Spell ID 80812
-
-[zz\_schematic\_elementium\_targeting\_matrix.SQL](file:///C:/Users/Viktor/.config/joplin-desktop/resources/a36525060e314d058ab4b22e97ae7d77.SQL)
-
-***
-
-#### Schematic: Thorium headed arrows <a href="#schematic-thorium-headed-arrows" id="schematic-thorium-headed-arrows"></a>
-
-Recipe ID 23885
-
-Drops from Emperor Dagran Thaurissan in BRD
-
-![fefa3377c0ac76a027367371fa8e3325.png](file:///C:/Users/Viktor/.config/joplin-desktop/resources/6de601f52fa84a84b89f8a00f707b0d3.png)
-
-Crafting Spell ID 30555
-
-[zz\_schematic\_thorium\_headed\_arrows.SQL](file:///C:/Users/Viktor/.config/joplin-desktop/resources/cac04529c2774675a7df0fc86b94e6bf.SQL)
-
-***
-
-## Scavenging Mobs <a href="#scavenging-mobs" id="scavenging-mobs"></a>
-
-Adding Engineering loot tables to low level mechanicals.
-
-Add a skinning loot table and set the creature type flag to be engineerable.
-
-## Lvl 1-15 <a href="#lvl-1-15" id="lvl-1-15"></a>
-
-Loot table ID #100018
-
-|                         |      |          |
-| ----------------------- | ---- | -------- |
-| Item                    | ID   | % Chance |
-| Copper Tube             | 4361 | 20       |
-| Handful of Copper Bolts | 4359 | 20       |
-| Copper Modulator        | 4363 | 20       |
-| Copper Bar              | 2840 | 20       |
-| Rough Blasting Powder   | 4357 | 20       |
-
-|   |             |                     |
-| - | ----------- | ------------------- |
-| # | Creature ID | Name                |
-| 1 | 36          | Harvest Golem       |
-| 2 | 114         | Harvest Watcher     |
-| 3 | 480         | Rusty Harvest Golem |
-
-***
-
-### Lvl 16 - 25 <a href="#lvl-16-25" id="lvl-16-25"></a>
-
-Loot table ID #100021
-
-|                        |      |          |       |
-| ---------------------- | ---- | -------- | ----- |
-| Item                   | ID   | % Chance | Group |
-| Iron Strut             | 4387 | 20       | 0     |
-| Bronze Framework       | 4382 | 20       | 0     |
-| Gyrochronatom          | 4389 | 20       | 0     |
-| Copper Modulator       | 4363 | 20       | 0     |
-| Bronze Tube            | 4371 | 20       | 0     |
-| Bronze Bar             | 2841 | 50       | 1     |
-| Coarse Blasting Powder | 4364 | 50       | 1     |
-
-|   |             |                           |
-| - | ----------- | ------------------------- |
-| # | Creature ID | Name                      |
-| 1 | 642         | Sneed's Shredder          |
-| 2 | 2676        | Compact Harvest Reaper    |
-| 3 | 6233        | Mechanized Sentry         |
-| 4 | 4073        | XT:4                      |
-| 5 | 6669        | The Threshwackonator 4100 |
-| 6 | 573         | Foe Reaper 4000           |
-| 7 | 115         | Harvest Reaper            |
-| 8 | 4074        | XT:9                      |
-| 9 | 7849        | Mobile Alert System       |
-
-***
-
-[zz\_mobs\_engineerable.sql](file:///C:/Users/Viktor/.config/joplin-desktop/resources/7928bfc11d4e4499b87cded157ec84f3.sql)
-
-[zz\_loot\_engineered.sql](file:///C:/Users/Viktor/.config/joplin-desktop/resources/dbdaba8dc84e47fc9b707c27eaab139e.sql)
-
-***
