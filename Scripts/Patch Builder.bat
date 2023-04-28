@@ -5,8 +5,6 @@ call HeadlessExport.exe
 
 :: Clean and pull the latest version of the repo.
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core
-git reset --hard HEAD
-git clean -f -d
 git pull
 
 :: Copies the DBC files from the spell editor export folder to the server.
@@ -14,7 +12,7 @@ xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" 
 
 :: Run the MPQ editor to update the local MPQ file (patch-5.MPQ) with the DBC files from the spell editor export folder.
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor\BUILD-MPQ5.txt"
+call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\BUILD-MPQ5.txt"
 
 :: Copy the updated MPQ file (patch-5.MPQ) to the client Data folder
 xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-5.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
