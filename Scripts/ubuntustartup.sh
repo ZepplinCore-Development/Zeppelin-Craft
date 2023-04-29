@@ -1,7 +1,7 @@
 #!/bin/bash
 gnome-terminal\
 	--tab\
-		--title="World Server" -- bash -c "cd; cd Zeppelin-Core; git pull; cd; cd azerothcore-wotlk/data/sql; rm -d custom; cd; cp -r Zeppelin-Core/custom azerothcore-wotlk/data/sql; cd; azerothcore-wotlk/acore.sh run-worldserver; $SHELL"
+		--title="World Server" -- bash -c "cd; cd Zeppelin-Core; git pull; cd; cd azerothcore-wotlk/data/sql; rm -r custom; cd; cp -r Zeppelin-Core/custom azerothcore-wotlk/data/sql; cd; azerothcore-wotlk/acore.sh run-worldserver; $SHELL"
 gnome-terminal\
 	--tab\
 		--title="Auth Server" -- bash -c "azerothcore-wotlk/acore.sh run-authserver; $SHELL"
