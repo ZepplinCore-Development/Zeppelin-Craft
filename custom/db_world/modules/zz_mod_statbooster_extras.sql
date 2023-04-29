@@ -1,91 +1,92 @@
-INSERT INTO `statbooster_enchant_template` VALUES ('195', '20', '70', '0', '0', '0', '+14 CritRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('196', '70', '140', '0', '0', '0', '+28 CritRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('197', '140', '200', '0', '0', '0', '+42 CritRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('198', '200', '300', '0', '0', '0', '+56 CritRating', 'ALL - ALL - ALL');
+INSERT INTO `statbooster_enchant_template` (`Id`, `iLvlMin`, `iLvlMax`, `RoleMask`, `ClassMask`, `SubClassMask`, `Description`, `Note`) VALUES
+('195', '20', '70', '0', '0', '0', '+14 CritRating', 'ALL - ALL - ALL'),
+('196', '70', '140', '0', '0', '0', '+28 CritRating', 'ALL - ALL - ALL'),
+('197', '140', '200', '0', '0', '0', '+42 CritRating', 'ALL - ALL - ALL'),
+('198', '200', '300', '0', '0', '0', '+56 CritRating', 'ALL - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('111', '1', '20', '1', '0', '0', '+ 2 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('112', '40', '70', '1', '0', '0', '+ 3 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('113', '70', '90', '1', '0', '0', '+ 4 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1946', '90', '110', '1', '0', '0', '+ 10 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1950', '110', '130', '1', '0', '0', '+ 15 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1952', '130', '150', '1', '0', '0', '+ 20 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1954', '150', '175', '1', '0', '0', '+ 25 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1966', '175', '200', '1', '0', '0', '+ 30 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1970', '200', '225', '1', '0', '0', '+ 35 DefenseRating', 'TANK - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1973', '225', '300', '1', '0', '0', '+ 38 DefenseRating', 'TANK - ALL - ALL');
+('111', '1', '20', '1', '0', '0', '+ 2 DefenseRating', 'TANK - ALL - ALL'),
+('112', '40', '70', '1', '0', '0', '+ 3 DefenseRating', 'TANK - ALL - ALL'),
+('113', '70', '90', '1', '0', '0', '+ 4 DefenseRating', 'TANK - ALL - ALL'),
+('1946', '90', '110', '1', '0', '0', '+ 10 DefenseRating', 'TANK - ALL - ALL'),
+('1950', '110', '130', '1', '0', '0', '+ 15 DefenseRating', 'TANK - ALL - ALL'),
+('1952', '130', '150', '1', '0', '0', '+ 20 DefenseRating', 'TANK - ALL - ALL'),
+('1954', '150', '175', '1', '0', '0', '+ 25 DefenseRating', 'TANK - ALL - ALL'),
+('1966', '175', '200', '1', '0', '0', '+ 30 DefenseRating', 'TANK - ALL - ALL'),
+('1970', '200', '225', '1', '0', '0', '+ 35 DefenseRating', 'TANK - ALL - ALL'),
+('1973', '225', '300', '1', '0', '0', '+ 38 DefenseRating', 'TANK - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('246', '30', '40', '12', '0', '0', '+20 Mana', 'HYBRID/SPELL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('843', '40', '50', '12', '0', '0', '+30 Mana', 'HYBRID/SPELL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('857', '50', '60', '12', '0', '0', '+50 Mana', 'HYBRID/SPELL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('913', '60', '70', '12', '0', '0', '+65 Mana', 'HYBRID/SPELL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1893', '70', '80', '12', '0', '0', '+100 Mana', 'HYBRID/SPELL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1483', '80', '100', '12', '0', '0', '+150 Mana', 'HYBRID/SPELL - ALL - ALL');
+('246', '30', '40', '12', '0', '0', '+20 Mana', 'HYBRID/SPELL - ALL - ALL'),
+('843', '40', '50', '12', '0', '0', '+30 Mana', 'HYBRID/SPELL - ALL - ALL'),
+('857', '50', '60', '12', '0', '0', '+50 Mana', 'HYBRID/SPELL - ALL - ALL'),
+('913', '60', '70', '12', '0', '0', '+65 Mana', 'HYBRID/SPELL - ALL - ALL'),
+('1893', '70', '80', '12', '0', '0', '+100 Mana', 'HYBRID/SPELL - ALL - ALL'),
+('1483', '80', '100', '12', '0', '0', '+150 Mana', 'HYBRID/SPELL - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('242', '30', '40', '0', '0', '0', '+15 Health', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('908', '50', '60', '0', '0', '0', '+50 Health', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1503', '60', '70', '0', '0', '0', '+100 Health', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('2659', '70', '80', '0', '0', '0', '+150 Health', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3297', '80', '100', '0', '0', '0', '+275 Health', 'ALL - ALL - ALL');
+('242', '30', '40', '0', '0', '0', '+15 Health', 'ALL - ALL - ALL'),
+('908', '50', '60', '0', '0', '0', '+50 Health', 'ALL - ALL - ALL'),
+('1503', '60', '70', '0', '0', '0', '+100 Health', 'ALL - ALL - ALL'),
+('2659', '70', '80', '0', '0', '0', '+150 Health', 'ALL - ALL - ALL'),
+('3297', '80', '100', '0', '0', '0', '+275 Health', 'ALL - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('3765', '60', '80', '3', '0', '0', '+4 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3880', '80', '100', '3', '0', '0', '+6 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3882', '120', '140', '3', '0', '0', '+8 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3378', '140', '170', '3', '0', '0', '+12 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3652', '170', '200', '3', '0', '0', '+14 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3452', '200', '225', '3', '0', '0', '+16 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3525', '225', '275', '3', '0', '0', '+20 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3745', '275', '300', '3', '0', '0', '+34 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL');
+('3765', '60', '80', '3', '0', '0', '+4 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3880', '80', '100', '3', '0', '0', '+6 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3882', '120', '140', '3', '0', '0', '+8 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3378', '140', '170', '3', '0', '0', '+12 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3652', '170', '200', '3', '0', '0', '+14 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3452', '200', '225', '3', '0', '0', '+16 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3525', '225', '275', '3', '0', '0', '+20 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
+('3745', '275', '300', '3', '0', '0', '+34 ArmorPenetrationRating', 'TANK/PHYS - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('3094', '100', '120', '3', '0', '0', '+4 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3362', '120', '140', '3', '0', '0', '+6 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3778', '140', '160', '3', '0', '0', '+8 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3379', '160', '180', '3', '0', '0', '+12 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3647', '180', '200', '3', '0', '0', '+14 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3453', '200', '220', '3', '0', '0', '+16 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3524', '220', '240', '3', '0', '0', '+20 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3746', '240', '300', '3', '0', '0', '+34 ExpertiseRating', 'TANK/PHYS - ALL - ALL');
+('3094', '100', '120', '3', '0', '0', '+4 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3362', '120', '140', '3', '0', '0', '+6 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3778', '140', '160', '3', '0', '0', '+8 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3379', '160', '180', '3', '0', '0', '+12 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3647', '180', '200', '3', '0', '0', '+14 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3453', '200', '220', '3', '0', '0', '+16 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3524', '220', '240', '3', '0', '0', '+20 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
+('3746', '240', '300', '3', '0', '0', '+34 ExpertiseRating', 'TANK/PHYS - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('385', '140', '160', '7', '16', '92', '+60 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('1889', '160', '180', '7', '16', '92', '+70 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('2662', '180', '200', '7', '16', '92', '+120 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('3199', '200', '250', '7', '16', '92', '+170 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('3294', '200', '250', '7', '16', '92', '+225 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('3260', '250', '300', '7', '16', '92', '+240 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
-INSERT INTO `statbooster_enchant_template` VALUES ('3860', '250', '300', '7', '16', '92', '+885 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY');
+('385', '140', '160', '7', '16', '92', '+60 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('1889', '160', '180', '7', '16', '92', '+70 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('2662', '180', '200', '7', '16', '92', '+120 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('3199', '200', '250', '7', '16', '92', '+170 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('3294', '200', '250', '7', '16', '92', '+225 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('3260', '250', '300', '7', '16', '92', '+240 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
+('3860', '250', '300', '7', '16', '92', '+885 Armor', 'TANK/PHYS/HYBRID - ARMOR - MANY'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('1563', '1', '10', '7', '0', '0', '+2 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1583', '10', '20', '7', '0', '0', '+4 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1584', '20', '30', '7', '0', '0', '+6 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1585', '30', '40', '7', '0', '0', '+8 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1586', '40', '50', '7', '0', '0', '+10 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1587', '50', '60', '7', '0', '0', '+12 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1588', '60', '70', '7', '0', '0', '+14 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1589', '70', '80', '7', '0', '0', '+16 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1590', '80', '90', '7', '0', '0', '+18 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1591', '90', '100', '7', '0', '0', '+20 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1592', '100', '110', '7', '0', '0', '+22 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1593', '110', '120', '7', '0', '0', '+24 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1594', '120', '130', '7', '0', '0', '+26 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1595', '130', '140', '7', '0', '0', '+28 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1596', '140', '150', '7', '0', '0', '+30 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1597', '150', '165', '7', '0', '0', '+32 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1599', '165', '180', '7', '0', '0', '+36 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1602', '180', '195', '7', '0', '0', '+42 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1606', '195', '210', '7', '0', '0', '+50 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1611', '210', '225', '7', '0', '0', '+60 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1616', '225', '240', '7', '0', '0', '+70 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1621', '240', '255', '7', '0', '0', '+80 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('1626', '250', '270', '7', '0', '0', '+90 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3756', '250', '300', '7', '0', '0', '+130 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3827', '250', '300', '7', '0', '0', '+110 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL');
+('1563', '1', '10', '7', '0', '0', '+2 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1583', '10', '20', '7', '0', '0', '+4 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1584', '20', '30', '7', '0', '0', '+6 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1585', '30', '40', '7', '0', '0', '+8 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1586', '40', '50', '7', '0', '0', '+10 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1587', '50', '60', '7', '0', '0', '+12 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1588', '60', '70', '7', '0', '0', '+14 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1589', '70', '80', '7', '0', '0', '+16 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1590', '80', '90', '7', '0', '0', '+18 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1591', '90', '100', '7', '0', '0', '+20 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1592', '100', '110', '7', '0', '0', '+22 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1593', '110', '120', '7', '0', '0', '+24 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1594', '120', '130', '7', '0', '0', '+26 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1595', '130', '140', '7', '0', '0', '+28 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1596', '140', '150', '7', '0', '0', '+30 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1597', '150', '165', '7', '0', '0', '+32 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1599', '165', '180', '7', '0', '0', '+36 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1602', '180', '195', '7', '0', '0', '+42 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1606', '195', '210', '7', '0', '0', '+50 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1611', '210', '225', '7', '0', '0', '+60 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1616', '225', '240', '7', '0', '0', '+70 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1621', '240', '255', '7', '0', '0', '+80 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('1626', '250', '270', '7', '0', '0', '+90 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('3756', '250', '300', '7', '0', '0', '+130 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
+('3827', '250', '300', '7', '0', '0', '+110 AttackPower', 'TANK/PHYS/HYBID - ALL - ALL'),
 
-INSERT INTO `statbooster_enchant_template` VALUES ('3308', '10', '20', '0', '0', '0', '+4 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3309', '20', '40', '0', '0', '0', '+6 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3270', '40', '60', '0', '0', '0', '+8 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('931', '60', '80', '0', '0', '0', '+10 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3386', '80', '100', '0', '0', '0', '+12 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3659', '100', '120', '0', '0', '0', '+14 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3295', '120', '140', '0', '0', '0', '+16 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3531', '140', '180', '0', '0', '0', '+20 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3831', '180', '220', '0', '0', '0', '+23 HasteRating', 'ALL - ALL - ALL');
-INSERT INTO `statbooster_enchant_template` VALUES ('3739', '220', '300', '0', '0', '0', '+34 HasteRating', 'ALL - ALL - ALL');
+('3308', '10', '20', '0', '0', '0', '+4 HasteRating', 'ALL - ALL - ALL'),
+('3309', '20', '40', '0', '0', '0', '+6 HasteRating', 'ALL - ALL - ALL'),
+('3270', '40', '60', '0', '0', '0', '+8 HasteRating', 'ALL - ALL - ALL'),
+('931', '60', '80', '0', '0', '0', '+10 HasteRating', 'ALL - ALL - ALL'),
+('3386', '80', '100', '0', '0', '0', '+12 HasteRating', 'ALL - ALL - ALL'),
+('3659', '100', '120', '0', '0', '0', '+14 HasteRating', 'ALL - ALL - ALL'),
+('3295', '120', '140', '0', '0', '0', '+16 HasteRating', 'ALL - ALL - ALL'),
+('3531', '140', '180', '0', '0', '0', '+20 HasteRating', 'ALL - ALL - ALL'),
+('3831', '180', '220', '0', '0', '0', '+23 HasteRating', 'ALL - ALL - ALL'),
+('3739', '220', '300', '0', '0', '0', '+34 HasteRating', 'ALL - ALL - ALL');
