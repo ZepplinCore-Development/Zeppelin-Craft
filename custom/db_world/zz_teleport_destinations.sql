@@ -1,4 +1,4 @@
-INSERT INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`, `PositionY`, `PositionZ`, `Orientation`, `VerifiedBuild`) VALUES
+REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`, `PositionY`, `PositionZ`, `Orientation`, `VerifiedBuild`) VALUES
 	(90000,0,0,-7510.509766,-1057.658325,182.050369, 2.236566,0), -- MoltenCore Outside
 	(90001,0,0,-7534.566406,-1213.388428,285.427368,5.230336,0), -- UBRS/BWL
 	(90002,0,1,-4691.480469,-3716.382568,49.197548,3.660783,0), -- Ony
