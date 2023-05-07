@@ -12,7 +12,11 @@ xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" 
 
 :: Run the MPQ editor to update the local MPQ file (patch-5.MPQ) with the DBC files from the spell editor export folder.
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\BUILD-MPQ5.txt"
+call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQ5-DBC.txt"
+
+:: Run the MPQ editor to update the local MPQ file (patch-5.MPQ) with the Creature files.
+cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
+call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQ5-Creature.txt"
 
 :: Copy the updated MPQ file (patch-5.MPQ) to the client Data folder
 xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-5.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
