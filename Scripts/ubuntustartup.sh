@@ -11,3 +11,4 @@ gnome-terminal\
 gnome-terminal\
 	--tab\
 		--title="Chat Bot" -- bash -c "cd; cd chatbot && ./run.sh; $SHELL"
+
