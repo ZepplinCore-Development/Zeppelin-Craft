@@ -36,7 +36,7 @@ patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screen
 
 patch-D.MPQ - HD Goblins
 
-patch-F.MPQ - Mounts, Creatures & NPCs
+patch-F.MPQ - HD Mounts and Creatures
 
 patch-H.MPQ - HD Character Models
 
