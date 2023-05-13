@@ -30,6 +30,8 @@ patch-8.MPQ - High Resolution Classic Armors
 
 patch-9.MPQ - High Resolution Classic Shields
 
+patch-B.MPQ - Blood Splatters
+
 patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 patch-D.MPQ - HD Goblins
@@ -49,5 +51,3 @@ patch-V.MPQ - Updated character and spell book UI
 patch-W.MPQ - HD Water
 
 patch-X.MPQ - HD Trees & Flowers
-
-patch-Y.MPQ - Blood Splatters
