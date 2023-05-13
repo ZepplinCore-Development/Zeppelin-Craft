@@ -28,8 +28,6 @@ patch-6.MPQ - Music
 
 patch-8.MPQ - High Resolution Classic Armors
 
-patch-9.MPQ - High Resolution Classic Shields
-
 patch-B.MPQ - Blood Splatters
 
 patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
