@@ -1,3 +1,0 @@
-a "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-5.MPQ" "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Models\Creature" "Creature" /auto /r
-compact "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-5.MPQ"
-exit

@@ -10,19 +10,19 @@ git pull
 :: Copies the DBC files from the spell editor export folder to the server.
 xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" "Y:\env\dist\bin\dbc"
 
-:: Run the MPQ editor to update the local MPQ file (patch-5.MPQ) with the DBC files from the spell editor export folder.
+:: Run the MPQ editor to update the local MPQ file (patch-z.MPQ) with the DBC files from the spell editor export folder.
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQ5-DBC.txt"
+call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
 
-:: Run the MPQ editor to update the local MPQ file (patch-5.MPQ) with the Creature files.
+:: Run the MPQ editor to update the local MPQ file (patch-z.MPQ) with the Creature files.
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQ5-Creature.txt"
+call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creature.txt"
 
-:: Copy the updated MPQ file (patch-5.MPQ) to the client Data folder
-xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-5.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
+:: Copy the updated MPQ file (patch-z.MPQ) to the client Data folder
+xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-z.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
 
-:: Upload the new patch-5.MPQ file to Github 
+:: Upload the new patch-z.MPQ file to Github 
 cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core
 git add -a
-git commit -am "Automatic update of patch-5.MPQ"
+git commit -am "Automatic update of patch-z.MPQ"
 git push
