@@ -36,9 +36,7 @@ patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screen
 
 patch-D.MPQ - HD Goblins
 
-patch-F.MPQ - Mounts, Druid forms & NPCs Part 1(won't work without P2)
-
-patch-G.MPQ - Mounts, Druid forms & NPCs Part 2(won't work without P1)
+patch-F.MPQ - Mounts, Druid forms & NPCs
 
 patch-H.MPQ - HD Character Models
 
