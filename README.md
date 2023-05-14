@@ -19,7 +19,7 @@ Place them in the Wow/Data directoru
 
 ### patch-5.MPQ - Open Azeroth Map Assets
 
-### patch-6.MPQ - HD Mounts and Creatures
+### patch-6.MPQ - Open Azeroth Creature Assets
 
 # 5. Run the Launcher and Play
 Download the launcher from the releases window.
