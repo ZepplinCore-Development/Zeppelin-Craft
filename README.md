@@ -26,7 +26,7 @@ Download and save in the client WOW_Directory/Data/
 
 patch-6.MPQ - Music
 
-patch-8.MPQ - High Resolution Classic Armors
+patch-8.MPQ - HD Armor
 
 patch-B.MPQ - Blood Splatters
 
