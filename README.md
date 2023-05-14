@@ -24,7 +24,13 @@ https://drive.google.com/drive/folders/1n8AqZTaeb8x8-aWFkWZ-nc0jvaGCJ9TI?usp=sha
 
 Download and save in the client WOW_Directory/Data/
 
-patch-6.MPQ - Music
+### patch-4.MPQ - Open Azeroth Maps
+
+### patch-5.MPQ - Open Azeroth Map Assets
+
+### patch-6.MPQ - HD Mounts and Creatures
+
+patch-7.MPQ - Music
 
 patch-8.MPQ - HD Armor
 
@@ -33,8 +39,6 @@ patch-B.MPQ - Blood Splatters
 patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 patch-D.MPQ - HD Goblins
-
-patch-F.MPQ - HD Mounts and Creatures
 
 patch-H.MPQ - HD Character Models
 
