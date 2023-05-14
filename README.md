@@ -11,24 +11,28 @@ The realmlist is available on Discord.
 Download the installer from the releases window.
 Run the installer from anywhere.
 
-# 4. Run the Launcher and Play
-Download the launcher from the releases window.
-Place the launcher in the WoW_Directory with you Wow.EXE file. 
-Run the launcher.
-
-# 5. Optional Download the HD MPQ Patches
-These patches provide an upgraded UI and graphic models used in later versions of the game.
-Download from the link below and put them in the same folder as above.
-
-https://drive.google.com/drive/folders/1n8AqZTaeb8x8-aWFkWZ-nc0jvaGCJ9TI?usp=sharing
-
-Download and save in the client WOW_Directory/Data/
+# 4. Mandatory MPQ Patches
+These don't get updated often, download them from the releases window to the right.
+Place them in the Wow/Data directoru
 
 ### patch-4.MPQ - Open Azeroth Maps
 
 ### patch-5.MPQ - Open Azeroth Map Assets
 
 ### patch-6.MPQ - HD Mounts and Creatures
+
+# 5. Run the Launcher and Play
+Download the launcher from the releases window.
+Place the launcher in the WoW_Directory with you Wow.EXE file. 
+Run the launcher.
+
+# 6. Optional Download the HD MPQ Patches
+These patches provide an upgraded UI and graphic models used in later versions of the game.
+Download from the link below and put them in the same folder as above.
+
+https://drive.google.com/drive/folders/1n8AqZTaeb8x8-aWFkWZ-nc0jvaGCJ9TI?usp=sharing
+
+Download and save in the client WOW_Directory/Data/
 
 patch-7.MPQ - Music
 
