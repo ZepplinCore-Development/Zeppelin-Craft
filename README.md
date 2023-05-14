@@ -25,6 +25,7 @@ Place them in the Wow/Data directoru
 Download the launcher from the releases window.
 Place the launcher in the WoW_Directory with you Wow.EXE file. 
 Run the launcher.
+It will automatically download and apply patch-z.mpq (changes patch), before starting the game.
 
 # 6. Optional Download the HD MPQ Patches
 These patches provide an upgraded UI and graphic models used in later versions of the game.
