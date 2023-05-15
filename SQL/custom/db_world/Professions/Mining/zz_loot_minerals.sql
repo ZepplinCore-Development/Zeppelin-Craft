@@ -25,4 +25,13 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100020, 5741, 0, 20, 0, 1, 1, 1, 3, ''),
 (100020, 7067, 0, 10, 0, 1, 1, 1, 2, '');
 
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100024);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100024, 4553, 0, 0, 0, 1, 0, 1, 1, ''),
+(100024, 7067, 0, 0, 0, 1, 0, 1, 1, ''),
+(100024, 2838, 0, 0, 0, 1, 0, 1, 1, ''),
+(100024, 1705, 0, 0, 0, 1, 1, 1, 1, ''),
+(100024, 1206, 0, 0, 0, 1, 1, 1, 1, ''),
+(100024, 2772, 0, 0, 0, 1, 1, 1, 1, ''),
+(100024, 3864, 0, 0, 0, 1, 1, 1, 1, '');
 

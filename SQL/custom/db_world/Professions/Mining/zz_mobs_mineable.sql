@@ -17,3 +17,18 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`entry` = 4528);
 -- Enraged Stone Spirit
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100020 WHERE (`entry` = 4034);
+
+-- 26 - 35 Mobs
+
+-- Rok'Alim the Pounder
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4499);
+-- Elemental Slave
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 2359);
+-- Thundering Boulderkin
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4120);
+-- Furious Stone Spirit
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4035);
+-- Gelkis Rumbler
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4661);
+-- Stone Rumbler
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4528);
