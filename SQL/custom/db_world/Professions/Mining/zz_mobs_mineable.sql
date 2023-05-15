@@ -32,3 +32,5 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4661);
 -- Stone Rumbler
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 4528);
+-- Stone Rumbler
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100024 WHERE (`entry` = 6073);
