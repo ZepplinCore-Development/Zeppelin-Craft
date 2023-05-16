@@ -79,3 +79,29 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`e
 -- Elder Lake Skulker
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1954);
 
+-- 26 - 35 MOBS
+
+-- Shadethicket Oracle
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3931);
+-- Rethiel the Greenwarden
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 1244);
+-- Fen Lord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 1041);
+-- Crazed Ancient
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3834);
+-- Shadethicket Bark Ripper
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3784);
+-- Treant Ally
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 5806);
+-- Withervine Creeper
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4382);
+-- Shadethicket Stone Mover
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3782);
+-- Vengeful Ancient
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4030);
+-- Withered Ancient
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3919);
+-- Charred Ancient
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4028);
+-- Blackened Ancient
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4029);

@@ -14,4 +14,11 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100019, 2453, 0, 20, 0, 1, 1, 1, 3, ''),
 (100019, 785, 0, 20, 0, 1, 1, 1, 3, ''),
 (100019, 23331, 0, 20, 0, 1, 1, 1, 3, '');
-
+-- 26 - 35 Herbalism Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100022);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100022, 3818, 0, 0, 0, 1, 0, 1, 1, 'Fadeleaf'),
+(100022, 2453, 0, 0, 0, 1, 0, 1, 1, 'Bruiseweed'),
+(100022, 3357, 0, 0, 0, 1, 0, 1, 1, 'Liferoot'),
+(100022, 23331, 0, 0, 0, 1, 0, 1, 1, 'Broken Vine'),
+(100022, 3356, 0, 0, 0, 1, 0, 1, 1, 'Kingsblood');
