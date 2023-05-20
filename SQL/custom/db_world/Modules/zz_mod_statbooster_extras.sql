@@ -1,6 +1,7 @@
 INSERT INTO `statbooster_enchant_template` (`Id`, `iLvlMin`, `iLvlMax`, `RoleMask`, `ClassMask`, `SubClassMask`, `Description`, `Note`) VALUES
-('194', '1', '20', '0', '0', '0', '+7 CritRating', 'ALL - ALL - ALL'),
-('195', '20', '70', '0', '0', '0', '+14 CritRating', 'ALL - ALL - ALL'),
+('2887', '1', '20', '0', '0', '0', '+3 CritRating', 'ALL - ALL - ALL'),
+('3227', '20', '50', '0', '0', '0', '+10 CritRating', 'ALL - ALL - ALL'),
+('195', '50', '70', '0', '0', '0', '+14 CritRating', 'ALL - ALL - ALL'),
 ('196', '70', '140', '0', '0', '0', '+28 CritRating', 'ALL - ALL - ALL'),
 ('197', '140', '200', '0', '0', '0', '+42 CritRating', 'ALL - ALL - ALL'),
 ('198', '200', '300', '0', '0', '0', '+56 CritRating', 'ALL - ALL - ALL'),
