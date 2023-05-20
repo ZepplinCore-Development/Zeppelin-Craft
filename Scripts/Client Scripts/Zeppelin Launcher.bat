@@ -52,4 +52,5 @@ xcopy /s /y "%var%\Custom Tools\Zeppelin-Core\EXE Patch\Wow.exe" "%var%"
 xcopy /s /y "%var%\Custom Tools\Zeppelin-Core\MPQ Patches\patch-z.MPQ" "%var%\Data"
 
 :: Runs Wow.exe
+cd %var%
 start Wow.exe
