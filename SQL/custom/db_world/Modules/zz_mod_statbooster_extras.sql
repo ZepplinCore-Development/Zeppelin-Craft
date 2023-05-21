@@ -43,7 +43,7 @@ INSERT INTO `statbooster_enchant_template` (`Id`, `iLvlMin`, `iLvlMax`, `RoleMas
 (109, 60, 80, 3, 0, 0, '+7 Strength', 'TANK/PHYS - ALL - ALL'),
 (211, 60, 80, 8, 0, 0, '+7 Spell Power', 'SPELL - ALL - ALL'),
 
-(2887', '1', '30', '0', '0', '0', '+3 CritRating', 'ALL - ALL - ALL'),
+('2887', '1', '30', '0', '0', '0', '+3 CritRating', 'ALL - ALL - ALL'),
 ('2838', '31', '60', '0', '0', '0', '+7 CritRating', 'ALL - ALL - ALL'),
 ('195', '60', '80', '0', '0', '0', '+14 CritRating', 'ALL - ALL - ALL'),
 ('196', '80', '140', '0', '0', '0', '+28 CritRating', 'ALL - ALL - ALL'),
