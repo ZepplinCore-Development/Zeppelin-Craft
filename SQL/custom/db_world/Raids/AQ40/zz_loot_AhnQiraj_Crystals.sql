@@ -93,7 +93,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15262, 24088, 24088, 0.1, 0, 1, 1, 1, 1, 'Obsidian Eradicator - (ReferenceTable)'),
 (15262, 24089, 24089, 0.1, 0, 1, 1, 1, 1, 'Obsidian Eradicator - (ReferenceTable)'),
 (15262, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Obsidian Eradicator - (ReferenceTable)'),
-(15262, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15262, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15250);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -146,7 +146,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15250, 24033, 24033, 1, 0, 1, 1, 1, 1, 'Qiraji Slayer - (ReferenceTable)'),
 (15250, 24034, 24034, 0.5, 0, 1, 1, 1, 1, 'Qiraji Slayer - (ReferenceTable)'),
 (15250, 24089, 24089, 0.1, 0, 1, 1, 1, 1, 'Qiraji Slayer - (ReferenceTable)'),
-(15250, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15250, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15246);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -188,7 +188,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15246, 24020, 24020, 1, 0, 1, 1, 1, 1, 'Qiraji Mindslayer - (ReferenceTable)'),
 (15246, 24033, 24033, 1, 0, 1, 1, 1, 1, 'Qiraji Mindslayer - (ReferenceTable)'),
 (15246, 24034, 24034, 0.5, 0, 1, 1, 1, 1, 'Qiraji Mindslayer - (ReferenceTable)'),
-(15246, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15246, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15247);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -236,7 +236,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15247, 24033, 24033, 1, 0, 1, 1, 1, 1, 'Qiraji Brainwasher - (ReferenceTable)'),
 (15247, 24089, 24089, 0.1, 0, 1, 1, 1, 1, 'Qiraji Brainwasher - (ReferenceTable)'),
 (15247, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Qiraji Brainwasher - (ReferenceTable)'),
-(15247, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15247, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15249);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -279,7 +279,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15249, 24033, 24033, 1, 0, 1, 1, 1, 1, 'Qiraji Lasher - (ReferenceTable)'),
 (15249, 24034, 24034, 0.5, 0, 1, 1, 1, 1, 'Qiraji Lasher - (ReferenceTable)'),
 (15249, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Qiraji Lasher - (ReferenceTable)'),
-(15249, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15249, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15264);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -349,7 +349,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15264, 24089, 24089, 0.1, 0, 1, 1, 1, 1, 'Anubisath Sentinel - (ReferenceTable)'),
 (15264, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Anubisath Sentinel - (ReferenceTable)'),
 (15264, 24091, 24091, 0.1, 0, 1, 1, 1, 1, 'Anubisath Sentinel - (ReferenceTable)'),
-(15264, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15264, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15312);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -388,7 +388,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15312, 24018, 24018, 1, 0, 1, 1, 1, 1, 'Obsidian Nullifier - (ReferenceTable)'),
 (15312, 24020, 24020, 1, 0, 1, 1, 1, 1, 'Obsidian Nullifier - (ReferenceTable)'),
 (15312, 24034, 24034, 0.5, 0, 1, 1, 1, 1, 'Obsidian Nullifier - (ReferenceTable)'),
-(15312, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15312, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15277);
@@ -439,7 +439,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15277, 24019, 24019, 0.5, 0, 1, 1, 1, 1, 'Anubisath Defender - (ReferenceTable)'),
 (15277, 24020, 24020, 1, 0, 1, 1, 1, 1, 'Anubisath Defender - (ReferenceTable)'),
 (15277, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Anubisath Defender - (ReferenceTable)'),
-(15277, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15277, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15252);
@@ -477,7 +477,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15252, 24019, 24019, 0.5, 0, 1, 1, 1, 1, 'Qiraji Champion - (ReferenceTable)'),
 (15252, 24020, 24020, 1, 0, 1, 1, 1, 1, 'Qiraji Champion - (ReferenceTable)'),
 (15252, 24090, 24090, 0.1, 0, 1, 1, 1, 1, 'Qiraji Champion - (ReferenceTable)'),
-(15252, 900100, 900100, 100, 0, 1, 0, 1, 1, 'Covert Brand Reference Table');
+(15252, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15311);
@@ -515,7 +515,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15311, 24018, 24018, 1, 0, 1, 1, 1, 1, 'Anubisath Warder - (ReferenceTable)'),
 (15311, 24019, 24019, 0.5, 0, 1, 1, 1, 1, 'Anubisath Warder - (ReferenceTable)'),
 (15311, 24020, 24020, 1, 0, 1, 1, 1, 1, 'Anubisath Warder - (ReferenceTable)'),
-(15311, 900100, 900100, 100, 0, 1, 2, 1, 1, 'Covert Brand Reference Table');
+(15311, 900100, 900100, 100, 0, 1, 1, 1, 1, 'Covert Brand Reference Table');
 
 
 
