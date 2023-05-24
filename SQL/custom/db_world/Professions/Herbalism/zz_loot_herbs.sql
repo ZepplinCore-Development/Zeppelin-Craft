@@ -2,7 +2,7 @@
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100016);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100016, 765, 0, 20, 0, 1, 1, 1, 3, 'Silverleaf'),
-(100019, 785, 0, 20, 0, 1, 1, 1, 3, 'Mageroyal'),
+(100016, 785, 0, 20, 0, 1, 1, 1, 3, 'Mageroyal'),
 (100016, 2447, 0, 20, 0, 1, 1, 1, 3, 'Peacebloom'),
 (100016, 2449, 0, 20, 0, 1, 1, 1, 3, 'Earthroot'),
 (100016, 23331, 0, 20, 0, 1, 1, 1, 2, 'Broken Vine');
