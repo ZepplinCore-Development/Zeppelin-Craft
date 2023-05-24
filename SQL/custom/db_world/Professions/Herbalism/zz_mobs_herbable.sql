@@ -9,35 +9,35 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 3569);
 -- Timberling
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2022);
---
+-- Root Trapper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 17196);
---
+-- Eversong Tender
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 15635);
---
+-- Timberling Bark Ripper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2025);
---
+-- Root Thresher
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 17197);
---
+-- Eversong Green Keeper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 15636);
---
+-- Timberling Trampler
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2027);
---
+-- Oakenscowl
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2166);
---
+-- Withered Green Keeper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 15637);
---
+-- Timberling Mire Beast
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2029);
---
+-- Old Whitebark
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 15409);
---
+-- Elder Timberling
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 2030);
---
+-- Thistle Lasher
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 17343);
---
+-- Corrupted Treant
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 17352);
---
+-- Blackmoss the Fetid
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 3535);
---
+-- Mutated Constrictor
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`entry` = 17344);
 
 -- 16 - 25 MOBS
@@ -103,5 +103,6 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3919);
 -- Charred Ancient
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4028);
--- Blackened Ancient
+-- Blackened Ancient 
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4029);
+ 
