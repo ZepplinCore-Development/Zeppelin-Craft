@@ -43,66 +43,66 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100016 WHERE (`e
 -- 16 - 25 MOBS
 
 -- Lake Creeper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1955);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1955);
 -- Corrupted Stomper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 17353);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 17353);
 -- Mutated Tangler
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 17346);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 17346);
 -- Deviate Lasher
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 5055);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 5055);
 -- Deviate Shambler
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 5761);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 5761);
 -- Fen Dweller
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1039);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1039);
 -- Verdan the Everliving
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 5775);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 5775);
 -- Shadethicket Moss Eater
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 3780);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 3780);
 -- Shadethicket Wood Shaper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 3781);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 3781);
 -- Fen Creeper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1040);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1040);
 -- Mirelow
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 14424);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 14424);
 -- Shadethicket Stone Mover
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 3782);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 3782);
 -- Shadethicket Raincaller
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 3783);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 3783);
 -- Fen Lord
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1041);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1041);
 -- Charred Ancient
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 4028);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 4028);
 -- Branch Snapper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 10641);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 10641);
 -- Lake Skulker
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1953);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1953);
 -- Elder Lake Skulker
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100019 WHERE (`entry` = 1954);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100017 WHERE (`entry` = 1954);
 
 -- 26 - 35 MOBS
 
 -- Shadethicket Oracle
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3931);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 3931);
 -- Rethiel the Greenwarden
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 1244);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 1244);
 -- Fen Lord
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 1041);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 1041);
 -- Crazed Ancient
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3834);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 3834);
 -- Shadethicket Bark Ripper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3784);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 3784);
 -- Treant Ally
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 5806);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 5806);
 -- Withervine Creeper
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4382);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 4382);
 -- Shadethicket Stone Mover
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3782);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 3782);
 -- Vengeful Ancient
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4030);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 4030);
 -- Withered Ancient
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 3919);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 3919);
 -- Charred Ancient
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4028);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 4028);
 -- Blackened Ancient 
-UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100022 WHERE (`entry` = 4029);
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100018 WHERE (`entry` = 4029);
  

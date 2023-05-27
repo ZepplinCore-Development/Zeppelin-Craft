@@ -22,10 +22,6 @@ DELETE FROM `creature_template` WHERE (`entry` = 12057);
 INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `speed_swim`, `speed_flight`, `detection_range`, `scale`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `BaseVariance`, `RangeVariance`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `spell_school_immune_mask`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
 (12057, 0, 0, 0, 0, 0, 12110, 0, 0, 0, 'Garr', NULL, NULL, 0, 63, 63, 0, 54, 0, 1.55556, 1.71429, 1, 1, 20, 1, 3, 0, 18, 2000, 2000, 1, 1, 1, 64, 2048, 0, 0, 0, 0, 0, 0, 4, 620, 12057, 0, 100045, 0, 0, 516580, 631375, '', 0, 1, 198, 1, 1.3, 1, 0, 164, 1, 1719893855, 0, 1, 'boss_garr', 12340);
 
-
-
-
-
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100045);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100045, 10620, 0, 100, 0, 1, 0, 1, 4, ''),
