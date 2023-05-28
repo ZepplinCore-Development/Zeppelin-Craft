@@ -30,26 +30,26 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (
 -- LEVEL 26 - 35 CREATURES
 
 -- Obsidian Shard
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7209);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7209);
 -- Mekgineer Thermaplugg
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7800);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7800);
 -- Crowd Pummeler 9-60
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6229);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6229);
 -- Electrocutioner 6000
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6235);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6235);
 -- Warsong Shredder
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 11684);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 11684);
 -- Peacekeeper Security Suit
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6230);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6230);
 -- Arcane Nullifier X-21
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6232);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6232);
 -- Mechano-Frostwalker
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6227);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6227);
 -- Mechanized Guardian
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6234);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6234);
 -- Mechano-Tank
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6225);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6225);
 -- Mechano-Flamewalker
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6226);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6226);
 -- Walking Bomb
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7915);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7915);
