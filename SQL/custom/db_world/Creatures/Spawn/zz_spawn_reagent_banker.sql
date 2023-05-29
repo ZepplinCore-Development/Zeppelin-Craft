@@ -1,4 +1,5 @@
 DELETE FROM `creature` WHERE (`id1` = 190011);
+DELETE FROM `creature` WHERE (`id1` = 190012);
 INSERT INTO `creature` (`id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`) VALUES
 (190011,0,0,1,0,0,1,1,0,1654.49,-4439.92,18.6407,4.4104,300,0.0,0,120,0,0,0,0,0,'',NULL),
 (190011,0,0,530,0,0,1,1,0,9551.35,-7500.14,16.2567,0.0199656,300,0.0,0,120,0,0,0,0,0,'',NULL),
@@ -12,4 +13,5 @@ INSERT INTO `creature` (`id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMa
 (190011,0,0,530,0,0,1,1,0,-1749.1,5511.45,-12.4276,3.12819,300,0.0,0,97,0,0,0,0,0,'',NULL),
 (190011,0,0,530,0,0,1,1,0,-1999.65,5388.08,-12.4277,1.21575,300,0.0,0,97,0,0,0,0,0,'',NULL),
 (190011,0,0,571,0,0,1,1,0,5909.68,621.168,646.725,5.69266,300,0.0,0,120,0,0,0,0,0,'',NULL),
+(190011,0,0,0,0,0,1,1,0,-14468.7,457.168,15.985,0.096972,300,0.0,0,120,0,0,0,0,0,'',NULL)
 (190011,0,0,571,0,0,1,1,0,5705.02,651.497,646.234,2.16229,300,0.0,0,120,0,0,0,0,0,'',NULL);
