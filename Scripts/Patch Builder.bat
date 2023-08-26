@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 :: Directory where the script is stored
 set "base_directory=C:\Games\ChromieCraft_3.3.5a\Custom Tools"
@@ -41,14 +42,14 @@ git push
 for /f "usebackq tokens=1,* delims=:" %%a in ("!file_list!") do (
     set "server_file=%%a"
     set "server_version=%%b"
-    if "%server_file%"=="PATCH-Z.MPQ" (
+    if "!server_file!"=="PATCH-Z.MPQ" (
        set /a server_version+=1
     )
 )
 
 :: Copy the version file to temp file except the PATCH-Z.MPQ line
 findstr /V "PATCH-Z.MPQ" "!file_list!" > "%temp_file%"
-echo PATCH-Z.MPQ:%server_version%>>"%temp_file%"
+echo PATCH-Z.MPQ:!server_version!>>"%temp_file%"
 copy /y "%temp_file%" "%file_list%"
 del "%temp_file%"
 
