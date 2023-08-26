@@ -11,20 +11,23 @@ Run the launcher.
 # Reference List of MPQ Files
 patch-4.MPQ - Open Azeroth Maps
 
-patch-5.MPQ - Open Azeroth Map Assets
+PATCH-5.MPQ - Open Azeroth Map Assets
 
-patch-6.MPQ - Modern Models, HD Armor, HD Weapons and HD Models
+PATCH-6.MPQ - Modern Models, HD Armor, HD Weapons and HD Models
 
-patch-7.MPQ - Music
+PATCH-7.MPQ - Music
 
-patch-B.MPQ - Blood Splatters
+PATCH-B.MPQ - Blood Splatters
 
-patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
+PATCH-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
-patch-S.MPQ - Sunlight
+PATCH-D.MPQ - Double Fog Distance
 
-patch-T.MPQ - Tilesets, Grass & Buildings
+PATCH-M.MPQ - HD Trees
 
-patch-W.MPQ - HD Water
+PATCH-S.MPQ - Sunlight
 
-patch-X.MPQ - HD Trees & Flowers
+PATCH-T.MPQ - Tilesets, Grass & Buildings
+
+PATCH-W.MPQ - HD Water
+
