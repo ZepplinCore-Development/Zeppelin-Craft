@@ -1,8 +1,8 @@
 REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     VALUES 
-    (0,0,8613,'Skinning'),
-    (0,0,2575,'Mining'),
-    (0,0,2366,'Herbalism'),
+    (0,0,10768,'Skinning'),
+    (0,0,10248,'Mining'),
+    (0,0,11993,'Herbalism'),
     (0,0,2018,'blacksmithing'),
     (0,0,2259,'alchemy'),   
     (0,0,2108,'leatherworking'),
