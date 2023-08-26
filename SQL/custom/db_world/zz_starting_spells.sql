@@ -12,3 +12,4 @@ REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     (0,0,25229,'jewelcrafting'),
     (0,0,45357,'inscription'),
     (0,0,514,'Counterspell');
+    (0,0,8690,'Hearthstone');
