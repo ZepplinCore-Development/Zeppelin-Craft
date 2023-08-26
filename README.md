@@ -23,8 +23,6 @@ patch-B.MPQ - Blood Splatters
 
 patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
-patch-D.MPQ - HD Goblins
-
 patch-S.MPQ - Sunlight
 
 patch-T.MPQ - Tilesets, Grass & Buildings
