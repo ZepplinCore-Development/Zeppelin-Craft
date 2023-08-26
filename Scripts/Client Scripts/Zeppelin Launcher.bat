@@ -1,6 +1,39 @@
 ::[Bat To Exe Converter]
 ::
 ::YAwzoRdxOk+EWAjk
+::fBw5plQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9adp10NUe42drDS2buAH7JBvRCwItZlhzMUkcgDbA==
+::YAwzuBVtJxjWCl3EqQJgSA==
+::ZR4luwNxJguZRRnk
+::Yhs/ulQjdF+5
+::cxAkpRVqdFKZSDk=
+::cBs/ulQjdF+5
+::ZR41oxFsdFKZSDk=
+::eBoioBt6dFKZSDk=
+::cRo6pxp7LAbNWATEpCI=
+::egkzugNsPRvcWATEpCI=
+::dAsiuh18IRvcCxnZtBJQ
+::cRYluBh/LU+EWAnk
+::YxY4rhs+aU+JeA==
+::cxY6rQJ7JhzQF1fEqQJQ
+::ZQ05rAF9IBncCkqN+0xwdVs0
+::ZQ05rAF9IAHYFVzEqQJQ
+::eg0/rx1wNQPfEVWB+kM9LVsJDGQ=
+::fBEirQZwNQPfEVWB+kM9LVsJDGQ=
+::cRolqwZ3JBvQF1fEqQJQ
+::dhA7uBVwLU+EWDk=
+::YQ03rBFzNR3SWATElA==
+::dhAmsQZ3MwfNWATElA==
+::ZQ0/vhVqMQ3MEVWAtB9wSA==
+::Zg8zqx1/OA3MEVWAtB9wSA==
+::dhA7pRFwIByZRRnk
+::Zh4grVQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9a9p10NUe42ds/326GAI+gW+BSqcI4otg==
+::YB416Ek+ZG8=
+::
+::
+::978f952a14a936cc963da21a135fa983
+::[Bat To Exe Converter]
+::
+::YAwzoRdxOk+EWAjk
 ::fBw5plQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9adp10NUe42ds+TiP3AKeMcig==
 ::YAwzuBVtJxjWCl3EqQJgSA==
 ::ZR4luwNxJguZRRnk
@@ -53,6 +86,26 @@ set "versions_file=%local_directory%Data\client_versions.txt"
 if exist "!temp_file!" (
     del "!temp_file!"
 )
+
+:: Delete Client Wow.exe file
+if exist "%local_directory%Wow.exe" (
+    del "%local_directory%Wow.exe"
+    echo Removing Wow.exe
+)
+
+:: Download the Wow.exe file
+echo Downloading Wow.exe
+curl -# -o "%local_directory%Wow.exe" "%server_base_url%Wow.exe"
+
+:: Delete realmlist.wtf file
+if exist "%local_directory%Data\enUS\realmlist.wtf" (
+    del "%local_directory%Data\enUS\realmlist.wtf"
+    echo Removing realmlist.wtf
+)
+
+:: Download the realmlist.wtf file
+echo Downloading realmlist.wtf
+curl -# -o "%local_directory%Data\enUS\realmlist.wtf" "%server_base_url%realmlist.wtf"
 
 :: Check if client_versions.txt exists, initialise history
 set "client_version_history="
@@ -194,5 +247,5 @@ if exist "!temp_file!" (
     del "!temp_file!"
 )
 
-::pause
+pause
 endlocal

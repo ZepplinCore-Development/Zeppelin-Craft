@@ -1,28 +1,53 @@
+@echo off
+
+:: Directory where the script is stored
+set "base_directory=C:\Games\ChromieCraft_3.3.5a\Custom Tools"
+echo script is running here %base_directory%
+
+:: file list and temp files for storage
+set "temp_file=%base_directory%\temp.txt"
+set "file_list=\\NASUS\appdata\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt"
+
 :: Runs a headless export from the spell editor, pulling all the DBC files from the MYSQL database, this includes edits made by other devs.
 :: Any DBC edits made outside of the spell editor tool should be saved in the spell editor export folder.
-cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor
+cd /d "%base_directory%\WoW Spell Editor"
 call HeadlessExport.exe
 
 :: Clean and pull the latest version of the repo.
-cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core
+cd /d "%base_directory%\Zeppelin-Core"
 git pull
 
 :: Copies the DBC files from the spell editor export folder to the server.
-xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" "Y:\env\dist\bin\dbc"
+xcopy /s /y "%base_directory%\WoW Spell Editor\Export" "Y:\env\dist\bin\dbc"
 
-:: Run the MPQ editor to update the local MPQ file (patch-z.MPQ) with the DBC files from the spell editor export folder.
-cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
+:: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the DBC files from the spell editor export folder.
+cd /d "%base_directory%\MPQ Editor"
+call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
 
-:: Run the MPQ editor to update the local MPQ file (patch-z.MPQ) with the Creature files.
-cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\MPQ Editor
-call MPQEditor.exe /console "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creature.txt"
+:: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the Creature files.
+call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creature.txt"
 
-:: Copy the updated MPQ file (patch-z.MPQ) to the client Data folder
-xcopy /s /y "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\patch-z.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
+:: Copy the updated MPQ file (PATCH-Z.MPQ) to the client Data folder
+xcopy /s /y "%base_directory%\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
 
-:: Upload the new patch-z.MPQ file to Github 
-cd C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core
-git add -a
-git commit -am "Automatic update of patch-z.MPQ"
+:: Upload the new PATCH-Z.MPQ file to Github 
+cd /d "%base_directory%\Zeppelin-Core"
+git add -A
+git commit -am "Automatic update of PATCH-Z.MPQ"
 git push
+
+for /f "usebackq tokens=1,* delims=:" %%a in ("!file_list!") do (
+    set "server_file=%%a"
+    set "server_version=%%b"
+    if "%server_file%"=="PATCH-Z.MPQ" (
+       set /a server_version+=1
+    )
+)
+
+:: Copy the version file to temp file except the PATCH-Z.MPQ line
+findstr /V "PATCH-Z.MPQ" "!file_list!" > "%temp_file%"
+echo PATCH-Z.MPQ:%server_version%>>"%temp_file%"
+copy /y "%temp_file%" "%file_list%"
+del "%temp_file%"
+
+pause
