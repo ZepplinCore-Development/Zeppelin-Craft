@@ -17,15 +17,13 @@ patch-6.MPQ - Open Azeroth Creature Assets
 
 patch-7.MPQ - Music
 
-patch-8.MPQ - HD Armor
+patch-8.MPQ - HD Armor, HD Weapons and HD NPC Models
 
 patch-B.MPQ - Blood Splatters
 
 patch-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 patch-D.MPQ - HD Goblins
-
-patch-H.MPQ - HD Character Models
 
 patch-S.MPQ - Sunlight
 
