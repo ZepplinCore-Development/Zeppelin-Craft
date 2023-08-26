@@ -13,11 +13,9 @@ patch-4.MPQ - Open Azeroth Maps
 
 patch-5.MPQ - Open Azeroth Map Assets
 
-patch-6.MPQ - Open Azeroth Creature Assets
+patch-6.MPQ - Modern Models, HD Armor, HD Weapons and HD Models
 
 patch-7.MPQ - Music
-
-patch-8.MPQ - HD Armor, HD Weapons and HD NPC Models
 
 patch-B.MPQ - Blood Splatters
 
