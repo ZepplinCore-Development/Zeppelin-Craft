@@ -13,7 +13,7 @@ patch-4.MPQ - Open Azeroth Maps
 
 PATCH-5.MPQ - Open Azeroth Map Assets
 
-PATCH-6.MPQ - Modern Models, HD Armor, HD Weapons and HD Models
+PATCH-6.MPQ - Modern Models + Upscaled Armor, Weapons, Textures and Models
 
 PATCH-7.MPQ - Music
 
