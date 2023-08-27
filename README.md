@@ -9,11 +9,13 @@ Place the launcher in the WoW_Directory with your Wow.EXE file.
 Run the launcher.
 
 # Reference List of MPQ Files
-patch-4.MPQ - Open Azeroth Maps
+PATCH-Z.MPQ - Spell Edits
+
+PATCH-4.MPQ - Open Azeroth Maps
 
 PATCH-5.MPQ - Open Azeroth Map Assets
 
-PATCH-6.MPQ - Modern Models, HD Armor, HD Weapons and HD Models
+PATCH-6.MPQ - Modern Models + Upscaled Armor, Weapons, Textures and Classic Models
 
 PATCH-7.MPQ - Music
 
@@ -26,8 +28,6 @@ PATCH-D.MPQ - Double Fog Distance
 PATCH-M.MPQ - HD Trees
 
 PATCH-S.MPQ - Sunlight
-
-PATCH-T.MPQ - Tilesets, Grass & Buildings
 
 PATCH-W.MPQ - HD Water
 
