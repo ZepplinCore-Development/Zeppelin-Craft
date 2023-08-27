@@ -9,7 +9,9 @@ Place the launcher in the WoW_Directory with your Wow.EXE file.
 Run the launcher.
 
 # Reference List of MPQ Files
-patch-4.MPQ - Open Azeroth Maps
+PATCH-Z.MPQ - Spell Edits
+
+PATCH-4.MPQ - Open Azeroth Maps
 
 PATCH-5.MPQ - Open Azeroth Map Assets
 
