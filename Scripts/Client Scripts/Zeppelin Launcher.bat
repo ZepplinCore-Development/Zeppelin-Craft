@@ -1,7 +1,7 @@
 ::[Bat To Exe Converter]
 ::
 ::YAwzoRdxOk+EWAjk
-::fBw5plQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9adp10NUe42drDS2buAH7JBvRCwItZlhzMUkcgDbA==
+::fBw5plQjdCyDJH6F+UcjFDhcXguPNW6ZFLQa/NeoobnJ90whd/csbIDWmoCBL+wA1n/hZYYo2nNU1egDHh5kTRG5Zx8gulJhum2AOdPcgAzzQ1id9XcKHnVkgm/ZgmUyY9wI
 ::YAwzuBVtJxjWCl3EqQJgSA==
 ::ZR4luwNxJguZRRnk
 ::Yhs/ulQjdF+5
@@ -26,40 +26,7 @@
 ::ZQ0/vhVqMQ3MEVWAtB9wSA==
 ::Zg8zqx1/OA3MEVWAtB9wSA==
 ::dhA7pRFwIByZRRnk
-::Zh4grVQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9a9p10NUe42ds/326GAI+gW+BSqcI4otg==
-::YB416Ek+ZG8=
-::
-::
-::978f952a14a936cc963da21a135fa983
-::[Bat To Exe Converter]
-::
-::YAwzoRdxOk+EWAjk
-::fBw5plQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9adp10NUe42ds+TiP3AKeMcig==
-::YAwzuBVtJxjWCl3EqQJgSA==
-::ZR4luwNxJguZRRnk
-::Yhs/ulQjdF+5
-::cxAkpRVqdFKZSDk=
-::cBs/ulQjdF+5
-::ZR41oxFsdFKZSDk=
-::eBoioBt6dFKZSDk=
-::cRo6pxp7LAbNWATEpCI=
-::egkzugNsPRvcWATEpCI=
-::dAsiuh18IRvcCxnZtBJQ
-::cRYluBh/LU+EWAnk
-::YxY4rhs+aU+JeA==
-::cxY6rQJ7JhzQF1fEqQJQ
-::ZQ05rAF9IBncCkqN+0xwdVs0
-::ZQ05rAF9IAHYFVzEqQJQ
-::eg0/rx1wNQPfEVWB+kM9LVsJDGQ=
-::fBEirQZwNQPfEVWB+kM9LVsJDGQ=
-::cRolqwZ3JBvQF1fEqQJQ
-::dhA7uBVwLU+EWDk=
-::YQ03rBFzNR3SWATElA==
-::dhAmsQZ3MwfNWATElA==
-::ZQ0/vhVqMQ3MEVWAtB9wSA==
-::Zg8zqx1/OA3MEVWAtB9wSA==
-::dhA7pRFwIByZRRnk
-::Zh4grVQjdCyDJGyX8VAjFDFBXxCXLmWGIrAP4/z0/9a9p10NUe42ds/326GAI+gW+AvhbZNN
+::Zh4grVQjdCyDJH6F+UcjFDhcXguPNW6ZFLQa/NeoobnJ90whd/csbIDWmoCBL+wA1n/hZYYo2nNU1egDHh5kTRG5Zx8gulJhum2AOdPcgAzzQ1id9XcKHnVkgm/ZgmsXYcZmmcsGwW675Eif
 ::YB416Ek+ZG8=
 ::
 ::
@@ -156,9 +123,13 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!mandatory_list!") do (
                 if not "!client_file_version!"=="!server_file_version!" (
                     echo Client File - !server_file_name!, Client version "!client_file_version!" does not match server version "!server_file_version!"
                     :: Download the mandatory file
-                    curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory\!server_file_name!"
-                    :: Replace the client file with the downloaded version
-                    move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
+                    curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory/!server_file_name!"
+                    :: Delete the original file
+                    if exist "%local_directory%Data\!server_file_name!" (
+                        del "%local_directory%Data\!server_file_name!"
+                    )
+                    :: Move the downloaded file to the Data directory
+                    copy /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
                     :: Remove the old version from the temp file
                     findstr /V "!client_file_name!:!client_file_version!" "!temp_file!" > "!temp_temp_file!"
                     copy /y "!temp_temp_file!" "!temp_file!"
@@ -175,7 +146,7 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!mandatory_list!") do (
     if not defined client_file_exists (
         echo No Client Version History For This File
         :: Download the mandatory file
-        curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory\!server_file_name!"
+        curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory/!server_file_name!"
         :: Replace the client file with the downloaded version
         move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
         :: Update temp file with the new version
@@ -260,5 +231,5 @@ if exist "!temp_file!" (
     del "!temp_file!"
 )
 
-::pause
+pause
 endlocal
