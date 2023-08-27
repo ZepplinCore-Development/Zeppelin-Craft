@@ -77,6 +77,11 @@ set "optional_file_list_url=%server_base_url%optional/optional_file_list.txt"
 :: Directory where local files are stored
 set "local_directory=%~dp0"
 
+:: Chekcs and creates a folder for downloading
+if not exist "%local_directory%Data/temp" (
+    md "%local_directory%Data/temp"
+)
+
 :: Version and temp files for storage
 set "temp_file=%local_directory%Data\client_versions_temp.txt"
 set "temp_temp_file=%local_directory%Data\client_versions_temp_temp.txt"
@@ -151,7 +156,9 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!mandatory_list!") do (
                 if not "!client_file_version!"=="!server_file_version!" (
                     echo Client File - !server_file_name!, Client version "!client_file_version!" does not match server version "!server_file_version!"
                     :: Download the mandatory file
-                    curl -# -o "%local_directory%Data!server_file_name!" "%server_base_url%mandatory/!server_file_name!"
+                    curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory\!server_file_name!"
+                    :: Replace the client file with the downloaded version
+                    move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
                     :: Remove the old version from the temp file
                     findstr /V "!client_file_name!:!client_file_version!" "!temp_file!" > "!temp_temp_file!"
                     copy /y "!temp_temp_file!" "!temp_file!"
@@ -168,7 +175,9 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!mandatory_list!") do (
     if not defined client_file_exists (
         echo No Client Version History For This File
         :: Download the mandatory file
-        curl -# -o "%local_directory%Data!server_file_name!" "%server_base_url%mandatory/!server_file_name!"
+        curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%mandatory\!server_file_name!"
+        :: Replace the client file with the downloaded version
+        move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
         :: Update temp file with the new version
         echo !server_file_name!:!server_file_version!>>"!temp_file!"
         set "versions_updated=true"
@@ -212,7 +221,9 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!optional_list!") do (
                 if not "!client_file_version!"=="!server_file_version!" (
                     echo Client File - !server_file_name!, Client version "!client_file_version!" does not match server version "!server_file_version!"
                     :: Download the optional file
-                    curl -# -o "%local_directory%Data!server_file_name!" "%server_base_url%optional/!server_file_name!"
+                    curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%optional/!server_file_name!"
+                    :: Replace the file with the downloaded version
+                    move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
                     :: Remove the old version from the temp file
                     findstr /V "!client_file_name!:!client_file_version!" "!temp_file!" > "!temp_temp_file!"
                     copy /y "!temp_temp_file!" "!temp_file!"
@@ -229,7 +240,9 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!optional_list!") do (
     if not defined client_file_exists (
         echo No Client Version History For This File
         :: Download the optional file
-        curl -# -o "%local_directory%Data!server_file_name!" "%server_base_url%optional/!server_file_name!"
+        curl -# -o "%local_directory%Data\temp\!server_file_name!" "%server_base_url%optional/!server_file_name!"
+        :: Replace the file with the downloaded version
+        move /y "%local_directory%Data\temp\!server_file_name!" "%local_directory%Data\!server_file_name!"
         :: Update temp file with the new version
         echo !server_file_name!:!server_file_version!>>"!temp_file!"
         set "versions_updated=true"
@@ -247,5 +260,5 @@ if exist "!temp_file!" (
     del "!temp_file!"
 )
 
-pause
+::pause
 endlocal
