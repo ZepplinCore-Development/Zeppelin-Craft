@@ -29,7 +29,5 @@ PATCH-M.MPQ - HD Trees
 
 PATCH-S.MPQ - Sunlight
 
-PATCH-T.MPQ - Tilesets, Grass & Buildings
-
 PATCH-W.MPQ - HD Water
 
