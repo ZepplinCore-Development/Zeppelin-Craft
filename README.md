@@ -15,15 +15,19 @@ PATCH-4.MPQ - Open Azeroth Maps
 
 PATCH-5.MPQ - Open Azeroth Map Assets
 
-PATCH-6.MPQ - Modern Models + Upscaled Armor, Weapons, Textures and Classic Models
+PATCH-6.MPQ - Modern NPC and Character models + HD World Textures
 
-PATCH-7.MPQ - Music
+PATCH-7.MPQ - HD Armor and Weapons
+
+PATCH-8.MPQ - HD Classic NPC Models
 
 PATCH-B.MPQ - Blood Splatters
 
 PATCH-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 PATCH-D.MPQ - Double Fog Distance
+
+PATCH-M.MPQ - Music
 
 PATCH-S.MPQ - Sunlight
 
