@@ -25,9 +25,9 @@ PATCH-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screen
 
 PATCH-D.MPQ - Double Fog Distance
 
-PATCH-M.MPQ - HD Trees
-
 PATCH-S.MPQ - Sunlight
+
+PATCH-T.MPQ - Modern Trees
 
 PATCH-W.MPQ - HD Water
 
