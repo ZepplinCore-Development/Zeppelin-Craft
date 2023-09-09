@@ -16,8 +16,8 @@ cd /d "%base_directory%\WoW Spell Editor"
 call HeadlessExport.exe
 
 :: Clean and pull the latest version of the repo.
-::cd /d "%base_directory%\Zeppelin-Core"
-::git pull
+cd /d "%base_directory%\Zeppelin-Core"
+git pull
 
 :: Copies the DBC files from the spell editor export folder to the server.
 :: This needs the directory mapped to the drive
@@ -34,10 +34,10 @@ call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\
 xcopy /s /y "%base_directory%\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "Z:\binhex-nginx\nginx\MPQ\mandatory"
 
 :: Upload the new PATCH-Z.MPQ file to Github 
-::cd /d "%base_directory%\Zeppelin-Core"
-::git add -A
-::git commit -am "Automatic update of PATCH-Z.MPQ"
-::git push
+cd /d "%base_directory%\Zeppelin-Core"
+git add -A
+git commit -am "Automatic update of PATCH-Z.MPQ"
+git push
 
 for /f "usebackq tokens=1,* delims=:" %%a in ("!file_list!") do (
     set "server_file=%%a"
