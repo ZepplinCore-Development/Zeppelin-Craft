@@ -24,7 +24,7 @@ git pull
 xcopy /s /y "%base_directory%\WoW Spell Editor\Export" "R:\env\dist\bin\dbc"
 
 :: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the DBC files from the spell editor export folder.
-cd "MPQ Editor"
+cd /d "%base_directory%\MPQ Editor"
 call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
 
 :: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the Creature files.
