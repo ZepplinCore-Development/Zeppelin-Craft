@@ -20,18 +20,18 @@ cd /d "%base_directory%\Zeppelin-Core"
 git pull
 
 :: Copies the DBC files from the spell editor export folder to the server.
-:: This needs the directory mapped to Y drive
+:: This needs the directory mapped to the drive
 xcopy /s /y "%base_directory%\WoW Spell Editor\Export" "R:\env\dist\bin\dbc"
 
 :: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the DBC files from the spell editor export folder.
-cd /d "%base_directory%\MPQ Editor"
+cd "MPQ Editor"
 call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
 
 :: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the Creature files.
 call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creature.txt"
 
-:: Copy the updated MPQ file (PATCH-Z.MPQ) to the client Data folder
-xcopy /s /y "%base_directory%\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "C:\Games\ChromieCraft_3.3.5a\Data"
+:: Copy the updated MPQ file (PATCH-Z.MPQ) to the NGINX Patch folder
+xcopy /s /y "%base_directory%\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "Z:\binhex-nginx\nginx\MPQ\mandatory"
 
 :: Upload the new PATCH-Z.MPQ file to Github 
 cd /d "%base_directory%\Zeppelin-Core"
