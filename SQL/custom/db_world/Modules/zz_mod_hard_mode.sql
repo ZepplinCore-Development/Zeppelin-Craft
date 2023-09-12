@@ -1,0 +1,1 @@
+INSERT INTO hardmode_modes (name, description, restrictions, enabled) VALUES ('|cffd91c1cHardcore|r', 'Permadeath', 256, 1);
