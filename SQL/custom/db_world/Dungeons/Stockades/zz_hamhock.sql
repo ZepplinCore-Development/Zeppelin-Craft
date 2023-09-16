@@ -68,7 +68,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1717, 24067, 24067, 0.5, 0, 1, 1, 1, 1, 'Hamhock - (ReferenceTable)'),
 (1717, 24068, 24068, 1, 0, 1, 1, 1, 1, 'Hamhock - (ReferenceTable)'),
 (1717, 24069, 24069, 0.5, 0, 1, 1, 1, 1, 'Hamhock - (ReferenceTable)'),
-(1717, 900110, 0, 100, 0, 1, 2, 1, 1, 'Hamhock - Ogre Bracelets'),
-(1717, 900111, 0, 100, 0, 1, 2, 1, 1, 'Hamhock - Ogre Bowl'),
-(1717, 900112, 0, 100, 0, 1, 2, 1, 1, 'Hamhock - Ogre Mantle');
+(1717, 900110, 0, 0, 0, 1, 2, 1, 1, 'Hamhock - Ogre Bracelets'),
+(1717, 900111, 0, 0, 0, 1, 2, 1, 1, 'Hamhock - Ogre Bowl'),
+(1717, 900112, 0, 0, 0, 1, 2, 1, 1, 'Hamhock - Ogre Mantle');
 

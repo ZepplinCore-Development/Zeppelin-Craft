@@ -79,5 +79,5 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1716, 24067, 24067, 0.5, 0, 1, 1, 1, 1, 'Bazil Thredd - (ReferenceTable)'),
 (1716, 24068, 24068, 1, 0, 1, 1, 1, 1, 'Bazil Thredd - (ReferenceTable)'),
 (1716, 24069, 24069, 0.5, 0, 1, 1, 1, 1, 'Bazil Thredd - (ReferenceTable)'),
-(1716, 900115, 0, 100, 0, 1, 2, 1, 1, 'Bazil Thredd - Thredded Belt'),
-(1716, 900116, 0, 100, 0, 1, 2, 1, 1, 'Bazil Thredd - Needle Thredder');
+(1716, 900115, 0, 0, 0, 1, 2, 1, 1, 'Bazil Thredd - Thredded Belt'),
+(1716, 900116, 0, 0, 0, 1, 2, 1, 1, 'Bazil Thredd - Needle Thredder');

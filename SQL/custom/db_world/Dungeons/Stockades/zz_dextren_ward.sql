@@ -14,11 +14,11 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1663, 2592, 0, 11, 0, 1, 2, 1, 2, 'Dextren Ward - Wool Cloth'),
 (1663, 2909, 0, 40, 1, 1, 0, 1, 1, 'Dextren Ward - Red Wool Bandana'),
 (1663, 3385, 0, 1, 0, 1, 0, 1, 1, 'Dextren Ward - Lesser Mana Potion'),
-(1663, 3427, 0, 100, 0, 1, 3, 1, 1, 'Dextren Ward -Stylish Black Shirt'),
+(1663, 3427, 0, 0, 0, 1, 3, 1, 1, 'Dextren Ward -Stylish Black Shirt'),
 (1663, 3628, 0, 100, 1, 1, 0, 1, 1, 'Dextren Ward - Hand of Dextren Ward'),
 (1663, 4306, 0, 26, 0, 1, 2, 1, 2, 'Dextren Ward - Silk Cloth'),
 (1663, 24059, 24059, 5, 0, 1, 1, 1, 1, 'Dextren Ward - (ReferenceTable)'),
 (1663, 24722, 24722, 1, 0, 1, 1, 1, 1, 'Dextren Ward - (ReferenceTable)'),
-(1663, 900113, 0, 100, 0, 1, 3, 1, 1, 'Dextren Ward - Grave Robber Shovel'),
-(1663, 900114, 0, 100, 0, 1, 3, 1, 1, 'Dextren Ward - Coffin Splinter');
+(1663, 900113, 0, 0, 0, 1, 3, 1, 1, 'Dextren Ward - Grave Robber Shovel'),
+(1663, 900114, 0, 0, 0, 1, 3, 1, 1, 'Dextren Ward - Coffin Splinter');
 

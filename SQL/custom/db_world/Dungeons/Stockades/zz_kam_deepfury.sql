@@ -14,7 +14,7 @@ DELETE FROM `creature_loot_template` WHERE (`Entry` = 1666);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (1666, 929, 0, 1.5, 0, 1, 4, 1, 1, 'Kam Deepfury - Healing Potion'),
 (1666, 1205, 0, 3, 0, 1, 3, 1, 1, 'Kam Deepfury - Melon Juice'),
-(1666, 2280, 0, 100, 0, 1, 5, 1, 1, 'Kam Deepfury - Walking Stick of Kam'),
+(1666, 2280, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Walking Stick of Kam'),
 (1666, 2592, 0, 13, 0, 1, 2, 1, 2, 'Kam Deepfury - Wool Cloth'),
 (1666, 3385, 0, 1, 0, 1, 4, 1, 1, 'Kam Deepfury - Lesser Mana Potion'),
 (1666, 3640, 0, 100, 1, 1, 0, 1, 1, 'Kam Deepfury - Head of Deepfury'),
@@ -22,5 +22,5 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1666, 4542, 0, 7, 0, 1, 3, 1, 1, 'Kam Deepfury - Moist Cornbread'),
 (1666, 24059, 24059, 5, 0, 1, 1, 1, 1, 'Kam Deepfury - (ReferenceTable)'),
 (1666, 24722, 24722, 1, 0, 1, 1, 1, 1, 'Kam Deepfury - (ReferenceTable)'),
-(1666, 900108, 0, 100, 0, 1, 5, 1, 1, 'Kam Deepfury - Tim Kam Slam'),
-(1666, 900109, 0, 100, 0, 1, 5, 1, 1, 'Kam Deepfury - Deepfury Mantle');
+(1666, 900108, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Tim Kam Slam'),
+(1666, 900109, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Deepfury Mantle');
