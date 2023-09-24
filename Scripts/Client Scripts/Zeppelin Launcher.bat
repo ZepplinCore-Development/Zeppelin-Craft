@@ -44,7 +44,7 @@ set "optional_file_list_url=%server_base_url%optional/optional_file_list.txt"
 :: Directory where local files are stored
 set "local_directory=%~dp0"
 
-:: Chekcs and creates a folder for downloading
+:: Checks and creates a folder for downloading
 if not exist "%local_directory%Data/temp" (
     md "%local_directory%Data/temp"
 )
@@ -53,31 +53,37 @@ if not exist "%local_directory%Data/temp" (
 set "temp_file=%local_directory%Data\client_versions_temp.txt"
 set "temp_temp_file=%local_directory%Data\client_versions_temp_temp.txt"
 set "versions_file=%local_directory%Data\client_versions.txt"
+set "exe_patch=%local_directory%Data\temp\exe_patch.txt"
+set "realm_patch=%local_directory%Data\temp\realm_patch.txt"
 
 :: Delete existing temp file if it exists
 if exist "!temp_file!" (
     del "!temp_file!"
 )
 
-:: Delete Client Wow.exe file
-if exist "%local_directory%Wow.exe" (
+:: Checks and updates Wow.exe file
+if not exist "!exe_patch!" (
+    echo No Wow.exe version history
     del "%local_directory%Wow.exe"
     echo Removing Wow.exe
+    echo Downloading Wow.exe
+    curl -# -o "%local_directory%Wow.exe" "%server_base_url%Wow.exe"
+    echo "1">>"!exe_patch!"
 )
 
-:: Download the Wow.exe file
-echo Downloading Wow.exe
-curl -# -o "%local_directory%Wow.exe" "%server_base_url%Wow.exe"
+echo Wow.exe up to date
 
-:: Delete realmlist.wtf file
-if exist "%local_directory%Data\enUS\realmlist.wtf" (
+:: Checks and updates realmlist.wtf file
+if not exist "!realm_patch!" (
+    echo No realmlist.wtf version history
     del "%local_directory%Data\enUS\realmlist.wtf"
     echo Removing realmlist.wtf
+    echo Downloading realmlist.wtf
+    curl -# -o "%local_directory%Data\enUS\realmlist.wtf" "%server_base_url%realmlist.wtf"
+    echo "1">>"!realm_patch!"
 )
 
-:: Download the realmlist.wtf file
-echo Downloading realmlist.wtf
-curl -# -o "%local_directory%Data\enUS\realmlist.wtf" "%server_base_url%realmlist.wtf"
+echo realmlist.wtf up to date
 
 :: Check if client_versions.txt exists, initialise history
 set "client_version_history="
@@ -91,6 +97,7 @@ if exist "%local_directory%Data\client_versions.txt" (
         :: Update temp file with the new version
         echo !Client_file_name!:!client_file_version!>>"!temp_file!"
     )
+
 ) else (
     :: No client_versions.txt
     echo No Client Version History
@@ -161,9 +168,21 @@ for /f "usebackq tokens=1,* delims=:" %%a in ("!mandatory_list!") do (
     )
 )
 
-:: Launch the game
-echo Launching Zeppelin Craft
-start "" "%local_directory%Wow.exe"
+:: Prompt user for optional patch or launch game
+:menu
+echo.
+echo 1. Launch the game
+echo 2. Download optional patch files
+echo 3. Exit
+choice /c 123 /n /m "Select an option: "
+
+:: Process user choice
+if errorlevel 3 goto :eof
+if errorlevel 1 (
+    echo Launching Zeppelin Craft
+    start "" "%local_directory%Wow.exe"
+    goto :eof
+)
 
 :: Fetch the list of optional files from the server and store it in the Data directory as server_optional_file_list.txt
 set "optional_list=%local_directory%Data\server_optional_file_list.txt"
@@ -231,5 +250,20 @@ if exist "!temp_file!" (
     del "!temp_file!"
 )
 
-pause
+:: After handling optional patch files, Prompt user to launch game
+:menu2
+echo.
+echo 1. Launch the game
+echo 2. Exit
+choice /c 12 /n /m "Select an option: "
+
+:: Process user choice
+if errorlevel 2 goto :eof
+if errorlevel 1 (
+    echo Launching Zeppelin Craft
+    start "" "%local_directory%Wow.exe"
+    goto :eof
+)
+
+:eof
 endlocal
