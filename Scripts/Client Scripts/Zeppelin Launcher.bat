@@ -177,13 +177,15 @@ echo 3. Exit
 choice /c 123 /n /m "Select an option: "
 
 :: Process user choice
-if errorlevel 3 goto :eof
+if errorlevel 3 goto :exit
+if errorlevel 2 goto :optional
 if errorlevel 1 (
     echo Launching Zeppelin Craft
     start "" "%local_directory%Wow.exe"
-    goto :eof
+    goto :exit
 )
 
+:optional
 :: Fetch the list of optional files from the server and store it in the Data directory as server_optional_file_list.txt
 set "optional_list=%local_directory%Data\server_optional_file_list.txt"
 curl -# -o "!optional_list!" "%optional_file_list_url%"
@@ -251,19 +253,20 @@ if exist "!temp_file!" (
 )
 
 :: After handling optional patch files, Prompt user to launch game
-:menu2
+:sub_menu
+cls
 echo.
 echo 1. Launch the game
 echo 2. Exit
 choice /c 12 /n /m "Select an option: "
 
 :: Process user choice
-if errorlevel 2 goto :eof
+if errorlevel 2 goto :exit
 if errorlevel 1 (
     echo Launching Zeppelin Craft
     start "" "%local_directory%Wow.exe"
     goto :eof
 )
 
-:eof
+:exit
 endlocal
