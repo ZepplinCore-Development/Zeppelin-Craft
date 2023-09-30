@@ -44,7 +44,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100013, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- 46 - 55 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100013);
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100014);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100014, 8831, 0, 0, 0, 1, 1, 1, 1, 'Purple Lotus'),
 (100014, 8836, 0, 0, 0, 1, 1, 1, 1, 'Arthas Tears'),
@@ -58,6 +58,8 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100014, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- 56 - 60 Herbalism Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100015);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100015, 13463, 0, 20, 0, 1, 1, 1, 1, 'Dreamfoil'),
 (100015, 13465, 0, 20, 0, 1, 1, 1, 1, 'Mountain Silversage'),
 (100015, 13466, 0, 20, 0, 1, 1, 1, 1, 'Plaguebloom'),
