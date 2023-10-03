@@ -81,12 +81,3 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1716, 24069, 24069, 0.5, 0, 1, 1, 1, 1, 'Bazil Thredd - (ReferenceTable)'),
 (1716, 900115, 0, 0, 0, 1, 2, 1, 1, 'Bazil Thredd - Thredded Belt'),
 (1716, 900116, 0, 0, 0, 1, 2, 1, 1, 'Bazil Thredd - Needle Thredder');
-
-UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 1716;
-
-DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 1716);
-INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-(1716, 0, 0, 0, 1, 0, 100, 263, 1000, 1000, 0, 0, 0, 11, 674, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Bazil Thredd - In Combat - Cast Dual Wield'),
-(1716, 0, 1, 0, 0, 0, 100, 7, 1000, 1000, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Bazil Thredd - In Combat - Say Line 0'),
-(1716, 0, 2, 0, 0, 0, 100, 6, 8000, 10700, 15100, 25900, 0, 11, 7964, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Bazil Thredd - In Combat - Cast Smoke Bomb'),
-(1716, 0, 3, 0, 0, 0, 100, 6, 1000, 3000, 30000, 30000, 0, 11, 9128, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Bazil Thredd - In Combat - Cast Battle Shout');
