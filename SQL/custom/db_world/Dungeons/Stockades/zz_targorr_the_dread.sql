@@ -21,3 +21,12 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1696, 24722, 24722, 1, 0, 1, 1, 1, 1, 'Targorr the Dread - (ReferenceTable)'),
 (1696, 900106, 0, 0, 0, 1, 4, 1, 1, 'Targorr the Dread - Dread Sword'),
 (1696, 900107, 0, 0, 0, 0, 4, 1, 1, 'Targorr the Dread - Dread Shoulders');
+
+UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 1696;
+
+DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 1696);
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
+(1696, 0, 0, 0, 0, 0, 100, 263, 1000, 1000, 0, 0, 0, 11, 674, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Targorr the Dread - Out of Combat - Cast Dual Wield'),
+(1696, 0, 1, 2, 2, 0, 100, 7, 0, 30, 0, 0, 0, 11, 8599, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Targorr the Dread - Between 0-30% Health - Cast Enrage'),
+(1696, 0, 2, 0, 61, 0, 100, 6, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Targorr the Dread - Between 0-30% Health - Say Line 0');
+
