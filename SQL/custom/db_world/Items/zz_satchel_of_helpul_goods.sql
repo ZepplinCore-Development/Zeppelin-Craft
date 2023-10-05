@@ -16,4 +16,4 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (900117, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (900117, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (900117, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(900117, 900104, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Heroic Classic Emblem');
+(900117, 900118, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Heroic Classic Emblem');
