@@ -28,7 +28,7 @@ def execute_queries(entry_value, start_new_entry, is_boss):
             creature_name = result[10]  # Assuming 'name' is at index 10 (adjust if needed)
 
             # Delete the newly inserted row if it exists
-            delete_new_entry_query = f"DELETE FROM creature_template WHERE entry = {start_new_entry};"
+            delete_new_entry_query = f"DELETE FROM `creature_template` WHERE entry = {start_new_entry};"
             cursor.execute(delete_new_entry_query)
 
             # Fetch the original row from the creature_template table
@@ -40,7 +40,7 @@ def execute_queries(entry_value, start_new_entry, is_boss):
             original_row[15] = 63  # Set 'maxlevel' to 63
              # Set 'DamageModifier' and 'HealthModifier' to random values between 3.9 and 4.1
             original_row[28] = round(random.uniform(3.9, 4.1), 2)  # Set 'DamageModifier'
-            original_row[49] = round(random.uniform(3.9, 4.1), 2)  # Set 'HealthModifier'
+            original_row[49] = round(random.uniform(3.8, 4.5), 2)  # Set 'HealthModifier'
         else:
             # Modify 'minlevel' and 'maxlevel' for trash entries
             original_row[14] = 60  # Set 'minlevel' to 60
