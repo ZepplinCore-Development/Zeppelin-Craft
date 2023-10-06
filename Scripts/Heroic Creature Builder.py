@@ -86,7 +86,27 @@ def search_and_print_update_creature_table(entry_value):
         print(f"Error: {err}")
 
 # Define 'start_new_entry' values here
-start_new_entry = 9100000
+Ragefire_Chasm = 9100000
+Wailing_Caverns = 9100100
+The_Deadmines = 9100200
+Shadowfang_Keep = 9100300
+The_Stockade = 9100400
+Blackfathom_Deeps = 9100500
+Gnomeregan = 9100600
+Razorfen_Kraul = 9100700
+Scarlet_Monastery = 9100800
+Razorfen_Downs = 9100900
+Uldaman = 9101000
+Zul_Farrak = 9101100
+Maraudon = 9101200
+Sunken_Temple = 9101300
+Blackrock_Depths = 9101400
+Blackrock_Spire = 9101500
+Scholomance = 9101600
+Stratholme = 9101700
+Dire_Maul = 9101800
+
+start_new_entry = The_Stockade
 
 # Define the 'trash_entry_values' and 'boss_entry_values'
 trash_entry_values = [1706, 1707, 1708, 1711, 1715]
