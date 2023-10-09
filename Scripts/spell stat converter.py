@@ -84,7 +84,7 @@ with open(output_file_path, "w") as output_file:
 
                 # Check if stat_type10 is equal to 0 and the associated spelltrigger is equal to 1
                 if stat_type10 == 0 and spelltriggers[spellid_index] == 1:
-                    output_query = f"--{name}\n"
+                    output_query = f"-- {name}\n"
                     output_query += f"UPDATE item_template SET stat_type10 = {new_stat_type10}, " \
                                     f"stat_value10 = {stat_value}, spellid_{spellid_index + 1} = {spell_id_to_search} " \
                                     f"WHERE entry = {entry};\n\n"
