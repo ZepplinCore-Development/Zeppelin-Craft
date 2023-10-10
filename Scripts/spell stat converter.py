@@ -49,7 +49,7 @@ with open(output_file_path, "w") as output_file:
             new_stat_type = spell_row[3]
 
             # Output the spell name and value
-            output_query = f"-- {stat_name}: +{stat_value}: SPELL ({spell_id_to_search})\n\n\n"
+            output_query = f"\n\n\n-- {stat_name}: +{stat_value}: SPELL ({spell_id_to_search})\n\n\n"
             output_file.write(output_query)
 
             # Database configuration for item_template table (reuse the same configuration)
@@ -107,6 +107,9 @@ with open(output_file_path, "w") as output_file:
                     # Mark the slot as used
                     used_stat_slots.append(empty_stat_index + 1)  # Add 1 to convert to 1-based indexing
 
+                    # Store the updated used_stat_slots list in the dictionary
+                    used_stat_slots_dict[entry] = used_stat_slots
+
                     # Prepare the SET clause for the SQL query
                     set_clause = ", ".join([f"stat_type{empty_stat_index + 1} = {stat_types[empty_stat_index]}",
                                             f"stat_value{empty_stat_index + 1} = {stat_values[empty_stat_index]}"])
@@ -120,7 +123,7 @@ with open(output_file_path, "w") as output_file:
                         set_stats_count_clause = f"StatsCount = StatsCount + {stats_count_increment}"
 
                         # Generate and write the update query to the output file
-                        output_query = f"--{name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
+                        output_query = f"-- {name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
                         output_query += f"UPDATE item_template SET {set_clause}, "
                         output_query += f"spellid_{spell_ids.index(spell_id_to_search) + 1} = 0, "  # Set spellid_x to 0
                         output_query += f"{set_stats_count_clause} "  # Increment StatsCount
