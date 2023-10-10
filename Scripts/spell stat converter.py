@@ -2,7 +2,7 @@ import mysql.connector
 import os
 
 # Define the full path of the output file
-output_file_path = "C:/Games/ChromieCraft_3.3.5a/Custom Tools/Zeppelin-Core/SQL/custom/db_world/spell_to_stat.sql"
+output_file_path = "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Item Builder\spell_to_stat.sql"
 
 # Check if the output directory exists and create it if it doesn't
 output_dir = os.path.dirname(output_file_path)
@@ -17,7 +17,7 @@ if os.path.exists(output_file_path):
 # Open the output file in write mode
 with open(output_file_path, "w") as output_file:
 
-    # Database configuration for acore_world database
+    # Reuse the same database configuration for both databases
     db_config_acore_world = {
         "host": "192.168.0.99",
         "user": "keira",
@@ -38,24 +38,22 @@ with open(output_file_path, "w") as output_file:
         # Fetch all rows from the table
         spell_rows = cursor_acore_world.fetchall()
 
+        # Create a dictionary to store used stat slots for each item
+        used_stat_slots_dict = {}
+
         # Loop through each row in db_Spell_12340 table
         for spell_row in spell_rows:
             spell_id_to_search = spell_row[0]
             stat_value = spell_row[1]
             stat_name = spell_row[2]
-            new_stat_type10 = spell_row[3]
+            new_stat_type = spell_row[3]
 
             # output the spell name and value
             output_query = f"-- {stat_name}: +{stat_value}: SPELL ({spell_id_to_search})\n\n\n"
             output_file.write(output_query)
 
-            # Database configuration for item_template table
-            db_config_item_template = {
-                "host": "192.168.0.99",
-                "user": "keira",
-                "password": "slipknot9",
-                "database": "acore_world"
-            }
+            # Database configuration for item_template table (reuse the same configuration)
+            db_config_item_template = db_config_acore_world.copy()
 
             # Connect to the acore_world database for item_template table
             connection_item_template = mysql.connector.connect(**db_config_item_template)
@@ -65,35 +63,63 @@ with open(output_file_path, "w") as output_file:
 
             # Search for entries where any of the spellid columns is equal to spell_id_to_search
             cursor_item_template.execute(
-                "SELECT entry, name, stat_type10, spellid_1, spellid_2, spellid_3, spellid_4, spellid_5, "
-                "spelltrigger_1, spelltrigger_2, spelltrigger_3, spelltrigger_4, spelltrigger_5 FROM item_template WHERE "
+                "SELECT entry, name, spellid_1, spellid_2, spellid_3, spellid_4, spellid_5, "
+                "stat_type1, stat_type2, stat_type3, stat_type4, stat_type5, "
+                "stat_type6, stat_type7, stat_type8, stat_type9, stat_type10, "
+                "stat_value1, stat_value2, stat_value3, stat_value4, stat_value5, "
+                "stat_value6, stat_value7, stat_value8, stat_value9, stat_value10 "
+                "FROM item_template WHERE "
                 "spellid_1 = %s OR spellid_2 = %s OR spellid_3 = %s OR spellid_4 = %s OR spellid_5 = %s",
                 (spell_id_to_search, spell_id_to_search, spell_id_to_search, spell_id_to_search, spell_id_to_search))
-            
+
             # Fetch and write the relevant values to the output file
             records = cursor_item_template.fetchall()
             for record in records:
                 entry = record[0]
                 name = record[1]
-                stat_type10 = record[2]
-                spellids = record[3:8]  # Get all spellid columns into a list
-                spelltriggers = record[8:13]  # Get all spelltrigger columns into a list
+                spell_ids = record[2:7]  # Get all spellid columns into a list
+                stat_types = record[7:17]  # Get all stat_type columns into a list
+                stat_values = record[17:27]  # Get all stat_value columns into a list
 
-                # Find the index of the targeted spellid in the list of spellids
-                spellid_index = spellids.index(spell_id_to_search)
+                # Create a list to track used stat slots for this item
+                used_stat_slots = []
 
-                # Check if stat_type10 is equal to 0 and the associated spelltrigger is equal to 1
-                if stat_type10 == 0 and spelltriggers[spellid_index] == 1:
-                    output_query = f"-- {name}\n"
-                    output_query += f"UPDATE item_template SET stat_type10 = {new_stat_type10}, " \
-                                    f"stat_value10 = {stat_value}, spellid_{spellid_index + 1} = {spell_id_to_search} " \
+                # Check if the item has been processed before
+                if entry in used_stat_slots_dict:
+                    used_stat_slots = used_stat_slots_dict[entry]
+
+                # Find the index of the first empty stat slot (where stat_type is 0 and not in used_stat_slots)
+                empty_stat_index = next((i for i, stat_type in enumerate(stat_types) if stat_type == 0 and (i + 1) not in used_stat_slots), -1)
+
+                # Check if an empty slot was found
+                if empty_stat_index != -1:
+                    # Convert the tuples to lists to allow modification
+                    stat_types = list(stat_types)
+                    stat_values = list(stat_values)
+
+                    # Update the stat_type and stat_value in the empty slot
+                    stat_types[empty_stat_index] = new_stat_type
+                    stat_values[empty_stat_index] = stat_value
+
+                    # Mark the slot as used
+                    used_stat_slots.append(empty_stat_index + 1)  # Add 1 to convert to 1-based indexing
+
+                    # Store the updated used_stat_slots list in the dictionary
+                    used_stat_slots_dict[entry] = used_stat_slots
+
+                    # Prepare the SET clause for the SQL query
+                    set_clause = ", ".join([f"stat_type{empty_stat_index + 1} = {stat_types[empty_stat_index]}",
+                                            f"stat_value{empty_stat_index + 1} = {stat_values[empty_stat_index]}"])
+
+                    # Generate and write the update query to the output file
+                    output_query = f"--{name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
+                    output_query += f"UPDATE item_template SET {set_clause} " \
                                     f"WHERE entry = {entry};\n\n"
-                    # Write the update query to the output file
                     output_file.write(output_query)
 
-            # Close the cursor and connection for item_template database
-            cursor_item_template.close()
-            connection_item_template.close()
+                # Close the cursor and connection for item_template database
+                cursor_item_template.close()
+                connection_item_template.close()
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
