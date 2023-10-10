@@ -2,7 +2,7 @@ import mysql.connector
 import os
 
 # Define the full path of the output file
-output_file_path = "C:/Games/ChromieCraft_3.3.5a/Custom Tools/Zeppelin-Core/SQL/custom/db_world/update_queries.sql"
+output_file_path = "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Item Builder\spell_to_stat.sql"
 
 # Check if the output directory exists and create it if it doesn't
 output_dir = os.path.dirname(output_file_path)
@@ -32,8 +32,8 @@ with open(output_file_path, "w") as output_file:
         # Create a cursor for the acore_world database
         cursor_acore_world = connection_acore_world.cursor()
 
-        # Query to fetch values from db_Spell_12340 table
-        cursor_acore_world.execute("SELECT ID, EffectBasePoints_1, Name_Lang_enUS, stat_type FROM db_Spell_12340")
+        # Query to fetch values from item_spell_list table
+        cursor_acore_world.execute("SELECT ID, EffectBasePoints_1, Name_Lang_enUS, stat_type FROM item_spell_list")
 
         # Fetch all rows from the table
         spell_rows = cursor_acore_world.fetchall()
@@ -41,12 +41,16 @@ with open(output_file_path, "w") as output_file:
         # Create a dictionary to store used stat slots for each item
         used_stat_slots_dict = {}
 
-        # Loop through each row in db_Spell_12340 table
+        # Loop through each row in item_spell_list table
         for spell_row in spell_rows:
             spell_id_to_search = spell_row[0]
             stat_value = spell_row[1]
             stat_name = spell_row[2]
             new_stat_type = spell_row[3]
+
+            # Output the spell name and value
+            output_query = f"-- {stat_name}: +{stat_value}: SPELL ({spell_id_to_search})\n\n\n"
+            output_file.write(output_query)
 
             # Database configuration for item_template table (reuse the same configuration)
             db_config_item_template = db_config_acore_world.copy()
