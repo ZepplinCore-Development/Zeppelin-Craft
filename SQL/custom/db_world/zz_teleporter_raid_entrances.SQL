@@ -28,8 +28,8 @@ DELETE FROM `gossip_menu_option` WHERE (`MenuID` = 62000);
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
 (62000, 0, 0, 'Teleport me to MC daddy', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 1, 0, 'Teleport me to BWL and UBRS', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
-(62000, 2, 0, 'Teleport me to Onyxia\'s Lair', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
-(62000, 3, 0, 'Teleport me to Zul\'Gurub', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
+(62000, 2, 0, 'Teleport me to Onyxias Lair', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
+(62000, 3, 0, 'Teleport me to Zul Gurub', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 4, 0, 'Teleport me to AQ20', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 5, 0, 'Teleport me to AQ40', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0);
 
