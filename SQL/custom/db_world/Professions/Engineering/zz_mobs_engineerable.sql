@@ -32,80 +32,80 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (
 -- LEVEL 26 - 35 VANILLA CREATURES
 
 -- Obsidian Shard
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7209);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7209);
 -- Mekgineer Thermaplugg
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7800);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7800);
 -- Crowd Pummeler 9-60
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6229);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6229);
 -- Electrocutioner 6000
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6235);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6235);
 -- Warsong Shredder
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 11684);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 11684);
 -- Peacekeeper Security Suit
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6230);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6230);
 -- Arcane Nullifier X-21
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6232);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6232);
 -- Mechano-Frostwalker
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6227);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6227);
 -- Mechanized Guardian
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6234);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6234);
 -- Mechano-Tank
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6225);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6225);
 -- Mechano-Flamewalker
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 6226);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 6226);
 -- Walking Bomb
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7915);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100031 WHERE (`entry` = 7915);
 
 -- LEVEL 36 - 50 VANILLA CREATURES
 
 -- Venture Co. Shredder
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 4260);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 4260);
 -- Obsidian Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 4872);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 4872);
 -- Obsidian Sentinel
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 7023);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7023);
 -- 7:XT
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 14224);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 14224);
 -- Clunk
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8447);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 8447);
 -- Heavy War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 5854);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 5854);
 -- Faulty War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8279);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 8279);
 -- War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 2751);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 2751);
 -- Siege Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 2749);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 2749);
 -- Tempered War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 5853);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 5853);
 -- Stone Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 2723);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 2723);
 -- Tempered War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 5853);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 5853);
 -- Vault Warder
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 10120);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 10120);
 -- Stone Steward
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 4860);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 4860);
 -- Ancient Stone Keeper
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 7206);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 7206);
 -- Stone Keeper
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 4857);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100032 WHERE (`entry` = 4857);
 
 -- LEVEL 51 - 60+ VANILLA CREATURES
 
 -- Wrath Hammer Construct
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8907);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8907);
 -- Molten War Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8908);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8908);
 -- Ragereaver Golem
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8906);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8906);
 -- Warbringer Construct
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8905);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8905);
 -- Panzor the Invincible
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8923);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8923);
 -- Phalanx
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 9502);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 9502);
 -- Malfunctioning Reaver
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 8981);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8981);
 -- War Reaver
-UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 7039);
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 7039);
