@@ -1,3 +1,7 @@
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 9100400);
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(9100400, 0, 9100400, 100, 0, 1, 0, 1, 1, '');
+
 DELETE FROM `reference_loot_template` WHERE (`Entry` = 9100400);
 INSERT INTO `reference_loot_template` (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment) VALUES
    (9100400, 900120, 0, 0, 0, 1, 0, 1, 1, 'Profitable Faceguard'),
