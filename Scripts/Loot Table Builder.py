@@ -29,7 +29,7 @@ print(f"INSERT INTO `reference_loot_template` (Entry, Item, Reference, Chance, Q
 # Generate SQL INSERT statements for the reference_loot_template table based on the retrieved data
 for item in items:
     entry, name = item[0], item[1]
-    insert_query = f"   ({loot_table}, {entry}, 0, 0, 0, 1, 0, 1, 1, '{name}'),"
+    insert_query = f"   ({loot_table}, {entry}, 0, 0, 0, 1, 1, 1, 1, '{name}'),"
     print(insert_query)  # Print the SQL INSERT statement
 
 # Commit the changes and close the connection
