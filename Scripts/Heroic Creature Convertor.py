@@ -139,13 +139,18 @@ Scholomance_loot = 9101600
 Stratholme_loot = 9101700
 Dire_Maul_loot = 9101800
 
+# Define the 'trash_entry_values' and 'boss_entry_values'
+stockades_trash = [1706, 1707, 1708, 1711, 1715]
+stockades_boss = [1696, 1663, 1720, 1666, 1717, 1716]
+
+Shadowfang_Keep_trash = [4627, 3861, 3868, 3849, 4444, 3864, 3875, 4958, 5097, 3863, 3865, 3855, 3857, 3853, 3859, 3851, 3854, 3862, 2529, 3850, 3873, 3866, 3877, 5058]
+Shadowfang_Keep_boss = [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275]
+
 # Assign the instance variables
 lootid = The_Stockade_loot
-start_new_entry = The_Stockade
-
-# Define the 'trash_entry_values' and 'boss_entry_values'
-trash_entry_values = [1706, 1707, 1708, 1711, 1715]
-boss_entry_values = [1696, 1663, 1720, 1666, 1717, 1716]
+start_new_entry = Shadowfang_Keep
+trash_entry_values = Shadowfang_Keep_trash
+boss_entry_values = Shadowfang_Keep_boss
 
 # Execute SQL queries for trash_entry_values
 for entry_value in trash_entry_values:
