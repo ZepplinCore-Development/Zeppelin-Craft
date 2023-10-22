@@ -124,20 +124,20 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Razorfen_Downs
+dungeon = Wailing_Caverns
 
 # Create a dictionary of dictionaries to store the data
 data = {
     Ragefire_Chasm: {
         entry: 9100000,
-        boss: None,
-        trash: None,
+        boss: [11519, 11518, 11517, 11520, 17830],
+        trash: [11320, 11321, 11834, 11319, 11318, 11322, 11323, 11324, 8996],
         loot: 9100400
     },
     Wailing_Caverns: {
         entry: 9100100,
-        boss: None,
-        trash: None,
+        boss: [5912, 3653, 3671, 3669, 3670, 3673, 3654, 3674, 5775],
+        trash: [5048, 5053, 5056, 3637, 5055, 5762, 8886, 3636, 5761, 5756, 5755, 3678, 3840, 3640, 3679, 5763],
         loot: 9100400
     },
     The_Deadmines: {
