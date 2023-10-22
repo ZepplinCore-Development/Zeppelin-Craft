@@ -1,11 +1,6 @@
 import mysql.connector
 import random
 
-# To Do 
-# Define a variable for the boss lootid
-# Stop assigning difficulty_entry_1 of the heroic creature.
-# Add heroic prefix to the creature name
-
 # Function to connect to the database and execute queries
 def execute_queries(entry_value, start_new_entry, is_boss):
     # Database connection configuration
@@ -44,43 +39,47 @@ def execute_queries(entry_value, start_new_entry, is_boss):
             original_row[1] = 0
             original_row[2] = 0
 
-        # Modify 'minlevel' and 'maxlevel' for boss entries
-        if is_boss:
-            original_row[14] = 63  # Set 'minlevel' to 63
-            original_row[15] = 63  # Set 'maxlevel' to 63
-             # Set 'DamageModifier' and 'HealthModifier' to random values between 3.9 and 4.1
-            original_row[27] = round(random.uniform(3.9, 4.1), 2)  # Set 'DamageModifier'
-            original_row[53] = round(random.uniform(3.8, 4.5), 2)  # Set 'HealthModifier'
-            # assign loot table
-            original_row[43] = lootid
-        else:
-            # Modify 'minlevel' and 'maxlevel' for trash entries
-            original_row[14] = 60  # Set 'minlevel' to 60
-            original_row[15] = 60  # Set 'maxlevel' to 60
+            # Blank the SmartAI
+            original_row[50] = ''
 
-        # Format original row with single quotes and NULL
-        formatted_original_row = [
-            f"'{value}'" if value is not None and field != "ScriptName" else "NULL"
-            for field, value in zip(original_row, original_row[1:])
-        ]
+            # Modify 'minlevel' and 'maxlevel' for boss entries
+            if is_boss:
+                original_row[14] = 63  # Set 'minlevel' to 63
+                original_row[15] = 63  # Set 'maxlevel' to 63
+                # Set 'DamageModifier' and 'HealthModifier' to random values between 3.9 and 4.1
+                original_row[27] = round(random.uniform(3.9, 4.1), 2)  # Set 'DamageModifier'
+                original_row[53] = round(random.uniform(3.8, 4.5), 2)  # Set 'HealthModifier'
+                # assign loot table
+                original_row[43] = lootid
 
-        # Insert a new row with the new entry number
-        insert_query = (
-            f"INSERT INTO `creature_template` VALUES ({start_new_entry}, "
-            f"{', '.join(formatted_original_row)});"
-        )
+            else:
+                # Modify 'minlevel' and 'maxlevel' for trash entries
+                original_row[14] = 60  # Set 'minlevel' to 60
+                original_row[15] = 60  # Set 'maxlevel' to 60
 
-        # Update the original row's difficulty_entry_1 field
-        update_query = f"UPDATE `creature_template` SET `difficulty_entry_1` = {start_new_entry} WHERE (`entry` = {entry_value});"
+            # Format original row with single quotes and NULL
+            formatted_original_row = [
+                f"'{value}'" if value is not None and field != "ScriptName" else "NULL"
+                for field, value in zip(original_row, original_row[1:])
+            ]
 
-        # Output the SQL queries with the creature name, DELETE (new entry), INSERT, and UPDATE queries
-        print(f"-- {creature_name}")
-        print(delete_new_entry_query)
-        print(insert_query)
-        print(update_query)
+            # Insert a new row with the new entry number
+            insert_query = (
+                f"INSERT INTO `creature_template` VALUES ({start_new_entry}, "
+                f"{', '.join(formatted_original_row)});"
+            )
 
-        # Search the 'creature' table and print the update query for 'spawnMask' field
-        search_and_print_update_creature_table(entry_value)
+            # Update the original row's difficulty_entry_1 field
+            update_query = f"UPDATE `creature_template` SET `difficulty_entry_1` = {start_new_entry} WHERE (`entry` = {entry_value});"
+
+            # Output the SQL queries with the creature name, DELETE (new entry), INSERT, and UPDATE queries
+            print(f"-- {creature_name}")
+            print(delete_new_entry_query)
+            print(insert_query)
+            print(update_query)
+
+            # Search the 'creature' table and print the update query for 'spawnMask' field
+            search_and_print_update_creature_table(entry_value)
 
     except Exception as err:
         print(f"Error: {err}")
@@ -97,60 +96,159 @@ def search_and_print_update_creature_table(entry_value):
     except Exception as err:
         print(f"Error: {err}")
 
-# Define 'start_new_entry' values here
-Ragefire_Chasm = 9100000
-Wailing_Caverns = 9100100
-The_Deadmines = 9100200
-Shadowfang_Keep = 9100300
-The_Stockade = 9100400
-Blackfathom_Deeps = 9100500
-Gnomeregan = 9100600
-Razorfen_Kraul = 9100700
-Scarlet_Monastery = 9100800
-Razorfen_Downs = 9100900
-Uldaman = 9101000
-Zul_Farrak = 9101100
-Maraudon = 9101200
-Sunken_Temple = 9101300
-Blackrock_Depths = 9101400
-Blackrock_Spire = 9101500
-Scholomance = 9101600
-Stratholme = 9101700
-Dire_Maul = 9101800
+# Define constants for data attributes
+entry = 0
+boss = 1
+trash = 2
+loot = 3
 
-# Define Loot IDs
-Ragefire_Chasm_loot = 9100000
-Wailing_Caverns_loot = 9100100
-The_Deadmines_loot = 9100200
-Shadowfang_Keep_loot = 9100300
-The_Stockade_loot = 9100400
-Blackfathom_Deeps_loot = 9100500
-Gnomeregan_loot = 9100600
-Razorfen_Kraul_loot = 9100700
-Scarlet_Monastery_loot = 9100800
-Razorfen_Downs_loot = 9100900
-Uldaman_loot = 9101000
-Zul_Farrak_loot = 9101100
-Maraudon_loot = 9101200
-Sunken_Temple_loot = 9101300
-Blackrock_Depths_loot = 9101400
-Blackrock_Spire_loot = 9101500
-Scholomance_loot = 9101600
-Stratholme_loot = 9101700
-Dire_Maul_loot = 9101800
+# Define constants for locations
+Ragefire_Chasm = 0
+Wailing_Caverns = 1
+The_Deadmines = 2
+Shadowfang_Keep = 3
+The_Stockade = 4
+Blackfathom_Deeps = 5
+Gnomeregan = 6
+Razorfen_Kraul = 7
+Scarlet_Monastery = 8
+Razorfen_Downs = 9
+Uldaman = 10
+Zul_Farrak = 11
+Maraudon = 12
+Sunken_Temple = 13
+Blackrock_Depths = 14
+Blackrock_Spire = 15
+Scholomance = 16
+Stratholme = 17
+Dire_Maul = 18
 
-# Define the 'trash_entry_values' and 'boss_entry_values'
-stockades_trash = [1706, 1707, 1708, 1711, 1715]
-stockades_boss = [1696, 1663, 1720, 1666, 1717, 1716]
+# Select the dungeon to process
+dungeon = Razorfen_Downs
 
-Shadowfang_Keep_trash = [4627, 3861, 3868, 3849, 4444, 3864, 3875, 4958, 5097, 3863, 3865, 3855, 3857, 3853, 3859, 3851, 3854, 3862, 2529, 3850, 3873, 3866, 3877, 5058]
-Shadowfang_Keep_boss = [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275]
+# Create a dictionary of dictionaries to store the data
+data = {
+    Ragefire_Chasm: {
+        entry: 9100000,
+        boss: None,
+        trash: None,
+        loot: 9100000
+    },
+    Wailing_Caverns: {
+        entry: 9100100,
+        boss: None,
+        trash: None,
+        loot: 9100100
+    },
+    The_Deadmines: {
+        entry: 9100200,
+        boss: None,
+        trash: None,
+        loot: 9100200
+    },
+    Shadowfang_Keep: {
+        entry: 9100300,
+        boss: [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275],
+        trash: [4627, 3861, 3868, 3849, 4444, 3864, 3875, 4958, 5097, 3863, 3865, 3855, 3857, 3853, 3859, 3851, 3854, 3862, 2529, 3850, 3873, 3866, 3877, 5058],
+        loot: 9100300
+    },
+    The_Stockade: {
+        entry: 9100400,
+        boss: [1696, 1663, 1720, 1666, 1717, 1716],
+        trash: [1706, 1707, 1708, 1711, 1715],
+        loot: 9100400
+    },
+    Blackfathom_Deeps: {
+        entry: 9100500,
+        boss: None,
+        trash: None,
+        loot: 9100500
+    },
+    Gnomeregan: {
+        entry: 9100600,
+        boss: None,
+        trash: None,
+        loot: 9100600
+    },
+    Razorfen_Kraul: {
+        entry: 9100700,
+        boss: [4422, 4424, 4425, 4421, 4428, 4842, 4420, 6168],
+        trash: [4511, 4541, 6021, 4515, 4516, 4517, 4518, 4519, 4625, 4539, 4538, 4623, 4514, 4531, 4532, 4442, 4522, 4525, 4520, 4523, 4530, 4436, 4438, 6035, 4440, 4437, 4435, 4512, 4528, 4535, 4534, 4427, 4526, 4508, 4510],
+        loot: 9100700
+    },
+    Scarlet_Monastery: {
+        entry: 9100800,
+        boss: None,
+        trash: None,
+        loot: 9100800
+    },
+    Razorfen_Downs: {
+        entry: 9100900,
+        boss: [7358, 8567, 14686, 7357, 7356, 7354, 7355],
+        trash: [7334, 8516, 7347, 7335, 7337, 7353, 8585, 7352, 8696, 8767, 7341, 8477, 7340, 7342, 7345, 7346, 7343, 7344, 7348, 7349, 7351, 7333, 7329, 7328, 7332, 7327],
+        loot: 9100900
+    },
+    Uldaman: {
+        entry: 9101000,
+        boss: None,
+        trash: None,
+        loot: 9101000
+    },
+    Zul_Farrak: {
+        entry: 9101100,
+        boss: None,
+        trash: None,
+        loot: 9101100
+    },
+    Maraudon: {
+        entry: 9101200,
+        boss: None,
+        trash: None,
+        loot: 9101200
+    },
+    Sunken_Temple: {
+        entry: 9101300,
+        boss: None,
+        trash: None,
+        loot: 9101300
+    },
+    Blackrock_Depths: {
+        entry: 9101400,
+        boss: None,
+        trash: None,
+        loot: 9101400
+    },
+    Blackrock_Spire: {
+        entry: 9101500,
+        boss: None,
+        trash: None,
+        loot: 9101500
+    },
+    Scholomance: {
+        entry: 9101600,
+        boss: None,
+        trash: None,
+        loot: 9101600
+    },
+    Stratholme: {
+        entry: 9101700,
+        boss: None,
+        trash: None,
+        loot: 9101700
+    },
+    Dire_Maul: {
+        entry: 9101800,
+        boss: None,
+        trash: None,
+        loot: 9101800
+    }
+}
 
 # Assign the instance variables
-lootid = The_Stockade_loot
-start_new_entry = Shadowfang_Keep
-trash_entry_values = Shadowfang_Keep_trash
-boss_entry_values = Shadowfang_Keep_boss
+lootid = data[dungeon][loot]
+start_new_entry = data[dungeon][entry]
+trash_entry_values = data[dungeon][trash]
+boss_entry_values = data[dungeon][boss]
 
 # Execute SQL queries for trash_entry_values
 for entry_value in trash_entry_values:
