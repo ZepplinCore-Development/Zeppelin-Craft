@@ -31,7 +31,7 @@ def execute_queries(entry_value, start_new_entry, is_boss):
             original_row = list(result)  # Use the fetched row directly
 
             # Fetch and update the creature name
-            creature_name = original_row[10]  # Assuming 'name' is at index 10 (adjust if needed)
+            creature_name = original_row[10]  
             creature_name = "Heroic " + creature_name
             original_row[10] = creature_name
 
@@ -132,25 +132,25 @@ data = {
         entry: 9100000,
         boss: None,
         trash: None,
-        loot: 9100000
+        loot: 9100400
     },
     Wailing_Caverns: {
         entry: 9100100,
         boss: None,
         trash: None,
-        loot: 9100100
+        loot: 9100400
     },
     The_Deadmines: {
         entry: 9100200,
         boss: None,
         trash: None,
-        loot: 9100200
+        loot: 9100400
     },
     Shadowfang_Keep: {
         entry: 9100300,
         boss: [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275],
         trash: [4627, 3861, 3868, 3849, 4444, 3864, 3875, 4958, 5097, 3863, 3865, 3855, 3857, 3853, 3859, 3851, 3854, 3862, 2529, 3850, 3873, 3866, 3877, 5058],
-        loot: 9100300
+        loot: 9100400
     },
     The_Stockade: {
         entry: 9100400,
@@ -162,85 +162,85 @@ data = {
         entry: 9100500,
         boss: None,
         trash: None,
-        loot: 9100500
+        loot: 9100400
     },
     Gnomeregan: {
         entry: 9100600,
         boss: None,
         trash: None,
-        loot: 9100600
+        loot: 9100400
     },
     Razorfen_Kraul: {
         entry: 9100700,
         boss: [4422, 4424, 4425, 4421, 4428, 4842, 4420, 6168],
         trash: [4511, 4541, 6021, 4515, 4516, 4517, 4518, 4519, 4625, 4539, 4538, 4623, 4514, 4531, 4532, 4442, 4522, 4525, 4520, 4523, 4530, 4436, 4438, 6035, 4440, 4437, 4435, 4512, 4528, 4535, 4534, 4427, 4526, 4508, 4510],
-        loot: 9100700
+        loot: 9100400
     },
     Scarlet_Monastery: {
         entry: 9100800,
         boss: None,
         trash: None,
-        loot: 9100800
+        loot: 9100400
     },
     Razorfen_Downs: {
         entry: 9100900,
         boss: [7358, 8567, 14686, 7357, 7356, 7354, 7355],
         trash: [7334, 8516, 7347, 7335, 7337, 7353, 8585, 7352, 8696, 8767, 7341, 8477, 7340, 7342, 7345, 7346, 7343, 7344, 7348, 7349, 7351, 7333, 7329, 7328, 7332, 7327],
-        loot: 9100900
+        loot: 9100400
     },
     Uldaman: {
         entry: 9101000,
         boss: None,
         trash: None,
-        loot: 9101000
+        loot: 9100400
     },
     Zul_Farrak: {
         entry: 9101100,
         boss: None,
         trash: None,
-        loot: 9101100
+        loot: 9100400
     },
     Maraudon: {
         entry: 9101200,
         boss: None,
         trash: None,
-        loot: 9101200
+        loot: 9100400
     },
     Sunken_Temple: {
         entry: 9101300,
         boss: None,
         trash: None,
-        loot: 9101300
+        loot: 9100400
     },
     Blackrock_Depths: {
         entry: 9101400,
         boss: None,
         trash: None,
-        loot: 9101400
+        loot: 9100400
     },
     Blackrock_Spire: {
         entry: 9101500,
         boss: None,
         trash: None,
-        loot: 9101500
+        loot: 9100400
     },
     Scholomance: {
         entry: 9101600,
         boss: None,
         trash: None,
-        loot: 9101600
+        loot: 9100400
     },
     Stratholme: {
         entry: 9101700,
         boss: None,
         trash: None,
-        loot: 9101700
+        loot: 9100400
     },
     Dire_Maul: {
         entry: 9101800,
         boss: None,
         trash: None,
-        loot: 9101800
+        loot: 9100400
     }
 }
 
