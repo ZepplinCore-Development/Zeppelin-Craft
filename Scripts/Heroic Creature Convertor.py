@@ -47,8 +47,8 @@ def execute_queries(entry_value, start_new_entry, is_boss):
                 original_row[14] = 63  # Set 'minlevel' to 63
                 original_row[15] = 63  # Set 'maxlevel' to 63
                 # Set 'DamageModifier' and 'HealthModifier' to random values between 3.9 and 4.1
-                original_row[27] = round(random.uniform(3.9, 4.1), 2)  # Set 'DamageModifier'
-                original_row[53] = round(random.uniform(3.8, 4.5), 2)  # Set 'HealthModifier'
+                original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
+                original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
                 # assign loot table
                 original_row[43] = lootid
 
@@ -124,7 +124,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Wailing_Caverns
+dungeon = Razorfen_Downs
 
 # Create a dictionary of dictionaries to store the data
 data = {
