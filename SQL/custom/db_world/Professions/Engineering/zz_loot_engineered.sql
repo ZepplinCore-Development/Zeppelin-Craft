@@ -22,19 +22,19 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100032);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100032, 10505, 0, 0, 0, 1, 1, 1, 1, 'Solid Blasting Powder'),
-(100032, 10559, 0, 0, 0, 1, 0, 1, 1, 'Mithril Tube'),
-(100032, 7191, 0, 0, 0, 1, 0, 1, 1, 'Fused Wiring'),
-(100032, 10558, 0, 0, 0, 1, 0, 1, 1, 'Gold Power Core'),
-(100032, 10561, 0, 0, 0, 1, 0, 1, 1, 'Mithril Casing'),
+(100032, 10559, 0, 0, 0, 1, 2, 1, 1, 'Mithril Tube'),
+(100032, 7191, 0, 0, 0, 1, 2, 1, 1, 'Fused Wiring'),
+(100032, 10558, 0, 0, 0, 1, 2, 1, 1, 'Gold Power Core'),
+(100032, 10561, 0, 0, 0, 1, 2, 1, 1, 'Mithril Casing'),
 (100032, 4377, 0, 0, 0, 1, 1, 1, 1, 'Heavy Blasting Powder'),
-(100032, 4375, 0, 0, 0, 1, 0, 1, 3, 'Whirring Bronze Gizmo'),
-(100032, 3860, 0, 0, 0, 1, 0, 1, 1, 'Mithril Bar'),
-(100032, 3575, 0, 0, 0, 1, 0, 1, 1, 'Iron Bar');
+(100032, 4375, 0, 0, 0, 1, 2, 1, 3, 'Whirring Bronze Gizmo'),
+(100032, 3860, 0, 0, 0, 1, 1, 1, 1, 'Mithril Bar'),
+(100032, 3575, 0, 0, 0, 1, 1, 1, 1, 'Iron Bar');
 
 -- LEVEL 51 - 60 LOOT TABLE
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100033);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(100033, 16000, 0, 0, 0, 1, 0, 1, 1, 'Thorium Tube'),
-(100033, 15992, 0, 0, 0, 1, 0, 1, 1, 'Dense Blasting Powder'),
-(100033, 12359, 0, 0, 0, 1, 0, 1, 1, 'Thorium Bar'),
-(100033, 15994, 0, 0, 0, 1, 0, 1, 3, 'Thorium Widget');
+(100033, 16000, 0, 0, 0, 1, 1, 1, 1, 'Thorium Tube'),
+(100033, 15992, 0, 0, 0, 1, 2, 1, 1, 'Dense Blasting Powder'),
+(100033, 12359, 0, 0, 0, 1, 2, 1, 1, 'Thorium Bar'),
+(100033, 15994, 0, 0, 0, 1, 1, 1, 3, 'Thorium Widget');
