@@ -20,4 +20,5 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (1696, 24106, 24106, 10, 0, 1, 1, 1, 1, 'Targorr the Dread - (ReferenceTable)'),
 (1696, 24722, 24722, 1, 0, 1, 1, 1, 1, 'Targorr the Dread - (ReferenceTable)'),
 (1696, 900106, 0, 0, 0, 1, 4, 1, 1, 'Targorr the Dread - Dread Sword'),
-(1696, 900107, 0, 0, 0, 0, 4, 1, 1, 'Targorr the Dread - Dread Shoulders');
+(1696, 900107, 0, 0, 0, 1, 4, 1, 1, 'Targorr the Dread - Dread Shoulders');
+
