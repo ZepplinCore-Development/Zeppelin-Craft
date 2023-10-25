@@ -46,3 +46,9 @@ DELETE FROM `creature_loot_template` WHERE (`Entry` = 15263) AND (`Item` IN (196
 DELETE FROM `creature_questender` WHERE (`quest` = 8195) OR (`quest` = 8238) OR (`quest` = 8239);
 
 DELETE FROM `creature_queststarter` WHERE (`quest` = 8195) OR (`quest` = 8238) OR (`quest` = 8239);
+
+DELETE FROM `quest_request_items` WHERE (`ID` = 8195) OR (`ID` = 8238) OR (`ID` = 8239);
+
+DELETE FROM `quest_offer_reward` WHERE (`ID` = 8195) OR (`ID` = 8238) OR (`ID` = 8239);
+
+DELETE FROM `quest_template_addon` WHERE (`ID` = 8195) OR (`ID` = 8238) OR (`ID` = 8239);
