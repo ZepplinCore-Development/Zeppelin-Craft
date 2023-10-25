@@ -24,5 +24,5 @@ REPLACE INTO `quest_poi_points` (QuestID,Idx1,Idx2,X,Y,VerifiedBuild) VALUES
 (90007,0,0,-1331,-2266,0);
 
 REPLACE INTO `quest_poi` (QuestID,id,ObjectiveIndex,MapID,WorldMapAreaId,Floor,Priority,Flags,VerifiedBuild) VALUES
-(90007,0,0,0,16,0,0,1,0);
+(90007,0,0,0,45,0,0,1,0);
 
