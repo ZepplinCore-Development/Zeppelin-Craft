@@ -6,13 +6,13 @@ INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entr
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15263);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (15263, 21128, 0, 10, 0, 1, 1, 1, 1, 'The Prophet Skeram - Staff of the Qiraji Prophets'),
-(15263, 21229, 0, 100, 0, 1, 0, 1, 1, 'The Prophet Skeram - Qiraji Lord\'s Insignia'),
+(15263, 21229, 0, 100, 0, 1, 0, 1, 1, 'The Prophet Skeram - Qiraji Lords Insignia'),
 (15263, 21698, 0, 0, 0, 1, 1, 1, 1, 'The Prophet Skeram - Leggings of Immersion'),
 (15263, 21699, 0, 0, 0, 1, 1, 1, 1, 'The Prophet Skeram - Barrage Shoulders'),
 (15263, 21700, 0, 0, 0, 1, 1, 1, 1, 'The Prophet Skeram - Pendant of the Qiraji Guardian'),
 (15263, 21701, 0, 0, 0, 1, 1, 1, 1, 'The Prophet Skeram - Cloak of Concentrated Hatred'),
 (15263, 21702, 0, 0, 0, 1, 1, 1, 1, 'The Prophet Skeram - Amulet of Foul Warding'),
-(15263, 21703, 0, 10, 0, 1, 2, 1, 1, 'The Prophet Skeram - Hammer of Ji\'zhi'),
+(15263, 21703, 0, 10, 0, 1, 2, 1, 1, 'The Prophet Skeram - Hammer of Jizhi'),
 (15263, 21704, 0, 0, 0, 1, 2, 1, 1, 'The Prophet Skeram -  Boots of the Redeemed Prophecy'),
 (15263, 21705, 0, 0, 0, 1, 2, 1, 1, 'The Prophet Skeram - Boots of the Fallen Prophet'),
 (15263, 21706, 0, 0, 0, 1, 2, 1, 1, 'The Prophet Skeram - Boots of the Unwavering Will'),
@@ -21,5 +21,5 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15263, 21814, 0, 0, 0, 1, 2, 1, 1, 'The Prophet Skeram - Breastplate of Annihilation'),
 (15263, 22222, 0, 15, 0, 1, 0, 1, 1, 'The Prophet Skeram - Plans: Thick Obsidian Breastplate'),
 (15263, 34045, 34045, 7, 0, 1, 0, 1, 1, 'The Prophet Skeram - Reference Table'),
-(15263, 966, 0, 100, 0, 1, 0, 1, 1, 'Pattern: Drums of the Raid Leader'),
-(15263, 0, 0, 100, 0, 1, 0, 1, 1, '');
+(15263, 966, 0, 100, 0, 1, 0, 1, 1, 'Pattern: Drums of the Raid Leader');
+
