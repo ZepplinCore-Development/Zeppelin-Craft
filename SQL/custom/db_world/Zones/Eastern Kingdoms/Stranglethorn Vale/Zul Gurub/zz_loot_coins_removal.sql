@@ -44,3 +44,5 @@ DELETE FROM `creature_loot_template` WHERE (`Entry` = 15111) AND (`Item` IN (196
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 15263) AND (`Item` IN (19698, 19699, 19700, 19701, 19702, 19703, 19704, 19705, 19706));
 
 DELETE FROM `creature_questender` WHERE (`quest` = 8195) OR (`quest` = 8238) OR (`quest` = 8239);
+
+DELETE FROM `creature_queststarter` WHERE (`quest` = 8195) OR (`quest` = 8238) OR (`quest` = 8239);
