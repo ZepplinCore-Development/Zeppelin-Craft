@@ -55,19 +55,29 @@ def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
             if is_boss:
                 original_row[14] = 63  # Set 'minlevel' to 63
                 original_row[15] = 63  # Set 'maxlevel' to 63
-                # Set 'DamageModifier' and 'HealthModifier' to random values between 3.9 and 4.1
-                original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
-                original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
-                # assign loot table
                 if is_mythic:
+                    # assign loot table 
                     original_row[43] = mythiclootid
-                else:
+
+                    # Set 'DamageModifier' and 'HealthModifier' to random values
+                    original_row[27] = round(random.uniform(6.9, 7.1), 2)  # Set 'DamageModifier'
+                    original_row[53] = round(random.uniform(7.8, 8.5), 2)  # Set 'HealthModifier'
+                else:  
+                    # assign loot table 
                     original_row[43] = lootid
+
+                    # Set 'DamageModifier' and 'HealthModifier' to random values
+                    original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
+                    original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
 
             else:
                 # Modify 'minlevel' and 'maxlevel' for trash entries
                 original_row[14] = 60  # Set 'minlevel' to 60
                 original_row[15] = 60  # Set 'maxlevel' to 60
+                if is_mythic:
+                    # Set 'DamageModifier' and 'HealthModifier' to random values
+                    original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
+                    original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
 
             # Format original row with single quotes and NULL
             formatted_original_row = [
