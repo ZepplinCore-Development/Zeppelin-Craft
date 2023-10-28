@@ -122,3 +122,7 @@ REPLACE INTO acore_world.dungeon_access_template (id,map_id,difficulty,min_level
 	 (121,724,3,80,0,0,'The Ruby Sanctum'),
 	 (122,249,2,60,60,0,'Onyxia''s Lair - 40man'),
 	 (123,533,2,60,60,0,'Naxxramas - 40man');
+
+-- Mythic Dungeons
+REPLACE INTO acore_world.dungeon_access_template (map_id,difficulty,min_level,max_level,min_avg_item_level,comment) VALUES
+	 (90,2,60,63,0,'Gnomeregan');
