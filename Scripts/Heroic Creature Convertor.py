@@ -76,8 +76,8 @@ def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
                 original_row[15] = 60  # Set 'maxlevel' to 60
                 if is_mythic:
                     # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
+                    original_row[27] = round(random.uniform(2.9, 3.1), 2)  # Set 'DamageModifier'
+                    original_row[53] = round(random.uniform(3.8, 4.5), 2)  # Set 'HealthModifier'
 
             # Format original row with single quotes and NULL
             formatted_original_row = [
