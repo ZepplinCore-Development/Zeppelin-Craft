@@ -120,7 +120,7 @@ with open(output_file_path, "w") as output_file:
                         stats_count_increment = 1
 
                         # Prepare the SET clause for StatsCount
-                        set_stats_count_clause = f"StatsCount = StatsCount + {stats_count_increment}"
+                        set_stats_count_clause = f"StatsCount = {used_stat_slots + 1}"
 
                         # Generate and write the update query to the output file
                         output_query = f"-- {name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
