@@ -1,8 +1,13 @@
 import mysql.connector
 import random
 
+# --- TO DO ----
+# original creature spawn mask should only be updated where the MAP id is equal to the dungeon map in creature table.
+# map ID for each dungeon will need to be defined.
+# heroic creature script name field should be empty as well, the normal version is used.
+
 # Function to connect to the database and execute queries
-def execute_queries(entry_value, start_new_entry, is_boss):
+def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
     # Database connection configuration
     db_config = {
         "host": "192.168.0.99",
@@ -32,7 +37,11 @@ def execute_queries(entry_value, start_new_entry, is_boss):
 
             # Fetch and update the creature name
             creature_name = original_row[10]  
-            creature_name = "Heroic " + creature_name
+            if is_mythic:
+                creature_name = "Mythic "  + creature_name
+            else:
+                creature_name = "Heroic "  + creature_name
+
             original_row[10] = creature_name
 
             # modify difficulty entries for the new entry
@@ -50,7 +59,10 @@ def execute_queries(entry_value, start_new_entry, is_boss):
                 original_row[27] = round(random.uniform(4.9, 5.1), 2)  # Set 'DamageModifier'
                 original_row[53] = round(random.uniform(5.8, 6.5), 2)  # Set 'HealthModifier'
                 # assign loot table
-                original_row[43] = lootid
+                if is_mythic:
+                    original_row[43] = mythiclootid
+                else:
+                    original_row[43] = lootid
 
             else:
                 # Modify 'minlevel' and 'maxlevel' for trash entries
@@ -69,8 +81,11 @@ def execute_queries(entry_value, start_new_entry, is_boss):
                 f"{', '.join(formatted_original_row)});"
             )
 
-            # Update the original row's difficulty_entry_1 field
-            update_query = f"UPDATE `creature_template` SET `difficulty_entry_1` = {start_new_entry} WHERE (`entry` = {entry_value});"
+            # Update the original row's difficulty_entry fields
+            if is_mythic:
+                update_query = f"UPDATE `creature_template` SET `difficulty_entry_2` = {start_new_entry} WHERE (`entry` = {entry_value});"
+            else:
+                update_query = f"UPDATE `creature_template` SET `difficulty_entry_1` = {start_new_entry} WHERE (`entry` = {entry_value});"
 
             # Output the SQL queries with the creature name, DELETE (new entry), INSERT, and UPDATE queries
             print(f"-- {creature_name}")
@@ -88,7 +103,7 @@ def execute_queries(entry_value, start_new_entry, is_boss):
 def search_and_print_update_creature_table(entry_value):
     try:
         # Update 'spawnMask' field to 3 for entries containing the original creature 'entry'
-        update_spawn_mask_query = f"UPDATE `creature` SET `spawnMask` = 3 WHERE (`id1` = {entry_value});"
+        update_spawn_mask_query = f"UPDATE `creature` SET `spawnMask` = 7 WHERE (`id1` = {entry_value});"
 
         # Output the SQL query for updating the 'spawnMask' field
         print(update_spawn_mask_query)
@@ -101,6 +116,7 @@ entry = 0
 boss = 1
 trash = 2
 loot = 3
+mythicloot = 5
 
 # Define constants for locations
 Ragefire_Chasm = 0
@@ -124,7 +140,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Razorfen_Downs
+dungeon = Gnomeregan
 
 # Create a dictionary of dictionaries to store the data
 data = {
@@ -132,115 +148,134 @@ data = {
         entry: 9100000,
         boss: [11519, 11518, 11517, 11520, 17830],
         trash: [11320, 11321, 11834, 11319, 11318, 11322, 11323, 11324, 8996],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Wailing_Caverns: {
         entry: 9100100,
         boss: [5912, 3653, 3671, 3669, 3670, 3673, 3654, 3674, 5775],
         trash: [5048, 5053, 5056, 3637, 5055, 5762, 8886, 3636, 5761, 5756, 5755, 3678, 3840, 3640, 3679, 5763],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     The_Deadmines: {
         entry: 9100200,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Shadowfang_Keep: {
         entry: 9100300,
         boss: [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275],
         trash: [4627, 3861, 3868, 3849, 4444, 3864, 3875, 4958, 5097, 3863, 3865, 3855, 3857, 3853, 3859, 3851, 3854, 3862, 2529, 3850, 3873, 3866, 3877, 5058],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     The_Stockade: {
         entry: 9100400,
         boss: [1696, 1663, 1720, 1666, 1717, 1716],
         trash: [1706, 1707, 1708, 1711, 1715],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Blackfathom_Deeps: {
         entry: 9100500,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Gnomeregan: {
         entry: 9100600,
-        boss: None,
-        trash: None,
-        loot: 9100400
+        boss: [6229, 6228, 6235, 7361, 7800, 7079],
+        trash: [7897, 6232, 7998, 7738, 6207, 6206, 6211, 6215, 6219, 6212, 8035, 7266, 6392, 6407, 6391, 6220, 6329, 6218, 7850, 7603, 6223, 6224, 6222, 6234, 6233, 6226, 6227, 6225, 7849, 6230, 9676, 7915],
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Razorfen_Kraul: {
         entry: 9100700,
         boss: [4422, 4424, 4425, 4421, 4428, 4842, 4420, 6168],
         trash: [4511, 4541, 6021, 4515, 4516, 4517, 4518, 4519, 4625, 4539, 4538, 4623, 4514, 4531, 4532, 4442, 4522, 4525, 4520, 4523, 4530, 4436, 4438, 6035, 4440, 4437, 4435, 4512, 4528, 4535, 4534, 4427, 4526, 4508, 4510],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Scarlet_Monastery: {
         entry: 9100800,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Razorfen_Downs: {
         entry: 9100900,
         boss: [7358, 8567, 14686, 7357, 7356, 7354, 7355],
         trash: [7334, 8516, 7347, 7335, 7337, 7353, 8585, 7352, 8696, 8767, 7341, 8477, 7340, 7342, 7345, 7346, 7343, 7344, 7348, 7349, 7351, 7333, 7329, 7328, 7332, 7327],
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Uldaman: {
         entry: 9101000,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Zul_Farrak: {
         entry: 9101100,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Maraudon: {
         entry: 9101200,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Sunken_Temple: {
         entry: 9101300,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Blackrock_Depths: {
         entry: 9101400,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Blackrock_Spire: {
         entry: 9101500,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Scholomance: {
         entry: 9101600,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Stratholme: {
         entry: 9101700,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     },
     Dire_Maul: {
         entry: 9101800,
         boss: None,
         trash: None,
-        loot: 9100400
+        loot: 9100400,
+        mythicloot: 9100500
     }
 }
 
@@ -249,15 +284,28 @@ lootid = data[dungeon][loot]
 start_new_entry = data[dungeon][entry]
 trash_entry_values = data[dungeon][trash]
 boss_entry_values = data[dungeon][boss]
+mythiclootid = data[dungeon][mythicloot]
 
-# Execute SQL queries for trash_entry_values
+# Execute SQL queries for Heroic trash_entry_values
 for entry_value in trash_entry_values:
-    execute_queries(entry_value, start_new_entry, is_boss=False)
+    execute_queries(entry_value, start_new_entry, is_boss=False, is_mythic=False)
     # Increment the start_new_entry for the next creature (trash)
     start_new_entry += 1
 
-# Execute SQL queries for boss_entry_values
+# Execute SQL queries for Heroic boss_entry_values
 for entry_value in boss_entry_values:
-    execute_queries(entry_value, start_new_entry, is_boss=True)
+    execute_queries(entry_value, start_new_entry, is_boss=True, is_mythic=False)
+    # Increment the start_new_entry for the next creature (boss)
+    start_new_entry += 1
+
+# Execute SQL queries for Mythic trash_entry_values
+for entry_value in trash_entry_values:
+    execute_queries(entry_value, start_new_entry, is_boss=False, is_mythic=True)
+    # Increment the start_new_entry for the next creature (trash)
+    start_new_entry += 1
+
+# Execute SQL queries for Mythic boss_entry_values
+for entry_value in boss_entry_values:
+    execute_queries(entry_value, start_new_entry, is_boss=True, is_mythic=True)
     # Increment the start_new_entry for the next creature (boss)
     start_new_entry += 1
