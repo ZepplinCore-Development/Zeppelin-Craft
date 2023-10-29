@@ -1,7 +1,3 @@
--- Kitta Firewind <Enchanting Trainer>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4169 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4169, 0, 7, 333, 125, 'Show menu if enchanting is 125 or higher');
-
 -- The Stolen Tome (Warlock)
 DELETE FROM `creature_questender` WHERE `id`=459 AND `quest`=1598;
 INSERT INTO `creature_questender` (`id`, `quest`) VALUES (459, 1598);
@@ -28,18 +24,6 @@ UPDATE `creature_template` SET `modelid1`=10912 WHERE `entry`=257;
 -- Diseased Young Wolf
 UPDATE `creature_template` SET `modelid1`=447, `name`='Young Wolf' WHERE `entry`=299;
 
--- Smith Argus
-UPDATE `creature_template` SET `subname`='Journeyman Blacksmith' WHERE `entry`=514;
-
--- Eldrin <Journeyman Tailor>
-UPDATE `creature_template` SET `subname`='Journeyman Tailor' WHERE `entry`=1103;
-
--- Alchemist Mallory <Journeyman Alchemist>
-UPDATE `creature_template` SET `subname`='Journeyman Alchemist' WHERE `entry`=1215;
-
--- Adele Fielder <Journeyman Leatherworker>
-UPDATE `creature_template` SET `subname`='Journeyman Leatherworker' WHERE `entry`=1632;
-
 -- Northshire Guard
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=1642;
 
@@ -49,29 +33,8 @@ UPDATE `creature_template` SET `subname`='Fisherman' WHERE `entry`=1651;
 -- Rebecca Laughlin <Tabard Designer>
 UPDATE `creature_template` SET `subname`='Tabard Vendor' WHERE `entry`=5193;
 
--- Lilyssia Nightbreeze <Alchemy Trainer>
-UPDATE `creature_template` SET `subname`='Expert Alchemist' WHERE `entry`=5499;
-
--- Tel'Athir <Apprentice Alchemist>
-UPDATE `creature_template` SET `subname`='Journeyman Alchemist', `npcflag`=81, `trainer_type`=2 WHERE `entry`=5500;
-
 -- Eldraeith <Herbalism Supplies>
 UPDATE `creature_template` SET `subname`='Herbalism Supplier' WHERE `entry`=5503;
-
--- Therum Deepforge <Blacksmithing Trainer>
-UPDATE `creature_template` SET `subname`='Expert Blacksmith' WHERE `entry`=5511;
-
--- Lilliam Sparkspindle <Engineering Trainer>
-UPDATE `creature_template` SET `subname`='Expert Engineer' WHERE `entry`=5518;
-
--- Simon Tanner <Leatherworking Trainer>
-UPDATE `creature_template` SET `subname`='Expert Leatherworker' WHERE `entry`=5564;
-
--- Sellandus <Apprentice Tailor>
-UPDATE `creature_template` SET `subname`='Expert Tailor', `npcflag`=81, `trainer_type`=2 WHERE `entry`=5567;
-
--- Helene Peltskinner <Skinner>
-UPDATE `creature_template` SET `subname`='Skinner' WHERE `entry`=6306;
 
 -- Diseased Timber Wolf
 DELETE FROM `creature_template_addon` WHERE `entry`=69;
@@ -79,43 +42,9 @@ DELETE FROM `creature_template_addon` WHERE `entry`=69;
 -- Diseased Young Wolf
 DELETE FROM `creature_template_addon` WHERE `entry`=299;
 
--- Kitta Firewind <Enchanting Trainer>
-DELETE FROM `gossip_menu_option` WHERE `MenuID`=4169;
-INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (4169, 0, 3, 'Train me.', 3266, 5, 16);
-
--- Smith Argus <Journeyman Blacksmith>
-DELETE FROM `npc_trainer` WHERE `ID`=514;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (514, -310000);
-
--- Eldrin <Journeyman Tailor>
-DELETE FROM `npc_trainer` WHERE `ID`=1103;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1103, -410000);
-
--- Alchemist Mallory <Journeyman Alchemist>
-DELETE FROM `npc_trainer` WHERE `ID`=1215;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1215, -300000);
-
--- Adele Fielder <Journeyman Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=1632;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1632, -380000);
-
--- Lee Brown <Fisherman>
-DELETE FROM `npc_trainer` WHERE `ID`=1651;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1651, -360000);
-
--- Michelle Belle <Physician>
-DELETE FROM `npc_trainer` WHERE `ID`=2329;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (2329, -350000);
-
 -- Randal Hunter <Riding Trainer>
 DELETE FROM `npc_trainer` WHERE `ID`=4732;
 INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (4732, -450000);
-
--- Kitta Firewind <Enchanting Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=11072;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11072, -330000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11072, -330001);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11072, -330002);
 
 -- Antonio Perelli <Traveling Salesman>
 DELETE FROM `npc_vendor` WHERE `entry`=844 AND `item`=40411;
@@ -242,7 +171,6 @@ DELETE FROM `creature_questitem` WHERE `CreatureEntry` IN (69, 299);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
 (69, 0, 750, 0),
 (299, 0, 750, 0);
-
 
 -- Restore Mirror Lake Orchard creatures removed in WotLK
 DELETE FROM `creature` WHERE `guid` IN (80391, 80392, 80393, 80394, 80396, 80397, 80399, 80400, 80401, 80402, 80403, 80404, 80405) AND `id1` IN (116, 94);

@@ -41,17 +41,8 @@ UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=1739;
 -- Deathguard Bartrand
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=1741;
 
--- Faruza <Apprentice Herbalist>
-UPDATE `creature_template` SET `subname`='Apprentice Herbalist' WHERE `entry`=2114;
-
--- Carolai Anise <Journeyman Alchemist>
-UPDATE `creature_template` SET `subname`='Journeyman Alchemist' WHERE `entry`=2132;
-
 -- Hin Denburg <Zeppelin Master>
 UPDATE `creature_template` SET `subname`='Zeppelin Master' WHERE `entry`=3150;
-
--- Shelene Rhobart <Journeyman Leatherworker>
-UPDATE `creature_template` SET `subname`='Journeyman Leatherworker' WHERE `entry`=3549;
 
 -- Scarlet Preserver
 UPDATE `creature_template` SET `rank`=1 WHERE `entry`=4280;
@@ -71,20 +62,11 @@ UPDATE `creature_template` SET `rank`=1 WHERE `entry`=4284;
 -- Scarlet Disciple
 UPDATE `creature_template` SET `rank`=1 WHERE `entry`=4285;
 
--- Clyde Kellen <Fisherman>
-UPDATE `creature_template` SET `subname`='Fisherman' WHERE `entry`=5690;
-
--- Vance Undergloom <Journeyman Enchanter>
-UPDATE `creature_template` SET `subname`='Journeyman Enchanter' WHERE `entry`=5695;
-
 -- Kayla Smithe <Demon Trainer>
 UPDATE `creature_template` SET `subname`='Demon Trainer' WHERE `entry`=5749;
 
 -- Gina Lang <Demon Trainer>
 UPDATE `creature_template` SET `subname`='Demon Trainer' WHERE `entry`=5750;
-
--- Rand Rhobart <Skinner>
-UPDATE `creature_template` SET `subname`='Skinner' WHERE `entry`=6289;
 
 -- Deathguard Elite
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=7980;
@@ -95,37 +77,9 @@ UPDATE `creature_template` SET `subname`='Zeppelin Master' WHERE `entry`=9566;
 -- Lieutenant Sanders
 UPDATE `creature_template` SET `faction`=67 WHERE `entry`=13158;
 
--- Faruza <Apprentice Herbalist>
-DELETE FROM `npc_trainer` WHERE `ID`=2114;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (2114, -370000);
-
--- Carolai Anise <Journeyman Alchemist>
-DELETE FROM `npc_trainer` WHERE `ID`=2132;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (2132, -300000);
-
--- Shelene Rhobart <Journeyman Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=3549;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3549, -380000);
-
 -- Velma Warnam <Riding Trainer>
 DELETE FROM `npc_trainer` WHERE `ID`=4773;
 INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (4773, -450000);
-
--- Nurse Neela <First Aid Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=5759;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5759, -350000);
-
--- Clyde Kellen <Fisherman>
-DELETE FROM `npc_trainer` WHERE `ID`=5690;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5690, -360000);
-
--- Vance Undergloom <Journeyman Enchanter>
-DELETE FROM `npc_trainer` WHERE `ID`=5695;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5695, -330000);
-
--- Rand Rhobart <Skinner>
-DELETE FROM `npc_trainer` WHERE `ID`=6289;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (6289, -400000);
 
 -- Abigail Shiel <Trade Supplies>
 DELETE FROM `npc_vendor` WHERE `entry`=2118 AND `item` IN (10648, 30817, 39354);

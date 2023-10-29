@@ -1,35 +1,3 @@
--- Saru Steelfury <Artisan Blacksmith>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=1012 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 1012, 0, 7, 164, 125, 'Show menu if blacksmithing is 125 or higher');
-
--- Snarl <Expert Blacksmith>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=2782 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 2782, 0, 7, 164, 50, 'Show menu if blacksmithing is 50 or higher');
-
--- Yelmak <Expert Alchemist>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4126 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4126, 0, 7, 171, 50, 'Show menu if alchemy is 50 or higher');
-
--- Nogg <Expert Engineer>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4148 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4148, 0, 7, 202, 50, 'Show menu if engineering is 50 or higher');
-
--- Roxxik <Artisan Engineer>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4151 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4151, 0, 7, 202, 125, 'Show menu if engineering is 125 or higher');
-
--- Godan <Expert Enchanter>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4168 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4168, 0, 7, 333, 50, 'Show menu if enchanting is 50 or higher');
-
--- Karolek <Expert Leatherworker>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4209 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4209, 0, 7, 165, 50, 'Show menu if leatherworking is 50 or higher');
-
--- Magar <Expert Tailor>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4347 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4347, 0, 7, 197, 50, 'Show menu if tailoring is 50 or higher');
-
 -- Vol'jin <King of Darkspear Trolls>
 UPDATE `creature_template` SET `subname`='King of Darkspear Trolls', `minlevel`=60, `maxlevel`=60 WHERE `entry`=10540;
 
@@ -102,15 +70,6 @@ INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES (3326, 4967);
 DELETE FROM `creature_queststarter` WHERE `id` IN (3324, 3325, 3326, 4564, 5495, 5496) AND `quest`=8419;
 INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES (3326, 8419);
 
--- Snarl <Expert Blacksmith>
-UPDATE `creature_template` SET `subname`='Expert Blacksmith', `npcflag`=81, `trainer_type`=2 WHERE `entry`=1383;
-
--- Snang <Journeyman Tailor>
-UPDATE `creature_template` SET `subname`='Journeyman Tailor', `npcflag`=81, `trainer_type`=2 WHERE `entry`=2855;
-
--- Thund <Journeyman Engineer>
-UPDATE `creature_template` SET `subname`='Journeyman Engineer', `npcflag`=81, `trainer_type`=2 WHERE `entry`=2857;
-
 -- Nazgrel <Advisor to Thrall>
 UPDATE `creature_template` SET `scale`=0.7, `npcflag`=2, `faction`=29, `gossip_menu_id`=0 WHERE `entry`=3230;
 
@@ -135,20 +94,11 @@ UPDATE `creature_template` SET `subname`='Poison Vendor' WHERE `entry`=3334;
 -- Hagrus <Reagents Vendor>
 UPDATE `creature_template` SET `subname`='Reagents Vendor' WHERE `entry`=3335;
 
--- Godan <Expert Enchanter>
-UPDATE `creature_template` SET `subname`='Expert Enchanter' WHERE `entry`=3345;
-
--- Yelmak <Expert Alchemist>
-UPDATE `creature_template` SET `subname`='Expert Alchemist' WHERE `entry`=3347;
-
 -- Asoran <General Goods Vendor>
 UPDATE `creature_template` SET `subname`='General Goods Vendor' WHERE `entry`=3350;
 
 -- Magenius <Reagents Vendor>
 UPDATE `creature_template` SET `subname`='Reagents Vendor' WHERE `entry`=3351;
-
--- Saru Steelfury <Artisan Blacksmith>
-UPDATE `creature_template` SET `subname`='Artisan Blacksmith' WHERE `entry`=3355;
 
 -- Sumi <Blacksmithing Supplier>
 UPDATE `creature_template` SET `subname`='Blacksmithing Supplier' WHERE `entry`=3356;
@@ -156,26 +106,14 @@ UPDATE `creature_template` SET `subname`='Blacksmithing Supplier' WHERE `entry`=
 -- Gorina <Mining Supplier>
 UPDATE `creature_template` SET `subname`='Mining Supplier' WHERE `entry`=3358;
 
--- Magar <Expert Tailor>
-UPDATE `creature_template` SET `subname`='Expert Tailor' WHERE `entry`=3363;
-
--- Karolek <Expert Leatherworker>
-UPDATE `creature_template` SET `subname`='Expert Leatherworker' WHERE `entry`=3365;
-
 -- Felika <General Trade Goods Merchant>
 UPDATE `creature_template` SET `subname`='General Trade Goods Merchant' WHERE `entry`=3367;
 
 -- Xen'to <Cooking Supplier>
 UPDATE `creature_template` SET `subname`='Cooking Supplier' WHERE `entry`=3400;
 
--- Nogg <Expert Engineer>
-UPDATE `creature_template` SET `subname`='Expert Engineer', `npcflag`=81, `trainer_type`=2 WHERE `entry`=3412;
-
 -- Thrall <Warchief>
 UPDATE `creature_template` SET `minlevel`=63, `maxlevel`=63 WHERE `entry`=4949;
-
--- Kamari <Journeyman Leatherworker>
-UPDATE `creature_template` SET `subname`='Journeyman Leatherworker', `npcflag`=81, `trainer_type`=2 WHERE `entry`=5811;
 
 -- Shimra <General Trade Goods Merchant>
 UPDATE `creature_template` SET `subname`='General Trade Goods Merchant' WHERE `entry`=5817;
@@ -185,18 +123,6 @@ UPDATE `creature_template` SET `subname`='Armor Crafter' WHERE `entry`=7230;
 
 -- Kelgruk Bloodaxe <Weapon Crafter>
 UPDATE `creature_template` SET `subname`='Weapon Crafter' WHERE `entry`=7231;
-
--- Ug'thok <Journeyman Blacksmith>
-UPDATE `creature_template` SET `subname`='Journeyman Blacksmith', `npcflag`=81, `trainer_type`=2 WHERE `entry`=10266;
-
--- Roxxik <Artisan Engineer>
-UPDATE `creature_template` SET `subname`='Artisan Engineer', `npcflag`=81, `trainer_type`=2 WHERE `entry`=11017;
-
--- Whuut <Journeyman Alchemist>
-UPDATE `creature_template` SET `subname`='Journeyman Alchemist', `npcflag`=81, `trainer_type`=2 WHERE `entry`=11046;
-
--- Jhag <Journeyman Enchanter>
-UPDATE `creature_template` SET `subname`='Journeyman Enchanter', `npcflag`=81, `trainer_type`=2 WHERE `entry`=11066;
 
 -- Snurk Bucksquick <Zeppelin Master>
 UPDATE `creature_template` SET `subname`='Zeppelin Master' WHERE `entry`=12136;
@@ -242,108 +168,6 @@ UPDATE `creature_template` SET `minlevel`=60, `maxlevel`=60, `rank`=0 WHERE `ent
 
 -- Raider Bork <Mount Quartermaster>
 UPDATE `creature_template_addon` SET `mount`=0 WHERE `entry`=12796;
-
--- Snarl <Expert Blacksmith>
-DELETE FROM `gossip_menu_option` WHERE `MenuID`=2782;
-INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (2782, 0, 3, 'Train me.', 3266, 5, 16);
-
--- Nogg <Expert Engineer>
-DELETE FROM `gossip_menu_option` WHERE `MenuID`=4148;
-INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (4148, 0, 3, 'Train me.', 3266, 5, 16);
-
--- Roxxik <Artisan Engineer>
-DELETE FROM `gossip_menu_option` WHERE `MenuID`=4151;
-INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`) VALUES (4151, 0, 3, 'Train me.', 3266, 5, 16);
-
--- Snarl <Expert Blacksmith>
-DELETE FROM `npc_trainer` WHERE `ID`=1383;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1383, -310000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1383, -310001);
-
--- Snang <Journeyman Tailor>
-DELETE FROM `npc_trainer` WHERE `ID`=2855;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (2855, -410000);
-
--- Thund <Journeyman Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=2857;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (2857, -340000);
-
--- Lumak <Fishing Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=3332;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3332, -360000);
-
--- Godan <Expert Enchanter>
-DELETE FROM `npc_trainer` WHERE `ID`=3345;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3345, -330000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3345, -330001);
-
--- Yelmak <Expert Alchemist>
-DELETE FROM `npc_trainer` WHERE `ID`=3347;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3347, -300000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3347, -300001);
-
--- Saru Steelfury <Artisan Blacksmith>
-DELETE FROM `npc_trainer` WHERE `ID`=3355;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3355, -310000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3355, -310001);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3355, -310002);
-
--- Makaru <Mining Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=3357;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3357, -390000);
-
--- Magar <Expert Tailor>
-DELETE FROM `npc_trainer` WHERE `ID`=3363;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3363, -410000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3363, -410001);
-
--- Karolek <Expert Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=3365;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3365, -380000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3365, -380001);
-
--- Arnok <First Aid Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=3373;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3373, -350000);
-
--- Zamja <Cooking Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=3399;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3399, -320000);
-
--- Nogg <Expert Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=3412;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3412, -340000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3412, -340001);
-
--- Kildar <Riding Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=4752;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (4752, -450000);
-
--- Kamari <Journeyman Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=5811;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5811, -380000);
-
--- Thuwd <Skinning Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=7088;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (7088, -400000);
-
--- Ug'thok <Journeyman Blacksmith>
-DELETE FROM `npc_trainer` WHERE `ID`=10266;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (10266, -310000);
-
--- Roxxik <Artisan Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=11017;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11017, -340000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11017, -340001);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11017, -340002);
-
--- Whuut <Journeyman Alchemist>
-DELETE FROM `npc_trainer` WHERE `ID`=11046;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11046, -300000);
-
--- Jhag <Journeyman Enchanter>
-DELETE FROM `npc_trainer` WHERE `ID`=11066;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (11066, -330000);
 
 -- Olvia <Meat Vendor>
 DELETE FROM `npc_vendor` WHERE `entry`=3312 AND `item` IN (27854, 33454, 35953);

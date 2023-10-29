@@ -16,9 +16,6 @@ UPDATE `creature_template` SET `faction`=57 WHERE `entry`=2989;
 -- Bael'dun Appraiser
 UPDATE `creature_template` SET `faction`=57 WHERE `entry`=2990;
 
--- Chaw Stronghide <Journeyman Leatherworker>
-UPDATE `creature_template` SET `subname`='Journeyman Leatherworker' WHERE `entry`=3069;
-
 -- Bronk Steelrage
 UPDATE `creature_template` SET `subname`='Armorer and Shieldcrafter' WHERE `entry`=3075;
 
@@ -28,44 +25,15 @@ UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=3210;
 -- Brave Lightninghorn
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=3211;
 
--- Uthan Stillwater <Fisherman>
-UPDATE `creature_template` SET `subname`='Fisherman' WHERE `entry`=5938;
-
--- Yonn Deepcut <Skinner>
-UPDATE `creature_template` SET `subname`='Skinner' WHERE `entry`=6290;
-
 -- Mulgore Protector
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=7975;
 
 -- Chief Sharptusk Thornmantle
 UPDATE `creature_template` SET `faction`=14 WHERE `entry`=8554;
 
--- Twizwick Sprocketgrind <Journeyman Engineer>
-UPDATE `creature_template` SET `subname`='Journeyman Engineer' WHERE `entry`=10993;
-
--- Chaw Stronghide <Journeyman Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=3069;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3069, -380000);
-
 -- Kar Stormsinger <Riding Trainer>
 DELETE FROM `npc_trainer` WHERE `ID`=3690;
 INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3690, -450000);
-
--- Uthan Stillwater <Fisherman>
-DELETE FROM `npc_trainer` WHERE `ID`=5938;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5938, -360000);
-
--- Vira Younghoof <First Aid Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=5939;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5939, -350000);
-
--- Yonn Deepcut <Skinner>
-DELETE FROM `npc_trainer` WHERE `ID`=6290;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (6290, -400000);
-
--- Twizwick Sprocketgrind <Journeyman Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=10993;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (10993, -340000);
 
 -- Wunna Darkmane <Trade Goods>
 # DELETE FROM `npc_vendor` WHERE `entry`=3081 AND `item` IN (10648, 30817, 39354);

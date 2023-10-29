@@ -1,15 +1,3 @@
--- Traugh <Expert Blacksmith>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=2783 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 2783, 0, 7, 164, 50, 'Show menu if blacksmithing is 50 or higher');
-
--- Krulmoo Fullmoon <Expert Leatherworker>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4206 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4206, 0, 7, 165, 50, 'Show menu if leatherworking is 50 or higher');
-
--- Mahani <Expert Tailor>
-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=4350 AND `SourceEntry`=0 AND `ConditionTypeOrReference`=7;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES (15, 4350, 0, 7, 197, 50, 'Show menu if tailoring is 50 or higher');
-
 -- Vile Familiars (Warlock)
 DELETE FROM `creature_questender` WHERE `id`=5765 AND `quest`=1485;
 INSERT INTO `creature_questender` (`id`, `quest`) VALUES (5765, 1485);
@@ -43,17 +31,8 @@ UPDATE `creature_template` SET `modelid1`=4244 WHERE `entry`=3465;
 -- Hraq <Blacksmithing Supplier>
 UPDATE `creature_template` SET `subname`='Blacksmithing Supplier' WHERE `entry`=3477;
 
--- Traugh <Expert Blacksmith>
-UPDATE `creature_template` SET `subname`='Expert Blacksmith' WHERE `entry`=3478;
-
--- Kil'hala <Journeyman Tailor>
-UPDATE `creature_template` SET `subname`='Journeyman Tailor' WHERE `entry`=3484;
-
 -- Hula'mahi <Reagents and Herbs>
 UPDATE `creature_template` SET `subname`='Reagents and Herbs' WHERE `entry`=3490;
-
--- Tinkerwiz <Journeyman Engineer>
-UPDATE `creature_template` SET `subname`='Journeyman Engineer' WHERE `entry`=3494;
 
 -- Gagsprocket <Engineering Goods>
 UPDATE `creature_template` SET `subname`='Engineering Goods' WHERE `entry`=3495;
@@ -91,17 +70,8 @@ UPDATE `creature_template` SET `minlevel`=19, `maxlevel`=19, `rank`=2 WHERE `ent
 -- Boahn <Druid of the Fang>
 UPDATE `creature_template` SET `minlevel`=20, `maxlevel`=20, `rank`=2 WHERE `entry`=3672;
 
--- Krulmoo Fullmoon <Expert Leatherworker>
-UPDATE `creature_template` SET `subname`='Expert Leatherworker' WHERE `entry`=3703;
-
--- Mahani <Expert Tailor>
-UPDATE `creature_template` SET `subname`='Expert Tailor' WHERE `entry`=3704;
-
 -- Darkmist Widow
 UPDATE `creature_template` SET `minlevel`=40, `maxlevel`=40, `rank`=4 WHERE `entry`=4380;
-
--- Waldor <Journeyman Leatherworker>
-UPDATE `creature_template` SET `subname`='Journeyman Leatherworker' WHERE `entry`=5784;
 
 -- Aean Swiftriver <Alliance Outrunner>
 UPDATE `creature_template` SET `minlevel`=25, `maxlevel`=25 WHERE `entry`=5797;
@@ -114,9 +84,6 @@ UPDATE `creature_template` SET `minlevel`=19 WHERE `entry`=5835;
 
 -- Razorfen Servitor
 UPDATE `creature_template` SET `rank`=1 WHERE `entry`=6132;
-
--- Dranh <Skinner>
-UPDATE `creature_template` SET `subname`='Skinner' WHERE `entry`=6387;
 
 -- Death's Head Cultist
 UPDATE `creature_template` SET `rank`=1 WHERE `entry`=7872;
@@ -133,9 +100,6 @@ UPDATE `creature_template` SET `rank`=2 WHERE `entry`=7895;
 -- Muck Frenzy
 UPDATE `creature_template` SET `minlevel`=15, `maxlevel`=15 WHERE `entry`=8236;
 
--- Vazario Linkgrease <Master Goblin Engineer>
-UPDATE `creature_template` SET `subname`='Master Goblin Engineer' WHERE `entry`=8738;
-
 -- Omusa Thunderhorn <Wind Rider Master>
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=10378;
 
@@ -147,44 +111,6 @@ UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=14717;
 
 -- Bragok <Flight Master>
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=16227;
-
--- Traugh <Expert Blacksmith>
-DELETE FROM `npc_trainer` WHERE `ID`=3478;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3478, -310000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3478, -310001);
-
--- Kil'hala <Journeyman Tailor>
-DELETE FROM `npc_trainer` WHERE `ID`=3484;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3484, -410000);
-
--- Tinkerwiz <Journeyman Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=3494;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3494, -340000);
-
--- Krulmoo Fullmoon <Expert Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=3703;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3703, -380000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3703, -380001);
-
--- Mahani <Expert Tailor>
-DELETE FROM `npc_trainer` WHERE `ID`=3704;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3704, -410000);
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (3704, -410001);
-
--- Waldor <Journeyman Leatherworker>
-DELETE FROM `npc_trainer` WHERE `ID`=5784;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (5784, -380000);
-
--- Dranh <Skinner>
-DELETE FROM `npc_trainer` WHERE `ID`=6387;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (6387, -400000);
-
--- Duhng <Cook>
-DELETE FROM `npc_trainer` WHERE `ID`=8306;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (8306, -320000);
-
--- Vazario Linkgrease <Master Goblin Engineer>
-DELETE FROM `npc_trainer` WHERE `ID`=8738;
 
 -- Grub
 DELETE FROM `npc_vendor` WHERE `entry`=3443;
