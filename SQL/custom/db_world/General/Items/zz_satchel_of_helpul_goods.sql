@@ -39,7 +39,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52003, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52003, 900104, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure'),
+(52003, 900104, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
 
 -- Classic Random Heroic
 DELETE FROM `item_template` WHERE (`entry` = 900117);
