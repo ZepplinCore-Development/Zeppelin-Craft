@@ -150,7 +150,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Gnomeregan
+dungeon = The_Deadmines
 
 # Create a dictionary of dictionaries to store the data
 data = {
