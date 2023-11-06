@@ -1,0 +1,74 @@
+HEROIC:
+
+DIFFICULTY - 1
+TYPE - 5 
+GROUP - 12
+
+NORMAL MAP / HEROIC MAP / LAST ENCOUNTER
+
+034 / 295 / 0991 - Stormwind Stockade
+033 / 296 / 1002 - Shadowfang Keep
+047 / 297 / 1008 - Razorfen Kraul
+129 / 298 / 1012 - Razorfen Downs
+043 / 299 / 1019 - Wailing Caverns
+389 / 300 / 1023 - Ragefire Chasm
+090 / 301 / 1034 - Gnomeregan
+048 / 302 / 1159 - Blackfathom Deeps
+189 / 303 / 1168 - Scarlet Monastery Graveyard
+070 / 304 / 1187 - Uldaman
+209 / 305 / 1202 - Zul'Farrak
+349 / 306 / 1212 - Maraudon Orange
+109 / 307 / 1235 - Sunken Temple
+230 / 308 / 1064 - Blackrock Depths Prison
+229 / 309 / 1252 - Lower Blackrock Spire
+429 / 310 / 1275 - Dire Maul East
+429 / 311 / 1278 - Dire Maul West
+429 / 312 / 1287 - Dire Maul North
+329 / 313 / 1310 - Stratholme Living
+229 / 314 / 1257 - Upper Blackrock Spire
+189 / 315 / 1171 - Scarlet Monastery Armory
+189 / 316 / 1173 - Scarlet Monastery Cathedral
+189 / 317 / 1170 - Scarlet Monastery Library
+349 / 318 / 1214 - Maraudon Purple
+349 / 319 / 1218 - Maraudon Pristine Waters
+329 / 320 / 1317 - Stratholme Undead
+230 / 321 / 1079 - Blackrock Depths Upper City
+289 / 322 / 1047 - Scholomance
+036 / 323 / 1112 - Deadmines
+
+MYTHIC:
+
+DIFFICULTY - 2
+TYPE - 5 
+GROUP - 13
+
+NORMAL MAP / MYTHIC MAP / LAST ENCOUNTER
+090 / 350 / 1029 - Gnomeregan
+036 / 351 / 1105 - Deadmines
+034 / 352 / 1114 - Stormwind Stockade
+033 / 353 / 1125 - Shadowfang Keep
+047 / 354 / 1131 - Razorfen Kraul
+129 / 355 / 1135 - Razorfen Downs
+043 / 356 / 1142 - Wailing Caverns
+389 / 357 / 1151 - Ragefire Chasm
+048 / 358 / 1166 - Blackfathom Deeps
+189 / 359 / 1175 - Scarlet Monastery Graveyard
+070 / 360 / 1194 - Uldaman
+209 / 361 / 1210 - Zul'Farrak
+349 / 362 / 1220 - Maraudon Orange
+109 / 363 / 1243 - Sunken Temple
+230 / 364 / 1083 - Blackrock Depths Prison
+229 / 365 / 1266 - Lower Blackrock Spire
+429 / 366 / 1291 - Dire Maul East
+429 / 367 / 1294 - Dire Maul West
+429 / 368 / 1303 - Dire Maul North
+329 / 369 / 1324 - Stratholme Living
+229 / 370 / 1271 - Upper Blackrock Spire
+189 / 371 / 1178 - Scarlet Monastery Armory
+189 / 372 / 1180 - Scarlet Monastery Cathedral
+189 / 373 / 1177 - Scarlet Monastery Library
+349 / 374 / 1223 - Maraudon Purple
+349 / 375 / 1227 - Maraudon Pristine Waters
+329 / 376 / 1330 - Stratholme Undead
+230 / 377 / 1090 - Blackrock Depths Upper City
+289 / 378 / 1060 - Scholomance
