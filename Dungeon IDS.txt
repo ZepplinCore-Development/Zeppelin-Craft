@@ -19,7 +19,7 @@ NORMAL MAP / HEROIC MAP / LAST ENCOUNTER
 209 / 305 / 1202 - Zul'Farrak
 349 / 306 / 1212 - Maraudon Orange
 109 / 307 / 1235 - Sunken Temple
-230 / 308 / 1064 - Blackrock Depths Prison
+230 / 308 / 1066 - Blackrock Depths Prison
 229 / 309 / 1252 - Lower Blackrock Spire
 429 / 310 / 1275 - Dire Maul East
 429 / 311 / 1278 - Dire Maul West
@@ -57,7 +57,7 @@ NORMAL MAP / MYTHIC MAP / LAST ENCOUNTER
 209 / 361 / 1210 - Zul'Farrak
 349 / 362 / 1220 - Maraudon Orange
 109 / 363 / 1243 - Sunken Temple
-230 / 364 / 1083 - Blackrock Depths Prison
+230 / 364 / 1085 - Blackrock Depths Prison
 229 / 365 / 1266 - Lower Blackrock Spire
 429 / 366 / 1291 - Dire Maul East
 429 / 367 / 1294 - Dire Maul West

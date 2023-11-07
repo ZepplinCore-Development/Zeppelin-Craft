@@ -2,8 +2,8 @@
 
 -- NORMAL
 REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastEncounterDungeon,comment) VALUES
-(1,0,5775,1,'Verdan the Everliving'),
-(227,1,91011,30,'Ring of Law'),
+(591,0,5775,1,'Verdan the Everliving'),
+(232,0,9017,30,'Lord Incendius'),
 (424,0,12225,272,'Celebras the Cursed'),
 (361,0,11496,36,'Immolthar'),
 (431,0,11518,4,'Jergosh the Invoker');
@@ -23,7 +23,8 @@ REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastE
 (1202,0,7267,305,'Chief Ukorz Sandscalp'),
 (1212,0,12258,306,'Razorlash'),
 (1235,0,5709,307,'Shade of Eranikus'),
-(1064,0,10096,308,'Ring of Law'),
+(1066,0,9017,308 ,'Lord Incendius'),
+
 (1252,0,9568,309,'Overlord Wyrmthalak'),
 (1275,0,11492,310,'Alzzin the Wildshaper'),
 (1278,0,11496,311,'Immolthar'),
@@ -56,7 +57,7 @@ REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastE
 (1210,0,7267,361,'Chief Ukorz Sandscalp'),
 (1220,0,12258,362,'Razorlash'),
 (1243,0,5709,363,'Shade of Eranikus'),
-(1083,0,10096,364,'Ring of Law'),
+(1085,0,9017,364,'Lord Incendius'),
 (1266,0,9568,365,'Overlord Wyrmthalak'),
 (1291,0,11492,366,'Alzzin the Wildshaper'),
 (1294,0,11496,367,'Immolthar'),
