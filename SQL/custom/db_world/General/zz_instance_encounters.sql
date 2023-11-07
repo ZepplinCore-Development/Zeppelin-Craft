@@ -4,8 +4,8 @@
 REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastEncounterDungeon,comment) VALUES
 (591,0,5775,1,'Verdan the Everliving'),
 (232,0,9017,30,'Lord Incendius'),
-(424,0,12225,272,'Celebras the Cursed'),
-(361,0,11496,36,'Immolthar'),
+(425,0,12225,272,'Celebras the Cursed'),
+(349,0,11496,36,'Immolthar'),
 (431,0,11518,4,'Jergosh the Invoker');
 
 -- HEROIC
