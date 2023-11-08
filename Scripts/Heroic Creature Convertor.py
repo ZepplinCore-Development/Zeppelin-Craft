@@ -150,7 +150,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = The_Deadmines
+dungeon = Blackrock_Depths
 
 # Create a dictionary of dictionaries to store the data
 data = {
@@ -254,8 +254,8 @@ data = {
     },
     Blackrock_Depths: {
         entry: 9101400,
-        boss: None,
-        trash: None,
+        boss: [9017, 9025, 9016, 9319, 9018, 10096, 9024, 9033, 8983, 9543, 9537, 9499, 9502, 9056, 9041, 9042, 9156, 9034, 9035, 9036, 9037, 9038, 9039, 9040, 9938, 8929, 9019, 9027, 9028, 9029, 9030, 9031, 9032],
+        trash: [],
         loot: 9100400,
         mythicloot: 9100500
     },
