@@ -1,12 +1,15 @@
--- entry > 991 OR lastEncounterDungeon = 1 OR lastEncounterDungeon = 30 OR lastEncounterDungeon = 272 OR lastEncounterDungeon = 36 OR lastEncounterDungeon = 4
-
 -- NORMAL
 REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastEncounterDungeon,comment) VALUES
 (591,0,5775,1,'Verdan the Everliving'),
+(592,0,3654,0,'Mutanus the Devourer'),
 (232,0,9017,30,'Lord Incendius'),
+(227,0,9018,0,'High Interrogator Gerstahn'),
 (425,0,12225,272,'Celebras the Cursed'),
+(424,0,12236,0,'Lord Vyletongue'),
 (349,0,11496,36,'Immolthar'),
-(431,0,11518,4,'Jergosh the Invoker');
+(361,0,11486,0,'Prince Tortheldrin'),
+(432,0,11518,4,'Jergosh the Invoker'),
+(431,0,11520,0,'Taragaman the Hungerer');
 
 -- HEROIC
 REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastEncounterDungeon,comment) VALUES
