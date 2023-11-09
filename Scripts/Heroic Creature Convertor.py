@@ -38,11 +38,17 @@ def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
             # Fetch and update the creature name
             creature_name = original_row[10]  
             if is_mythic:
-                creature_name = "Mythic "  + creature_name
+                creature_name = "Mythic "  + creature_name.replace("'", "")  # Remove apostrophes
             else:
-                creature_name = "Heroic "  + creature_name
+                creature_name = "Heroic "  + creature_name.replace("'", "")  # Remove apostrophes
 
             original_row[10] = creature_name
+
+            # Fetch and update the subname if it exists
+            if original_row[11]:
+                subname = original_row[11]
+                subname = subname.replace("'", "")  # Remove apostrophes from the subname
+                original_row[11] = subname
 
             # modify difficulty entries for the new entry
             original_row[1] = 0
@@ -50,6 +56,9 @@ def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
 
             # Blank the SmartAI
             original_row[50] = ''
+
+            # Blank the NPC Script
+            original_row[63] = ''
 
             # Modify 'minlevel' and 'maxlevel' for boss entries
             if is_boss:
