@@ -4,7 +4,8 @@ REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`,
 	(90012,0,1,-4691.480469,-3716.382568,49.197548,3.660783,0), -- Ony
 	(90013,0,0,-11916.265625,-1208.310913,92.286797,4.720236,0), -- ZG
 	(90014,0,1,-8404.833984,1499.563843,25.785511,2.778721,0), -- AQ20
-	(90015,0,1,-8250.414062,1971.931030,129.072464,0.988013,0); -- AQ40
+	(90015,0,1,-8250.414062,1971.931030,129.072464,0.988013,0), -- AQ40
+	(90016,0,0,3134.515137,-3867.753906,135.363907,3.280771,0); -- Naxx
 
 DELETE FROM `gameobject_template` WHERE (`entry` = 900000);
 INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconName`, `castBarCaption`, `unk1`, `size`, `Data0`, `Data1`, `Data2`, `Data3`, `Data4`, `Data5`, `Data6`, `Data7`, `Data8`, `Data9`, `Data10`, `Data11`, `Data12`, `Data13`, `Data14`, `Data15`, `Data16`, `Data17`, `Data18`, `Data19`, `Data20`, `Data21`, `Data22`, `Data23`, `AIName`, `ScriptName`, `VerifiedBuild`) VALUES
@@ -20,12 +21,13 @@ INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES
 
 DELETE FROM `gossip_menu_option` WHERE (`MenuID` = 62000);
 INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
-(62000, 0, 0, 'Teleport me to MC daddy', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
+(62000, 0, 0, 'Teleport me to MC', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 1, 0, 'Teleport me to BWL and UBRS', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 2, 0, 'Teleport me to Onyxias Lair', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 3, 0, 'Teleport me to Zul Gurub', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
 (62000, 4, 0, 'Teleport me to AQ20', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
-(62000, 5, 0, 'Teleport me to AQ40', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0);
+(62000, 5, 0, 'Teleport me to AQ40', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0),
+(62000, 6, 0, 'Teleport me to Naxx', 0, 1, 0, 0, 0, 0, 200000, '', 0, 0);
 
 UPDATE `gameobject_template` SET `AIName` = 'SmartGameObjectAI' WHERE `entry` = 900000;
 
@@ -36,7 +38,8 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (900000, 1, 2, 0, 62, 0, 100, 0, 62000, 2, 0, 0, 0, 11, 90012, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
 (900000, 1, 3, 0, 62, 0, 100, 0, 62000, 3, 0, 0, 0, 11, 90013, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
 (900000, 1, 4, 0, 62, 0, 100, 0, 62000, 4, 0, 0, 0, 11, 90014, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
-(900000, 1, 5, 0, 62, 0, 100, 0, 62000, 5, 0, 0, 0, 11, 90015, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast');
+(900000, 1, 5, 0, 62, 0, 100, 0, 62000, 5, 0, 0, 0, 11, 90015, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
+(900000, 1, 6, 0, 62, 0, 100, 0, 62000, 5, 0, 0, 0, 11, 90016, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast');
 
 DELETE FROM `gameobject` WHERE (`id` = 900000);
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `ScriptName`, `VerifiedBuild`) VALUES
