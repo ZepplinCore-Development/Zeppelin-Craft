@@ -39,7 +39,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (900000, 1, 3, 0, 62, 0, 100, 0, 62000, 3, 0, 0, 0, 11, 90013, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
 (900000, 1, 4, 0, 62, 0, 100, 0, 62000, 4, 0, 0, 0, 11, 90014, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
 (900000, 1, 5, 0, 62, 0, 100, 0, 62000, 5, 0, 0, 0, 11, 90015, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast'),
-(900000, 1, 6, 0, 62, 0, 100, 0, 62000, 5, 0, 0, 0, 11, 90016, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast');
+(900000, 1, 6, 0, 62, 0, 100, 0, 62000, 6, 0, 0, 0, 11, 90016, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast');
 
 DELETE FROM `gameobject` WHERE (`id` = 900000);
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `ScriptName`, `VerifiedBuild`) VALUES
