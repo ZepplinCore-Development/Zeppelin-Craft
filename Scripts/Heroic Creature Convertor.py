@@ -4,7 +4,11 @@ import random
 # --- TO DO ----
 # original creature spawn mask should only be updated where the MAP id is equal to the dungeon map in creature table.
 # map ID for each dungeon will need to be defined.
-# heroic creature script name field should be empty as well, the normal version is used.
+# Update creature tiers:
+#   -   Boss
+#   -   Rare
+#   -   Elite
+#   -   Normal
 
 # Function to connect to the database and execute queries
 def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
@@ -277,8 +281,8 @@ data = {
     },
     Scholomance: {
         entry: 9101600,
-        boss: None,
-        trash: None,
+        boss: [10506, 10503, 11622, 10433, 10432, 10508, 10505, 11261, 10901, 10507, 10504, 10502, 1853, 16118, 14695],
+        trash: [15438, 14516, 11439, 14861, 10486, 11598, 10500, 10488, 14511, 16120, 14521, 14520, 14519, 14518, 14568, 16119, 14514, 10478, 11257, 14513, 14512, 10498, 10499, 10487, 11551, 11263, 10475, 10472, 10477, 11582, 10469, 10491, 10495, 10480, 10481, 10489, 10678, 10482, 11258, 14500, 10470, 10476, 10471, 10485],
         loot: 9100400,
         mythicloot: 9100500
     },
