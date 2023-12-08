@@ -163,7 +163,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Blackrock_Spire
+dungeon = Maraudon
 
 # Create a dictionary of dictionaries to store the data
 data = {
@@ -253,8 +253,8 @@ data = {
     },
     Maraudon: {
         entry: 9101200,
-        boss: None,
-        trash: None,
+        boss: [12225, 12203, 12236, 12237, 13282, 12201, 12258, 13596, 13601, ],
+        trash: [12217, 12216, 11792, 13141, 11790, 13743, 12219, 13142, 11791, 12223, 11793, 12220, 12222, 12218, 13533, 13456, 13696, 11783, 12242, 13599, 12224, 12221, 11794, 12207, 11789, 13323, 11784, 12243, 12206, 13716, 15556, 12238],
         loot: 9100400,
         mythicloot: 9100500
     },
