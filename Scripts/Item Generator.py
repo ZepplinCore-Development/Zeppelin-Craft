@@ -1,43 +1,175 @@
+import mysql.connector
 import random
 
-# Function to generate a random item name
-def generate_item_name():
-    prefixes = ["Mighty", "Shiny", "Glowing", "Enchanted", "Ancient"]
-    suffixes = ["of Power", "of the Stars", "of Doom", "of the Ancients", "of the Gods"]
-    return f"{random.choice(prefixes)} Item {random.choice(suffixes)}"
+# Database connection configuration
+db_config = {
+    "host": "192.168.0.99",
+    "user": "keira",
+    "password": "slipknot9",
+    "database": "acore_world"
+}
 
-# Function to generate a random item type
-def generate_item_type():
-    item_types = ["Sword", "Axe", "Staff", "Bow", "Armor", "Ring", "Amulet"]
-    return random.choice(item_types)
+# Function to connect to the database and get the next available entry value
+def get_next_entry_value():
+    connection = mysql.connector.connect(**db_config)
 
-# Function to generate a random item level
-def generate_item_level():
-    return random.randint(1, 100)
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT MAX(`entry`) + 1 FROM `item_template`;")
+        result = cursor.fetchone()
+        next_entry_value = result[0] if result[0] is not None else 1
+        return next_entry_value
+    finally:
+        cursor.close()
+        connection.close()
 
-# Function to generate a random item stat
-def generate_item_stat():
-    stat_types = ["Strength", "Agility", "Stamina", "Intellect", "Spirit"]
-    return f"{random.choice(stat_types)} {random.randint(1, 10)}"
+# Function to generate random stats for an item
+def generate_item_stats():
+    stats_count = random.randint(1, 5)
+    stats = []
+    for i in range(1, stats_count + 1):
+        stat_type_id = random.choice([1, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48])
+        stat_value = random.randint(1, 10)
+        stats.extend([f"{stat_type_id}", f"{stat_value}"])
+    return stats
 
 # Function to generate a random SQL query for item_template
-def generate_sql_query(item_id, item_name, item_type, item_level, stats):
+def generate_sql_query(next_entry_value, item_name, item_class, inventory_type, subclass, item_level, stats, display_id, quality):
     stats_str = ", ".join(stats)
+    stats_columns = ", ".join([f"`stat_type{i}`, `stat_value{i}`" for i in range(1, len(stats) // 2 + 1)])
     
-    return f"INSERT INTO `item_template` (`entry`, `name`, `class`, `subclass`, `Quality`, `displayid`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, {stats_str}, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`) VALUES ({item_id}, '{item_name}', 2, '{item_type}', 4, 1, 1, 1, 1, 1, '', '', {item_level}, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);"
+    return (
+        f"INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, "
+        f"`InventoryType`, `ItemLevel`, `StatsCount`, {stats_columns}, `flagsCustom`, `VerifiedBuild`) VALUES "
+        f"({next_entry_value}, {item_class}, {subclass}, -1, '{item_name}', {display_id}, {quality}, {inventory_type}, {item_level}, {len(stats) // 2}, {stats_str}, 0, 0);"
+    )
 
-# Number of random items to generate
-num_items = 5
 
-# Generate and print SQL queries for random items
-for i in range(1, num_items + 1):
-    item_id = i
-    item_name = generate_item_name()
-    item_type = generate_item_type()
-    item_level = generate_item_level()
+# Function to generate a random item quality (either 3 or 4)
+def generate_item_quality():
+    return random.choice([3, 4])
+
+# Dictionary for legal display ID values based on inventory type and subclass
+display_id_mapping = {
+    # 1H Weapon
+    13: {
+        # 1H Axe
+        0: [5012, 6259, 8457, 8465, 8466, 8469, 8470, 8473, 8478, 8479, 8480, 8482, 8485, 8488, 8489, 8495, 8498, 9118, 13913, 14029, 14035, 14039, 15938, 18257, 18377, 18391, 18403, 19127, 19130, 19137, 19203, 19209, 19210, 19220, 19235, 19273, 19276, 19281, 19299, 19396, 19405, 19841, 21952, 22101, 22102, 22105, 22106, 22885, 23236, 23276, 23909, 24119, 25594, 25595, 25597, 25598, 26535, 28679, 28748, 28765, 28782, 28810, 28849, 29161, 30699, 30834, 31189, 31300, 31611, 31869, 31870, 31956, 31957, 33128, 33235, 33255, 33727, 34178, 34718, 35258, 38797, 39387, 39964, 39965, 40066, 40914, 40960, 41559, 41614, 41628, 41629, 41630, 41709, 41772, 41786, 42070, 42082, 42177, 42713, 42749, 43356, 43655, 44959, 44960, 46962, 46999, 48156, 49150, 49152, 50998, 54989, 55906, 55974, 56202, 56204, 56208, 57334, 58877, 59078, 59510, 60578, 60603, 60613, 60649, 60659, 60809, 60811, 60814, 60825, 62983, 64471, 64472, 64480, 64485, 64749, 64761, 64769, 65357, 65363],
+        # 1H Mace        
+        4: [1759, 2861, 3498, 3780, 4351, 4609, 5009, 5194, 5195, 5198, 5199, 5203, 5204, 5205, 5208, 5211, 5212, 5215, 5217, 5218, 5221, 5223, 5224, 6207, 6569, 6794, 6795, 6798, 7438, 7462, 8100, 8287, 8565, 8567, 8570, 8572, 8575, 8576, 8579, 8581, 8583, 8803, 9117, 9381, 11453, 12992, 15726, 15887, 16498, 17788, 18268, 18312, 18373, 18406, 18496, 18578, 18652, 19501, 19613, 19615, 19621, 19623, 19624, 19625, 19633, 19634, 19636, 19637, 19643, 19644, 19648, 19649, 19650, 19652, 19669, 19670, 19673, 19683, 19694, 19699, 19703, 19707, 19713, 19716, 19721, 19726, 19729, 19735, 19741, 19743, 19746, 19748, 19756, 19770, 19771, 19772, 19773, 19775, 19776, 19777, 19778, 19782, 19783, 19784, 19801, 19869, 19892, 20953, 21051, 21052, 21956, 22051, 22118, 22119, 22120, 23244, 23267, 23618, 24033, 24111, 24740, 24741, 25096, 25619, 25623, 28075, 28191, 28194, 28203, 28262, 28314, 28318, 28508, 28512, 28521, 28531, 28571, 28671, 28681, 28689, 28706, 28776, 28799, 28821, 28835, 28869, 29171, 29910, 30436, 30440, 30728, 30915, 31119, 31126, 31321, 31612, 31751, 31777, 31822, 31862, 31863, 31955, 32262, 32588, 32600, 32780, 33017, 33072, 33120, 33308, 33731, 33830, 33838, 34109, 34339, 34468, 34485, 34860, 35116, 35250, 35574, 35642, 35643, 35710, 36064, 36078, 36261, 36924, 36969, 37049, 37192, 37294, 38346, 38418, 38827, 38854, 39004, 39045, 39102, 39278, 39376, 39389, 39394, 39427, 39488, 39579, 39581, 39610, 39611, 39750, 39774, 39833, 39875, 40159, 40791, 40823, 40923, 41613, 41635, 41637, 41769, 41771, 41778, 41780, 41783, 41785, 41871, 41873, 42067, 42080, 42193, 42212, 42218, 42289, 42757, 42909, 43195, 43204, 43642, 43644, 43772, 43812, 43866, 44606, 44612, 44823, 44858, 45040, 45188, 45345, 45346, 45365, 45615, 45769, 45798, 46801, 46994, 47248, 47438, 47606, 47740, 47992, 48029, 48065, 48159, 48908, 49111, 49135, 49136, 49146, 49201, 49233, 49366, 50006, 50197, 50198, 50199, 50200, 50201, 50202, 50203, 50204, 50205, 50206, 50208, 50209, 50210, 50603, 50987, 51717, 52455, 52926, 53030, 53032, 53201, 53476, 54557, 54760, 54793, 55574, 55954, 55955, 55984, 56255, 56410, 56901, 57083, 57084, 57250, 57332, 57385, 57786, 58736, 58740, 58906, 58908, 58909, 58957, 58958, 58959, 58960, 59077, 59082, 59365, 59367, 60561, 60673, 60675, 60685, 60715, 60807, 60818, 60838, 60839, 60845, 60852, 61654, 61655, 61656, 61657, 61658, 61659, 61660, 61663, 61679, 64313, 64499, 64500, 64506, 64508, 64509, 64511, 64512, 64514, 64515, 64516, 64517, 64518, 64519, 64520, 64521, 64744, 64755, 64954, 65164, 65372, 65377, 65379],  
+        # 1H Sword        
+        7: [1542, 1544, 1546, 1547, 1550, 1930, 3434, 3855, 4260, 4788, 4805, 5007, 5040, 5129, 5139, 5144, 5145, 5151, 5153, 5154, 5161, 5163, 5165, 5166, 7311, 7313, 7485, 7526, 8078, 8090, 8272, 8274, 8279, 12284, 12610, 13078, 13488, 15591, 16128, 16538, 16539, 18270, 18325, 19997, 20009, 20010, 20013, 20014, 20015, 20029, 20030, 20031, 20032, 20033, 20035, 20073, 20075, 20076, 20081, 20083, 20086, 20088, 20089, 20093, 20094, 20110, 20114, 20116, 20120, 20122, 20154, 20156, 20157, 20159, 20160, 20161, 20162, 20163, 20164, 20168, 20173, 20175, 20176, 20211, 20212, 20213, 20214, 20215, 20216, 20218, 20221, 20225, 20571, 21554, 21773, 21809, 22075, 22077, 22078, 22079, 22080, 22081, 22085, 22226, 22227, 22229, 22232, 22733, 23241, 23274, 23734, 23836, 24756, 24981, 25036, 25053, 25173, 25639, 25640, 25641, 25647, 25648, 26432, 26463, 26477, 26479, 26494, 26503, 26572, 26576, 26577, 26579, 28086, 28093, 28316, 28346, 28458, 28527, 28528, 28530, 28544, 28552, 28561, 28567, 28570, 28586, 28593, 28594, 28607, 28608, 28676, 28708, 28848, 28876, 29677, 29769, 29897, 30606, 30673, 30754, 30814, 30822, 31309, 31400, 31419, 31526, 31617, 31692, 31866, 31867, 31966, 31997, 32076, 32077, 32197, 32314, 32356, 32438, 32443, 32581, 32722, 33097, 33145, 33220, 33236, 33839, 33994, 34810, 34850, 35152, 35247, 35571, 35575, 35898, 36066, 36081, 36253, 36371, 36376, 36378, 36716, 36958, 36960, 36970, 37209, 38099, 38265, 38635, 38863, 39025, 39228, 39310, 39359, 39374, 39474, 39752, 39890, 40392, 40614, 40686, 40794, 40795, 40855, 40856, 41118, 41179, 41389, 41390, 41414, 41416, 41417, 41418, 41428, 41490, 41491, 41615, 41620, 41781, 41782, 41787, 41790, 41856, 41867, 41929, 41950, 42065, 42074, 42087, 42187, 42188, 42379, 42542, 42544, 42751, 43036, 43090, 43259, 43733, 43736, 43859, 43978, 44546, 45232, 45360, 45799, 46665, 46789, 46839, 46970, 46985, 46992, 47226, 48061, 48062, 48078, 48079, 48169, 49143, 49199, 49221, 50260, 50261, 50262, 50263, 50264, 50265, 50266, 50267, 50268, 50269, 50270, 50271, 50509, 50514, 50996, 51166, 51196, 51268, 51377, 51380, 51402, 51597, 51688, 51695, 51726, 51922, 52379, 52457, 52571, 52784, 52928, 53477, 53563, 53844, 53904, 53918, 53932, 54471, 54878, 54893, 55309, 55892, 55975, 56004, 56304, 56343, 56663, 56903, 57297, 57298, 57331, 57384, 58735, 58937, 58938, 58939, 58940, 58941, 58942, 58943, 58944, 58965, 58966, 59079, 59382, 59383, 59511, 60564, 60617, 60628, 60666, 60671, 60674, 60684, 60832, 60840, 61689, 61692, 62970, 62984, 64153, 64530, 64531, 64535, 64536, 64537, 64539, 64540, 64541, 64542, 64544, 64546, 64549, 64753, 64756, 64757, 64763, 64767, 65389, 65390], 
+        # Dagger
+        15: [2708, 2738, 3006, 3175, 3363, 3550, 4119, 6432, 6433, 6434, 6437, 6439, 6440, 6442, 6443, 6444, 6445, 6447, 6448, 6452, 6455, 6457, 6459, 6460, 6468, 6470, 6472, 6555, 8028, 12880, 13001, 13848, 13908, 16130, 18264, 20273, 20291, 20292, 20297, 20299, 20311, 20312, 20315, 20318, 20320, 20321, 20326, 20331, 20333, 20341, 20345, 20347, 20349, 20354, 20359, 20369, 20376, 20380, 20383, 20392, 20396, 20398, 20399, 20400, 20407, 20411, 20414, 20425, 20427, 20430, 20435, 20439, 20451, 20470, 20471, 20473, 20475, 20491, 20492, 20534, 20536, 20569, 20570, 20572, 20573, 20574, 20575, 20589, 20590, 20591, 20592, 20593, 20594, 20595, 20596, 20598, 20599, 20601, 20602, 20603, 20604, 20605, 20606, 21620, 22135, 22136, 22137, 22139, 22140, 22141, 22142, 22247, 22248, 22258, 22721, 22977, 23248, 23262, 23791, 24046, 24775, 24990, 25609, 25611, 25612, 25613, 25614, 26433, 26464, 26602, 26679, 28199, 28312, 28327, 28348, 28520, 28568, 28779, 28789, 29706, 29872, 29931, 29957, 30724, 30827, 31337, 31379, 31381, 31605, 31606, 31686, 31820, 31864, 31865, 32074, 32075, 32439, 32575, 32576, 32592, 32648, 33069, 33095, 33107, 33237, 33253, 33615, 33626, 33734, 33894, 33991, 33992, 34111, 34142, 34478, 34513, 34849, 34859, 35094, 35244, 35245, 35246, 35390, 35589, 35709, 35819, 35932, 35961, 36045, 36080, 36283, 36285, 36650, 37063, 37170, 37171, 38457, 38601, 38633, 38683, 38724, 38853, 39006, 39029, 39074, 39081, 39101, 39282, 39357, 39419, 39423, 39530, 39604, 39769, 39892, 39978, 40158, 40182, 40214, 40342, 40711, 40787, 40788, 40789, 40817, 40818, 40855, 40881, 40920, 40937, 40947, 41469, 41471, 41494, 41872, 41881, 41884, 42060, 42061, 42076, 42077, 42090, 42179, 42189, 42224, 42225, 42286, 42380, 42560, 42561, 42617, 42825, 43097, 43098, 43112, 43194, 43207, 43246, 43267, 43309, 43315, 43645, 43649, 43813, 43846, 43917, 43976, 43977, 43994, 44116, 44117, 44292, 44314, 44375, 44417, 44418, 44593, 44767, 45187, 45209, 45233, 45294, 45487, 46457, 46458, 46459, 46663, 46973, 46982, 46986, 47012, 47127, 47605, 47733, 48026, 48031, 48161, 48166, 48380, 48502, 48887, 48888, 48957, 49141, 49147, 49200, 49206, 49207, 49373, 49970, 49971, 50118, 50119, 50121, 50122, 50123, 50124, 50125, 50126, 50127, 50128, 50129, 50130, 50131, 50971, 51168, 51180, 51246, 51364, 51365, 51366, 51367, 51403, 51521, 51533, 51559, 51703, 51711, 52429, 52445, 53206, 53470, 53471, 54036, 54038, 54463, 54464, 54757, 54974, 55261, 55573, 55715, 55719, 55818, 56069, 56076, 56140, 56220, 56226, 56227, 56247, 56258, 56302, 56411, 56796, 57080, 57466, 58166, 58881, 58884, 58885, 58888, 59080, 59369, 59371, 59372, 59373, 59374, 59375, 59376, 59583, 59585, 59594, 60171, 60572, 60576, 60577, 60591, 60592, 60609, 60610, 60621, 60625, 60658, 60660, 60815, 60817, 60834, 60846, 60848, 61992, 62971, 62972, 64645, 64646, 64649, 64651, 64653, 64654, 64656, 64657, 64669, 64671, 64675, 64676, 64677, 64678, 64681, 64683, 64737, 64743, 64746, 64754, 64766, 64768, 64996, 64997, 65104, 65320, 65324, 65343, 65401, 67267],  
+    },
+    15: {
+        # Define display IDs for other inventory types as needed
+    },
+    # Add more inventory types as necessary
+}
+# Function to generate a random item class, InventoryType, and subclass for Weapon or Armor
+def generate_item_class_inventorytype_subclass():
+    classes = {
+        2: "Weapon",
+        4: "Armor",
+    }
+    class_id = random.choice(list(classes.keys()))
     
-    # Generate 2 random stats for each item
-    stats = [generate_item_stat() for _ in range(2)]
-    
-    sql_query = generate_sql_query(item_id, item_name, item_type, item_level, stats)
-    print(sql_query)
+    if class_id == 2:  # Weapon
+        inventory_types = {
+            13: [0, 4, 7, 13, 15],  # ONE HAND
+            15: [2],  # BOW
+            17: [1, 5, 6, 8, 10],  # TWO HAND
+            21: [13],  # MAIN HAND
+            22: [13],  # OFF HAND
+            25: [16],  # THROWN
+            26: [3, 18, 19],  # GUN, WAND OR CROSSBOW
+        }
+        inventory_type = random.choice(list(inventory_types.keys()))
+        subclass = random.choice(inventory_types[inventory_type])
+        display_id = random.choice(display_id_mapping.get(inventory_type, {}).get(subclass, [0]))
+
+    elif class_id == 4:  # Armor
+        inventory_types = {
+            1: [1, 2, 3, 4],  # HEAD
+            2: [0],  # NECK
+            3: [1, 2, 3, 4],  # SHOULDERS
+            5: [1, 2, 3, 4],  # CHEST
+            6: [1, 2, 3, 4],  # WAIST
+            7: [1, 2, 3, 4],  # LEGS
+            8: [1, 2, 3, 4],  # FEET
+            9: [1, 2, 3, 4],  # WRISTS
+            10: [1, 2, 3, 4],  # HANDS
+            11: [0],  # FINGER
+            14: [6],  # SHIELD
+            16: [1],  # CLOAK
+            23: [0],  # OFF HAND HELD
+            28: [7, 8, 9, 10],  # RELIC
+        }
+        inventory_type = random.choice(list(inventory_types.keys()))
+        subclass = random.choice(inventory_types[inventory_type])
+        display_id = random.choice(display_id_mapping.get(inventory_type, {}).get(subclass, [0]))
+
+    return class_id, inventory_type, subclass, display_id
+
+# Function to generate a random item name based on class and subclass
+def generate_item_name(item_class, subclass, inventory_type):
+    prefixes = ["Mighty", "Shiny", "Glowing", "Enchanted", "Ancient"]
+    suffixes = ["of Power", "of the Stars", "of Doom", "of the Ancients", "of the Gods"]
+
+    if item_class == 2:  # Weapon
+        weapon_types = {
+            0: "Axe", 
+            1: "Axe", 
+            2: "Bow", 
+            3: "Gun",
+            4: "Mace", 
+            5: "Mace", 
+            6: "Polearm", 
+            7: "Sword",
+            8: "Sword", 
+            10: "Staff", 
+            13: "Fist", 
+            15: "Dagger",
+            16: "Thrown", 
+            18: "Crossbow", 
+            19: "Wand", 
+        }
+        item_name = f"{random.choice(prefixes)} {weapon_types[subclass]} {random.choice(suffixes)}"
+
+    elif item_class == 4:  # Armor
+        armor_types = {
+            1: "Head",
+            2: "Neck",
+            3: "Shoulders",
+            5: "Chest",
+            6: "Waist",
+            7: "Legs",
+            8: "Feet",
+            9: "Wrists",
+            10: "Hands",
+            11: "Finger",
+            14: "Shield",
+            16: "Cloak",
+            23: "Held",
+            28: "Relic",
+        }
+        item_name = f"{random.choice(prefixes)} {armor_types[inventory_type]} {random.choice(suffixes)}"
+
+    return item_name
+
+# Function to generate an item and insert it into the database
+def generate_and_insert_item():
+    next_entry_value = get_next_entry_value()
+    item_class, inventory_type, subclass, display_id = generate_item_class_inventorytype_subclass()
+    item_name = generate_item_name(item_class, subclass, inventory_type)
+    item_level = random.randint(1, 100)  # Adjust this range as needed
+    stats = generate_item_stats()  # Update this with your actual stats generation function
+    quality = generate_item_quality()
+
+    sql_query = generate_sql_query(next_entry_value, item_name, item_class, inventory_type, subclass, item_level, stats, display_id, quality)
+
+    print(f"{sql_query}")
+
+# Example usage
+generate_and_insert_item()
