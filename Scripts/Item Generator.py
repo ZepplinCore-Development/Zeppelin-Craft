@@ -201,112 +201,412 @@ display_id_mapping = {
         0: [3573, 5072, 6098, 6479, 6483, 6487, 6488, 6489, 6541, 6549, 6555, 6560, 7494, 7557, 8436, 9557, 11410, 11919, 12313, 12738, 12992, 13012, 13109, 15424, 15427, 15428, 15430, 15561, 15564, 15725, 15884, 16364, 17599, 17600, 17602, 18289, 18437, 18494, 18495, 18575, 18705, 18714, 19786, 20384, 21595, 21596, 21597, 21598, 21600, 21601, 21602, 21603, 21604, 21605, 21606, 21607, 21608, 21609, 21611, 21612, 21853, 21936, 21962, 22923, 23171, 23321, 23322, 23867, 23955, 24014, 24039, 24061, 24072, 24122, 24176, 24701, 24712, 24715, 24742, 25072, 26491, 26539, 26549, 27556, 27558, 27563, 27575, 27612, 27650, 27756, 27801, 27851, 27863, 27874, 27929, 28023, 28025, 28187, 28197, 28226, 28291, 28337, 28455, 28462, 28464, 28466, 28471, 28472, 28473, 28475, 28476, 28478, 28480, 28481, 28483, 28484, 28486, 28487, 28488, 28489, 28490, 28491, 28492, 28493, 28500, 28501, 28503, 28505, 28510, 28511, 28513, 28514, 28516, 28551, 28553, 28554, 28555, 28562, 28588, 28647, 28795, 28803, 29717, 29914, 30796, 30855, 30875, 31120, 31138, 31223, 31623, 31779, 31805, 31806, 31807, 31809, 31953, 32344, 32784, 33018, 33529, 33845, 34190, 34288, 34553, 34802, 34807, 35383, 35792, 35813, 35816, 35817, 36265, 36266, 36267, 36268, 36454, 36575, 38729, 38999, 39037, 39339, 39420, 39472, 39505, 39863, 40565, 40783, 40785, 40786, 41453, 41454, 41455, 41457, 41458, 41654, 41655, 41657, 41914, 42079, 42092, 42176, 42185, 42562, 42563, 42564, 42566, 42624, 42625, 42626, 42628, 42630, 43091, 43102, 43118, 44041, 44042, 44308, 44316, 44351, 44544, 45003, 45030, 45160, 45211, 45275, 45907, 45908, 46456, 46817, 46981, 47492, 47760, 47761, 48339, 48894, 48895, 50191, 50236, 50238, 50239, 50241, 50243, 50245, 50313, 50501, 50502, 50990, 51005, 51182, 51185, 51362, 51363, 51545, 51600, 51682, 52396, 52465, 52569, 53843, 53931, 54062, 54063, 54070, 54614, 54646, 54734, 54735, 54740, 54753, 54808, 54844, 54985, 55264, 55265, 55787, 55956, 55959, 55960, 55980, 55981, 55982, 56045, 56553, 56981, 56995, 57081, 57617, 58971, 58973, 60349, 60704, 60705, 61377, 61788, 61790, 61791, 61864, 61877, 64433, 64440, 64441, 64447],
     },
 }
-# Function to generate a random item class, InventoryType, and subclass for Weapon or Armor
-def generate_item_class_inventorytype_subclass():
-    item_combinations = {
-        1: (2, 13, 0),   # WEAPON - ONE HAND - AXE
-        2: (2, 13, 4),   # WEAPON - ONE HAND - MACE
-        3: (2, 13, 7),   # WEAPON - ONE HAND - SWORD
-        4: (2, 13, 15),  # WEAPON - ONE HAND - DAGGER
-        5: (2, 15, 2),   # WEAPON - BOW
-        6: (2, 17, 1),   # WEAPON - TWO HAND - AXE
-        7: (2, 17, 5),   # WEAPON - TWO HAND - MACE
-        8: (2, 17, 6),   # WEAPON - TWO HAND - POLEARM
-        9: (2, 17, 8),   # WEAPON - TWO HAND - SWORD
-        10: (2, 17, 10),  # WEAPON - TWO HAND - STAFF
-        11: (2, 21, 13),  # WEAPON - MAIN HAND - FIST
-        12: (2, 22, 13),  # WEAPON - OFF HAND - FIST
-        13: (2, 25, 16),  # WEAPON - THROWN
-        14: (2, 26, 3),   # WEAPON - GUN
-        15: (2, 26, 18),  # WEAPON - WAND
-        16: (2, 26, 19),  # WEAPON - CROSSBOW
-        17: (4, 1, 1),   # ARMOR - HEAD - CLOTH
-        18: (4, 1, 2),   # ARMOR - HEAD - LEATHER
-        19: (4, 1, 3),   # ARMOR - HEAD - MAIL
-        20: (4, 1, 4),   # ARMOR - HEAD - PLATE
-        21: (4, 3, 1),   # ARMOR - SHOULDERS - CLOTH
-        22: (4, 3, 2),   # ARMOR - SHOULDERS - LEATHER
-        23: (4, 3, 3),   # ARMOR - SHOULDERS - MAIL
-        24: (4, 3, 4),   # ARMOR - SHOULDERS - PLATE
-        25: (4, 5, 1),   # ARMOR - CHEST - CLOTH
-        26: (4, 5, 2),   # ARMOR - CHEST - LEATHER
-        27: (4, 5, 3),   # ARMOR - CHEST - MAIL
-        28: (4, 5, 4),   # ARMOR - CHEST - PLATE
-        29: (4, 6, 1),   # ARMOR - WAIST - CLOTH
-        30: (4, 6, 2),   # ARMOR - WAIST - LEATHER
-        31: (4, 6, 3),   # ARMOR - WAIST - MAIL
-        32: (4, 6, 4),   # ARMOR - WAIST - PLATE
-        33: (4, 7, 1),   # ARMOR - LEGS - CLOTH
-        34: (4, 7, 2),   # ARMOR - LEGS - LEATHER
-        35: (4, 7, 3),   # ARMOR - LEGS - MAIL
-        36: (4, 7, 4),   # ARMOR - LEGS - PLATE
-        37: (4, 8, 1),   # ARMOR - FEET - CLOTH
-        38: (4, 8, 2),   # ARMOR - FEET - LEATHER
-        39: (4, 8, 3),   # ARMOR - FEET - MAIL
-        40: (4, 8, 4),   # ARMOR - FEET - PLATE
-        41: (4, 9, 1),   # ARMOR - WRISTS - CLOTH
-        42: (4, 9, 2),   # ARMOR - WRISTS - LEATHER
-        43: (4, 9, 3),   # ARMOR - WRISTS - MAIL
-        44: (4, 9, 4),   # ARMOR - WRISTS - PLATE
-        45: (4, 14, 6),   # ARMOR - SHIELD
-        46: (4, 16, 1),   # ARMOR - CLOAK - CLOTH
-        47: (4, 23, 0),   # ARMOR - OFF HAND HELD
-    }
 
-    item_id = random.choice(list(item_combinations.keys()))
+# Dictionary for legal item combinations based on class inventory type and subclass
+item_combinations = {
+    1: (2, 13, 0),   # WEAPON - ONE HAND - AXE
+    2: (2, 13, 4),   # WEAPON - ONE HAND - MACE
+    3: (2, 13, 7),   # WEAPON - ONE HAND - SWORD
+    4: (2, 13, 15),  # WEAPON - ONE HAND - DAGGER
+    5: (2, 15, 2),   # WEAPON - BOW
+    6: (2, 17, 1),   # WEAPON - TWO HAND - AXE
+    7: (2, 17, 5),   # WEAPON - TWO HAND - MACE
+    8: (2, 17, 6),   # WEAPON - TWO HAND - POLEARM
+    9: (2, 17, 8),   # WEAPON - TWO HAND - SWORD
+    10: (2, 17, 10),  # WEAPON - TWO HAND - STAFF
+    11: (2, 21, 13),  # WEAPON - MAIN HAND - FIST
+    12: (2, 22, 13),  # WEAPON - OFF HAND - FIST
+    13: (2, 25, 16),  # WEAPON - THROWN
+    14: (2, 26, 3),   # WEAPON - GUN
+    15: (2, 26, 18),  # WEAPON - WAND
+    16: (2, 26, 19),  # WEAPON - CROSSBOW
+    17: (4, 1, 1),   # ARMOR - HEAD - CLOTH
+    18: (4, 1, 2),   # ARMOR - HEAD - LEATHER
+    19: (4, 1, 3),   # ARMOR - HEAD - MAIL
+    20: (4, 1, 4),   # ARMOR - HEAD - PLATE
+    21: (4, 3, 1),   # ARMOR - SHOULDERS - CLOTH
+    22: (4, 3, 2),   # ARMOR - SHOULDERS - LEATHER
+    23: (4, 3, 3),   # ARMOR - SHOULDERS - MAIL
+    24: (4, 3, 4),   # ARMOR - SHOULDERS - PLATE
+    25: (4, 5, 1),   # ARMOR - CHEST - CLOTH
+    26: (4, 5, 2),   # ARMOR - CHEST - LEATHER
+    27: (4, 5, 3),   # ARMOR - CHEST - MAIL
+    28: (4, 5, 4),   # ARMOR - CHEST - PLATE
+    29: (4, 6, 1),   # ARMOR - WAIST - CLOTH
+    30: (4, 6, 2),   # ARMOR - WAIST - LEATHER
+    31: (4, 6, 3),   # ARMOR - WAIST - MAIL
+    32: (4, 6, 4),   # ARMOR - WAIST - PLATE
+    33: (4, 7, 1),   # ARMOR - LEGS - CLOTH
+    34: (4, 7, 2),   # ARMOR - LEGS - LEATHER
+    35: (4, 7, 3),   # ARMOR - LEGS - MAIL
+    36: (4, 7, 4),   # ARMOR - LEGS - PLATE
+    37: (4, 8, 1),   # ARMOR - FEET - CLOTH
+    38: (4, 8, 2),   # ARMOR - FEET - LEATHER
+    39: (4, 8, 3),   # ARMOR - FEET - MAIL
+    40: (4, 8, 4),   # ARMOR - FEET - PLATE
+    41: (4, 9, 1),   # ARMOR - WRISTS - CLOTH
+    42: (4, 9, 2),   # ARMOR - WRISTS - LEATHER
+    43: (4, 9, 3),   # ARMOR - WRISTS - MAIL
+    44: (4, 9, 4),   # ARMOR - WRISTS - PLATE
+    45: (4, 14, 6),   # ARMOR - SHIELD
+    46: (4, 16, 1),   # ARMOR - CLOAK - CLOTH
+    47: (4, 23, 0),   # ARMOR - OFF HAND HELD
+    48: (4, 10, 1),   # ARMOR - HANDS - CLOTH
+    49: (4, 10, 2),   # ARMOR - HANDS - LEATHER
+    50: (4, 10, 3),   # ARMOR - HANDS - MAIL
+    51: (4, 10, 4),   # ARMOR - HANDS - PLATE    
+}
+
+# Function to generate a random item class, InventoryType, and subclass for Weapon or Armor
+def generate_item_class_inventorytype_subclass(item_id):
+
     class_id, inventory_type, subclass = item_combinations[item_id]
     display_id = random.choice(display_id_mapping.get(inventory_type, {}).get(subclass, [0]))
-
     return class_id, inventory_type, subclass, display_id
 
-# Function to generate a random item name based on class and subclass
-def generate_item_name(item_class, subclass, inventory_type):
-    prefixes = ["Mighty", "Shiny", "Glowing", "Enchanted", "Ancient"]
-    suffixes = ["of Power", "of the Stars", "of Doom", "of the Ancients", "of the Gods"]
+# Function to generate a random item name based on item_combination
+def generate_item_name(item_id):
+    prefixes = [
+        "Mighty", "Shiny", "Glowing", "Enchanted", "Ancient",
+        "Dreadful", "Radiant", "Fierce", "Vicious", "Cursed",
+        "Spectral", "Ethereal", "Divine", "Thundering", "Shadow",
+        "Burning", "Frozen", "Mystic", "Swift", "Infernal",
+        "Savage", "Demonic", "Harmonic", "Luminous", "Phantom",
+        "Resplendent", "Wicked", "Blazing", "Illuminated", "Unholy",
+        "Thunderstruck", "Inferno", "Abyssal", "Mysterious", "Eternal",
+        "Dazzling", "Crowned", "Imposing", "Fabled", "Vengeful",
+        "Whispering", "Sacred", "Hellfire", "Noble", "Pristine",
+        "Doomforged", "Stormforged", "Soulforged", "Lifeforged", "Deathforged"
+    ]
 
-    if item_class == 2:  # Weapon
-        weapon_types = {
-            0: "Axe", 
-            1: "Axe", 
-            2: "Bow", 
-            3: "Gun",
-            4: "Mace", 
-            5: "Mace", 
-            6: "Polearm", 
-            7: "Sword",
-            8: "Sword", 
-            10: "Staff", 
-            13: "Fist", 
-            15: "Dagger",
-            16: "Thrown", 
-            18: "Crossbow", 
-            19: "Wand", 
-        }
-        item_name = f"{random.choice(prefixes)} {weapon_types[subclass]} {random.choice(suffixes)}"
+    suffixes = [
+        "of Power", "of the Stars", "of Doom", "of the Ancients", "of the Gods",
+        "of the Fallen", "of the Wise", "of the Brave", "of the Cursed", "of the Damned",
+        "of the Vengeful", "of the Radiant", "of the Shadow", "of the Swift", "of the Frozen",
+        "of the Infernal", "of the Mystic", "of the Thunder", "of the Serpent", "of the Dragon",
+        "of the Phoenix", "of the Slayer", "of the Behemoth", "of the Void", "of the Night",
+        "of the Dawn", "of the Storm", "of the Lich", "of the Abyss", "of the Titan",
+        "of the Avenger", "of the Conqueror", "of the Oracle", "of the Magus", "of the Archon",
+        "of the Prophet", "of the Necromancer", "of the Warlock", "of the Elementalist", "of the Sorcerer",
+        "of the Paladin", "of the Wanderer", "of the Alchemist", "of the Warden", "of the Watcher",
+        "of the Sentinel", "of the Guardian", "of the Harbinger", "of the Paragon", "of the Virtuoso",
+        "of Power", "of the Stars", "of Doom", "of the Ancients", "of the Gods",
+        "of the Fallen", "of the Wise", "of the Brave", "of the Cursed", "of the Damned",
+        "of the Vengeful", "of the Radiant", "of the Shadow", "of the Swift", "of the Frozen",
+        "of the Infernal", "of the Mystic", "of the Thunder", "of the Serpent", "of the Dragon",
+        "of the Phoenix", "of the Slayer", "of the Behemoth", "of the Void", "of the Night",
+        "of the Dawn", "of the Storm", "of the Lich", "of the Abyss", "of the Titan",
+        "of the Avenger", "of the Conqueror", "of the Oracle", "of the Magus", "of the Archon",
+        "of the Prophet", "of the Necromancer", "of the Warlock", "of the Elementalist", "of the Sorcerer",
+        "of the Paladin", "of the Wanderer", "of the Alchemist", "of the Warden", "of the Watcher",
+        "of the Sentinel", "of the Guardian", "of the Harbinger", "of the Paragon", "of the Virtuoso"
+    ]
 
-    elif item_class == 4:  # Armor
-        armor_types = {
-            1: "Head",
-            3: "Shoulders",
-            5: "Chest",
-            6: "Waist",
-            7: "Legs",
-            8: "Feet",
-            9: "Wrists",
-            10: "Hands",
-            14: "Shield",
-            16: "Cloak",
-            23: "Held",
-        }
-        item_name = f"{random.choice(prefixes)} {armor_types[inventory_type]} {random.choice(suffixes)}"
+    item_names = {
+    # WEAPON - ONE HAND - AXE
+    1: [
+        "Axe", "Waraxe", "Battleaxe", "Reaver", "Cleaver",
+        "Chopper", "Hacker", "Hatchet", "Breaker", "Ripsaw",
+        "Saw", "Doomsaw", "Sickle", "Splitter", "Carver"
+    ],
 
-    return item_name
+    # WEAPON - ONE HAND - MACE
+    2: [
+        "Mace", "Gavel", "Pummeler", "Bonecracker", "Hammer",
+        "Warhammer", "Punisher", "Mauler", "Breaker", "Destroyer",
+        "Cudgel", "Mass", "Force", "Hand", "Fist", "Might"
+    ],
+
+    # WEAPON - ONE HAND - SWORD       
+    3: [
+        "Sword", "Blade", "Cutlass", "Saber", "Brand",
+        "Foil", "Rapier", "Scimitar", "Edge", "Sidearm",
+        "Machete", "Longblade", "Swiftblade", "Talon", "Claw",
+        "Fang", "Slicer", "Broadsword", "Falchion", "Bastard Sword"
+    ],
+
+    # WEAPON - ONE HAND - DAGGER
+    4: [
+        "Dagger", "Shiv", "Spike", "Eviscerator", "Blade",
+        "Piercer", "Scalpel", "Barb", "Dirk", "Knife",
+        "Shank", "Vileblade", "Edge", "Carver", "Talon",
+        "Claw", "Fang", "Slicer", "Kris", "Poker"
+    ],
+
+    # WEAPON - BOW
+    5: [
+        "Bow", "Longbow", "Shortbow", "Compound Bow", "Recurve"
+    ],
+
+    # WEAPON - TWO HAND - AXE
+    6: [
+        "Axe", "Waraxe", "Battleaxe", "Reaver", "Cleaver",
+        "Chopper", "Hacker", "Hatchet", "Breaker", "Ripsaw",
+        "Saw", "Doomsaw", "Sickle", "Splitter", "Greataxe", "Carver"
+    ],
+
+    # WEAPON - TWO HAND - MACE
+    7: [
+        "Mace", "Gavel", "Pummeler", "Bonecracker", "Hammer",
+        "Warhammer", "Punisher", "Mauler", "Breaker", "Destroyer",
+        "Cudgel", "Mass", "Force", "Hand", "Fist", "Might"
+    ],
+
+    # WEAPON - TWO HAND - POLEARM
+    8: [
+        "Polearm", "Halberd", "Pike", "Spear", "Greatspear",
+        "Glaive", "Lance", "Scythe", "Trident", "Painsaw",
+        "Quill", "Claw", "Skiver", "Piercer", "Harpoon"
+    ],
+
+    # WEAPON - TWO HAND - SWORD
+    9: [
+        "Blade", "Edge", "Talon", "Claw", "Fang",
+        "Broadsword", "Two-hander", "Claymore", "Zweihander",
+        "Greatsword", "Flamberge"
+    ],
+
+    # WEAPON - TWO HAND - STAFF
+    10: [
+        "Staff", "Stave", "Longstaff", "Battlestaff", "Warstaff",
+        "Branch", "Tower", "Cane", "Rod"
+    ],
+
+    # WEAPON - MAIN HAND - FIST
+    11: [
+        "Fist", "Knuckles", "Claw", "Ripper", "Render",
+        "Blades", "Talon", "Slicer"
+    ],
+
+    # WEAPON - OFF HAND - FIST
+    12: [
+        "Fist", "Knuckles", "Claw", "Ripper", "Render",
+        "Blades", "Talon", "Slicer"
+    ],
+
+    # WEAPON - THROWN
+    13: [
+        "Throwing Axe", "Throwing Knife", "Throwing Star",
+        "Knives", "Edge", "War Edge", "Blades", "Dirk"
+    ],
+
+    # WEAPON - GUN
+    14: [
+        "Boomstick", "Shotgun", "Pistol", "Rifle", "Repeater",
+        "Blunderbuss", "Handcannon"
+    ],
+
+    # WEAPON - WAND
+    15: [
+        "Wand", "Baton", "Rod", "Torch", "Stylus", "Touch"
+    ],
+
+    # WEAPON - CROSSBOW
+    16: [
+        "Crossbow", "Boltcaster", "Needler", "Repeater"
+    ],
+
+    # ARMOR - HEAD - CLOTH
+    17: [
+        "Helm", "Hood", "Crown", "Headpiece", "Cowl",
+        "Cover", "Cap", "Mask", "Guise"
+    ],  
+
+    # ARMOR - HEAD - LEATHER
+    18: [
+        "Helm", "Hood", "Crown", "Faceguard", "Headpiece",
+        "Helmet", "Cowl", "Cover", "Cap", "Mask", "Guise", "Headguard"
+    ],
+
+    # ARMOR - HEAD - MAIL
+    19: [
+        "Helm", "Hood", "Crown", "Greathelm", "Faceguard",
+        "Headpiece", "Helmet", "Cowl", "Mask", "Headguard"
+    ],
+
+    # ARMOR - HEAD - PLATE
+    20: [
+        "Helm", "Guise", "Crown", "Greathelm", "Faceguard",
+        "Headpiece", "Helmet", "Headguard"
+    ],       
+
+    # ARMOR - SHOULDERS - CLOTH
+    21: [
+        "Shoulderpads", "Shoulderguards", "Spaulders",
+        "Mantle", "Pauldrons", "Amice"
+    ],
+
+    # ARMOR - SHOULDERS - LEATHER
+    22: [
+        "Shoulderpads", "Shoulderguards", "Spaulders",
+        "Mantle", "Amice"
+    ],
+
+    # ARMOR - SHOULDERS - MAIL
+    23: [
+        "Epaults", "Shoulderplates", "Shoulderguards",
+        "Spaulders", "Mantle", "Pauldrons"
+    ],
+
+    # ARMOR - SHOULDERS - PLATE
+    24: [
+        "Epaults", "Shoulderplates", "Shoulderguards",
+        "Spaulders", "Mantle", "Pauldrons"
+    ],
+
+    # ARMOR - CHEST - CLOTH
+    25: [
+        "Chestpiece", "Chestguard", "Tunic",
+        "Robe", "Robes", "Vestments", "Raiment"
+    ],
+
+    # ARMOR - CHEST - LEATHER
+    26: [
+        "Chestpiece", "Chestguard", "Armor", "Tunic"
+    ],
+
+    # ARMOR - CHEST - MAIL
+    27: [
+        "Chestpiece", "Chestguard", "Cuirass", "Breastplate",
+        "Hauberk", "Battleplate", "Armor", "Tunic"
+    ],
+
+    # ARMOR - CHEST - PLATE
+    28: [
+        "Chestpiece", "Chestguard", "Cuirass", "Breastplate",
+        "Hauberk", "Battleplate", "Armor"
+    ],
+
+    # ARMOR - WAIST - CLOTH
+    29: [
+        "Belt", "Cord", "Sash", "Cinch", "Wrap"
+    ],
+
+    # ARMOR - WAIST - LEATHER
+    30: [
+        "Belt", "Cord", "Waistguard", "Sash", "Cinch", "Wrap"
+    ],
+
+    # ARMOR - WAIST - MAIL
+    31: [
+        "Belt", "Cord", "Girdle", "Waistguard", "Cinch"
+    ],
+
+    # ARMOR - WAIST - PLATE
+    32: [
+        "Belt", "Waistguard", "Girdle", "Platebelt"
+    ],
+
+    # ARMOR - LEGS - CLOTH
+    33: [
+        "Leggings", "Pants", "Kilt"
+    ],
+
+    # ARMOR - LEGS - LEATHER
+    34: [
+        "Leggings", "Pants", "Trousers", "Legguards"
+    ],
+
+    # ARMOR - LEGS - MAIL
+    35: [
+        "Leggings", "Greaves", "Breeches", "Legguards", "Kilt"
+    ],
+
+    # ARMOR - LEGS - PLATE
+    36: [
+        "Leggings", "Greaves", "Legplates", "Legguards", "Breeches"
+    ],
+
+    # ARMOR - FEET - CLOTH
+    37: [
+        "Boots", "Steps", "Slippers", "Treads", "Sandals"
+    ],
+
+    # ARMOR - FEET - LEATHER
+    38: [
+        "Boots", "Steps", "Stompers", "Treads"
+    ],
+
+    # ARMOR - FEET - MAIL
+    39: [
+        "Boots", "Steps", "Stompers", "Treads", "Greaves"
+    ],
+
+    # ARMOR - FEET - PLATE
+    40: [
+        "Boots", "Steps", "Stompers", "Treads", "Greaves"
+    ],
+
+    # ARMOR - WRISTS - CLOTH
+    41: [
+        "Bracers", "Wristwraps", "Cuffs", "Bindings", "Bands", "Wraps"
+    ],
+
+    # ARMOR - WRISTS - LEATHER
+    42: [
+        "Bracers", "Wristwraps", "Cuffs", "Wristguards", "Bindings", "Bands", "Wraps", "Armguards"
+    ],
+
+    # ARMOR - WRISTS - MAIL
+    43: [
+        "Bracers", "Armguards", "Cuffs", "Wristguards", "Bindings"
+    ],
+
+    # ARMOR - WRISTS - PLATE
+    44: [
+        "Bracers", "Armguards", "Bands", "Wristguards", "Bindings"
+    ],
+
+    # ARMOR - SHIELD
+    45: [
+        "Shield", "Bulwark", "Redoubt", "Protector", "Barrier",
+        "Aegis", "Shieldwall", "Defender", "Barricade", "Crest"
+    ],
+
+    # ARMOR - CLOAK - CLOTH
+    46: [
+        "Cape", "Cloak", "Sheet", "Cover", "Shroud", "Drape", "Shawl"
+    ],
+
+    # OFF HAND
+    47: [
+        "Tome", "Journal", "Orb", "Script", "Manifest",
+        "Endgame", "Talisman", "Lantern", "Lamp", "Shard", "Sphere", "Stone", "Scepter"
+    ],
+
+    # ARMOR - HANDS - CLOTH
+    48: [
+        "Gloves", "Mitts", "Handguards", "Handwraps", "Grips"
+    ],
+
+    # ARMOR - HANDS - LEATHER
+    49: [
+        "Gloves", "Mitts", "Handguards", "Handwraps", "Grips", "Fists"
+    ],
+
+    # ARMOR - HANDS - MAIL
+    50: [
+        "Gloves", "Gauntlets", "Handguards", "Fists", "Grips"
+    ],
+    # ARMOR - HANDS - PLATE
+    51: [
+        "Gloves", "Gauntlets", "Handguards", "Fists", "Grips"
+    ],
+    }
+
+    item_name = random.choice(item_names.get(item_id, []))
+
+    if not item_name:
+        return "Unknown Item"
+
+    return f"{random.choice(prefixes)} {item_name} {random.choice(suffixes)}"
 
 # Function to generate an item and insert it into the database
 def generate_and_insert_item():
+    item_id = random.choice(list(item_combinations.keys()))
     next_entry_value = get_next_entry_value()
-    item_class, inventory_type, subclass, display_id = generate_item_class_inventorytype_subclass()
-    item_name = generate_item_name(item_class, subclass, inventory_type)
+    item_class, inventory_type, subclass, display_id = generate_item_class_inventorytype_subclass(item_id)
+    item_name = generate_item_name(item_id)
     item_level = random.randint(1, 100)  # Adjust this range as needed
     stats = generate_item_stats()  # Update this with your actual stats generation function
     quality = generate_item_quality()
