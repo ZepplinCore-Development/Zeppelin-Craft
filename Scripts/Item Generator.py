@@ -44,7 +44,6 @@ def generate_sql_query(next_entry_value, item_name, item_class, inventory_type, 
         f"({next_entry_value}, {item_class}, {subclass}, -1, '{item_name}', {display_id}, {quality}, {inventory_type}, {item_level}, {len(stats) // 2}, {stats_str}, 0, 0);"
     )
 
-
 # Function to generate a random item quality (either 3 or 4)
 def generate_item_quality():
     return random.choice([3, 4])
@@ -255,6 +254,28 @@ item_combinations = {
     49: (4, 10, 2),   # ARMOR - HANDS - LEATHER
     50: (4, 10, 3),   # ARMOR - HANDS - MAIL
     51: (4, 10, 4),   # ARMOR - HANDS - PLATE    
+}
+
+# Dictionary of item combinations relevant to each class
+class_item_combinations = {
+    # Warrior
+    1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 20, 24, 28, 32, 36, 40, 44, 45, 46, 51],
+    # Paladin
+    2: [1, 2, 3, 6, 7, 8, 9, 20, 24, 28, 32, 36, 40, 44, 45, 46, 51],
+    # Hunter
+    3: [1, 3, 4, 5, 6, 8, 9, 10, 11, 12, 14, 16, 19, 23, 27, 31, 35, 39, 43, 50, 46],
+    # Rogue
+    4: [2, 3, 4, 5, 11, 12, 13, 14, 16, 18, 22, 26, 30, 34, 38, 42, 49],
+    # Priest
+    5: [2, 4, 10, 15, 17, 21, 25, 29, 33, 37, 41, 46, 48],
+    # Druid
+    6: [4, 7, 10, 11, 12, 18, 22, 26, 30, 34, 38, 42, 49],
+    # Shaman
+    7: [1, 2, 4, 6, 7, 10, 11, 12, 19, 23, 27, 31, 35, 39, 43, 45, 46, 50],
+    # Mage
+    8: [3, 4, 10, 15, 17, 21, 25, 29, 33, 37, 41, 46, 48],  
+    # Warlock
+    9: [3, 4, 10, 15, 17, 21, 25, 29, 33, 37, 41, 46, 48],
 }
 
 # Function to generate a random item class, InventoryType, and subclass for Weapon or Armor
