@@ -1,6 +1,6 @@
 -- Pool Creation
 REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
-(9999999,1,'Normal Vanilla Dungeon - Daily Quests - ORG?');
+(300000,1,'Normal Vanilla Dungeon - Daily Quests - ORG');
 
 -- RAZORLASH ---
 
@@ -22,7 +22,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- Razorlash Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(999999,9999999,'Razorlash');
+(441155,300000,'Razorlash');
 
 -- Razorlash Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441155);
@@ -73,7 +73,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- Celebras the Cursed - Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(999998,9999999,'Celebras the Cursed');
+(441156,300000,'Celebras the Cursed');
 
 -- Celebras the Cursed - Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441156);
