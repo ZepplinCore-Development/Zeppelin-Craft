@@ -6,7 +6,7 @@ REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
 
 -- Razorlash Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(441195,300000,'Razorlash');
+(441195,300001,'Razorlash');
 
 -- Razorlash Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441195);
@@ -42,7 +42,7 @@ INSERT INTO `creature_questender` (`id`, `quest`) VALUES
 
 -- Celebras the Cursed - Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(441207,300000,'Celebras the Cursed');
+(441207,300001,'Celebras the Cursed');
 
 -- Celebras the Cursed - Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441207);
