@@ -1,0 +1,71 @@
+Daily Dungeon Quests:
+
+************************************
+NORMAL - HORDE
+
+Quest ID - Item ID
+
+441157 - 900221 - Stormwind Stockade
+441158 - 900222 - Shadowfang Keep
+441159 - 900223 - Razorfen Kraul
+441160 - 900224 - Razorfen Downs
+441161 - 900225 - Wailing Caverns
+441162 - 900226 - Ragefire Chasm
+441163 - 900227 - Gnomeregan
+441164 - 900228 - Blackfathom Deeps
+441165 - 900229 - Scarlet Monastery Graveyard
+441166 - 900230 - Uldaman
+441167 - 900231 - Zul'Farrak
+441155 - 900219 - Maraudon Orange
+441168 - 900232 - Sunken Temple
+441169 - 900233 - Blackrock Depths Prison
+441170 - 900234 - Lower Blackrock Spire
+441171 - 900235 - Dire Maul East
+441172 - 900236 - Dire Maul West
+441173 - 900237 - Dire Maul North
+441174 - 900238 - Stratholme Living
+441175 - 900239 - Upper Blackrock Spire
+441176 - 900240 - Scarlet Monastery Armory
+441177 - 900241 - Scarlet Monastery Cathedral
+441178 - 900242 - Scarlet Monastery Library
+441156 - 900220 - Maraudon Purple				
+441179 - 900243 - Maraudon Pristine Waters
+441180 - 900243 - Stratholme Undead
+441181 - 900244 - Blackrock Depths Upper City
+441182 - 900245 - Scholomance
+441183 - 900246 - Deadmines
+
+***************************************
+NORMAL - ALLIANCE
+
+Quest ID - Item ID
+
+441184 - 900221 - Stormwind Stockade
+441185 - 900222 - Shadowfang Keep
+441186 - 900223 - Razorfen Kraul
+441187 - 900224 - Razorfen Downs
+441188 - 900225 - Wailing Caverns
+441189 - 900226 - Ragefire Chasm
+441190 - 900227 - Gnomeregan
+441191 - 900228 - Blackfathom Deeps
+441192 - 900229 - Scarlet Monastery Graveyard
+441193 - 900230 - Uldaman
+441194 - 900231 - Zul'Farrak
+441195 - 900219 - Maraudon Orange
+441196 - 900232 - Sunken Temple
+441197 - 900233 - Blackrock Depths Prison
+441198 - 900234 - Lower Blackrock Spire
+441199 - 900235 - Dire Maul East
+441200 - 900236 - Dire Maul West
+441201 - 900237 - Dire Maul North
+441202 - 900238 - Stratholme Living
+441203 - 900239 - Upper Blackrock Spire
+441204 - 900240 - Scarlet Monastery Armory
+441205 - 900241 - Scarlet Monastery Cathedral
+441206 - 900242 - Scarlet Monastery Library
+441207 - 900220 - Maraudon Purple				
+441208 - 900243 - Maraudon Pristine Waters
+441209 - 900243 - Stratholme Undead
+441210 - 900244 - Blackrock Depths Upper City
+441211 - 900245 - Scholomance
+441212 - 900246 - Deadmines
