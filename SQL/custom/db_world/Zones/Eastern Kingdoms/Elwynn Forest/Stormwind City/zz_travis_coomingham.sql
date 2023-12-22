@@ -1,0 +1,1 @@
+UPDATE `creature_template` SET `name` = 'Travis Coomingham', `npcflag` = 2 WHERE (`entry` = 12480);
