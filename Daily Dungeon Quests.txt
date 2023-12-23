@@ -1,7 +1,7 @@
 Daily Dungeon Quests:
 
 ************************************
-NORMAL - HORDE
+NORMAL - HORDE - POOL 300000
 
 Quest ID - Item ID
 
@@ -36,7 +36,7 @@ Quest ID - Item ID
 441183 - 900246 - Deadmines
 
 ***************************************
-NORMAL - ALLIANCE
+NORMAL - ALLIANCE - POOL 300001
 
 Quest ID - Item ID
 
