@@ -1,6 +1,15 @@
 import mysql.connector
 import random
 
+# TO DO LIST
+# Dictionary of stats relevant to each class
+# Primary + Random Secondary Stat Selection
+# Import the power level formula
+# Import stat weightings
+# Operating Modes, e.g. X items per Class per Slot or random single item etc...
+# Dictionary for item ID ranges reserved for this project... e.g. Heroic and Mythic drops.
+
+
 # Database connection configuration
 db_config = {
     "host": "192.168.0.99",
