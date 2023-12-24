@@ -10,8 +10,9 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 (441194, 2, 48, 45, 978, 81, 0, 0, 0, 0, 0, 0, 7, 132000, 0, 11400, 0, 0, 0, 0, 0, 4104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 469, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 'Wanted: Sandfury War Drum',
 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
-'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'' its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace!',
-'', 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
+'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin''
+its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace!',
+'', 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900231, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
 -- Chief Ukorz Sandscalp - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441194);
