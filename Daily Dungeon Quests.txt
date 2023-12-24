@@ -5,9 +5,12 @@ NORMAL REWARD CHOICES:
 2. EXPERIENCE ORB - 900189
 
 ************************************
-NORMAL - HORDE - POOL 300000
+- NORMAL 
+- HORDE
+- POOL 300000
+- REP 67
 
-Quest ID - Item ID
+Quest ID - Item ID - Dungeon
 
 441157 - 900221 - Stormwind Stockade
 441158 - 900222 - Shadowfang Keep
@@ -40,9 +43,12 @@ Quest ID - Item ID
 441183 - 900246 - Deadmines
 
 ***************************************
-NORMAL - ALLIANCE - POOL 300001
+- NORMAL
+- ALLIANCE
+- POOL 300001
+- REP 469
 
-Quest ID - Item ID
+Quest ID - Item ID - Dungeon
 
 441184 - 900221 - Stormwind Stockade
 441185 - 900222 - Shadowfang Keep
