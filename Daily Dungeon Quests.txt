@@ -19,8 +19,8 @@ Quest ID - Item ID
 441164 - 900228 - Blackfathom Deeps
 441165 - 900229 - Scarlet Monastery Graveyard
 441166 - 900230 - Uldaman
-441167 - 900231 - Zul'Farrak
-441155 - 900219 - Maraudon Orange
+441167 - 900231 - Zul'Farrak - COMPLETE
+441155 - 900219 - Maraudon Orange - COMPLETE
 441168 - 900232 - Sunken Temple
 441169 - 900233 - Blackrock Depths Prison
 441170 - 900234 - Lower Blackrock Spire
@@ -32,8 +32,8 @@ Quest ID - Item ID
 441176 - 900240 - Scarlet Monastery Armory
 441177 - 900241 - Scarlet Monastery Cathedral
 441178 - 900242 - Scarlet Monastery Library
-441156 - 900220 - Maraudon Purple				
-441179 - 900243 - Maraudon Pristine Waters
+441156 - 900220 - Maraudon Purple - COMPLETE				
+441179 - 900243 - Maraudon Pristine Waters - COMPLETE
 441180 - 900243 - Stratholme Undead
 441181 - 900244 - Blackrock Depths Upper City
 441182 - 900245 - Scholomance
@@ -54,8 +54,8 @@ Quest ID - Item ID
 441191 - 900228 - Blackfathom Deeps
 441192 - 900229 - Scarlet Monastery Graveyard
 441193 - 900230 - Uldaman
-441194 - 900231 - Zul'Farrak
-441195 - 900219 - Maraudon Orange
+441194 - 900231 - Zul'Farrak - COMPLETE
+441195 - 900219 - Maraudon Orange - COMPLETE
 441196 - 900232 - Sunken Temple
 441197 - 900233 - Blackrock Depths Prison
 441198 - 900234 - Lower Blackrock Spire
@@ -67,8 +67,8 @@ Quest ID - Item ID
 441204 - 900240 - Scarlet Monastery Armory
 441205 - 900241 - Scarlet Monastery Cathedral
 441206 - 900242 - Scarlet Monastery Library
-441207 - 900220 - Maraudon Purple				
-441208 - 900243 - Maraudon Pristine Waters
+441207 - 900220 - Maraudon Purple - COMPLETE				
+441208 - 900243 - Maraudon Pristine Waters - COMPLETE
 441209 - 900243 - Stratholme Undead
 441210 - 900244 - Blackrock Depths Upper City
 441211 - 900245 - Scholomance
