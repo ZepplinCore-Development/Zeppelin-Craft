@@ -6,9 +6,8 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclas
 (900231 , 12, 0, -1, 'Sandfury War Drum', 41062, 1, 0, 0, 1, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 4, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0);
 
 -- Chief Ukorz Sandscalp - Sandfury War Drum - Quest Item
-DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7267);
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7267) AND (`ItemId` = 900231);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
-(7267, 0, 17684, 0),
 (7267, 1, 900231 , 0);
 
 -- Chief Ukorz Sandscalp - Sandfury War Drum - Loot Template
