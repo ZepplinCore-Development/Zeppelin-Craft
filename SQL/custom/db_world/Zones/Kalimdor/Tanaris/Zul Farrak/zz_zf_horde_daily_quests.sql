@@ -1,7 +1,7 @@
---- Chief Ukorz Sandscalp ---
+-- Chief Ukorz Sandscalp --
 
 -- Chief Ukorz Sandscalp - Pool Quest
-REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
+REPLACE INTO `pool_quest` (`entry`,`pool_entry`,`description`) VALUES
 (441167,300000,'Chief Ukorz Sandscalp');
 
 -- Chief Ukorz Sandscalp - Quest Template
