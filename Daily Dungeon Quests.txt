@@ -24,7 +24,7 @@ Quest ID - Item ID - Dungeon
 441166 - 900230 - Uldaman
 441167 - 900231 - Zul'Farrak - COMPLETE
 441155 - 900219 - Maraudon Orange - COMPLETE
-441168 - 900232 - Sunken Temple
+441168 - 900232 - Sunken Temple - COMPLETE
 441169 - 900233 - Blackrock Depths Prison
 441170 - 900234 - Lower Blackrock Spire
 441171 - 900235 - Dire Maul East
@@ -62,7 +62,7 @@ Quest ID - Item ID - Dungeon
 441193 - 900230 - Uldaman
 441194 - 900231 - Zul'Farrak - COMPLETE
 441195 - 900219 - Maraudon Orange - COMPLETE
-441196 - 900232 - Sunken Temple
+441196 - 900232 - Sunken Temple - COMPLETE
 441197 - 900233 - Blackrock Depths Prison
 441198 - 900234 - Lower Blackrock Spire
 441199 - 900235 - Dire Maul East
