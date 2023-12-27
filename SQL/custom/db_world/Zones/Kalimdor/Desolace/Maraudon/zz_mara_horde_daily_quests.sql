@@ -122,9 +122,9 @@ INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`,
 -- Princess Theradras - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441208);
 INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES
-(12480, 441208);
+(14392, 441208);
 
 -- Princess Theradras - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441208);
 INSERT INTO `creature_questender` (`id`, `quest`) VALUES
-(12480, 441208);
+(14392, 441208);
