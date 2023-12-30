@@ -14,7 +14,7 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 '', 'Return the Razor Petal to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
 -- Razorlash - Quest Template - Teleport
-UPDATE `quest_template` SET `ItemDrop1` = 900254, `ItemDropQuantity1` = 1 WHERE (`ID` = 441195);
+UPDATE `quest_template` SET `StartItem` = 900254 WHERE (`ID` = 441195);
 
 -- Razorlash - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441195);
@@ -60,7 +60,7 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 '', 'Return the Carved Horn of Remulos to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900220, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
 -- Razorlash - Quest Template - Teleport
-UPDATE `quest_template` SET `ItemDrop1` = 900255, `ItemDropQuantity1` = 1 WHERE (`ID` = 441207);
+UPDATE `quest_template` SET `StartItem` = 900255 WHERE (`ID` = 441207);
 
 -- Celebras the Cursed - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441207);
