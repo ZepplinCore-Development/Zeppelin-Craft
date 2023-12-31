@@ -7,7 +7,4 @@ REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`,
 (91023, 0, 1, 1688.99, 1053.48, 18.68, 0.00, 0), -- Scarlet Monastery - Graveyard
 (91024, 0, 0, 255.35, -209.09, 18.68, 6.27, 0), -- Scarlet Monastery - Library
 (91025, 0, 1, 458.32, 26.52, -70.67, 4.95, 0), -- Blackrock Depths - Prison
-(91026, 0, 0, 881.5, -237.3, -49.9, 5.8, 0), -- Blackrock Depths - Upper City
-
-
-;
+(91026, 0, 0, 881.5, -237.3, -49.9, 5.8, 0); -- Blackrock Depths - Upper City
