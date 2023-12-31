@@ -14,7 +14,7 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 '', 'Return the Razor Petal to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
 -- Razorlash - Quest Template - Teleport
-UPDATE `quest_template` SET `StartItem` = 900254 WHERE (`ID` = 441195);
+UPDATE `quest_template` SET `StartItem` = 900255 WHERE (`ID` = 441195);
 
 -- Razorlash - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441195);
@@ -59,8 +59,8 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'' to grab the Carved Horn of Remulos from Celebras. We can''t let ''em use it for who knows what – maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
 '', 'Return the Carved Horn of Remulos to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900220, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
--- Razorlash - Quest Template - Teleport
-UPDATE `quest_template` SET `StartItem` = 900255 WHERE (`ID` = 441207);
+-- Celebras the Cursed - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900254 WHERE (`ID` = 441207);
 
 -- Celebras the Cursed - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441207);
