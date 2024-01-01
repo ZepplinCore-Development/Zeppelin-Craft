@@ -1,0 +1,34 @@
+Dungeon Teleports:
+
+ITEM - SPELL
+
+XXXXXX - XXXXXX - Wailing Caverns
+XXXXXX - XXXXXX - Ragefire Chasm
+XXXXXX - XXXXXX - Deadmines
+XXXXXX - XXXXXX - Shadowfang Keep
+XXXXXX - XXXXXX - Blackfathom Deeps
+XXXXXX - XXXXXX - Stormwind Stockade
+900259 - 91023 - Scarlet Monastery Graveyard
+XXXXXX - XXXXXX - Gnomeregan
+XXXXXX - XXXXXX - Razorfen Kraul
+XXXXXX - XXXXXX - Razorfen Downs
+900260 - 91024 - Scarlet Monastery Library
+900257 - 91021 - Scarlet Monastery Armory
+900258 - 91022 - Scarlet Monastery Cathedral
+900255 - 91019 - Maraudon Orange
+900263 - 91027 - Zul'Farrak
+900254 - 91018 - Maraudon Purple
+XXXXXX - XXXXXX - Uldaman
+900256 - 91020 - Maraudon Pristine Waters
+900261 - 91025 - Blackrock Depths Prison
+900264 - 91028 - Sunken Temple
+XXXXXX - XXXXXX - Dire Maul East
+XXXXXX - XXXXXX - Lower Blackrock Spire
+XXXXXX - XXXXXX - Upper Blackrock Spire
+XXXXXX - XXXXXX - Dire Maul West
+XXXXXX - XXXXXX - Dire Maul North
+XXXXXX - XXXXXX - Stratholme Undead
+XXXXXX - XXXXXX - Stratholme Living
+XXXXXX - XXXXXX - Scholomance
+900262 - 91026 - Blackrock Depths Upper City
+
