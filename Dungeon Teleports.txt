@@ -2,33 +2,34 @@ Dungeon Teleports:
 
 ITEM - SPELL
 
-XXXXXX - XXXXXX - Wailing Caverns
-XXXXXX - XXXXXX - Ragefire Chasm
-XXXXXX - XXXXXX - Deadmines
-XXXXXX - XXXXXX - Shadowfang Keep
-XXXXXX - XXXXXX - Blackfathom Deeps
-XXXXXX - XXXXXX - Stormwind Stockade
-900259 - 91023 - Scarlet Monastery Graveyard
-XXXXXX - XXXXXX - Gnomeregan
-XXXXXX - XXXXXX - Razorfen Kraul
-XXXXXX - XXXXXX - Razorfen Downs
-900260 - 91024 - Scarlet Monastery Library
+900254 - 91018 - Maraudon Purple
+900255 - 91019 - Maraudon Orange
+900256 - 91020 - Maraudon Pristine Waters
 900257 - 91021 - Scarlet Monastery Armory
 900258 - 91022 - Scarlet Monastery Cathedral
-900255 - 91019 - Maraudon Orange
-900263 - 91027 - Zul'Farrak
-900254 - 91018 - Maraudon Purple
-XXXXXX - XXXXXX - Uldaman
-900256 - 91020 - Maraudon Pristine Waters
+900259 - 91023 - Scarlet Monastery Graveyard
+900260 - 91024 - Scarlet Monastery Library
 900261 - 91025 - Blackrock Depths Prison
-900264 - 91028 - Sunken Temple
-XXXXXX - XXXXXX - Dire Maul East
-XXXXXX - XXXXXX - Lower Blackrock Spire
-XXXXXX - XXXXXX - Upper Blackrock Spire
-XXXXXX - XXXXXX - Dire Maul West
-XXXXXX - XXXXXX - Dire Maul North
-XXXXXX - XXXXXX - Stratholme Undead
-XXXXXX - XXXXXX - Stratholme Living
-XXXXXX - XXXXXX - Scholomance
 900262 - 91026 - Blackrock Depths Upper City
+900263 - 91027 - Zul'Farrak
+900264 - 91028 - Sunken Temple
+900265 - 91029 - Wailing Caverns
+900266 - 91030 - Ragefire Chasm
+900267 - 91031 - Deadmines
+900268 - 91032 - Shadowfang Keep
+900269 - 91033 - Blackfathom Deeps
+900270 - 91034 - Stormwind Stockade
+900271 - 91035 - Gnomeregan
+900272 - 91036 - Razorfen Kraul
+900273 - 91037 - Razorfen Downs
+900274 - 91038 - Uldaman
+900275 - 91039 - Lower Blackrock Spire
+900276 - 91040 - Upper Blackrock Spire
+900277 - 91041 - Dire Maul East
+900278 - 91042 - Dire Maul West
+900279 - 91043 - Dire Maul North
+900280 - 91044 - Stratholme Undead
+900281 - 91045 - Stratholme Living
+900282 - 91046 - Scholomance
+
 
