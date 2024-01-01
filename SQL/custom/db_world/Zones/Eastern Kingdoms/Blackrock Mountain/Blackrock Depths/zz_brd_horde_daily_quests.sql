@@ -16,6 +16,9 @@ The Black Forge, powered by the fiery essence, shall become the crucible for cra
 Venture into the inferno, secure the Incendiary Core, and be a part of forging a powerful future for the Horde.',
 '', 'Return the Incendiary Core to Overlord Runthak in Orgrimmar.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Lord Incendius - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900261 WHERE (`ID` = 441169);
+
 -- Lord Incendius - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441169);
 

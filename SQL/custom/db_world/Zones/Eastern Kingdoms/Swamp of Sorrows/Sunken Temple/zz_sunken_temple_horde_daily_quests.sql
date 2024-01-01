@@ -18,6 +18,9 @@ Your mission is to recover the Dream Seed from this ethereal guardian.
 Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''s future.',
 '', 'Return the Dream Seed to Overlord Runthak in Orgrimmar.', 0, 0, 0, 0, 0, 0, 0, 0, 900232, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Shade of Eranikus - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900264 WHERE (`ID` = 441168);
+
 -- Shade of Eranikus - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441168);
 

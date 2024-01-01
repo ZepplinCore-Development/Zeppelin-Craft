@@ -16,6 +16,9 @@ Ride through, take on Lord Incendius, and bring back that Incendiary Core. There
 Let''s show them Horde dreamers we mean business and keep the Incendiary Core safe from their bonfire follies!',
 '', 'Return the Incendiary Core to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Lord Incendius - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900261 WHERE (`ID` = 441197);
+
 -- Lord Incendius - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441197);
 

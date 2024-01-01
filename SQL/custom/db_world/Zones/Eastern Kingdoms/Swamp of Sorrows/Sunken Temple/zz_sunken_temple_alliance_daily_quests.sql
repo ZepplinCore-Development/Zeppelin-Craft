@@ -17,6 +17,9 @@ Can''t let that happen! Head on down, confront the Shade of Eranikus, and bring 
 There''s a reward waitin'' for ya. Let''s stomp out them Horde''s gardening dreams and keep the Dream Seed safe!',
 '', 'Return the Dream Seed to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900232, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Shade of Eranikus - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900264 WHERE (`ID` = 441196);
+
 -- Shade of Eranikus - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441196);
 

@@ -12,6 +12,9 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 'The Horde is in need of champions, and I''ve got a task fit for those who wish to prove their mettle. Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. Are you up for the challenge, or will you crumble like the weak?',
 '', 'Return the Razor Petal to Overlord Runthak in Orgrimmar.', 0, 0, 0, 0, 0, 0, 0, 0, 900219, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Razorlash - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900255 WHERE (`ID` = 441155);
+
 -- Razorlash - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441155);
 
@@ -53,6 +56,9 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 'Retrieve the Carved Horn of Remulos, guarded by his son Celebras The Cursed in Maraudon Purple.', 
 'The Horde demands more from its champions, and your next test lies in the Poison Falls of Maraudon. Seek out Celebras the Cursed, son of Remulos, within the shadows of the purple crystal-marked entrance. Your target is the the Carved Horn of Remulos. Only those who can navigate the dangers and confront Celebras will be deemed worthy. The Horde seeks strength and resilience do you possess these qualities, or will you falter in the face of adversity?',
 '', 'Return the Carved Horn of Remulos to Overlord Runthak in Orgrimmar.', 0, 0, 0, 0, 0, 0, 0, 0, 900220, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
+
+-- Celebras the Cursed - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900254 WHERE (`ID` = 441156);
 
 -- Celebras the Cursed - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441156);

@@ -14,6 +14,9 @@ INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `Ques
 its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace!',
 '', 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900231, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
+-- Chief Ukorz Sandscalp - Quest Template - Teleport
+UPDATE `quest_template` SET `StartItem` = 900263 WHERE (`ID` = 441194);
+
 -- Chief Ukorz Sandscalp - Quest Template - Reward
 UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441194);
 
