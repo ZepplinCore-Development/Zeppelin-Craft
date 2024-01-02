@@ -2,7 +2,7 @@
 
 -- Shade of Eranikus - Pool Quest
 REPLACE INTO `pool_quest` (`entry`,`pool_entry`,`description`) VALUES
-(441196,3000010,'Shade of Eranikus');
+(441196,300010,'Shade of Eranikus');
 
 -- Shade of Eranikus - Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441196);

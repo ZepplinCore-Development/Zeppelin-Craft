@@ -2,7 +2,7 @@
 
 -- Lord Incendius Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(441197,3000010,'Lord Incendius');
+(441197,300010,'Lord Incendius');
 
 -- Lord Incendius Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441197);

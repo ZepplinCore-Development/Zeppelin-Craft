@@ -94,7 +94,7 @@ INSERT INTO `creature_questender` (`id`, `quest`) VALUES
 
 -- Princess Theradras - Pool Quest
 REPLACE INTO `pool_quest` (entry,pool_entry,description) VALUES
-(441208,3000010,'Princess Theradras');
+(441208,300010,'Princess Theradras');
 
 -- Princess Theradras - Quest Template
 DELETE FROM `quest_template` WHERE (`ID` = 441208);
