@@ -51,7 +51,7 @@ def execute_queries(entry_value, start_new_entry, is_boss, is_mythic):
             # Fetch and update the subname if it exists
             if original_row[11]:
                 subname = original_row[11]
-                subname = subname.replace("'", "")  # Remove apostrophes from the subname
+                subname = subname.replace("'", "''")  # Add second apostrophes to the subname
                 original_row[11] = subname
 
             # modify difficulty entries for the new entry
@@ -163,7 +163,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Blackrock_Depths
+dungeon = The_Deadmines
 
 # Create a dictionary of dictionaries to store the data
 data = {
