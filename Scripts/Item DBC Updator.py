@@ -15,8 +15,11 @@ try:
     acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= 91000")
     item_templates = acore_world_cursor.fetchall()
 
+    delete_query = "DELETE FROM dbc.item WHERE itemID >= 91000;"
+    print(delete_query)
+
     # Constructing a single SQL statement for batch insert
-    insert_query = "REPLACE INTO dbc.item (itemID, ItemClass, ItemSubClass, sound_override_subclassid, MaterialID, ItemDisplayInfo, inventorySlotID, SheathID) VALUES \n"
+    insert_query = "INSERT INTO dbc.item (itemID, ItemClass, ItemSubClass, sound_override_subclassid, MaterialID, ItemDisplayInfo, inventorySlotID, SheathID) VALUES \n"
     values = []
 
     for item_template in item_templates:
