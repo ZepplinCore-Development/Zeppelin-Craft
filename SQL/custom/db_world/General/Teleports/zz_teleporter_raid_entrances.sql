@@ -42,6 +42,6 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (900000, 1, 6, 0, 62, 0, 100, 0, 62000, 6, 0, 0, 0, 11, 90016, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 'On Gossip Select - Invoker Cast');
 
 DELETE FROM `gameobject` WHERE (`id` = 900000);
-INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `ScriptName`, `VerifiedBuild`) VALUES
+REPLACE INTO gameobject (id,`map`,zoneId,areaId,spawnMask,phaseMask,position_x,position_y,position_z,orientation,rotation0,rotation1,rotation2,rotation3,spawntimesecs,animprogress,state,ScriptName,VerifiedBuild,Comment) VALUES
 (900000,1,0,0,1,1,1601.94,-4316.44,2.25578,4.69507,0.0,0.0,-0.713205,0.700956,300,0,1,'',NULL,NULL), -- Orgrimmar
 (900000,0,0,0,1,1,-8793.4,650.836,94.981,4.09241,-0.0,-0.0,-0.889106,0.457701,300,0,1,'',NULL,NULL); -- Stormwind
