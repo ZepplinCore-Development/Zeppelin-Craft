@@ -43,4 +43,5 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 
 DELETE FROM `gameobject` WHERE (`id` = 900000);
 INSERT INTO `gameobject` (`guid`, `id`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `ScriptName`, `VerifiedBuild`) VALUES
-(5330562, 900000, 1, 0, 0, 1, 1, 1601.94, -4316.44, 2.25578, 4.69507, 0, 0, -0.713205, 0.700956, 300, 0, 1, '', NULL);
+(900000,1,0,0,1,1,1601.94,-4316.44,2.25578,4.69507,0.0,0.0,-0.713205,0.700956,300,0,1,'',NULL,NULL), -- Orgrimmar
+(900000,0,0,0,1,1,-8793.4,650.836,94.981,4.09241,-0.0,-0.0,-0.889106,0.457701,300,0,1,'',NULL,NULL); -- Stormwind
