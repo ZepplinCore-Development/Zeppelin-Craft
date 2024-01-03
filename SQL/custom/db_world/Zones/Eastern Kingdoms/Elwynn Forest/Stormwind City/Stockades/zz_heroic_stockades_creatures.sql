@@ -1,3 +1,4 @@
+
 -- Heroic Defias Prisoner
 DELETE FROM `creature_template` WHERE entry = 9100400;
 INSERT INTO `creature_template` VALUES (9100400, '0', '0', '0', '0', '0', '2148', '0', '0', '0', 'Heroic Defias Prisoner', NULL, NULL, '0', '60', '60', '0', '290', '0', '1.0', '1.14286', '1.0', '1.0', 
