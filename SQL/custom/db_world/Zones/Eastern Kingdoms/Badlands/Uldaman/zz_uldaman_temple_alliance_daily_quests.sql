@@ -17,7 +17,7 @@ Can''t let that kind of foolhardy dream go down.
 Ride on over, face Archaedas, and fetch that Resonating Stone. 
 Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower.
 It''ll teleport ya straight to Uldaman. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!'
-, 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900230, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
+,'', 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.', 0, 0, 0, 0, 0, 0, 0, 0, 900230, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, '', '', '', '', 12340);
 
 -- Archaedas - Quest Template - Teleport
 UPDATE `quest_template` SET `StartItem` = 900274 WHERE (`ID` = 441193);
