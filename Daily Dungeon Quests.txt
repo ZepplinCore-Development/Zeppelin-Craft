@@ -37,7 +37,7 @@ Quest ID - Item ID - Dungeon
 441155 - 900219 - Maraudon Orange - COMPLETE
 441167 - 900231 - Zul'Farrak - COMPLETE 
 441156 - 900220 - Maraudon Purple - COMPLETE
-441166 - 900230 - Uldaman
+441166 - 900230 - Uldaman - COMPLETE
 
 LEVEL 51 - 58 POOL 300004
 Quest ID - Item ID - Dungeon			
@@ -99,7 +99,7 @@ Quest ID - Item ID - Dungeon
 441208 - 900243 - Maraudon Pristine Waters - COMPLETE
 441197 - 900233 - Blackrock Depths Prison - COMPLETE
 441196 - 900232 - Sunken Temple - COMPLETE
-441199 - 900235 - Dire Maul East
+441199 - 900235 - Dire Maul East - COMPLETE
 441198 - 900234 - Lower Blackrock Spire	
 
 LEVEL 59 - 60 POOL 3000011
