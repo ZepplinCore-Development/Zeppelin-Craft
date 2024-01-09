@@ -63,7 +63,7 @@ SET `ID` = 441167,
     `EmoteOnIncomplete` = 1,
     `CompletionText` = 'The Sandfury War Drum please.',
     `VerifiedBuild` = 12340;
-jjk
+
 -- Chief Ukorz Sandscalp - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441167);
 INSERT INTO `creature_queststarter` 
