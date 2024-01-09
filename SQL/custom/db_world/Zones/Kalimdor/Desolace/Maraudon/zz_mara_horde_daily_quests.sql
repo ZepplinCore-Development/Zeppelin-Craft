@@ -29,10 +29,7 @@ SET `ID` = 441155,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Razor Petal',
     `LogDescription` = 'Retrieve the Razor Petal from Razorlash in Maraudon.',
-    `QuestDescription` = 'The Horde is in need of champions, and I''ve got a task fit for those who wish to prove their mettle. 
-    Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. 
-    Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. 
-    Are you up for the challenge, or will you crumble like the weak?',
+    `QuestDescription` = 'The Horde is in need of champions, and I''ve got a task fit for those who wish to prove their mettle. Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. Are you up for the challenge, or will you crumble like the weak?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Razor Petal to Overlord Runthak in Orgrimmar.',
     `RequiredItemId1` = 900219, -- Update for new daily
@@ -107,10 +104,7 @@ SET `ID` = 441156,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Carved Horn of Remulos',
     `LogDescription` = 'Retrieve the Carved Horn of Remulos, guarded by his son Celebras The Cursed in Maraudon Purple.',
-    `QuestDescription` = 'The Horde demands more from its champions, and your next test lies in the Poison Falls of Maraudon. 
-    Seek out Celebras the Cursed, son of Remulos, within the shadows of the purple crystal-marked entrance. 
-    Your target is the Carved Horn of Remulos. Only those who can navigate the dangers and confront Celebras will be deemed worthy. 
-    The Horde seeks strength and resilience. Do you possess these qualities, or will you falter in the face of adversity?',
+    `QuestDescription` = 'The Horde demands more from its champions, and your next test lies in the Poison Falls of Maraudon. Seek out Celebras the Cursed, son of Remulos, within the shadows of the purple crystal-marked entrance. Your target is the Carved Horn of Remulos. Only those who can navigate the dangers and confront Celebras will be deemed worthy. The Horde seeks strength and resilience. Do you possess these qualities, or will you falter in the face of adversity?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Carved Horn of Remulos to Overlord Runthak in Orgrimmar.',
     `RequiredItemId1` = 900220, -- Update for new daily
@@ -185,11 +179,7 @@ SET `ID` = 441208,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Face of Theradras',
     `LogDescription` = 'Retrieve the Face of Theradras from Princess Theradras in the Pristine Waters of Maraudon.',
-    `QuestDescription` = 'The Horde''s path to glory winds deep into Maraudon''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. 
-    Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. 
-    The Horde seeks champions who can triumph over the most fearsome adversaries. 
-    Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. 
-    Will you prove yourself worthy, or will the waters swallow your ambitions?',
+    `QuestDescription` = 'The Horde''s path to glory winds deep into Maraudon''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. The Horde seeks champions who can triumph over the most fearsome adversaries. Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. Will you prove yourself worthy, or will the waters swallow your ambitions?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Face of Theradras to Travis Coomingham in Stormwind.',
     `RequiredItemId1` = 900243, -- Update for new daily

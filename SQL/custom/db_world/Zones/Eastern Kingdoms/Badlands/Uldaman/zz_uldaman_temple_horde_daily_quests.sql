@@ -29,12 +29,7 @@ SET `ID` = 441166,
     `RewardFactionValue1` = 6, 
     `LogTitle` = 'Wanted: Resonating Stone of Unity', 
     `LogDescription` = 'Retrieve the Resonating Stone of Unity from the Archaedas in the Uldaman.', 
-    `QuestDescription` = 'The Horde bestows upon you a magicked orb, enchanted by the most powerful mages in our ranks. 
-    Use it to transport yourself to the ancient halls of Uldaman, where Archaedas, the Ancient Stone Watcher, stands as guardian. 
-    The Resonating Stone of Unity lies in his watchful care, a relic left by the titans. 
-    Your mission is to face Archaedas, retrieve the stone, and bring it back to the Horde. 
-    This artifact possesses the power to unify the races of Kalimdor in peace. 
-    Will you be the conduit for this harmony, or will the stone remain under the silent gaze of the ancient watcher?', 
+    `QuestDescription` = 'The Horde bestows upon you a magicked orb, enchanted by the most powerful mages in our ranks. Use it to transport yourself to the ancient halls of Uldaman, where Archaedas, the Ancient Stone Watcher, stands as guardian. The Resonating Stone of Unity lies in his watchful care, a relic left by the titans. Your mission is to face Archaedas, retrieve the stone, and bring it back to the Horde. This artifact possesses the power to unify the races of Kalimdor in peace. Will you be the conduit for this harmony, or will the stone remain under the silent gaze of the ancient watcher?', 
     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Overlord Runthak in Orgrimmar.', 
     `RequiredItemId1` = 900230, -- Update for new daily 
     `RequiredItemCount1` = 1,

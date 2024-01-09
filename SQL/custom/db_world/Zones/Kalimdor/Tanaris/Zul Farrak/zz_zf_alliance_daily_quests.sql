@@ -29,23 +29,12 @@ SET `ID` = 441194,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Sandfury War Drum',
     `LogDescription` = 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
-    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, 
-    are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'' its powerful beat 
-    to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! 
-    Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. 
-    There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace.',
+    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'' its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.',
     `RequiredItemId1` = 900231, -- Update for new daily 
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
-
--- Chief Ukorz Sandscalp - Quest Template - Teleport
-UPDATE `quest_template` SET `StartItem` = 900263 WHERE (`ID` = 441194);
-
--- Chief Ukorz Sandscalp - Quest Template - Reward
-UPDATE `quest_template` SET `RewardChoiceItemID1` = 900104, `RewardChoiceItemQuantity1` = 1, 
-    `RewardChoiceItemID2` = 900189, `RewardChoiceItemQuantity2` = 1 WHERE (`ID` = 441194);
 
 -- Chief Ukorz Sandscalp - Quest Template Addon
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441194);

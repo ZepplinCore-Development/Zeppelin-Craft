@@ -29,14 +29,7 @@ SET `ID` = 441193,
     `RewardFactionValue1` = 6, 
     `LogTitle` = 'Wanted: Resonating Stone of Unity', 
     `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman.', 
-    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, 
-    are schemin'' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. 
-    And get this, they''re thinkin'' ''bout usin'' it to unify all the races of Kalimdor in peace! 
-    Can''t let that kind of foolhardy dream go down. 
-    Ride on over, face Archaedas, and fetch that Resonating Stone. 
-    Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower.
-    It''ll teleport ya straight to Uldaman. 
-    There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!',
+    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. And get this, they''re thinkin'' ''bout usin'' it to unify all the races of Kalimdor in peace! Can''t let that kind of foolhardy dream go down. Ride on over, face Archaedas, and fetch that Resonating Stone. Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower. It''ll teleport ya straight to Uldaman. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!',
     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.', 
     `RequiredItemId1` = 900230, -- Update for new daily 
     `RequiredItemCount1` = 1, 

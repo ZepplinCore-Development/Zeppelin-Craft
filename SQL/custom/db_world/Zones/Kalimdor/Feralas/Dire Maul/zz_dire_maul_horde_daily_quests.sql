@@ -29,14 +29,7 @@ SET `ID` = 441171,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Scepter of Sylvan Corruption',
     `LogDescription` = 'Retrieve the Scepter of Sylvan Corruption from Alzzin the Wildshaper in Maraudon.',
-    `QuestDescription` = 'Embrace the call, brave champion! The Horde has deemed you worthy of a task of great importance. 
-    Travel to Dire Maul, where Alzzin the Wildshaper guards the malevolent Scepter of Sylvan Corruption. 
-    This foul artifact must be recovered swiftly to prevent further corruption. 
-    Shamans of the Horde stand ready to destroy it, cleansing the land of its taint. 
-    Wield your strength and face Alzzin, secure the scepter, and bring it back to the Horde. 
-    The fate of Azeroth hangs in the balance. The mages have enchanted an orb for you; use it wisely, 
-    and may it transport you safely to Dire Maul from anywhere in our vast world. 
-    Go forth, champion, and may victory be yours!',
+    `QuestDescription` = 'Embrace the call, brave champion! The Horde has deemed you worthy of a task of great importance. Travel to Dire Maul, where Alzzin the Wildshaper guards the malevolent Scepter of Sylvan Corruption. This foul artifact must be recovered swiftly to prevent further corruption. Shamans of the Horde stand ready to destroy it, cleansing the land of its taint. Wield your strength and face Alzzin, secure the scepter, and bring it back to the Horde. The fate of Azeroth hangs in the balance. The mages have enchanted an orb for you; use it wisely, and may it transport you safely to Dire Maul from anywhere in our vast world. Go forth, champion, and may victory be yours!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Scepter of Sylvan Corruption to Overlord Runthak in Orgrimmar.',
     `RequiredItemId1` = 900235, -- Update for new daily

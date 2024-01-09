@@ -29,10 +29,7 @@ SET `ID` = 441195,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Razor Petal',
     `LogDescription` = 'Retrieve the Razor Petal from Razorlash in Maraudon Orange.',
-    `QuestDescription` = 'Howdy, partner! Just got word that Zuglord Runthak and his Horde gang are aimin'' to get their hands on the Razor Petal. 
-    It only grows from a special plant called Razorlash, near them orange crystals in Maraudon. We can''t let ''em beat us to it! 
-    Ride on over, pluck that Razor Petal from Razorlash, and bring it back. We''ll make sure you''re well rewarded. 
-    Let''s outpace them Horde varmints and secure that Razor Petal!',
+    `QuestDescription` = 'Howdy, partner! Just got word that Zuglord Runthak and his Horde gang are aimin'' to get their hands on the Razor Petal. It only grows from a special plant called Razorlash, near them orange crystals in Maraudon. We can''t let ''em beat us to it! Ride on over, pluck that Razor Petal from Razorlash, and bring it back. We''ll make sure you''re well rewarded. Let''s outpace them Horde varmints and secure that Razor Petal!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Razor Petal to Travis Coomingham in Stormwind.',
     `RequiredItemId1` = 900219, -- Update for new daily
@@ -106,7 +103,7 @@ SET `ID` = 441207,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Carved Horn of Remulos',
     `LogDescription` = 'Retrieve the Carved Horn of Remulos, guarded by his son Celebras The Cursed in Maraudon Purple.',
-    `QuestDescription` = 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'' to grab the Carved Horn of Remulos from Celebras. We can''t let ''em use it for who knows what – maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
+    `QuestDescription` = 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'' to grab the Carved Horn of Remulos from Celebras. We can''t let ''em use it for who knows what maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Carved Horn of Remulos to Travis Coomingham in Stormwind.',
     `RequiredItemId1` = 900220, -- Update for new daily

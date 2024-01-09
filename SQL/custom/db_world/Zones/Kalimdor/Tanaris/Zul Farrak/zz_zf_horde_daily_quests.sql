@@ -29,11 +29,7 @@ SET `ID` = 441167,
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Sandfury War Drum',
     `LogDescription` = 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
-    `QuestDescription` = 'The call to greatness echoes through the sands of Zul''Farrak as Chief Ukorz Sandscalp beats the formidable Sandfury War Drum. 
-    Your mission is clear: recover this potent artifact and showcase your strength in the heart of Zul''Farrak. 
-    The Horde seeks champions who can face the challenges that lie ahead and emerge victorious. Confront Chief Ukorz Sandscalp, 
-    seize the Sandfury War Drum, and prove that you are a force to be reckoned with. 
-    Are you ready to drum up success for the Horde?',
+    `QuestDescription` = 'The call to greatness echoes through the sands of Zul''Farrak as Chief Ukorz Sandscalp beats the formidable Sandfury War Drum. Your mission is clear: recover this potent artifact and showcase your strength in the heart of Zul''Farrak. The Horde seeks champions who can face the challenges that lie ahead and emerge victorious. Confront Chief Ukorz Sandscalp, seize the Sandfury War Drum, and prove that you are a force to be reckoned with. Are you ready to drum up success for the Horde?',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Sandfury War Drum to Overlord Runthak in Orgrimmar.',
     `RequiredItemId1` = 900231, -- Update for new daily 
