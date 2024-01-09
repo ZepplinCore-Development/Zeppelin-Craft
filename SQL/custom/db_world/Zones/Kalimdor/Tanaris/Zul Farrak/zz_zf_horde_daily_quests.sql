@@ -25,7 +25,7 @@ SET `ID` = 441167,
     `RewardChoiceItemQuantity1` = 1,
     `RewardChoiceItemID2` = 900189, -- Orb of Experience
     `RewardChoiceItemQuantity2` = 1,
-    `RewardFactionID1` = 67,
+    `RewardFactionID1` = 1801, -- Horde
     `RewardFactionValue1` = 6,
     `LogTitle` = 'Wanted: Sandfury War Drum',
     `LogDescription` = 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
@@ -63,7 +63,7 @@ SET `ID` = 441167,
     `EmoteOnIncomplete` = 1,
     `CompletionText` = 'The Sandfury War Drum please.',
     `VerifiedBuild` = 12340;
-
+jjk
 -- Chief Ukorz Sandscalp - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441167);
 INSERT INTO `creature_queststarter` 
