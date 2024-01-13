@@ -22,7 +22,7 @@ ITEM - SPELL
 900271 - 91035 - Gnomeregan
 900272 - 91036 - Razorfen Kraul
 900273 - 91037 - Razorfen Downs
-900274 - 91038 - Uldaman
+900274 - 91038 - Uldaman East
 900275 - 91039 - Lower Blackrock Spire
 900276 - 91040 - Upper Blackrock Spire
 900277 - 91041 - Dire Maul East
@@ -31,5 +31,7 @@ ITEM - SPELL
 900280 - 91044 - Stratholme Undead
 900281 - 91045 - Stratholme Living
 900282 - 91046 - Scholomance
+900283 - 91047 - Uldaman West
+
 
 
