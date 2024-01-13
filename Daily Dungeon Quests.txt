@@ -30,6 +30,7 @@ Quest ID - Item ID - Dungeon
 441178 - 900242 - Scarlet Monastery Library
 441176 - 900240 - Scarlet Monastery Armory
 441177 - 900241 - Scarlet Monastery Cathedral
+441213 - 900247 - Uldaman West
 
 LEVEL 46 - 50 POOL 300003
 Quest ID - Item ID - Dungeon
@@ -37,7 +38,7 @@ Quest ID - Item ID - Dungeon
 441155 - 900219 - Maraudon Orange - COMPLETE
 441167 - 900231 - Zul'Farrak - COMPLETE 
 441156 - 900220 - Maraudon Purple - COMPLETE
-441166 - 900230 - Uldaman - COMPLETE
+441166 - 900230 - Uldaman East- COMPLETE
 
 LEVEL 51 - 58 POOL 300004
 Quest ID - Item ID - Dungeon			
@@ -84,11 +85,12 @@ Quest ID - Item ID - Dungeon
 441204 - 900240 - Scarlet Monastery Armory
 441205 - 900241 - Scarlet Monastery Cathedral
 441206 - 900242 - Scarlet Monastery Library
+441214 - 900247 - Uldaman West
 
 LEVEL 46 - 50 POOL 300009
 Quest ID - Item ID - Dungeon
 
-441193 - 900230 - Uldaman
+441193 - 900230 - Uldaman East - COMPLETE
 441194 - 900231 - Zul'Farrak - COMPLETE
 441195 - 900219 - Maraudon Orange - COMPLETE
 441207 - 900220 - Maraudon Purple - COMPLETE
