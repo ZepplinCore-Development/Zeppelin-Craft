@@ -1,3 +1,77 @@
+-- Ironaya --
+
+-- Ironaya - Pool Quest
+DELETE FROM `pool_quest` WHERE (`entry` = 441213);
+INSERT INTO `pool_quest` 
+SET `entry` = 441213,
+    `pool_entry` = 300002, -- Update for new daily
+    `description` = 'Ironaya';
+
+-- Ironaya - Quest Template
+DELETE FROM `quest_template` WHERE (`ID` = 441213);
+INSERT INTO `quest_template` 
+SET `ID` = 441213, 
+    `QuestType` = 2, 
+    `QuestLevel` = 40, -- Update for new daily
+    `MinLevel` = 36, -- Update for new daily
+    `QuestSortID` = 1517, -- Update for new daily
+    `QuestInfoID` = 81,  
+    `RewardXPDifficulty` = 7, 
+    `RewardMoney` = 132000, 
+    `RewardBonusMoney` = 11400, 
+    `StartItem` = 900274, -- Teleport Orb Update for new daily
+    `Flags` = 4104, 
+    `RewardChoiceItemID1` = 900104, -- Emblem of Adventure
+    `RewardChoiceItemQuantity1` = 1, 
+    `RewardChoiceItemID2` = 900189, -- Orb of Experience
+    `RewardChoiceItemQuantity2` = 1, 
+    `RewardFactionID1` = 1801, -- Horde
+    `RewardFactionValue1` = 6, 
+    `LogTitle` = 'Wanted: Titanforged Beacon', 
+    `LogDescription` = 'Retrieve the Titanforged Beacon from the Ironaya in Uldaman.', 
+    `QuestDescription` = 'The Horde bestows upon you a magicked orb, enchanted by the most powerful mages in our ranks. Use it to transport yourself to the ancient halls of Uldaman, where Ironaya, the Ancient Stone Watcher, stands as guardian. The Titanforged Beacon lies in his watchful care, a relic left by the titans. Your mission is to face Ironaya, retrieve the stone, and bring it back to the Horde. This artifact possesses the power to unify the races of Kalimdor in peace. Will you be the conduit for this harmony, or will the stone remain under the silent gaze of the ancient watcher?', 
+    `QuestCompletionLog` = 'Return the Titanforged Beacon to Overlord Runthak in Orgrimmar.', 
+    `RequiredItemId1` = 900247, -- Update for new daily 
+    `RequiredItemCount1` = 1,
+    `VerifiedBuild` = 12340;
+
+-- Ironaya - Quest Template Addon
+DELETE FROM `quest_template_addon` WHERE (`ID` = 441213);
+INSERT INTO `quest_template_addon` 
+SET `ID` =  441213,
+    `MaxLevel` =  45,
+    `SpecialFlags` = 1;
+
+-- Ironaya - Quest Offer Reward
+DELETE FROM `quest_offer_reward` WHERE (`ID` = 441213);
+INSERT INTO `quest_offer_reward` 
+SET `ID` = 441213,
+    `Emote1` = 1,
+    `RewardText` = 'Your triumph over the Ironaya proves your worth. The Horde recognizes a true champion in your deeds.',
+    `VerifiedBuild` = 12340;
+
+-- Ironaya - Quest Request Items
+DELETE FROM `quest_request_items` WHERE (`ID` = 441213);
+INSERT INTO `quest_request_items` 
+SET `ID` = 441213,
+    `EmoteOnComplete` = 1,
+    `EmoteOnIncomplete` = 1,
+    `CompletionText` = 'The Titanforged Beacon please.',
+    `VerifiedBuild` = 12340;
+
+-- Ironaya - Creature Quest Starter
+DELETE FROM `creature_queststarter` WHERE (`quest` = 441213);
+INSERT INTO `creature_queststarter` 
+SET `quest` = 441213,
+    `id` = 14392;
+
+-- Ironaya - Creature Quest Ender
+DELETE FROM `creature_questender` WHERE (`quest` = 441213);
+INSERT INTO `creature_questender` 
+SET `quest` = 441213, 
+    `id` = 14392;
+
+
 -- Archaedas --
 
 -- Archaedas - Pool Quest
@@ -19,7 +93,7 @@ SET `ID` = 441166,
     `RewardXPDifficulty` = 7, 
     `RewardMoney` = 132000, 
     `RewardBonusMoney` = 11400, 
-    `StartItem` = 900274, -- Teleport Orb Update for new daily
+    `StartItem` = 900283, -- Teleport Orb Update for new daily
     `Flags` = 4104, 
     `RewardChoiceItemID1` = 900104, -- Emblem of Adventure
     `RewardChoiceItemQuantity1` = 1, 
@@ -70,5 +144,3 @@ DELETE FROM `creature_questender` WHERE (`quest` = 441166);
 INSERT INTO `creature_questender` 
 SET `quest` = 441166, 
     `id` = 14392;
-
-
