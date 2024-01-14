@@ -32,7 +32,8 @@ SET `ID` = 441196,
     `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''Hakkar. And get this they''re thinkin'' ''bout startin'' a garden! Can''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s gardening dreams and keep the Dream Seed safe!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dream Seed to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 900232,
+    `RequiredItemId1` = 900232, -- Update for new daily
+    `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
 -- Shade of Eranikus - Quest Template Addon

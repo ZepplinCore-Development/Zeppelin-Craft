@@ -32,7 +32,8 @@ SET `ID` = 441197,
     `QuestDescription` = 'Howdy, adventurer! Just got wind that them Horde Zugs are schemin'' to snag an Incendiary Core from Lord Incendius. Believe it or not, they''re talkin'' ''bout squanderin'' it on a bonfire! We can''t have that kind of nonsense. Ride through, take on Lord Incendius, and bring back that Incendiary Core. There''s a hefty reward in it for ya. Let''s show them Horde dreamers we mean business and keep the Incendiary Core safe from their bonfire follies!',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Incendiary Core to Travis Coomingham in Stormwind.',
-    `RequiredItemId1` = 900219, -- Update for new daily
+    `RequiredItemId1` = 900233, -- Update for new daily
+    `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
 -- Lord Incendius Quest Template Addon

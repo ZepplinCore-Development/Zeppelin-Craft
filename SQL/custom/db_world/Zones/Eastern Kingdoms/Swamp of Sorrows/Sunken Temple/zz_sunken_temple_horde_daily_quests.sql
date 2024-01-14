@@ -32,7 +32,8 @@ SET `ID` = 441168,
     `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''s future.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Dream Seed to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 900232,
+    `RequiredItemId1` = 900232, -- Update for new daily
+    `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
 -- Shade of Eranikus - Quest Template Addon

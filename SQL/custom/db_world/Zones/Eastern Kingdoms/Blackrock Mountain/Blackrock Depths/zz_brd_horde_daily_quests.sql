@@ -32,7 +32,8 @@ SET `ID` = 441169,
     `QuestDescription` = 'Prepare yourself, for a task of great significance lies ahead. Deep within the molten heart of Blackrock Depths, Lord Incendius guards the Incendiary Core, a potent source of flame. Retrieve this core and bring it back to the Horde, where it will fuel a new Black Forge. The Black Forge, powered by the fiery essence, shall become the crucible for crafting mighty weapons and armor for our warriors. Venture into the inferno, secure the Incendiary Core, and be a part of forging a powerful future for the Horde.',
     `AreaDescription` = '',
     `QuestCompletionLog` = 'Return the Incendiary Core to Overlord Runthak in Orgrimmar.',
-    `RequiredItemId1` = 900219, -- Update for new daily
+    `RequiredItemId1` = 900233, -- Update for new daily
+    `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
 
 -- Lord Incendius - Quest Template Addon
