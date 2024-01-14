@@ -31,7 +31,7 @@ ITEM - SPELL
 900280 - 91044 - Stratholme Undead
 900281 - 91045 - Stratholme Living
 900282 - 91046 - Scholomance
-900283 - 91047 - Uldaman West
+900283 - 91050 - Uldaman West
 
 
 
