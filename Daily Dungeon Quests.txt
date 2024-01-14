@@ -85,7 +85,7 @@ Quest ID - Item ID - Dungeon
 441204 - 900240 - Scarlet Monastery Armory
 441205 - 900241 - Scarlet Monastery Cathedral
 441206 - 900242 - Scarlet Monastery Library
-441214 - 900247 - Uldaman West
+441214 - 900247 - Uldaman West - COMPLETE
 
 LEVEL 46 - 50 POOL 300009
 Quest ID - Item ID - Dungeon
