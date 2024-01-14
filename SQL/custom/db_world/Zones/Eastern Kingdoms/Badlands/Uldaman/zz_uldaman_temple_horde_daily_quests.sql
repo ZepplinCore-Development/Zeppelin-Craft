@@ -113,7 +113,7 @@ SET `ID` = 441166,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441166);
 INSERT INTO `quest_template_addon` 
 SET `ID` =  441166,
-    `MaxLevel` =  51,
+    `MaxLevel` =  50,
     `SpecialFlags` = 1;
 
 -- Archaedas - Quest Offer Reward
