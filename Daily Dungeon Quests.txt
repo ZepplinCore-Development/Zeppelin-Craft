@@ -114,11 +114,3 @@ Quest ID - Item ID - Dungeon
 441203 - 900239 - Upper Blackrock Spire
 441210 - 900244 - Blackrock Depths Upper City
 441211 - 900245 - Scholomance
-
-
-
-
-
-
-
-
