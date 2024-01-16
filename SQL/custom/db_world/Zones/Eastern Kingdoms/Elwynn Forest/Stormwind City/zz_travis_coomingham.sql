@@ -1,1 +1,1 @@
-UPDATE `creature_template` SET `name` = 'Travis Coomingham', `npcflag` = 2 WHERE (`entry` = 12480);
+UPDATE `creature_template` SET `modelid1` = 3614, `name` = 'Travis Coomingham', `subname` = '', `npcflag` = 2 WHERE (`entry` = 29093);

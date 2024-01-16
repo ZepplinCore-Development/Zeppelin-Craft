@@ -64,13 +64,13 @@ SET `ID` = 441197,
 -- Lord Incendius Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441197);
 INSERT INTO `creature_queststarter` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441197;
 
 -- Lord Incendius Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441197);
 INSERT INTO `creature_questender` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441197;
 
 -- FUTURE ---

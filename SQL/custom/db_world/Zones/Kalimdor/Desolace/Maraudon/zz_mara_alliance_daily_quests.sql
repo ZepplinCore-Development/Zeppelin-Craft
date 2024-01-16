@@ -63,13 +63,13 @@ SET `ID` = 441195,
 -- Razorlash Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441195);
 INSERT INTO `creature_queststarter` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441195;
 
 -- Razorlash Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441195);
 INSERT INTO `creature_questender` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441195;
 
 -- Celebras the Cursed --
@@ -144,13 +144,13 @@ SET `ID` = 441207,
 -- Celebras the Cursed - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441207);
 INSERT INTO `creature_queststarter` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441207;
 
 -- Celebras the Cursed - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441207);
 INSERT INTO `creature_questender` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441207;
 
 -- Princess Theradras --
@@ -221,11 +221,11 @@ SET `ID` = 441208,
 -- Princess Theradras - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441208);
 INSERT INTO `creature_queststarter` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441208;
 
 -- Princess Theradras - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441208);
 INSERT INTO `creature_questender` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441208;

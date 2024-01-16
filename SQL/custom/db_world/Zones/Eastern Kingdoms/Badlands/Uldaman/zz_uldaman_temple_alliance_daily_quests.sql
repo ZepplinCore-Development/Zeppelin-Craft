@@ -63,13 +63,13 @@ SET `ID` = 441214,
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441214);
 INSERT INTO `creature_queststarter` 
 SET`quest` = 441214,
-    `id` = 12480;
+    `id` = 29093;
     
 -- Ironaya - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441214);
 INSERT INTO `creature_questender` 
 SET `quest` = 441214, 
-    `id` = 12480;
+    `id` = 29093;
     
 -- Archaedas --
 
@@ -136,11 +136,11 @@ SET `ID` = 441193,
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441193);
 INSERT INTO `creature_queststarter` 
 SET`quest` = 441193,
-    `id` = 12480;
+    `id` = 29093;
     
 -- Archaedas - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441193);
 INSERT INTO `creature_questender` 
 SET `quest` = 441193, 
-    `id` = 12480;
+    `id` = 29093;
     

@@ -64,11 +64,11 @@ SET `ID` = 441196,
 -- Shade of Eranikus - Creature Quest Starter
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441196);
 INSERT INTO `creature_queststarter` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441196;
 
 -- Shade of Eranikus - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441196);
 INSERT INTO `creature_questender` 
-SET `id` = 12480,
+SET `id` = 29093,
     `quest` = 441196;

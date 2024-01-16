@@ -64,10 +64,10 @@ SET `ID` = 441194,
 DELETE FROM `creature_queststarter` WHERE (`quest` = 441194);
 INSERT INTO `creature_queststarter` 
 SET `quest` = 441194,
-    `id` = 12480;
+    `id` = 29093;
     
 -- Chief Ukorz Sandscalp - Creature Quest Ender
 DELETE FROM `creature_questender` WHERE (`quest` = 441194);
 INSERT INTO `creature_questender` 
 SET `quest` = 441194, 
-    `id` = 12480;
+    `id` = 29093;
