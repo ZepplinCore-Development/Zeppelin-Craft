@@ -1,4 +1,5 @@
-REPLACE INTO acore_world.dungeon_access_requirements (dungeon_access_id,requirement_type,requirement_id,requirement_note,faction,priority,leader_only,comment) VALUES
+DELETE FROM acore_world.dungeon_access_requirements;
+INSERT INTO acore_world.dungeon_access_requirements (dungeon_access_id,requirement_type,requirement_id,requirement_note,faction,priority,leader_only,comment) VALUES
 (20,2,16309,'You must have the Drakefire Amulet in your inventory before entering Onyxia''s Lair.',2,NULL,0,'Onyxia''s Lair - 40man'),
 (37,1,10277,'You must complete the quest "The Caverns of Time" to enter Old Hillsbrad.',2,NULL,0,'Caverns Of Time: Old Hillsbrad Foothills/Escape from Durnholde - Normal'),
 (41,2,30623,NULL,2,NULL,0,'Coilfang Resevoir: The Steamvault (Heroic)'),

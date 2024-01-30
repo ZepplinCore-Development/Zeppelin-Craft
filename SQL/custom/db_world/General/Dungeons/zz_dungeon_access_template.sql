@@ -1,4 +1,5 @@
-REPLACE INTO acore_world.dungeon_access_template (id,map_id,difficulty,min_level,max_level,min_avg_item_level,comment) VALUES
+DELETE FROM acore_world.dungeon_access_template;
+INSERT INTO acore_world.dungeon_access_template (id,map_id,difficulty,min_level,max_level,min_avg_item_level,comment) VALUES
 (50,619,0,68,0,0,'Ahn''Kahet'),
 (106,619,1,80,0,180,'Ahn''Kahet'),
 (18,509,0,50,0,0,'Ahn''Qiraj Ruins (AQ20) - 20man'),
