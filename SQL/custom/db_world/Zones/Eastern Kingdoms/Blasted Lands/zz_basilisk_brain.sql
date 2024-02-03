@@ -9,7 +9,7 @@ INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBui
 -- Redstone Basilisk Creature Loot
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5990) AND (`Item` IN (8394));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(5990, 8394, 0, 100, 1, 1, 0, 1, 1, 'Redstone Basilisk - Basilisk Brain');
+(5990, 8394, 0, 100, 0, 1, 0, 1, 1, 'Redstone Basilisk - Basilisk Brain');
 
 -- Redstone Crystalhide Quest Item
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5991) AND (`Idx` IN (0));
@@ -19,7 +19,7 @@ INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBui
 -- Redstone Crystalhide Creature Loot
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5991) AND (`Item` IN (8394));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(5991, 8394, 0, 100, 1, 1, 0, 1, 1, 'Redstone Crystalhide - Basilisk Brain');
+(5991, 8394, 0, 100, 0, 1, 0, 1, 1, 'Redstone Crystalhide - Basilisk Brain');
 
 -- Deatheye Quest Item
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 8302) AND (`Idx` IN (0));
@@ -29,4 +29,4 @@ INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBui
 -- Deatheye Creature Loot
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 8302) AND (`Item` IN (8394));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(8302, 8394, 0, 100, 1, 1, 0, 1, 1, 'Deatheye - Basilisk Brain');
+(8302, 8394, 0, 100, 0, 1, 0, 1, 1, 'Deatheye - Basilisk Brain');
