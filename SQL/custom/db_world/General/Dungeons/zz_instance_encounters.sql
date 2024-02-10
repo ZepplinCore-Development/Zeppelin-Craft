@@ -9,6 +9,14 @@ REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastE
 (349,0,11496,36,'Immolthar'),
 (361,0,11486,0,'Prince Tortheldrin'),
 (432,0,11518,4,'Jergosh the Invoker'),
+
+(1331,0,5715,0,'Hukku'),
+(1332,0,5713,0,'Gasher'),
+(1333,0,5714,0,'Loro'),
+(1334,0,5717,0,'Mijan'),
+(1335,0,5712,0,'Zolo'),
+(1336,0,5716,0,'Zul''Lor'),
+
 (431,0,11520,0,'Taragaman the Hungerer');
 
 -- HEROIC
@@ -27,6 +35,13 @@ REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastE
 (1212,0,12258,306,'Razorlash'),
 (1235,0,5709,307,'Shade of Eranikus'),
 (1066,0,9017,308 ,'Lord Incendius'),
+
+(1337,0,5715,0,'Hukku'),
+(1338,0,5713,0,'Gasher'),
+(1339,0,5714,0,'Loro'),
+(1340,0,5717,0,'Mijan'),
+(1341,0,5712,0,'Zolo'),
+(1342,0,5716,0,'Zul''Lor'),
 
 (1252,0,9568,309,'Overlord Wyrmthalak'),
 (1275,0,11492,310,'Alzzin the Wildshaper'),
@@ -61,6 +76,14 @@ REPLACE INTO acore_world.instance_encounters (entry,creditType,creditEntry,lastE
 (1220,0,12258,362,'Razorlash'),
 (1243,0,5709,363,'Shade of Eranikus'),
 (1085,0,9017,364,'Lord Incendius'),
+
+(1343,0,5715,0,'Hukku'),
+(1344,0,5713,0,'Gasher'),
+(1345,0,5714,0,'Loro'),
+(1346,0,5717,0,'Mijan'),
+(1347,0,5712,0,'Zolo'),
+(1348,0,5716,0,'Zul''Lor'),
+
 (1266,0,9568,365,'Overlord Wyrmthalak'),
 (1291,0,11492,366,'Alzzin the Wildshaper'),
 (1294,0,11496,367,'Immolthar'),
