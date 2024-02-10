@@ -4,6 +4,7 @@ INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entr
 (9102595, 9101306, 9101351, 0, 0, 0, 631, 0, 0, 0, 'Empowered Deep Lurker', NULL, NULL, 0, 47, 49, 0, 14, 0, 0.666668, 1.14286, 1, 1, 20, 1.3, 1, 0, 6, 2000, 2000, 1, 1, 1, 64, 2048, 0, 0, 0, 0, 0, 0, 4, 256, 8384, 0, 100044, 0, 0, 0, 0, 'SmartAI', 1, 1, 6, 1, 1, 1, 0, 0, 1, 16384, 0, 0, '', 12340);
 
 -- Remove the original Deep Lurker Spawns
+DELETE FROM `creature` WHERE (`id1` = 8384) AND (`guid` IN (33609, 33610, 34469, 34475));
 
 -- Add the new Empowered Deep Lurker Spawns
 
