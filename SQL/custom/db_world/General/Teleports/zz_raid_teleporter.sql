@@ -7,7 +7,7 @@ INSERT INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconNa
 DELETE FROM `gameobject` WHERE (`id` = 900000);
 REPLACE INTO gameobject (id,`map`,zoneId,areaId,spawnMask,phaseMask,position_x,position_y,position_z,orientation,rotation0,rotation1,rotation2,rotation3,spawntimesecs,animprogress,state,ScriptName,VerifiedBuild,Comment) VALUES
 (900000,1,0,0,1,1,1601.94, -4316.44, 2.26, 1.00,0.0,0.0,-0.71,0.70,300,0,1,'',NULL,NULL), -- Orgrimmar
-(900000,1,0,0,1,1,9867.54, 2494.37, 1315.87, 1.00,0.0,0.0,-0.71,0.70,300,0,1,'',NULL,NULL), -- Darnassus
+(900000,1,0,0,1,1,10038, 2479, 1318.4, 1.00,0.0,0.0,-0.71,0.70,300,0,1,'',NULL,NULL), -- Darnassus
 (900000,0,0,0,1,1,-4864.64, -931.35, 501.5, 1.00,0.0,0.0,-0.71,0.70,300,0,1,'',NULL,NULL), -- Ironforge
 (900000,0,0,0,1,1,-8793.40, 650.84, 94.98, 1.00,-0.0,-0.0,-0.88,0.45,300,0,1,'',NULL,NULL); -- Stormwind
 
