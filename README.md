@@ -11,9 +11,9 @@ Run the launcher.
 # Reference List of MPQ Files
 PATCH-Z.MPQ - Spell Edits
 
-PATCH-4.MPQ - Open Azeroth Maps
+PATCH-4.MPQ - Open Azeroth Maps Assets
 
-PATCH-5.MPQ - Open Azeroth Map Assets
+PATCH-5.MPQ - Open Azeroth Map 
 
 PATCH-6.MPQ - Modern NPC and Character models + HD World Textures
 
