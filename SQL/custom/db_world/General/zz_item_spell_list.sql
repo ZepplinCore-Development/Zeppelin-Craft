@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `item_spell_list`;
-CREATE TABLE `item_spell_list` ( `ID` INT NOT NULL DEFAULT '0', `EffectBasePoints_1` INT NOT NULL DEFAULT '0', `Name_Lang_enUS` VARCHAR(200) NOT NULL DEFAULT 'spell name', `stat_type` INT NOT NULL DEFAULT '0');
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+DROP TABLE IF EXISTS `item_spell_list`,
+CREATE TABLE `item_spell_list` ( `ID` INT NOT NULL DEFAULT '0', `EffectBasePoints_1` INT NOT NULL DEFAULT '0', `Name_Lang_enUS` VARCHAR(200) NOT NULL DEFAULT 'spell name', `stat_type` INT NOT NULL DEFAULT '0'),
 	 (42109,45,'Armor Penetration',44),
 	 (53793,43,'Armor Penetration',44),
 	 (34106,85,'Armor Penetration',44),
@@ -10,8 +9,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (43219,17,'Armor Penetration 119',44),
 	 (40680,18,'Armor Penetration 126',44),
 	 (46748,19,'Armor Penetration 133',44),
-	 (42098,20,'Armor Penetration 140',44);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42098,20,'Armor Penetration 140',44),
 	 (43926,200,'Armor Penetration 1400',44),
 	 (47177,21,'Armor Penetration 147',44),
 	 (40258,22,'Armor Penetration 150',44),
@@ -21,8 +19,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (42095,25,'Armor Penetration 175',44),
 	 (44810,26,'Armor Penetration 182',44),
 	 (45003,27,'Armor Penetration 189',44),
-	 (40226,28,'Armor Penetration 196',44);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (40226,28,'Armor Penetration 196',44),
 	 (53026,29,'Armor Penetration 203',44),
 	 (42113,30,'Armor Penetration 210',44),
 	 (47061,31,'Armor Penetration 217',44),
@@ -32,8 +29,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (53820,37,'Armor Penetration 259',44),
 	 (47188,39,'Armor Penetration 273',44),
 	 (42061,48,'Armor Penetration 335',44),
-	 (42157,50,'Armor Penetration 350',44);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42157,50,'Armor Penetration 350',44),
 	 (47138,53,'Armor Penetration 371',44),
 	 (47041,6,'Armor Penetration 42',44),
 	 (46712,63,'Armor Penetration 441',44),
@@ -43,8 +39,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (46710,83,'Armor Penetration 581',44),
 	 (54848,84,'Armor Penetration 588',44),
 	 (39922,10,'Armor Penetration 70',44),
-	 (39981,11,'Armor Penetration 77',44);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39981,11,'Armor Penetration 77',44),
 	 (39927,12,'Armor Penetration 84',44),
 	 (42094,13,'Armor Penetration 91',44),
 	 (43902,14,'Armor Penetration 98',44),
@@ -54,8 +49,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9139,8,'Attack Power 08',38),
 	 (40688,8,'Attack Power 08',38),
 	 (41645,10,'Attack Power 10',38),
-	 (41672,10,'Attack Power 10',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41672,10,'Attack Power 10',38),
 	 (41733,10,'Attack Power 10',38),
 	 (41861,10,'Attack Power 10',38),
 	 (9140,10,'Attack Power 10',38),
@@ -65,8 +59,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (34509,106,'Attack Power 106',38),
 	 (33782,108,'Attack Power 108',38),
 	 (34751,110,'Attack Power 110',38),
-	 (36069,112,'Attack Power 112',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (36069,112,'Attack Power 112',38),
 	 (54279,114,'Attack Power 114',38),
 	 (39708,116,'Attack Power 116',38),
 	 (35868,1164,'Attack Power 1164',38),
@@ -76,8 +69,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (48007,122,'Attack Power 122',38),
 	 (48015,122,'Attack Power 122',38),
 	 (42039,124,'Attack Power 124',38),
-	 (39885,126,'Attack Power 126',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39885,126,'Attack Power 126',38),
 	 (35786,1296,'Attack Power 1296',38),
 	 (48273,132,'Attack Power 132',38),
 	 (52946,132,'Attack Power 132',38),
@@ -87,8 +79,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9142,14,'Attack Power 14',38),
 	 (48390,140,'Attack Power 140',38),
 	 (52945,146,'Attack Power 146',38),
-	 (53025,146,'Attack Power 146',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (53025,146,'Attack Power 146',38),
 	 (52995,148,'Attack Power 148',38),
 	 (20732,15,'Attack Power 15',38),
 	 (71858,150,'Attack Power 150',38),
@@ -98,8 +89,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9329,16,'Attack Power 16',38),
 	 (54280,170,'Attack Power 170',38),
 	 (52801,178,'Attack Power 178',38),
-	 (9330,18,'Attack Power 18',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (9330,18,'Attack Power 18',38),
 	 (49116,180,'Attack Power 180',38),
 	 (9331,20,'Attack Power 20',38),
 	 (41821,20,'Attack Power 20',38),
@@ -109,8 +99,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (18060,200,'Attack Power 200',38),
 	 (9332,22,'Attack Power 22',38),
 	 (54161,226,'Attack Power 226',38),
-	 (40690,24,'Attack Power 24',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (40690,24,'Attack Power 24',38),
 	 (14027,24,'Attack Power 24',38),
 	 (9334,26,'Attack Power 26',38),
 	 (41892,26,'Attack Power 26',38),
@@ -120,8 +109,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9336,30,'Attack Power 30',38),
 	 (41823,30,'Attack Power 30',38),
 	 (15807,32,'Attack Power 32',38),
-	 (15806,34,'Attack Power 34',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (15806,34,'Attack Power 34',38),
 	 (14089,36,'Attack Power 36',38),
 	 (15808,38,'Attack Power 38',38),
 	 (14049,40,'Attack Power 40',38),
@@ -131,8 +119,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41693,40,'Attack Power 40',38),
 	 (41695,40,'Attack Power 40',38),
 	 (41707,40,'Attack Power 40',38),
-	 (41711,40,'Attack Power 40',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41711,40,'Attack Power 40',38),
 	 (41713,40,'Attack Power 40',38),
 	 (41722,40,'Attack Power 40',38),
 	 (41755,40,'Attack Power 40',38),
@@ -142,8 +129,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41796,40,'Attack Power 40',38),
 	 (41808,40,'Attack Power 40',38),
 	 (41813,40,'Attack Power 40',38),
-	 (41832,40,'Attack Power 40',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41832,40,'Attack Power 40',38),
 	 (41844,40,'Attack Power 40',38),
 	 (41888,40,'Attack Power 40',38),
 	 (41895,40,'Attack Power 40',38),
@@ -153,8 +139,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15809,42,'Attack Power 42',38),
 	 (15810,44,'Attack Power 44',38),
 	 (35494,45,'Attack Power 45',38),
-	 (15811,46,'Attack Power 46',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (15811,46,'Attack Power 46',38),
 	 (9333,48,'Attack Power 48',38),
 	 (14056,50,'Attack Power 50',38),
 	 (71850,50,'Attack Power 50',38),
@@ -164,8 +149,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15814,56,'Attack Power 56',38),
 	 (15815,58,'Attack Power 58',38),
 	 (14052,60,'Attack Power 60',38),
-	 (15816,62,'Attack Power 62',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (15816,62,'Attack Power 62',38),
 	 (15817,64,'Attack Power 64',38),
 	 (15818,66,'Attack Power 66',38),
 	 (15819,68,'Attack Power 68',38),
@@ -175,8 +159,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15824,76,'Attack Power 76',38),
 	 (15825,78,'Attack Power 78',38),
 	 (40686,8,'Attack Power 8',38),
-	 (15826,80,'Attack Power 80',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (15826,80,'Attack Power 80',38),
 	 (15827,82,'Attack Power 82',38),
 	 (15828,84,'Attack Power 84',38),
 	 (15829,86,'Attack Power 86',38),
@@ -186,8 +169,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15832,92,'Attack Power 92',38),
 	 (29524,94,'Attack Power 94',38),
 	 (33485,96,'Attack Power 96',38),
-	 (28840,98,'Attack Power 98',38);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (28840,98,'Attack Power 98',38),
 	 (35785,980,'Attack Power 980',38),
 	 (27941,36,'Block Value',48),
 	 (21539,2,'Block Value 02',48),
@@ -197,8 +179,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (42106,112,'Block Value 112',48),
 	 (42038,117,'Block Value 117',48),
 	 (33088,12,'Block Value 12',48),
-	 (64948,126,'Block Value 126',48);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (64948,126,'Block Value 126',48),
 	 (48259,129,'Block Value 129',48),
 	 (44757,135,'Block Value 135',48),
 	 (48645,147,'Block Value 147',48),
@@ -208,8 +189,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (67515,189,'Block Value 189',48),
 	 (23172,20,'Block Value 20',48),
 	 (67516,210,'Block Value 210',48),
-	 (25036,24,'Block Value 24',48);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (25036,24,'Block Value 24',48),
 	 (67517,240,'Block Value 240',48),
 	 (23515,27,'Block Value 27',48),
 	 (67520,270,'Block Value 270',48),
@@ -219,8 +199,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (22912,36,'Block Value 36',48),
 	 (23731,39,'Block Value 39',48),
 	 (28112,42,'Block Value 42',48),
-	 (22852,45,'Block Value 45',48);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (22852,45,'Block Value 45',48),
 	 (23181,48,'Block Value 48',48),
 	 (36331,51,'Block Value 51',48),
 	 (23516,54,'Block Value 54',48),
@@ -230,8 +209,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (28325,63,'Block Value 63',48),
 	 (34593,66,'Block Value 66',48),
 	 (35074,69,'Block Value 69',48),
-	 (42104,72,'Block Value 72',48);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42104,72,'Block Value 72',48),
 	 (35075,75,'Block Value 75',48),
 	 (34061,78,'Block Value 78',48),
 	 (42034,81,'Block Value 81',48),
@@ -241,8 +219,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (42078,93,'Block Value 93',48),
 	 (31941,54,'Increase Healing 101',45),
 	 (42089,55,'Increase Healing 103',45),
-	 (37083,56,'Increase Healing 105',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (37083,56,'Increase Healing 105',45),
 	 (23264,56,'Increase Healing 106',45),
 	 (26225,56,'Increase Healing 106',45),
 	 (39988,57,'Increase Healing 108',45),
@@ -252,8 +229,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (26690,59,'Increase Healing 110',45),
 	 (25179,62,'Increase Healing 112',45),
 	 (48049,60,'Increase Healing 112',45),
-	 (42093,61,'Increase Healing 114',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42093,61,'Increase Healing 114',45),
 	 (39806,61,'Increase Healing 114',45),
 	 (33275,61,'Increase Healing 115',45),
 	 (37952,62,'Increase Healing 117',45),
@@ -263,8 +239,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33165,64,'Increase Healing 122',45),
 	 (49955,66,'Increase Healing 123',45),
 	 (40342,68,'Increase Healing 128',45),
-	 (7680,7,'Increase Healing 13',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (7680,7,'Increase Healing 13',45),
 	 (33821,70,'Increase Healing 132',45),
 	 (29369,71,'Increase Healing 134',45),
 	 (33166,73,'Increase Healing 137',45),
@@ -274,8 +249,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (26461,76,'Increase Healing 143',45),
 	 (47979,78,'Increase Healing 147',45),
 	 (49102,77,'Increase Healing 147',45),
-	 (7681,8,'Increase Healing 15',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (7681,8,'Increase Healing 15',45),
 	 (33168,81,'Increase Healing 152',45),
 	 (48337,82,'Increase Healing 154',45),
 	 (33328,85,'Increase Healing 160',45),
@@ -285,8 +259,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33118,91,'Increase Healing 172',45),
 	 (47949,92,'Increase Healing 174',45),
 	 (28736,95,'Increase Healing 178',45),
-	 (33170,95,'Increase Healing 179',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33170,95,'Increase Healing 179',45),
 	 (9406,9,'Increase Healing 18',45),
 	 (26814,99,'Increase Healing 187',45),
 	 (33025,8,'Increase Healing 19',45),
@@ -296,8 +269,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9407,11,'Increase Healing 20',45),
 	 (27925,11,'Increase Healing 20',45),
 	 (49621,106,'Increase Healing 200',45),
-	 (33102,12,'Increase Healing 21',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33102,12,'Increase Healing 21',45),
 	 (57829,115,'Increase Healing 216',45),
 	 (41718,12,'Increase Healing 22',45),
 	 (9408,12,'Increase Healing 22',45),
@@ -307,8 +279,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (28805,126,'Increase Healing 238',45),
 	 (9314,13,'Increase Healing 24',45),
 	 (23796,13,'Increase Healing 24',45),
-	 (33026,13,'Increase Healing 25',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33026,13,'Increase Healing 25',45),
 	 (54204,133,'Increase Healing 251',45),
 	 (9315,14,'Increase Healing 26',45),
 	 (33123,15,'Increase Healing 27',45),
@@ -318,8 +289,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (34495,159,'Increase Healing 299',45),
 	 (33027,16,'Increase Healing 30',45),
 	 (25067,14,'Increase Healing 30',45),
-	 (28152,160,'Increase Healing 300',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (28152,160,'Increase Healing 300',45),
 	 (9317,16,'Increase Healing 31',45),
 	 (37549,168,'Increase Healing 317',45),
 	 (39585,168,'Increase Healing 317',45),
@@ -329,8 +299,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41890,18,'Increase Healing 33',45),
 	 (9318,18,'Increase Healing 33',45),
 	 (41830,18,'Increase Healing 33',45),
-	 (34693,178,'Increase Healing 334',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (34693,178,'Increase Healing 334',45),
 	 (40107,185,'Increase Healing 348',45),
 	 (18029,19,'Increase Healing 35',45),
 	 (36065,187,'Increase Healing 352',45),
@@ -340,8 +309,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33104,20,'Increase Healing 38',45),
 	 (40151,204,'Increase Healing 382',45),
 	 (36149,205,'Increase Healing 386',45),
-	 (42087,205,'Increase Healing 386',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42087,205,'Increase Healing 386',45),
 	 (33148,21,'Increase Healing 39',45),
 	 (7676,2,'Increase Healing 4',45),
 	 (18031,21,'Increase Healing 40',45),
@@ -351,8 +319,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (44071,221,'Increase Healing 415',45),
 	 (18032,22,'Increase Healing 42',45),
 	 (42127,225,'Increase Healing 423',45),
-	 (33105,23,'Increase Healing 43',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33105,23,'Increase Healing 43',45),
 	 (42070,230,'Increase Healing 431',45),
 	 (49431,232,'Increase Healing 435',45),
 	 (42069,233,'Increase Healing 439',45),
@@ -362,8 +329,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33028,23,'Increase Healing 45',45),
 	 (46701,242,'Increase Healing 456',45),
 	 (18033,25,'Increase Healing 46',45),
-	 (43460,247,'Increase Healing 464',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (43460,247,'Increase Healing 464',45),
 	 (49854,252,'Increase Healing 473',45),
 	 (18034,26,'Increase Healing 48',45),
 	 (42059,259,'Increase Healing 486',45),
@@ -373,8 +339,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (46059,279,'Increase Healing 524',45),
 	 (15696,28,'Increase Healing 53',45),
 	 (46749,292,'Increase Healing 549',45),
-	 (18036,29,'Increase Healing 55',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (18036,29,'Increase Healing 55',45),
 	 (22748,29,'Increase Healing 55',45),
 	 (41783,29,'Increase Healing 55',45),
 	 (44973,293,'Increase Healing 550',45),
@@ -384,8 +349,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (18038,32,'Increase Healing 59',45),
 	 (48008,314,'Increase Healing 591',45),
 	 (33099,4,'Increase Healing 6',45),
-	 (36387,318,'Increase Healing 600',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (36387,318,'Increase Healing 600',45),
 	 (33124,33,'Increase Healing 61',45),
 	 (18039,33,'Increase Healing 62',45),
 	 (18040,34,'Increase Healing 64',45),
@@ -395,8 +359,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (7677,4,'Increase Healing 7',45),
 	 (18043,37,'Increase Healing 70',45),
 	 (18044,39,'Increase Healing 73',45),
-	 (18045,40,'Increase Healing 75',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (18045,40,'Increase Healing 75',45),
 	 (48251,408,'Increase Healing 768',45),
 	 (18046,41,'Increase Healing 77',45),
 	 (18047,42,'Increase Healing 79',45),
@@ -406,8 +369,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (17320,44,'Increase Healing 84',45),
 	 (36062,46,'Increase Healing 86',45),
 	 (52809,461,'Increase Healing 866',45),
-	 (33820,47,'Increase Healing 88',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33820,47,'Increase Healing 88',45),
 	 (40687,5,'Increase Healing 9',45),
 	 (7678,5,'Increase Healing 9',45),
 	 (26154,48,'Increase Healing 90',45),
@@ -417,8 +379,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (39903,51,'Increase Healing 97',45),
 	 (54184,520,'Increase Healing 978',45),
 	 (36098,53,'Increase Healing 99',45),
-	 (71851,29,'Increase Spell Power',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (71851,29,'Increase Spell Power',45),
 	 (71852,29,'Increase Spell Power',45),
 	 (71853,88,'Increase Spell Power',45),
 	 (71860,88,'Increase Spell Power',45),
@@ -428,8 +389,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (7597,14,'Increased Critical 14',32),
 	 (9132,14,'Increased Critical 14',32),
 	 (41862,14,'Increased Critical 14',32),
-	 (39418,14,'Increased Critical 14',32);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39418,14,'Increased Critical 14',32),
 	 (39433,14,'Increased Critical 14',32),
 	 (39486,14,'Increased Critical 14',32),
 	 (39545,14,'Increased Critical 14',32),
@@ -439,8 +399,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41561,14,'Increased Critical 14',32),
 	 (41643,14,'Increased Critical 14',32),
 	 (41670,14,'Increased Critical 14',32),
-	 (41772,14,'Increased Critical 14',32);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41772,14,'Increased Critical 14',32),
 	 (41784,14,'Increased Critical 14',32),
 	 (35787,15,'Increased Critical 15',32),
 	 (41748,15,'Increased Critical 15',32),
@@ -450,8 +409,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (7599,42,'Increased Critical 42',32),
 	 (7600,56,'Increased Critical 56',32),
 	 (9405,70,'Increased Critical 70',32),
-	 (18382,28,'Increased Critical Spell',32);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (18382,28,'Increased Critical Spell',32),
 	 (18384,14,'Increased Critical Spell',32),
 	 (23433,50,'Increased Critical Spell',32),
 	 (23434,50,'Increased Critical Spell',32),
@@ -461,8 +419,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41854,14,'Increased Critical Spell',32),
 	 (35789,15,'Increased Critical Spell',32),
 	 (39420,14,'Increased Critical Spell',32),
-	 (39422,14,'Increased Critical Spell',32);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39422,14,'Increased Critical Spell',32),
 	 (39447,14,'Increased Critical Spell',32),
 	 (39507,28,'Increased Critical Spell',32),
 	 (39881,28,'Increased Critical Spell',32),
@@ -472,8 +429,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41833,15,'Increased Critical Spell',32),
 	 (30503,75,'Increased Defense',12),
 	 (41641,2,'Increased Defense',12),
-	 (41642,5,'Increased Defense',12);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41642,5,'Increased Defense',12),
 	 (41671,5,'Increased Defense',12),
 	 (41681,5,'Increased Defense',12),
 	 (41726,5,'Increased Defense',12),
@@ -483,8 +439,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (7513,2,'Increased Defense',12),
 	 (7514,3,'Increased Defense',12),
 	 (7515,4,'Increased Defense',12),
-	 (7516,5,'Increased Defense',12);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (7516,5,'Increased Defense',12),
 	 (7517,6,'Increased Defense',12),
 	 (7518,7,'Increased Defense',12),
 	 (13383,8,'Increased Defense',12),
@@ -494,8 +449,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (13387,12,'Increased Defense',12),
 	 (13388,13,'Increased Defense',12),
 	 (13389,25,'Increased Defense',12),
-	 (13390,15,'Increased Defense',12);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (13390,15,'Increased Defense',12),
 	 (14249,20,'Increased Defense',12),
 	 (15804,100,'Increased Defense',12),
 	 (17513,32,'Increased Defense',12),
@@ -505,8 +459,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21407,17,'Increased Defense',12),
 	 (21408,18,'Increased Defense',12),
 	 (21409,19,'Increased Defense',12),
-	 (21410,21,'Increased Defense',12);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21410,21,'Increased Defense',12),
 	 (21411,23,'Increased Defense',12),
 	 (21412,24,'Increased Defense',12),
 	 (21413,27,'Increased Defense',12),
@@ -516,8 +469,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21417,31,'Increased Defense',12),
 	 (21418,33,'Increased Defense',12),
 	 (21419,34,'Increased Defense',12),
-	 (21420,35,'Increased Defense',12);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21420,35,'Increased Defense',12),
 	 (21421,36,'Increased Defense',12),
 	 (21422,37,'Increased Defense',12),
 	 (21423,38,'Increased Defense',12),
@@ -527,8 +479,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41864,3,'Increased Defense',12),
 	 (39880,12,'Increased Dodge 12',13),
 	 (13669,12,'Increased Dodge 12',13),
-	 (32556,20,'Increased Dodge 20',13);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (32556,20,'Increased Dodge 20',13),
 	 (41746,20,'Increased Dodge 20',13),
 	 (13670,24,'Increased Dodge 24',13),
 	 (13671,36,'Increased Dodge 36',13),
@@ -538,8 +489,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15464,10,'Increased Hit Rating 10',31),
 	 (39510,10,'Increased Hit Rating 10',31),
 	 (41683,10,'Increased Hit Rating 10',31),
-	 (18066,100,'Increased Hit Rating 100',31);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (18066,100,'Increased Hit Rating 100',31),
 	 (41878,15,'Increased Hit Rating 15',31),
 	 (42155,15,'Increased Hit Rating 15',31),
 	 (35790,15,'Increased Hit Rating 15',31),
@@ -549,8 +499,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41678,20,'Increased Hit Rating 20',31),
 	 (41679,20,'Increased Hit Rating 20',31),
 	 (41749,20,'Increased Hit Rating 20',31),
-	 (15465,20,'Increased Hit Rating 20',31);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (15465,20,'Increased Hit Rating 20',31),
 	 (15466,30,'Increased Hit Rating 30',31),
 	 (15467,40,'Increased Hit Rating 40',31),
 	 (15468,50,'Increased Hit Rating 50',31),
@@ -560,8 +509,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21359,1,'Increased Mana Regen',43),
 	 (21360,2,'Increased Mana Regen',43),
 	 (21361,3,'Increased Mana Regen',43),
-	 (21362,4,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21362,4,'Increased Mana Regen',43),
 	 (21363,5,'Increased Mana Regen',43),
 	 (21364,7,'Increased Mana Regen',43),
 	 (21365,9,'Increased Mana Regen',43),
@@ -571,8 +519,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21620,6,'Increased Mana Regen',43),
 	 (21621,1,'Increased Mana Regen',43),
 	 (21622,1,'Increased Mana Regen',43),
-	 (21623,2,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21623,2,'Increased Mana Regen',43),
 	 (21624,3,'Increased Mana Regen',43),
 	 (21625,4,'Increased Mana Regen',43),
 	 (21626,8,'Increased Mana Regen',43),
@@ -582,8 +529,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21630,10,'Increased Mana Regen',43),
 	 (21631,11,'Increased Mana Regen',43),
 	 (21632,13,'Increased Mana Regen',43),
-	 (21633,13,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21633,13,'Increased Mana Regen',43),
 	 (21634,14,'Increased Mana Regen',43),
 	 (21635,15,'Increased Mana Regen',43),
 	 (21636,15,'Increased Mana Regen',43),
@@ -593,8 +539,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (21640,18,'Increased Mana Regen',43),
 	 (21641,18,'Increased Mana Regen',43),
 	 (21642,18,'Increased Mana Regen',43),
-	 (21643,19,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (21643,19,'Increased Mana Regen',43),
 	 (21644,19,'Increased Mana Regen',43),
 	 (23212,20,'Increased Mana Regen',43),
 	 (23795,4,'Increased Mana Regen',43),
@@ -604,8 +549,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (27912,6,'Increased Mana Regen',43),
 	 (28014,14,'Increased Mana Regen',43),
 	 (33780,20,'Increased Mana Regen',43),
-	 (35828,26,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (35828,26,'Increased Mana Regen',43),
 	 (35829,35,'Increased Mana Regen',43),
 	 (35836,20,'Increased Mana Regen',43),
 	 (36411,38,'Increased Mana Regen',43),
@@ -615,8 +559,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (39882,6,'Increased Mana Regen',43),
 	 (40231,23,'Increased Mana Regen',43),
 	 (40343,23,'Increased Mana Regen',43),
-	 (41562,10,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41562,10,'Increased Mana Regen',43),
 	 (41591,10,'Increased Mana Regen',43),
 	 (41659,5,'Increased Mana Regen',43),
 	 (41675,15,'Increased Mana Regen',43),
@@ -626,8 +569,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (42060,29,'Increased Mana Regen',43),
 	 (42082,20,'Increased Mana Regen',43),
 	 (42100,25,'Increased Mana Regen',43),
-	 (42115,24,'Increased Mana Regen',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42115,24,'Increased Mana Regen',43),
 	 (45216,100,'Increased Mana Regen',43),
 	 (47905,19,'Increased Mana Regen',43),
 	 (48228,31,'Increased Mana Regen',43),
@@ -637,8 +579,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (53354,28,'Increased Mana Regen',43),
 	 (54082,39,'Increased Mana Regen',43),
 	 (35833,15,'Increased Mana Regen 12',43),
-	 (35888,30,'Increased Mana Regen 24',43);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (35888,30,'Increased Mana Regen 24',43),
 	 (35897,33,'Increased Mana Regen 26',43),
 	 (35890,40,'Increased Mana Regen 32',43),
 	 (35899,44,'Increased Mana Regen 35',43),
@@ -648,8 +589,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (35870,59,'Increased Mana Regen 47',43),
 	 (35903,74,'Increased Mana Regen 59',43),
 	 (18063,100,'Increased Parry 100',14),
-	 (13665,20,'Increased Parry 20',14);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (13665,20,'Increased Parry 20',14),
 	 (41674,20,'Increased Parry 20',14),
 	 (41690,20,'Increased Parry 20',14),
 	 (41701,20,'Increased Parry 20',14),
@@ -659,8 +599,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41769,20,'Increased Parry 20',14),
 	 (41793,20,'Increased Parry 20',14),
 	 (41803,20,'Increased Parry 20',14),
-	 (41817,20,'Increased Parry 20',14);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41817,20,'Increased Parry 20',14),
 	 (13667,40,'Increased Parry 40',14),
 	 (13668,60,'Increased Parry 60',14),
 	 (56449,100,'Increased Resilience 100',35),
@@ -670,8 +609,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (43479,35,'Increased Resilience 35',35),
 	 (43480,35,'Increased Resilience 35',35),
 	 (43481,35,'Increased Resilience 35',35),
-	 (43482,35,'Increased Resilience 35',35);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (43482,35,'Increased Resilience 35',35),
 	 (46412,35,'Increased Resilience 35',35),
 	 (46413,35,'Increased Resilience 35',35),
 	 (46414,35,'Increased Resilience 35',35),
@@ -681,8 +619,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (46437,35,'Increased Resilience 35',35),
 	 (46438,35,'Increased Resilience 35',35),
 	 (46454,35,'Increased Resilience 35',35),
-	 (46455,35,'Increased Resilience 35',35);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (46455,35,'Increased Resilience 35',35),
 	 (46456,35,'Increased Resilience 35',35),
 	 (46528,35,'Increased Resilience 35',35),
 	 (46530,35,'Increased Resilience 35',35),
@@ -692,8 +629,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (40043,35,'Increased Resilience 35',35),
 	 (40044,35,'Increased Resilience 35',35),
 	 (40045,35,'Increased Resilience 35',35),
-	 (40046,35,'Increased Resilience 35',35);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (40046,35,'Increased Resilience 35',35),
 	 (40047,35,'Increased Resilience 35',35),
 	 (40048,35,'Increased Resilience 35',35),
 	 (40049,35,'Increased Resilience 35',35),
@@ -703,8 +639,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (40053,35,'Increased Resilience 35',35),
 	 (41462,35,'Increased Resilience 35',35),
 	 (41463,35,'Increased Resilience 35',35),
-	 (41464,35,'Increased Resilience 35',35);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41464,35,'Increased Resilience 35',35),
 	 (41465,35,'Increased Resilience 35',35),
 	 (41474,35,'Increased Resilience 35',35),
 	 (63972,50,'Increased Resilience 50',35),
@@ -714,8 +649,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (56390,24,'Increased Spell Penetration 24',47),
 	 (28799,25,'Increased Spell Penetration 25',47),
 	 (56391,26,'Increased Spell Penetration 26',47),
-	 (39875,30,'Increased Spell Penetration 30',47);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39875,30,'Increased Spell Penetration 30',47),
 	 (64130,31,'Increased Spell Penetration 31',47),
 	 (56392,34,'Increased Spell Penetration 34',47),
 	 (44001,35,'Increased Spell Penetration 35',47),
@@ -725,8 +659,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (35834,39,'Increased Spell Penetration 39',47),
 	 (31922,4,'Increased Spell Penetration 4',47),
 	 (46060,40,'Increased Spell Penetration 40',47),
-	 (46055,43,'Increased Spell Penetration 43',47);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (46055,43,'Increased Spell Penetration 43',47),
 	 (56395,48,'Increased Spell Penetration 48',47),
 	 (31921,5,'Increased Spell Penetration 5',47),
 	 (35837,51,'Increased Spell Penetration 51',47),
@@ -736,8 +669,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (27516,6,'Increased Spell Penetration 6',47),
 	 (56398,61,'Increased Spell Penetration 61',47),
 	 (56399,68,'Increased Spell Penetration 68',47),
-	 (31926,8,'Increased Spell Penetration 8',47);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (31926,8,'Increased Spell Penetration 8',47),
 	 (55478,9,'Increased Spell Penetration 9',47),
 	 (9342,13,'Increase Spell Dam 13',45),
 	 (9343,14,'Increase Spell Dam 14',45),
@@ -747,8 +679,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (9392,1,'Increase Spell Dam 1',45),
 	 (9393,2,'Increase Spell Dam 2',45),
 	 (9394,4,'Increase Spell Dam 4',45),
-	 (9395,5,'Increase Spell Dam 5',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (9395,5,'Increase Spell Dam 5',45),
 	 (9396,6,'Increase Spell Dam 6',45),
 	 (9397,7,'Increase Spell Dam 7',45),
 	 (9398,8,'Increase Spell Dam 8',45),
@@ -758,8 +689,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (13881,29,'Increase Spell Dam 29',45),
 	 (14047,23,'Increase Spell Dam 23',45),
 	 (14054,27,'Increase Spell Dam 27',45),
-	 (14055,35,'Increase Spell Dam 35',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (14055,35,'Increase Spell Dam 35',45),
 	 (14127,28,'Increase Spell Dam 28',45),
 	 (14248,21,'Increase Spell Dam 21',45),
 	 (14254,19,'Increase Spell Dam 19',45),
@@ -769,8 +699,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (15715,25,'Increase Spell Dam 25',45),
 	 (17280,43,'Increase Spell Dam 43',45),
 	 (17367,32,'Increase Spell Dam 32',45),
-	 (17493,44,'Increase Spell Dam 44',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (17493,44,'Increase Spell Dam 44',45),
 	 (18049,26,'Increase Spell Dam 26',45),
 	 (18050,33,'Increase Spell Dam 33',45),
 	 (18052,34,'Increase Spell Dam 34',45),
@@ -780,8 +709,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (18056,40,'Increase Spell Dam 40',45),
 	 (18057,41,'Increase Spell Dam 41',45),
 	 (18058,42,'Increase Spell Dam 42',45),
-	 (22747,30,'Increase Spell Dam 30',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (22747,30,'Increase Spell Dam 30',45),
 	 (23213,57,'Increase Spell Dam 57',45),
 	 (23728,84,'Increase Spell Dam 84',45),
 	 (23730,64,'Increase Spell Dam 64',45),
@@ -791,8 +719,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (24243,840,'Increase Spell Dam 840',45),
 	 (24595,24,'Increase Spell Dam 24',45),
 	 (25109,8,'Increase Spell Dam 8',45),
-	 (25110,16,'Increase Spell Dam 16',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (25110,16,'Increase Spell Dam 16',45),
 	 (25111,24,'Increase Spell Dam 24',45),
 	 (26142,53,'Increase Spell Dam 53',45),
 	 (26155,59,'Increase Spell Dam 59',45),
@@ -802,8 +729,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (26459,80,'Increase Spell Dam 80',45),
 	 (26460,76,'Increase Spell Dam 76',45),
 	 (27918,15,'Increase Spell Dam 15',45),
-	 (27923,12,'Increase Spell Dam 12',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (27923,12,'Increase Spell Dam 12',45),
 	 (27974,40,'Increase Spell Dam 40',45),
 	 (28015,42,'Increase Spell Dam 42',45),
 	 (28141,150,'Increase Spell Dam 150',45),
@@ -813,8 +739,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (28687,85,'Increase Spell Dam 85',45),
 	 (28693,95,'Increase Spell Dam 95',45),
 	 (28767,51,'Increase Spell Dam 51',45),
-	 (28792,126,'Increase Spell Dam 126',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (28792,126,'Increase Spell Dam 126',45),
 	 (28841,113,'Increase Spell Dam 113',45),
 	 (32142,211,'Increase Spell Dam 211',45),
 	 (32149,215,'Increase Spell Dam 215',45),
@@ -824,8 +749,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (32452,23,' Increase Spell Dam 23',45),
 	 (32706,0,'Increase Spell Dam',45),
 	 (33021,10,'Increase Spell Dam 10',45),
-	 (33022,58,'Increase Spell Dam 58',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33022,58,'Increase Spell Dam 58',45),
 	 (33085,91,'Increase Spell Dam 91',45),
 	 (33093,3,'Increase Spell Dam 3',45),
 	 (33094,17,'Increase Spell Dam 17',45),
@@ -835,8 +759,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33139,65,'Increase Spell Dam 65',45),
 	 (33140,73,'Increase Spell Dam 73',45),
 	 (33141,81,'Increase Spell Dam 81',45),
-	 (33233,61,'Increase Spell Dam 61',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (33233,61,'Increase Spell Dam 61',45),
 	 (33236,67,'Increase Spell Dam 67',45),
 	 (33250,121,'Increase Spell Dam 121',45),
 	 (33267,187,'Increase Spell Dam 187',45),
@@ -846,8 +769,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (33784,210,'Increase Spell Dam 210',45),
 	 (33785,180,'Increase Spell Dam 180',45),
 	 (33798,3,'Increase Spell Dam 3',45),
-	 (34040,54,'Increase Spell Dam 54',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (34040,54,'Increase Spell Dam 54',45),
 	 (34611,159,'Increase Spell Dam 159',45),
 	 (34691,178,'Increase Spell Dam 178',45),
 	 (34760,62,'Increase Spell Dam 62',45),
@@ -857,8 +779,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (35832,683,'Increase Spell Dam 683',45),
 	 (35835,934,'Increase Spell Dam 934',45),
 	 (35842,700,'Increase Spell Dam 700',45),
-	 (35844,959,'Increase Spell Dam 959',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (35844,959,'Increase Spell Dam 959',45),
 	 (35854,698,'Increase Spell Dam 698',45),
 	 (35855,954,'Increase Spell Dam 954',45),
 	 (35887,611,'Increase Spell Dam 611',45),
@@ -868,8 +789,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (35896,307,'Increase Spell Dam 307',45),
 	 (35898,406,'Increase Spell Dam 406',45),
 	 (35900,662,'Increase Spell Dam 662',45),
-	 (35902,907,'Increase Spell Dam 907',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (35902,907,'Increase Spell Dam 907',45),
 	 (36067,205,'Increase Spell Dam 205',45),
 	 (36385,325,'Increase Spell Dam 325',45),
 	 (36425,118,'Increase Spell Dam 118',45),
@@ -879,8 +799,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (37981,233,'Increase Spell Dam 233',45),
 	 (38158,160,'Increase Spell Dam 160',45),
 	 (38550,108,'Increase Spell Dam 108',45),
-	 (39543,23,'Increase Spell Dam 23',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (39543,23,'Increase Spell Dam 23',45),
 	 (39569,55,'Increase Spell Dam 55',45),
 	 (39874,210,'Increase Spell Dam 210',45),
 	 (40142,203,' Increase Spell Dam 205',45),
@@ -890,8 +809,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (40689,5,'Increase Spell Dam 5',45),
 	 (40705,14,'Increase Spell Dam 14',45),
 	 (41512,178,'Increase Spell Dam 178',45),
-	 (41648,71,'Increase Spell Dam 71',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41648,71,'Increase Spell Dam 71',45),
 	 (41651,28,'Increase Spell Dam 28',45),
 	 (41654,23,'Increase Spell Dam 23',45),
 	 (41657,18,'Increase Spell Dam 18',45),
@@ -901,8 +819,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41709,23,'Increase Spell Dam 23',45),
 	 (41715,23,'Increase Spell Dam 23',45),
 	 (41729,23,'Increase Spell Dam 23',45),
-	 (41734,12,'Increase Spell Dam 12',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41734,12,'Increase Spell Dam 12',45),
 	 (41752,15,'Increase Spell Dam 15',45),
 	 (41753,23,'Increase Spell Dam 23',45),
 	 (41760,23,'Increase Spell Dam 23',45),
@@ -912,8 +829,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41780,20,'Increase Spell Dam 20',45),
 	 (41782,47,'Increase Spell Dam 47',45),
 	 (41789,23,'Increase Spell Dam 23',45),
-	 (41795,23,'Increase Spell Dam 23',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41795,23,'Increase Spell Dam 23',45),
 	 (41799,23,'Increase Spell Dam 23',45),
 	 (41805,23,'Increase Spell Dam 23',45),
 	 (41807,23,'Increase Spell Dam 23',45),
@@ -923,8 +839,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41828,23,'Increase Spell Dam 23',45),
 	 (41834,18,'Increase Spell Dam 18',45),
 	 (41860,23,'Increase Spell Dam 23',45),
-	 (41872,12,'Increase Spell Dam 12',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (41872,12,'Increase Spell Dam 12',45),
 	 (41875,15,'Increase Spell Dam 15',45),
 	 (41884,23,'Increase Spell Dam 23',45),
 	 (41891,15,'Increase Spell Dam 15',45),
@@ -934,8 +849,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (41905,23,'Increase Spell Dam 23',45),
 	 (41973,199,'Increase Spell Dam 199',45),
 	 (42040,203,'Increase Spell Dam 203',45),
-	 (42057,185,'Increase Spell Dam 185',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42057,185,'Increase Spell Dam 185',45),
 	 (42062,259,'Increase Spell Dam 259',45),
 	 (42063,81,'Increase Spell Dam 81',45),
 	 (42071,209,'Increase Spell Dam 209',45),
@@ -945,8 +859,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (42108,73,'Increase Spell Dam 73',45),
 	 (42111,236,'Increase Spell Dam 236',45),
 	 (42119,199,'Increase Spell Dam 199',45),
-	 (42122,225,'Increase Spell Dam 225',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (42122,225,'Increase Spell Dam 225',45),
 	 (42124,194,'Increase Spell Dam 194',45),
 	 (42812,209,'Increase Spell Dam 209',45),
 	 (42814,229,'Increase Spell Dam 229',45),
@@ -956,8 +869,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (43924,234,'Increase Spell Dam 234',45),
 	 (44072,236,'Increase Spell Dam 236',45),
 	 (44073,221,'Increase Spell Dam 215',45),
-	 (44075,217,'Increase Spell Dam 217',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (44075,217,'Increase Spell Dam 217',45),
 	 (44751,266,'Increase Spell Dam 266',45),
 	 (44974,292,'Increase Spell Dam 292',45),
 	 (44979,75,'Increase Spell Dam 75',45),
@@ -967,8 +879,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (46052,279,'Increase Spell Dam 279',45),
 	 (46632,176,'Increase Spell Dam 176',45),
 	 (47125,168,'Increase Spell Dam 173',45),
-	 (47182,121,'Copy of Increase Spell Dam 121',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (47182,121,'Copy of Increase Spell Dam 121',45),
 	 (47191,309,'Increase Spell Dam 309',45),
 	 (47907,56,'Increase Spell Dam 56',45),
 	 (47952,69,'Increase Spell Dam 69',45),
@@ -978,8 +889,7 @@ REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,s
 	 (48626,408,'Increase Spell Dam 408',45),
 	 (48644,355,'Increase Spell Dam 355',45),
 	 (49441,105,'Increase Spell Dam 105',45),
-	 (49558,249,'Increase Spell Dam 249',45);
-REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES
+	 (49558,249,'Increase Spell Dam 249',45),
 	 (52184,201,'Increase Spell Dam 201',45),
 	 (52810,461,'Increase Spell Dam 461',45),
 	 (52849,87,'Increase Spell Dam 87',45),
