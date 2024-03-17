@@ -18,7 +18,6 @@ SET `ID` = 441169,
     `QuestInfoID` = 81,
     `RewardXPDifficulty` = 7,
     `RewardMoney` = 132000,
-    `RewardBonusMoney` = 11400,
     `StartItem` = 900261, -- Teleport Orb Update for new daily
     `Flags` = 4104,
     `RewardChoiceItemID1` = 900104, -- Emblem of Adventure
