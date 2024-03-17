@@ -19469,7 +19469,7 @@ UPDATE `item_template` SET `BuyPrice` = 1015910, `SellPrice` = 203182 WHERE entr
 UPDATE `item_template` SET `armor` = 411, `BuyPrice` = 485750, `SellPrice` = 97150 WHERE entry=23226;
 
 /*  Ring of the Eternal Flame  */
-UPDATE `item_template` SET `spellid_1` = 17872 WHERE entry=23237;
+-- UPDATE `item_template` SET `spellid_1` = 17872 WHERE entry=23237;
 
 /*  Stygian Buckler  */
 UPDATE `item_template` SET `armor` = 3106, `BuyPrice` = 642946, `SellPrice` = 128589, `block` = 59, `spelltrigger_2` = 0, `spelltrigger_3` = 0 WHERE entry=23238;
