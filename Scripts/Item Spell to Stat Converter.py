@@ -116,11 +116,8 @@ with open(output_file_path, "w") as output_file:
 
                     # Check if the corresponding spelltrigger is 1 for the spell we are targeting
                     if spell_triggers[spell_ids.index(spell_id_to_search)] == 1:
-                        # Increment StatsCount only when spelltrigger_x is 1
-                        stats_count_increment = 1
-
                         # Prepare the SET clause for StatsCount
-                        set_stats_count_clause = f"StatsCount = {len(used_stat_slots) + 1}"
+                        set_stats_count_clause = f"StatsCount = {max(used_stat_slots)}"
 
                         # Generate and write the update query to the output file
                         output_query = f"-- {name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
