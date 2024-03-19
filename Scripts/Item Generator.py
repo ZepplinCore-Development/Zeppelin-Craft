@@ -1,7 +1,9 @@
+
 import mysql.connector
 import random
 
 # TO DO LIST
+# WRITE A SEPARATE SCRIPT THAT PULLS RELEVANT ITEM MODELS FOR THE DIFFERENT ITEM TYPES FROM THE ITEM_TEMPLATE DB THEN PLASE THAT INTO IT'S OWN TABLE
 # Dictionary of stats relevant to each class
 # Primary + Random Secondary Stat Selection
 # Import the power level formula
