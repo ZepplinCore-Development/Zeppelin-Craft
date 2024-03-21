@@ -6,11 +6,10 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclas
 -- Item loot
 DELETE FROM `item_loot_template` WHERE (`Entry` = 16068);
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(16068, 20815, 0, 100, 0, 1, 1, 1, 1, ''),
-(16068, 39505, 0, 100, 0, 1, 3, 1, 1, ''),
-(16068, 54452, 0, 100, 0, 1, 2, 1, 1, ''),
 (16068, 32566, 0, 100, 0, 1, 4, 1, 1, ''),
-(16068, 33223, 0, 100, 0, 1, 5, 1, 1, '');
+(16068, 33223, 0, 100, 0, 1, 5, 1, 1, ''),
+(16068, 54452, 0, 100, 0, 1, 2, 1, 1, '');
+
 
 
 
