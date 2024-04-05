@@ -23,7 +23,7 @@ INSERT INTO `creature_questender` (`id`, `quest`) VALUES
 
 DELETE FROM `quest_poi` WHERE (`QuestID` = 90000);
 INSERT INTO `quest_poi` (`QuestID`,`id`,`ObjectiveIndex`,`MapID`,`WorldMapAreaId`,`Floor`,`Priority`,`Flags`,`VerifiedBuild`)
-    VALUES (90000,0,0,530,3601,0,0,1,0);
+    VALUES (90000,0,0,1,476,0,0,1,0);
 
 DELETE FROM `quest_poi_points` WHERE (`QuestID` = 90000);
 INSERT INTO `quest_poi_points` (`QuestID`,`Idx1`,`Idx2`,`X`,`Y`,`VerifiedBuild`)
