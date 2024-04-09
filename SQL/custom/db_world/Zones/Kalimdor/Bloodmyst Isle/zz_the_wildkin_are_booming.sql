@@ -21,6 +21,7 @@ DELETE FROM `creature_questender` WHERE (`quest` = 90000);
 INSERT INTO `creature_questender` (`id`, `quest`) VALUES
 (17642, 90000);
 
+-- missing turn in location and should have an area of points not a single point.
 DELETE FROM `quest_poi` WHERE (`QuestID` = 90000);
 INSERT INTO `quest_poi` (`QuestID`,`id`,`ObjectiveIndex`,`MapID`,`WorldMapAreaId`,`Floor`,`Priority`,`Flags`,`VerifiedBuild`)
     VALUES (90000,0,0,1,476,0,0,1,0);
