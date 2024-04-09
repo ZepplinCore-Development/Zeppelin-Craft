@@ -8,9 +8,9 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclas
 -- Jergosh the Invoker - Searing Stone - Quest Item
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7228) AND (`ItemId` = 900226);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
-(7228, 0, 900226 , 0);
+(11518, 0, 900226 , 0);
 
 -- Jergosh the Invoker - Searing Stone - Loot Template
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (900226));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(7228, 900226 , 0, 100, 1, 1, 0, 1, 1, '');
+(11518, 900226 , 0, 100, 1, 1, 0, 1, 1, '');
