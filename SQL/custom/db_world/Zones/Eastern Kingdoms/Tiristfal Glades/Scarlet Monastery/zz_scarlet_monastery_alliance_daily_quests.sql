@@ -68,3 +68,74 @@ DELETE FROM `creature_questender` WHERE (`quest` = 441192);
 INSERT INTO `creature_questender` 
 SET `quest` = 441192, 
     `id` = 29093;
+
+-- Arcanist Doan --
+
+-- Arcanist Doan - Pool Quest
+DELETE FROM `pool_quest` WHERE (`entry` = 441206);
+INSERT INTO `pool_quest` 
+SET `entry` = 441206,
+    `pool_entry` = 300008, -- Update for new daily
+    `description` = 'Arcanist Doan';
+
+-- Arcanist Doan - Quest Template
+DELETE FROM `quest_template` WHERE (`ID` = 441206);
+INSERT INTO `quest_template` 
+SET `ID` = 441206,
+    `QuestType` = 2, 
+    `QuestLevel` = 37, -- Update for new daily
+    `MinLevel` = 36, -- Update for new daily
+    `QuestSortID` = 2437, -- Update for new daily
+    `QuestInfoID` = 81,  
+    `RewardXPDifficulty` = 7, 
+    `RewardMoney` = 132000, 
+    `StartItem` = 900260, -- Teleport Orb Update for new daily
+    `Flags` = 4104, 
+    `RewardChoiceItemID1` = 900104, -- Emblem of Adventure
+    `RewardChoiceItemQuantity1` = 1, 
+    `RewardChoiceItemID2` = 900189, -- Orb of Experience
+    `RewardChoiceItemQuantity2` = 1, 
+    `RewardFactionID1` = 469, -- Alliance
+    `RewardFactionValue1` = 6, 
+    `LogTitle` = 'Wanted: Arcane Orb of Doan', 
+    `LogDescription` = 'Retrieve the Arcane Orb of Doan from Arcanist Doan in Scarlet Monastery Library.', 
+    `QuestDescription` = 'Howdy there, adventurer! Got a crucial mission for ya that''ll test your courage and wit. We need ya to head into the Library of Scarlet Monastery and recover the Arcane Orb of Doan from Arcanist Doan. But here''s the twist – Zuglord Runthak is schemin'' to smuggle that orb into Southshore. He plans to set off an Arcane Explosion that''ll destroy the port! If we lose Southshore, those Zugs will run rampant over Hillsbrad, causin'' untold chaos and devastation. We can''t let that happen, no sirree! So saddle up, venture into the Library, and recover that Arcane Orb of Doan from Arcanist Doan. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Horde''s treacherous plans and keep Southshore safe from destruction!', 
+    `RequiredItemId1` = 900242, -- Update for new daily 
+    `RequiredItemCount1` = 1, 
+    `VerifiedBuild` = 12340;
+
+-- Arcanist Doan - Quest Template Addon
+DELETE FROM `quest_template_addon` WHERE (`ID` = 441206);
+INSERT INTO `quest_template_addon` 
+SET `ID` = 441206,
+    `MaxLevel` = 45, -- Update for new daily
+    `SpecialFlags` = 1;
+
+-- Arcanist Doan - Quest Offer Reward
+DELETE FROM `quest_offer_reward` WHERE (`ID` = 441206);
+INSERT INTO `quest_offer_reward` 
+SET `ID` = 441206,
+    `Emote1` = 1,
+    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
+    `VerifiedBuild` = 12340;
+
+-- Arcanist Doan - Quest Request Items
+DELETE FROM `quest_request_items` WHERE (`ID` = 441206);
+INSERT INTO `quest_request_items` 
+SET `ID` = 441206,
+    `EmoteOnComplete` = 1,
+    `EmoteOnIncomplete` = 1,
+    `CompletionText` = 'The Arcane Orb of Doan please.',
+    `VerifiedBuild` = 12340;
+
+-- Arcanist Doan - Creature Quest Starter
+DELETE FROM `creature_queststarter` WHERE (`quest` = 441206);
+INSERT INTO `creature_queststarter` 
+SET`quest` = 441206,
+    `id` = 29093;
+    
+-- Arcanist Doan - Creature Quest Ender
+DELETE FROM `creature_questender` WHERE (`quest` = 441206);
+INSERT INTO `creature_questender` 
+SET `quest` = 441206, 
+    `id` = 29093;
