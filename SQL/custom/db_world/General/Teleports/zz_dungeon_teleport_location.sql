@@ -10,7 +10,7 @@ REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`,
 (91026, 0, 230, 881.5, -237.3, -49.9, 5.8, 0), -- Blackrock Depths - Upper City
 (91027, 0, 209, 1214.15, 841.47, 8.93, 6.09, 0), -- Zul'Farrak
 (91028, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Sunken Temple
-(91029, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Wailing Caverns
+(91029, 0, 43, -163.5, 132.9, -73.7, 5.83, 0), -- Wailing Caverns
 (91030, 0, 389, 3.8, -14.8, -17.9, 4.23, 0), -- Ragefire Chasm
 (91031, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Deadmines
 (91032, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Shadowfang Keep
