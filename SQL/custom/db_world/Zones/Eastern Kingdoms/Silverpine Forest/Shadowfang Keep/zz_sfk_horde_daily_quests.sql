@@ -12,9 +12,9 @@ DELETE FROM `quest_template` WHERE (`ID` = 441158);
 INSERT INTO `quest_template` 
 SET `ID` = 441158, 
     `QuestType` = 2, 
-    `QuestLevel` = 16, -- Update for new daily
+    `QuestLevel` = 26, -- Update for new daily
     `MinLevel` = 15, -- Update for new daily
-    `QuestSortID` = 2437, -- Update for new daily
+    `QuestSortID` = 209, -- Update for new daily
     `QuestInfoID` = 81,  
     `RewardXPDifficulty` = 7, 
     `RewardMoney` = 132000, 
