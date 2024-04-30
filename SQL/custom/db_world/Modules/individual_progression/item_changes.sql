@@ -1567,8 +1567,9 @@ UPDATE `item_template` SET `BuyPrice` = 18316 WHERE entry=2942;
 /*  Cursed Eye of Paleth  */
 UPDATE `item_template` SET `spellid_1` = 7709 WHERE entry=2944;
 
-/*  Icicle Rod  */
+/*  Icicle Rod  
 UPDATE `item_template` SET `spellid_1` = 7703 WHERE entry=2950;
+*/
 
 /*  Watch Master's Cloak  */
 UPDATE `item_template` SET `BuyPrice` = 11606, `SellPrice` = 2321, `stat_type1` = 7 WHERE entry=2953;
@@ -2714,7 +2715,7 @@ UPDATE `item_template` SET `BuyPrice` = 3715 WHERE entry=4316;
 UPDATE `item_template` SET `spellid_1` = 7689 WHERE entry=4317;
 
 /*  Azure Silk Gloves  */
-UPDATE `item_template` SET `BuyPrice` = 4076, `spellid_1` = 7703 WHERE entry=4319;
+/* UPDATE `item_template` SET `BuyPrice` = 4076, `spellid_1` = 7703 WHERE entry=4319; */
 
 /*  Spidersilk Boots  */
 UPDATE `item_template` SET `BuyPrice` = 4897, `SellPrice` = 979, `ItemLevel` = 25, `MaxDurability` = 40, `stat_type1` = 6, `stat_value1` = 7, `RequiredLevel` = 20 WHERE entry=4320;
@@ -3481,9 +3482,6 @@ UPDATE `item_template` SET `BuyPrice` = 11107 WHERE entry=5357;
 /*  Archery Training Gloves  */
 UPDATE `item_template` SET `BuyPrice` = 31 WHERE entry=5394;
 
-/*  Serpent's Shoulders  */
-UPDATE `item_template` SET `Quality` = 1, `armor` = 59, `BuyPrice` = 2345, `SellPrice` = 469, `bonding` = 0, `MaxDurability` = 45, `stat_type1` = 0, `stat_value1` = 0, `DisenchantID` = 0 WHERE entry=5404;
-
 /*  Draped Cloak  */
 UPDATE `item_template` SET `BuyPrice` = 36 WHERE entry=5405;
 
@@ -3969,9 +3967,6 @@ UPDATE `item_template` SET `BuyPrice` = 27181 WHERE entry=6431;
 
 /*  Imperial Cloak  */
 UPDATE `item_template` SET `BuyPrice` = 18708 WHERE entry=6432;
-
-/*  Worn Turtle Shell Shield  */
-UPDATE `item_template` SET `Quality` = 1, `armor` = 412, `BuyPrice` = 2810, `SellPrice` = 562, `block` = 6, `bonding` = 0, `MaxDurability` = 65, `DisenchantID` = 0 WHERE entry=6447;
 
 /*  Tail Spike  */
 UPDATE `item_template` SET `Quality` = 2, `BuyPrice` = 9714, `SellPrice` = 1942, `dmg_min1` = 14.0, `dmg_max1` = 26.0, `MaxDurability` = 45, `stat_value1` = 2, `stat_value2` = 2, `DisenchantID` = 23 WHERE entry=6448;
@@ -4540,8 +4535,9 @@ UPDATE `item_template` SET `BuyPrice` = 111 WHERE entry=7026;
 /*  Boots of Darkness  */
 UPDATE `item_template` SET `BuyPrice` = 5625, `spellid_1` = 7708 WHERE entry=7027;
 
-/*  Azure Silk Pants  */
+/*  Azure Silk Pants  
 UPDATE `item_template` SET `spellid_1` = 7703 WHERE entry=7046;
+*/
 
 /*  Hands of Darkness  */
 UPDATE `item_template` SET `BuyPrice` = 4124, `SellPrice` = 824, `spellid_1` = 7710 WHERE entry=7047;
@@ -4552,8 +4548,9 @@ UPDATE `item_template` SET `Quality` = 1, `armor` = 33, `BuyPrice` = 3725, `Sell
 /*  Silk Headband  */
 UPDATE `item_template` SET `Quality` = 1, `armor` = 34, `BuyPrice` = 4995, `SellPrice` = 999, `bonding` = 0, `stat_type1` = 0, `stat_value1` = 0, `stat_type2` = 0, `stat_value2` = 0, `stat_type3` = 0, `stat_value3` = 0, `DisenchantID` = 0 WHERE entry=7050;
 
-/*  Azure Silk Cloak  */
+/*  Azure Silk Cloak  
 UPDATE `item_template` SET `spellid_1` = 7703 WHERE entry=7053;
+*/
 
 /*  Robe of Power  */
 UPDATE `item_template` SET `BuyPrice` = 23504, `SellPrice` = 4700, `stat_value1` = 12, `stat_type2` = 6, `stat_value2` = 8, `stat_type3` = 0, `stat_value3` = 0, `spellid_1` = 9343 WHERE entry=7054;
@@ -6013,6 +6010,9 @@ UPDATE `item_template` SET `BuyPrice` = 5046 WHERE entry=9609;
 /*  Dual Reinforced Leggings  */
 UPDATE `item_template` SET `BuyPrice` = 31721 WHERE entry=9625;
 
+/* Neeru's Herb Pouch */
+UPDATE `item_template` SET `name` = "Neeru's Herb Pouch" WHERE `entry`=9628;
+
 /*  Pratt's Handcrafted Boots  */
 UPDATE `item_template` SET `BuyPrice` = 28903 WHERE entry=9630;
 
@@ -7285,8 +7285,9 @@ UPDATE `item_template` SET `BuyPrice` = 597, `stat_type1` = 4, `stat_type2` = 7,
 /*  Quillshooter  */
 UPDATE `item_template` SET `dmg_min1` = 31.0, `dmg_max1` = 58.0 WHERE entry=10567;
 
-/*  Freezing Shard  */
+/*  Freezing Shard  
 UPDATE `item_template` SET `spellid_1` = 7703 WHERE entry=10572;
+*/
 
 /*  Boneslasher  */
 UPDATE `item_template` SET `BuyPrice` = 68773 WHERE entry=10573;
@@ -9505,8 +9506,9 @@ UPDATE `item_template` SET `BuyPrice` = 237 WHERE entry=14099;
 /*  Native Handwraps  */
 UPDATE `item_template` SET `BuyPrice` = 300 WHERE entry=14102;
 
-/*  Brightcloth Cloak  */
+/*  Brightcloth Cloak  
 UPDATE `item_template` SET `BuyPrice` = 48582, `spellid_1` = 7703 WHERE entry=14103;
+*/
 
 /*  Brightcloth Pants  */
 UPDATE `item_template` SET `BuyPrice` = 77420 WHERE entry=14104;
@@ -13888,6 +13890,9 @@ UPDATE `item_template` SET `BuyPrice` = 12043, `SellPrice` = 2408 WHERE entry=17
 /*  Ornate Buckler  */
 UPDATE `item_template` SET `BuyPrice` = 34609, `SellPrice` = 6921 WHERE entry=17190;
 
+/* Scepter of Celebras - keep WotLK stats but make unsellable */
+UPDATE `item_template` SET `BuyPrice` = 0, `SellPrice` = 0, `DisenchantID` = 0, `RequiredDisenchantSkill` = 0 WHERE entry=17191;
+
 /*  Reinforced Targe  */
 UPDATE `item_template` SET `BuyPrice` = 4399, `SellPrice` = 879 WHERE entry=17192;
 
@@ -15206,10 +15211,10 @@ UPDATE `item_template` SET `stat_type1` = 0, `stat_value1` = 0, `spellid_1` = 13
 UPDATE `item_template` SET `BuyPrice` = 5393, `SellPrice` = 1078, `spellid_1` = 0, `spelltrigger_1` = 0 WHERE entry=19028;
 
 /*  Frostwolf Battle Tabard  */
-UPDATE `item_template` SET `BuyPrice` = 10000, `SellPrice` = 2500 WHERE entry=19031;
+UPDATE `item_template` SET `BuyPrice` = 10000, `SellPrice` = 2500, `RequiredReputationFaction` = 729, `RequiredReputationRank` = 4 WHERE entry=19031;
 
 /*  Stormpike Battle Tabard  */
-UPDATE `item_template` SET `BuyPrice` = 10000, `SellPrice` = 2500 WHERE entry=19032;
+UPDATE `item_template` SET `BuyPrice` = 10000, `SellPrice` = 2500, `RequiredReputationFaction` = 730, `RequiredReputationRank` = 4 WHERE entry=19032;
 
 /*  Emerald Peak Spaulders  */
 UPDATE `item_template` SET `BuyPrice` = 29389, `SellPrice` = 5877 WHERE entry=19037;
@@ -15665,10 +15670,10 @@ UPDATE `item_template` SET `armor` = 75, `BuyPrice` = 169028, `SellPrice` = 3380
 UPDATE `item_template` SET `armor` = 212, `BuyPrice` = 282763, `SellPrice` = 56552 WHERE entry=19439;
 
 /*  Warsong Battle Tabard  */
-UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500 WHERE entry=19505;
+UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500, `RequiredReputationFaction` = 889, `RequiredReputationRank` = 7 WHERE entry=19505;
 
 /*  Silverwing Battle Tabard  */
-UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500 WHERE entry=19506;
+UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500, `RequiredReputationFaction` = 890, `RequiredReputationRank` = 7 WHERE entry=19506;
 
 /*  Inquisitor's Shawl  */
 UPDATE `item_template` SET `Quality` = 2, `armor` = 40, `BuyPrice` = 8507, `SellPrice` = 1701, `MaxDurability` = 45, `stat_value1` = 8, `stat_type2` = 0, `stat_value2` = 0, `spellid_1` = 9415 WHERE entry=19507;
