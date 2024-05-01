@@ -1,3 +1,4 @@
+import mysql
 import mysql.connector
 import os
 
