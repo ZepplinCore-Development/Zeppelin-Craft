@@ -1,3 +1,4 @@
+-- Removes all grey and food drops and deletes the reference table entries to reduce error count.
 
 -- FOOD
 
