@@ -26,10 +26,10 @@ SET `ID` = 441183,
     `RewardChoiceItemQuantity2` = 1, 
     `RewardFactionID1` = 1801, -- Horde
     `RewardFactionValue1` = 6, 
-    `LogTitle` = 'Wanted: Stabby Patty Recipe', 
-    `LogDescription` = 'Retrieve the Stabby Patty Recipe from the Cookie in Deadmines.', 
-    `QuestDescription` = 'Ahoy there, hearty adventurer! A savory quest awaits you in the treacherous Deadmines. Your mission: to plunder the Stabby Patty Recipe from none other than Cookie himself. This delectable dish hails from the famed Kelp''thar Forest of Vashj''ir, said to imbue soldiers with the agility of a squirrel, the resilience of a sponge, the intelligence of a starfish, and the beauty of a squid—ensuring victory on both land and sea! Cookie holds the secret to this culinary marvel, making him a target for both the Horde and the Alliance. Don''t dilly-dally like plankton; snatch that recipe before the Alliance''s greedy mitts get to it first! And fear not, for the enchanted orb provided shall whisk you away to the Deadmines from any corner of Azeroth. Set sail, brave soul, and let the aroma of victory guide your way!', 
-    `QuestCompletionLog` = 'Return the Stabby Patty Recipe to Overlord Runthak in Orgrimmar.', 
+    `LogTitle` = 'Wanted: Stabby Patty Secret Formula', 
+    `LogDescription` = 'Retrieve the Stabby Patty Secret Formula from the Cookie in Deadmines.', 
+    `QuestDescription` = 'Ahoy there, hearty adventurer! A savory quest awaits you in the treacherous Deadmines. Your mission: to plunder the Stabby Patty Secret Formula from none other than Cookie himself. This delectable dish hails from the famed Kelp''thar Forest of Vashj''ir, said to imbue soldiers with the agility of a squirrel, the resilience of a sponge, the intelligence of a starfish, and the beauty of a squid—ensuring victory on both land and sea! Cookie holds the secret to this culinary marvel, making him a target for both the Horde and the Alliance. Don''t dilly-dally like plankton; snatch that recipe before the Alliance''s greedy mitts get to it first! And fear not, for the enchanted orb provided shall whisk you away to the Deadmines from any corner of Azeroth. Set sail, brave soul, and let the aroma of victory guide your way!', 
+    `QuestCompletionLog` = 'Return the Stabby Patty Secret Formula to Overlord Runthak in Orgrimmar.', 
     `RequiredItemId1` = 900246, -- Update for new daily 
     `RequiredItemCount1` = 1,
     `VerifiedBuild` = 12340;
@@ -55,7 +55,7 @@ INSERT INTO `quest_request_items`
 SET `ID` = 441183,
     `EmoteOnComplete` = 1,
     `EmoteOnIncomplete` = 1,
-    `CompletionText` = 'The Stabby Patty Recipe please.',
+    `CompletionText` = 'The Stabby Patty Secret Formula please.',
     `VerifiedBuild` = 12340;
 
 -- Cookie - Creature Quest Starter
