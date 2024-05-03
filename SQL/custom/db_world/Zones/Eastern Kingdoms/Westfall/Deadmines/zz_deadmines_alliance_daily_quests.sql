@@ -26,9 +26,9 @@ SET `ID` = 441212,
     `RewardChoiceItemQuantity2` = 1, 
     `RewardFactionID1` = 469, -- Alliance
     `RewardFactionValue1` = 6, 
-    `LogTitle` = 'Wanted: Stabby Patty Recipe', 
-    `LogDescription` = 'Retrieve the Stabby Patty Recipe from Cookie in Deadmines.', 
-    `QuestDescription` = 'Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Recipe before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the Deadmines.' , 
+    `LogTitle` = 'Wanted: Stabby Patty Secret Formula', 
+    `LogDescription` = 'Retrieve the Stabby Patty Secret Formula from Cookie in Deadmines.', 
+    `QuestDescription` = 'Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the Deadmines.' , 
     `RequiredItemId1` = 900246, -- Update for new daily 
     `RequiredItemCount1` = 1, 
     `VerifiedBuild` = 12340;
@@ -54,7 +54,7 @@ INSERT INTO `quest_request_items`
 SET `ID` = 441212,
     `EmoteOnComplete` = 1,
     `EmoteOnIncomplete` = 1,
-    `CompletionText` = 'The Stabby Patty Recipe please.',
+    `CompletionText` = 'The Stabby Patty Secret Formula please.',
     `VerifiedBuild` = 12340;
 
 -- Cookie - Creature Quest Starter
