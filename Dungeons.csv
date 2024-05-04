@@ -1,7 +1,7 @@
 ﻿Quest ID ,Dungeon,Item ID,Item Name,Quest Description,Sort ID,Teleport Orb ID,Boss,Boss level,Pool ID,Pool Min,Pool Max,Faction,Rep,Difficulty,Reward 1,Reward 2
 441161,Wailing Caverns,900225,,,,,,,300000,15,25,Horde,67,Normal,900104,900189
 441162,Ragefire Chasm,900226,,,,,,,300000,15,25,Horde,67,Normal,900104,900189
-441183,Deadmines,900246,Stabby Patty Secret Formula,"Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them barnacle ridden mages over in the tower – it''ll teleport ya straight to the Deadmines.",1581,900267,Cookie,21,300000,15,25,Horde,67,Normal,900104,900189
+441183,Deadmines,900246,Stabby Patty Secret Formula,,1581,900267,Cookie,21,300000,15,25,Horde,67,Normal,900104,900189
 441158,Shadowfang Keep,900222,,,,,,,300000,15,25,Horde,67,Normal,900104,900189
 441164,Blackfathom Deeps,900228,,,,,,,300001,26,35,Horde,67,Normal,900104,900189
 441157,Stormwind Stockade,900221,,,,,,,300001,26,35,Horde,67,Normal,900104,900189
@@ -31,7 +31,7 @@
 441181,Blackrock Depths Upper City,900244,,,,,,,300005,59,60,Horde,67,Normal,900104,900189
 441188,Wailing Caverns,900225,,,,,,,300006,15,25,Alliance,469,Normal,900104,900189
 441189,Ragefire Chasm,900226,,,,,,,300006,15,25,Alliance,469,Normal,900104,900189
-441212,Deadmines,900246,,,,,,,300006,15,25,Alliance,469,Normal,900104,900189
+441212,Deadmines,900246,Stabby Patty Secret Formula,"Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them barnacle ridden mages over in the tower – it''ll teleport ya straight to the Deadmines.",1581,900267,Cookie,21,300006,15,25,Alliance,469,Normal,900104,900189
 441185,Shadowfang Keep,900222,,,,,,,300006,15,25,Alliance,469,Normal,900104,900189
 441184,Stormwind Stockade,900221,,,,,,,300007,26,35,Alliance,469,Normal,900104,900189
 441190,Gnomeregan,900227,,,,,,,300007,26,35,Alliance,469,Normal,900104,900189
