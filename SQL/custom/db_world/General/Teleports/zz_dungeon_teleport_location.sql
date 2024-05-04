@@ -14,7 +14,7 @@ REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`,
 (91030, 0, 389, 3.8, -14.8, -17.9, 4.23, 0), -- Ragefire Chasm
 (91031, 0, 36, -16.4, -383.1, 61.2, 2.53, 0), -- Deadmines
 (91032, 0, 209, -228.4, 2110.2, 76.9, 0.58, 0), -- Shadowfang Keep
-(91033, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Blackfathom Deeps
+(91033, 0, 48, -151.9, 106.9, -39.9, 4.53, 0), -- Blackfathom Deeps
 (91034, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Stormwind Stockade
 (91035, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Gnomeregan
 (91036, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Razorfen Kraul
