@@ -21,11 +21,11 @@ PATCH-7.MPQ - HD Armor and Weapons
 
 PATCH-8.MPQ - HD Classic NPC Models
 
-PATCH-B.MPQ - Blood Splatters
-
 PATCH-C.MPQ - HD Character Creator and Login, Password Saving, HD Loading Screens
 
 PATCH-D.MPQ - Double Fog Distance
+
+PATCH-G.MPQ - Goblins and Worgens
 
 PATCH-M.MPQ - Music
 
