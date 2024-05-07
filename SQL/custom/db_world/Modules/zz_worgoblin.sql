@@ -200,7 +200,7 @@ INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`,
 DELETE FROM `spell_script_names` WHERE `spell_id` = 69041;
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (69041, 'spell_rocket_barrage');
 
-DELETE FROM `creature_model_info` WHERE `DisplayID` IN (33000, 33001, 32385, 35249, 35250, 36445, 36446, 39095, 39096);
+DELETE FROM `creature_model_info` WHERE `DisplayID` IN (29422, 29423, 32385, 35249, 35250, 36445, 36446, 39095, 39096);
 INSERT INTO `creature_model_info` (`DisplayID`, `BoundingRadius`, `CombatReach`, `Gender`, `DisplayID_Other_Gender`) VALUES
 (29422, 0.406, 1.5, 0, 0), -- Worgen
 (29423, 0.406, 1.5, 1, 0), -- Worgenette
