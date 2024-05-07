@@ -189,6 +189,8 @@ UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|256|2048 WHERE `ski
 UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|256 WHERE `skill` = 160; -- 2h-mace goblins
 UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|256 WHERE `skill` = 109; -- Orcish language goblins
 UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|2048 WHERE `skill` = 98; -- Common language worgen
+
+DELETE FROM `playercreateinfo_skills` WHERE `comment` IN ('Axes - Worgen', 'Maces - Goblin', 'Worgen - Racial', 'Goblin - Racial')
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES
 (2048, 8, 44, 0, 'Axes - Worgen'), -- Yes, these are hackfixes and I'm very mad about it,
 (256, 8, 54, 0, 'Maces - Goblin'), -- But right now I don't see any other way to add these.
