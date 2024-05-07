@@ -1,31 +1,31 @@
-﻿DBC,Worgoblin (Patch-G),Spell Editor (Patch-Z),HD Characters (Patch-6)
-Achievement.dbc,x,x,
-Achievement_Criteria.dbc,x,x,
-AnimationData.dbc,x,,
-BarberShopStyle.dbc,x,,
-CharacterFacialHairStyles.dbc,x,,x
-CharBaseInfo.dbc,x,,
-CharHairGeosets.dbc,x,,x
-CharHairTextures.dbc,x,,
-CharSections.dbc,x,,x
-CharStartOutfit.dbc,x,,
-ChrRaces.dbc,x,,
-CreatureDisplayInfo.dbc,x,x,x
-CreatureDisplayInfoExtra.dbc,x,,x
-CreatureModelData.dbc,x,x,x
-CreatureSoundData.dbc,x,,
-EmotesTextSound.dbc,x,,x
-Faction.dbc,x,,
-HelmetGeosetVisData.dbc,x,,
-Item.dbc,x,x,
-ItemDisplayInfo.dbc,x,,
-NameGen.dbc,x,,
-SkillLine.dbc,x,x,
-SkillLineAbility.dbc,x,x,
-SkillRaceClassInfo.dbc,x,x,
-SoundEntries.dbc,x,,
-Spell.dbc,x,x,
-SpellIcon.dbc,x,x,
-SummonProperties.dbc,x,,
-TalentTab.dbc,x,,
-VocalUISounds.dbc,x,,
+﻿DBC,HD Characters (Patch-6),Worgoblin (Patch-G),Spell Editor (Patch-Z),Source
+Achievement.dbc,,x,x,Spell Editor (Patch-Z)
+Achievement_Criteria.dbc,,x,x,Spell Editor (Patch-Z)
+AnimationData.dbc,,x,,Worgoblin (Patch-G)
+BarberShopStyle.dbc,,x,,Worgoblin (Patch-G)
+CharacterFacialHairStyles.dbc,x,x,,Worgoblin (Patch-G)
+CharBaseInfo.dbc,,x,,Worgoblin (Patch-G)
+CharHairGeosets.dbc,x,x,,Worgoblin (Patch-G)
+CharHairTextures.dbc,,x,,Worgoblin (Patch-G)
+CharSections.dbc,x,x,,Worgoblin (Patch-G)
+CharStartOutfit.dbc,,x,,Worgoblin (Patch-G)
+ChrRaces.dbc,,x,,Worgoblin (Patch-G)
+CreatureDisplayInfo.dbc,x,x,x,Spell Editor (Patch-Z)
+CreatureDisplayInfoExtra.dbc,x,x,,Worgoblin (Patch-G)
+CreatureModelData.dbc,x,x,x,Spell Editor (Patch-Z)
+CreatureSoundData.dbc,,x,,Worgoblin (Patch-G)
+EmotesTextSound.dbc,x,x,,Worgoblin (Patch-G)
+Faction.dbc,,x,,Worgoblin (Patch-G)
+HelmetGeosetVisData.dbc,,x,,Worgoblin (Patch-G)
+Item.dbc,,x,x,Spell Editor (Patch-Z)
+ItemDisplayInfo.dbc,,x,,Worgoblin (Patch-G)
+NameGen.dbc,,x,,Worgoblin (Patch-G)
+SkillLine.dbc,,x,x,Spell Editor (Patch-Z)
+SkillLineAbility.dbc,,x,x,Spell Editor (Patch-Z)
+SkillRaceClassInfo.dbc,,x,x,Spell Editor (Patch-Z)
+SoundEntries.dbc,,x,,Worgoblin (Patch-G)
+Spell.dbc,,x,x,Spell Editor (Patch-Z)
+SpellIcon.dbc,,x,x,Spell Editor (Patch-Z)
+SummonProperties.dbc,,x,,Worgoblin (Patch-G)
+TalentTab.dbc,,x,,Worgoblin (Patch-G)
+VocalUISounds.dbc,,x,,Worgoblin (Patch-G)
