@@ -1,4 +1,18 @@
 import csv
+import os
+
+# Print the current working directory before changing
+print("Before:", os.getcwd())
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Change the working directory to the script's directory
+try:
+    os.chdir(script_dir)
+    print("After:", os.getcwd())
+except Exception as e:
+    print("Error changing directory:", e)
 
 # Function to generate SQL queries
 def generate_sql_queries(csv_file):
@@ -186,3 +200,5 @@ sql_queries = generate_sql_queries(csv_file_path)
 with open('zz_daily_dungeon_quests.sql', 'w') as sql_file:
     for query in sql_queries:
         sql_file.write(query + '\n')
+
+print("DUNGEON QUEST SQL FILE GENERATED")
