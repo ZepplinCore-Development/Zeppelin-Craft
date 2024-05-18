@@ -222,7 +222,7 @@ Stratholme = 17
 Dire_Maul = 18
 
 # Select the dungeon to process
-dungeon = Dire_Maul
+dungeon = Maraudon
 
 # Create a dictionary of dictionaries to store the data
 data = {
