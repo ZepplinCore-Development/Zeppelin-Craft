@@ -28,7 +28,8 @@ cd /d "%base_directory%\MPQ Editor"
 call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-DBC.txt"
 
 :: Run the MPQ editor to update the local MPQ file (PATCH-Z.MPQ) with the Creature files.
-call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creature.txt"
+cd /d "%base_directory%\MPQ Editor"
+call MPQEditor.exe /console "%base_directory%\Zeppelin-Core\Scripts\MPQ Scripts\MPQZ-Creatures.txt"
 
 :: Copy the updated MPQ file (PATCH-Z.MPQ) to the NGINX Patch folder
 xcopy /s /y "%base_directory%\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "Z:\binhex-nginx\nginx\MPQ\mandatory"
