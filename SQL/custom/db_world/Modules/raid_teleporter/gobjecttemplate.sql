@@ -11,4 +11,4 @@ REPLACE INTO `gameobject_template` (`entry`, `type`, `displayId`, `name`, `IconN
 (902009, 10, 8632, 'Tempest Keep Teleporter', '', '', '', 0.5, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45009, 1, 0, 0, 0, '', 'RaidTeleporter', 0),
 (902010, 10, 8632, 'Black Temple Teleporter', '', '', '', 0.5, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45010, 1, 0, 0, 0, '', 'RaidTeleporter', 0),
 (902011, 10, 8632, 'Zul\'Aman Teleporter', '', '', '', 0.5, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45011, 1, 0, 0, 0, '', 'RaidTeleporter', 0),
-(902012, 10, 8632, 'Sunwell Plateau Teleporter', '', '', '', 0.5, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45012, 1, 0, 0, 0, '', 'RaidTeleporter', 0);
+(902012, 10, 8632, 'Naxx40 Teleporter', '', '', '', 0.5, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45012, 1, 0, 0, 0, '', 'RaidTeleporter', 0);
