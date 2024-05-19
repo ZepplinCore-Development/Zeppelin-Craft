@@ -9,7 +9,7 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclas
 (900295, 15, 0, -1, 'Butt Zeppelin', 134240, 3, 32768, 0, 1, 0, 0, 0, 262143, 32767, 20, 10, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55884, 0, -1, 0, -1, 330, 3000, 91071, 6, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 1, 'Teaches you how to summon this mount.', 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 12340);
 
 -- Gelihast (BFD) drop of the Butt Zeppelin
---DELETE FROM `creature_loot_template` WHERE (`Entry` = 6243) AND (`Item` IN (900294));
---INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
---(6243, 900294, 0, 50, 0, 1, 2, 1, 1, 'Gelihast - Butt Zeppelin');
+-- DELETE FROM `creature_loot_template` WHERE (`Entry` = 6243) AND (`Item` IN (900294));
+-- INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+-- (6243, 900294, 0, 50, 0, 1, 2, 1, 1, 'Gelihast - Butt Zeppelin');
 
