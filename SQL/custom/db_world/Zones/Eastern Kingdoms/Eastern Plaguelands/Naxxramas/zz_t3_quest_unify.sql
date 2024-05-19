@@ -6,3 +6,12 @@ UPDATE quest_template SET RequiredItemId1 = '22359' WHERE RequiredItemId1 IN ('2
 UPDATE quest_template SET RequiredItemId1 = '22361' WHERE RequiredItemId1 IN ('22368', '22354'); -- shoulders
 UPDATE quest_template SET RequiredItemId1 = '22350' WHERE RequiredItemId1 IN ('22351', '22349'); -- chest
 UPDATE quest_template SET RequiredItemId1 = '22362' WHERE RequiredItemId1 IN ('22369', '22355'); -- bracers
+
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22365);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22363);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22364);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22360);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22359);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22361);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22350);
+UPDATE `item_template` SET `AllowableClass` = 0 WHERE (`entry` = 22362);
