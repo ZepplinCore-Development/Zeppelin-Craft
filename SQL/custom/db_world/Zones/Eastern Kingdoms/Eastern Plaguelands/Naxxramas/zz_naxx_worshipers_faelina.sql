@@ -1,3 +1,7 @@
+-- Naxxramas Worshipper
+
+UPDATE `creature_template` SET `DamageModifier` = 25 WHERE (`entry` = 351081);
+
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 351081;
 
 DELETE FROM `smart_scripts` WHERE (`source_type` = 0 AND `entryorguid` = 351081);
