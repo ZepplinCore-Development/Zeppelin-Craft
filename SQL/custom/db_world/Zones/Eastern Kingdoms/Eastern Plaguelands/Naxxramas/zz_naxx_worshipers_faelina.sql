@@ -1,6 +1,5 @@
 -- Naxxramas Worshipper
-
-UPDATE `creature_template` SET `DamageModifier` = 25 WHERE (`entry` = 351081);
+UPDATE `creature_template` SET `DamageModifier` = 15, `HealthModifier` = 30 WHERE (`entry` = 351081);
 
 UPDATE `creature_template` SET `AIName` = 'SmartAI' WHERE `entry` = 351081;
 
