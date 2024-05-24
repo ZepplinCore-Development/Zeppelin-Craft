@@ -872,6 +872,110 @@ SET `Entry` = 4421,
     `MaxCount` = 1, 
     `Comment` = 'Gauntlets of Growth';
 
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Pool Quest
+DELETE FROM `pool_quest` WHERE (`entry` = 441163);
+INSERT INTO `pool_quest`
+SET `entry` = 441163,
+    `pool_entry` = 300001, 
+    `description` = 'Mekgineer Thermaplugg';
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template
+DELETE FROM `quest_template` WHERE (`ID` = 441163);
+INSERT INTO `quest_template`
+SET `ID` = 441163,
+    `QuestType` = 2,
+    `QuestLevel` = 34,
+    `MinLevel` = 31,
+    `QuestSortID` = 133,
+    `QuestInfoID` = 81,
+    `RewardXPDifficulty` = 7,
+    `RewardMoney` = 34680,
+    `StartItem` = 900271,
+    `Flags` = 4104,
+    `RewardChoiceItemID1` = 900104,
+    `RewardChoiceItemQuantity1` = 1,
+    `RewardChoiceItemID2` = 900189,
+    `RewardChoiceItemQuantity2` = 1,
+    `RewardFactionID1` = 67,
+    `RewardFactionValue1` = 6,
+    `LogTitle` = 'Wanted: Plugg Nuts',
+    `LogDescription` = 'Retrieve the Plugg Nuts from Mekgineer Thermaplugg in Gnomeregan.',
+    `QuestDescription` = 'Adventurer, a critical task awaits you in the depths of Gnomeregan. Your mission is to recover the Plugg Nuts from the devious Mekgineer Thermaplugg. Our Goblin Engineers are eager to get their hands on these specialized nuts, vital for their torque multiplier—whatever that means. Roxxik, one of our top engineers, has important plans for these nuts. He''s developing a new class of shredder for the Horde and needs them to complete his project. Use the enchanted orb provided to teleport swiftly to Gnomeregan from anywhere in Azeroth. Embark on this mission with determination, and may your efforts bring technological advancements to the Horde!',
+    `AreaDescription` = '',
+    `QuestCompletionLog` = 'Return the Plugg Nuts to Overlord Runthak in Orgrimmar.',
+    `RequiredItemId1` = 900227,
+    `RequiredItemCount1` = 1,
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template Addon
+DELETE FROM `quest_template_addon` WHERE (`ID` = 441163);
+INSERT INTO `quest_template_addon`
+SET `ID` = 441163,
+    `ProvidedItemCount` = 1,
+    `MaxLevel` = 35, 
+    `SpecialFlags` = 1;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Offer Reward
+DELETE FROM `quest_offer_reward` WHERE (`ID` = 441163);
+INSERT INTO `quest_offer_reward`
+SET `ID` = 441163,
+    `Emote1` = 1,
+    `RewardText` = '',
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Request Items
+DELETE FROM `quest_request_items` WHERE (`ID` = 441163);
+INSERT INTO `quest_request_items`
+SET `ID` = 441163,
+    `EmoteOnComplete` = 1,
+    `EmoteOnIncomplete` = 1,
+    `CompletionText` = 'The Plugg Nuts please.',
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Starter
+DELETE FROM `creature_queststarter` WHERE (`quest` = 441163);
+INSERT INTO `creature_queststarter`
+SET`quest` = 441163,
+    `id` = 14392;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Ender
+DELETE FROM `creature_questender` WHERE (`quest` = 441163);
+INSERT INTO `creature_questender`
+    SET `quest` = 441163, 
+    `id` = 14392;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Item template
+DELETE FROM `item_template` WHERE (`entry` = 900227);
+INSERT INTO `item_template`
+SET `entry` = 900227, 
+    `class` = 12, 
+    `subclass` = 0, 
+    `name` = 'Plugg Nuts', 
+    `displayid` = 7072, 
+    `Quality` = 1, 
+    `bonding` = 4;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Quest Item
+DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7800) AND (`ItemId` = 900227);
+INSERT INTO `creature_questitem`
+SET `CreatureEntry` = 7800, 
+    `Idx` = 2, 
+    `ItemId` = 900227, 
+    `VerifiedBuild` = 0;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Loot Template
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 7800) AND (`Item` IN (900227));
+INSERT INTO `creature_loot_template`
+SET `Entry` = 7800, 
+    `Item` = 900227, 
+    `Chance` = 100, 
+    `QuestRequired` = 1, 
+    `LootMode` = 1, 
+    `GroupId` = 0, 
+    `MinCount` = 1, 
+    `MaxCount` = 1, 
+    `Comment` = 'Plugg Nuts';
+
 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Pool Quest
 DELETE FROM `pool_quest` WHERE (`entry` = 441165);
 INSERT INTO `pool_quest`
@@ -2586,6 +2690,79 @@ SET`quest` = 441186,
 DELETE FROM `creature_questender` WHERE (`quest` = 441186);
 INSERT INTO `creature_questender`
     SET `quest` = 441186, 
+    `id` = 29093;
+
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Pool Quest
+DELETE FROM `pool_quest` WHERE (`entry` = 441190);
+INSERT INTO `pool_quest`
+SET `entry` = 441190,
+    `pool_entry` = 300007, 
+    `description` = 'Mekgineer Thermaplugg';
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template
+DELETE FROM `quest_template` WHERE (`ID` = 441190);
+INSERT INTO `quest_template`
+SET `ID` = 441190,
+    `QuestType` = 2,
+    `QuestLevel` = 34,
+    `MinLevel` = 31,
+    `QuestSortID` = 133,
+    `QuestInfoID` = 81,
+    `RewardXPDifficulty` = 7,
+    `RewardMoney` = 34680,
+    `StartItem` = 900271,
+    `Flags` = 4104,
+    `RewardChoiceItemID1` = 900104,
+    `RewardChoiceItemQuantity1` = 1,
+    `RewardChoiceItemID2` = 900189,
+    `RewardChoiceItemQuantity2` = 1,
+    `RewardFactionID1` = 469,
+    `RewardFactionValue1` = 6,
+    `LogTitle` = 'Wanted: Plugg Nuts',
+    `LogDescription` = 'Retrieve the Plugg Nuts from Mekgineer Thermaplugg in Gnomeregan.',
+    `QuestDescription` = 'Howdy, adventurer! Got a mighty important mission for ya. We need ya to head into Gnomeregan and recover Plugg Nuts from Mekgineer Thermaplugg. Now, here''s the kicker – Zuglord Runthak has teamed up with them Zuglin "engineers" to build a giant Mech. They''re callin'' it Mecha Gahz''rilla. Those Plugg Nuts are the final piece they need to complete that mecha-monstrosity! We can''t let that happen. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Zug plans and keep Azeroth safe from Mecha Gahz''rilla!',
+    `AreaDescription` = '',
+    `QuestCompletionLog` = 'Return the Plugg Nuts to Travis Coomingham in Stormwind.',
+    `RequiredItemId1` = 900227,
+    `RequiredItemCount1` = 1,
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template Addon
+DELETE FROM `quest_template_addon` WHERE (`ID` = 441190);
+INSERT INTO `quest_template_addon`
+SET `ID` = 441190,
+    `ProvidedItemCount` = 1,
+    `MaxLevel` = 35, 
+    `SpecialFlags` = 1;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Offer Reward
+DELETE FROM `quest_offer_reward` WHERE (`ID` = 441190);
+INSERT INTO `quest_offer_reward`
+SET `ID` = 441190,
+    `Emote1` = 1,
+    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Request Items
+DELETE FROM `quest_request_items` WHERE (`ID` = 441190);
+INSERT INTO `quest_request_items`
+SET `ID` = 441190,
+    `EmoteOnComplete` = 1,
+    `EmoteOnIncomplete` = 1,
+    `CompletionText` = 'The Plugg Nuts please.',
+    `VerifiedBuild` = 12340;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Starter
+DELETE FROM `creature_queststarter` WHERE (`quest` = 441190);
+INSERT INTO `creature_queststarter`
+SET`quest` = 441190,
+    `id` = 29093;
+
+-- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Ender
+DELETE FROM `creature_questender` WHERE (`quest` = 441190);
+INSERT INTO `creature_questender`
+    SET `quest` = 441190, 
     `id` = 29093;
 
 
