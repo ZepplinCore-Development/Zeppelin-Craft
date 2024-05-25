@@ -1,0 +1,1 @@
+UPDATE `creature_template` SET `BaseAttackTime` = 6000, `RangeAttackTime` = 6000 WHERE (`entry` = 16129);
