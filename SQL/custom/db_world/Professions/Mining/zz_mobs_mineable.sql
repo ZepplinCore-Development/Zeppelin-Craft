@@ -169,3 +169,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`entry` = 11988);
 -- Garr
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`entry` = 12057);
+
+-- TBC Creatures 60 - ??
+
+-- Infernal Warbringer
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
