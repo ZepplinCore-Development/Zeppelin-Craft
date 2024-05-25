@@ -81,10 +81,10 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 -- 61 - ??
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100026);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(100026, 22573, 0, 100, 0, 1, 1, 1, 3, 'Mote of Earth'),
-(100026, 23077, 0, 5, 0, 1, 2, 1, 1, 'Blood Garnet'),
-(100026, 23107, 0, 5, 0, 1, 2, 1, 1, 'Shadow Draenite'),
-(100026, 21929, 0, 5, 0, 1, 2, 1, 1, 'Flame Spessarite'),
-(100026, 23079, 0, 5, 0, 1, 2, 1, 1, 'Deep Peridot'),
-(100026, 23117, 0, 5, 0, 1, 2, 1, 1, 'Azure Moonstone'),
-(100026, 23424, 0, 75, 0, 1, 2, 1, 3, 'Fel Iron Ore');
+(100026, 22573, 0, 10, 0, 1, 1, 1, 3, 'Mote of Earth'),
+(100026, 23077, 0, 5, 0, 1, 1, 1, 1, 'Blood Garnet'),
+(100026, 23107, 0, 5, 0, 1, 1, 1, 1, 'Shadow Draenite'),
+(100026, 21929, 0, 5, 0, 1, 1, 1, 1, 'Flame Spessarite'),
+(100026, 23079, 0, 5, 0, 1, 1, 1, 1, 'Deep Peridot'),
+(100026, 23117, 0, 5, 0, 1, 1, 1, 1, 'Azure Moonstone'),
+(100026, 23424, 0, 65, 0, 1, 1, 1, 3, 'Fel Iron Ore');
