@@ -109,3 +109,8 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 8981);
 -- War Reaver
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (`entry` = 7039);
+
+-- LEVEL 60+ TBC
+
+-- Fel Cannon MKI
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 22461);

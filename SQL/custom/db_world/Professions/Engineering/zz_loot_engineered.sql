@@ -38,3 +38,11 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100033, 15992, 0, 0, 0, 1, 2, 1, 1, 'Dense Blasting Powder'),
 (100033, 12359, 0, 0, 0, 1, 2, 1, 1, 'Thorium Bar'),
 (100033, 15994, 0, 0, 0, 1, 1, 1, 3, 'Thorium Widget');
+
+-- LEVEL 60+ TBC LOOT TABLE
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100034);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100034, 23781, 0, 0, 0, 1, 1, 1, 4, 'Elemental Blasting Powder'),
+(100034, 23445, 0, 0, 0, 1, 2, 1, 3, 'Fel Iron Bar'),
+(100034, 23782, 0, 0, 0, 1, 2, 1, 1, 'Fel Iron Casing'),
+(100033, 23783, 0, 0, 0, 1, 1, 1, 3, 'Handful of Fel Iron Bolts');
