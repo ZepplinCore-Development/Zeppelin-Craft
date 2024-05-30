@@ -37,3 +37,8 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 DELETE FROM `npc_vendor` WHERE (`entry` = 8361 AND `item` = 900213);
 INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `VerifiedBuild`) VALUES
 (8361, 0, 900213, 0, 0, 0, 0);
+
+-- Fantei - Scroll of Shattrath
+DELETE FROM `npc_vendor` WHERE (`entry` = 19678 AND `item` = 900298);
+INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `VerifiedBuild`) VALUES
+(19678, 0, 900298, 0, 0, 0, 0);
