@@ -81,6 +81,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Razor Petal', 
+                    `flags` = '2048', 
                     `displayid` = 7406, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -189,6 +190,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Carved Horn of Remulos', 
+                    `flags` = '2048', 
                     `displayid` = 18072, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -297,6 +299,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Prison Wallet', 
+                    `flags` = '2048', 
                     `displayid` = 33681, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -405,6 +408,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Fangfire Amulet', 
+                    `flags` = '2048', 
                     `displayid` = 9852, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -513,6 +517,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Gauntlets of Growth', 
+                    `flags` = '2048', 
                     `displayid` = 6991, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -621,6 +626,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Frozen Bone', 
+                    `flags` = '2048', 
                     `displayid` = 6668, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -729,6 +735,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Everliving Spore', 
+                    `flags` = '2048', 
                     `displayid` = 37658, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -837,6 +844,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Searing Stone', 
+                    `flags` = '2048', 
                     `displayid` = 22952, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -945,6 +953,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Plugg Nuts', 
+                    `flags` = '2048', 
                     `displayid` = 7072, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1053,6 +1062,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Void Pearl', 
+                    `flags` = '2048', 
                     `displayid` = 16209, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1161,6 +1171,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Bloodfire Amulet', 
+                    `flags` = '2048', 
                     `displayid` = 9658, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1269,6 +1280,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Resonating Stone of Unity', 
+                    `flags` = '2048', 
                     `displayid` = 22978, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1377,6 +1389,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Sandfury War Drum', 
+                    `flags` = '2048', 
                     `displayid` = 41062, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1485,6 +1498,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Dream Seed', 
+                    `flags` = '2048', 
                     `displayid` = 21149, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1593,6 +1607,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Incendiary Core', 
+                    `flags` = '2048', 
                     `displayid` = 28291, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1701,6 +1716,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Scepter of Sylvan Corruption', 
+                    `flags` = '2048', 
                     `displayid` = 20824, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1809,6 +1825,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Arcane Orb of Doan', 
+                    `flags` = '2048', 
                     `displayid` = 7041, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -1917,6 +1934,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Face of Theradras', 
+                    `flags` = '2048', 
                     `displayid` = 60006, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -2025,6 +2043,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Stabby Patty Secret Formula', 
+                    `flags` = '2048', 
                     `displayid` = 6270, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -3596,6 +3615,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Titanforged Beacon', 
+                    `flags` = '2048', 
                     `displayid` = 18632, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -3781,6 +3801,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Shirvallah''s Tear', 
+                    `flags` = '2048', 
                     `displayid` = 8436, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -3897,7 +3918,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 60,
-                    `QuestSortID` = 3483,
+                    `QuestSortID` = 3535,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 172980.0,
@@ -3966,6 +3987,7 @@
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Fel Nether Essence', 
+                    `flags` = '2048', 
                     `displayid` = 21531, 
                     `Quality` = 1, 
                     `bonding` = 4;
@@ -4026,7 +4048,7 @@
                     `QuestDescription` = 'Brave soul, I have a new challenge for you. Within the sinister Blood Furnace, the warlock Keli''dan the Breaker protects a potent artifact: the Blood Crucible. This crucible holds the key to unraveling the mysteries of fel blood magic. Your task is to infiltrate the Blood Furnace, slay Keli''dan, and retrieve the Blood Crucible. Do this, and a generous reward shall be yours. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''duun in Shattrath.',
-                    `RequiredItemId1` = 900250,
+                    `RequiredItemId1` = 900300,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
 
@@ -4068,29 +4090,30 @@
                     `id` = 24370;
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Item template
-                DELETE FROM `item_template` WHERE (`entry` = 900250);
+                DELETE FROM `item_template` WHERE (`entry` = 900300);
                 INSERT INTO `item_template`
-                SET `entry` = 900250, 
+                SET `entry` = 900300, 
                     `class` = 12, 
                     `subclass` = 0, 
                     `name` = 'Blood Crucible', 
+                    `flags` = '2048', 
                     `displayid` = 46255, 
                     `Quality` = 1, 
                     `bonding` = 4;
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Quest Item
-                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17377) AND (`ItemId` = 900250);
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17377) AND (`ItemId` = 900300);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 17377, 
                     `Idx` = 1, 
-                    `ItemId` = 900250, 
+                    `ItemId` = 900300, 
                     `VerifiedBuild` = 0;
 
 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Loot Template
-                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (900250));
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (900300));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 17377, 
-                    `Item` = 900250, 
+                    `Item` = 900300, 
                     `Chance` = 100, 
                     `QuestRequired` = 1, 
                     `LootMode` = 1, 
