@@ -80,6 +80,7 @@ def generate_sql_queries(csv_file):
                     npc_city = "Orgrimmar"
                     rep1 = "67" # Horde reputation
                     reward_text = ""
+                    flag = "4104"
 
                 case "Alliance":
                     quest_npc_name = "Travis Coomingham"
@@ -87,6 +88,7 @@ def generate_sql_queries(csv_file):
                     npc_city = "Stormwind"  
                     rep1 = "469" # Alliance reputation
                     reward_text = "Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch."
+                    flag = "4104"
 
                 case "Thrallmar / Honor Hold":
                     quest_npc_name = "Nether-Stalker Mah''duun"
@@ -96,6 +98,7 @@ def generate_sql_queries(csv_file):
                     rep2 = "946" # Honor Hold reputation
                     rep3 = "947" # Thrallmar reputation
                     reward_text = ""
+                    flag = "4232"
 
             if item_name:
 
@@ -119,7 +122,7 @@ def generate_sql_queries(csv_file):
                     `RewardXPDifficulty` = 7,\n\
                     `RewardMoney` = {money},\n\
                     `StartItem` = {teleport_orb_id},\n\
-                    `Flags` = 4104,\n\
+                    `Flags` = {flag},\n\
                     `RewardChoiceItemID1` = {reward_1},\n\
                     `RewardChoiceItemQuantity1` = 1,\n\
                     `RewardChoiceItemID2` = {reward_2},\n\
