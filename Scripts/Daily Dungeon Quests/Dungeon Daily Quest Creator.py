@@ -70,7 +70,7 @@ def generate_sql_queries(csv_file):
                     reward_2 = 900189
 
                 case "Outland Normal":
-                    reward_1 = 900104
+                    reward_1 = 29434
                     reward_2 = 900189
 
             match faction:
