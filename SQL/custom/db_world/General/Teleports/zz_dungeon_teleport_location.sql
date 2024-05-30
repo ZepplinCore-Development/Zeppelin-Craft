@@ -28,4 +28,6 @@ REPLACE INTO `spell_target_position` (`ID`, `EffectIndex`, `MapID`, `PositionX`,
 (91043, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Dire Maul North
 (91044, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Stratholme Undead
 (91045, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Stratholme Living
-(91046, 0, 109, -319.24, 99.9, -131.85, 3.19, 0); -- Scholomance
+(91046, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Scholomance
+(91072, 0, 109, -319.24, 99.9, -131.85, 3.19, 0), -- Hellfire Ramparts
+(91073, 0, 109, -319.24, 99.9, -131.85, 3.19, 0); -- Blood Furnace

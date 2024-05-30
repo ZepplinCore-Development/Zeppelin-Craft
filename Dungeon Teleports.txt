@@ -32,6 +32,8 @@ ITEM - SPELL
 900281 - 91045 - Stratholme Living
 900282 - 91046 - Scholomance
 900283 - 91050 - Uldaman West
+900284 - 91072 - Hellfire Ramparts
+900285 - 91073 - Blood Furnace
 
 
 
