@@ -21,3 +21,9 @@ REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
 (300009,1,'Vanilla Alliance Normal Dungeons Levels 46 - 50'),
 (300010,1,'Vanilla Alliance Normal Dungeons Levels 51 - 58'),
 (300011,1,'Vanilla Alliance Normal Dungeons Levels 59 - 60');
+
+-- OUTLAND NORMAL DUNGEON POOLS
+REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
+(300018,1,'Outland Normal Dungeons Levels 60 - 64'),
+(300019,1,'Outland Normal Dungeons Levels 65 - 68'),
+(300020,1,'Outland Normal Dungeons Levels 69 - 70');
