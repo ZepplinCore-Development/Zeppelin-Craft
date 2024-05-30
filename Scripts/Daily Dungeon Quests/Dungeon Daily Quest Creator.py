@@ -186,6 +186,7 @@ def generate_sql_queries(csv_file):
                     `class` = 12, \n\
                     `subclass` = 0, \n\
                     `name` = '{item_name}', \n\
+                    `flags` = '2048', \n\
                     `displayid` = {item_display_id}, \n\
                     `Quality` = 1, \n\
                     `bonding` = 4;\n\n"
