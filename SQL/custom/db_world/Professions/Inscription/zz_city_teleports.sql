@@ -1,0 +1,380 @@
+-- Scroll of Teleport Ironforge
+                DELETE FROM `item_template` WHERE (`entry` = 900301);
+                INSERT INTO `item_template`
+                SET `entry` = 900301,
+                    `name` = 'Scroll of Teleport Ironforge',
+                    `displayid` = 58830,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3562,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Ironforge
+                DELETE FROM `item_template` WHERE (`entry` = 900401);
+                INSERT INTO `item_template`
+                SET `entry` = 900401,
+                    `name` = 'Technique: Scroll of Teleport Ironforge', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91014, 
+                    `spelltrigger_2` = 6;
+
+                -- Barim Jurgenstaad - Scroll of Teleport Ironforge
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900301);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 5110,
+                    `item` = '900401'; 
+
+
+                
+-- Scroll of Teleport Darnassus
+                DELETE FROM `item_template` WHERE (`entry` = 900302);
+                INSERT INTO `item_template`
+                SET `entry` = 900302,
+                    `name` = 'Scroll of Teleport Darnassus',
+                    `displayid` = 58841,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3565,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Darnassus
+                DELETE FROM `item_template` WHERE (`entry` = 900402);
+                INSERT INTO `item_template`
+                SET `entry` = 900402,
+                    `name` = 'Technique: Scroll of Teleport Darnassus', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91015, 
+                    `spelltrigger_2` = 6;
+
+                -- Alaindia - Scroll of Teleport Darnassus
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900302);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 3562,
+                    `item` = '900402'; 
+
+
+                
+-- Scroll of Teleport Undercity
+                DELETE FROM `item_template` WHERE (`entry` = 900303);
+                INSERT INTO `item_template`
+                SET `entry` = 900303,
+                    `name` = 'Scroll of Teleport Undercity',
+                    `displayid` = 58836,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3563,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Undercity
+                DELETE FROM `item_template` WHERE (`entry` = 900403);
+                INSERT INTO `item_template`
+                SET `entry` = 900403,
+                    `name` = 'Technique: Scroll of Teleport Undercity', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91013, 
+                    `spelltrigger_2` = 6;
+
+                -- Hannah Akeley - Scroll of Teleport Undercity
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900303);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 4575,
+                    `item` = '900403'; 
+
+
+                
+-- Scroll of Teleport Thunder Bluff
+                DELETE FROM `item_template` WHERE (`entry` = 900304);
+                INSERT INTO `item_template`
+                SET `entry` = 900304,
+                    `name` = 'Scroll of Teleport Thunder Bluff',
+                    `displayid` = 58828,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3566,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Thunder Bluff
+                DELETE FROM `item_template` WHERE (`entry` = 900404);
+                INSERT INTO `item_template`
+                SET `entry` = 900404,
+                    `name` = 'Technique: Scroll of Teleport Thunder Bluff', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91012, 
+                    `spelltrigger_2` = 6;
+
+                -- Chepi - Scroll of Teleport Thunder Bluff
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900304);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 8361,
+                    `item` = '900404'; 
+
+
+                
+-- Scroll of Teleport Stormwind
+                DELETE FROM `item_template` WHERE (`entry` = 900305);
+                INSERT INTO `item_template`
+                SET `entry` = 900305,
+                    `name` = 'Scroll of Teleport Stormwind',
+                    `displayid` = 58839,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3561,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Stormwind
+                DELETE FROM `item_template` WHERE (`entry` = 900405);
+                INSERT INTO `item_template`
+                SET `entry` = 900405,
+                    `name` = 'Technique: Scroll of Teleport Stormwind', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91010, 
+                    `spelltrigger_2` = 6;
+
+                -- Charys Yserian - Scroll of Teleport Stormwind
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900305);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 1307,
+                    `item` = '900405'; 
+
+
+                
+-- Scroll of Teleport Orgrimmar
+                DELETE FROM `item_template` WHERE (`entry` = 900306);
+                INSERT INTO `item_template`
+                SET `entry` = 900306,
+                    `name` = 'Scroll of Teleport Orgrimmar',
+                    `displayid` = 58825,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 3567,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Orgrimmar
+                DELETE FROM `item_template` WHERE (`entry` = 900406);
+                INSERT INTO `item_template`
+                SET `entry` = 900406,
+                    `name` = 'Technique: Scroll of Teleport Orgrimmar', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91009, 
+                    `spelltrigger_2` = 6;
+
+                -- Horthus - Scroll of Teleport Orgrimmar
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900306);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 3323,
+                    `item` = '900406'; 
+
+
+                
+-- Scroll of Teleport Silvermoon City
+                DELETE FROM `item_template` WHERE (`entry` = 900307);
+                INSERT INTO `item_template`
+                SET `entry` = 900307,
+                    `name` = 'Scroll of Teleport Silvermoon City',
+                    `displayid` = 58829,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 32272,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Silvermoon City
+                DELETE FROM `item_template` WHERE (`entry` = 900407);
+                INSERT INTO `item_template`
+                SET `entry` = 900407,
+                    `name` = 'Technique: Scroll of Teleport Silvermoon City', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91016, 
+                    `spelltrigger_2` = 6;
+
+                -- Zalle - Scroll of Teleport Silvermoon City
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900307);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 16611,
+                    `item` = '900407'; 
+
+
+                
+-- Scroll of Teleport Exodar
+                DELETE FROM `item_template` WHERE (`entry` = 900308);
+                INSERT INTO `item_template`
+                SET `entry` = 900308,
+                    `name` = 'Scroll of Teleport Exodar',
+                    `displayid` = 58834,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 100,
+                    `spellid_1` = 32271,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Exodar
+                DELETE FROM `item_template` WHERE (`entry` = 900408);
+                INSERT INTO `item_template`
+                SET `entry` = 900408,
+                    `name` = 'Technique: Scroll of Teleport Exodar', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 100, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91017, 
+                    `spelltrigger_2` = 6;
+
+                -- Bildine - Scroll of Teleport Exodar
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900308);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 16757,
+                    `item` = '900408'; 
+
+
+                
+-- Scroll of Teleport Shattrath
+                DELETE FROM `item_template` WHERE (`entry` = 900309);
+                INSERT INTO `item_template`
+                SET `entry` = 900309,
+                    `name` = 'Scroll of Teleport Shattrath',
+                    `displayid` = 58835,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 300,
+                    `spellid_1` = 33690,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Shattrath
+                DELETE FROM `item_template` WHERE (`entry` = 900409);
+                INSERT INTO `item_template`
+                SET `entry` = 900409,
+                    `name` = 'Technique: Scroll of Teleport Shattrath', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 300, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91080, 
+                    `spelltrigger_2` = 6;
+
+                -- Fantei - Scroll of Teleport Shattrath
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900309);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 19678,
+                    `item` = '900409'; 
+
+
+                
+-- Scroll of Teleport Dalaran
+                DELETE FROM `item_template` WHERE (`entry` = 900310);
+                INSERT INTO `item_template`
+                SET `entry` = 900310,
+                    `name` = 'Scroll of Teleport Dalaran',
+                    `displayid` = 58833,
+                    `Quality` = 2,
+                    `bonding` = 1,
+                    `RequiredSkill` = 773,
+                    `RequiredSkillRank` = 375,
+                    `spellid_1` = 53140,
+                    `spellcharges_1` = -1;
+
+                -- Technique: Scroll of Teleport Dalaran
+                DELETE FROM `item_template` WHERE (`entry` = 900410);
+                INSERT INTO `item_template`
+                SET `entry` = 900410,
+                    `name` = 'Technique: Scroll of Teleport Dalaran', 
+                    `displayid` = 1103, 
+                    `Quality` = 2, 
+                    `bonding` = 1, 
+                    `BuyPrice` = 10000, 
+                    `SellPrice` = 2500, 
+                    `RequiredSkill` = 773, 
+                    `RequiredSkillRank` = 375, 
+                    `spellid_1` = 483, 
+                    `spellcharges_1` = -1, 
+                    `spellid_2` = 91011, 
+                    `spelltrigger_2` = 6;
+
+                -- Hagatha Moorehead - Scroll of Teleport Dalaran
+                DELETE FROM `npc_vendor` WHERE (`entry` = 900310);
+                INSERT INTO `npc_vendor`
+                SET `entry` = 29636,
+                    `item` = '900410'; 
+
+
+                
