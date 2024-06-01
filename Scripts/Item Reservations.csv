@@ -1,12 +1,12 @@
 ﻿Start Range,End Range,Items,Notes
-900100,900110,AQ Stuff,
-900125,900150,Stockades Loot 900135,
-900151,900200,Emblems and Satchels 900153,
-900201,900300,Vanilla Heroic Loot,
-900301,900400,City Teleport Scrolls,Scripted
-900401,900500,City Teleport Scroll Techniques,Scripted
-900501,900600,Daily Dungeon Items,Scripted
-900601,900700,Dungeon Teleport Orbs,Scripted
-900701,900800,Arcane Wards,
-900801,900900,Arathi Quest Items,
-901000,901100,Random recipes. 901000,
+901000,901099,AQ Stuff,
+901100,901199,Stockades Loot ,
+901200,901299,Emblems and Satchels ,
+901300,901499,Vanilla Heroic Loot,
+901500,901599,City Teleport Scrolls,Scripted
+901600,901699,City Teleport Scroll Techniques,Scripted
+901700,901899,Daily Dungeon Items,Scripted
+901900,902099,Dungeon Teleport Orbs,Scripted
+902100,902199,Arcane Wards,
+902200,902299,Arathi Quest Items,
+902300,902799,Random recipes.,
