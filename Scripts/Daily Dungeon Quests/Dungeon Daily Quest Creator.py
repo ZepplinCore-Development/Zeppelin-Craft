@@ -14,8 +14,19 @@ try:
 except Exception as e:
     print("Error changing directory:", e)
 
+def get_dungeon_orb(target_dungeon, teleports_csv_file_path):
+    with open(teleports_csv_file_path, 'r') as teleports_file:
+        teleport_reader = csv.reader(teleports_file)
+        next(teleport_reader)  # Skip the header row 
+        for row in teleport_reader:
+            dungeon = row[0]
+            teleport_orb_id = row[1]
+            
+            if target_dungeon == dungeon:
+                return teleport_orb_id
+
 # Function to generate SQL queries
-def generate_sql_queries(csv_file):
+def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
     queries = []  # List to store generated queries
     processed_bosses = set()
 
@@ -26,10 +37,10 @@ def generate_sql_queries(csv_file):
     "Mythic": 4
     }
 
-    with open(csv_file, 'r') as file:
-        reader = csv.reader(file)
-        next(reader)  # Skip the header row
-        for row in reader:
+    with open(quests_csv_file_path, 'r') as quest_file:
+        quest_reader = csv.reader(quest_file)
+        next(quest_reader)  # Skip the header row
+        for row in quest_reader:
 
             # Extracting values from the CSV columns by index
             quest_id = row[0]
@@ -40,15 +51,17 @@ def generate_sql_queries(csv_file):
             item_display_id = row[5]
             quest_desc = row[6]
             sort_id = row[7]
-            teleport_orb_id = row[8]
-            boss_name = row[9]
-            boss_id = row[10]
-            boss_idx = row[11]
-            boss_level = row[12]
-            pool_id = row[13]
-            pool_min = row[14]
-            pool_max = row[15]
-            difficulty = row[16]
+            boss_name = row[8]
+            boss_id = row[9]
+            boss_idx = row[10]
+            boss_level = row[11]
+            pool_id = row[12]
+            pool_min = row[13]
+            pool_max = row[14]
+            difficulty = row[15]
+
+            target_dungeon = dungeon
+            teleport_orb_id = get_dungeon_orb(target_dungeon, teleports_csv_file_path)
 
             # Check if boss_level is not empty and is a valid integer
             if boss_level and boss_level.isdigit():
@@ -222,10 +235,11 @@ def generate_sql_queries(csv_file):
     return queries
 
 # CSV file path
-csv_file_path = 'Dungeon Daily Quests.csv'
+quests_csv_file_path = 'Dungeon Daily Quests.csv'
+teleports_csv_file_path = 'Dungeon Daily Teleports.csv'
 
 # Generate SQL queries
-sql_queries = generate_sql_queries(csv_file_path)
+sql_queries = generate_sql_queries(quests_csv_file_path, teleports_csv_file_path)
 
 # Save SQL queries to a file
 with open('zz_daily_dungeon_quests.sql', 'w') as sql_file:
