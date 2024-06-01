@@ -10,7 +10,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 DELETE FROM `reference_loot_template` WHERE (`Entry` = 900000);
 INSERT INTO `reference_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(900000, 901000, 0, 0, 0, 1, 1, 1, 1, ''),
+(900000, 900105, 0, 0, 0, 1, 1, 1, 1, ''),
 (900000, 1323, 0, 0, 0, 1, 1, 1, 1, ''),
 (900000, 1492, 0, 0, 0, 1, 1, 1, 1, '');
 
