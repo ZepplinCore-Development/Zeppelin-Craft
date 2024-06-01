@@ -1,19 +1,19 @@
 -- Maraudon Purple - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91018);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900601,
+                SET `ID` = 901901,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
-                    `PositionX` = 752.90, 
-                    `PositionY` = -616.50, 
-                    `PositionZ` = -33.10, 
-                    `Orientation` = 1.40, 
+                    `PositionX` = 752.9, 
+                    `PositionY` = -616.5, 
+                    `PositionZ` = -33.1, 
+                    `Orientation` = 1.4, 
                     `VerifiedBuild` = '0';
 
 -- Maraudon Purple - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900601);
+                DELETE FROM `item_template` WHERE (`entry` = 901901);
                 INSERT INTO `item_template`
-                SET `entry` = 900601,
+                SET `entry` = 901901,
                     `name` = 'Orb of Teleport Maraudon Purple', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -25,19 +25,19 @@
 -- Maraudon Orange - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91019);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900602,
+                SET `ID` = 901902,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
-                    `PositionX` = 1019.70, 
-                    `PositionY` = -458.30, 
-                    `PositionZ` = -43.40, 
-                    `Orientation` = 0.30, 
+                    `PositionX` = 1019.7, 
+                    `PositionY` = -458.3, 
+                    `PositionZ` = -43.4, 
+                    `Orientation` = 0.3, 
                     `VerifiedBuild` = '0';
 
 -- Maraudon Orange - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900602);
+                DELETE FROM `item_template` WHERE (`entry` = 901902);
                 INSERT INTO `item_template`
-                SET `entry` = 900602,
+                SET `entry` = 901902,
                     `name` = 'Orb of Teleport Maraudon Orange', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -49,19 +49,19 @@
 -- Maraudon Pristine Waters - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91020);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900603,
+                SET `ID` = 901903,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
-                    `PositionX` = 495.70, 
-                    `PositionY` = 17.30, 
-                    `PositionZ` = -96.30, 
-                    `Orientation` = 3.10, 
+                    `PositionX` = 495.7, 
+                    `PositionY` = 17.3, 
+                    `PositionZ` = -96.3, 
+                    `Orientation` = 3.1, 
                     `VerifiedBuild` = '0';
 
 -- Maraudon Pristine Waters - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900603);
+                DELETE FROM `item_template` WHERE (`entry` = 901903);
                 INSERT INTO `item_template`
-                SET `entry` = 900603,
+                SET `entry` = 901903,
                     `name` = 'Orb of Teleport Maraudon Pristine Waters', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -73,19 +73,19 @@
 -- Scarlet Monastery Armory - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91021);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900604,
+                SET `ID` = 901904,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
-                    `PositionX` = 1610.80, 
-                    `PositionY` = -323.40, 
-                    `PositionZ` = 18.70, 
-                    `Orientation` = 6.30, 
+                    `PositionX` = 1610.8, 
+                    `PositionY` = -323.4, 
+                    `PositionZ` = 18.7, 
+                    `Orientation` = 6.3, 
                     `VerifiedBuild` = '0';
 
 -- Scarlet Monastery Armory - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900604);
+                DELETE FROM `item_template` WHERE (`entry` = 901904);
                 INSERT INTO `item_template`
-                SET `entry` = 900604,
+                SET `entry` = 901904,
                     `name` = 'Orb of Teleport Scarlet Monastery Armory', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -97,19 +97,19 @@
 -- Scarlet Monastery Cathedral - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91022);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900605,
+                SET `ID` = 901905,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
-                    `PositionX` = 855.70, 
-                    `PositionY` = 1321.50, 
-                    `PositionZ` = 18.70, 
-                    `Orientation` = 0.00, 
+                    `PositionX` = 855.7, 
+                    `PositionY` = 1321.5, 
+                    `PositionZ` = 18.7, 
+                    `Orientation` = 0, 
                     `VerifiedBuild` = '0';
 
 -- Scarlet Monastery Cathedral - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900605);
+                DELETE FROM `item_template` WHERE (`entry` = 901905);
                 INSERT INTO `item_template`
-                SET `entry` = 900605,
+                SET `entry` = 901905,
                     `name` = 'Orb of Teleport Scarlet Monastery Cathedral', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -121,19 +121,19 @@
 -- Scarlet Monastery Graveyard - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91023);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900606,
+                SET `ID` = 901906,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
-                    `PositionX` = 1689.00, 
-                    `PositionY` = 1053.50, 
-                    `PositionZ` = 18.70, 
-                    `Orientation` = 0.00, 
+                    `PositionX` = 1689, 
+                    `PositionY` = 1053.5, 
+                    `PositionZ` = 18.7, 
+                    `Orientation` = 0, 
                     `VerifiedBuild` = '0';
 
 -- Scarlet Monastery Graveyard - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900606);
+                DELETE FROM `item_template` WHERE (`entry` = 901906);
                 INSERT INTO `item_template`
-                SET `entry` = 900606,
+                SET `entry` = 901906,
                     `name` = 'Orb of Teleport Scarlet Monastery Graveyard', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -145,19 +145,19 @@
 -- Scarlet Monastery Library - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91024);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900607,
+                SET `ID` = 901907,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
-                    `PositionX` = 255.40, 
-                    `PositionY` = -209.10, 
-                    `PositionZ` = 18.70, 
-                    `Orientation` = 6.30, 
+                    `PositionX` = 255.4, 
+                    `PositionY` = -209.1, 
+                    `PositionZ` = 18.7, 
+                    `Orientation` = 6.3, 
                     `VerifiedBuild` = '0';
 
 -- Scarlet Monastery Library - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900607);
+                DELETE FROM `item_template` WHERE (`entry` = 901907);
                 INSERT INTO `item_template`
-                SET `entry` = 900607,
+                SET `entry` = 901907,
                     `name` = 'Orb of Teleport Scarlet Monastery Library', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -169,19 +169,19 @@
 -- Blackrock Depths Prison - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91025);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900608,
+                SET `ID` = 901908,
                     `EffectIndex` = '0', 
                     `MapID` = 230, 
-                    `PositionX` = 458.30, 
-                    `PositionY` = 26.50, 
-                    `PositionZ` = -70.70, 
-                    `Orientation` = 4.90, 
+                    `PositionX` = 458.3, 
+                    `PositionY` = 26.5, 
+                    `PositionZ` = -70.7, 
+                    `Orientation` = 4.9, 
                     `VerifiedBuild` = '0';
 
 -- Blackrock Depths Prison - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900608);
+                DELETE FROM `item_template` WHERE (`entry` = 901908);
                 INSERT INTO `item_template`
-                SET `entry` = 900608,
+                SET `entry` = 901908,
                     `name` = 'Orb of Teleport Blackrock Depths Prison', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -193,19 +193,19 @@
 -- Blackrock Depths Upper City - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91026);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900609,
+                SET `ID` = 901909,
                     `EffectIndex` = '0', 
                     `MapID` = 230, 
-                    `PositionX` = 881.50, 
-                    `PositionY` = -237.30, 
-                    `PositionZ` = -49.90, 
-                    `Orientation` = 5.80, 
+                    `PositionX` = 881.5, 
+                    `PositionY` = -237.3, 
+                    `PositionZ` = -49.9, 
+                    `Orientation` = 5.8, 
                     `VerifiedBuild` = '0';
 
 -- Blackrock Depths Upper City - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900609);
+                DELETE FROM `item_template` WHERE (`entry` = 901909);
                 INSERT INTO `item_template`
-                SET `entry` = 900609,
+                SET `entry` = 901909,
                     `name` = 'Orb of Teleport Blackrock Depths Upper City', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -217,19 +217,19 @@
 -- Zul''Farrak - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91027);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900610,
+                SET `ID` = 901910,
                     `EffectIndex` = '0', 
                     `MapID` = 209, 
-                    `PositionX` = 1214.20, 
-                    `PositionY` = 841.50, 
-                    `PositionZ` = 8.90, 
-                    `Orientation` = 6.10, 
+                    `PositionX` = 1214.2, 
+                    `PositionY` = 841.5, 
+                    `PositionZ` = 8.9, 
+                    `Orientation` = 6.1, 
                     `VerifiedBuild` = '0';
 
 -- Zul''Farrak - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900610);
+                DELETE FROM `item_template` WHERE (`entry` = 901910);
                 INSERT INTO `item_template`
-                SET `entry` = 900610,
+                SET `entry` = 901910,
                     `name` = 'Orb of Teleport Zul''Farrak', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -241,19 +241,19 @@
 -- Sunken Temple - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91028);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900611,
+                SET `ID` = 901911,
                     `EffectIndex` = '0', 
                     `MapID` = 109, 
-                    `PositionX` = -319.20, 
-                    `PositionY` = 99.90, 
+                    `PositionX` = -319.2, 
+                    `PositionY` = 99.9, 
                     `PositionZ` = -131.85, 
-                    `Orientation` = 3.20, 
+                    `Orientation` = 3.2, 
                     `VerifiedBuild` = '0';
 
 -- Sunken Temple - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900611);
+                DELETE FROM `item_template` WHERE (`entry` = 901911);
                 INSERT INTO `item_template`
-                SET `entry` = 900611,
+                SET `entry` = 901911,
                     `name` = 'Orb of Teleport Sunken Temple', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -265,19 +265,19 @@
 -- Wailing Caverns - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91029);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900612,
+                SET `ID` = 901912,
                     `EffectIndex` = '0', 
                     `MapID` = 43, 
-                    `PositionX` = -163.50, 
-                    `PositionY` = 132.90, 
-                    `PositionZ` = -73.70, 
-                    `Orientation` = 5.80, 
+                    `PositionX` = -163.5, 
+                    `PositionY` = 132.9, 
+                    `PositionZ` = -73.7, 
+                    `Orientation` = 5.8, 
                     `VerifiedBuild` = '0';
 
 -- Wailing Caverns - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900612);
+                DELETE FROM `item_template` WHERE (`entry` = 901912);
                 INSERT INTO `item_template`
-                SET `entry` = 900612,
+                SET `entry` = 901912,
                     `name` = 'Orb of Teleport Wailing Caverns', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -289,19 +289,19 @@
 -- Ragefire Chasm - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91030);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900613,
+                SET `ID` = 901913,
                     `EffectIndex` = '0', 
                     `MapID` = 389, 
-                    `PositionX` = 3.80, 
-                    `PositionY` = -14.80, 
-                    `PositionZ` = -17.90, 
-                    `Orientation` = 4.20, 
+                    `PositionX` = 3.8, 
+                    `PositionY` = -14.8, 
+                    `PositionZ` = -17.9, 
+                    `Orientation` = 4.2, 
                     `VerifiedBuild` = '0';
 
 -- Ragefire Chasm - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900613);
+                DELETE FROM `item_template` WHERE (`entry` = 901913);
                 INSERT INTO `item_template`
-                SET `entry` = 900613,
+                SET `entry` = 901913,
                     `name` = 'Orb of Teleport Ragefire Chasm', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -313,19 +313,19 @@
 -- Deadmines - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91031);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900614,
+                SET `ID` = 901914,
                     `EffectIndex` = '0', 
                     `MapID` = 36, 
-                    `PositionX` = -16.40, 
-                    `PositionY` = -383.10, 
-                    `PositionZ` = 61.20, 
-                    `Orientation` = 2.50, 
+                    `PositionX` = -16.4, 
+                    `PositionY` = -383.1, 
+                    `PositionZ` = 61.2, 
+                    `Orientation` = 2.5, 
                     `VerifiedBuild` = '0';
 
 -- Deadmines - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900614);
+                DELETE FROM `item_template` WHERE (`entry` = 901914);
                 INSERT INTO `item_template`
-                SET `entry` = 900614,
+                SET `entry` = 901914,
                     `name` = 'Orb of Teleport Deadmines', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -337,19 +337,19 @@
 -- Shadowfang Keep - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91032);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900615,
+                SET `ID` = 901915,
                     `EffectIndex` = '0', 
                     `MapID` = 209, 
-                    `PositionX` = -228.40, 
-                    `PositionY` = 2110.20, 
-                    `PositionZ` = 76.90, 
-                    `Orientation` = 0.60, 
+                    `PositionX` = -228.4, 
+                    `PositionY` = 2110.2, 
+                    `PositionZ` = 76.9, 
+                    `Orientation` = 0.6, 
                     `VerifiedBuild` = '0';
 
 -- Shadowfang Keep - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900615);
+                DELETE FROM `item_template` WHERE (`entry` = 901915);
                 INSERT INTO `item_template`
-                SET `entry` = 900615,
+                SET `entry` = 901915,
                     `name` = 'Orb of Teleport Shadowfang Keep', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -361,19 +361,19 @@
 -- Blackfathom Deeps - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91033);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900616,
+                SET `ID` = 901916,
                     `EffectIndex` = '0', 
                     `MapID` = 48, 
-                    `PositionX` = -151.90, 
-                    `PositionY` = 106.90, 
-                    `PositionZ` = -39.90, 
-                    `Orientation` = 4.50, 
+                    `PositionX` = -151.9, 
+                    `PositionY` = 106.9, 
+                    `PositionZ` = -39.9, 
+                    `Orientation` = 4.5, 
                     `VerifiedBuild` = '0';
 
 -- Blackfathom Deeps - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900616);
+                DELETE FROM `item_template` WHERE (`entry` = 901916);
                 INSERT INTO `item_template`
-                SET `entry` = 900616,
+                SET `entry` = 901916,
                     `name` = 'Orb of Teleport Blackfathom Deeps', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -385,19 +385,19 @@
 -- Stormwind Stockade - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91034);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900617,
+                SET `ID` = 901917,
                     `EffectIndex` = '0', 
                     `MapID` = 34, 
-                    `PositionX` = 54.20, 
-                    `PositionY` = 0.30, 
-                    `PositionZ` = -18.40, 
-                    `Orientation` = 6.30, 
+                    `PositionX` = 54.2, 
+                    `PositionY` = 0.3, 
+                    `PositionZ` = -18.4, 
+                    `Orientation` = 6.3, 
                     `VerifiedBuild` = '0';
 
 -- Stormwind Stockade - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900617);
+                DELETE FROM `item_template` WHERE (`entry` = 901917);
                 INSERT INTO `item_template`
-                SET `entry` = 900617,
+                SET `entry` = 901917,
                     `name` = 'Orb of Teleport Stormwind Stockade', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -409,7 +409,7 @@
 -- Gnomeregan - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91035);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900618,
+                SET `ID` = 901918,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -419,9 +419,9 @@
                     `VerifiedBuild` = '0';
 
 -- Gnomeregan - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900618);
+                DELETE FROM `item_template` WHERE (`entry` = 901918);
                 INSERT INTO `item_template`
-                SET `entry` = 900618,
+                SET `entry` = 901918,
                     `name` = 'Orb of Teleport Gnomeregan', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -433,7 +433,7 @@
 -- Razorfen Kraul - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91036);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900619,
+                SET `ID` = 901919,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -443,9 +443,9 @@
                     `VerifiedBuild` = '0';
 
 -- Razorfen Kraul - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900619);
+                DELETE FROM `item_template` WHERE (`entry` = 901919);
                 INSERT INTO `item_template`
-                SET `entry` = 900619,
+                SET `entry` = 901919,
                     `name` = 'Orb of Teleport Razorfen Kraul', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -457,7 +457,7 @@
 -- Razorfen Downs - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91037);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900620,
+                SET `ID` = 901920,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -467,9 +467,9 @@
                     `VerifiedBuild` = '0';
 
 -- Razorfen Downs - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900620);
+                DELETE FROM `item_template` WHERE (`entry` = 901920);
                 INSERT INTO `item_template`
-                SET `entry` = 900620,
+                SET `entry` = 901920,
                     `name` = 'Orb of Teleport Razorfen Downs', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -481,19 +481,19 @@
 -- Uldaman East - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91038);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900621,
+                SET `ID` = 901921,
                     `EffectIndex` = '0', 
                     `MapID` = 70, 
-                    `PositionX` = -227.30, 
-                    `PositionY` = 58.90, 
-                    `PositionZ` = -46.00, 
-                    `Orientation` = 1.70, 
+                    `PositionX` = -227.3, 
+                    `PositionY` = 58.9, 
+                    `PositionZ` = -46, 
+                    `Orientation` = 1.7, 
                     `VerifiedBuild` = '0';
 
 -- Uldaman East - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900621);
+                DELETE FROM `item_template` WHERE (`entry` = 901921);
                 INSERT INTO `item_template`
-                SET `entry` = 900621,
+                SET `entry` = 901921,
                     `name` = 'Orb of Teleport Uldaman East', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -505,7 +505,7 @@
 -- Blackrock Spire Lower - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91039);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900622,
+                SET `ID` = 901922,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -515,9 +515,9 @@
                     `VerifiedBuild` = '0';
 
 -- Blackrock Spire Lower - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900622);
+                DELETE FROM `item_template` WHERE (`entry` = 901922);
                 INSERT INTO `item_template`
-                SET `entry` = 900622,
+                SET `entry` = 901922,
                     `name` = 'Orb of Teleport Blackrock Spire Lower', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -529,7 +529,7 @@
 -- Blackrock Spire Upper - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91040);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900623,
+                SET `ID` = 901923,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -539,9 +539,9 @@
                     `VerifiedBuild` = '0';
 
 -- Blackrock Spire Upper - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900623);
+                DELETE FROM `item_template` WHERE (`entry` = 901923);
                 INSERT INTO `item_template`
-                SET `entry` = 900623,
+                SET `entry` = 901923,
                     `name` = 'Orb of Teleport Blackrock Spire Upper', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -553,19 +553,19 @@
 -- Dire Maul East - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91041);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900624,
+                SET `ID` = 901924,
                     `EffectIndex` = '0', 
                     `MapID` = 429, 
-                    `PositionX` = -201.20, 
-                    `PositionY` = -327.60, 
-                    `PositionZ` = -2.70, 
-                    `Orientation` = 5.30, 
+                    `PositionX` = -201.2, 
+                    `PositionY` = -327.6, 
+                    `PositionZ` = -2.7, 
+                    `Orientation` = 5.3, 
                     `VerifiedBuild` = '0';
 
 -- Dire Maul East - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900624);
+                DELETE FROM `item_template` WHERE (`entry` = 901924);
                 INSERT INTO `item_template`
-                SET `entry` = 900624,
+                SET `entry` = 901924,
                     `name` = 'Orb of Teleport Dire Maul East', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -577,19 +577,19 @@
 -- Dire Maul West - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91042);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900625,
+                SET `ID` = 901925,
                     `EffectIndex` = '0', 
                     `MapID` = 429, 
-                    `PositionX` = -65.30, 
-                    `PositionY` = 158.30, 
-                    `PositionZ` = -3.50, 
-                    `Orientation` = 1.80, 
+                    `PositionX` = -65.3, 
+                    `PositionY` = 158.3, 
+                    `PositionZ` = -3.5, 
+                    `Orientation` = 1.8, 
                     `VerifiedBuild` = '0';
 
 -- Dire Maul West - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900625);
+                DELETE FROM `item_template` WHERE (`entry` = 901925);
                 INSERT INTO `item_template`
-                SET `entry` = 900625,
+                SET `entry` = 901925,
                     `name` = 'Orb of Teleport Dire Maul West', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -601,7 +601,7 @@
 -- Dire Maul North - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91043);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900626,
+                SET `ID` = 901926,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -611,9 +611,9 @@
                     `VerifiedBuild` = '0';
 
 -- Dire Maul North - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900626);
+                DELETE FROM `item_template` WHERE (`entry` = 901926);
                 INSERT INTO `item_template`
-                SET `entry` = 900626,
+                SET `entry` = 901926,
                     `name` = 'Orb of Teleport Dire Maul North', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -625,7 +625,7 @@
 -- Stratholme Undead - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91044);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900627,
+                SET `ID` = 901927,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -635,9 +635,9 @@
                     `VerifiedBuild` = '0';
 
 -- Stratholme Undead - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900627);
+                DELETE FROM `item_template` WHERE (`entry` = 901927);
                 INSERT INTO `item_template`
-                SET `entry` = 900627,
+                SET `entry` = 901927,
                     `name` = 'Orb of Teleport Stratholme Undead', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -649,7 +649,7 @@
 -- Stratholme Living - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91045);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900628,
+                SET `ID` = 901928,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -659,9 +659,9 @@
                     `VerifiedBuild` = '0';
 
 -- Stratholme Living - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900628);
+                DELETE FROM `item_template` WHERE (`entry` = 901928);
                 INSERT INTO `item_template`
-                SET `entry` = 900628,
+                SET `entry` = 901928,
                     `name` = 'Orb of Teleport Stratholme Living', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -673,7 +673,7 @@
 -- Scholomance - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91046);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900629,
+                SET `ID` = 901929,
                     `EffectIndex` = '0', 
                     `MapID` = , 
                     `PositionX` = , 
@@ -683,9 +683,9 @@
                     `VerifiedBuild` = '0';
 
 -- Scholomance - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900629);
+                DELETE FROM `item_template` WHERE (`entry` = 901929);
                 INSERT INTO `item_template`
-                SET `entry` = 900629,
+                SET `entry` = 901929,
                     `name` = 'Orb of Teleport Scholomance', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -697,19 +697,19 @@
 -- Uldaman West - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91047);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900630,
+                SET `ID` = 901930,
                     `EffectIndex` = '0', 
                     `MapID` = 70, 
-                    `PositionX` = -207.40, 
-                    `PositionY` = 391.60, 
-                    `PositionZ` = -39.20, 
-                    `Orientation` = 3.20, 
+                    `PositionX` = -207.4, 
+                    `PositionY` = 391.6, 
+                    `PositionZ` = -39.2, 
+                    `Orientation` = 3.2, 
                     `VerifiedBuild` = '0';
 
 -- Uldaman West - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900630);
+                DELETE FROM `item_template` WHERE (`entry` = 901930);
                 INSERT INTO `item_template`
-                SET `entry` = 900630,
+                SET `entry` = 901930,
                     `name` = 'Orb of Teleport Uldaman West', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -721,19 +721,19 @@
 -- Hellfire Ramparts - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91072);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900631,
+                SET `ID` = 901931,
                     `EffectIndex` = '0', 
                     `MapID` = 543, 
-                    `PositionX` = -1352.90, 
-                    `PositionY` = 1642.90, 
-                    `PositionZ` = -68.40, 
-                    `Orientation` = 0.70, 
+                    `PositionX` = -1352.9, 
+                    `PositionY` = 1642.9, 
+                    `PositionZ` = -68.4, 
+                    `Orientation` = 0.7, 
                     `VerifiedBuild` = '0';
 
 -- Hellfire Ramparts - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900631);
+                DELETE FROM `item_template` WHERE (`entry` = 901931);
                 INSERT INTO `item_template`
-                SET `entry` = 900631,
+                SET `entry` = 901931,
                     `name` = 'Orb of Teleport Hellfire Ramparts', 
                     `displayid` = '6009', 
                     `Quality` = '2', 
@@ -745,19 +745,19 @@
 -- Blood Furnace - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91073);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 900632,
+                SET `ID` = 901932,
                     `EffectIndex` = '0', 
                     `MapID` = 542, 
-                    `PositionX` = -2.90, 
-                    `PositionY` = 7.30, 
-                    `PositionZ` = -44.50, 
-                    `Orientation` = 4.80, 
+                    `PositionX` = -2.9, 
+                    `PositionY` = 7.3, 
+                    `PositionZ` = -44.5, 
+                    `Orientation` = 4.8, 
                     `VerifiedBuild` = '0';
 
 -- Blood Furnace - Teleport Orb
-                DELETE FROM `item_template` WHERE (`entry` = 900632);
+                DELETE FROM `item_template` WHERE (`entry` = 901932);
                 INSERT INTO `item_template`
-                SET `entry` = 900632,
+                SET `entry` = 901932,
                     `name` = 'Orb of Teleport Blood Furnace', 
                     `displayid` = '6009', 
                     `Quality` = '2', 

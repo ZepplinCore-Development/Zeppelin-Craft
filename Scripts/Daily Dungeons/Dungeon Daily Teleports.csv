@@ -1,63 +1,63 @@
 ﻿Dungeon,Teleport Orb ID,Teleport Orb Spell,Map,X,Y,Z,Orientation
-Maraudon Purple,900601,91018,349,752.90,-616.50,-33.10,1.40
-Maraudon Orange,900602,91019,349,1019.70,-458.30,-43.40,0.30
-Maraudon Pristine Waters,900603,91020,349,495.70,17.30,-96.30,3.10
-Scarlet Monastery Armory,900604,91021,189,1610.80,-323.40,18.70,6.30
-Scarlet Monastery Cathedral,900605,91022,189,855.70,1321.50,18.70,0.00
-Scarlet Monastery Graveyard,900606,91023,189,1689.00,1053.50,18.70,0.00
-Scarlet Monastery Library,900607,91024,189,255.40,-209.10,18.70,6.30
-Blackrock Depths Prison,900608,91025,230,458.30,26.50,-70.70,4.90
-Blackrock Depths Upper City,900609,91026,230,881.50,-237.30,-49.90,5.80
-Zul''Farrak,900610,91027,209,1214.20,841.50,8.90,6.10
-Sunken Temple,900611,91028,109,-319.20,99.90,-131.85,3.20
-Wailing Caverns,900612,91029,43,-163.50,132.90,-73.70,5.80
-Ragefire Chasm,900613,91030,389,3.80,-14.80,-17.90,4.20
-Deadmines,900614,91031,36,-16.40,-383.10,61.20,2.50
-Shadowfang Keep,900615,91032,209,-228.40,2110.20,76.90,0.60
-Blackfathom Deeps,900616,91033,48,-151.90,106.90,-39.90,4.50
-Stormwind Stockade,900617,91034,34,54.20,0.30,-18.40,6.30
-Gnomeregan,900618,91035,,,,,
-Razorfen Kraul,900619,91036,,,,,
-Razorfen Downs,900620,91037,,,,,
-Uldaman East,900621,91038,70,-227.30,58.90,-46.00,1.70
-Blackrock Spire Lower,900622,91039,,,,,
-Blackrock Spire Upper,900623,91040,,,,,
-Dire Maul East,900624,91041,429,-201.20,-327.60,-2.70,5.30
-Dire Maul West,900625,91042,429,-65.30,158.30,-3.50,1.80
-Dire Maul North,900626,91043,,,,,
-Stratholme Undead,900627,91044,,,,,
-Stratholme Living,900628,91045,,,,,
-Scholomance,900629,91046,,,,,
-Uldaman West,900630,91047,70,-207.40,391.60,-39.20,3.20
-Hellfire Ramparts,900631,91072,543,-1352.90,1642.90,-68.40,0.70
-Blood Furnace,900632,91073,542,-2.90,7.30,-44.50,4.80
-Ahn’'kahet: The Old Kingdom,900633,,,,,,
-Ajzol-Nerub,900634,,,,,,
-Arcatraz,900635,,,,,,
-Auchenai Crypts,900636,,,,,,
-Black Morass,900637,,,,,,
-Botanica,900638,,,,,,
-Culling of Stratholme,900639,,,,,,
-Drak’'Tharon Keep,900640,,,,,,
-Forge of Souls,900641,,,,,,
-Gundrak,900642,,,,,,
-Halls of Lightning,900643,,,,,,
-Halls of Reflection,900644,,,,,,
-Halls of Stone,900645,,,,,,
-Magisters' Terrace,900646,,,,,,
-Mana-Tombs,900647,,,,,,
-Mechanar,900648,,,,,,
-Nexus,900649,,,,,,
-Oculus,900650,,,,,,
-Old Hillsbrad Foothills,900651,,,,,,
-Pit of Saron,900652,,,,,,
-Sethekk Halls,900653,,,,,,
-Shadow Labyrinth,900654,,,,,,
-Shattered Halls,900655,,,,,,
-Slave Pens,900656,,,,,,
-Steamvault,900657,,,,,,
-The Underbog,900658,,,,,,
-Trial of the Champion,900659,,,,,,
-Utgarde Keep,900660,,,,,,
-Utgarde Pinnacle,900661,,,,,,
-Violet Hold,900662,,,,,,
+Maraudon Purple,901901,91018,349,752.9,-616.5,-33.1,1.4
+Maraudon Orange,901902,91019,349,1019.7,-458.3,-43.4,0.3
+Maraudon Pristine Waters,901903,91020,349,495.7,17.3,-96.3,3.1
+Scarlet Monastery Armory,901904,91021,189,1610.8,-323.4,18.7,6.3
+Scarlet Monastery Cathedral,901905,91022,189,855.7,1321.5,18.7,0
+Scarlet Monastery Graveyard,901906,91023,189,1689,1053.5,18.7,0
+Scarlet Monastery Library,901907,91024,189,255.4,-209.1,18.7,6.3
+Blackrock Depths Prison,901908,91025,230,458.3,26.5,-70.7,4.9
+Blackrock Depths Upper City,901909,91026,230,881.5,-237.3,-49.9,5.8
+Zul''Farrak,901910,91027,209,1214.2,841.5,8.9,6.1
+Sunken Temple,901911,91028,109,-319.2,99.9,-131.85,3.2
+Wailing Caverns,901912,91029,43,-163.5,132.9,-73.7,5.8
+Ragefire Chasm,901913,91030,389,3.8,-14.8,-17.9,4.2
+Deadmines,901914,91031,36,-16.4,-383.1,61.2,2.5
+Shadowfang Keep,901915,91032,209,-228.4,2110.2,76.9,0.6
+Blackfathom Deeps,901916,91033,48,-151.9,106.9,-39.9,4.5
+Stormwind Stockade,901917,91034,34,54.2,0.3,-18.4,6.3
+Gnomeregan,901918,91035,,,,,
+Razorfen Kraul,901919,91036,,,,,
+Razorfen Downs,901920,91037,,,,,
+Uldaman East,901921,91038,70,-227.3,58.9,-46,1.7
+Blackrock Spire Lower,901922,91039,,,,,
+Blackrock Spire Upper,901923,91040,,,,,
+Dire Maul East,901924,91041,429,-201.2,-327.6,-2.7,5.3
+Dire Maul West,901925,91042,429,-65.3,158.3,-3.5,1.8
+Dire Maul North,901926,91043,,,,,
+Stratholme Undead,901927,91044,,,,,
+Stratholme Living,901928,91045,,,,,
+Scholomance,901929,91046,,,,,
+Uldaman West,901930,91047,70,-207.4,391.6,-39.2,3.2
+Hellfire Ramparts,901931,91072,543,-1352.9,1642.9,-68.4,0.7
+Blood Furnace,901932,91073,542,-2.9,7.3,-44.5,4.8
+Ahn’'kahet: The Old Kingdom,901933,,,,,,
+Ajzol-Nerub,901934,,,,,,
+Arcatraz,901935,,,,,,
+Auchenai Crypts,901936,,,,,,
+Black Morass,901937,,,,,,
+Botanica,901938,,,,,,
+Culling of Stratholme,901939,,,,,,
+Drak’'Tharon Keep,901940,,,,,,
+Forge of Souls,901941,,,,,,
+Gundrak,901942,,,,,,
+Halls of Lightning,901943,,,,,,
+Halls of Reflection,901944,,,,,,
+Halls of Stone,901945,,,,,,
+Magisters' Terrace,901946,,,,,,
+Mana-Tombs,901947,,,,,,
+Mechanar,901948,,,,,,
+Nexus,901949,,,,,,
+Oculus,901950,,,,,,
+Old Hillsbrad Foothills,901951,,,,,,
+Pit of Saron,901952,,,,,,
+Sethekk Halls,901953,,,,,,
+Shadow Labyrinth,901954,,,,,,
+Shattered Halls,901955,,,,,,
+Slave Pens,901956,,,,,,
+Steamvault,901957,,,,,,
+The Underbog,901958,,,,,,
+Trial of the Champion,901959,,,,,,
+Utgarde Keep,901960,,,,,,
+Utgarde Pinnacle,901961,,,,,,
+Violet Hold,901962,,,,,,

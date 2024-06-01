@@ -1,7 +1,7 @@
 -- Scroll of Teleport Ironforge
-                DELETE FROM `item_template` WHERE (`entry` = 900301);
+                DELETE FROM `item_template` WHERE (`entry` = 901500);
                 INSERT INTO `item_template`
-                SET `entry` = 900301,
+                SET `entry` = 901500,
                     `name` = 'Scroll of Teleport Ironforge',
                     `displayid` = 58830,
                     `Quality` = 2,
@@ -12,9 +12,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Ironforge
-                DELETE FROM `item_template` WHERE (`entry` = 900401);
+                DELETE FROM `item_template` WHERE (`entry` = 901600);
                 INSERT INTO `item_template`
-                SET `entry` = 900401,
+                SET `entry` = 901600,
                     `name` = 'Technique: Scroll of Teleport Ironforge', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -29,17 +29,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Barim Jurgenstaad - Scroll of Teleport Ironforge
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900301);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901500);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 5110,
-                    `item` = '900401'; 
+                    `item` = '901600'; 
 
 
                 
 -- Scroll of Teleport Darnassus
-                DELETE FROM `item_template` WHERE (`entry` = 900302);
+                DELETE FROM `item_template` WHERE (`entry` = 901501);
                 INSERT INTO `item_template`
-                SET `entry` = 900302,
+                SET `entry` = 901501,
                     `name` = 'Scroll of Teleport Darnassus',
                     `displayid` = 58841,
                     `Quality` = 2,
@@ -50,9 +50,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Darnassus
-                DELETE FROM `item_template` WHERE (`entry` = 900402);
+                DELETE FROM `item_template` WHERE (`entry` = 901601);
                 INSERT INTO `item_template`
-                SET `entry` = 900402,
+                SET `entry` = 901601,
                     `name` = 'Technique: Scroll of Teleport Darnassus', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -67,17 +67,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Alaindia - Scroll of Teleport Darnassus
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900302);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901501);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 3562,
-                    `item` = '900402'; 
+                    `item` = '901601'; 
 
 
                 
 -- Scroll of Teleport Undercity
-                DELETE FROM `item_template` WHERE (`entry` = 900303);
+                DELETE FROM `item_template` WHERE (`entry` = 901502);
                 INSERT INTO `item_template`
-                SET `entry` = 900303,
+                SET `entry` = 901502,
                     `name` = 'Scroll of Teleport Undercity',
                     `displayid` = 58836,
                     `Quality` = 2,
@@ -88,9 +88,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Undercity
-                DELETE FROM `item_template` WHERE (`entry` = 900403);
+                DELETE FROM `item_template` WHERE (`entry` = 901602);
                 INSERT INTO `item_template`
-                SET `entry` = 900403,
+                SET `entry` = 901602,
                     `name` = 'Technique: Scroll of Teleport Undercity', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -105,17 +105,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Hannah Akeley - Scroll of Teleport Undercity
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900303);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901502);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 4575,
-                    `item` = '900403'; 
+                    `item` = '901602'; 
 
 
                 
 -- Scroll of Teleport Thunder Bluff
-                DELETE FROM `item_template` WHERE (`entry` = 900304);
+                DELETE FROM `item_template` WHERE (`entry` = 901503);
                 INSERT INTO `item_template`
-                SET `entry` = 900304,
+                SET `entry` = 901503,
                     `name` = 'Scroll of Teleport Thunder Bluff',
                     `displayid` = 58828,
                     `Quality` = 2,
@@ -126,9 +126,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Thunder Bluff
-                DELETE FROM `item_template` WHERE (`entry` = 900404);
+                DELETE FROM `item_template` WHERE (`entry` = 901603);
                 INSERT INTO `item_template`
-                SET `entry` = 900404,
+                SET `entry` = 901603,
                     `name` = 'Technique: Scroll of Teleport Thunder Bluff', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -143,17 +143,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Chepi - Scroll of Teleport Thunder Bluff
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900304);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901503);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 8361,
-                    `item` = '900404'; 
+                    `item` = '901603'; 
 
 
                 
 -- Scroll of Teleport Stormwind
-                DELETE FROM `item_template` WHERE (`entry` = 900305);
+                DELETE FROM `item_template` WHERE (`entry` = 901504);
                 INSERT INTO `item_template`
-                SET `entry` = 900305,
+                SET `entry` = 901504,
                     `name` = 'Scroll of Teleport Stormwind',
                     `displayid` = 58839,
                     `Quality` = 2,
@@ -164,9 +164,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Stormwind
-                DELETE FROM `item_template` WHERE (`entry` = 900405);
+                DELETE FROM `item_template` WHERE (`entry` = 901604);
                 INSERT INTO `item_template`
-                SET `entry` = 900405,
+                SET `entry` = 901604,
                     `name` = 'Technique: Scroll of Teleport Stormwind', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -181,17 +181,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Charys Yserian - Scroll of Teleport Stormwind
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900305);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901504);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 1307,
-                    `item` = '900405'; 
+                    `item` = '901604'; 
 
 
                 
 -- Scroll of Teleport Orgrimmar
-                DELETE FROM `item_template` WHERE (`entry` = 900306);
+                DELETE FROM `item_template` WHERE (`entry` = 901505);
                 INSERT INTO `item_template`
-                SET `entry` = 900306,
+                SET `entry` = 901505,
                     `name` = 'Scroll of Teleport Orgrimmar',
                     `displayid` = 58825,
                     `Quality` = 2,
@@ -202,9 +202,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Orgrimmar
-                DELETE FROM `item_template` WHERE (`entry` = 900406);
+                DELETE FROM `item_template` WHERE (`entry` = 901605);
                 INSERT INTO `item_template`
-                SET `entry` = 900406,
+                SET `entry` = 901605,
                     `name` = 'Technique: Scroll of Teleport Orgrimmar', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -219,17 +219,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Horthus - Scroll of Teleport Orgrimmar
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900306);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901505);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 3323,
-                    `item` = '900406'; 
+                    `item` = '901605'; 
 
 
                 
 -- Scroll of Teleport Silvermoon City
-                DELETE FROM `item_template` WHERE (`entry` = 900307);
+                DELETE FROM `item_template` WHERE (`entry` = 901506);
                 INSERT INTO `item_template`
-                SET `entry` = 900307,
+                SET `entry` = 901506,
                     `name` = 'Scroll of Teleport Silvermoon City',
                     `displayid` = 58829,
                     `Quality` = 2,
@@ -240,9 +240,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Silvermoon City
-                DELETE FROM `item_template` WHERE (`entry` = 900407);
+                DELETE FROM `item_template` WHERE (`entry` = 901606);
                 INSERT INTO `item_template`
-                SET `entry` = 900407,
+                SET `entry` = 901606,
                     `name` = 'Technique: Scroll of Teleport Silvermoon City', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -257,17 +257,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Zalle - Scroll of Teleport Silvermoon City
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900307);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901506);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 16611,
-                    `item` = '900407'; 
+                    `item` = '901606'; 
 
 
                 
 -- Scroll of Teleport Exodar
-                DELETE FROM `item_template` WHERE (`entry` = 900308);
+                DELETE FROM `item_template` WHERE (`entry` = 901507);
                 INSERT INTO `item_template`
-                SET `entry` = 900308,
+                SET `entry` = 901507,
                     `name` = 'Scroll of Teleport Exodar',
                     `displayid` = 58834,
                     `Quality` = 2,
@@ -278,9 +278,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Exodar
-                DELETE FROM `item_template` WHERE (`entry` = 900408);
+                DELETE FROM `item_template` WHERE (`entry` = 901607);
                 INSERT INTO `item_template`
-                SET `entry` = 900408,
+                SET `entry` = 901607,
                     `name` = 'Technique: Scroll of Teleport Exodar', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -295,17 +295,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Bildine - Scroll of Teleport Exodar
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900308);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901507);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 16757,
-                    `item` = '900408'; 
+                    `item` = '901607'; 
 
 
                 
 -- Scroll of Teleport Shattrath
-                DELETE FROM `item_template` WHERE (`entry` = 900309);
+                DELETE FROM `item_template` WHERE (`entry` = 901508);
                 INSERT INTO `item_template`
-                SET `entry` = 900309,
+                SET `entry` = 901508,
                     `name` = 'Scroll of Teleport Shattrath',
                     `displayid` = 58835,
                     `Quality` = 2,
@@ -316,9 +316,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Shattrath
-                DELETE FROM `item_template` WHERE (`entry` = 900409);
+                DELETE FROM `item_template` WHERE (`entry` = 901608);
                 INSERT INTO `item_template`
-                SET `entry` = 900409,
+                SET `entry` = 901608,
                     `name` = 'Technique: Scroll of Teleport Shattrath', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -333,17 +333,17 @@
                     `spelltrigger_2` = 6;
 
                 -- Fantei - Scroll of Teleport Shattrath
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900309);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901508);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 19678,
-                    `item` = '900409'; 
+                    `item` = '901608'; 
 
 
                 
 -- Scroll of Teleport Dalaran
-                DELETE FROM `item_template` WHERE (`entry` = 900310);
+                DELETE FROM `item_template` WHERE (`entry` = 901509);
                 INSERT INTO `item_template`
-                SET `entry` = 900310,
+                SET `entry` = 901509,
                     `name` = 'Scroll of Teleport Dalaran',
                     `displayid` = 58833,
                     `Quality` = 2,
@@ -354,9 +354,9 @@
                     `spellcharges_1` = -1;
 
                 -- Technique: Scroll of Teleport Dalaran
-                DELETE FROM `item_template` WHERE (`entry` = 900410);
+                DELETE FROM `item_template` WHERE (`entry` = 901609);
                 INSERT INTO `item_template`
-                SET `entry` = 900410,
+                SET `entry` = 901609,
                     `name` = 'Technique: Scroll of Teleport Dalaran', 
                     `displayid` = 1103, 
                     `Quality` = 2, 
@@ -371,10 +371,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Hagatha Moorehead - Scroll of Teleport Dalaran
-                DELETE FROM `npc_vendor` WHERE (`entry` = 900310);
+                DELETE FROM `npc_vendor` WHERE (`entry` = 901509);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 29636,
-                    `item` = '900410'; 
+                    `item` = '901609'; 
 
 
                 
