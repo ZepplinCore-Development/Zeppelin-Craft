@@ -508,9 +508,9 @@
                 SET `ID` = 901931,
                     `EffectIndex` = '0', 
                     `MapID` = 543, 
-                    `PositionX` = -1352.9, 
-                    `PositionY` = 1642.9, 
-                    `PositionZ` = -68.4, 
+                    `PositionX` = -1354.5, 
+                    `PositionY` = 1644.7, 
+                    `PositionZ` = 68.4, 
                     `Orientation` = 0.7, 
                     `VerifiedBuild` = '0';
 
@@ -547,6 +547,30 @@
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91073, 
+                    `spellcharges_1` = '-1'; 
+
+
+-- Slave Pens - Teleport Location
+                DELETE FROM `spell_target_position` WHERE (`ID` = 91086);
+                INSERT INTO `spell_target_position`
+                SET `ID` = 901956,
+                    `EffectIndex` = '0', 
+                    `MapID` = 547, 
+                    `PositionX` = 125, 
+                    `PositionY` = -124.7, 
+                    `PositionZ` = -1.1, 
+                    `Orientation` = 1.1, 
+                    `VerifiedBuild` = '0';
+
+-- Slave Pens - Teleport Orb
+                DELETE FROM `item_template` WHERE (`entry` = 901956);
+                INSERT INTO `item_template`
+                SET `entry` = 901956,
+                    `name` = 'Orb of Teleport Slave Pens', 
+                    `displayid` = '6009', 
+                    `Quality` = '2', 
+                    `bonding` = '2', 
+                    `spellid_1` = 91086, 
                     `spellcharges_1` = '-1'; 
 
 

@@ -79,12 +79,20 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
 
             match difficulty:
                 case "Vanilla Normal":
-                    reward_1 = 900104
-                    reward_2 = 900189
+                    reward_1 = 901200 # Emblem of Adventure
+                    reward_2 = 901203 # Experience Orb
+
+                case "Vanilla Heroic":
+                    reward_1 = 901202 # Emblem of Bravery
+                    reward_2 = 901203 # Experience Orb
+
+                case "Vanilla Mythic":
+                    reward_1 = 901204 # Emblem of Resilience
+                    reward_2 = 901203 # Experience Orb
 
                 case "Outland Normal":
-                    reward_1 = 29434
-                    reward_2 = 900189
+                    reward_1 = 29434 # Badge of Justice
+                    reward_2 = 901203 # Experience Orb
 
             match faction:
                 case "Horde":
@@ -92,7 +100,7 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     quest_npc_id = "14392"
                     npc_city = "Orgrimmar"
                     rep1 = "67" # Horde reputation
-                    reward_text = ""
+                    reward_text = "Your deeds bring honour to the Horde."
                     flag = "4104"
 
                 case "Alliance":
@@ -110,8 +118,17 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     rep1 = "933" # Consortium reputation
                     rep2 = "946" # Honor Hold reputation
                     rep3 = "947" # Thrallmar reputation
-                    reward_text = ""
+                    reward_text = "My buyer will be most pleased."
                     flag = "4232"
+
+                case "Cenarion Expedition":
+                    quest_npc_name = "Nether-Stalker Mah''duun"
+                    quest_npc_id = "24370"
+                    npc_city = "Shattrath"  
+                    rep1 = "933" # Consortium reputation
+                    rep2 = "942" # Cenarion Expedition
+                    reward_text = "My buyer will be most pleased."
+                    flag = "4232"               
 
             if item_name:
 

@@ -56,7 +56,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441155,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Maraudon Orange - Razorlash - Horde - Quest Request Items
@@ -259,7 +259,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441156,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Maraudon Purple - Celebras the Cursed - Horde - Quest Request Items
@@ -462,7 +462,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441157,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Stormwind Stockade - Bazil Thredd - Horde - Quest Request Items
@@ -665,7 +665,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441158,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Shadowfang Keep - Archmage Arugal - Horde - Quest Request Items
@@ -868,7 +868,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441159,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Request Items
@@ -1071,7 +1071,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441160,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Request Items
@@ -1274,7 +1274,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441161,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Wailing Caverns - Verdan the Everliving - Horde - Quest Request Items
@@ -1477,7 +1477,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441162,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Request Items
@@ -1680,7 +1680,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441163,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Request Items
@@ -1883,7 +1883,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441164,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Blackfathom Deeps - Aku''mai - Horde - Quest Request Items
@@ -2086,7 +2086,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441165,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Request Items
@@ -2289,7 +2289,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441166,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Uldaman East - Archaedas - Horde - Quest Request Items
@@ -2492,7 +2492,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441167,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Request Items
@@ -2695,7 +2695,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441168,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Sunken Temple - Shade of Eranikus - Horde - Quest Request Items
@@ -2898,7 +2898,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441169,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Request Items
@@ -3101,7 +3101,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441171,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Request Items
@@ -3304,7 +3304,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441178,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Request Items
@@ -3507,7 +3507,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441179,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Request Items
@@ -3710,7 +3710,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441183,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Deadmines - Cookie - Horde - Quest Request Items
@@ -3913,7 +3913,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441213,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Uldaman West - Ironaya - Horde - Quest Request Items
@@ -4235,7 +4235,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441216,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
                 -- Sunken Temple - Atal''alarion - Horde - Quest Request Items
@@ -4297,7 +4297,7 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Fel Nether Essence',
                     `LogDescription` = 'Retrieve the Fel Nether Essence from Nazan in Hellfire Ramparts.',
-                    `QuestDescription` = 'Adventurer, your skills are required for a perilous mission. In the fiery depths of Hellfire Ramparts, a fel-corrupted Netherwing drake named Nazan guards a precious relic: the Fel Nether Essence. This essence is invaluable for those who study the dark energies of the fel and the nature of dragons. Slay Nazan and retrieve this essence for me. Your bravery will be handsomely rewarded. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'It has been spoken to Mah''duun that Nazan, the fel-corrupted Netherwing drake, harbors the Fel Nether Essence within the Hellfire Ramparts. This essence is of immense value to those who study fel energy and dragonkind. Your task is clear: enter the Ramparts, defeat Nazan, and recover the Fel Nether Essence. Use this teleport orb to reach the dungeon directly. A substantial bounty awaits you.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Fel Nether Essence to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901730,
@@ -4319,7 +4319,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441217,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'My buyer will be most pleased.';
                     
                 
                 -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Request Items
@@ -4416,7 +4416,7 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Blood Crucible',
                     `LogDescription` = 'Retrieve the Blood Crucible from Keli''dan the Breaker in Blood Furnace.',
-                    `QuestDescription` = 'Brave soul, I have a new challenge for you. Within the sinister Blood Furnace, the warlock Keli''dan the Breaker protects a potent artifact: the Blood Crucible. This crucible holds the key to unraveling the mysteries of fel blood magic. Your task is to infiltrate the Blood Furnace, slay Keli''dan, and retrieve the Blood Crucible. Do this, and a generous reward shall be yours. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun has heard whispers of a powerful artifact within the Blood Furnace. Keli''dan the Breaker, that foul warlock, guards the Blood Crucible with dark fervor. The essence of fel blood magic flows through it, a prize for those who seek its secrets. Seek out Keli''dan in the Blood Furnace, slay him, and retrieve the Blood Crucible. The reward will be substantial. Take this teleport orb; it will bring you directly to the dungeon.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901731,
@@ -4438,7 +4438,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441218,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'My buyer will be most pleased.';
                     
                 
                 -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Request Items
@@ -4517,7 +4517,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 64,
                     `MinLevel` = 60,
-                    `QuestSortID` = 3535,
+                    `QuestSortID` = 3905,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 184320.0,
@@ -4529,15 +4529,15 @@
                     `RewardChoiceItemQuantity2` = 1,
                     `RewardFactionID1` = 933,
                     `RewardFactionValue1` = 6,
-                    `RewardFactionID2` = 0,
+                    `RewardFactionID2` = 942,
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Blood Crucible',
-                    `LogDescription` = 'Retrieve the Blood Crucible from Quagmirran in Slave Pens.',
-                    `QuestDescription` = 'Brave soul, I have a new challenge for you. Within the sinister Blood Furnace, the warlock Keli''dan the Breaker protects a potent artifact: the Blood Crucible. This crucible holds the key to unraveling the mysteries of fel blood magic. Your task is to infiltrate the Blood Furnace, slay Keli''dan, and retrieve the Blood Crucible. Do this, and a generous reward shall be yours. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `LogTitle` = 'Wanted: Ancient Fungus',
+                    `LogDescription` = 'Retrieve the Ancient Fungus from Quagmirran in Slave Pens.',
+                    `QuestDescription` = 'Mah''duun knows where you must go. The Slave Pens hold Quagmirran, a bog lord infused with ancient fungus. Researchers highly prize a sample of his flesh. Venture into the pens, end Quagmirran''s reign, and retrieve the Ancient Fungus. Your efforts will not go unrewarded. Take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Ancient Fungus to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901732,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
@@ -4557,7 +4557,7 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441219,
                     `Emote1` = 1,
-                    `RewardText` = '';
+                    `RewardText` = 'My buyer will be most pleased.';
                     
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Request Items
@@ -4566,7 +4566,7 @@
                 SET `ID` = 441219,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Blood Crucible please.';
+                    `CompletionText` = 'The Ancient Fungus please.';
                     
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Starter
@@ -4583,20 +4583,20 @@
                     `id` = 24370;
                     
                 
-                -- Slave Pens - Quagmirran - Blood Crucible - Item template
+                -- Slave Pens - Quagmirran - Ancient Fungus - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901732);
                 INSERT INTO `item_template`
                 SET `entry` = 901732,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Blood Crucible',
+                    `name` = 'Ancient Fungus',
                     `flags` = '2048',
-                    `displayid` = 46255,
+                    `displayid` = 19566,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Slave Pens - Quagmirran - Blood Crucible - Quest Item
+                -- Slave Pens - Quagmirran - Ancient Fungus - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17942) AND (`ItemId` = 901732);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 17942,
@@ -4604,7 +4604,7 @@
                     `ItemId` = 901732;
                 
                 
-                -- Slave Pens - Quagmirran - Blood Crucible - Loot Template
+                -- Slave Pens - Quagmirran - Ancient Fungus - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17942) AND (`Item` IN (901732));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 17942,
@@ -4615,6 +4615,6 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Blood Crucible';
+                    `Comment` = 'Ancient Fungus';
    
                 

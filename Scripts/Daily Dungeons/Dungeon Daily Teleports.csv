@@ -29,7 +29,7 @@ Stratholme Undead,901927,91044,,,,,
 Stratholme Living,901928,91045,,,,,
 Scholomance,901929,91046,,,,,
 Uldaman West,901930,91047,70,-207.4,391.6,-39.2,3.2
-Hellfire Ramparts,901931,91072,543,-1352.9,1642.9,-68.4,0.7
+Hellfire Ramparts,901931,91072,543,-1354.5,1644.7,68.4,0.7
 Blood Furnace,901932,91073,542,-2.9,7.3,-44.5,4.8
 Ahn’'kahet: The Old Kingdom,901933,,,,,,
 Ajzol-Nerub,901934,,,,,,
@@ -54,7 +54,7 @@ Pit of Saron,901952,,,,,,
 Sethekk Halls,901953,,,,,,
 Shadow Labyrinth,901954,,,,,,
 Shattered Halls,901955,,,,,,
-Slave Pens,901956,,,,,,
+Slave Pens,901956,91086,547,125,-124.7,-1.1,1.1
 Steamvault,901957,,,,,,
 The Underbog,901958,,,,,,
 Trial of the Champion,901959,,,,,,
