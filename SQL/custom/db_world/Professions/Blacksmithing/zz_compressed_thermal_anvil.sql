@@ -1,9 +1,9 @@
 -- This Item has no recipe yet, this should be added as a drop from Deadmines?
 
 -- Compressed Thermal Anvil
-    DELETE FROM `item_template` WHERE (`entry` = 902310);
+    DELETE FROM `item_template` WHERE (`entry` = 902311);
     INSERT INTO `item_template`
-    SET `entry` = 902310,
+    SET `entry` = 902311,
         `class` = 7, -- Trade Goods
         `subclass` = 3, -- Devices
         `SellPrice` = 100000, -- 1G       
