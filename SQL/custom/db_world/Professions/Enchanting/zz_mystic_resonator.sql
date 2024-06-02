@@ -1,7 +1,7 @@
 -- Formula: Mystic Resonator
     DELETE FROM `item_template` WHERE (`entry` = 902312);
     INSERT INTO `item_template`
-    SET `entry` = 902311,
+    SET `entry` = 902312,
         `class` = 9, -- Recipe
         `subclass` = 8, -- Enchanting
         `name` = 'Formula: Mystic Resonator',
@@ -20,9 +20,9 @@
 -- Mystic Resonator
     DELETE FROM `item_template` WHERE (`entry` = 902313);
     INSERT INTO `item_template`
-    SET `entry` = 902312,
+    SET `entry` = 902313,
         `class` = 0, -- Consumable
-        `subclass` = 6 -- Item Enhancement
+        `subclass` = 6, -- Item Enhancement
         `SellPrice` = 100000, -- 10G       
         `name` = 'Mystic Resonator',
         `description` = '|cff00ff00Use: Adds or re-rolls an extra stat on to an item.|n|n|cffff0000WARNING: This will replace any extra stats with a new one.',
