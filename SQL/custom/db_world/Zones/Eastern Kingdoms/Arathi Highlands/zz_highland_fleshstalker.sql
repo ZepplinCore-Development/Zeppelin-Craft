@@ -2,7 +2,7 @@
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2561);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
 (2561, 0, 4513, 0),
-(2561, 1, 900191, 0);
+(2561, 1, 902200, 0);
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2561);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -83,4 +83,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (2561, 24055, 24055, 0.5, 0, 1, 1, 1, 1, 'Highland Fleshstalker - (ReferenceTable)'),
 (2561, 24056, 24056, 1, 0, 1, 1, 1, 1, 'Highland Fleshstalker - (ReferenceTable)'),
 (2561, 24057, 24057, 0.5, 0, 1, 1, 1, 1, 'Highland Fleshstalker - (ReferenceTable)'),
-(2561, 900191, 0, 80, 1, 1, 0, 1, 1, 'Highland Fleshstalker - Raptor Flank');
+(2561, 902200, 0, 80, 1, 1, 0, 1, 1, 'Highland Fleshstalker - Raptor Flank');

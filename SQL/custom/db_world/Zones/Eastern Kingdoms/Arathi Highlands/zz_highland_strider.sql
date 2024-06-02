@@ -2,7 +2,7 @@
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2559);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
 (2559, 0, 4512, 0),
-(2559, 1, 900191, 0);
+(2559, 1, 902200, 0);
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2559);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -106,4 +106,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (2559, 24054, 24054, 1, 0, 1, 1, 1, 1, 'Highland Strider - (ReferenceTable)'),
 (2559, 24068, 24068, 1, 0, 1, 1, 1, 1, 'Highland Strider - (ReferenceTable)'),
 (2559, 24069, 24069, 0.5, 0, 1, 1, 1, 1, 'Highland Strider - (ReferenceTable)'),
-(2559, 900191, 0, 80, 1, 1, 0, 1, 1, 'Highland Strider - Raptor Flank');
+(2559, 902200, 0, 80, 1, 1, 0, 1, 1, 'Highland Strider - Raptor Flank');

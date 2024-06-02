@@ -2,7 +2,7 @@
 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2560);
 INSERT INTO `creature_questitem` (`CreatureEntry`, `Idx`, `ItemId`, `VerifiedBuild`) VALUES
 (2560, 0, 4512, 0),
-(2560, 1, 900191, 0);
+(2560, 1, 902200, 0);
 
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2560);
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
@@ -97,4 +97,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (2560, 24054, 24054, 1, 0, 1, 1, 1, 1, 'Highland Thrasher - (ReferenceTable)'),
 (2560, 24055, 24055, 0.5, 0, 1, 1, 1, 1, 'Highland Thrasher - (ReferenceTable)'),
 (2560, 24056, 24056, 1, 0, 1, 1, 1, 1, 'Highland Thrasher - (ReferenceTable)'),
-(2560, 900191, 0, 80, 1, 1, 0, 1, 1, 'Highland Thrasher - Raptor Flank');
+(2560, 902200, 0, 80, 1, 1, 0, 1, 1, 'Highland Thrasher - Raptor Flank');
