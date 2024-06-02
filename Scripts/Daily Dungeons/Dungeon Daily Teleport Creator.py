@@ -39,7 +39,7 @@ def generate_sql_queries(teleports_csv_file_path):
                 spell_position_query = f"-- {dungeon} - Teleport Location\n\
                 DELETE FROM `spell_target_position` WHERE (`ID` = {orb_spell});\n\
                 INSERT INTO `spell_target_position`\n\
-                SET `ID` = {orb_id},\n\
+                SET `ID` = {orb_spell},\n\
                     `EffectIndex` = '0', \n\
                     `MapID` = {map}, \n\
                     `PositionX` = {x_loc}, \n\

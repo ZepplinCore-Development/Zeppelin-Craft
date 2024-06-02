@@ -1,7 +1,7 @@
 -- Maraudon Purple - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91018);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901901,
+                SET `ID` = 91018,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
                     `PositionX` = 752.9, 
@@ -25,7 +25,7 @@
 -- Maraudon Orange - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91019);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901902,
+                SET `ID` = 91019,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
                     `PositionX` = 1019.7, 
@@ -49,7 +49,7 @@
 -- Maraudon Pristine Waters - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91020);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901903,
+                SET `ID` = 91020,
                     `EffectIndex` = '0', 
                     `MapID` = 349, 
                     `PositionX` = 495.7, 
@@ -73,7 +73,7 @@
 -- Scarlet Monastery Armory - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91021);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901904,
+                SET `ID` = 91021,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
                     `PositionX` = 1610.8, 
@@ -97,7 +97,7 @@
 -- Scarlet Monastery Cathedral - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91022);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901905,
+                SET `ID` = 91022,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
                     `PositionX` = 855.7, 
@@ -121,7 +121,7 @@
 -- Scarlet Monastery Graveyard - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91023);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901906,
+                SET `ID` = 91023,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
                     `PositionX` = 1689, 
@@ -145,7 +145,7 @@
 -- Scarlet Monastery Library - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91024);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901907,
+                SET `ID` = 91024,
                     `EffectIndex` = '0', 
                     `MapID` = 189, 
                     `PositionX` = 255.4, 
@@ -169,7 +169,7 @@
 -- Blackrock Depths Prison - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91025);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901908,
+                SET `ID` = 91025,
                     `EffectIndex` = '0', 
                     `MapID` = 230, 
                     `PositionX` = 458.3, 
@@ -193,7 +193,7 @@
 -- Blackrock Depths Upper City - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91026);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901909,
+                SET `ID` = 91026,
                     `EffectIndex` = '0', 
                     `MapID` = 230, 
                     `PositionX` = 881.5, 
@@ -217,7 +217,7 @@
 -- Zul''Farrak - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91027);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901910,
+                SET `ID` = 91027,
                     `EffectIndex` = '0', 
                     `MapID` = 209, 
                     `PositionX` = 1214.2, 
@@ -241,7 +241,7 @@
 -- Sunken Temple - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91028);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901911,
+                SET `ID` = 91028,
                     `EffectIndex` = '0', 
                     `MapID` = 109, 
                     `PositionX` = -319.2, 
@@ -265,7 +265,7 @@
 -- Wailing Caverns - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91029);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901912,
+                SET `ID` = 91029,
                     `EffectIndex` = '0', 
                     `MapID` = 43, 
                     `PositionX` = -163.5, 
@@ -289,7 +289,7 @@
 -- Ragefire Chasm - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91030);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901913,
+                SET `ID` = 91030,
                     `EffectIndex` = '0', 
                     `MapID` = 389, 
                     `PositionX` = 3.8, 
@@ -313,7 +313,7 @@
 -- Deadmines - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91031);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901914,
+                SET `ID` = 91031,
                     `EffectIndex` = '0', 
                     `MapID` = 36, 
                     `PositionX` = -16.4, 
@@ -337,7 +337,7 @@
 -- Shadowfang Keep - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91032);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901915,
+                SET `ID` = 91032,
                     `EffectIndex` = '0', 
                     `MapID` = 209, 
                     `PositionX` = -228.4, 
@@ -361,7 +361,7 @@
 -- Blackfathom Deeps - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91033);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901916,
+                SET `ID` = 91033,
                     `EffectIndex` = '0', 
                     `MapID` = 48, 
                     `PositionX` = -151.9, 
@@ -385,7 +385,7 @@
 -- Stormwind Stockade - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91034);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901917,
+                SET `ID` = 91034,
                     `EffectIndex` = '0', 
                     `MapID` = 34, 
                     `PositionX` = 54.2, 
@@ -409,7 +409,7 @@
 -- Uldaman East - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91038);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901921,
+                SET `ID` = 91038,
                     `EffectIndex` = '0', 
                     `MapID` = 70, 
                     `PositionX` = -227.3, 
@@ -433,7 +433,7 @@
 -- Dire Maul East - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91041);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901924,
+                SET `ID` = 91041,
                     `EffectIndex` = '0', 
                     `MapID` = 429, 
                     `PositionX` = -201.2, 
@@ -457,7 +457,7 @@
 -- Dire Maul West - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91042);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901925,
+                SET `ID` = 91042,
                     `EffectIndex` = '0', 
                     `MapID` = 429, 
                     `PositionX` = -65.3, 
@@ -481,7 +481,7 @@
 -- Uldaman West - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91047);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901930,
+                SET `ID` = 91047,
                     `EffectIndex` = '0', 
                     `MapID` = 70, 
                     `PositionX` = -207.4, 
@@ -505,7 +505,7 @@
 -- Hellfire Ramparts - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91072);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901931,
+                SET `ID` = 91072,
                     `EffectIndex` = '0', 
                     `MapID` = 543, 
                     `PositionX` = -1354.5, 
@@ -529,7 +529,7 @@
 -- Blood Furnace - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91073);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901932,
+                SET `ID` = 91073,
                     `EffectIndex` = '0', 
                     `MapID` = 542, 
                     `PositionX` = -2.9, 
@@ -553,7 +553,7 @@
 -- Slave Pens - Teleport Location
                 DELETE FROM `spell_target_position` WHERE (`ID` = 91086);
                 INSERT INTO `spell_target_position`
-                SET `ID` = 901956,
+                SET `ID` = 91086,
                     `EffectIndex` = '0', 
                     `MapID` = 547, 
                     `PositionX` = 125, 
