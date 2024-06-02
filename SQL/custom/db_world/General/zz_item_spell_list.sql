@@ -1,3 +1,4 @@
+-- A list of all the spells used on items that can be replaced by stats
 DROP TABLE IF EXISTS `item_spell_list`;
 CREATE TABLE `item_spell_list` ( `ID` INT NOT NULL DEFAULT '0', `EffectBasePoints_1` INT NOT NULL DEFAULT '0', `Name_Lang_enUS` VARCHAR(200) NOT NULL DEFAULT 'spell name', `stat_type` INT NOT NULL DEFAULT '0');
 REPLACE INTO acore_world.item_spell_list (ID,EffectBasePoints_1,Name_Lang_enUS,stat_type) VALUES

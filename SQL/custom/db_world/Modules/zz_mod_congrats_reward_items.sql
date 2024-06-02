@@ -3,7 +3,7 @@ INSERT INTO `mod_congrats_on_level_items` (`level`, `money`, `spell`, `learn`, `
 -- Level 10
 -- 1 Gold / Blessing of Kings
 -- Clam Knight Conch / Zeppelin Bag
-(10, 1, 20217, 0, 16068, 1977, 0, 0),
+(10, 1, 20217, 0, 902329, 1977, 0, 0),
 -- Level 20
 -- 10 Gold / Power Word Fortitude
 -- Zeppelin Bag
