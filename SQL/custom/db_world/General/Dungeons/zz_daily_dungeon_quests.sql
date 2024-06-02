@@ -1,11 +1,15 @@
--- Maraudon Orange - Razorlash - Horde - Pool Quest
+
+                -- *******************************************************
+
+                -- Maraudon Orange - Razorlash - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441155);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441155,
-                    `pool_entry` = 300003, 
+                    `pool_entry` = 300003,
                     `description` = 'Razorlash';
-
--- Maraudon Orange - Razorlash - Horde - Quest Template
+                
+                
+                -- Maraudon Orange - Razorlash - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441155);
                 INSERT INTO `quest_template`
                 SET `ID` = 441155,
@@ -36,85 +40,95 @@
                     `RequiredItemId1` = 901700,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Horde - Quest Template Addon
+                    
+                
+                -- Maraudon Orange - Razorlash - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441155);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441155,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Maraudon Orange - Razorlash - Horde - Quest Offer Reward
+                    
+                
+                -- Maraudon Orange - Razorlash - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441155);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441155,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Maraudon Orange - Razorlash - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441155);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441155,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Razor Petal please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Razor Petal please.';
+                    
+                
+                -- Maraudon Orange - Razorlash - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441155);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441155,
                     `id` = 14392;
-
--- Maraudon Orange - Razorlash - Horde - Creature Quest Ender
+                    
+                
+                -- Maraudon Orange - Razorlash - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441155);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441155, 
+                    SET `quest` = 441155,
                     `id` = 14392;
-
--- Maraudon Orange - Razorlash - Razor Petal - Item template
+                    
+                
+                -- Maraudon Orange - Razorlash - Razor Petal - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901700);
                 INSERT INTO `item_template`
-                SET `entry` = 901700, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Razor Petal', 
-                    `flags` = '2048', 
-                    `displayid` = 7406, 
-                    `Quality` = 1, 
+                SET `entry` = 901700,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Razor Petal',
+                    `flags` = '2048',
+                    `displayid` = 7406,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Maraudon Orange - Razorlash - Razor Petal - Quest Item
+                
+                -- Maraudon Orange - Razorlash - Razor Petal - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12258) AND (`ItemId` = 901700);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 12258, 
-                    `Idx` = 1, 
-                    `ItemId` = 901700, 
-                    `VerifiedBuild` = 0;
-
--- Maraudon Orange - Razorlash - Razor Petal - Loot Template
+                SET `CreatureEntry` = 12258,
+                    `Idx` = 1,
+                    `ItemId` = 901700;
+                
+                
+                -- Maraudon Orange - Razorlash - Razor Petal - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12258) AND (`Item` IN (901700));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 12258, 
-                    `Item` = 901700, 
+                SET `Entry` = 12258,
+                    `Item` = 901700,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Razor Petal';
+   
+                
 
--- Maraudon Orange - Razorlash - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Maraudon Orange - Razorlash - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441195);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441195,
-                    `pool_entry` = 300009, 
+                    `pool_entry` = 300009,
                     `description` = 'Razorlash';
-
--- Maraudon Orange - Razorlash - Alliance - Quest Template
+                
+                
+                -- Maraudon Orange - Razorlash - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441195);
                 INSERT INTO `quest_template`
                 SET `ID` = 441195,
@@ -145,53 +159,60 @@
                     `RequiredItemId1` = 901700,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Alliance - Quest Template Addon
+                    
+                
+                -- Maraudon Orange - Razorlash - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441195);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441195,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Maraudon Orange - Razorlash - Alliance - Quest Offer Reward
+                    
+                
+                -- Maraudon Orange - Razorlash - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441195);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441195,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Maraudon Orange - Razorlash - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441195);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441195,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Razor Petal please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Orange - Razorlash - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Razor Petal please.';
+                    
+                
+                -- Maraudon Orange - Razorlash - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441195);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441195,
                     `id` = 29093;
-
--- Maraudon Orange - Razorlash - Alliance - Creature Quest Ender
+                    
+                
+                -- Maraudon Orange - Razorlash - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441195);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441195, 
+                    SET `quest` = 441195,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Maraudon Purple - Celebras the Cursed - Horde - Pool Quest
+                -- Maraudon Purple - Celebras the Cursed - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441156);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441156,
-                    `pool_entry` = 300003, 
+                    `pool_entry` = 300003,
                     `description` = 'Celebras the Cursed';
-
--- Maraudon Purple - Celebras the Cursed - Horde - Quest Template
+                
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441156);
                 INSERT INTO `quest_template`
                 SET `ID` = 441156,
@@ -222,85 +243,95 @@
                     `RequiredItemId1` = 901701,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Horde - Quest Template Addon
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441156);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441156,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Maraudon Purple - Celebras the Cursed - Horde - Quest Offer Reward
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441156);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441156,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441156);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441156,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Carved Horn of Remulos please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Carved Horn of Remulos please.';
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441156);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441156,
                     `id` = 14392;
-
--- Maraudon Purple - Celebras the Cursed - Horde - Creature Quest Ender
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441156);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441156, 
+                    SET `quest` = 441156,
                     `id` = 14392;
-
--- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Item template
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901701);
                 INSERT INTO `item_template`
-                SET `entry` = 901701, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Carved Horn of Remulos', 
-                    `flags` = '2048', 
-                    `displayid` = 18072, 
-                    `Quality` = 1, 
+                SET `entry` = 901701,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Carved Horn of Remulos',
+                    `flags` = '2048',
+                    `displayid` = 18072,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Quest Item
+                
+                -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12225) AND (`ItemId` = 901701);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 12225, 
-                    `Idx` = 1, 
-                    `ItemId` = 901701, 
-                    `VerifiedBuild` = 0;
-
--- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Loot Template
+                SET `CreatureEntry` = 12225,
+                    `Idx` = 1,
+                    `ItemId` = 901701;
+                
+                
+                -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12225) AND (`Item` IN (901701));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 12225, 
-                    `Item` = 901701, 
+                SET `Entry` = 12225,
+                    `Item` = 901701,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Carved Horn of Remulos';
+   
+                
 
--- Maraudon Purple - Celebras the Cursed - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441207);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441207,
-                    `pool_entry` = 300009, 
+                    `pool_entry` = 300009,
                     `description` = 'Celebras the Cursed';
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template
+                
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441207);
                 INSERT INTO `quest_template`
                 SET `ID` = 441207,
@@ -331,53 +362,60 @@
                     `RequiredItemId1` = 901701,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template Addon
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441207);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441207,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Quest Offer Reward
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441207);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441207,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441207);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441207,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Carved Horn of Remulos please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Carved Horn of Remulos please.';
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441207);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441207,
                     `id` = 29093;
-
--- Maraudon Purple - Celebras the Cursed - Alliance - Creature Quest Ender
+                    
+                
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441207);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441207, 
+                    SET `quest` = 441207,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Stormwind Stockade - Bazil Thredd - Horde - Pool Quest
+                -- Stormwind Stockade - Bazil Thredd - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441157);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441157,
-                    `pool_entry` = 300012, 
+                    `pool_entry` = 300012,
                     `description` = 'Bazil Thredd';
-
--- Stormwind Stockade - Bazil Thredd - Horde - Quest Template
+                
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441157);
                 INSERT INTO `quest_template`
                 SET `ID` = 441157,
@@ -408,85 +446,95 @@
                     `RequiredItemId1` = 901702,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Horde - Quest Template Addon
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441157);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441157,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 30, 
+                    `MaxLevel` = 30,
                     `SpecialFlags` = 1;
-
--- Stormwind Stockade - Bazil Thredd - Horde - Quest Offer Reward
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441157);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441157,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441157);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441157,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Prison Wallet please.',
-                    `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Prison Wallet please.';
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441157);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441157,
                     `id` = 14392;
-
--- Stormwind Stockade - Bazil Thredd - Horde - Creature Quest Ender
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441157);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441157, 
+                    SET `quest` = 441157,
                     `id` = 14392;
-
--- Stormwind Stockade - Bazil Thredd - Prison Wallet - Item template
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901702);
                 INSERT INTO `item_template`
-                SET `entry` = 901702, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Prison Wallet', 
-                    `flags` = '2048', 
-                    `displayid` = 33681, 
-                    `Quality` = 1, 
+                SET `entry` = 901702,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Prison Wallet',
+                    `flags` = '2048',
+                    `displayid` = 33681,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Stormwind Stockade - Bazil Thredd - Prison Wallet - Quest Item
+                
+                -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1716) AND (`ItemId` = 901702);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 1716, 
-                    `Idx` = 2, 
-                    `ItemId` = 901702, 
-                    `VerifiedBuild` = 0;
-
--- Stormwind Stockade - Bazil Thredd - Prison Wallet - Loot Template
+                SET `CreatureEntry` = 1716,
+                    `Idx` = 2,
+                    `ItemId` = 901702;
+                
+                
+                -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716) AND (`Item` IN (901702));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 1716, 
-                    `Item` = 901702, 
+                SET `Entry` = 1716,
+                    `Item` = 901702,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Prison Wallet';
+   
+                
 
--- Stormwind Stockade - Bazil Thredd - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441184);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441184,
-                    `pool_entry` = 300013, 
+                    `pool_entry` = 300013,
                     `description` = 'Bazil Thredd';
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template
+                
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441184);
                 INSERT INTO `quest_template`
                 SET `ID` = 441184,
@@ -517,53 +565,60 @@
                     `RequiredItemId1` = 901702,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template Addon
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441184);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441184,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 30, 
+                    `MaxLevel` = 30,
                     `SpecialFlags` = 1;
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Quest Offer Reward
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441184);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441184,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441184);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441184,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Prison Wallet please.',
-                    `VerifiedBuild` = 12340;
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Prison Wallet please.';
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441184);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441184,
                     `id` = 29093;
-
--- Stormwind Stockade - Bazil Thredd - Alliance - Creature Quest Ender
+                    
+                
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441184);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441184, 
+                    SET `quest` = 441184,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Shadowfang Keep - Archmage Arugal - Horde - Pool Quest
+                -- Shadowfang Keep - Archmage Arugal - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441158);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441158,
-                    `pool_entry` = 300000, 
+                    `pool_entry` = 300000,
                     `description` = 'Archmage Arugal';
-
--- Shadowfang Keep - Archmage Arugal - Horde - Quest Template
+                
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441158);
                 INSERT INTO `quest_template`
                 SET `ID` = 441158,
@@ -594,85 +649,95 @@
                     `RequiredItemId1` = 901703,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Horde - Quest Template Addon
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441158);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441158,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 25, 
+                    `MaxLevel` = 25,
                     `SpecialFlags` = 1;
-
--- Shadowfang Keep - Archmage Arugal - Horde - Quest Offer Reward
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441158);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441158,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441158);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441158,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Fangfire Amulet please.',
-                    `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Fangfire Amulet please.';
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441158);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441158,
                     `id` = 14392;
-
--- Shadowfang Keep - Archmage Arugal - Horde - Creature Quest Ender
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441158);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441158, 
+                    SET `quest` = 441158,
                     `id` = 14392;
-
--- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Item template
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901703);
                 INSERT INTO `item_template`
-                SET `entry` = 901703, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Fangfire Amulet', 
-                    `flags` = '2048', 
-                    `displayid` = 9852, 
-                    `Quality` = 1, 
+                SET `entry` = 901703,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Fangfire Amulet',
+                    `flags` = '2048',
+                    `displayid` = 9852,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Quest Item
+                
+                -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4275) AND (`ItemId` = 901703);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 4275, 
-                    `Idx` = 1, 
-                    `ItemId` = 901703, 
-                    `VerifiedBuild` = 0;
-
--- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Loot Template
+                SET `CreatureEntry` = 4275,
+                    `Idx` = 1,
+                    `ItemId` = 901703;
+                
+                
+                -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4275) AND (`Item` IN (901703));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 4275, 
-                    `Item` = 901703, 
+                SET `Entry` = 4275,
+                    `Item` = 901703,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Fangfire Amulet';
+   
+                
 
--- Shadowfang Keep - Archmage Arugal - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441185);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441185,
-                    `pool_entry` = 300006, 
+                    `pool_entry` = 300006,
                     `description` = 'Archmage Arugal';
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template
+                
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441185);
                 INSERT INTO `quest_template`
                 SET `ID` = 441185,
@@ -703,53 +768,60 @@
                     `RequiredItemId1` = 901703,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template Addon
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441185);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441185,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 25, 
+                    `MaxLevel` = 25,
                     `SpecialFlags` = 1;
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Quest Offer Reward
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441185);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441185,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441185);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441185,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Fangfire Amulet please.',
-                    `VerifiedBuild` = 12340;
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Fangfire Amulet please.';
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441185);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441185,
                     `id` = 29093;
-
--- Shadowfang Keep - Archmage Arugal - Alliance - Creature Quest Ender
+                    
+                
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441185);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441185, 
+                    SET `quest` = 441185,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Razorfen Kraul - Charlga Razorflank - Horde - Pool Quest
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441159);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441159,
-                    `pool_entry` = 300001, 
+                    `pool_entry` = 300001,
                     `description` = 'Charlga Razorflank';
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template
+                
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441159);
                 INSERT INTO `quest_template`
                 SET `ID` = 441159,
@@ -780,85 +852,95 @@
                     `RequiredItemId1` = 901704,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template Addon
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441159);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441159,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Quest Offer Reward
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441159);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441159,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441159);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441159,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gauntlets of Growth please.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Gauntlets of Growth please.';
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441159);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441159,
                     `id` = 14392;
-
--- Razorfen Kraul - Charlga Razorflank - Horde - Creature Quest Ender
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441159);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441159, 
+                    SET `quest` = 441159,
                     `id` = 14392;
-
--- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Item template
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901704);
                 INSERT INTO `item_template`
-                SET `entry` = 901704, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Gauntlets of Growth', 
-                    `flags` = '2048', 
-                    `displayid` = 6991, 
-                    `Quality` = 1, 
+                SET `entry` = 901704,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Gauntlets of Growth',
+                    `flags` = '2048',
+                    `displayid` = 6991,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Quest Item
+                
+                -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4421) AND (`ItemId` = 901704);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 4421, 
-                    `Idx` = 3, 
-                    `ItemId` = 901704, 
-                    `VerifiedBuild` = 0;
-
--- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Loot Template
+                SET `CreatureEntry` = 4421,
+                    `Idx` = 3,
+                    `ItemId` = 901704;
+                
+                
+                -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4421) AND (`Item` IN (901704));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 4421, 
-                    `Item` = 901704, 
+                SET `Entry` = 4421,
+                    `Item` = 901704,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Gauntlets of Growth';
+   
+                
 
--- Razorfen Kraul - Charlga Razorflank - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441186);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441186,
-                    `pool_entry` = 300007, 
+                    `pool_entry` = 300007,
                     `description` = 'Charlga Razorflank';
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template
+                
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441186);
                 INSERT INTO `quest_template`
                 SET `ID` = 441186,
@@ -889,53 +971,60 @@
                     `RequiredItemId1` = 901704,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template Addon
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441186);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441186,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Offer Reward
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441186);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441186,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441186);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441186,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gauntlets of Growth please.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Gauntlets of Growth please.';
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441186);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441186,
                     `id` = 29093;
-
--- Razorfen Kraul - Charlga Razorflank - Alliance - Creature Quest Ender
+                    
+                
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441186);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441186, 
+                    SET `quest` = 441186,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Pool Quest
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441160);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441160,
-                    `pool_entry` = 300002, 
+                    `pool_entry` = 300002,
                     `description` = 'Amnennar the Coldbringer';
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template
+                
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441160);
                 INSERT INTO `quest_template`
                 SET `ID` = 441160,
@@ -966,85 +1055,95 @@
                     `RequiredItemId1` = 901705,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template Addon
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441160);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441160,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 45, 
+                    `MaxLevel` = 45,
                     `SpecialFlags` = 1;
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Offer Reward
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441160);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441160,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441160);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441160,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Frozen Bone please.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Frozen Bone please.';
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441160);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441160,
                     `id` = 14392;
-
--- Razorfen Downs - Amnennar the Coldbringer - Horde - Creature Quest Ender
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441160);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441160, 
+                    SET `quest` = 441160,
                     `id` = 14392;
-
--- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Item template
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901705);
                 INSERT INTO `item_template`
-                SET `entry` = 901705, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Frozen Bone', 
-                    `flags` = '2048', 
-                    `displayid` = 6668, 
-                    `Quality` = 1, 
+                SET `entry` = 901705,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Frozen Bone',
+                    `flags` = '2048',
+                    `displayid` = 6668,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Quest Item
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7358) AND (`ItemId` = 901705);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 7358, 
-                    `Idx` = 1, 
-                    `ItemId` = 901705, 
-                    `VerifiedBuild` = 0;
-
--- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Loot Template
+                SET `CreatureEntry` = 7358,
+                    `Idx` = 1,
+                    `ItemId` = 901705;
+                
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7358) AND (`Item` IN (901705));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 7358, 
-                    `Item` = 901705, 
+                SET `Entry` = 7358,
+                    `Item` = 901705,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Frozen Bone';
+   
+                
 
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441187);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441187,
-                    `pool_entry` = 300008, 
+                    `pool_entry` = 300008,
                     `description` = 'Amnennar the Coldbringer';
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template
+                
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441187);
                 INSERT INTO `quest_template`
                 SET `ID` = 441187,
@@ -1075,53 +1174,60 @@
                     `RequiredItemId1` = 901705,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template Addon
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441187);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441187,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 45, 
+                    `MaxLevel` = 45,
                     `SpecialFlags` = 1;
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Offer Reward
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441187);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441187,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441187);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441187,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Frozen Bone please.',
-                    `VerifiedBuild` = 12340;
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Frozen Bone please.';
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441187);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441187,
                     `id` = 29093;
-
--- Razorfen Downs - Amnennar the Coldbringer - Alliance - Creature Quest Ender
+                    
+                
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441187);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441187, 
+                    SET `quest` = 441187,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Wailing Caverns - Verdan the Everliving - Horde - Pool Quest
+                -- Wailing Caverns - Verdan the Everliving - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441161);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441161,
-                    `pool_entry` = 300000, 
+                    `pool_entry` = 300000,
                     `description` = 'Verdan the Everliving';
-
--- Wailing Caverns - Verdan the Everliving - Horde - Quest Template
+                
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441161);
                 INSERT INTO `quest_template`
                 SET `ID` = 441161,
@@ -1152,85 +1258,95 @@
                     `RequiredItemId1` = 901706,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Horde - Quest Template Addon
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441161);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441161,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 25, 
+                    `MaxLevel` = 25,
                     `SpecialFlags` = 1;
-
--- Wailing Caverns - Verdan the Everliving - Horde - Quest Offer Reward
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441161);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441161,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441161);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441161,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Everliving Spore please.',
-                    `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Everliving Spore please.';
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441161);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441161,
                     `id` = 14392;
-
--- Wailing Caverns - Verdan the Everliving - Horde - Creature Quest Ender
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441161);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441161, 
+                    SET `quest` = 441161,
                     `id` = 14392;
-
--- Wailing Caverns - Verdan the Everliving - Everliving Spore - Item template
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901706);
                 INSERT INTO `item_template`
-                SET `entry` = 901706, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Everliving Spore', 
-                    `flags` = '2048', 
-                    `displayid` = 37658, 
-                    `Quality` = 1, 
+                SET `entry` = 901706,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Everliving Spore',
+                    `flags` = '2048',
+                    `displayid` = 37658,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Wailing Caverns - Verdan the Everliving - Everliving Spore - Quest Item
+                
+                -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5775) AND (`ItemId` = 901706);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 5775, 
-                    `Idx` = 1, 
-                    `ItemId` = 901706, 
-                    `VerifiedBuild` = 0;
-
--- Wailing Caverns - Verdan the Everliving - Everliving Spore - Loot Template
+                SET `CreatureEntry` = 5775,
+                    `Idx` = 1,
+                    `ItemId` = 901706;
+                
+                
+                -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5775) AND (`Item` IN (901706));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 5775, 
-                    `Item` = 901706, 
+                SET `Entry` = 5775,
+                    `Item` = 901706,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Everliving Spore';
+   
+                
 
--- Wailing Caverns - Verdan the Everliving - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441188);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441188,
-                    `pool_entry` = 300006, 
+                    `pool_entry` = 300006,
                     `description` = 'Verdan the Everliving';
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template
+                
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441188);
                 INSERT INTO `quest_template`
                 SET `ID` = 441188,
@@ -1261,53 +1377,60 @@
                     `RequiredItemId1` = 901706,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template Addon
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441188);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441188,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 25, 
+                    `MaxLevel` = 25,
                     `SpecialFlags` = 1;
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Quest Offer Reward
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441188);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441188,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441188);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441188,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Everliving Spore please.',
-                    `VerifiedBuild` = 12340;
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Everliving Spore please.';
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441188);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441188,
                     `id` = 29093;
-
--- Wailing Caverns - Verdan the Everliving - Alliance - Creature Quest Ender
+                    
+                
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441188);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441188, 
+                    SET `quest` = 441188,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Ragefire Chasm - Jergosh the Invoker - Horde - Pool Quest
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441162);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441162,
-                    `pool_entry` = 300014, 
+                    `pool_entry` = 300014,
                     `description` = 'Jergosh the Invoker';
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template
+                
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441162);
                 INSERT INTO `quest_template`
                 SET `ID` = 441162,
@@ -1338,85 +1461,95 @@
                     `RequiredItemId1` = 901707,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template Addon
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441162);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441162,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 20, 
+                    `MaxLevel` = 20,
                     `SpecialFlags` = 1;
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Offer Reward
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441162);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441162,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441162);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441162,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Searing Stone please.',
-                    `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Searing Stone please.';
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441162);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441162,
                     `id` = 14392;
-
--- Ragefire Chasm - Jergosh the Invoker - Horde - Creature Quest Ender
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441162);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441162, 
+                    SET `quest` = 441162,
                     `id` = 14392;
-
--- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Item template
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901707);
                 INSERT INTO `item_template`
-                SET `entry` = 901707, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Searing Stone', 
-                    `flags` = '2048', 
-                    `displayid` = 22952, 
-                    `Quality` = 1, 
+                SET `entry` = 901707,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Searing Stone',
+                    `flags` = '2048',
+                    `displayid` = 22952,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Quest Item
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11518) AND (`ItemId` = 901707);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 11518, 
-                    `Idx` = 0, 
-                    `ItemId` = 901707, 
-                    `VerifiedBuild` = 0;
-
--- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Loot Template
+                SET `CreatureEntry` = 11518,
+                    `Idx` = 0,
+                    `ItemId` = 901707;
+                
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11518) AND (`Item` IN (901707));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 11518, 
-                    `Item` = 901707, 
+                SET `Entry` = 11518,
+                    `Item` = 901707,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Searing Stone';
+   
+                
 
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441189);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441189,
-                    `pool_entry` = 300015, 
+                    `pool_entry` = 300015,
                     `description` = 'Jergosh the Invoker';
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template
+                
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441189);
                 INSERT INTO `quest_template`
                 SET `ID` = 441189,
@@ -1447,53 +1580,60 @@
                     `RequiredItemId1` = 901707,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template Addon
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441189);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441189,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 20, 
+                    `MaxLevel` = 20,
                     `SpecialFlags` = 1;
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Offer Reward
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441189);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441189,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441189);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441189,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Searing Stone please.',
-                    `VerifiedBuild` = 12340;
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Searing Stone please.';
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441189);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441189,
                     `id` = 29093;
-
--- Ragefire Chasm - Jergosh the Invoker - Alliance - Creature Quest Ender
+                    
+                
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441189);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441189, 
+                    SET `quest` = 441189,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Pool Quest
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441163);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441163,
-                    `pool_entry` = 300001, 
+                    `pool_entry` = 300001,
                     `description` = 'Mekgineer Thermaplugg';
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template
+                
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441163);
                 INSERT INTO `quest_template`
                 SET `ID` = 441163,
@@ -1524,85 +1664,95 @@
                     `RequiredItemId1` = 901708,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template Addon
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441163);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441163,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Offer Reward
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441163);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441163,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441163);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441163,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Plugg Nuts please.',
-                    `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Plugg Nuts please.';
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441163);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441163,
                     `id` = 14392;
-
--- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Ender
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441163);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441163, 
+                    SET `quest` = 441163,
                     `id` = 14392;
-
--- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Item template
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901708);
                 INSERT INTO `item_template`
-                SET `entry` = 901708, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Plugg Nuts', 
-                    `flags` = '2048', 
-                    `displayid` = 7072, 
-                    `Quality` = 1, 
+                SET `entry` = 901708,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Plugg Nuts',
+                    `flags` = '2048',
+                    `displayid` = 7072,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Quest Item
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7800) AND (`ItemId` = 901708);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 7800, 
-                    `Idx` = 2, 
-                    `ItemId` = 901708, 
-                    `VerifiedBuild` = 0;
-
--- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Loot Template
+                SET `CreatureEntry` = 7800,
+                    `Idx` = 2,
+                    `ItemId` = 901708;
+                
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7800) AND (`Item` IN (901708));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 7800, 
-                    `Item` = 901708, 
+                SET `Entry` = 7800,
+                    `Item` = 901708,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Plugg Nuts';
+   
+                
 
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441190);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441190,
-                    `pool_entry` = 300007, 
+                    `pool_entry` = 300007,
                     `description` = 'Mekgineer Thermaplugg';
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template
+                
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441190);
                 INSERT INTO `quest_template`
                 SET `ID` = 441190,
@@ -1633,53 +1783,60 @@
                     `RequiredItemId1` = 901708,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template Addon
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441190);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441190,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Offer Reward
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441190);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441190,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441190);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441190,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Plugg Nuts please.',
-                    `VerifiedBuild` = 12340;
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Plugg Nuts please.';
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441190);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441190,
                     `id` = 29093;
-
--- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Ender
+                    
+                
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441190);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441190, 
+                    SET `quest` = 441190,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Blackfathom Deeps - Aku''mai - Horde - Pool Quest
+                -- Blackfathom Deeps - Aku''mai - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441164);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441164,
-                    `pool_entry` = 300012, 
+                    `pool_entry` = 300012,
                     `description` = 'Aku''mai';
-
--- Blackfathom Deeps - Aku''mai - Horde - Quest Template
+                
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441164);
                 INSERT INTO `quest_template`
                 SET `ID` = 441164,
@@ -1710,85 +1867,95 @@
                     `RequiredItemId1` = 901709,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Horde - Quest Template Addon
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441164);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441164,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 30, 
+                    `MaxLevel` = 30,
                     `SpecialFlags` = 1;
-
--- Blackfathom Deeps - Aku''mai - Horde - Quest Offer Reward
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441164);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441164,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441164);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441164,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Void Pearl please.',
-                    `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Void Pearl please.';
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441164);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441164,
                     `id` = 14392;
-
--- Blackfathom Deeps - Aku''mai - Horde - Creature Quest Ender
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441164);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441164, 
+                    SET `quest` = 441164,
                     `id` = 14392;
-
--- Blackfathom Deeps - Aku''mai - Void Pearl - Item template
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Void Pearl - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901709);
                 INSERT INTO `item_template`
-                SET `entry` = 901709, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Void Pearl', 
-                    `flags` = '2048', 
-                    `displayid` = 16209, 
-                    `Quality` = 1, 
+                SET `entry` = 901709,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Void Pearl',
+                    `flags` = '2048',
+                    `displayid` = 16209,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Blackfathom Deeps - Aku''mai - Void Pearl - Quest Item
+                
+                -- Blackfathom Deeps - Aku''mai - Void Pearl - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4829) AND (`ItemId` = 901709);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 4829, 
-                    `Idx` = 0, 
-                    `ItemId` = 901709, 
-                    `VerifiedBuild` = 0;
-
--- Blackfathom Deeps - Aku''mai - Void Pearl - Loot Template
+                SET `CreatureEntry` = 4829,
+                    `Idx` = 0,
+                    `ItemId` = 901709;
+                
+                
+                -- Blackfathom Deeps - Aku''mai - Void Pearl - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4829) AND (`Item` IN (901709));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 4829, 
-                    `Item` = 901709, 
+                SET `Entry` = 4829,
+                    `Item` = 901709,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Void Pearl';
+   
+                
 
--- Blackfathom Deeps - Aku''mai - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Blackfathom Deeps - Aku''mai - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441191);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441191,
-                    `pool_entry` = 300013, 
+                    `pool_entry` = 300013,
                     `description` = 'Aku''mai';
-
--- Blackfathom Deeps - Aku''mai - Alliance - Quest Template
+                
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441191);
                 INSERT INTO `quest_template`
                 SET `ID` = 441191,
@@ -1819,53 +1986,60 @@
                     `RequiredItemId1` = 901709,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Alliance - Quest Template Addon
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441191);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441191,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 30, 
+                    `MaxLevel` = 30,
                     `SpecialFlags` = 1;
-
--- Blackfathom Deeps - Aku''mai - Alliance - Quest Offer Reward
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441191);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441191,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441191);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441191,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Void Pearl please.',
-                    `VerifiedBuild` = 12340;
-
--- Blackfathom Deeps - Aku''mai - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Void Pearl please.';
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441191);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441191,
                     `id` = 29093;
-
--- Blackfathom Deeps - Aku''mai - Alliance - Creature Quest Ender
+                    
+                
+                -- Blackfathom Deeps - Aku''mai - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441191);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441191, 
+                    SET `quest` = 441191,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Pool Quest
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441165);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441165,
-                    `pool_entry` = 300001, 
+                    `pool_entry` = 300001,
                     `description` = 'Bloodmage Thalnos';
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template
+                
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441165);
                 INSERT INTO `quest_template`
                 SET `ID` = 441165,
@@ -1896,85 +2070,95 @@
                     `RequiredItemId1` = 901710,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template Addon
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441165);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441165,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Offer Reward
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441165);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441165,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441165);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441165,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Bloodfire Amulet please.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Bloodfire Amulet please.';
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441165);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441165,
                     `id` = 14392;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Creature Quest Ender
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441165);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441165, 
+                    SET `quest` = 441165,
                     `id` = 14392;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Item template
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901710);
                 INSERT INTO `item_template`
-                SET `entry` = 901710, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Bloodfire Amulet', 
-                    `flags` = '2048', 
-                    `displayid` = 9658, 
-                    `Quality` = 1, 
+                SET `entry` = 901710,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Bloodfire Amulet',
+                    `flags` = '2048',
+                    `displayid` = 9658,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Quest Item
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 4543) AND (`ItemId` = 901710);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 4543, 
-                    `Idx` = 0, 
-                    `ItemId` = 901710, 
-                    `VerifiedBuild` = 0;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Loot Template
+                SET `CreatureEntry` = 4543,
+                    `Idx` = 0,
+                    `ItemId` = 901710;
+                
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4543) AND (`Item` IN (901710));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 4543, 
-                    `Item` = 901710, 
+                SET `Entry` = 4543,
+                    `Item` = 901710,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Bloodfire Amulet';
+   
+                
 
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441192);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441192,
-                    `pool_entry` = 300007, 
+                    `pool_entry` = 300007,
                     `description` = 'Bloodmage Thalnos';
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template
+                
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441192);
                 INSERT INTO `quest_template`
                 SET `ID` = 441192,
@@ -2005,53 +2189,60 @@
                     `RequiredItemId1` = 901710,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template Addon
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441192);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441192,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 35, 
+                    `MaxLevel` = 35,
                     `SpecialFlags` = 1;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Offer Reward
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441192);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441192,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441192);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441192,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Bloodfire Amulet please.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Bloodfire Amulet please.';
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441192);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441192,
                     `id` = 29093;
-
--- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Creature Quest Ender
+                    
+                
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441192);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441192, 
+                    SET `quest` = 441192,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Uldaman East - Archaedas - Horde - Pool Quest
+                -- Uldaman East - Archaedas - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441166);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441166,
-                    `pool_entry` = 300003, 
+                    `pool_entry` = 300003,
                     `description` = 'Archaedas';
-
--- Uldaman East - Archaedas - Horde - Quest Template
+                
+                
+                -- Uldaman East - Archaedas - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441166);
                 INSERT INTO `quest_template`
                 SET `ID` = 441166,
@@ -2082,85 +2273,95 @@
                     `RequiredItemId1` = 901711,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Horde - Quest Template Addon
+                    
+                
+                -- Uldaman East - Archaedas - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441166);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441166,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Uldaman East - Archaedas - Horde - Quest Offer Reward
+                    
+                
+                -- Uldaman East - Archaedas - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441166);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441166,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Uldaman East - Archaedas - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441166);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441166,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Resonating Stone of Unity please.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Resonating Stone of Unity please.';
+                    
+                
+                -- Uldaman East - Archaedas - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441166);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441166,
                     `id` = 14392;
-
--- Uldaman East - Archaedas - Horde - Creature Quest Ender
+                    
+                
+                -- Uldaman East - Archaedas - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441166);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441166, 
+                    SET `quest` = 441166,
                     `id` = 14392;
-
--- Uldaman East - Archaedas - Resonating Stone of Unity - Item template
+                    
+                
+                -- Uldaman East - Archaedas - Resonating Stone of Unity - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901711);
                 INSERT INTO `item_template`
-                SET `entry` = 901711, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Resonating Stone of Unity', 
-                    `flags` = '2048', 
-                    `displayid` = 22978, 
-                    `Quality` = 1, 
+                SET `entry` = 901711,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Resonating Stone of Unity',
+                    `flags` = '2048',
+                    `displayid` = 22978,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Uldaman East - Archaedas - Resonating Stone of Unity - Quest Item
+                
+                -- Uldaman East - Archaedas - Resonating Stone of Unity - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2748) AND (`ItemId` = 901711);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 2748, 
-                    `Idx` = 1, 
-                    `ItemId` = 901711, 
-                    `VerifiedBuild` = 0;
-
--- Uldaman East - Archaedas - Resonating Stone of Unity - Loot Template
+                SET `CreatureEntry` = 2748,
+                    `Idx` = 1,
+                    `ItemId` = 901711;
+                
+                
+                -- Uldaman East - Archaedas - Resonating Stone of Unity - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2748) AND (`Item` IN (901711));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 2748, 
-                    `Item` = 901711, 
+                SET `Entry` = 2748,
+                    `Item` = 901711,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Resonating Stone of Unity';
+   
+                
 
--- Uldaman East - Archaedas - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Uldaman East - Archaedas - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441193);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441193,
-                    `pool_entry` = 300009, 
+                    `pool_entry` = 300009,
                     `description` = 'Archaedas';
-
--- Uldaman East - Archaedas - Alliance - Quest Template
+                
+                
+                -- Uldaman East - Archaedas - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441193);
                 INSERT INTO `quest_template`
                 SET `ID` = 441193,
@@ -2191,53 +2392,60 @@
                     `RequiredItemId1` = 901711,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Alliance - Quest Template Addon
+                    
+                
+                -- Uldaman East - Archaedas - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441193);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441193,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Uldaman East - Archaedas - Alliance - Quest Offer Reward
+                    
+                
+                -- Uldaman East - Archaedas - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441193);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441193,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Uldaman East - Archaedas - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441193);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441193,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Resonating Stone of Unity please.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman East - Archaedas - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Resonating Stone of Unity please.';
+                    
+                
+                -- Uldaman East - Archaedas - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441193);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441193,
                     `id` = 29093;
-
--- Uldaman East - Archaedas - Alliance - Creature Quest Ender
+                    
+                
+                -- Uldaman East - Archaedas - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441193);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441193, 
+                    SET `quest` = 441193,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Pool Quest
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441167);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441167,
-                    `pool_entry` = 300003, 
+                    `pool_entry` = 300003,
                     `description` = 'Chief Ukorz Sandscalp';
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template
+                
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441167);
                 INSERT INTO `quest_template`
                 SET `ID` = 441167,
@@ -2268,85 +2476,95 @@
                     `RequiredItemId1` = 901712,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template Addon
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441167);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441167,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Offer Reward
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441167);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441167,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441167);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441167,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Sandfury War Drum please.',
-                    `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Sandfury War Drum please.';
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441167);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441167,
                     `id` = 14392;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Creature Quest Ender
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441167);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441167, 
+                    SET `quest` = 441167,
                     `id` = 14392;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Item template
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901712);
                 INSERT INTO `item_template`
-                SET `entry` = 901712, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Sandfury War Drum', 
-                    `flags` = '2048', 
-                    `displayid` = 41062, 
-                    `Quality` = 1, 
+                SET `entry` = 901712,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Sandfury War Drum',
+                    `flags` = '2048',
+                    `displayid` = 41062,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Quest Item
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7267) AND (`ItemId` = 901712);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 7267, 
-                    `Idx` = 1, 
-                    `ItemId` = 901712, 
-                    `VerifiedBuild` = 0;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Loot Template
+                SET `CreatureEntry` = 7267,
+                    `Idx` = 1,
+                    `ItemId` = 901712;
+                
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7267) AND (`Item` IN (901712));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 7267, 
-                    `Item` = 901712, 
+                SET `Entry` = 7267,
+                    `Item` = 901712,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Sandfury War Drum';
+   
+                
 
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441194);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441194,
-                    `pool_entry` = 300009, 
+                    `pool_entry` = 300009,
                     `description` = 'Chief Ukorz Sandscalp';
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template
+                
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441194);
                 INSERT INTO `quest_template`
                 SET `ID` = 441194,
@@ -2377,53 +2595,60 @@
                     `RequiredItemId1` = 901712,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template Addon
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441194);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441194,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Offer Reward
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441194);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441194,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441194);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441194,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Sandfury War Drum please.',
-                    `VerifiedBuild` = 12340;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Sandfury War Drum please.';
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441194);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441194,
                     `id` = 29093;
-
--- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Creature Quest Ender
+                    
+                
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441194);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441194, 
+                    SET `quest` = 441194,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Sunken Temple - Shade of Eranikus - Horde - Pool Quest
+                -- Sunken Temple - Shade of Eranikus - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441168);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441168,
-                    `pool_entry` = 300004, 
+                    `pool_entry` = 300004,
                     `description` = 'Shade of Eranikus';
-
--- Sunken Temple - Shade of Eranikus - Horde - Quest Template
+                
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441168);
                 INSERT INTO `quest_template`
                 SET `ID` = 441168,
@@ -2454,85 +2679,95 @@
                     `RequiredItemId1` = 901713,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Horde - Quest Template Addon
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441168);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441168,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Sunken Temple - Shade of Eranikus - Horde - Quest Offer Reward
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441168);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441168,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441168);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441168,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Dream Seed please.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Dream Seed please.';
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441168);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441168,
                     `id` = 14392;
-
--- Sunken Temple - Shade of Eranikus - Horde - Creature Quest Ender
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441168);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441168, 
+                    SET `quest` = 441168,
                     `id` = 14392;
-
--- Sunken Temple - Shade of Eranikus - Dream Seed - Item template
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Dream Seed - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901713);
                 INSERT INTO `item_template`
-                SET `entry` = 901713, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Dream Seed', 
-                    `flags` = '2048', 
-                    `displayid` = 21149, 
-                    `Quality` = 1, 
+                SET `entry` = 901713,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Dream Seed',
+                    `flags` = '2048',
+                    `displayid` = 21149,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Sunken Temple - Shade of Eranikus - Dream Seed - Quest Item
+                
+                -- Sunken Temple - Shade of Eranikus - Dream Seed - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 5709) AND (`ItemId` = 901713);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 5709, 
-                    `Idx` = 1, 
-                    `ItemId` = 901713, 
-                    `VerifiedBuild` = 0;
-
--- Sunken Temple - Shade of Eranikus - Dream Seed - Loot Template
+                SET `CreatureEntry` = 5709,
+                    `Idx` = 1,
+                    `ItemId` = 901713;
+                
+                
+                -- Sunken Temple - Shade of Eranikus - Dream Seed - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5709) AND (`Item` IN (901713));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 5709, 
-                    `Item` = 901713, 
+                SET `Entry` = 5709,
+                    `Item` = 901713,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Dream Seed';
+   
+                
 
--- Sunken Temple - Shade of Eranikus - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Sunken Temple - Shade of Eranikus - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441196);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441196,
-                    `pool_entry` = 300010, 
+                    `pool_entry` = 300010,
                     `description` = 'Shade of Eranikus';
-
--- Sunken Temple - Shade of Eranikus - Alliance - Quest Template
+                
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441196);
                 INSERT INTO `quest_template`
                 SET `ID` = 441196,
@@ -2563,53 +2798,60 @@
                     `RequiredItemId1` = 901713,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Alliance - Quest Template Addon
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441196);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441196,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Sunken Temple - Shade of Eranikus - Alliance - Quest Offer Reward
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441196);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441196,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441196);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441196,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Dream Seed please.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Shade of Eranikus - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Dream Seed please.';
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441196);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441196,
                     `id` = 29093;
-
--- Sunken Temple - Shade of Eranikus - Alliance - Creature Quest Ender
+                    
+                
+                -- Sunken Temple - Shade of Eranikus - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441196);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441196, 
+                    SET `quest` = 441196,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Blackrock Depths Prison - Lord Incendius - Horde - Pool Quest
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441169);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441169,
-                    `pool_entry` = 300004, 
+                    `pool_entry` = 300004,
                     `description` = 'Lord Incendius';
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template
+                
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441169);
                 INSERT INTO `quest_template`
                 SET `ID` = 441169,
@@ -2640,85 +2882,95 @@
                     `RequiredItemId1` = 901714,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template Addon
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441169);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441169,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Quest Offer Reward
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441169);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441169,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441169);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441169,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Incendiary Core please.',
-                    `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Incendiary Core please.';
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441169);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441169,
                     `id` = 14392;
-
--- Blackrock Depths Prison - Lord Incendius - Horde - Creature Quest Ender
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441169);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441169, 
+                    SET `quest` = 441169,
                     `id` = 14392;
-
--- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Item template
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901714);
                 INSERT INTO `item_template`
-                SET `entry` = 901714, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Incendiary Core', 
-                    `flags` = '2048', 
-                    `displayid` = 28291, 
-                    `Quality` = 1, 
+                SET `entry` = 901714,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Incendiary Core',
+                    `flags` = '2048',
+                    `displayid` = 28291,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Quest Item
+                
+                -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9017) AND (`ItemId` = 901714);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 9017, 
-                    `Idx` = 3, 
-                    `ItemId` = 901714, 
-                    `VerifiedBuild` = 0;
-
--- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Loot Template
+                SET `CreatureEntry` = 9017,
+                    `Idx` = 3,
+                    `ItemId` = 901714;
+                
+                
+                -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 9017) AND (`Item` IN (901714));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 9017, 
-                    `Item` = 901714, 
+                SET `Entry` = 9017,
+                    `Item` = 901714,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Incendiary Core';
+   
+                
 
--- Blackrock Depths Prison - Lord Incendius - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441197);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441197,
-                    `pool_entry` = 300010, 
+                    `pool_entry` = 300010,
                     `description` = 'Lord Incendius';
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template
+                
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441197);
                 INSERT INTO `quest_template`
                 SET `ID` = 441197,
@@ -2749,53 +3001,60 @@
                     `RequiredItemId1` = 901714,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template Addon
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441197);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441197,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Offer Reward
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441197);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441197,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441197);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441197,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Incendiary Core please.',
-                    `VerifiedBuild` = 12340;
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Incendiary Core please.';
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441197);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441197,
                     `id` = 29093;
-
--- Blackrock Depths Prison - Lord Incendius - Alliance - Creature Quest Ender
+                    
+                
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441197);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441197, 
+                    SET `quest` = 441197,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Dire Maul East - Alzzin the Wildshaper - Horde - Pool Quest
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441171);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441171,
-                    `pool_entry` = 300004, 
+                    `pool_entry` = 300004,
                     `description` = 'Alzzin the Wildshaper';
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template
+                
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441171);
                 INSERT INTO `quest_template`
                 SET `ID` = 441171,
@@ -2826,85 +3085,95 @@
                     `RequiredItemId1` = 901716,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template Addon
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441171);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441171,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Offer Reward
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441171);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441171,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441171);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441171,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Scepter of Sylvan Corruption please.',
-                    `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Scepter of Sylvan Corruption please.';
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441171);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441171,
                     `id` = 14392;
-
--- Dire Maul East - Alzzin the Wildshaper - Horde - Creature Quest Ender
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441171);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441171, 
+                    SET `quest` = 441171,
                     `id` = 14392;
-
--- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Item template
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901716);
                 INSERT INTO `item_template`
-                SET `entry` = 901716, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Scepter of Sylvan Corruption', 
-                    `flags` = '2048', 
-                    `displayid` = 20824, 
-                    `Quality` = 1, 
+                SET `entry` = 901716,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Scepter of Sylvan Corruption',
+                    `flags` = '2048',
+                    `displayid` = 20824,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Quest Item
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11492) AND (`ItemId` = 901716);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 11492, 
-                    `Idx` = 0, 
-                    `ItemId` = 901716, 
-                    `VerifiedBuild` = 0;
-
--- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Loot Template
+                SET `CreatureEntry` = 11492,
+                    `Idx` = 0,
+                    `ItemId` = 901716;
+                
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11492) AND (`Item` IN (901716));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 11492, 
-                    `Item` = 901716, 
+                SET `Entry` = 11492,
+                    `Item` = 901716,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Scepter of Sylvan Corruption';
+   
+                
 
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441199);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441199,
-                    `pool_entry` = 300010, 
+                    `pool_entry` = 300010,
                     `description` = 'Alzzin the Wildshaper';
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template
+                
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441199);
                 INSERT INTO `quest_template`
                 SET `ID` = 441199,
@@ -2935,53 +3204,60 @@
                     `RequiredItemId1` = 901716,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template Addon
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441199);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441199,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Offer Reward
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441199);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441199,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441199);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441199,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Scepter of Sylvan Corruption please.',
-                    `VerifiedBuild` = 12340;
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Scepter of Sylvan Corruption please.';
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441199);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441199,
                     `id` = 29093;
-
--- Dire Maul East - Alzzin the Wildshaper - Alliance - Creature Quest Ender
+                    
+                
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441199);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441199, 
+                    SET `quest` = 441199,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Scarlet Monastery Library - Arcanist Doan - Horde - Pool Quest
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441178);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441178,
-                    `pool_entry` = 300016, 
+                    `pool_entry` = 300016,
                     `description` = 'Arcanist Doan';
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template
+                
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441178);
                 INSERT INTO `quest_template`
                 SET `ID` = 441178,
@@ -3012,85 +3288,95 @@
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template Addon
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441178);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441178,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 40, 
+                    `MaxLevel` = 40,
                     `SpecialFlags` = 1;
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Offer Reward
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441178);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441178,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441178);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441178,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Arcane Orb of Doan please.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Arcane Orb of Doan please.';
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441178);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441178,
                     `id` = 14392;
-
--- Scarlet Monastery Library - Arcanist Doan - Horde - Creature Quest Ender
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441178);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441178, 
+                    SET `quest` = 441178,
                     `id` = 14392;
-
--- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Item template
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901723);
                 INSERT INTO `item_template`
-                SET `entry` = 901723, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Arcane Orb of Doan', 
-                    `flags` = '2048', 
-                    `displayid` = 7041, 
-                    `Quality` = 1, 
+                SET `entry` = 901723,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Arcane Orb of Doan',
+                    `flags` = '2048',
+                    `displayid` = 7041,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Quest Item
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 6487) AND (`ItemId` = 901723);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 6487, 
-                    `Idx` = 1, 
-                    `ItemId` = 901723, 
-                    `VerifiedBuild` = 0;
-
--- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Loot Template
+                SET `CreatureEntry` = 6487,
+                    `Idx` = 1,
+                    `ItemId` = 901723;
+                
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 6487) AND (`Item` IN (901723));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 6487, 
-                    `Item` = 901723, 
+                SET `Entry` = 6487,
+                    `Item` = 901723,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Arcane Orb of Doan';
+   
+                
 
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441206);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441206,
-                    `pool_entry` = 300017, 
+                    `pool_entry` = 300017,
                     `description` = 'Arcanist Doan';
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template
+                
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441206);
                 INSERT INTO `quest_template`
                 SET `ID` = 441206,
@@ -3121,53 +3407,60 @@
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template Addon
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441206);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441206,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 40, 
+                    `MaxLevel` = 40,
                     `SpecialFlags` = 1;
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Offer Reward
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441206);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441206,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441206);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441206,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Arcane Orb of Doan please.',
-                    `VerifiedBuild` = 12340;
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Arcane Orb of Doan please.';
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441206);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441206,
                     `id` = 29093;
-
--- Scarlet Monastery Library - Arcanist Doan - Alliance - Creature Quest Ender
+                    
+                
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441206);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441206, 
+                    SET `quest` = 441206,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Maraudon Pristine Waters - Princess Theradras - Horde - Pool Quest
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441179);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441179,
-                    `pool_entry` = 300004, 
+                    `pool_entry` = 300004,
                     `description` = 'Princess Theradras';
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template
+                
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441179);
                 INSERT INTO `quest_template`
                 SET `ID` = 441179,
@@ -3198,85 +3491,95 @@
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template Addon
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441179);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441179,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Offer Reward
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441179);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441179,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441179);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441179,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Face of Theradras please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Face of Theradras please.';
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441179);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441179,
                     `id` = 14392;
-
--- Maraudon Pristine Waters - Princess Theradras - Horde - Creature Quest Ender
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441179);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441179, 
+                    SET `quest` = 441179,
                     `id` = 14392;
-
--- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Item template
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901723);
                 INSERT INTO `item_template`
-                SET `entry` = 901723, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Face of Theradras', 
-                    `flags` = '2048', 
-                    `displayid` = 60006, 
-                    `Quality` = 1, 
+                SET `entry` = 901723,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Face of Theradras',
+                    `flags` = '2048',
+                    `displayid` = 60006,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Quest Item
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12201) AND (`ItemId` = 901723);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 12201, 
-                    `Idx` = 1, 
-                    `ItemId` = 901723, 
-                    `VerifiedBuild` = 0;
-
--- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Loot Template
+                SET `CreatureEntry` = 12201,
+                    `Idx` = 1,
+                    `ItemId` = 901723;
+                
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (901723));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 12201, 
-                    `Item` = 901723, 
+                SET `Entry` = 12201,
+                    `Item` = 901723,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Face of Theradras';
+   
+                
 
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441208);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441208,
-                    `pool_entry` = 300010, 
+                    `pool_entry` = 300010,
                     `description` = 'Princess Theradras';
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template
+                
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441208);
                 INSERT INTO `quest_template`
                 SET `ID` = 441208,
@@ -3307,53 +3610,60 @@
                     `RequiredItemId1` = 901724,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template Addon
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441208);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441208,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 58, 
+                    `MaxLevel` = 58,
                     `SpecialFlags` = 1;
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Offer Reward
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441208);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441208,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441208);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441208,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Face of Theradras please.',
-                    `VerifiedBuild` = 12340;
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Face of Theradras please.';
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441208);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441208,
                     `id` = 29093;
-
--- Maraudon Pristine Waters - Princess Theradras - Alliance - Creature Quest Ender
+                    
+                
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441208);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441208, 
+                    SET `quest` = 441208,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Deadmines - Cookie - Horde - Pool Quest
+                -- Deadmines - Cookie - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441183);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441183,
-                    `pool_entry` = 300014, 
+                    `pool_entry` = 300014,
                     `description` = 'Cookie';
-
--- Deadmines - Cookie - Horde - Quest Template
+                
+                
+                -- Deadmines - Cookie - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441183);
                 INSERT INTO `quest_template`
                 SET `ID` = 441183,
@@ -3384,85 +3694,95 @@
                     `RequiredItemId1` = 901727,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Horde - Quest Template Addon
+                    
+                
+                -- Deadmines - Cookie - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441183);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441183,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 20, 
+                    `MaxLevel` = 20,
                     `SpecialFlags` = 1;
-
--- Deadmines - Cookie - Horde - Quest Offer Reward
+                    
+                
+                -- Deadmines - Cookie - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441183);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441183,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Deadmines - Cookie - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441183);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441183,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Stabby Patty Secret Formula please.',
-                    `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Stabby Patty Secret Formula please.';
+                    
+                
+                -- Deadmines - Cookie - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441183);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441183,
                     `id` = 14392;
-
--- Deadmines - Cookie - Horde - Creature Quest Ender
+                    
+                
+                -- Deadmines - Cookie - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441183);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441183, 
+                    SET `quest` = 441183,
                     `id` = 14392;
-
--- Deadmines - Cookie - Stabby Patty Secret Formula - Item template
+                    
+                
+                -- Deadmines - Cookie - Stabby Patty Secret Formula - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901727);
                 INSERT INTO `item_template`
-                SET `entry` = 901727, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Stabby Patty Secret Formula', 
-                    `flags` = '2048', 
-                    `displayid` = 6270, 
-                    `Quality` = 1, 
+                SET `entry` = 901727,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Stabby Patty Secret Formula',
+                    `flags` = '2048',
+                    `displayid` = 6270,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Deadmines - Cookie - Stabby Patty Secret Formula - Quest Item
+                
+                -- Deadmines - Cookie - Stabby Patty Secret Formula - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 645) AND (`ItemId` = 901727);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 645, 
-                    `Idx` = 0, 
-                    `ItemId` = 901727, 
-                    `VerifiedBuild` = 0;
-
--- Deadmines - Cookie - Stabby Patty Secret Formula - Loot Template
+                SET `CreatureEntry` = 645,
+                    `Idx` = 0,
+                    `ItemId` = 901727;
+                
+                
+                -- Deadmines - Cookie - Stabby Patty Secret Formula - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 645) AND (`Item` IN (901727));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 645, 
-                    `Item` = 901727, 
+                SET `Entry` = 645,
+                    `Item` = 901727,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Stabby Patty Secret Formula';
+   
+                
 
--- Deadmines - Cookie - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Deadmines - Cookie - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441212);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441212,
-                    `pool_entry` = 300015, 
+                    `pool_entry` = 300015,
                     `description` = 'Cookie';
-
--- Deadmines - Cookie - Alliance - Quest Template
+                
+                
+                -- Deadmines - Cookie - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441212);
                 INSERT INTO `quest_template`
                 SET `ID` = 441212,
@@ -3493,53 +3813,60 @@
                     `RequiredItemId1` = 901727,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Alliance - Quest Template Addon
+                    
+                
+                -- Deadmines - Cookie - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441212);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441212,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 20, 
+                    `MaxLevel` = 20,
                     `SpecialFlags` = 1;
-
--- Deadmines - Cookie - Alliance - Quest Offer Reward
+                    
+                
+                -- Deadmines - Cookie - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441212);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441212,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Deadmines - Cookie - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441212);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441212,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Stabby Patty Secret Formula please.',
-                    `VerifiedBuild` = 12340;
-
--- Deadmines - Cookie - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Stabby Patty Secret Formula please.';
+                    
+                
+                -- Deadmines - Cookie - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441212);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441212,
                     `id` = 29093;
-
--- Deadmines - Cookie - Alliance - Creature Quest Ender
+                    
+                
+                -- Deadmines - Cookie - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441212);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441212, 
+                    SET `quest` = 441212,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Uldaman West - Ironaya - Horde - Pool Quest
+                -- Uldaman West - Ironaya - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441213);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441213,
-                    `pool_entry` = 300016, 
+                    `pool_entry` = 300016,
                     `description` = 'Ironaya';
-
--- Uldaman West - Ironaya - Horde - Quest Template
+                
+                
+                -- Uldaman West - Ironaya - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441213);
                 INSERT INTO `quest_template`
                 SET `ID` = 441213,
@@ -3570,85 +3897,95 @@
                     `RequiredItemId1` = 901728,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Horde - Quest Template Addon
+                    
+                
+                -- Uldaman West - Ironaya - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441213);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441213,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 40, 
+                    `MaxLevel` = 40,
                     `SpecialFlags` = 1;
-
--- Uldaman West - Ironaya - Horde - Quest Offer Reward
+                    
+                
+                -- Uldaman West - Ironaya - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441213);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441213,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Uldaman West - Ironaya - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441213);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441213,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Titanforged Beacon please.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Titanforged Beacon please.';
+                    
+                
+                -- Uldaman West - Ironaya - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441213);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441213,
                     `id` = 14392;
-
--- Uldaman West - Ironaya - Horde - Creature Quest Ender
+                    
+                
+                -- Uldaman West - Ironaya - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441213);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441213, 
+                    SET `quest` = 441213,
                     `id` = 14392;
-
--- Uldaman West - Ironaya - Titanforged Beacon - Item template
+                    
+                
+                -- Uldaman West - Ironaya - Titanforged Beacon - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901728);
                 INSERT INTO `item_template`
-                SET `entry` = 901728, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Titanforged Beacon', 
-                    `flags` = '2048', 
-                    `displayid` = 18632, 
-                    `Quality` = 1, 
+                SET `entry` = 901728,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Titanforged Beacon',
+                    `flags` = '2048',
+                    `displayid` = 18632,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Uldaman West - Ironaya - Titanforged Beacon - Quest Item
+                
+                -- Uldaman West - Ironaya - Titanforged Beacon - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7228) AND (`ItemId` = 901728);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 7228, 
-                    `Idx` = 0, 
-                    `ItemId` = 901728, 
-                    `VerifiedBuild` = 0;
-
--- Uldaman West - Ironaya - Titanforged Beacon - Loot Template
+                SET `CreatureEntry` = 7228,
+                    `Idx` = 0,
+                    `ItemId` = 901728;
+                
+                
+                -- Uldaman West - Ironaya - Titanforged Beacon - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (901728));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 7228, 
-                    `Item` = 901728, 
+                SET `Entry` = 7228,
+                    `Item` = 901728,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Titanforged Beacon';
+   
+                
 
--- Uldaman West - Ironaya - Alliance - Pool Quest
+                -- *******************************************************
+
+                -- Uldaman West - Ironaya - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441214);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441214,
-                    `pool_entry` = 300017, 
+                    `pool_entry` = 300017,
                     `description` = 'Ironaya';
-
--- Uldaman West - Ironaya - Alliance - Quest Template
+                
+                
+                -- Uldaman West - Ironaya - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441214);
                 INSERT INTO `quest_template`
                 SET `ID` = 441214,
@@ -3679,53 +4016,60 @@
                     `RequiredItemId1` = 901728,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Alliance - Quest Template Addon
+                    
+                
+                -- Uldaman West - Ironaya - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441214);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441214,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 40, 
+                    `MaxLevel` = 40,
                     `SpecialFlags` = 1;
-
--- Uldaman West - Ironaya - Alliance - Quest Offer Reward
+                    
+                
+                -- Uldaman West - Ironaya - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441214);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441214,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Uldaman West - Ironaya - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441214);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441214,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Titanforged Beacon please.',
-                    `VerifiedBuild` = 12340;
-
--- Uldaman West - Ironaya - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Titanforged Beacon please.';
+                    
+                
+                -- Uldaman West - Ironaya - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441214);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441214,
                     `id` = 29093;
-
--- Uldaman West - Ironaya - Alliance - Creature Quest Ender
+                    
+                
+                -- Uldaman West - Ironaya - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441214);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441214, 
+                    SET `quest` = 441214,
                     `id` = 29093;
+                    
+                
 
+                -- *******************************************************
 
--- Sunken Temple - Atal''alarion - Alliance - Pool Quest
+                -- Sunken Temple - Atal''alarion - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441215);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441215,
-                    `pool_entry` = 300009, 
+                    `pool_entry` = 300009,
                     `description` = 'Atal''alarion';
-
--- Sunken Temple - Atal''alarion - Alliance - Quest Template
+                
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441215);
                 INSERT INTO `quest_template`
                 SET `ID` = 441215,
@@ -3756,85 +4100,95 @@
                     `RequiredItemId1` = 901729,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Alliance - Quest Template Addon
+                    
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441215);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441215,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Sunken Temple - Atal''alarion - Alliance - Quest Offer Reward
+                    
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441215);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441215,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Alliance - Quest Request Items
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441215);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441215,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Shirvallah''s Tear please.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Alliance - Creature Quest Starter
+                    `CompletionText` = 'The Shirvallah''s Tear please.';
+                    
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441215);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441215,
                     `id` = 29093;
-
--- Sunken Temple - Atal''alarion - Alliance - Creature Quest Ender
+                    
+                
+                -- Sunken Temple - Atal''alarion - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441215);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441215, 
+                    SET `quest` = 441215,
                     `id` = 29093;
-
--- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Item template
+                    
+                
+                -- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901729);
                 INSERT INTO `item_template`
-                SET `entry` = 901729, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Shirvallah''s Tear', 
-                    `flags` = '2048', 
-                    `displayid` = 8436, 
-                    `Quality` = 1, 
+                SET `entry` = 901729,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Shirvallah''s Tear',
+                    `flags` = '2048',
+                    `displayid` = 8436,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Quest Item
+                
+                -- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 8580) AND (`ItemId` = 901729);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 8580, 
-                    `Idx` = 2, 
-                    `ItemId` = 901729, 
-                    `VerifiedBuild` = 0;
-
--- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Loot Template
+                SET `CreatureEntry` = 8580,
+                    `Idx` = 2,
+                    `ItemId` = 901729;
+                
+                
+                -- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 8580) AND (`Item` IN (901729));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 8580, 
-                    `Item` = 901729, 
+                SET `Entry` = 8580,
+                    `Item` = 901729,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Shirvallah''s Tear';
+   
+                
 
--- Sunken Temple - Atal''alarion - Horde - Pool Quest
+                -- *******************************************************
+
+                -- Sunken Temple - Atal''alarion - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441216);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441216,
-                    `pool_entry` = 300003, 
+                    `pool_entry` = 300003,
                     `description` = 'Atal''alarion';
-
--- Sunken Temple - Atal''alarion - Horde - Quest Template
+                
+                
+                -- Sunken Temple - Atal''alarion - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441216);
                 INSERT INTO `quest_template`
                 SET `ID` = 441216,
@@ -3865,53 +4219,60 @@
                     `RequiredItemId1` = 901729,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Horde - Quest Template Addon
+                    
+                
+                -- Sunken Temple - Atal''alarion - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441216);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441216,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 50, 
+                    `MaxLevel` = 50,
                     `SpecialFlags` = 1;
-
--- Sunken Temple - Atal''alarion - Horde - Quest Offer Reward
+                    
+                
+                -- Sunken Temple - Atal''alarion - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441216);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441216,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Horde - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Sunken Temple - Atal''alarion - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441216);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441216,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Shirvallah''s Tear please.',
-                    `VerifiedBuild` = 12340;
-
--- Sunken Temple - Atal''alarion - Horde - Creature Quest Starter
+                    `CompletionText` = 'The Shirvallah''s Tear please.';
+                    
+                
+                -- Sunken Temple - Atal''alarion - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441216);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441216,
                     `id` = 14392;
-
--- Sunken Temple - Atal''alarion - Horde - Creature Quest Ender
+                    
+                
+                -- Sunken Temple - Atal''alarion - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441216);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441216, 
+                    SET `quest` = 441216,
                     `id` = 14392;
+                    
+                
 
+                -- *******************************************************
 
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Pool Quest
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441217);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441217,
-                    `pool_entry` = 300018, 
+                    `pool_entry` = 300018,
                     `description` = 'Nazan';
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template
+                
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441217);
                 INSERT INTO `quest_template`
                 SET `ID` = 441217,
@@ -3942,85 +4303,95 @@
                     `RequiredItemId1` = 901730,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template Addon
+                    
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441217);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441217,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 64, 
+                    `MaxLevel` = 64,
                     `SpecialFlags` = 1;
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Offer Reward
+                    
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441217);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441217,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441217);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441217,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Fel Nether Essence please.',
-                    `VerifiedBuild` = 12340;
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Creature Quest Starter
+                    `CompletionText` = 'The Fel Nether Essence please.';
+                    
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441217);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441217,
                     `id` = 24370;
-
--- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Creature Quest Ender
+                    
+                
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441217);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441217, 
+                    SET `quest` = 441217,
                     `id` = 24370;
-
--- Hellfire Ramparts - Nazan - Fel Nether Essence - Item template
+                    
+                
+                -- Hellfire Ramparts - Nazan - Fel Nether Essence - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901730);
                 INSERT INTO `item_template`
-                SET `entry` = 901730, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Fel Nether Essence', 
-                    `flags` = '2048', 
-                    `displayid` = 21531, 
-                    `Quality` = 1, 
+                SET `entry` = 901730,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Fel Nether Essence',
+                    `flags` = '2048',
+                    `displayid` = 21531,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Hellfire Ramparts - Nazan - Fel Nether Essence - Quest Item
+                
+                -- Hellfire Ramparts - Nazan - Fel Nether Essence - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17536) AND (`ItemId` = 901730);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 17536, 
-                    `Idx` = 1, 
-                    `ItemId` = 901730, 
-                    `VerifiedBuild` = 0;
-
--- Hellfire Ramparts - Nazan - Fel Nether Essence - Loot Template
+                SET `CreatureEntry` = 17536,
+                    `Idx` = 1,
+                    `ItemId` = 901730;
+                
+                
+                -- Hellfire Ramparts - Nazan - Fel Nether Essence - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17536) AND (`Item` IN (901730));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 17536, 
-                    `Item` = 901730, 
+                SET `Entry` = 17536,
+                    `Item` = 901730,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Fel Nether Essence';
+   
+                
 
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Pool Quest
+                -- *******************************************************
+
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441218);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441218,
-                    `pool_entry` = 300018, 
+                    `pool_entry` = 300018,
                     `description` = 'Keli''dan the Breaker';
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template
+                
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441218);
                 INSERT INTO `quest_template`
                 SET `ID` = 441218,
@@ -4051,85 +4422,95 @@
                     `RequiredItemId1` = 901731,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template Addon
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441218);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441218,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 64, 
+                    `MaxLevel` = 64,
                     `SpecialFlags` = 1;
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Offer Reward
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441218);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441218,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441218);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441218,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Blood Crucible please.',
-                    `VerifiedBuild` = 12340;
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Creature Quest Starter
+                    `CompletionText` = 'The Blood Crucible please.';
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441218);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441218,
                     `id` = 24370;
-
--- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Creature Quest Ender
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441218);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441218, 
+                    SET `quest` = 441218,
                     `id` = 24370;
-
--- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Item template
+                    
+                
+                -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901731);
                 INSERT INTO `item_template`
-                SET `entry` = 901731, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Blood Crucible', 
-                    `flags` = '2048', 
-                    `displayid` = 46255, 
-                    `Quality` = 1, 
+                SET `entry` = 901731,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Blood Crucible',
+                    `flags` = '2048',
+                    `displayid` = 46255,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Quest Item
+                
+                -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17377) AND (`ItemId` = 901731);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 17377, 
-                    `Idx` = 1, 
-                    `ItemId` = 901731, 
-                    `VerifiedBuild` = 0;
-
--- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Loot Template
+                SET `CreatureEntry` = 17377,
+                    `Idx` = 1,
+                    `ItemId` = 901731;
+                
+                
+                -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (901731));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 17377, 
-                    `Item` = 901731, 
+                SET `Entry` = 17377,
+                    `Item` = 901731,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Blood Crucible';
+   
+                
 
--- Slave Pens - Quagmirran - Cenarion Expedition - Pool Quest
+                -- *******************************************************
+
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441219);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441219,
-                    `pool_entry` = 300018, 
+                    `pool_entry` = 300018,
                     `description` = 'Quagmirran';
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template
+                
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441219);
                 INSERT INTO `quest_template`
                 SET `ID` = 441219,
@@ -4160,74 +4541,80 @@
                     `RequiredItemId1` = 901732,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template Addon
+                    
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441219);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441219,
                     `ProvidedItemCount` = 1,
-                    `MaxLevel` = 64, 
+                    `MaxLevel` = 64,
                     `SpecialFlags` = 1;
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Quest Offer Reward
+                    
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441219);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441219,
                     `Emote1` = 1,
-                    `RewardText` = '',
-                    `VerifiedBuild` = 12340;
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Quest Request Items
+                    `RewardText` = '';
+                    
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441219);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441219,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Blood Crucible please.',
-                    `VerifiedBuild` = 12340;
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Starter
+                    `CompletionText` = 'The Blood Crucible please.';
+                    
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441219);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441219,
                     `id` = 24370;
-
--- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Ender
+                    
+                
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441219);
                 INSERT INTO `creature_questender`
-                    SET `quest` = 441219, 
+                    SET `quest` = 441219,
                     `id` = 24370;
-
--- Slave Pens - Quagmirran - Blood Crucible - Item template
+                    
+                
+                -- Slave Pens - Quagmirran - Blood Crucible - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901732);
                 INSERT INTO `item_template`
-                SET `entry` = 901732, 
-                    `class` = 12, 
-                    `subclass` = 0, 
-                    `name` = 'Blood Crucible', 
-                    `flags` = '2048', 
-                    `displayid` = 46255, 
-                    `Quality` = 1, 
+                SET `entry` = 901732,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Blood Crucible',
+                    `flags` = '2048',
+                    `displayid` = 46255,
+                    `Quality` = 1,
                     `bonding` = 4;
 
--- Slave Pens - Quagmirran - Blood Crucible - Quest Item
+                
+                -- Slave Pens - Quagmirran - Blood Crucible - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17942) AND (`ItemId` = 901732);
                 INSERT INTO `creature_questitem`
-                SET `CreatureEntry` = 17942, 
-                    `Idx` = 0, 
-                    `ItemId` = 901732, 
-                    `VerifiedBuild` = 0;
-
--- Slave Pens - Quagmirran - Blood Crucible - Loot Template
+                SET `CreatureEntry` = 17942,
+                    `Idx` = 0,
+                    `ItemId` = 901732;
+                
+                
+                -- Slave Pens - Quagmirran - Blood Crucible - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17942) AND (`Item` IN (901732));
                 INSERT INTO `creature_loot_template`
-                SET `Entry` = 17942, 
-                    `Item` = 901732, 
+                SET `Entry` = 17942,
+                    `Item` = 901732,
                     `Chance` = 100, 
-                    `QuestRequired` = 1, 
-                    `LootMode` = 1, 
-                    `GroupId` = 0, 
-                    `MinCount` = 1, 
-                    `MaxCount` = 1, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
                     `Comment` = 'Blood Crucible';
-
+   
+                

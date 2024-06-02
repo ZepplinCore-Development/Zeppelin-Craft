@@ -116,114 +116,142 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
             if item_name:
 
                 # Generating the SQL queries with exact format
-                pool_query = f"-- {dungeon} - {boss_name} - {faction} - Pool Quest\n\
-                DELETE FROM `pool_quest` WHERE (`entry` = {quest_id});\n\
-                INSERT INTO `pool_quest`\n\
-                SET `entry` = {quest_id},\n\
-                    `pool_entry` = {pool_id}, \n\
-                    `description` = '{boss_name}';\n\n"
+                pool_query = f"""
+                -- *******************************************************
 
-                quest_template_query = f"-- {dungeon} - {boss_name} - {faction} - Quest Template\n\
-                DELETE FROM `quest_template` WHERE (`ID` = {quest_id});\n\
-                INSERT INTO `quest_template`\n\
-                SET `ID` = {quest_id},\n\
-                    `QuestType` = 2,\n\
-                    `QuestLevel` = {boss_level},\n\
-                    `MinLevel` = {pool_min},\n\
-                    `QuestSortID` = {sort_id},\n\
-                    `QuestInfoID` = 81,\n\
-                    `RewardXPDifficulty` = 7,\n\
-                    `RewardMoney` = {money},\n\
-                    `StartItem` = {teleport_orb_id},\n\
-                    `Flags` = {flag},\n\
-                    `RewardChoiceItemID1` = {reward_1},\n\
-                    `RewardChoiceItemQuantity1` = 1,\n\
-                    `RewardChoiceItemID2` = {reward_2},\n\
-                    `RewardChoiceItemQuantity2` = 1,\n\
-                    `RewardFactionID1` = {rep1},\n\
-                    `RewardFactionValue1` = 6,\n\
-                    `RewardFactionID2` = {rep2},\n\
-                    `RewardFactionValue2` = 6,\n\
-                    `RewardFactionID3` = {rep3},\n\
-                    `RewardFactionValue3` = 6,\n\
-                    `LogTitle` = 'Wanted: {item_name}',\n\
-                    `LogDescription` = 'Retrieve the {item_name} from {boss_name} in {dungeon}.',\n\
-                    `QuestDescription` = '{quest_desc}',\n\
-                    `AreaDescription` = '',\n\
-                    `QuestCompletionLog` = 'Return the {item_name} to {quest_npc_name} in {npc_city}.',\n\
-                    `RequiredItemId1` = {item_id},\n\
-                    `RequiredItemCount1` = 1,\n\
-                    `VerifiedBuild` = 12340;\n\n"
+                -- {dungeon} - {boss_name} - {faction} - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = {quest_id});
+                INSERT INTO `pool_quest`
+                SET `entry` = {quest_id},
+                    `pool_entry` = {pool_id},
+                    `description` = '{boss_name}';
+                
+                """
 
-                quest_template_addon_query = f"-- {dungeon} - {boss_name} - {faction} - Quest Template Addon\n\
-                DELETE FROM `quest_template_addon` WHERE (`ID` = {quest_id});\n\
-                INSERT INTO `quest_template_addon`\n\
-                SET `ID` = {quest_id},\n\
-                    `ProvidedItemCount` = 1,\n\
-                    `MaxLevel` = {pool_max}, \n\
-                    `SpecialFlags` = 1;\n\n"
+                quest_template_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = {quest_id});
+                INSERT INTO `quest_template`
+                SET `ID` = {quest_id},
+                    `QuestType` = 2,
+                    `QuestLevel` = {boss_level},
+                    `MinLevel` = {pool_min},
+                    `QuestSortID` = {sort_id},
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = {money},
+                    `StartItem` = {teleport_orb_id},
+                    `Flags` = {flag},
+                    `RewardChoiceItemID1` = {reward_1},
+                    `RewardChoiceItemQuantity1` = 1,
+                    `RewardChoiceItemID2` = {reward_2},
+                    `RewardChoiceItemQuantity2` = 1,
+                    `RewardFactionID1` = {rep1},
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = {rep2},
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = {rep3},
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: {item_name}',
+                    `LogDescription` = 'Retrieve the {item_name} from {boss_name} in {dungeon}.',
+                    `QuestDescription` = '{quest_desc}',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the {item_name} to {quest_npc_name} in {npc_city}.',
+                    `RequiredItemId1` = {item_id},
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                """
 
-                quest_offer_reward_query = f"-- {dungeon} - {boss_name} - {faction} - Quest Offer Reward\n\
-                DELETE FROM `quest_offer_reward` WHERE (`ID` = {quest_id});\n\
-                INSERT INTO `quest_offer_reward`\n\
-                SET `ID` = {quest_id},\n\
-                    `Emote1` = 1,\n\
-                    `RewardText` = '{reward_text}',\n\
-                    `VerifiedBuild` = 12340;\n\n"
+                quest_template_addon_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = {quest_id});
+                INSERT INTO `quest_template_addon`
+                SET `ID` = {quest_id},
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = {pool_max},
+                    `SpecialFlags` = 1;
+                    
+                """
 
-                quest_request_items_query = f"-- {dungeon} - {boss_name} - {faction} - Quest Request Items\n\
-                DELETE FROM `quest_request_items` WHERE (`ID` = {quest_id});\n\
-                INSERT INTO `quest_request_items`\n\
-                SET `ID` = {quest_id},\n\
-                    `EmoteOnComplete` = 1,\n\
-                    `EmoteOnIncomplete` = 1,\n\
-                    `CompletionText` = 'The {item_name} please.',\n\
-                    `VerifiedBuild` = 12340;\n\n"
+                quest_offer_reward_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = {quest_id});
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = {quest_id},
+                    `Emote1` = 1,
+                    `RewardText` = '{reward_text}';
+                    
+                """
 
-                creature_queststarter_query = f"-- {dungeon} - {boss_name} - {faction} - Creature Quest Starter\n\
-                DELETE FROM `creature_queststarter` WHERE (`quest` = {quest_id});\n\
-                INSERT INTO `creature_queststarter`\n\
-                SET`quest` = {quest_id},\n\
-                    `id` = {quest_npc_id};\n\n"
+                quest_request_items_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = {quest_id});
+                INSERT INTO `quest_request_items`
+                SET `ID` = {quest_id},
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The {item_name} please.';
+                    
+                """
 
-                creature_questender_query = f"-- {dungeon} - {boss_name} - {faction} - Creature Quest Ender\n\
-                DELETE FROM `creature_questender` WHERE (`quest` = {quest_id});\n\
-                INSERT INTO `creature_questender`\n\
-                    SET `quest` = {quest_id}, \n\
-                    `id` = {quest_npc_id};\n\n"
+                creature_queststarter_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = {quest_id});
+                INSERT INTO `creature_queststarter`
+                SET`quest` = {quest_id},
+                    `id` = {quest_npc_id};
+                    
+                """
 
-                item_template_query = f"-- {dungeon} - {boss_name} - {item_name} - Item template\n\
-                DELETE FROM `item_template` WHERE (`entry` = {item_id});\n\
-                INSERT INTO `item_template`\n\
-                SET `entry` = {item_id}, \n\
-                    `class` = 12, \n\
-                    `subclass` = 0, \n\
-                    `name` = '{item_name}', \n\
-                    `flags` = '2048', \n\
-                    `displayid` = {item_display_id}, \n\
-                    `Quality` = 1, \n\
-                    `bonding` = 4;\n\n"
+                creature_questender_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = {quest_id});
+                INSERT INTO `creature_questender`
+                    SET `quest` = {quest_id},
+                    `id` = {quest_npc_id};
+                    
+                """
 
-                quest_item_query = f"-- {dungeon} - {boss_name} - {item_name} - Quest Item\n\
-                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = {boss_id}) AND (`ItemId` = {item_id});\n\
-                INSERT INTO `creature_questitem`\n\
-                SET `CreatureEntry` = {boss_id}, \n\
-                    `Idx` = {boss_idx}, \n\
-                    `ItemId` = {item_id}, \n\
-                    `VerifiedBuild` = 0;\n\n"
+                item_template_query = f"""
+                -- {dungeon} - {boss_name} - {item_name} - Item template
+                DELETE FROM `item_template` WHERE (`entry` = {item_id});
+                INSERT INTO `item_template`
+                SET `entry` = {item_id},
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = '{item_name}',
+                    `flags` = '2048',
+                    `displayid` = {item_display_id},
+                    `Quality` = 1,
+                    `bonding` = 4;
 
-                loot_template_query = f"-- {dungeon} - {boss_name} - {item_name} - Loot Template\n\
-                DELETE FROM `creature_loot_template` WHERE (`Entry` = {boss_id}) AND (`Item` IN ({item_id}));\n\
-                INSERT INTO `creature_loot_template`\n\
-                SET `Entry` = {boss_id}, \n\
-                    `Item` = {item_id}, \n\
+                """
+
+                quest_item_query = f"""
+                -- {dungeon} - {boss_name} - {item_name} - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = {boss_id}) AND (`ItemId` = {item_id});
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = {boss_id},
+                    `Idx` = {boss_idx},
+                    `ItemId` = {item_id};
+                
+                """
+                loot_template_query = f"""
+                -- {dungeon} - {boss_name} - {item_name} - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = {boss_id}) AND (`Item` IN ({item_id}));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = {boss_id},
+                    `Item` = {item_id},
                     `Chance` = 100, \n\
-                    `QuestRequired` = 1, \n\
-                    `LootMode` = 1, \n\
-                    `GroupId` = 0, \n\
-                    `MinCount` = 1, \n\
-                    `MaxCount` = 1, \n\
-                    `Comment` = '{item_name}';\n"
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = '{item_name}';
+   
+                """
                 
                 # Combine all queries for this boss into one string
                 boss_queries = pool_query + quest_template_query + quest_template_addon_query + quest_offer_reward_query + quest_request_items_query + creature_queststarter_query + creature_questender_query

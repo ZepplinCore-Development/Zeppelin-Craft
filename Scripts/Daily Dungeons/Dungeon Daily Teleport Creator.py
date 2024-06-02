@@ -33,7 +33,7 @@ def generate_sql_queries(teleports_csv_file_path):
             z_loc = row[6]
             orientation = row[7]
 
-            if orb_spell:
+            if map:
 
                 # Generating the SQL queries with exact format
                 spell_position_query = f"-- {dungeon} - Teleport Location\n\
