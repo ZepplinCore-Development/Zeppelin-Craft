@@ -4,7 +4,7 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclas
 (902329, 15, 0, -1, 'Clam Knight Conch', 7177, 4, 4, 0, 1, 0, 0, 0, -1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 'Caress the conch to claim the Clam Knight crafting cache', 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 1);
 
 -- Item loot
-DELETE FROM `item_loot_template` WHERE (`Entry` = 902329) AND (`Item` IN (32566, 33223, 54452));
+DELETE FROM `item_loot_template` WHERE (`Entry` = 902329) AND (`Item` IN (902310, 902327, 902328));
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (902329, 902310, 0, 100, 0, 1, 4, 1, 1, 'Compressed Thermal Anvil'),
 (902329, 902327, 0, 100, 0, 1, 5, 1, 1, 'Portable Guild Bank'),
