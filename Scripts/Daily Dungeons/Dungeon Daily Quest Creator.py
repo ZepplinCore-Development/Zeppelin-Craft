@@ -80,19 +80,27 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
             match difficulty:
                 case "Vanilla Normal":
                     reward_1 = 901200 # Emblem of Adventure
+                    rewardamount_1 = 1
                     reward_2 = 901203 # Experience Orb
+                    rewardamount_2 = 1
 
                 case "Vanilla Heroic":
-                    reward_1 = 901202 # Emblem of Bravery
+                    reward_1 = 901200 # Emblem of Adventure
+                    rewardamount_1 = 2
                     reward_2 = 901203 # Experience Orb
+                    rewardamount_2 = 1
 
                 case "Vanilla Mythic":
-                    reward_1 = 901204 # Emblem of Resilience
+                    reward_1 = 901200 # Emblem of Adventure
+                    rewardamount_1 = 3
                     reward_2 = 901203 # Experience Orb
+                    rewardamount_2 = 1
 
                 case "Outland Normal":
                     reward_1 = 29434 # Badge of Justice
+                    rewardamount_1 = 1
                     reward_2 = 901203 # Experience Orb
+                    rewardamount_2 = 1
 
             match faction:
                 case "Horde":
@@ -159,10 +167,10 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     `RewardMoney` = {money},
                     `StartItem` = {teleport_orb_id},
                     `Flags` = {flag},
-                    `RewardChoiceItemID1` = {reward_1},
-                    `RewardChoiceItemQuantity1` = 1,
-                    `RewardChoiceItemID2` = {reward_2},
-                    `RewardChoiceItemQuantity2` = 1,
+                    `RewardItem1` = {reward_1},
+                    `RewardAmount1` = {rewardamount_1},
+                    `RewardItem2` = {reward_2},
+                    `RewardAmount2` = {rewardamount_2},
                     `RewardFactionID1` = {rep1},
                     `RewardFactionValue1` = 6,
                     `RewardFactionID2` = {rep2},
