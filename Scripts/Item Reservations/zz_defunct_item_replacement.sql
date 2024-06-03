@@ -45,29 +45,6 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900105 THEN 902300
     -- Quest Items Vanilla
     WHEN `itemEntry` = 900191 THEN 902200
-    WHEN `itemEntry` = 900219 THEN 902201
-    WHEN `itemEntry` = 900220 THEN 902202
-    WHEN `itemEntry` = 900221 THEN 902203
-    WHEN `itemEntry` = 900222 THEN 902204
-    WHEN `itemEntry` = 900223 THEN 902205
-    WHEN `itemEntry` = 900224 THEN 902206
-    WHEN `itemEntry` = 900225 THEN 902207
-    WHEN `itemEntry` = 900226 THEN 902208
-    WHEN `itemEntry` = 900227 THEN 902209
-    WHEN `itemEntry` = 900228 THEN 902210
-    WHEN `itemEntry` = 900229 THEN 902211
-    WHEN `itemEntry` = 900230 THEN 902212
-    WHEN `itemEntry` = 900231 THEN 902213
-    WHEN `itemEntry` = 900232 THEN 902214
-    WHEN `itemEntry` = 900233 THEN 902215
-    WHEN `itemEntry` = 900234 THEN 902216
-    WHEN `itemEntry` = 900235 THEN 902217
-    WHEN `itemEntry` = 900242 THEN 902218
-    WHEN `itemEntry` = 900243 THEN 902219
-    WHEN `itemEntry` = 900246 THEN 902220
-    WHEN `itemEntry` = 900247 THEN 902221
-    WHEN `itemEntry` = 900248 THEN 902222
-    WHEN `itemEntry` = 900249 THEN 902223
     WHEN `itemEntry` = 900284 THEN 902224
     -- Add more conditions as needed
     ELSE `itemEntry`
