@@ -23,11 +23,9 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900102 THEN 901002   
     WHEN `itemEntry` = 900103 THEN 901003
     -- Emblems and Satchels
-    WHEN `itemEntry` = 900104 THEN 901200
+    WHEN `itemEntry` = 901200 THEN 901200
     WHEN `itemEntry` = 900117 THEN 901201
-    WHEN `itemEntry` = 900118 THEN 901202
     WHEN `itemEntry` = 900189 THEN 901203
-    WHEN `itemEntry` = 900190 THEN 901204
     WHEN `itemEntry` = 900214 THEN 901205
     -- Stockades
     WHEN `itemEntry` = 900106 THEN 901100
