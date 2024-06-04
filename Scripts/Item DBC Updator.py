@@ -12,10 +12,10 @@ try:
     acore_world_conn = mysql.connector.connect(**acore_world_db_config)
     acore_world_cursor = acore_world_conn.cursor()
 
-    acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= 901000")
+    acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= 56806")
     item_templates = acore_world_cursor.fetchall()
 
-    delete_query = "DELETE FROM dbc.item WHERE itemID >= 901000;"
+    delete_query = "DELETE FROM dbc.item WHERE itemID >= 56806;"
     print(delete_query)
 
     # Constructing a single SQL statement for batch insert
