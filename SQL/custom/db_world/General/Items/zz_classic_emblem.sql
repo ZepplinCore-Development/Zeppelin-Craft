@@ -1,4 +1,4 @@
-w-- Emblem of Adventure
+-- Emblem of Adventure
     DELETE FROM `item_template` WHERE (`entry` = 901200);
     INSERT INTO `item_template`
     SET `entry` = 901200,
