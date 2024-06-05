@@ -138,6 +138,14 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     reward_text = "My buyer will be most pleased."
                     flag = "4232"               
 
+                case "Consortium":
+                    quest_npc_name = "Nether-Stalker Mah''duun"
+                    quest_npc_id = "24370"
+                    npc_city = "Shattrath"  
+                    rep1 = "933" # Consortium reputation
+                    reward_text = "My buyer will be most pleased."
+                    flag = "4232"    
+
             if item_name:
 
                 # Generating the SQL queries with exact format

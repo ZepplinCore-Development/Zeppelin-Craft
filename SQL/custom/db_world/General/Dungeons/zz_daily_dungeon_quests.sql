@@ -4618,3 +4618,122 @@
                     `Comment` = 'Ancient Fungus';
    
                 
+
+                -- *******************************************************
+
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441220);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441220,
+                    `pool_entry` = 300019,
+                    `description` = 'Nexus-Prince Shaffar';
+                
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441220);
+                INSERT INTO `quest_template`
+                SET `ID` = 441220,
+                    `QuestType` = 2,
+                    `QuestLevel` = 66,
+                    `MinLevel` = 65,
+                    `QuestSortID` = 3792,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 196020.0,
+                    `StartItem` = 901947,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Ring of Shaffar',
+                    `LogDescription` = 'Retrieve the Ring of Shaffar from Nexus-Prince Shaffar in Mana-Tombs.',
+                    `QuestDescription` = 'It has been revealed to Mah''duun that Nexus-Prince Shaffar, within the Mana Tombs, guards a precious artifact: the Ring of Shaffar. This ring is a symbol of his royal claim and holds significant value. Your mission is to enter the tombs, vanquish Shaffar, and retrieve the ring. Use this teleport orb to reach the dungeon directly. A generous bounty awaits you.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Ring of Shaffar to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901733,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441220);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441220,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 68,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441220);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441220,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441220);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441220,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Ring of Shaffar please.';
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441220);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441220,
+                    `id` = 24370;
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441220);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441220,
+                    `id` = 24370;
+                    
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901733);
+                INSERT INTO `item_template`
+                SET `entry` = 901733,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Ring of Shaffar',
+                    `flags` = '2048',
+                    `displayid` = 24646,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18344) AND (`ItemId` = 901733);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 18344,
+                    `Idx` = 1,
+                    `ItemId` = 901733;
+                
+                
+                -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 18344) AND (`Item` IN (901733));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 18344,
+                    `Item` = 901733,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Ring of Shaffar';
+   
+                
