@@ -32,6 +32,7 @@
         `BagFamily` = 1, -- Arrow
         `ItemLevel` = 96,
         `RequiredLevel` = 58,
+        `stackable` = 1000,
         `dmg_min1` = 26,
         `dmg_max1` = 26,
         `delay` = 3000;
