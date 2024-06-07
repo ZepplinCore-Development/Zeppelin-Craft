@@ -90,7 +90,7 @@
                     `subclass` = 0,
                     `name` = 'Razor Petal',
                     `flags` = '2048',
-                    `displayid` = 7406,
+                    `displayid` = 148466,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -293,7 +293,7 @@
                     `subclass` = 0,
                     `name` = 'Carved Horn of Remulos',
                     `flags` = '2048',
-                    `displayid` = 18072,
+                    `displayid` = 140886,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -699,7 +699,7 @@
                     `subclass` = 0,
                     `name` = 'Fangfire Amulet',
                     `flags` = '2048',
-                    `displayid` = 9852,
+                    `displayid` = 134413,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -902,7 +902,7 @@
                     `subclass` = 0,
                     `name` = 'Gauntlets of Growth',
                     `flags` = '2048',
-                    `displayid` = 6991,
+                    `displayid` = 137053,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -1105,7 +1105,7 @@
                     `subclass` = 0,
                     `name` = 'Frozen Bone',
                     `flags` = '2048',
-                    `displayid` = 6668,
+                    `displayid` = 135035,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -1308,7 +1308,7 @@
                     `subclass` = 0,
                     `name` = 'Everliving Spore',
                     `flags` = '2048',
-                    `displayid` = 37658,
+                    `displayid` = 140658,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -1511,7 +1511,7 @@
                     `subclass` = 0,
                     `name` = 'Searing Stone',
                     `flags` = '2048',
-                    `displayid` = 22952,
+                    `displayid` = 145286,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -1714,7 +1714,7 @@
                     `subclass` = 0,
                     `name` = 'Plugg Nuts',
                     `flags` = '2048',
-                    `displayid` = 7072,
+                    `displayid` = 139111,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -1917,7 +1917,7 @@
                     `subclass` = 0,
                     `name` = 'Void Pearl',
                     `flags` = '2048',
-                    `displayid` = 16209,
+                    `displayid` = 148534,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -2120,7 +2120,7 @@
                     `subclass` = 0,
                     `name` = 'Bloodfire Amulet',
                     `flags` = '2048',
-                    `displayid` = 9658,
+                    `displayid` = 141737,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -2323,7 +2323,7 @@
                     `subclass` = 0,
                     `name` = 'Resonating Stone of Unity',
                     `flags` = '2048',
-                    `displayid` = 22978,
+                    `displayid` = 148088,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -2526,7 +2526,7 @@
                     `subclass` = 0,
                     `name` = 'Sandfury War Drum',
                     `flags` = '2048',
-                    `displayid` = 41062,
+                    `displayid` = 136443,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -2729,7 +2729,7 @@
                     `subclass` = 0,
                     `name` = 'Dream Seed',
                     `flags` = '2048',
-                    `displayid` = 21149,
+                    `displayid` = 148062,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -2932,7 +2932,7 @@
                     `subclass` = 0,
                     `name` = 'Incendiary Core',
                     `flags` = '2048',
-                    `displayid` = 28291,
+                    `displayid` = 153546,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -3135,7 +3135,7 @@
                     `subclass` = 0,
                     `name` = 'Scepter of Sylvan Corruption',
                     `flags` = '2048',
-                    `displayid` = 20824,
+                    `displayid` = 140672,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -3338,7 +3338,7 @@
                     `subclass` = 0,
                     `name` = 'Arcane Orb of Doan',
                     `flags` = '2048',
-                    `displayid` = 7041,
+                    `displayid` = 139137,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -3744,7 +3744,7 @@
                     `subclass` = 0,
                     `name` = 'Stabby Patty Secret Formula',
                     `flags` = '2048',
-                    `displayid` = 6270,
+                    `displayid` = 140306,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -3947,7 +3947,7 @@
                     `subclass` = 0,
                     `name` = 'Titanforged Beacon',
                     `flags` = '2048',
-                    `displayid` = 18632,
+                    `displayid` = 134883,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4150,7 +4150,7 @@
                     `subclass` = 0,
                     `name` = 'Shirvallah''s Tear',
                     `flags` = '2048',
-                    `displayid` = 8436,
+                    `displayid` = 141656,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4353,7 +4353,7 @@
                     `subclass` = 0,
                     `name` = 'Fel Nether Essence',
                     `flags` = '2048',
-                    `displayid` = 21531,
+                    `displayid` = 153818,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4591,7 +4591,7 @@
                     `subclass` = 0,
                     `name` = 'Ancient Fungus',
                     `flags` = '2048',
-                    `displayid` = 19566,
+                    `displayid` = 139007,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4710,7 +4710,7 @@
                     `subclass` = 0,
                     `name` = 'Ring of Shaffar',
                     `flags` = '2048',
-                    `displayid` = 24646,
+                    `displayid` = 148782,
                     `Quality` = 1,
                     `bonding` = 4;
 
