@@ -1,4 +1,0 @@
-INSERT INTO `dungeon_access_requirements` (`dungeon_access_id`, `requirement_type`, `requirement_id`, `requirement_note`, `faction`, `priority`, `leader_only`, `comment`) VALUES (64, 2, 27991, 'You must obtain the Shadow Labyrinth key.', 2, NULL, 0, 'Normal Shadow Labs');
-INSERT INTO `dungeon_access_requirements` (`dungeon_access_id`, `requirement_type`, `requirement_id`, `requirement_note`, `faction`, `priority`, `leader_only`, `comment`) VALUES (61, 2, 31084, 'You must obtain the Arcatraz key.', 2, NULL, 0, 'Normal Arcatraz');
-INSERT INTO `dungeon_access_requirements` (`dungeon_access_id`, `requirement_type`, `requirement_id`, `requirement_note`, `faction`, `priority`, `leader_only`, `comment`) VALUES (54, 2, 28395, 'You must obtain the Shattered Halls Key.', 2, NULL, 0, 'Normal Shattered Halls');
-
