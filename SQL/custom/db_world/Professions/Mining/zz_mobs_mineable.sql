@@ -174,3 +174,5 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`e
 
 -- Infernal Warbringer
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
+-- Raging Colossus
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19188);
