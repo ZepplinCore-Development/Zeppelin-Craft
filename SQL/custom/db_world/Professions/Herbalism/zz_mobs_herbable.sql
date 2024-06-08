@@ -1,4 +1,4 @@
--- 1 - 15 Mobs
+-- Azeroth 1 - 15 Mobs
 
 -- Mutated Root Lasher
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100040 WHERE (`entry` = 16517);
@@ -41,7 +41,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100040 WHERE (`e
 -- Mutated Constrictor
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100040 WHERE (`entry` = 17344);
 
--- 16 - 25 MOBS
+-- Azeroth 16 - 25 MOBS
 
 -- Lake Creeper
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100041 WHERE (`entry` = 1955);
@@ -80,7 +80,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100041 WHERE (`e
 -- Elder Lake Skulker
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100041 WHERE (`entry` = 1954);
 
--- 26 - 35 MOBS
+-- Azeroth 26 - 35 MOBS
 
 -- Shadethicket Oracle
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 3931);
@@ -109,7 +109,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`e
 -- Wandering Protector
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100042 WHERE (`entry` = 12836);
 
--- 36 - 45 MOBS
+-- Azeroth 36 - 45 MOBS
 
 -- Withervine Rager
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`entry` = 4385);
@@ -150,7 +150,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`e
 -- Swampwalker
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100043 WHERE (`entry` = 764);
 
--- 46 - 55 MOBS
+-- Azeroth 46 - 55 MOBS
 
 -- Warpwood Tangler
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100044 WHERE (`entry` = 11464);
@@ -207,7 +207,7 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100044 WHERE (`e
 -- Thistleshrub Dew Collector
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100044 WHERE (`entry` = 5481);
 
--- 56 - 60 MOBS
+-- Azeroth 56 - 60 MOBS
 
 -- The Husk
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100045 WHERE (`entry` = 1851);
@@ -235,3 +235,55 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100045 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100045 WHERE (`entry` = 11458);
 -- Fel Lash
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100045 WHERE (`entry` = 13197);
+
+-- Outland 60 - 70 MOBS
+
+-- Bog Giant
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 17723);
+-- Underbog Lurker
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 17725);
+-- Underbog Lord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 17734);
+-- Hungarfen
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 17770);
+-- Underbog Shambler
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 17871);
+-- Farahlon Lasher
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 20774);
+-- Stronglimb Deeproot
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21023);
+-- Outraged Raven's Wood Sapling
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21040);
+-- Raven's Wood Stonebark
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21325);
+-- Raven's Wood Leafbeard
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21326);
+-- Bog Overlord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21694);
+-- Serpentshrine Lurker
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21863);
+
+
+-- Outland 70+ MOBS
+
+-- Underbog Colossus
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 21251);
+-- Warp Splinter
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 17977);
+-- Underbog Lurker (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 20188);
+-- Bog Giant (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 20164);
+-- Hungarfen (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 20169);
+-- Underbog Lord (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 20187);
+-- Underbog Shambler (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 20190);
+-- Warp Splinter (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 21582);
+-- Bog Overlord (1)
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 21914);
+-- Talonsworn Forest-Rager
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 23029);
+

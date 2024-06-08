@@ -1,4 +1,4 @@
--- 1 - 15 Herbalism Loot
+-- Azeroth 1 - 15 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100040);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100040, 765, 0, 0, 0, 1, 1, 1, 3, 'Silverleaf'),
@@ -9,7 +9,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100040, 2450, 0, 0, 0, 1, 1, 1, 3, 'Briarthorn'),
 (100040, 23331, 0, 0, 0, 1, 1, 1, 2, 'Broken Vine');
 
--- 16 - 25 Herbalism Loot
+-- Azeroth 16 - 25 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100041);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100041, 2452, 0, 0, 0, 1, 1, 1, 3, 'Swiftthistle'),
@@ -21,7 +21,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100041, 3356, 0, 0, 0, 1, 1, 1, 1, 'Kingsblood'),
 (100041, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
--- 26 - 35 Herbalism Loot
+-- Azeroth 26 - 35 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100042);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100042, 3356, 0, 0, 0, 1, 1, 1, 1, 'Kingsblood'),
@@ -31,7 +31,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100042, 3358, 0, 0, 0, 1, 1, 1, 3, 'Khadgars Whisker'),
 (100042, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
--- 36 - 45 Herbalism Loot
+-- Azeroth 36 - 45 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100043);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100043, 3821, 0, 0, 0, 1, 1, 1, 1, 'Goldthorn'),
@@ -43,7 +43,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100043, 8838, 0, 0, 0, 1, 1, 1, 1, 'Sungrass'),
 (100043, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
--- 46 - 55 Herbalism Loot
+-- Azeroth 46 - 55 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100044);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100044, 8831, 0, 0, 0, 1, 1, 1, 1, 'Purple Lotus'),
@@ -57,7 +57,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100044, 13465, 0, 0, 0, 1, 1, 1, 1, 'Mountain Silversage'),
 (100044, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
--- 56 - 60 Herbalism Loot
+-- Azeroth 56 - 60 Herbalism Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100045);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100045, 13463, 0, 20, 0, 1, 1, 1, 1, 'Dreamfoil'),
@@ -66,3 +66,27 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100045, 13467, 0, 20, 0, 1, 1, 1, 1, 'Icecap'),
 (100045, 13468, 0, 5, 0, 1, 1, 1, 1, 'Black Lotus'),
 (100045, 23331, 0, 15, 0, 1, 1, 1, 3, 'Broken Vine');
+
+-- Outland 60 - 70 Herbalism Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100046);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100046, 22785, 0, 0, 0, 1, 2, 1, 1, 'Felweed'),
+(100046, 22786, 0, 0, 0, 1, 2, 1, 1, 'Dreaming Glory'),
+(100046, 22787, 0, 0, 0, 1, 2, 1, 1, 'Ragveil'),
+(100046, 22789, 0, 0, 0, 1, 2, 1, 1, 'Terocone'),
+(100046, 22790, 0, 0, 0, 1, 2, 1, 1, 'Ancient Lichen'),
+(100046, 22575, 0, 10, 0, 1, 1, 1, 2, 'Mote of Life'),
+(100046, 22794, 0, 1, 0, 1, 1, 1, 1, 'Fel Lotus'),
+(100046, 24401, 0, 0, 0, 1, 1, 1, 1, 'Unidentified Plant Parts');
+
+-- Outland 70+ Herbalism Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100047);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100047, 22785, 0, 0, 0, 1, 2, 1, 1, 'Felweed'),
+(100047, 22786, 0, 0, 0, 1, 2, 1, 1, 'Dreaming Glory'),
+(100047, 22787, 0, 0, 0, 1, 3, 1, 1, 'Ragveil'),
+(100047, 22789, 0, 0, 0, 1, 2, 1, 1, 'Terocone'),
+(100047, 22790, 0, 0, 0, 1, 3, 1, 1, 'Ancient Lichen'),
+(100047, 22793, 0, 0, 0, 1, 3, 1, 1, 'Mana Thistle'),
+(100047, 22575, 0, 20, 0, 1, 1, 1, 3, 'Mote of Life'),
+(100047, 22794, 0, 2, 0, 1, 1, 1, 1, 'Fel Lotus');
