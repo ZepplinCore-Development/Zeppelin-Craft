@@ -106,5 +106,5 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100028, 12904, 12904, 5, 0, 1, 1, 1, 1, NULL), -- GREEN GEMS REFERENCE TABLE
 (100028, 12902, 12902, 2, 0, 1, 1, 1, 1, NULL), -- BLUE GEMS REFERENCE TABLE
 (100028, 23427, 0, 5, 0, 1, 0, 1, 2, 'Eternium Ore'),
-(100028, 23425, 0, 10, 0, 1, 0, 1, 2, 'Khorium Ore'),
+(100028, 23426, 0, 10, 0, 1, 0, 1, 2, 'Khorium Ore'),
 (100028, 23425, 0, 85, 0, 1, 0, 1, 2, 'Adamantite Ore');
