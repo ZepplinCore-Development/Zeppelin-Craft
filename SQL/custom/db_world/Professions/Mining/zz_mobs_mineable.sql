@@ -170,9 +170,81 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`e
 -- Garr
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`entry` = 12057);
 
--- TBC Creatures 60 - ??
+-- TBC Creatures 60 - 65
 
 -- Infernal Warbringer
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
 -- Raging Colossus
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19188);
+-- Enraged Crusher
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 18062);
+-- Tortured Earth Spirit
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 17156);
+-- Crystalhide Colossus
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19066);
+-- Lured Colossus
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 20599);
+
+
+-- TBC Creatures 65 - 69
+
+-- Shattered Rumbler
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 17157);
+-- Enraged Crusher
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18062);
+-- Gurok the Usurper
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18182);
+-- Morcrush
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18690);
+-- Sundered Rumbler
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18881);
+-- Sundered Thunderer
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18882);
+-- Farahlon Giant
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18885);
+-- Farahlon Breaker
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 18886);
+-- Crazed Colossus
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19823);
+-- Son of Corok
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19824);
+-- Apex
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 19940);
+-- Cragskaar
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20202);
+-- Sundered Shard
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20498);
+-- Netherock
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 20772);
+-- Enraged Earth Spirit
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 21050);
+-- Crazed Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 21936);
+-- Behemothon, King of the Colossi
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22054);
+-- Morcrush Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22344);
+-- Mountain Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22390);
+-- Vortex Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22391);
+
+
+-- TBC Creatures 70+
+
+-- Netherock
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 20772);
+-- Cyrukh the Firelord
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 21181);
+-- Mountain Colossus
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 21844);
+-- Corok the Mighty
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22011);
+-- Behemothon, King of the Colossi
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22054);
+-- Apexis Guardian
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 22275);
+-- Karrog
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 23165);
+-- The Grand Collector
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100028 WHERE (`entry` = 23333);

@@ -78,13 +78,33 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100025, 7910, 0, 5, 0, 1, 2, 1, 1, 'Star Ruby'),
 (100025, 10620, 0, 40, 0, 1, 2, 1, 3, 'Thorium Ore');
 
--- 61 - ??
+-- Outlands 60 - 65 Mining Loot
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100026);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(100026, 22573, 0, 10, 0, 1, 1, 1, 3, 'Mote of Earth'),
-(100026, 23077, 0, 5, 0, 1, 1, 1, 1, 'Blood Garnet'),
-(100026, 23107, 0, 5, 0, 1, 1, 1, 1, 'Shadow Draenite'),
-(100026, 21929, 0, 5, 0, 1, 1, 1, 1, 'Flame Spessarite'),
-(100026, 23079, 0, 5, 0, 1, 1, 1, 1, 'Deep Peridot'),
-(100026, 23117, 0, 5, 0, 1, 1, 1, 1, 'Azure Moonstone'),
-(100026, 23424, 0, 65, 0, 1, 1, 1, 3, 'Fel Iron Ore');
+(100026, 22573, 0, 10, 0, 1, 1, 1, 2, 'Mote of Earth'),
+(100026, 22574, 0, 20, 0, 1, 1, 1, 2, 'Mote of Fire'),
+(100026, 12904, 12904, 5, 0, 1, 1, 1, 1, NULL), -- GREEN GEMS REFERENCE TABLE
+(100026, 12902, 12902, 2, 0, 1, 1, 1, 1, NULL), -- BLUE GEMS REFERENCE TABLE
+(100026, 23427, 0, 5, 0, 1, 0, 1, 2, 'Eternium Ore'),
+(100026, 23424, 0, 95, 0, 1, 0, 1, 2, 'Fel Iron Ore');
+
+-- Outlands 66 - 69 Mining Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100027);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100027, 22573, 0, 20, 0, 1, 1, 1, 2, 'Mote of Earth'),
+(100027, 22574, 0, 10, 0, 1, 1, 1, 2, 'Mote of Fire'),
+(100027, 12904, 12904, 5, 0, 1, 1, 1, 1, NULL), -- GREEN GEMS REFERENCE TABLE
+(100027, 12902, 12902, 2, 0, 1, 1, 1, 1, NULL), -- BLUE GEMS REFERENCE TABLE
+(100027, 23427, 0, 5, 0, 1, 0, 1, 2, 'Eternium Ore'),
+(100027, 23425, 0, 95, 0, 1, 0, 1, 2, 'Adamantite Ore');
+
+-- Outlands 70+ Mining Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100028); -- Existing template
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100028, 22573, 0, 20, 0, 1, 1, 1, 2, 'Mote of Earth'),
+(100028, 22574, 0, 10, 0, 1, 1, 1, 2, 'Mote of Fire'),
+(100028, 12904, 12904, 5, 0, 1, 1, 1, 1, NULL), -- GREEN GEMS REFERENCE TABLE
+(100028, 12902, 12902, 2, 0, 1, 1, 1, 1, NULL), -- BLUE GEMS REFERENCE TABLE
+(100028, 23427, 0, 5, 0, 1, 0, 1, 2, 'Eternium Ore'),
+(100028, 23425, 0, 10, 0, 1, 0, 1, 2, 'Khorium Ore'),
+(100028, 23425, 0, 85, 0, 1, 0, 1, 2, 'Adamantite Ore');
