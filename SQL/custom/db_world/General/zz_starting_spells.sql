@@ -13,6 +13,7 @@ REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     (0,0,45357,'inscription'),
     (0,0,514,'Counterspell'),
     (0,0,8690,'Hearthstone'),
+    (0,0,1804,'Lockpicking'),
     (0,0,91049,'Find Minerals and Herbs'),
     (0,128,91056,'Magical Attunement'),
     (0,128,91058,'Mind Freak'),
