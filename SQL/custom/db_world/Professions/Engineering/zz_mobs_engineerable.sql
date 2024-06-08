@@ -114,3 +114,40 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (
 
 -- Fel Cannon MKI
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 22461);
+-- Legion Fel Cannon
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 21233);
+
+-- LEVEL 70+ or ELITE TBC 
+
+-- Doomwalker
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 17711);
+-- Void Reaver
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19516);
+-- The Curator
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 15691);
+-- Mekgineer Steamrigger
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 17796);
+-- Mechano-Lord Capacitus
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19219);
+-- Promenade Sentinel
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 23394);
+-- Arcane Watchman
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 16485);
+-- Arcane Protector
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 16504);
+-- Crystalcore Devastator
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20040);
+-- Crystalcore Sentinel
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20041);
+-- Tempest-Forge Peacekeeper
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 18405);
+-- Tempest-Forge Destroyer
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19735);
+-- Tempest-Forge Patroller
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19166);
+-- Fel Reaver
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 18733);
+-- Arcatraz Sentinel
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20869);
+-- Scrapped Fel Reaver
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20243);

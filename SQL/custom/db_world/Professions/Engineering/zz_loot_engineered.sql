@@ -39,10 +39,26 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100033, 12359, 0, 0, 0, 1, 2, 1, 1, 'Thorium Bar'),
 (100033, 15994, 0, 0, 0, 1, 1, 1, 3, 'Thorium Widget');
 
--- LEVEL 60+ TBC LOOT TABLE
+-- LEVEL 60 - 70 TBC LOOT TABLE
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100034);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(100034, 23781, 0, 0, 0, 1, 1, 1, 4, 'Elemental Blasting Powder'),
 (100034, 23445, 0, 0, 0, 1, 1, 1, 3, 'Fel Iron Bar'),
-(100034, 23782, 0, 0, 0, 1, 1, 1, 1, 'Fel Iron Casing'),
-(100033, 23783, 0, 0, 0, 1, 1, 1, 3, 'Handful of Fel Iron Bolts');
+(100034, 23446, 0, 0, 0, 1, 1, 1, 3, 'Adamantite Bar'),
+(100034, 22574, 0, 20, 0, 1, 2, 1, 3, 'Mote of Fire'),
+(100034, 23781, 0, 5, 0, 1, 2, 1, 4, 'Elemental Blasting Powder'),
+(100034, 23782, 0, 5, 0, 1, 2, 1, 1, 'Fel Iron Casing'),
+(100034, 23784, 0, 5, 0, 1, 2, 1, 1, 'Adamantite Frame'),
+(100034, 23787, 0, 5, 0, 1, 2, 1, 1, 'Felsteel Stabilizer'),
+(100034, 23785, 0, 5, 0, 1, 2, 1, 1, 'Hardened Adamantite Tube'),
+(100034, 23783, 0, 5, 0, 1, 2, 1, 3, 'Handful of Fel Iron Bolts');
+
+-- LEVEL 70+ TBC LOOT TABLE
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100035);
+INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(100035, 23446, 0, 0, 90, 1, 1, 1, 3, 'Adamantite Bar'),
+(100035, 23449, 0, 0, 10, 1, 1, 1, 1, 'Khorium Bar'),
+(100035, 22574, 0, 0, 30, 1, 2, 1, 3, 'Mote of Fire'),
+(100035, 23781, 0, 0, 10, 1, 2, 1, 4, 'Elemental Blasting Powder'),
+(100035, 23784, 0, 0, 10, 1, 2, 1, 1, 'Adamantite Frame'),
+(100035, 23785, 0, 0, 10, 1, 2, 1, 1, 'Hardened Adamantite Tube'),
+(100035, 23786, 0, 0, 05, 1, 2, 1, 1, 'Khorium Power Core');
