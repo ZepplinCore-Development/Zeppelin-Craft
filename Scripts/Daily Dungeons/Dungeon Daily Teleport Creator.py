@@ -1,5 +1,6 @@
 import csv
 import os
+import random
 
 # Print the current working directory before changing
 print("Before:", os.getcwd())
@@ -13,6 +14,8 @@ try:
     print("After:", os.getcwd())
 except Exception as e:
     print("Error changing directory:", e)
+
+orb_icons = [141021, 141022, 141023, 141024, 141025, 141026]
 
 # Function to generate SQL queries
 def generate_sql_queries(teleports_csv_file_path):
@@ -35,6 +38,8 @@ def generate_sql_queries(teleports_csv_file_path):
 
             if map:
 
+                display_id = random.choice(orb_icons)
+
                 # Generating the SQL queries with exact format
                 spell_position_query = f"-- {dungeon} - Teleport Location\n\
                 DELETE FROM `spell_target_position` WHERE (`ID` = {orb_spell});\n\
@@ -53,7 +58,7 @@ def generate_sql_queries(teleports_csv_file_path):
                 INSERT INTO `item_template`\n\
                 SET `entry` = {orb_id},\n\
                     `name` = 'Orb of Teleport {dungeon}', \n\
-                    `displayid` = '6009', \n\
+                    `displayid` = '{display_id}', \n\
                     `Quality` = '2', \n\
                     `bonding` = '2', \n\
                     `spellid_1` = {orb_spell}, \n\

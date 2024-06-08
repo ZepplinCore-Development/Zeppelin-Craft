@@ -15,7 +15,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901901,
                     `name` = 'Orb of Teleport Maraudon Purple', 
-                    `displayid` = '6009', 
+                    `displayid` = '141026', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91018, 
@@ -39,7 +39,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901902,
                     `name` = 'Orb of Teleport Maraudon Orange', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91019, 
@@ -63,7 +63,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901903,
                     `name` = 'Orb of Teleport Maraudon Pristine Waters', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91020, 
@@ -87,7 +87,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901904,
                     `name` = 'Orb of Teleport Scarlet Monastery Armory', 
-                    `displayid` = '6009', 
+                    `displayid` = '141025', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91021, 
@@ -111,7 +111,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901905,
                     `name` = 'Orb of Teleport Scarlet Monastery Cathedral', 
-                    `displayid` = '6009', 
+                    `displayid` = '141026', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91022, 
@@ -135,7 +135,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901906,
                     `name` = 'Orb of Teleport Scarlet Monastery Graveyard', 
-                    `displayid` = '6009', 
+                    `displayid` = '141021', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91023, 
@@ -159,7 +159,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901907,
                     `name` = 'Orb of Teleport Scarlet Monastery Library', 
-                    `displayid` = '6009', 
+                    `displayid` = '141023', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91024, 
@@ -183,7 +183,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901908,
                     `name` = 'Orb of Teleport Blackrock Depths Prison', 
-                    `displayid` = '6009', 
+                    `displayid` = '141026', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91025, 
@@ -207,7 +207,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901909,
                     `name` = 'Orb of Teleport Blackrock Depths Upper City', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91026, 
@@ -231,7 +231,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901910,
                     `name` = 'Orb of Teleport Zul''Farrak', 
-                    `displayid` = '6009', 
+                    `displayid` = '141022', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91027, 
@@ -255,7 +255,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901911,
                     `name` = 'Orb of Teleport Sunken Temple', 
-                    `displayid` = '6009', 
+                    `displayid` = '141023', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91028, 
@@ -279,7 +279,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901912,
                     `name` = 'Orb of Teleport Wailing Caverns', 
-                    `displayid` = '6009', 
+                    `displayid` = '141022', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91029, 
@@ -303,7 +303,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901913,
                     `name` = 'Orb of Teleport Ragefire Chasm', 
-                    `displayid` = '6009', 
+                    `displayid` = '141021', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91030, 
@@ -327,7 +327,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901914,
                     `name` = 'Orb of Teleport Deadmines', 
-                    `displayid` = '6009', 
+                    `displayid` = '141026', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91031, 
@@ -351,7 +351,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901915,
                     `name` = 'Orb of Teleport Shadowfang Keep', 
-                    `displayid` = '6009', 
+                    `displayid` = '141025', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91032, 
@@ -375,7 +375,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901916,
                     `name` = 'Orb of Teleport Blackfathom Deeps', 
-                    `displayid` = '6009', 
+                    `displayid` = '141026', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91033, 
@@ -399,7 +399,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901917,
                     `name` = 'Orb of Teleport Stormwind Stockade', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91034, 
@@ -423,7 +423,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901921,
                     `name` = 'Orb of Teleport Uldaman East', 
-                    `displayid` = '6009', 
+                    `displayid` = '141021', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91038, 
@@ -447,7 +447,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901924,
                     `name` = 'Orb of Teleport Dire Maul East', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91041, 
@@ -471,7 +471,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901925,
                     `name` = 'Orb of Teleport Dire Maul West', 
-                    `displayid` = '6009', 
+                    `displayid` = '141022', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91042, 
@@ -495,7 +495,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901930,
                     `name` = 'Orb of Teleport Uldaman West', 
-                    `displayid` = '6009', 
+                    `displayid` = '141021', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91047, 
@@ -519,7 +519,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901931,
                     `name` = 'Orb of Teleport Hellfire Ramparts', 
-                    `displayid` = '6009', 
+                    `displayid` = '141021', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91072, 
@@ -543,7 +543,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901932,
                     `name` = 'Orb of Teleport Blood Furnace', 
-                    `displayid` = '6009', 
+                    `displayid` = '141024', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91073, 
@@ -567,7 +567,7 @@
                 INSERT INTO `item_template`
                 SET `entry` = 901956,
                     `name` = 'Orb of Teleport Slave Pens', 
-                    `displayid` = '6009', 
+                    `displayid` = '141022', 
                     `Quality` = '2', 
                     `bonding` = '2', 
                     `spellid_1` = 91086, 
