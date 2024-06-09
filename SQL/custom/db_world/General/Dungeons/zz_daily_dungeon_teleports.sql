@@ -16,9 +16,9 @@
                 SET `entry` = 901901,
                     `name` = 'Orb of Teleport Maraudon Purple',
                     `class` = 12,
-                    `displayid` = '141025',
+                    `displayid` = '141023',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91018,
                     `spellcharges_1` = '-1';
                     
@@ -43,7 +43,7 @@
                     `class` = 12,
                     `displayid` = '141021',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91019,
                     `spellcharges_1` = '-1';
                     
@@ -66,9 +66,9 @@
                 SET `entry` = 901903,
                     `name` = 'Orb of Teleport Maraudon Pristine Waters',
                     `class` = 12,
-                    `displayid` = '141024',
+                    `displayid` = '141023',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91020,
                     `spellcharges_1` = '-1';
                     
@@ -91,9 +91,9 @@
                 SET `entry` = 901904,
                     `name` = 'Orb of Teleport Scarlet Monastery Armory',
                     `class` = 12,
-                    `displayid` = '141021',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91021,
                     `spellcharges_1` = '-1';
                     
@@ -116,9 +116,9 @@
                 SET `entry` = 901905,
                     `name` = 'Orb of Teleport Scarlet Monastery Cathedral',
                     `class` = 12,
-                    `displayid` = '141026',
+                    `displayid` = '141021',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91022,
                     `spellcharges_1` = '-1';
                     
@@ -141,9 +141,9 @@
                 SET `entry` = 901906,
                     `name` = 'Orb of Teleport Scarlet Monastery Graveyard',
                     `class` = 12,
-                    `displayid` = '141023',
+                    `displayid` = '141024',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91023,
                     `spellcharges_1` = '-1';
                     
@@ -166,9 +166,9 @@
                 SET `entry` = 901907,
                     `name` = 'Orb of Teleport Scarlet Monastery Library',
                     `class` = 12,
-                    `displayid` = '141021',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91024,
                     `spellcharges_1` = '-1';
                     
@@ -191,9 +191,9 @@
                 SET `entry` = 901908,
                     `name` = 'Orb of Teleport Blackrock Depths Prison',
                     `class` = 12,
-                    `displayid` = '141025',
+                    `displayid` = '141024',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91025,
                     `spellcharges_1` = '-1';
                     
@@ -216,9 +216,9 @@
                 SET `entry` = 901909,
                     `name` = 'Orb of Teleport Blackrock Depths Upper City',
                     `class` = 12,
-                    `displayid` = '141023',
+                    `displayid` = '141026',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91026,
                     `spellcharges_1` = '-1';
                     
@@ -241,9 +241,9 @@
                 SET `entry` = 901910,
                     `name` = 'Orb of Teleport Zul''Farrak',
                     `class` = 12,
-                    `displayid` = '141022',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91027,
                     `spellcharges_1` = '-1';
                     
@@ -266,9 +266,9 @@
                 SET `entry` = 901911,
                     `name` = 'Orb of Teleport Sunken Temple',
                     `class` = 12,
-                    `displayid` = '141026',
+                    `displayid` = '141023',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91028,
                     `spellcharges_1` = '-1';
                     
@@ -291,9 +291,9 @@
                 SET `entry` = 901912,
                     `name` = 'Orb of Teleport Wailing Caverns',
                     `class` = 12,
-                    `displayid` = '141021',
+                    `displayid` = '141022',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91029,
                     `spellcharges_1` = '-1';
                     
@@ -316,9 +316,9 @@
                 SET `entry` = 901913,
                     `name` = 'Orb of Teleport Ragefire Chasm',
                     `class` = 12,
-                    `displayid` = '141022',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91030,
                     `spellcharges_1` = '-1';
                     
@@ -343,7 +343,7 @@
                     `class` = 12,
                     `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91031,
                     `spellcharges_1` = '-1';
                     
@@ -366,9 +366,9 @@
                 SET `entry` = 901915,
                     `name` = 'Orb of Teleport Shadowfang Keep',
                     `class` = 12,
-                    `displayid` = '141024',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91032,
                     `spellcharges_1` = '-1';
                     
@@ -391,9 +391,9 @@
                 SET `entry` = 901916,
                     `name` = 'Orb of Teleport Blackfathom Deeps',
                     `class` = 12,
-                    `displayid` = '141023',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91033,
                     `spellcharges_1` = '-1';
                     
@@ -416,9 +416,9 @@
                 SET `entry` = 901917,
                     `name` = 'Orb of Teleport Stormwind Stockade',
                     `class` = 12,
-                    `displayid` = '141022',
+                    `displayid` = '141026',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91034,
                     `spellcharges_1` = '-1';
                     
@@ -441,9 +441,9 @@
                 SET `entry` = 901921,
                     `name` = 'Orb of Teleport Uldaman East',
                     `class` = 12,
-                    `displayid` = '141022',
+                    `displayid` = '141021',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91038,
                     `spellcharges_1` = '-1';
                     
@@ -466,9 +466,9 @@
                 SET `entry` = 901924,
                     `name` = 'Orb of Teleport Dire Maul East',
                     `class` = 12,
-                    `displayid` = '141021',
+                    `displayid` = '141022',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91041,
                     `spellcharges_1` = '-1';
                     
@@ -491,9 +491,9 @@
                 SET `entry` = 901925,
                     `name` = 'Orb of Teleport Dire Maul West',
                     `class` = 12,
-                    `displayid` = '141025',
+                    `displayid` = '141024',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91042,
                     `spellcharges_1` = '-1';
                     
@@ -516,9 +516,9 @@
                 SET `entry` = 901930,
                     `name` = 'Orb of Teleport Uldaman West',
                     `class` = 12,
-                    `displayid` = '141026',
+                    `displayid` = '141021',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91047,
                     `spellcharges_1` = '-1';
                     
@@ -541,9 +541,9 @@
                 SET `entry` = 901931,
                     `name` = 'Orb of Teleport Hellfire Ramparts',
                     `class` = 12,
-                    `displayid` = '141021',
+                    `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91072,
                     `spellcharges_1` = '-1';
                     
@@ -566,9 +566,9 @@
                 SET `entry` = 901932,
                     `name` = 'Orb of Teleport Blood Furnace',
                     `class` = 12,
-                    `displayid` = '141024',
+                    `displayid` = '141026',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91073,
                     `spellcharges_1` = '-1';
                     
@@ -593,7 +593,7 @@
                     `class` = 12,
                     `displayid` = '141025',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = 91086,
                     `spellcharges_1` = '-1';
                     

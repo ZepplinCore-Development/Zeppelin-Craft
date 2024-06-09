@@ -63,7 +63,7 @@ def generate_sql_queries(teleports_csv_file_path):
                     `class` = 12,
                     `displayid` = '{display_id}',
                     `Quality` = '2',
-                    `bonding` = '2',
+                    `bonding` = '4', 
                     `spellid_1` = {orb_spell},
                     `spellcharges_1` = '-1';
                     
