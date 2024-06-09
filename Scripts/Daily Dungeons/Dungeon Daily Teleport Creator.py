@@ -41,28 +41,33 @@ def generate_sql_queries(teleports_csv_file_path):
                 display_id = random.choice(orb_icons)
 
                 # Generating the SQL queries with exact format
-                spell_position_query = f"-- {dungeon} - Teleport Location\n\
-                DELETE FROM `spell_target_position` WHERE (`ID` = {orb_spell});\n\
-                INSERT INTO `spell_target_position`\n\
-                SET `ID` = {orb_spell},\n\
-                    `EffectIndex` = '0', \n\
-                    `MapID` = {map}, \n\
-                    `PositionX` = {x_loc}, \n\
-                    `PositionY` = {y_loc}, \n\
-                    `PositionZ` = {z_loc}, \n\
-                    `Orientation` = {orientation}, \n\
-                    `VerifiedBuild` = '0';\n\n"
+                spell_position_query = f"""-- {dungeon} - Teleport Location
+                DELETE FROM `spell_target_position` WHERE (`ID` = {orb_spell});
+                INSERT INTO `spell_target_position`
+                SET `ID` = {orb_spell},
+                    `EffectIndex` = '0',
+                    `MapID` = {map},
+                    `PositionX` = {x_loc},
+                    `PositionY` = {y_loc},
+                    `PositionZ` = {z_loc},
+                    `Orientation` = {orientation},
+                    `VerifiedBuild` = '0';
+                    
+                """
                 
-                orb_item_query = f"-- {dungeon} - Teleport Orb\n\
-                DELETE FROM `item_template` WHERE (`entry` = {orb_id});\n\
-                INSERT INTO `item_template`\n\
-                SET `entry` = {orb_id},\n\
-                    `name` = 'Orb of Teleport {dungeon}', \n\
-                    `displayid` = '{display_id}', \n\
-                    `Quality` = '2', \n\
-                    `bonding` = '2', \n\
-                    `spellid_1` = {orb_spell}, \n\
-                    `spellcharges_1` = '-1'; \n\n"
+                orb_item_query = f"""-- {dungeon} - Teleport Orb
+                DELETE FROM `item_template` WHERE (`entry` = {orb_id});
+                INSERT INTO `item_template`
+                SET `entry` = {orb_id},
+                    `name` = 'Orb of Teleport {dungeon}',
+                    `class` = 12,
+                    `displayid` = '{display_id}',
+                    `Quality` = '2',
+                    `bonding` = '2',
+                    `spellid_1` = {orb_spell},
+                    `spellcharges_1` = '-1';
+                    
+                """
                 
                 # Combine all queries for this dungeon into one string
                 dungeon_queries = spell_position_query + orb_item_query
