@@ -9,7 +9,6 @@ SET `entry` = 901203,
     `class` = 0, -- Consumable
     `subclass` = 8, -- Other
     `SellPrice` = 50000, -- 5G
-    `BagFamily` = 8192, -- Currency
     `maxcount` = 10,
     `stackable` = 10,
     `flags` = 134217728, -- Bound to Account
