@@ -18,9 +18,9 @@
         `spelltrigger_2` = 6;
 
 -- Mystic Resonator
-    DELETE FROM `item_template` WHERE (`entry` = 902313);
+    DELETE FROM `item_template` WHERE (`entry` = 41605);
     INSERT INTO `item_template`
-    SET `entry` = 902313,
+    SET `entry` = 41605,
         `class` = 0, -- Consumable
         `subclass` = 6, -- Item Enhancement
         `SellPrice` = 100000, -- 10G       
