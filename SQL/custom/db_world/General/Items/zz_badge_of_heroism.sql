@@ -4,7 +4,7 @@ INSERT INTO `item_template`
 SET `entry` = 901200,
     `name` = 'Badge of Heroism',
     `description` = 'Trade for Classical Lute',
-    `displayid` = 140220,
+    `displayid` = 140194,
     `Quality` = 4, -- EPIC
     `bonding` = 1, -- BOP
     `class` = 10, -- Currency
