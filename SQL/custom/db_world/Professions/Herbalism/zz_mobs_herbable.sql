@@ -262,7 +262,22 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21694);
 -- Serpentshrine Lurker
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 21863);
-
+-- Withered Giant
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18124);
+-- Starving Fungal Giant
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18125);
+-- Bog Lord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18127);
+-- Withered Bog Lord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 19402);
+-- Starving Bog Lord
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 19519);
+-- Fungal Giant
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 19734);
+-- Infested Root-Walker
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 22095);
+-- Rotting Forest-Rager
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 22307);
 
 -- Outland 70+ MOBS
 
