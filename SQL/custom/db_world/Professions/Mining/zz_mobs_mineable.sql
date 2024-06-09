@@ -172,6 +172,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100025 WHERE (`e
 
 -- TBC Creatures 60 - 65
 
+-- Goliathon
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19305);
 -- Infernal Warbringer
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19261);
 -- Raging Colossus
