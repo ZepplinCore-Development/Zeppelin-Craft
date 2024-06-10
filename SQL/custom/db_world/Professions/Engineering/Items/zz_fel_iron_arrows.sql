@@ -25,7 +25,7 @@
         `subclass` = 2, -- Arrow
         `name` = 'Fel Iron Arrows',
         `displayid` = 134582,
-        `SellPrice` = 2, -- 2C
+        `SellPrice` = 3, -- 2C
         `Quality` = 2, -- UNCOMMON
         `InventoryType` = 24, -- Ammo
         `bonding` = 1, -- BOP
@@ -33,6 +33,6 @@
         `ItemLevel` = 96,
         `RequiredLevel` = 58,
         `stackable` = 1000,
-        `dmg_min1` = 28,
-        `dmg_max1` = 28,
+        `dmg_min1` = 30,
+        `dmg_max1` = 30,
         `delay` = 3000;
