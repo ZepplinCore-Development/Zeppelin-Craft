@@ -62,7 +62,7 @@ def generate_sql_queries(teleports_csv_file_path):
                     `name` = 'Orb of Teleport {dungeon}',
                     `class` = 12,
                     `displayid` = '{display_id}',
-                    `Quality` = '2',
+                    `Quality` = '1',
                     `bonding` = '4', 
                     `spellid_1` = {orb_spell},
                     `spellcharges_1` = '-1';
