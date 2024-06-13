@@ -293,7 +293,7 @@
                     `subclass` = 0,
                     `name` = 'Carved Horn of Remulos',
                     `flags` = '2048',
-                    `displayid` = 140886,
+                    `displayid` = 134621,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4472,7 +4472,7 @@
                     `subclass` = 0,
                     `name` = 'Blood Crucible',
                     `flags` = '2048',
-                    `displayid` = 46255,
+                    `displayid` = 140157,
                     `Quality` = 1,
                     `bonding` = 4;
 
@@ -4735,5 +4735,1433 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Ring of Shaffar';
+   
+                
+
+                -- *******************************************************
+
+                -- The Underbog - Black Stalker - Cenarion Expedition - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441221);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441221,
+                    `pool_entry` = 300019,
+                    `description` = 'Black Stalker';
+                
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441221);
+                INSERT INTO `quest_template`
+                SET `ID` = 441221,
+                    `QuestType` = 2,
+                    `QuestLevel` = 65,
+                    `MinLevel` = 65,
+                    `QuestSortID` = 3905,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 190125.0,
+                    `StartItem` = 901958,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 942,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Stalker Tendril',
+                    `LogDescription` = 'Retrieve the Stalker Tendril from Black Stalker in The Underbog.',
+                    `QuestDescription` = 'Mah''duun hears the whispers on the nether winds. They speak of the Black Stalker, a fearsome creature lurking in the Underbog. A bounty has been placed on this beast, and its Stalker Tendril will serve as proof of its demise. Venture into the Underbog, slay the Black Stalker, and bring me the tendril. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Stalker Tendril to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901734,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441221);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441221,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 68,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441221);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441221,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441221);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441221,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Stalker Tendril please.';
+                    
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441221);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441221,
+                    `id` = 24370;
+                    
+                
+                -- The Underbog - Black Stalker - Cenarion Expedition - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441221);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441221,
+                    `id` = 24370;
+                    
+                
+                -- The Underbog - Black Stalker - Stalker Tendril - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901734);
+                INSERT INTO `item_template`
+                SET `entry` = 901734,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Stalker Tendril',
+                    `flags` = '2048',
+                    `displayid` = 141032,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- The Underbog - Black Stalker - Stalker Tendril - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17882) AND (`ItemId` = 901734);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 17882,
+                    `Idx` = 2,
+                    `ItemId` = 901734;
+                
+                
+                -- The Underbog - Black Stalker - Stalker Tendril - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17882) AND (`Item` IN (901734));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 17882,
+                    `Item` = 901734,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Stalker Tendril';
+   
+                
+
+                -- *******************************************************
+
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441222);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441222,
+                    `pool_entry` = 300019,
+                    `description` = 'Exarch Maladaar';
+                
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441222);
+                INSERT INTO `quest_template`
+                SET `ID` = 441222,
+                    `QuestType` = 2,
+                    `QuestLevel` = 67,
+                    `MinLevel` = 65,
+                    `QuestSortID` = 3792,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 202005.0,
+                    `StartItem` = 901936,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Mark of the Fallen Exarch',
+                    `LogDescription` = 'Retrieve the Mark of the Fallen Exarch from Exarch Maladaar in Auchenai Crypts.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Mark of the Fallen Exarch to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901735,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441222);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441222,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 68,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441222);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441222,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441222);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441222,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Mark of the Fallen Exarch please.';
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441222);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441222,
+                    `id` = 24370;
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441222);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441222,
+                    `id` = 24370;
+                    
+                
+                -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901735);
+                INSERT INTO `item_template`
+                SET `entry` = 901735,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Mark of the Fallen Exarch',
+                    `flags` = '2048',
+                    `displayid` = 140184,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18373) AND (`ItemId` = 901735);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 18373,
+                    `Idx` = 0,
+                    `ItemId` = 901735;
+                
+                
+                -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 18373) AND (`Item` IN (901735));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 18373,
+                    `Item` = 901735,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Mark of the Fallen Exarch';
+   
+                
+
+                -- *******************************************************
+
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441223);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441223,
+                    `pool_entry` = 300019,
+                    `description` = 'Epoch Hunter';
+                
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441223);
+                INSERT INTO `quest_template`
+                SET `ID` = 441223,
+                    `QuestType` = 2,
+                    `QuestLevel` = 68,
+                    `MinLevel` = 65,
+                    `QuestSortID` = 1941,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 208080.0,
+                    `StartItem` = 901951,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Infinite Drake Head',
+                    `LogDescription` = 'Retrieve the Infinite Drake Head from Epoch Hunter in Old Hillsbrad Foothills.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Infinite Drake Head to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901736,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441223);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441223,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 68,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441223);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441223,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441223);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441223,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Infinite Drake Head please.';
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441223);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441223,
+                    `id` = 24370;
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441223);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441223,
+                    `id` = 24370;
+                    
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901736);
+                INSERT INTO `item_template`
+                SET `entry` = 901736,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Infinite Drake Head',
+                    `flags` = '2048',
+                    `displayid` = 138110,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18096) AND (`ItemId` = 901736);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 18096,
+                    `Idx` = 0,
+                    `ItemId` = 901736;
+                
+                
+                -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 18096) AND (`Item` IN (901736));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 18096,
+                    `Item` = 901736,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Infinite Drake Head';
+   
+                
+
+                -- *******************************************************
+
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441224);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441224,
+                    `pool_entry` = 300019,
+                    `description` = 'Talon King Ikiss';
+                
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441224);
+                INSERT INTO `quest_template`
+                SET `ID` = 441224,
+                    `QuestType` = 2,
+                    `QuestLevel` = 69,
+                    `MinLevel` = 65,
+                    `QuestSortID` = 3792,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 214245.0,
+                    `StartItem` = 901953,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Arakkoa Crown',
+                    `LogDescription` = 'Retrieve the Arakkoa Crown from Talon King Ikiss in Sethekk Halls.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Arakkoa Crown to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901737,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441224);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441224,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 68,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441224);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441224,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441224);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441224,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Arakkoa Crown please.';
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441224);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441224,
+                    `id` = 24370;
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441224);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441224,
+                    `id` = 24370;
+                    
+                
+                -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901737);
+                INSERT INTO `item_template`
+                SET `entry` = 901737,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Arakkoa Crown',
+                    `flags` = '2048',
+                    `displayid` = 134633,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18473) AND (`ItemId` = 901737);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 18473,
+                    `Idx` = 1,
+                    `ItemId` = 901737;
+                
+                
+                -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 18473) AND (`Item` IN (901737));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 18473,
+                    `Item` = 901737,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Arakkoa Crown';
+   
+                
+
+                -- *******************************************************
+
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441225);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441225,
+                    `pool_entry` = 300020,
+                    `description` = 'Warlord Kalithresh';
+                
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441225);
+                INSERT INTO `quest_template`
+                SET `ID` = 441225,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3905,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901957,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 942,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Opressor Trident',
+                    `LogDescription` = 'Retrieve the Opressor Trident from Warlord Kalithresh in Steamvault.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Opressor Trident to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901738,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441225);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441225,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441225);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441225,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441225);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441225,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Opressor Trident please.';
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441225);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441225,
+                    `id` = 24370;
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441225);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441225,
+                    `id` = 24370;
+                    
+                
+                -- Steamvault - Warlord Kalithresh - Opressor Trident - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901738);
+                INSERT INTO `item_template`
+                SET `entry` = 901738,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Opressor Trident',
+                    `flags` = '2048',
+                    `displayid` = 141256,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Steamvault - Warlord Kalithresh - Opressor Trident - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17798) AND (`ItemId` = 901738);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 17798,
+                    `Idx` = 0,
+                    `ItemId` = 901738;
+                
+                
+                -- Steamvault - Warlord Kalithresh - Opressor Trident - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17798) AND (`Item` IN (901738));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 17798,
+                    `Item` = 901738,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Opressor Trident';
+   
+                
+
+                -- *******************************************************
+
+                -- Shadow Labyrinth - Murmur - Lower City - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441226);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441226,
+                    `pool_entry` = 300020,
+                    `description` = 'Murmur';
+                
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441226);
+                INSERT INTO `quest_template`
+                SET `ID` = 441226,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3792,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901954,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Primordial Essence',
+                    `LogDescription` = 'Retrieve the Primordial Essence from Murmur in Shadow Labyrinth.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Primordial Essence to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901739,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441226);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441226,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441226);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441226,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441226);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441226,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Primordial Essence please.';
+                    
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441226);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441226,
+                    `id` = 24370;
+                    
+                
+                -- Shadow Labyrinth - Murmur - Lower City - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441226);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441226,
+                    `id` = 24370;
+                    
+                
+                -- Shadow Labyrinth - Murmur - Primordial Essence - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901739);
+                INSERT INTO `item_template`
+                SET `entry` = 901739,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Primordial Essence',
+                    `flags` = '2048',
+                    `displayid` = 136700,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Shadow Labyrinth - Murmur - Primordial Essence - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 18708) AND (`ItemId` = 901739);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 18708,
+                    `Idx` = 0,
+                    `ItemId` = 901739;
+                
+                
+                -- Shadow Labyrinth - Murmur - Primordial Essence - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 18708) AND (`Item` IN (901739));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 18708,
+                    `Item` = 901739,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Primordial Essence';
+   
+                
+
+                -- *******************************************************
+
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441227);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441227,
+                    `pool_entry` = 300020,
+                    `description` = 'Warchief Kargath Bladefist';
+                
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441227);
+                INSERT INTO `quest_template`
+                SET `ID` = 441227,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3535,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901955,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 946,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 947,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Warchief Insignia',
+                    `LogDescription` = 'Retrieve the Warchief Insignia from Warchief Kargath Bladefist in Shattered Halls.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Warchief Insignia to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901740,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441227);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441227,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441227);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441227,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441227);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441227,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Warchief Insignia please.';
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441227);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441227,
+                    `id` = 24370;
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441227);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441227,
+                    `id` = 24370;
+                    
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901740);
+                INSERT INTO `item_template`
+                SET `entry` = 901740,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Warchief Insignia',
+                    `flags` = '2048',
+                    `displayid` = 140220,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 16808) AND (`ItemId` = 901740);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 16808,
+                    `Idx` = 1,
+                    `ItemId` = 901740;
+                
+                
+                -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 16808) AND (`Item` IN (901740));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 16808,
+                    `Item` = 901740,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Warchief Insignia';
+   
+                
+
+                -- *******************************************************
+
+                -- Black Morass - Aeonus - Keepers of Time - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441228);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441228,
+                    `pool_entry` = 300020,
+                    `description` = 'Aeonus';
+                
+                
+                -- Black Morass - Aeonus - Keepers of Time - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441228);
+                INSERT INTO `quest_template`
+                SET `ID` = 441228,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 1941,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901937,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Infinite Membrane',
+                    `LogDescription` = 'Retrieve the Infinite Membrane from Aeonus in Black Morass.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Infinite Membrane to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901741,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Black Morass - Aeonus - Keepers of Time - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441228);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441228,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Black Morass - Aeonus - Keepers of Time - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441228);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441228,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Black Morass - Aeonus - Keepers of Time - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441228);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441228,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Infinite Membrane please.';
+                    
+                
+                -- Black Morass - Aeonus - Keepers of Time - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441228);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441228,
+                    `id` = 24370;
+                    
+                
+                -- Black Morass - Aeonus - Keepers of Time - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441228);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441228,
+                    `id` = 24370;
+                    
+                
+                -- Black Morass - Aeonus - Infinite Membrane - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901741);
+                INSERT INTO `item_template`
+                SET `entry` = 901741,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Infinite Membrane',
+                    `flags` = '2048',
+                    `displayid` = 141534,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Black Morass - Aeonus - Infinite Membrane - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17881) AND (`ItemId` = 901741);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 17881,
+                    `Idx` = 0,
+                    `ItemId` = 901741;
+                
+                
+                -- Black Morass - Aeonus - Infinite Membrane - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17881) AND (`Item` IN (901741));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 17881,
+                    `Item` = 901741,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Infinite Membrane';
+   
+                
+
+                -- *******************************************************
+
+                -- Botanica - Warp Splinter - Sha'tar - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441229);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441229,
+                    `pool_entry` = 300020,
+                    `description` = 'Warp Splinter';
+                
+                
+                -- Botanica - Warp Splinter - Sha'tar - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441229);
+                INSERT INTO `quest_template`
+                SET `ID` = 441229,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3845,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901938,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Arcane Warp Shard',
+                    `LogDescription` = 'Retrieve the Arcane Warp Shard from Warp Splinter in Botanica.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Arcane Warp Shard to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901742,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Botanica - Warp Splinter - Sha'tar - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441229);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441229,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Botanica - Warp Splinter - Sha'tar - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441229);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441229,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Botanica - Warp Splinter - Sha'tar - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441229);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441229,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Arcane Warp Shard please.';
+                    
+                
+                -- Botanica - Warp Splinter - Sha'tar - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441229);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441229,
+                    `id` = 24370;
+                    
+                
+                -- Botanica - Warp Splinter - Sha'tar - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441229);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441229,
+                    `id` = 24370;
+                    
+                
+                -- Botanica - Warp Splinter - Arcane Warp Shard - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901742);
+                INSERT INTO `item_template`
+                SET `entry` = 901742,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Arcane Warp Shard',
+                    `flags` = '2048',
+                    `displayid` = 136103,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Botanica - Warp Splinter - Arcane Warp Shard - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 17977) AND (`ItemId` = 901742);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 17977,
+                    `Idx` = 1,
+                    `ItemId` = 901742;
+                
+                
+                -- Botanica - Warp Splinter - Arcane Warp Shard - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 17977) AND (`Item` IN (901742));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 17977,
+                    `Item` = 901742,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Arcane Warp Shard';
+   
+                
+
+                -- *******************************************************
+
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441230);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441230,
+                    `pool_entry` = 300020,
+                    `description` = 'Pathaleon the Calculator';
+                
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441230);
+                INSERT INTO `quest_template`
+                SET `ID` = 441230,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3845,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901948,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Arcane Abacus',
+                    `LogDescription` = 'Retrieve the Arcane Abacus from Pathaleon the Calculator in Mechanar.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Arcane Abacus to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901743,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441230);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441230,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441230);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441230,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441230);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441230,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Arcane Abacus please.';
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441230);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441230,
+                    `id` = 24370;
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441230);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441230,
+                    `id` = 24370;
+                    
+                
+                -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901743);
+                INSERT INTO `item_template`
+                SET `entry` = 901743,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Arcane Abacus',
+                    `flags` = '2048',
+                    `displayid` = 138439,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 19220) AND (`ItemId` = 901743);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 19220,
+                    `Idx` = 1,
+                    `ItemId` = 901743;
+                
+                
+                -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 19220) AND (`Item` IN (901743));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 19220,
+                    `Item` = 901743,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Arcane Abacus';
+   
+                
+
+                -- *******************************************************
+
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441231);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441231,
+                    `pool_entry` = 300020,
+                    `description` = 'Harbinger Skyriss';
+                
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441231);
+                INSERT INTO `quest_template`
+                SET `ID` = 441231,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 3845,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901935,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Qiraji Hive Mind',
+                    `LogDescription` = 'Retrieve the Qiraji Hive Mind from Harbinger Skyriss in Arcatraz.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Qiraji Hive Mind to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901744,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441231);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441231,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441231);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441231,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441231);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441231,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Qiraji Hive Mind please.';
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441231);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441231,
+                    `id` = 24370;
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441231);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441231,
+                    `id` = 24370;
+                    
+                
+                -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901744);
+                INSERT INTO `item_template`
+                SET `entry` = 901744,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Qiraji Hive Mind',
+                    `flags` = '2048',
+                    `displayid` = 135423,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 20912) AND (`ItemId` = 901744);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 20912,
+                    `Idx` = 0,
+                    `ItemId` = 901744;
+                
+                
+                -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 20912) AND (`Item` IN (901744));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 20912,
+                    `Item` = 901744,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Qiraji Hive Mind';
+   
+                
+
+                -- *******************************************************
+
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441232);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441232,
+                    `pool_entry` = 300020,
+                    `description` = 'Kael''thas Sunstrider';
+                
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441232);
+                INSERT INTO `quest_template`
+                SET `ID` = 441232,
+                    `QuestType` = 2,
+                    `QuestLevel` = 72,
+                    `MinLevel` = 69,
+                    `QuestSortID` = 4131,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 233280.0,
+                    `StartItem` = 901946,
+                    `Flags` = 4232,
+                    `RewardItem1` = 29434,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 901203,
+                    `RewardAmount2` = 1,
+                    `RewardFactionID1` = 933,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Necro-demon Crystal',
+                    `LogDescription` = 'Retrieve the Necro-demon Crystal from Kael''thas Sunstrider in Magister''s Terrace.',
+                    `QuestDescription` = '',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Necro-demon Crystal to Nether-Stalker Mah''duun in Shattrath.',
+                    `RequiredItemId1` = 901745,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441232);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441232,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 70,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441232);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441232,
+                    `Emote1` = 1,
+                    `RewardText` = 'My buyer will be most pleased.';
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441232);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441232,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Necro-demon Crystal please.';
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441232);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441232,
+                    `id` = 24370;
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441232);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441232,
+                    `id` = 24370;
+                    
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901745);
+                INSERT INTO `item_template`
+                SET `entry` = 901745,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Necro-demon Crystal',
+                    `flags` = '2048',
+                    `displayid` = 135973,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 24664) AND (`ItemId` = 901745);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 24664,
+                    `Idx` = 1,
+                    `ItemId` = 901745;
+                
+                
+                -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 24664) AND (`Item` IN (901745));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 24664,
+                    `Item` = 901745,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Necro-demon Crystal';
    
                 
