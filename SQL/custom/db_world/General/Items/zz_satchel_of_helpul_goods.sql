@@ -39,7 +39,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52003, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52003, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
+(52003, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random Heroic
 DELETE FROM `item_template` WHERE (`entry` = 901201);
@@ -52,7 +52,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (901201, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901201, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901201, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(901201, 901202, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Bravery');
+(901201, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random Mythic
 DELETE FROM `item_template` WHERE (`entry` = 901205);
@@ -65,4 +65,4 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (901205, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901205, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901205, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(901205, 901204, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Resilience');
+(901205, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
