@@ -1,0 +1,1 @@
+REPLACE INTO `skill_extra_item_template` (`spellId`, `requiredSpecialization`, `additionalCreateChance`, `additionalMaxNum`) VALUES (28551, 28675, 14, 4); -- super healing potion
