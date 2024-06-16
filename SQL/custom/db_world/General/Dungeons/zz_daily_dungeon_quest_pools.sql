@@ -16,7 +16,7 @@ REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
 (300006,1,'Vanilla Alliance Normal Dungeons Levels 21 - 25'),
 (300013,1,'Vanilla Alliance Normal Dungeons Levels 26 - 30'),
 (300007,1,'Vanilla Alliance Normal Dungeons Levels 31 - 35'),
-(300008,1,'Vanilla Alliance Normal Dungeons Levels 36 - 40'),
+(300017,1,'Vanilla Alliance Normal Dungeons Levels 36 - 40'),
 (300008,1,'Vanilla Alliance Normal Dungeons Levels 41 - 45'),
 (300009,1,'Vanilla Alliance Normal Dungeons Levels 46 - 50'),
 (300010,1,'Vanilla Alliance Normal Dungeons Levels 51 - 58'),
