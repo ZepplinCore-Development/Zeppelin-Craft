@@ -124,4 +124,4 @@ WHERE Data1 NOT IN (SELECT entry FROM gameobject_loot_template) and Data1 != 0;
 
 UPDATE creature_template
 SET lootid = 0
-WHERE lootid NOT IN (SELECT entry FROM gameobject_loot_template) and lootid != 0;
+WHERE lootid NOT IN (SELECT entry FROM creature_loot_template) and lootid != 0;
