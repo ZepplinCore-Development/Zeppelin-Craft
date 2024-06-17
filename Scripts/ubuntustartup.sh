@@ -3,7 +3,7 @@ sleep 5
 
 gnome-terminal\
 	--tab\
-		--title="World Server" -- bash -c "cd; cd Zeppelin-Core; git pull; cd; cd azerothcore-wotlk/data/sql; rm -r custom; cd; cp -r Zeppelin-Core/SQL/custom azerothcore-wotlk/data/sql; cd; azerothcore-wotlk/acore.sh run-worldserver; $SHELL"
+		--title="World Server" -- bash -c "cd; cd Zeppelin-Core; git pull; cd; cd azerothcore-wotlk/data/sql; rm -rf custom; cd; cp -r Zeppelin-Core/SQL/custom azerothcore-wotlk/data/sql; cd; azerothcore-wotlk/acore.sh run-worldserver; $SHELL"
 gnome-terminal\
 	--tab\
 		--title="Auth Server" -- bash -c "cd; azerothcore-wotlk/acore.sh run-authserver; $SHELL"
