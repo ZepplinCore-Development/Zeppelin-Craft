@@ -280,6 +280,12 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 22307);
 -- Lagoon Walker
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 20291);
+-- Marsh Dredger
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18137);
+-- Marsh Lurker
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18136);
+-- Lord Klaq
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18282);
 
 -- Outland 70+ MOBS
 
