@@ -897,21 +897,21 @@ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 1 AND `SourceGroup` =
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
 (1, 301000, 21108, 0, 0, 9, 0, 8620, 0, 0, 0, 0, 0, '', 'Draconic for Dummies Chapter VI will drop only when a player have The Only Prescription (8620) in their quest log');
 
-DELETE FROM `dungeon_access_template` WHERE `id`=123;
-INSERT INTO `dungeon_access_template` (`id`, `map_id`, `difficulty`, `min_level`, `max_level`, `min_avg_item_level`, `comment`) VALUES (123, 249, 2, 50, 0, 0, 'Onyxia\'s Lair - 40man');
+DELETE FROM `dungeon_access_template` WHERE `id`=130;
+INSERT INTO `dungeon_access_template` (`id`, `map_id`, `difficulty`, `min_level`, `max_level`, `min_avg_item_level`, `comment`) VALUES (130, 249, 2, 50, 0, 0, 'Onyxia''s Lair - 40man');
 
-DELETE FROM `dungeon_access_requirements` WHERE `dungeon_access_id` = 123;
+DELETE FROM `dungeon_access_requirements` WHERE `dungeon_access_id` = 130;
 INSERT INTO `dungeon_access_requirements` (`dungeon_access_id`, `requirement_type`, `requirement_id`, `requirement_note`, `faction`, `priority`, `leader_only`, `comment`) VALUES
-(123, 2, 16309, 'You must have the Drakefire Amulet in your inventory before entering Onyxia\'s Lair.', 2, NULL, 0, '');
+(130, 2, 16309, 'You must have the Drakefire Amulet in your inventory before entering Onyxia''s Lair.', 2, NULL, 0, '');
 
 DELETE FROM `mapdifficulty_dbc` WHERE `MapID` = 249;
 INSERT INTO `mapdifficulty_dbc` (`ID`, `MapID`, `Difficulty`, `RaidDuration`, `MaxPlayers`, `Difficultystring`) VALUES
 (755, 249, 2, 604800, 40, 'RAID_DIFFICULTY_40PLAYER');
 
-INSERT INTO `dungeonencounter_dbc` (`ID`, `MapID`, `Difficulty`, `OrderIndex`, `Bit`, `Name_Lang_enUS`, `Name_Lang_enGB`, `Name_Lang_koKR`, `Name_Lang_frFR`, `Name_Lang_deDE`, `Name_Lang_enCN`, `Name_Lang_zhCN`, `Name_Lang_enTW`, `Name_Lang_zhTW`, `Name_Lang_esES`, `Name_Lang_esMX`, `Name_Lang_ruRU`, `Name_Lang_ptPT`, `Name_Lang_ptBR`, `Name_Lang_itIT`, `Name_Lang_Unk`, `Name_Lang_Mask`, `SpellIconID`) VALUES
+REPLACE INTO `dungeonencounter_dbc` (`ID`, `MapID`, `Difficulty`, `OrderIndex`, `Bit`, `Name_Lang_enUS`, `Name_Lang_enGB`, `Name_Lang_koKR`, `Name_Lang_frFR`, `Name_Lang_deDE`, `Name_Lang_enCN`, `Name_Lang_zhCN`, `Name_Lang_enTW`, `Name_Lang_zhTW`, `Name_Lang_esES`, `Name_Lang_esMX`, `Name_Lang_ruRU`, `Name_Lang_ptPT`, `Name_Lang_ptBR`, `Name_Lang_itIT`, `Name_Lang_Unk`, `Name_Lang_Mask`, `SpellIconID`) VALUES
 (895, 249, 2, 0, 0, 'Onyxia', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 16712190, 0);
 
-INSERT INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES
+REPLACE INTO `instance_encounters` (`entry`, `creditType`, `creditEntry`, `lastEncounterDungeon`, `comment`) VALUES
 (895, 0, 301000, 0, 'Onyxia (Vanilla)');
 
 -- Victory for the Alliance - Bolvar or Varian
@@ -988,18 +988,18 @@ DELETE FROM `npc_text` WHERE `ID` IN (60040, 60041, 60042, 60043, 60044, 60045, 
 INSERT INTO `npc_text` (`ID`, `text0_0`,  `BroadcastTextID0`) VALUES
 (60040, '<Lydros reaches into his robe and presents you with a dull, flat elven blade.>$b$BIn ages past, well before even the War of the Ancients, there existed this blade.', 0),
 (60041, 'The blade itself had to be crafted IN ceremony with the children of the Aspects. A rare occurrence indeed... for not only would a dragon have TO willingly heat and mold the enchanted metal with their breath, they would also need to contain the fury of their own enchantment by using their blood as temper.', 0),
-(60042, 'Over the course of 8,000 years, only a handful of these blades were created - each blade unique in both power and appearance. The blades of Quel\'Serrar would take ON the characteristics of their creator.', 0),
-(60043, 'Rumors exist of a single legendary blade of Quel\'Serrar crafted for an unknown entity by the combined might of the five Aspects. Before the abominations of Nefarian and Deathwing were thrust into our world, such meetings of the Aspect were represented by the term \'Prismatic.\' I could only assume that the Prismatic Blade of Quel\'Serrar was a most glorious creation.', 0),
+(60042, 'Over the course of 8,000 years, only a handful of these blades were created - each blade unique in both power and appearance. The blades of Quel''Serrar would take ON the characteristics of their creator.', 0),
+(60043, 'Rumors exist of a single legendary blade of Quel''Serrar crafted for an unknown entity by the combined might of the five Aspects. Before the abominations of Nefarian and Deathwing were thrust into our world, such meetings of the Aspect were represented by the term ''Prismatic.'' I could only assume that the Prismatic Blade of Quel''Serrar was a most glorious creation.', 0),
 (60044, 'What I offer to you now is one such blade, unfired, unheated, untreated - the most raw and basic form.$b$bNow you merely need TO find a dragon that will willingly enchant the blade.$b$bIf you had an eternity to live,this might be a possibility; but since you are mortal and could very likely cease to exist at any moment, might I recommend trying to persuade one of the lesser dragons to do your bidding.', 0),
 (60045, 'Have you heard of the brood mother of the Black Flight? I believe she is called Onyxia...', 0),
 (60046, 'I have sensed your coming for quite some time, $n. It was written in the pattern of stars.', 0);
 
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` IN (14, 15) AND `SourceGroup` = 5747;
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
-(14,5747,60040,0,0,8,0,7507,0,0,0,0,0,'','Lydros Pre Quel\'Serrar Gossip - Requires to have Foror\'s Compendium rewarded'),
-(14,5747,60040,0,0,8,0,7508,0,0,1,0,0,'','Lydros Pre Quel\'Serrar Gossip - Requires to not have The Forging of Quel\'Serrar rewarded'),
-(15,5747,0,0,0,8,0,7507,0,0,0,0,0,'','Lydros Pre Quel\'Serrar Gossip Option - Requires to have Foror\'s Compendium rewarded'),
-(15,5747,0,0,0,8,0,7508,0,0,1,0,0,'','Lydros Pre Quel\'Serrar Gossip Option - Requires to not have The Forging of Quel\'Serrar rewarded');
+(14,5747,60040,0,0,8,0,7507,0,0,0,0,0,'','Lydros Pre Quel''Serrar Gossip - Requires to have Foror''s Compendium rewarded'),
+(14,5747,60040,0,0,8,0,7508,0,0,1,0,0,'','Lydros Pre Quel''Serrar Gossip - Requires to not have The Forging of Quel''Serrar rewarded'),
+(15,5747,0,0,0,8,0,7507,0,0,0,0,0,'','Lydros Pre Quel''Serrar Gossip Option - Requires to have Foror''s Compendium rewarded'),
+(15,5747,0,0,0,8,0,7508,0,0,1,0,0,'','Lydros Pre Quel''Serrar Gossip Option - Requires to not have The Forging of Quel''Serrar rewarded');
 
 DELETE FROM `gossip_menu_option` WHERE `MenuID` IN (5747, 60040, 60041, 60042, 60043, 60044, 60045, 60046);
 INSERT INTO `gossip_menu_option` (`menuID`, `optionid`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`, `VerifiedBuild`) VALUES
