@@ -45,6 +45,7 @@ def generate_sql_queries(teleports_csv_file_path):
                     `displayid` = {scroll_display},
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = {incription_level},
                     `spellid_1` = {scroll_spell},

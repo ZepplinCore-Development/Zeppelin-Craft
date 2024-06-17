@@ -3,9 +3,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58500,
                     `name` = 'Scroll of Teleport Ironforge',
-                    `displayid` = 58830,
+                    `displayid` = 137642,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3562,
@@ -41,9 +42,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58501,
                     `name` = 'Scroll of Teleport Darnassus',
-                    `displayid` = 58841,
+                    `displayid` = 140307,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3565,
@@ -79,9 +81,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58502,
                     `name` = 'Scroll of Teleport Undercity',
-                    `displayid` = 58836,
+                    `displayid` = 140306,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3563,
@@ -117,9 +120,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58503,
                     `name` = 'Scroll of Teleport Thunder Bluff',
-                    `displayid` = 58828,
+                    `displayid` = 140303,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3566,
@@ -155,9 +159,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58504,
                     `name` = 'Scroll of Teleport Stormwind',
-                    `displayid` = 58839,
+                    `displayid` = 136822,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3561,
@@ -193,9 +198,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58505,
                     `name` = 'Scroll of Teleport Orgrimmar',
-                    `displayid` = 58825,
+                    `displayid` = 136820,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3567,
@@ -231,9 +237,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58506,
                     `name` = 'Scroll of Teleport Silvermoon City',
-                    `displayid` = 58829,
+                    `displayid` = 140301,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 32272,
@@ -269,9 +276,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58507,
                     `name` = 'Scroll of Teleport Exodar',
-                    `displayid` = 58834,
+                    `displayid` = 138484,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 32271,
@@ -307,9 +315,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58508,
                     `name` = 'Scroll of Teleport Shattrath',
-                    `displayid` = 58835,
+                    `displayid` = 136822,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 300,
                     `spellid_1` = 33690,
@@ -345,9 +354,10 @@
                 INSERT INTO `item_template`
                 SET `entry` = 58509,
                     `name` = 'Scroll of Teleport Dalaran',
-                    `displayid` = 58833,
+                    `displayid` = 140606,
                     `Quality` = 2,
                     `bonding` = 1,
+                    `stackable` = 20;
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 375,
                     `spellid_1` = 53140,
