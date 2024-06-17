@@ -6,7 +6,7 @@
                     `displayid` = 137642,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3562,
@@ -30,10 +30,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Barim Jurgenstaad - Scroll of Teleport Ironforge
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58500);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58550);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 5110,
-                    `item` = '58550'; 
+                    `item` = 58550; 
 
 
                 
@@ -45,7 +45,7 @@
                     `displayid` = 140307,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3565,
@@ -69,10 +69,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Alaindia - Scroll of Teleport Darnassus
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58501);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58551);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 3562,
-                    `item` = '58551'; 
+                    `item` = 58551; 
 
 
                 
@@ -84,7 +84,7 @@
                     `displayid` = 140306,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3563,
@@ -108,10 +108,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Hannah Akeley - Scroll of Teleport Undercity
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58502);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58552);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 4575,
-                    `item` = '58552'; 
+                    `item` = 58552; 
 
 
                 
@@ -123,7 +123,7 @@
                     `displayid` = 140303,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3566,
@@ -147,10 +147,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Chepi - Scroll of Teleport Thunder Bluff
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58503);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58553);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 8361,
-                    `item` = '58553'; 
+                    `item` = 58553; 
 
 
                 
@@ -162,7 +162,7 @@
                     `displayid` = 136822,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3561,
@@ -186,10 +186,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Charys Yserian - Scroll of Teleport Stormwind
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58504);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58554);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 1307,
-                    `item` = '58554'; 
+                    `item` = 58554; 
 
 
                 
@@ -201,7 +201,7 @@
                     `displayid` = 136820,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 3567,
@@ -225,10 +225,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Horthus - Scroll of Teleport Orgrimmar
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58505);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58555);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 3323,
-                    `item` = '58555'; 
+                    `item` = 58555; 
 
 
                 
@@ -240,7 +240,7 @@
                     `displayid` = 140301,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 32272,
@@ -264,10 +264,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Zalle - Scroll of Teleport Silvermoon City
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58506);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58556);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 16611,
-                    `item` = '58556'; 
+                    `item` = 58556; 
 
 
                 
@@ -279,7 +279,7 @@
                     `displayid` = 138484,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 100,
                     `spellid_1` = 32271,
@@ -303,10 +303,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Bildine - Scroll of Teleport Exodar
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58507);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58557);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 16757,
-                    `item` = '58557'; 
+                    `item` = 58557; 
 
 
                 
@@ -318,7 +318,7 @@
                     `displayid` = 136822,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 300,
                     `spellid_1` = 33690,
@@ -342,10 +342,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Fantei - Scroll of Teleport Shattrath
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58508);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58558);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 19678,
-                    `item` = '58558'; 
+                    `item` = 58558; 
 
 
                 
@@ -357,7 +357,7 @@
                     `displayid` = 140606,
                     `Quality` = 2,
                     `bonding` = 1,
-                    `stackable` = 20;
+                    `stackable` = 20,
                     `RequiredSkill` = 773,
                     `RequiredSkillRank` = 375,
                     `spellid_1` = 53140,
@@ -381,10 +381,10 @@
                     `spelltrigger_2` = 6;
 
                 -- Hagatha Moorehead - Scroll of Teleport Dalaran
-                DELETE FROM `npc_vendor` WHERE (`entry` = 58509);
+                DELETE FROM `npc_vendor` WHERE (`item` = 58559);
                 INSERT INTO `npc_vendor`
                 SET `entry` = 29636,
-                    `item` = '58559'; 
+                    `item` = 58559; 
 
 
                 
