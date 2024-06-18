@@ -1,7 +1,7 @@
 -- Schematic: Skill Injector
-    DELETE FROM `item_template` WHERE (`entry` = 902306);
+    DELETE FROM `item_template` WHERE (`entry` = 57200);
     INSERT INTO `item_template`
-    SET `entry` = 902306,
+    SET `entry` = 57200,
         `class` = 9, -- Recipe
         `name` = 'Schematic: Skill Injector',
         `displayid` = 1301,
@@ -17,16 +17,16 @@
         `spelltrigger_2` = 6;
 
 -- Skill Injector
-    DELETE FROM `item_template` WHERE (`entry` = 902307);
+    DELETE FROM `item_template` WHERE (`entry` = 57201);
     INSERT INTO `item_template`
-    SET `entry` = 902307,
+    SET `entry` = 57201,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other        
         `SellPrice` = 100000, -- 10G       
         `maxcount` = 1, -- Unique       
         `name` = 'Skill Injector',
         `description` = 'Don''t forget the capsule',
-        `displayid` = 64140,
+        `displayid` = 139060,
         `Quality` = 4, -- Epic
         `bonding` = 1, -- BOP
         `RequiredSkill` = 202, -- Engineering
