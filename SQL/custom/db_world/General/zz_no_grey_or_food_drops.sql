@@ -18,6 +18,10 @@ WHERE Item IN (SELECT entry FROM item_template WHERE (class = 0 AND subclass = 5
 DELETE FROM reference_loot_template 
 WHERE Item IN (SELECT entry FROM item_template WHERE (class = 0 AND subclass = 5)) AND Reference = 0;
 
+-- Remove food related conditions?
+DELETE FROM conditions
+WHERE SourceEntry IN (27854, 13755)
+
 -- GREYS
 
 -- Remove Greys from Creature Loot Table
