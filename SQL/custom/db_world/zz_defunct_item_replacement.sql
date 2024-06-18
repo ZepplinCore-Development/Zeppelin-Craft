@@ -1,21 +1,27 @@
 UPDATE `item_instance`
 SET `itemEntry` = CASE
-    WHEN `itemEntry` = 16068 THEN 902329 -- Clam Knight Conch
-    WHEN `itemEntry` = 1977 THEN 902330 -- Zeppelin Bag
-    WHEN `itemEntry` = 941 THEN 902305 -- Elementium Targeting Matrix
-    WHEN `itemEntry` = 1184 THEN 902303 -- Elementium Aegis
-    WHEN `itemEntry` = 1186 THEN 902301 -- Elementium Talisman
+    -- Engineering
     WHEN `itemEntry` = 902306 THEN 57200 -- Skill Injector Schematic    
     WHEN `itemEntry` = 902307 THEN 57201 -- Skill Injector
+    WHEN `itemEntry` = 941 THEN 902305 -- Elementium Targeting Matrix  
     WHEN `itemEntry` = 38385 THEN 902310 -- Black Diamond Dragonling
-    WHEN `itemEntry` = 32566 THEN 902311 -- Compressed Thermal Anvil
-    WHEN `itemEntry` = 902313 THEN 41605 -- Mystic Resonator
+    -- Jewelcrafting
+    WHEN `itemEntry` = 902300 THEN 57500 -- Design: Elementium Talisman   
+    WHEN `itemEntry` = 902301 THEN 57501 -- Elementium Talisman
+    -- Leatherworking
     WHEN `itemEntry` = 836 THEN 902316 -- Drums of Forgotten Kings
     WHEN `itemEntry` = 741 THEN 902318 -- Drums of Fortitude
     WHEN `itemEntry` = 761 THEN 902320 -- Drums of Intellect
     WHEN `itemEntry` = 1163 THEN 902322 -- Drums of the Nights Watch
     WHEN `itemEntry` = 951 THEN 902324 -- Drums of the Wild
     WHEN `itemEntry` = 1128 THEN 902326 -- Drums of the Raid Leader
+    WHEN `itemEntry` = 16068 THEN 902329 -- Clam Knight Conch
+    WHEN `itemEntry` = 1977 THEN 902330 -- Zeppelin Bag
+    -- Blacksmithing
+    WHEN `itemEntry` = 1184 THEN 902303 -- Elementium Aegis
+    WHEN `itemEntry` = 32566 THEN 902311 -- Compressed Thermal Anvil
+    --
+    WHEN `itemEntry` = 902313 THEN 41605 -- Mystic Resonator
     WHEN `itemEntry` = 33223 THEN 902327 -- Portable Guild Bank
     WHEN `itemEntry` = 54452 THEN 902328 -- Reagent Portal
     -- AQ Crystals
