@@ -1,7 +1,7 @@
 -- Design: Black Diamond Dragonling
-    DELETE FROM `item_template` WHERE (`entry` = 902309);
+    DELETE FROM `item_template` WHERE (`entry` = 57202);
     INSERT INTO `item_template`
-    SET `entry` = 902309,
+    SET `entry` = 57202,
         `class` = 9, -- Recipe
         `subclass` = 10, -- Jewelcrafting
         `name` = 'Design: Black Diamond Dragonling',
@@ -18,15 +18,15 @@
         `spelltrigger_2` = 6;
 
 -- Black Diamond Dragonling
-    DELETE FROM `item_template` WHERE (`entry` = 902310);
+    DELETE FROM `item_template` WHERE (`entry` = 57203);
     INSERT INTO `item_template`
-    SET `entry` = 902310,
+    SET `entry` = 57203,
         `class` = 4, -- Armor
         `InventoryType` = 12, -- Trinket
         `SellPrice` = 100000, -- 10G       
         `maxcount` = 1, -- Unique       
         `name` = 'Black Diamond Dragonling',
-        `displayid` = 51621,
+        `displayid` = 136390,
         `Quality` = 3, -- Rare
         `Flags` = 524352, -- PLAYERCAST + UNIQUE EQUIPPED
         `ItemLevel` = 60,
