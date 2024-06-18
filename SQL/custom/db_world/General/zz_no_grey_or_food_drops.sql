@@ -95,7 +95,21 @@ WHERE Reference != 0 AND Reference NOT IN (SELECT entry FROM reference_loot_temp
 DELETE FROM item_loot_template 
 WHERE Reference != 0 AND Reference NOT IN (SELECT entry FROM reference_loot_template);
 
--- Remove empty Skinning from Creatures
+-- Creature and object Templates
+
+-- Remove empty Skinning entry from Creatures
 UPDATE creature_template
 SET skinloot = 0
 WHERE skinloot NOT IN (SELECT Entry FROM skinning_loot_template);
+
+-- Remove empty pickpocket entry from Creatures
+UPDATE creature_template
+SET pickpocketloot = 0
+WHERE pickpocketloot NOT IN (SELECT Entry FROM pickpocketing_loot_template);
+
+-- Remove empty loot entry from Game Objects
+UPDATE gameobject_template
+SET Data1 = 0,
+SET Data0 = 0,
+SET Data3 = 0
+WHERE `type` = 3 AND Data1 NOT IN (SELECT Entry FROM gameobject_loot_template);
