@@ -1,0 +1,1 @@
+UPDATE `creature_template` SET `type_flags` = 328, `skinloot` = 100047 WHERE (`entry` = 17980);
