@@ -20,7 +20,7 @@ WHERE Item IN (SELECT entry FROM item_template WHERE (class = 0 AND subclass = 5
 
 -- Remove food related conditions?
 DELETE FROM conditions
-WHERE SourceEntry IN (27854, 13755)
+WHERE SourceEntry IN (27854, 13755);
 
 -- GREYS
 
