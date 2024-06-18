@@ -110,6 +110,6 @@ WHERE pickpocketloot NOT IN (SELECT Entry FROM pickpocketing_loot_template);
 -- Remove empty loot entry from Game Objects
 UPDATE gameobject_template
 SET Data1 = 0,
-SET Data0 = 0,
-SET Data3 = 0
+    Data0 = 0,
+    Data3 = 0
 WHERE `type` = 3 AND Data1 NOT IN (SELECT Entry FROM gameobject_loot_template);
