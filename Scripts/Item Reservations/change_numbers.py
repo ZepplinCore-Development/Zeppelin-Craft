@@ -9,7 +9,7 @@ def replace_numbers(text, replacements):
     return text
 
 # Specify the root directory to start searching from
-root_directory = 'C:\Zeppelin-Core\SQL'
+root_directory = 'C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\SQL\custom\db_world'
 
 # Verify the root directory
 if not os.path.exists(root_directory):
@@ -21,6 +21,14 @@ else:
 
 # Specify the numbers to replace and their replacements
 replacements = {
+    #Engineering
+    '902306': '57200',      # Skill Injector Schematic 
+    '902307': '57201',      # Skill Injector
+    '902309': '57202',      # Design: Black Diamond Dragonling
+    '902310': '57203',      # Black Diamond Dragonling
+    #Jewelcrafting
+    '902300': '57500',      # Design: Elementium Talisman 
+    '902301': '57501',      # Elementium Talisman  
     #aq crystals
     '900100': '901000',   
     '900101': '901001',
