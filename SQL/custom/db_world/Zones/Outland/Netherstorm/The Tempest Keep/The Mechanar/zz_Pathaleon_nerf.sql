@@ -1,0 +1,1 @@
+UPDATE `creature_template` SET `HealthModifier` = 0.75 WHERE (`entry` = 21062); -- these are his spawns
