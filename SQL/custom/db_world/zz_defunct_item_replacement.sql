@@ -1,4 +1,4 @@
-UPDATE `item_instance`
+UPDATE acore_characters.item_instance
 SET `itemEntry` = CASE
     -- Engineering
     WHEN `itemEntry` = 902306 THEN 57200 -- Skill Injector Schematic    
