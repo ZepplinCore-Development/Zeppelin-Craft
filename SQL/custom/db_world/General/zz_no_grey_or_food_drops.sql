@@ -94,3 +94,8 @@ WHERE Reference != 0 AND Reference NOT IN (SELECT entry FROM reference_loot_temp
 -- Remove Greys from Item Loot Table
 DELETE FROM item_loot_template 
 WHERE Reference != 0 AND Reference NOT IN (SELECT entry FROM reference_loot_template);
+
+-- Remove empty Skinning from Creatures
+UPDATE creature_template
+SET skinloot = 0
+WHERE skinloot NOT IN (SELECT Entry FROM skinning_loot_template);
