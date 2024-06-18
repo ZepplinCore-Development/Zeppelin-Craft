@@ -8,7 +8,7 @@ gnome-terminal\
 	--tab\
 		--title="Auth Server" -- bash -c "cd; azerothcore-wotlk/acore.sh run-authserver; $SHELL"
 		
-sleep 5
+sleep 15
 		
 gnome-terminal\
 	--tab\
