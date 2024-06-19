@@ -10,7 +10,7 @@
         `class` = 16; -- MISC  
 
 -- Clam Knight Conch - loot
-DELETE FROM `item_loot_template` WHERE (`Entry` = 902329) AND (`Item` IN (902310, 902327, 902328));
+DELETE FROM `item_loot_template` WHERE (`Entry` = 902329) AND (`Item` IN (902311, 902327, 902328));
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (902329, 902311, 0, 100, 0, 1, 4, 1, 1, 'Compressed Thermal Anvil'),
 (902329, 902327, 0, 100, 0, 1, 5, 1, 1, 'Portable Guild Bank'),
