@@ -3,9 +3,10 @@ SET `itemEntry` = CASE
     -- Engineering
     WHEN `itemEntry` = 902306 THEN 57200 -- Skill Injector Schematic    
     WHEN `itemEntry` = 902307 THEN 57201 -- Skill Injector
-    WHEN `itemEntry` = 941 THEN 902305 -- Elementium Targeting Matrix  
     WHEN `itemEntry` = 902309 THEN 57202 -- Design: Black Diamond Dragonling
     WHEN `itemEntry` = 902310 THEN 57203 -- Black Diamond Dragonling
+    WHEN `itemEntry` = 902304 THEN 57204 -- Schematic: Elementium Targeting Matrix  
+    WHEN `itemEntry` = 902305 THEN 57205 -- Elementium Targeting Matrix 
     -- Jewelcrafting
     WHEN `itemEntry` = 902300 THEN 57500 -- Design: Elementium Talisman   
     WHEN `itemEntry` = 902301 THEN 57501 -- Elementium Talisman

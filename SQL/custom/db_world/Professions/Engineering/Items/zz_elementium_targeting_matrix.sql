@@ -1,7 +1,7 @@
 -- Schematic: Elementium Targeting Matrix
-    DELETE FROM `item_template` WHERE (`entry` = 902304);
+    DELETE FROM `item_template` WHERE (`entry` = 57204);
     INSERT INTO `item_template`
-    SET `entry` = 902304,
+    SET `entry` = 57204,
         `class` = 9, -- Recipe
         `name` = 'Schematic: Elementium Targeting Matrix',
         `displayid` = 1301,
@@ -17,15 +17,15 @@
         `spelltrigger_2` = 6;
 
 -- Elementium Targeting Matrix
-    DELETE FROM `item_template` WHERE (`entry` = 902305);
+    DELETE FROM `item_template` WHERE (`entry` = 57205);
     INSERT INTO `item_template`
-    SET `entry` = 902305,
+    SET `entry` = 57205,
         `class` = 4, -- Armor
         `InventoryType` = 12, -- Trinket
         `SellPrice` = 1000000, -- 100G       
         `maxcount` = 1, -- Unique       
         `name` = 'Elementium Targeting Matrix',
-        `displayid` = 31202,
+        `displayid` = 135270,
         `Quality` = 4, -- Epic
         `ItemLevel` = 65,
         `RequiredLevel` = 60,
