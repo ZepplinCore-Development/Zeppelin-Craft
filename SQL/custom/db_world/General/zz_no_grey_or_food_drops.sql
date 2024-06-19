@@ -102,6 +102,11 @@ UPDATE creature_template
 SET skinloot = 0
 WHERE skinloot NOT IN (SELECT Entry FROM skinning_loot_template);
 
+-- Remove empty loot entry from Creatures
+UPDATE creature_template
+SET lootid = 0
+WHERE lootid NOT IN (SELECT Entry FROM creature_loot_template);
+
 -- Remove empty pickpocket entry from Creatures
 UPDATE creature_template
 SET pickpocketloot = 0
