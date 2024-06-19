@@ -26,6 +26,8 @@ replacements = {
     '902307': '57201',      # Skill Injector
     '902309': '57202',      # Design: Black Diamond Dragonling
     '902310': '57203',      # Black Diamond Dragonling
+    '902304': '57204',      # Schematic: Elementium Targeting Matrix
+    '902305': '57205',      # Elementium Targeting Matrix   
     #Jewelcrafting
     '902300': '57500',      # Design: Elementium Talisman 
     '902301': '57501',      # Elementium Talisman  
