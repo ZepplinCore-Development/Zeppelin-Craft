@@ -4,7 +4,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (51999, 1, 10036, 100, 0, 1, 1, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (51999, 2, 10037, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (51999, 3, 10038, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(51999, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
+(51999, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random 24-34
 DELETE FROM `item_loot_template` WHERE (`Entry` = 52000);
@@ -12,7 +12,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52000, 1, 10039, 100, 0, 1, 1, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52000, 2, 10040, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52000, 3, 10041, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52000, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
+(52000, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random 35-45
 DELETE FROM `item_loot_template` WHERE (`Entry` = 52001);
@@ -21,7 +21,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52001, 2, 10043, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52001, 3, 10044, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52001, 4, 10045, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52001, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
+(52001, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random 46-55
 DELETE FROM `item_loot_template` WHERE (`Entry` = 52002);
@@ -30,7 +30,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52002, 2, 10047, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52002, 3, 10048, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52002, 4, 10049, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52002, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Emblem of Adventure');
+(52002, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random 56-60
 DELETE FROM `item_loot_template` WHERE (`Entry` = 52003);
@@ -39,7 +39,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (52003, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (52003, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52003, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
+(52003, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random Heroic
 DELETE FROM `item_template` WHERE (`entry` = 901201);
@@ -52,7 +52,7 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (901201, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901201, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901201, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(901201, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
+(901201, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
 
 -- Classic Random Mythic
 DELETE FROM `item_template` WHERE (`entry` = 901205);
@@ -65,4 +65,4 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (901205, 2, 10051, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901205, 3, 10052, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
 (901205, 4, 10053, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(901205, 901200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');
+(901205, 58200, 0, 100, 0, 1, 0, 1, 1, 'Satchel of Helpful Goods - Badge of Heroism');

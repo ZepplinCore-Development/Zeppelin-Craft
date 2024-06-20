@@ -32,7 +32,9 @@ replacements = {
     '902300': '57500',      # Design: Elementium Talisman 
     '902301': '57501',      # Elementium Talisman  
     #aq crystals
-    #emblems and satchels
+    #Currencies
+    '901200': '58200',      # Badge of Heroism     
+    #satchels
     #stockades
     #vanilla recipes
     #quest items vanilla

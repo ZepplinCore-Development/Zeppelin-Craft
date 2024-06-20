@@ -79,19 +79,19 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
 
             match difficulty:
                 case "Vanilla Normal":
-                    reward_1 = 901200 # Emblem of Adventure
+                    reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 1
                     reward_2 = 901203 # Experience Orb
                     rewardamount_2 = 1
 
                 case "Vanilla Heroic":
-                    reward_1 = 901200 # Emblem of Adventure
+                    reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 2
                     reward_2 = 901203 # Experience Orb
                     rewardamount_2 = 1
 
                 case "Vanilla Mythic":
-                    reward_1 = 901200 # Emblem of Adventure
+                    reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 3
                     reward_2 = 901203 # Experience Orb
                     rewardamount_2 = 1

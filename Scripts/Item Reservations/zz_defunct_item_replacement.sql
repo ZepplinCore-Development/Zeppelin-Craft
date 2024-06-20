@@ -32,7 +32,7 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 900102 THEN 901002   
     WHEN `itemEntry` = 900103 THEN 901003
     -- Emblems and Satchels
-    WHEN `itemEntry` = 901200 THEN 901200
+    WHEN `itemEntry` = 901200 THEN 58200 -- Badge of Heroism
     WHEN `itemEntry` = 900117 THEN 901201
     WHEN `itemEntry` = 900189 THEN 901203
     WHEN `itemEntry` = 900214 THEN 901205
