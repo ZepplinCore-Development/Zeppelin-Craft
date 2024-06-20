@@ -56,3 +56,16 @@ SET `itemEntry` = CASE
     -- Add more conditions as needed
     ELSE `itemEntry`
 END;
+
+-- Items in Reagent Bank
+
+UPDATE acore_characters.custom_reagent_bank_account
+SET `item_Entry` = CASE
+    -- AQ Crystals
+    WHEN `item_Entry` = 900100 THEN 901000   
+    WHEN `item_Entry` = 900101 THEN 901001
+    WHEN `item_Entry` = 900102 THEN 901002   
+    WHEN `item_Entry` = 900103 THEN 901003
+    -- Add more conditions as needed
+    ELSE `item_Entry`
+END;
