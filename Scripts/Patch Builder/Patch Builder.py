@@ -5,14 +5,14 @@ import shutil
 
 # Database connection details
 db_config = {
-    'user': 'your_username',
-    'password': 'your_password',
-    'host': 'your_host',  # Use the remote host address
+    "host": "192.168.0.99",
+    "user": "keira",
+    "password": "slipknot9",
     'database': 'dbc'
 }
 
 # Directory to save the SQL files
-backup_dir = 'path_to_backup_directory'
+backup_dir = 'C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\Patch Builder'
 
 if not os.path.exists(backup_dir):
     os.makedirs(backup_dir)
