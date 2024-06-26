@@ -1,1 +1,1 @@
-DELETE FROM cinematicsequences;
+DELETE FROM `cinematicsequences`;

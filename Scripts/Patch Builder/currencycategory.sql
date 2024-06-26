@@ -1,1 +1,1 @@
-DELETE FROM currencycategory;
+DELETE FROM `currencycategory`;

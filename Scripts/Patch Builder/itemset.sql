@@ -1,1 +1,1 @@
-DELETE FROM itemset;
+DELETE FROM `itemset`;

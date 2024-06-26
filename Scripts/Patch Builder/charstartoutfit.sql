@@ -1,1 +1,1 @@
-DELETE FROM charstartoutfit;
+DELETE FROM `charstartoutfit`;

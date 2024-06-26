@@ -1,1 +1,1 @@
-DELETE FROM gameobjectdisplayinfo;
+DELETE FROM `gameobjectdisplayinfo`;

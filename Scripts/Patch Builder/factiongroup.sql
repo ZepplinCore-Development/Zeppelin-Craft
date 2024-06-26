@@ -1,1 +1,1 @@
-DELETE FROM factiongroup;
+DELETE FROM `factiongroup`;

@@ -1,1 +1,1 @@
-DELETE FROM itemclass;
+DELETE FROM `itemclass`;

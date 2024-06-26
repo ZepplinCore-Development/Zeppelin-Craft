@@ -1,1 +1,1 @@
-DELETE FROM creaturesounddata;
+DELETE FROM `creaturesounddata`;

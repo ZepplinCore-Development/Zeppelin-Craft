@@ -1,1 +1,1 @@
-DELETE FROM chrclasses;
+DELETE FROM `chrclasses`;

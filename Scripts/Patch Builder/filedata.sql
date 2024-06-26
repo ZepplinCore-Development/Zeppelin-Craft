@@ -1,1 +1,1 @@
-DELETE FROM filedata;
+DELETE FROM `filedata`;

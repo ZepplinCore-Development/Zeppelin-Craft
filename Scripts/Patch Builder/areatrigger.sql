@@ -1,1 +1,1 @@
-DELETE FROM areatrigger;
+DELETE FROM `areatrigger`;

@@ -1,1 +1,1 @@
-DELETE FROM areagroup;
+DELETE FROM `areagroup`;

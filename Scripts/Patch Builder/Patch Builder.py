@@ -13,6 +13,7 @@ db_config = {
 
 # Directory to save the SQL files
 backup_dir = 'C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\Scripts\Patch Builder'
+batch_size = 1000  # Number of rows per INSERT statement
 
 if not os.path.exists(backup_dir):
     os.makedirs(backup_dir)
@@ -30,22 +31,27 @@ for (table_name,) in tables:
     backup_file = os.path.join(backup_dir, f"{table_name}.sql")
 
     # Get the column names
-    cursor.execute(f"SHOW COLUMNS FROM {table_name}")
+    cursor.execute(f"SHOW COLUMNS FROM `{table_name}`")
     columns = [col[0] for col in cursor.fetchall()]
 
     # Get the table data
-    cursor.execute(f"SELECT * FROM {table_name}")
+    cursor.execute(f"SELECT * FROM `{table_name}`")
     rows = cursor.fetchall()
 
     # Write the backup file
     with open(backup_file, 'w') as file:
         # Write the DELETE statement
-        file.write(f"DELETE FROM {table_name};\n")
+        file.write(f"DELETE FROM `{table_name}`;\n")
         
-        # Write the INSERT statements
-        for row in rows:
-            values = ', '.join(f"'{str(value).replace('\'', '\\\'')}'" if value is not None else 'NULL' for value in row)
-            file.write(f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({values});\n")
+        # Write the INSERT statements in batches
+        for i in range(0, len(rows), batch_size):
+            batch_rows = rows[i:i+batch_size]
+            values_list = []
+            for row in batch_rows:
+                values = ', '.join(f"'{str(value).replace('\'', '\\\'')}'" if value is not None else 'NULL' for value in row)
+                values_list.append(f"({values})")
+            insert_statement = f"INSERT INTO `{table_name}` ({', '.join(columns)}) VALUES\n  " + ",\n  ".join(values_list) + ";\n"
+            file.write(insert_statement)
 
 # Clean up
 cursor.close()

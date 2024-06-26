@@ -1,1 +1,1 @@
-DELETE FROM areatable;
+DELETE FROM `areatable`;

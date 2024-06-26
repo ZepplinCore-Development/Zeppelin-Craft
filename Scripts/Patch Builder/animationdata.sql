@@ -1,1 +1,1 @@
-DELETE FROM animationdata;
+DELETE FROM `animationdata`;

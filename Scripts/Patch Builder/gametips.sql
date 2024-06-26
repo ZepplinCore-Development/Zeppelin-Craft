@@ -1,1 +1,1 @@
-DELETE FROM gametips;
+DELETE FROM `gametips`;

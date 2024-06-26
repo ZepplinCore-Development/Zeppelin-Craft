@@ -1,1 +1,1 @@
-DELETE FROM chatchannels;
+DELETE FROM `chatchannels`;

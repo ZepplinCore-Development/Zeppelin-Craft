@@ -1,1 +1,1 @@
-DELETE FROM chartitles;
+DELETE FROM `chartitles`;

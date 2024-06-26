@@ -1,1 +1,1 @@
-DELETE FROM loadingscreens;
+DELETE FROM `loadingscreens`;

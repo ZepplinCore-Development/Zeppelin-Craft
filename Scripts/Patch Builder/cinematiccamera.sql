@@ -1,1 +1,1 @@
-DELETE FROM cinematiccamera;
+DELETE FROM `cinematiccamera`;

@@ -1,1 +1,1 @@
-DELETE FROM lightparams;
+DELETE FROM `lightparams`;

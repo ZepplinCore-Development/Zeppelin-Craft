@@ -1,1 +1,1 @@
-DELETE FROM chrraces;
+DELETE FROM `chrraces`;

@@ -1,1 +1,1 @@
-DELETE FROM gemproperties;
+DELETE FROM `gemproperties`;

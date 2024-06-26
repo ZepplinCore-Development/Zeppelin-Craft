@@ -1,1 +1,1 @@
-DELETE FROM lightskybox;
+DELETE FROM `lightskybox`;

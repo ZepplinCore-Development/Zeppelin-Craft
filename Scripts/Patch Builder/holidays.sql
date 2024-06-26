@@ -1,1 +1,1 @@
-DELETE FROM holidays;
+DELETE FROM `holidays`;

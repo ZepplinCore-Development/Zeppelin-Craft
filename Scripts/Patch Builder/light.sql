@@ -1,1 +1,1 @@
-DELETE FROM light;
+DELETE FROM `light`;

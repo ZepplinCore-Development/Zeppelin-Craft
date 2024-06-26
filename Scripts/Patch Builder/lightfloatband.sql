@@ -1,1 +1,1 @@
-DELETE FROM lightfloatband;
+DELETE FROM `lightfloatband`;

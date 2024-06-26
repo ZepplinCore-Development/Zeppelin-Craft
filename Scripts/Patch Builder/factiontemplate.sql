@@ -1,1 +1,1 @@
-DELETE FROM factiontemplate;
+DELETE FROM `factiontemplate`;
