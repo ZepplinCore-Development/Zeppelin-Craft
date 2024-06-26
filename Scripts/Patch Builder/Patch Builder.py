@@ -2,6 +2,7 @@ import mysql.connector
 import os
 import subprocess
 import shutil
+import gzip
 
 # Database connection details
 db_config = {
@@ -25,6 +26,7 @@ cursor = conn.cursor()
 # Get the list of tables
 cursor.execute("SHOW TABLES")
 tables = cursor.fetchall()
+
 
 for (table_name,) in tables:
     print(f"Backing up table: {table_name}")
@@ -50,8 +52,11 @@ for (table_name,) in tables:
             for row in batch_rows:
                 values = ', '.join(f"'{str(value).replace('\'', '\\\'')}'" if value is not None else 'NULL' for value in row)
                 values_list.append(f"({values})")
-            insert_statement = f"INSERT INTO `{table_name}` ({', '.join(columns)}) VALUES\n  " + ",\n  ".join(values_list) + ";\n"
+            
+            # Format the insert statement for readability
+            insert_statement = f"INSERT INTO `{table_name}` ({', '.join(columns)}) VALUES\n" + ",\n".join(values_list) + ";\n"
             file.write(insert_statement)
+
 
 # Clean up
 cursor.close()
