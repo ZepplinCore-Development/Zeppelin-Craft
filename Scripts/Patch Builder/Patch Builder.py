@@ -234,12 +234,12 @@ def compare_and_generate_updates():
                             queries.append(update_query)
                 else:
                     # Handle an INSERT query for the new entry
-                    delete_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
+                    delete_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';"
                     queries.append(delete_query)
 
                     insert_fields = []
                     for key, value in row_dbc.items():
-                        print(f"Key is {key}")
+                        # print(f"Key is {key}")
                         if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
                             insert_fields.append(f"`{key}` = '{value}'")
                    
