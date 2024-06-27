@@ -1,7 +1,6 @@
 import mysql.connector
+import numbers
 import os
-import shutil
-from datetime import datetime
 
 # Database connection details
 db_config = {
@@ -139,6 +138,49 @@ def get_primary_key_column(connection, table_name):
 
     return None
 
+# Function to get the default values for a table's columns
+def get_column_defaults(connection, table_name):
+    defaults = {}
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(f"SHOW COLUMNS FROM `{table_name}`;")
+            columns = cursor.fetchall()
+            for column in columns:
+                field = column[0]
+                default = column[4]
+                defaults[field] = default
+
+    except mysql.connector.Error as err:
+        print(f"Error fetching column defaults for {table_name}: {err}")
+
+    return defaults
+
+import numbers
+
+def convert_to_number(value):
+    try:
+        return int(value)
+    except ValueError:
+        try:
+            return float(value)
+        except ValueError:
+            return value  # Return as string if conversion fails
+    
+
+# Function to check if two values are equivalent considering numeric types
+def values_are_equivalent(value1, value2):
+
+    if isinstance(value1, numbers.Number):
+        # Convert value2 to a number if possible
+        value2_num = convert_to_number(value2)
+        return value1 == value2_num
+    else:
+        # Convert value1 and value2 to strings for comparison
+        str_value1 = str(value1)
+        str_value2 = str(value2)
+        return str_value1 == str_value2
+
+
 # Function to compare data between dbc and DBC_backup tables
 def compare_and_generate_updates():
     try:
@@ -155,43 +197,62 @@ def compare_and_generate_updates():
             rows_dbc = fetch_all_rows(conn_dbc, table)
             rows_dbc_backup = fetch_all_rows(conn_dbc_backup, table)
             primary_key_column = get_primary_key_column(conn_dbc, table)
+            column_defaults = get_column_defaults(conn_dbc, table)
 
             if not rows_dbc or not rows_dbc_backup:
                 print(f"No data found in {table} in one of the databases.")
+                continue
+            elif not primary_key_column:
+                print(f"Skipping {table} due to no primary key or pseudo key.")
                 continue
             else:
                 print(f"Checking {table} for differences.")
                 print(f"Using {primary_key_column} as Key Column.")
 
+            # Create a dictionary for fast lookup of backup rows by primary key
+            backup_rows_dict = {row[primary_key_column]: row for row in rows_dbc_backup}
+
+            # Initialize a list to hold update and insert queries for the current table
+            queries = []
+
             # Compare each row
             for row_dbc in rows_dbc:
-                found_match = False
-                for row_dbc_backup in rows_dbc_backup:
-                    if row_dbc[primary_key_column] == row_dbc_backup[primary_key_column]:
-                        found_match = True
-                        if row_dbc != row_dbc_backup:
-                            # Generate update query to sync DBC_backup with dbc
-                            update_query = f"UPDATE `{backup_dbc}`.`{table}` SET "
-                            update_fields = []
+                backup_row = backup_rows_dict.get(row_dbc[primary_key_column])
+                if backup_row:
+                    if row_dbc != backup_row:
+                        # Generate update query to sync DBC_backup with dbc
+                        update_query = f"UPDATE `{live_dbc}`.`{table}` SET \n"
+                        update_fields = []
 
-                            for key, value in row_dbc.items():
-                                if row_dbc_backup.get(key) != value:
-                                    update_fields.append(f"`{key}` = '{value}'")
+                        for key, value in row_dbc.items():
+                            if backup_row.get(key) != value:
+                                update_fields.append(f"    `{key}` = '{value}' /* was {backup_row.get(key)} */")
 
-                            if update_fields:
-                                update_query += ", ".join(update_fields)
-                                update_query += f" WHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';"
+                        if update_fields:
+                            update_query += ",\n".join(update_fields)
+                            update_query += f"\nWHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
+                            queries.append(update_query)
+                else:
+                    # Handle an INSERT query for the new entry
+                    delete_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
+                    queries.append(delete_query)
 
-                                # Save the update query to a SQL file
-                                sql_file = os.path.join(update_dir, f"update_{table}_{row_dbc[primary_key_column]}.sql")
-                                with open(sql_file, 'w') as f:
-                                    f.write(update_query + "\n")
+                    insert_fields = []
+                    for key, value in row_dbc.items():
+                        print(f"Key is {key}")
+                        if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
+                            insert_fields.append(f"`{key}` = '{value}'")
+                   
+                    insert_query = f"INSERT INTO `{live_dbc}`.`{table}` SET \n" + ",\n".join(insert_fields) + ";\n"
+                    queries.append(insert_query)
 
-                                print(f"Generated update query for {backup_dbc}.{table} for {primary_key_column} = {row_dbc[primary_key_column]}")
-                        break
-                
-                if not found_match:
-                    print(f"No match found for {primary_key_column} = {row_dbc[primary_key_column]} in {backup_dbc}.{table}")
+            # Save all queries (both update and insert) for the current table to a single SQL file
+            if queries:
+                sql_file = os.path.join(update_dir, f"update_{table}.sql")
+                with open(sql_file, 'w') as f:
+                    f.write("\n".join(queries) + "\n")
+
+                print(f"Generated queries for {backup_dbc}.{table}")
 
     except mysql.connector.Error as err:
         print(f"MySQL Error: {err}")
@@ -209,8 +270,6 @@ try:
 
 except Exception as e:
     print(f"An error occurred: {e}")
-
-
 
 # Shell script equivalent starts here
 
