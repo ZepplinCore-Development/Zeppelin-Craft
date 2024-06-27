@@ -9,7 +9,7 @@ SET
     rangedattackpower = rangedattackpower * (1 + (level - 10) * 0.01)
 WHERE level BETWEEN 10 AND 50;
 
--- Update levels 51 and above with a flat 50% increase
+-- Update levels 51 and above with a flat 40% increase
 UPDATE acore_world.creature_classlevelstats
 SET 
     basehp0 = basehp0 * 1.40,
