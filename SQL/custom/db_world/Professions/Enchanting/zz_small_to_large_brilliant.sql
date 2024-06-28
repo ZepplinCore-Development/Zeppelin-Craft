@@ -5,4 +5,4 @@ SET `ID` = 201009,
     `SpellID` = 91117,
     `MoneyCost` = 10000,
     `ReqSkillLine` = 333,
-    `ReqSkillRank` = 250;
+    `ReqSkillRank` = 225;

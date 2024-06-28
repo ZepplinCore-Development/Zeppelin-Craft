@@ -1173,8 +1173,8 @@ INSERT INTO `dbc`.`skilllineability` SET
 `skillId` = '333',
 `spellId` = '91000',
 `requiredSkillValue` = '1',
-`skillGreyLevel` = '300',
-`skillGreenLevel` = '260';
+`skillGreyLevel` = '310',
+`skillGreenLevel` = '275';
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = '31580';
 INSERT INTO `dbc`.`skilllineability` SET 
@@ -1256,6 +1256,15 @@ INSERT INTO `dbc`.`skilllineability` SET
 `requiredSkillValue` = '1',
 `skillGreyLevel` = '325',
 `skillGreenLevel` = '315';
+
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = '31589';
+INSERT INTO `dbc`.`skilllineability` SET 
+`id` = '31589',
+`skillId` = '333',
+`spellId` = '91117',
+`requiredSkillValue` = '1',
+`skillGreyLevel` = '265',
+`skillGreenLevel` = '250';
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = '32000';
 INSERT INTO `dbc`.`skilllineability` SET 
