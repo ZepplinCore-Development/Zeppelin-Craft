@@ -1,10 +1,10 @@
--- Formula: Arcane Transmutation: Large Brilliant Shard to Nexus
-    DELETE FROM `item_template` WHERE (`entry` = 902314);
+-- Formula: Nexus Shard
+    DELETE FROM `item_template` WHERE (`entry` = 57101);
     INSERT INTO `item_template`
-    SET `entry` = 902314,
+    SET `entry` = 57101,
         `class` = 9, -- Recipe
         `subclass` = 8, -- Enchanting
-        `name` = 'Formula: Arcane Transmutation: Large Brilliant Shard to Nexus',
+        `name` = 'Formula: Nexus Shard',
         `description` = 'Allows you to transform those pesky Large Brilliant Shards',
         `displayid` = 1301,
         `SellPrice` = 100000, -- 10G 

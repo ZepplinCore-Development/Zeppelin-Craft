@@ -22,7 +22,9 @@ SET `itemEntry` = CASE
     -- Blacksmithing
     WHEN `itemEntry` = 1184 THEN 902303 -- Elementium Aegis
     WHEN `itemEntry` = 32566 THEN 902311 -- Compressed Thermal Anvil
-    --
+    -- Enchanting
+    WHEN `itemEntry` = 902314 THEN 57101 -- Formula: Nexus Shard
+    -- 
     WHEN `itemEntry` = 902313 THEN 41605 -- Mystic Resonator
     WHEN `itemEntry` = 33223 THEN 902327 -- Portable Guild Bank
     WHEN `itemEntry` = 54452 THEN 902328 -- Reagent Portal

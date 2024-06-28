@@ -21,16 +21,18 @@ else:
 
 # Specify the numbers to replace and their replacements
 replacements = {
-    #Engineering
+    # Engineering
     '902306': '57200',      # Skill Injector Schematic 
     '902307': '57201',      # Skill Injector
     '902309': '57202',      # Design: Black Diamond Dragonling
     '902310': '57203',      # Black Diamond Dragonling
     '902304': '57204',      # Schematic: Elementium Targeting Matrix
     '902305': '57205',      # Elementium Targeting Matrix   
-    #Jewelcrafting
+    # Jewelcrafting
     '902300': '57500',      # Design: Elementium Talisman 
     '902301': '57501',      # Elementium Talisman  
+    # Enchanting
+    '902314': '57101',      # Formula: Nexus Shard
     #aq crystals
     #Currencies
     '901200': '58200',      # Badge of Heroism     
