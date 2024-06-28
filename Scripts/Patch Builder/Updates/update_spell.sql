@@ -4648,7 +4648,7 @@ INSERT INTO `dbc`.`spell` SET
 `EffectItemType1` = '20725',
 `SpellVisual1` = '3182',
 `SpellIconID` = '1900',
-`SpellName0` = 'Arcane Transmutation: Large Brilliant Shard to Nexus',
+`SpellName0` = 'Nexus Shard',
 `SpellNameFlag7` = '16712190',
 `SpellRankFlags7` = '16712190',
 `SpellDescription0` = 'Converts Large Brlliant shards to Nexus Crystals',
@@ -9269,6 +9269,36 @@ INSERT INTO `dbc`.`spell` SET
 `EffectDamageMultiplier3` = '1.0',
 `SchoolMask` = '64',
 `EffectBonusMultiplier2` = '1.0';
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = '91117';
+INSERT INTO `dbc`.`spell` SET 
+`ID` = '91117',
+`Attributes` = '65568',
+`AttributesEx` = '1024',
+`CastingTimeIndex` = '3',
+`InterruptFlags` = '15',
+`ProcChance` = '101',
+`RangeIndex` = '1',
+`Reagent1` = '14343',
+`ReagentCount1` = '3',
+`EquippedItemClass` = '-1',
+`Effect1` = '24',
+`EffectDieSides1` = '1',
+`EffectImplicitTargetA1` = '1',
+`EffectItemType1` = '14344',
+`SpellVisual1` = '3182',
+`SpellIconID` = '1707',
+`SpellName0` = 'Large Brilliant Shard',
+`SpellNameFlag7` = '16712190',
+`SpellRankFlags7` = '16712190',
+`SpellDescription0` = 'Combines Small Brilliant Shards to make a Large Brilliant Shard',
+`SpellDescriptionFlags7` = '16712190',
+`SpellToolTipFlags7` = '16712190',
+`EffectDamageMultiplier1` = '1.0',
+`EffectDamageMultiplier2` = '1.0',
+`EffectDamageMultiplier3` = '1.0',
+`TotemCategory1` = '10',
+`SchoolMask` = '1';
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = '103195';
 INSERT INTO `dbc`.`spell` SET 
