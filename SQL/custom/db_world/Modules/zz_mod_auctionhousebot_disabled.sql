@@ -2,6 +2,16 @@
 REPLACE INTO `mod_auctionhousebot_disabled_items`
 VALUES
 18164,
+3773,
+1622,
+4227,
+5162,
+2412,
+941,
+1533,
+4156,
+5159,
+1995,
 19742,
 19428,
 19427,
