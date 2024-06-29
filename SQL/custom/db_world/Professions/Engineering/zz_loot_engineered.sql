@@ -55,10 +55,10 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 -- LEVEL 70+ TBC LOOT TABLE
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100035);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(100035, 23446, 0, 0, 90, 1, 1, 1, 3, 'Adamantite Bar'),
-(100035, 23449, 0, 0, 10, 1, 1, 1, 1, 'Khorium Bar'),
-(100035, 22574, 0, 0, 30, 1, 2, 1, 3, 'Mote of Fire'),
-(100035, 23781, 0, 0, 10, 1, 2, 1, 4, 'Elemental Blasting Powder'),
-(100035, 23784, 0, 0, 1, 1, 2, 1, 1, 'Adamantite Frame'),
-(100035, 23785, 0, 0, 1, 1, 2, 1, 1, 'Hardened Adamantite Tube'),
-(100035, 23786, 0, 0, 1, 1, 2, 1, 1, 'Khorium Power Core');
+(100035, 23446, 0, 90, 0, 1, 1, 1, 3, 'Adamantite Bar'),
+(100035, 23449, 0, 10, 0, 1, 1, 1, 1, 'Khorium Bar'),
+(100035, 22574, 0, 30, 0, 1, 2, 1, 3, 'Mote of Fire'),
+(100035, 23781, 0, 10, 0, 1, 2, 1, 4, 'Elemental Blasting Powder'),
+(100035, 23784, 0, 1, 0, 1, 2, 1, 1, 'Adamantite Frame'),
+(100035, 23785, 0, 1, 0, 1, 2, 1, 1, 'Hardened Adamantite Tube'),
+(100035, 23786, 0, 1, 0, 1, 2, 1, 1, 'Khorium Power Core');
