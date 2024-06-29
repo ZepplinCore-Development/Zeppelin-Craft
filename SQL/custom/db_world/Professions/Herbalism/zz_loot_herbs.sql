@@ -68,6 +68,10 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100045, 23331, 0, 15, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Outland 60 - 70 Herbalism Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80000); -- Original template
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80001); -- Original template
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80002); -- Original template
+
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100046);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100046, 22785, 0, 0, 0, 1, 2, 1, 1, 'Felweed'),
