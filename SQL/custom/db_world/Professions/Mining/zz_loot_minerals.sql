@@ -89,6 +89,8 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100026, 23424, 0, 95, 0, 1, 0, 1, 2, 'Fel Iron Ore');
 
 -- Outlands 66 - 69 Mining Loot
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80101); -- Original Template
+
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100027);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100027, 22573, 0, 20, 0, 1, 1, 1, 2, 'Mote of Earth'),
