@@ -39,7 +39,7 @@ SET `ID` = 90002,
     `RequiredItemCount3` = 10,
     `RequiredItemId4` = 11370,
     `RequiredItemCount4` = 10,
-    `RequiredItemId5` = 746,
+    `RequiredItemId5` = 57800,
     `RequiredItemCount5` = 1;
 
 -- Dreegz Knutz - Core Treasures - Quest Reward
