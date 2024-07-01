@@ -1,8 +1,8 @@
 import mysql.connector
 import numbers
 import os
-#import subprocess
-#import shutil
+import subprocess
+import shutil
 
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
