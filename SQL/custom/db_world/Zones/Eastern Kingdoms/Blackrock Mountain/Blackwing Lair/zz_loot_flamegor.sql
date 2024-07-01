@@ -6,4 +6,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11981);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11981, 17967, 0, 100, 0, 1, 0, 2, 4, 'Ancient Dragonscale');
+(11981, 57801, 0, 100, 0, 1, 0, 2, 4, 'Ancient Dragonscale');

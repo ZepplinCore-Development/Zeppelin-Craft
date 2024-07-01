@@ -6,4 +6,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 14601);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(14601, 17967, 0, 100, 0, 1, 1, 2, 4, 'Ebonroc - Ancient Dragonscale');
+(14601, 57801, 0, 100, 0, 1, 1, 2, 4, 'Ebonroc - Ancient Dragonscale');

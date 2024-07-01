@@ -26,6 +26,7 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 902314 THEN 57101    -- Formula: Nexus Shard
     -- Skinnning
     WHEN `itemEntry` = 746 THEN 57800       -- Pristine Hide of Magmadar
+    WHEN `itemEntry` = 17967 THEN 57801     -- Ancient Dragonscale
     -- 
     WHEN `itemEntry` = 902313 THEN 41605    -- Mystic Resonator
     WHEN `itemEntry` = 33223 THEN 902327    -- Portable Guild Bank
@@ -70,6 +71,8 @@ SET `item_Entry` = CASE
     WHEN `item_Entry` = 900101 THEN 901001
     WHEN `item_Entry` = 900102 THEN 901002   
     WHEN `item_Entry` = 900103 THEN 901003
+    -- Skinning
+    WHEN `itemEntry` = 17967 THEN 57801     -- Ancient Dragonscale
     -- Add more conditions as needed
     ELSE `item_Entry`
 END;

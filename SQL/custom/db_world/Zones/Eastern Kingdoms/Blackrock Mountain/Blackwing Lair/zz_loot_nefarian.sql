@@ -18,5 +18,5 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11583);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11583, 17967, 0, 100, 0, 1, 1, 5, 8, 'Nefarian - Ancient Dragonscale');
+(11583, 57801, 0, 100, 0, 1, 1, 5, 8, 'Nefarian - Ancient Dragonscale');
 

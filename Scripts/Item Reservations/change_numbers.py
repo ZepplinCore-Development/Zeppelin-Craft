@@ -33,8 +33,9 @@ replacements = {
     '902301': '57501',      # Elementium Talisman  
     # Enchanting
     '902314': '57101',      # Formula: Nexus Shard
-    # Skinning
-    '746': '57800',         # Pristine Hide of Magmadar
+    # Skinning (Generates False Positives, already replaced)
+    #'746': '57800',        # Pristine Hide of Magmadar
+    #'17967': '57801',      # Pristine Hide of Magmadar
     #aq crystals
     #Currencies
     '901200': '58200',      # Badge of Heroism     
