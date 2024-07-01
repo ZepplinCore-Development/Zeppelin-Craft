@@ -1,8 +1,8 @@
 import mysql.connector
 import numbers
 import os
-import subprocess
-import shutil
+#import subprocess
+#import shutil
 
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
@@ -207,7 +207,6 @@ def compare_and_generate_updates():
             rows_dbc = fetch_all_rows(conn_dbc, table)
             rows_dbc_backup = fetch_all_rows(conn_dbc_backup, table)
             primary_key_column = get_primary_key_column(conn_dbc, table)
-            column_defaults = get_column_defaults(conn_dbc, table)
 
             if not rows_dbc or not rows_dbc_backup:
                 print(f"No data found in {table} in one of the databases.")
@@ -219,11 +218,14 @@ def compare_and_generate_updates():
                 print(f"Checking {table} for differences.")
                 print(f"Using {primary_key_column} as Key Column.")
 
+            # Get the default values for the table's columns
+            column_defaults = get_column_defaults(conn_dbc, table)
+
             # Create a dictionary for fast lookup of backup rows by primary key
             backup_rows_dict = {row[primary_key_column]: row for row in rows_dbc_backup}
 
-            # Initialize a list to hold update and insert queries for the current table
-            queries = []
+            # Initialize a list to hold update queries for the current table
+            update_queries = []
 
             # Compare each row
             for row_dbc in rows_dbc:
@@ -236,33 +238,54 @@ def compare_and_generate_updates():
 
                         for key, value in row_dbc.items():
                             if backup_row.get(key) != value:
-                                update_fields.append(f"    `{key}` = '{value}' /* was {backup_row.get(key)} */")
+                                if isinstance(value, str):
+                                    value = value.replace("\\", "\\\\")  # Escape backslashes
+                                    backup_value = backup_row.get(key)
+                                    if isinstance(backup_value, str):
+                                        backup_value = backup_value.replace("\\", "\\\\")
+                                        value = value.replace("'", "''")  # Escape apostrophes
+                                    update_fields.append(f"    `{key}` = '{value}' /* was '{backup_value}' */")
+                                else:
+                                    update_fields.append(f"    `{key}` = {value} /* was {backup_row.get(key)} */")
 
                         if update_fields:
                             update_query += ",\n".join(update_fields)
-                            update_query += f"\nWHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
-                            queries.append(update_query)
+                            # Ensure the primary key value is correctly formatted
+                            if isinstance(row_dbc[primary_key_column], str):
+                                update_query += f"\nWHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
+                            else:
+                                update_query += f"\nWHERE `{primary_key_column}` = {row_dbc[primary_key_column]};\n"
+                            update_queries.append(update_query)
                 else:
-                    # Handle an INSERT query for the new entry
-                    delete_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';"
-                    queries.append(delete_query)
-
+                    # Generate insert query for new rows
+                    insert_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = "
+                    if isinstance(row_dbc[primary_key_column], str):
+                        insert_query += f"'{row_dbc[primary_key_column]}';\n"
+                    else:
+                        insert_query += f"{row_dbc[primary_key_column]};\n"
+                    insert_query += f"INSERT INTO `{live_dbc}`.`{table}` SET \n"
                     insert_fields = []
-                    for key, value in row_dbc.items():
-                        # print(f"Key is {key}")
-                        if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
-                            insert_fields.append(f"`{key}` = '{value}'")
-                   
-                    insert_query = f"INSERT INTO `{live_dbc}`.`{table}` SET \n" + ",\n".join(insert_fields) + ";\n"
-                    queries.append(insert_query)
 
-            # Save all queries (both update and insert) for the current table to a single SQL file
-            if queries:
+                    for key, value in row_dbc.items():
+                        if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
+                            if isinstance(value, str):
+                                value = value.replace("\\", "\\\\")  # Escape backslashes
+                                value = value.replace("'", "''")  # Escape apostrophes
+                                insert_fields.append(f"    `{key}` = '{value}'")
+                            else:
+                                insert_fields.append(f"    `{key}` = {value}")
+
+                    if insert_fields:
+                        insert_query += ",\n".join(insert_fields) + ";\n"
+                        update_queries.append(insert_query)
+
+            # Save all update queries for the current table to a single SQL file
+            if update_queries:
                 sql_file = os.path.join(update_dir, f"update_{table}.sql")
                 with open(sql_file, 'w') as f:
-                    f.write("\n".join(queries) + "\n")
+                    f.write("\n".join(update_queries) + "\n")
 
-                print(f"Generated queries for {backup_dbc}.{table}")
+                print(f"Generated update queries for {backup_dbc}.{table}")
 
     except mysql.connector.Error as err:
         print(f"MySQL Error: {err}")
@@ -272,6 +295,7 @@ def compare_and_generate_updates():
             conn_dbc.close()
         if conn_dbc_backup:
             conn_dbc_backup.close()
+
 
 try:
     create_dbc_backup()
