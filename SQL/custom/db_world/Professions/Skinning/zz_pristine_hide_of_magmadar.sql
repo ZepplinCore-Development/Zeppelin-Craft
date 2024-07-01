@@ -4,7 +4,7 @@
     SET `entry` = 57800,
         `class` = 12, -- Quest
         `name` = 'Pristine Hide of Magmadar',
-        `displayid` = 135026,
+        `displayid` = 138147,
         `Quality` = 4, -- Epic
         `bonding` = 4; -- Quest
 
