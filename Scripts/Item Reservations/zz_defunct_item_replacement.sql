@@ -72,7 +72,7 @@ SET `item_Entry` = CASE
     WHEN `item_Entry` = 900102 THEN 901002   
     WHEN `item_Entry` = 900103 THEN 901003
     -- Skinning
-    WHEN `itemEntry` = 17967 THEN 57801     -- Ancient Dragonscale
+    WHEN `item_Entry` = 17967 THEN 57801     -- Ancient Dragonscale
     -- Add more conditions as needed
     ELSE `item_Entry`
 END;
