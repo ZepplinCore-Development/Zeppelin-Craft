@@ -1,21 +1,7 @@
 ﻿Start Range,End Range,Items,Notes
-901000,901099,AQ Stuff,
-901100,901199,Stockades Loot ,
-901200,901299,Emblems and Satchels ,
-901300,901499,Vanilla Heroic Loot,Done
-901500,901599,City Teleport Scrolls,Scripted - Done
-901600,901699,City Teleport Scroll Techniques,Scripted - Done
-901700,901899,Daily Dungeon Items,Scripted - Done
-901900,902099,Dungeon Teleport Orbs,Scripted - Done
-902100,902199,Arcane Wards,Done
-902200,902299,Vanilla Quest Items,
-902300,902799,Vanilla Crafting,
-902800,902899,Mounts,Done
-,,,
-Start Range,End Range,Items,Notes
-56900,56999,Alchemy,
-57000,57099,Blacksmithing,
-57100,57199,Enchanting,
+56900,56999,Alchemy,Done
+57000,57099,Blacksmithing,Done
+57100,57199,Enchanting,Done
 57200,57299,Engineering,
 57300,57399,Herbalism,
 57400,57499,Inscription,

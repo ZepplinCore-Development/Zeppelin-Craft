@@ -36,6 +36,7 @@ replacements = {
     '902300': '57500',      # Design: Elementium Talisman 
     '902301': '57501',      # Elementium Talisman  
     # Enchanting
+    '902312': '57100',      # Formula: Mystic Resonator
     '902314': '57101',      # Formula: Nexus Shard
     # Skinning (Generates False Positives, already replaced)
     #'746': '57800',        # Pristine Hide of Magmadar

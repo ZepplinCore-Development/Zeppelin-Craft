@@ -8,4 +8,4 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (12264, 30001, 30001, 10, 0, 1, 0, 1, 1, NULL),
 (12264, 30367, 30367, 100, 0, 1, 0, 1, 1, NULL),
 (12264, 30368, 30368, 100, 0, 1, 0, 1, 1, NULL),
-(12264, 1599, 0, 100, 0, 1, 1, 1, 1, '');
+(12264, 57100, 0, 100, 0, 1, 1, 1, 1, 'Formula: Mystic Resonator');

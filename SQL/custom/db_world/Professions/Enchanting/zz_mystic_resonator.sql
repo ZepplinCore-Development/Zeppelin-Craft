@@ -1,7 +1,7 @@
 -- Formula: Mystic Resonator
-    DELETE FROM `item_template` WHERE (`entry` = 902312);
+    DELETE FROM `item_template` WHERE (`entry` = 57100);
     INSERT INTO `item_template`
-    SET `entry` = 902312,
+    SET `entry` = 57100,
         `class` = 9, -- Recipe
         `subclass` = 8, -- Enchanting
         `name` = 'Formula: Mystic Resonator',

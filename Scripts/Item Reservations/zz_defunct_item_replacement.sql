@@ -24,12 +24,13 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 902302 THEN 57001    -- Plans: Elementium Aegis
     WHEN `itemEntry` = 902303 THEN 57002    -- Elementium Aegis
     -- Enchanting
+    WHEN `itemEntry` = 902312 THEN 57100    -- Formula: Mystic Resonator
+    WHEN `itemEntry` = 902313 THEN 41605    -- Mystic Resonator
     WHEN `itemEntry` = 902314 THEN 57101    -- Formula: Nexus Shard
     -- Skinnning
     WHEN `itemEntry` = 746 THEN 57800       -- Pristine Hide of Magmadar
     WHEN `itemEntry` = 17967 THEN 57801     -- Ancient Dragonscale
     -- 
-    WHEN `itemEntry` = 902313 THEN 41605    -- Mystic Resonator
     WHEN `itemEntry` = 33223 THEN 902327    -- Portable Guild Bank
     WHEN `itemEntry` = 54452 THEN 902328    -- Reagent Portal
     -- AQ Crystals
