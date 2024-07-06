@@ -1,7 +1,7 @@
 -- Schematic: Thorium Headed Arrows
-    DELETE FROM `item_template` WHERE (`entry` = 902308);
+    DELETE FROM `item_template` WHERE (`entry` = 57206);
     INSERT INTO `item_template`
-    SET `entry` = 902308,
+    SET `entry` = 57206,
         `class` = 9, -- Recipe
         `subclass` = 4, -- Engineering
         `name` = 'Schematic: Thorium Headed Arrows',

@@ -28,13 +28,16 @@ replacements = {
     # Engineering
     '902306': '57200',      # Skill Injector Schematic 
     '902307': '57201',      # Skill Injector
-    '902309': '57202',      # Design: Black Diamond Dragonling
-    '902310': '57203',      # Black Diamond Dragonling
     '902304': '57204',      # Schematic: Elementium Targeting Matrix
     '902305': '57205',      # Elementium Targeting Matrix   
+    '902308': '57206',      # Schematic: Thorium Headed Arrows   
+    '902331': '57207',      # Schematic: Fel Iron Arrows  
+    '902332': '57208',      # Fel Iron Arrows  
     # Jewelcrafting
     '902300': '57500',      # Design: Elementium Talisman 
     '902301': '57501',      # Elementium Talisman  
+    '57202': '57502',      # Design: Black Diamond Dragonling
+    '57203': '57503',      # Black Diamond Dragonling
     # Enchanting
     '902312': '57100',      # Formula: Mystic Resonator
     '902314': '57101',      # Formula: Nexus Shard

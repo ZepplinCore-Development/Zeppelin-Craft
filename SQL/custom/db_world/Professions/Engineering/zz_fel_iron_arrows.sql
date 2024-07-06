@@ -1,7 +1,7 @@
 -- Schematic: Fel Iron Arrows
-    DELETE FROM `item_template` WHERE (`entry` = 902331);
+    DELETE FROM `item_template` WHERE (`entry` = 57207);
     INSERT INTO `item_template`
-    SET `entry` = 902331,
+    SET `entry` = 57207,
         `class` = 9, -- Recipe
         `subclass` = 4, -- Engineering
         `name` = 'Schematic: Fel Iron Arrows',
@@ -18,9 +18,9 @@
         `spelltrigger_2` = 6;
 
 -- Fel Iron Arrows
-    DELETE FROM `item_template` WHERE (`entry` = 902332);
+    DELETE FROM `item_template` WHERE (`entry` = 57208);
     INSERT INTO `item_template`
-    SET `entry` = 902332,
+    SET `entry` = 57208,
         `class` = 6, -- Projectile
         `subclass` = 2, -- Arrow
         `name` = 'Fel Iron Arrows',
