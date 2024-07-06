@@ -1,7 +1,7 @@
 -- Pattern: Drums of Intellect
-    DELETE FROM `item_template` WHERE (`entry` = 902319);
+    DELETE FROM `item_template` WHERE (`entry` = 57604);
     INSERT INTO `item_template`
-    SET `entry` = 902319,
+    SET `entry` = 57604,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of Intellect',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of Intellect
-    DELETE FROM `item_template` WHERE (`entry` = 902320);
+    DELETE FROM `item_template` WHERE (`entry` = 57605);
     INSERT INTO `item_template`
-    SET `entry` = 902320,
+    SET `entry` = 57605,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

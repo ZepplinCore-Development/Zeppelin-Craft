@@ -1,7 +1,7 @@
 -- Pattern: Drums of the Nights Watch
-    DELETE FROM `item_template` WHERE (`entry` = 902321);
+    DELETE FROM `item_template` WHERE (`entry` = 57606);
     INSERT INTO `item_template`
-    SET `entry` = 902321,
+    SET `entry` = 57606,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of the Nights Watch',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of the Nights Watch
-    DELETE FROM `item_template` WHERE (`entry` = 902322);
+    DELETE FROM `item_template` WHERE (`entry` = 57607);
     INSERT INTO `item_template`
-    SET `entry` = 902322,
+    SET `entry` = 57607,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

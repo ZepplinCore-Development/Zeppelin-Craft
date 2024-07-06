@@ -1,7 +1,7 @@
 -- Pattern: Drums of the Wild
-    DELETE FROM `item_template` WHERE (`entry` = 902323);
+    DELETE FROM `item_template` WHERE (`entry` = 57608);
     INSERT INTO `item_template`
-    SET `entry` = 902323,
+    SET `entry` = 57608,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of the Wild',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of the Wild
-    DELETE FROM `item_template` WHERE (`entry` = 902324);
+    DELETE FROM `item_template` WHERE (`entry` = 57609);
     INSERT INTO `item_template`
-    SET `entry` = 902324,
+    SET `entry` = 57609,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

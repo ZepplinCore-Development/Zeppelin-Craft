@@ -1,7 +1,7 @@
 -- Pattern: Drums of the Raid Leader
-    DELETE FROM `item_template` WHERE (`entry` = 902325);
+    DELETE FROM `item_template` WHERE (`entry` = 57610);
     INSERT INTO `item_template`
-    SET `entry` = 902325,
+    SET `entry` = 57610,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of the Raid Leader',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of the Raid Leader
-    DELETE FROM `item_template` WHERE (`entry` = 902326);
+    DELETE FROM `item_template` WHERE (`entry` = 57611);
     INSERT INTO `item_template`
-    SET `entry` = 902326,
+    SET `entry` = 57611,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

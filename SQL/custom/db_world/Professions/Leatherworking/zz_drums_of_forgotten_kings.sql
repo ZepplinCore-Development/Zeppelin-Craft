@@ -1,7 +1,7 @@
 -- Pattern: Drums of Forgotten Kings
-    DELETE FROM `item_template` WHERE (`entry` = 902315);
+    DELETE FROM `item_template` WHERE (`entry` = 57600);
     INSERT INTO `item_template`
-    SET `entry` = 902315,
+    SET `entry` = 57600,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of Forgotten Kings',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of Forgotten Kings
-    DELETE FROM `item_template` WHERE (`entry` = 902316);
+    DELETE FROM `item_template` WHERE (`entry` = 57601);
     INSERT INTO `item_template`
-    SET `entry` = 902316,
+    SET `entry` = 57601,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

@@ -15,7 +15,7 @@ DELETE FROM `npc_vendor` WHERE (`entry` = 9000010);
 REPLACE INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `VerifiedBuild`) VALUES
 
 -- Consumables
-(9000010, 0, 902326, 0, 0, 2998, 0), -- Drums of the Raid Leader
+(9000010, 0, 57611, 0, 0, 2998, 0), -- Drums of the Raid Leader
 (9000010, 0, 41605, 0, 0, 2998, 0), -- Mystic Resonator
 (9000010, 0, 901203, 0, 0, 2998, 0), -- Azerite Shard
 

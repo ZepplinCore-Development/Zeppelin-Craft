@@ -1,7 +1,7 @@
 -- Pattern: Drums of Fortitude
-    DELETE FROM `item_template` WHERE (`entry` = 902317);
+    DELETE FROM `item_template` WHERE (`entry` = 57602);
     INSERT INTO `item_template`
-    SET `entry` = 902317,
+    SET `entry` = 57602,
         `class` = 9, -- Recipe
         `subclass` = 1, -- Leatherworking
         `name` = 'Pattern: Drums of Fortitude',
@@ -19,9 +19,9 @@
         `spelltrigger_2` = 6;
 
 -- Drums of Fortitude
-    DELETE FROM `item_template` WHERE (`entry` = 902318);
+    DELETE FROM `item_template` WHERE (`entry` = 57603);
     INSERT INTO `item_template`
-    SET `entry` = 902318,
+    SET `entry` = 57603,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other
         `SellPrice` = 100000, -- 10G       

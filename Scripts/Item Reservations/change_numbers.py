@@ -41,6 +41,19 @@ replacements = {
     # Enchanting
     '902312': '57100',      # Formula: Mystic Resonator
     '902314': '57101',      # Formula: Nexus Shard
+    # Leatherworking
+    '902315': '57600',      # Pattern: Drums of Forgotten Kings
+    '902316': '57601',      # Drums of Forgotten Kings
+    '902317': '57602',      # Pattern: Drums of Fortitude
+    '902318': '57603',      # Drums of Fortitude
+    '902319': '57604',      # Pattern: Drums of Intellect
+    '902320': '57605',      # Drums of Intellect
+    '902321': '57606',      # Pattern: Drums of the Nights Watch
+    '902322': '57607',      # Drums of the Nights Watch
+    '902323': '57608',      # Pattern: Drums of the Wild
+    '902324': '57609',      # Drums of the Wild
+    '902325': '57610',      # Pattern: Drums of the Raid Leader
+    '902326': '57611',      # Drums of the Raid Leader
     # Skinning (Generates False Positives, already replaced)
     #'746': '57800',        # Pristine Hide of Magmadar
     #'17967': '57801',      # Pristine Hide of Magmadar

@@ -16,14 +16,18 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 57202 THEN 57502     -- Design: Black Diamond Dragonling
     WHEN `itemEntry` = 57203 THEN 57503     -- Black Diamond Dragonling
     -- Leatherworking
-    WHEN `itemEntry` = 836 THEN 902316      -- Drums of Forgotten Kings
-    WHEN `itemEntry` = 741 THEN 902318      -- Drums of Fortitude
-    WHEN `itemEntry` = 761 THEN 902320      -- Drums of Intellect
-    WHEN `itemEntry` = 1163 THEN 902322     -- Drums of the Nights Watch
-    WHEN `itemEntry` = 951 THEN 902324      -- Drums of the Wild
-    WHEN `itemEntry` = 1128 THEN 902326     -- Drums of the Raid Leader
-    WHEN `itemEntry` = 16068 THEN 902329    -- Clam Knight Conch
-    WHEN `itemEntry` = 1977 THEN 902330     -- Zeppelin Bag
+    WHEN `itemEntry` = 902315 THEN 57600     -- Drums of the Raid Leader
+    WHEN `itemEntry` = 902316 THEN 57601      -- Drums of Forgotten Kings
+    WHEN `itemEntry` = 902317 THEN 57602      -- Drums of Fortitude
+    WHEN `itemEntry` = 902318 THEN 57603      -- Drums of Intellect
+    WHEN `itemEntry` = 902319 THEN 57604     -- Drums of the Nights Watch
+    WHEN `itemEntry` = 902320 THEN 57605      -- Drums of the Wild
+    WHEN `itemEntry` = 902321 THEN 57606     -- Drums of the Raid Leader
+    WHEN `itemEntry` = 902322 THEN 57607      -- Drums of Forgotten Kings
+    WHEN `itemEntry` = 902323 THEN 57608      -- Drums of Fortitude
+    WHEN `itemEntry` = 902324 THEN 57609      -- Drums of Intellect
+    WHEN `itemEntry` = 902325 THEN 57610     -- Drums of the Nights Watch
+    WHEN `itemEntry` = 902326 THEN 57611      -- Drums of the Wild
     -- Blacksmithing
     WHEN `itemEntry` = 902311 THEN 57000    -- Compressed Thermal Anvil
     WHEN `itemEntry` = 902302 THEN 57001    -- Plans: Elementium Aegis
@@ -35,9 +39,11 @@ SET `itemEntry` = CASE
     -- Skinnning
     WHEN `itemEntry` = 746 THEN 57800       -- Pristine Hide of Magmadar
     WHEN `itemEntry` = 17967 THEN 57801     -- Ancient Dragonscale
-    -- 
+    -- OTHER
     WHEN `itemEntry` = 33223 THEN 902327    -- Portable Guild Bank
     WHEN `itemEntry` = 54452 THEN 902328    -- Reagent Portal
+    WHEN `itemEntry` = 16068 THEN 902329    -- Clam Knight Conch
+    WHEN `itemEntry` = 1977 THEN 902330     -- Zeppelin Bag
     -- AQ Crystals
     WHEN `itemEntry` = 900100 THEN 901000   
     WHEN `itemEntry` = 900101 THEN 901001
