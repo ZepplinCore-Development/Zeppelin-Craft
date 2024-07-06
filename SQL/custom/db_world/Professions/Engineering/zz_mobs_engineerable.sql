@@ -116,6 +116,8 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100033 WHERE (
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 22461);
 -- Legion Fel Cannon
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 21233);
+-- Arcane Annihilator
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 18856);
 
 -- LEVEL 70+ or ELITE TBC 
 
