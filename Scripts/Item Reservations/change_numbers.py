@@ -21,6 +21,10 @@ else:
 
 # Specify the numbers to replace and their replacements
 replacements = {
+    # Blacksmithing
+    '902311': '57000',       # Compressed Thermal Anvil
+    '902302': '57001',       # Plans: Elementium Aegis
+    '902303': '57002',       # Elementium Aegis
     # Engineering
     '902306': '57200',      # Skill Injector Schematic 
     '902307': '57201',      # Skill Injector

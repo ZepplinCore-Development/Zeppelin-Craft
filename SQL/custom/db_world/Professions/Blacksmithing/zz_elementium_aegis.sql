@@ -1,7 +1,7 @@
 -- Plans: Elementium Aegis
-    DELETE FROM `item_template` WHERE (`entry` = 902302);
+    DELETE FROM `item_template` WHERE (`entry` = 57001);
     INSERT INTO `item_template`
-    SET `entry` = 902302,
+    SET `entry` = 57001,
         `class` = 9, -- Recipe
         `name` = 'Plans: Elementium Aegis',
         `displayid` = 1301,
@@ -17,9 +17,9 @@
         `spelltrigger_2` = 6;
 
 -- Elementium Aegis
-    DELETE FROM `item_template` WHERE (`entry` = 902303);
+    DELETE FROM `item_template` WHERE (`entry` = 57002);
     INSERT INTO `item_template`
-    SET `entry` = 902303,
+    SET `entry` = 57002,
         `class` = 4, -- Armor
         `InventoryType` = 12, -- Trinket
         `SellPrice` = 1000000, -- 100G       

@@ -20,8 +20,9 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 16068 THEN 902329    -- Clam Knight Conch
     WHEN `itemEntry` = 1977 THEN 902330     -- Zeppelin Bag
     -- Blacksmithing
-    WHEN `itemEntry` = 1184 THEN 902303     -- Elementium Aegis
-    WHEN `itemEntry` = 32566 THEN 902311    -- Compressed Thermal Anvil
+    WHEN `itemEntry` = 902311 THEN 57000    -- Compressed Thermal Anvil
+    WHEN `itemEntry` = 902302 THEN 57001    -- Plans: Elementium Aegis
+    WHEN `itemEntry` = 902303 THEN 57002    -- Elementium Aegis
     -- Enchanting
     WHEN `itemEntry` = 902314 THEN 57101    -- Formula: Nexus Shard
     -- Skinnning
