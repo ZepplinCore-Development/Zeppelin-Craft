@@ -19,4 +19,6 @@ REPLACE INTO playercreateinfo_spell_custom (racemask,classmask,Spell,Note)
     (0,128,91058,'Mind Freak'),
     (0,128,91057,'Conjure Arcane Ward'),
     (0,1,91001,'Counter'),
+    (0,0,75136,'Reagent Banker'),
+    (0,0,42766,'Guild Bank'),
     (0,2,91002,'Chastise');
