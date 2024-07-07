@@ -57,6 +57,9 @@ replacements = {
     # Skinning (Generates False Positives, already replaced)
     #'746': '57800',        # Pristine Hide of Magmadar
     #'17967': '57801',      # Pristine Hide of Magmadar
+    # Mounts
+    '902801': '58100',      # Giant Murloc
+    '902800': '58101',      # Butt Zeppelin
     #aq crystals
     #Currencies
     '901200': '58200',      # Badge of Heroism     

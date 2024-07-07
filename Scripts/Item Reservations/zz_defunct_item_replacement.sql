@@ -44,6 +44,9 @@ SET `itemEntry` = CASE
     WHEN `itemEntry` = 54452 THEN 902328    -- Reagent Portal
     WHEN `itemEntry` = 16068 THEN 902329    -- Clam Knight Conch
     WHEN `itemEntry` = 1977 THEN 902330     -- Zeppelin Bag
+    -- Mounts
+    WHEN `itemEntry` = 902801 THEN 58100    -- Giant Murloc
+    WHEN `itemEntry` = 902800 THEN 58101    -- Butt Zeppelin
     -- AQ Crystals
     WHEN `itemEntry` = 900100 THEN 901000   
     WHEN `itemEntry` = 900101 THEN 901001
