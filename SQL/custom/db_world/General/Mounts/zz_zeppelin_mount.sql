@@ -7,7 +7,7 @@ SET `entry` = 9102598,
     `faction` = 35, -- Friendly
     `type` = 1, -- Beast
     `unit_class` = 1, -- Warrior
-    `unit_flags2` = 2048, -- Regen power
+    `unit_flags2` = 2048; -- Regen power
 
 -- Butt Zeppelin Item Entry
 DELETE FROM `item_template` WHERE (`entry` = 58101);
