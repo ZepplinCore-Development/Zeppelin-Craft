@@ -217,3 +217,12 @@ INSERT INTO `dbc`.`skillraceclassinfo` SET
     `ClassMask` = 509,
     `Flags` = 1170;
 
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 999;
+INSERT INTO `dbc`.`skillraceclassinfo` SET 
+    `Id` = 999,
+    `SkillLineDbcRecord` = 791,
+    `RaceMask` = 4095,
+    `ClassMask` = 1535,
+    `Flags` = 2,
+    `SkillTierId` = 41;
+

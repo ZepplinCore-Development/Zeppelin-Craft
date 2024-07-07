@@ -1862,6 +1862,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28574;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 28596;
+
+UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 10 /* was 14 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 28695;
@@ -1906,6 +1910,10 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 29660;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 29844;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -7337,19 +7345,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `Effect2` = 6,
-    `Effect3` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
     `EffectRealPointsPerLevel2` = 1.0,
-    `EffectRealPointsPerLevel3` = 1.0,
     `EffectBasePoints2` = 19,
-    `EffectBasePoints3` = 19,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
     `EffectApplyAuraName2` = 32,
-    `EffectApplyAuraName3` = 58,
     `EffectMiscValue1` = 9102597,
     `SpellVisual1` = 5160,
     `SpellIconID` = 3654,
@@ -7383,19 +7385,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `Effect2` = 6,
-    `Effect3` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
     `EffectRealPointsPerLevel2` = 1.0,
-    `EffectRealPointsPerLevel3` = 1.0,
     `EffectBasePoints2` = 19,
-    `EffectBasePoints3` = 19,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
     `EffectApplyAuraName2` = 32,
-    `EffectApplyAuraName3` = 58,
     `EffectMiscValue1` = 9102598,
     `SpellVisual1` = 5160,
     `SpellIconID` = 4145,
@@ -9299,6 +9295,36 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `TotemCategory1` = 10,
     `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91118;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91118,
+    `Attributes` = 16842768,
+    `AttributesEx6` = 4096,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 47,
+    `Effect2` = 118,
+    `Effect3` = 64,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = 4,
+    `EffectMiscValue2` = 164,
+    `EffectTriggerSpell3` = 2018,
+    `SpellIconID` = 335,
+    `SpellName0` = 'Blacksmithing',
+    `SpellNameFlag7` = 16712190,
+    `SpellRank0` = 'Master',
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Allows a Blacksmith to make weapons and armor up to a maximum potential skill of 375.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
