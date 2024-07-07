@@ -1,3 +1,4 @@
+-- put class restrictions on tier 3 items so that they do not show up in a tier vendor for other classes.
 UPDATE `item_template` 
 SET `AllowableClass` = 1 -- Warrior
 WHERE `entry` BETWEEN 22416 AND 22423;
