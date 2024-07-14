@@ -193,6 +193,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2576;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712188 */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2668;
+
+UPDATE `dbc`.`spell` SET 
     `EffectRealPointsPerLevel1` = 1.0 /* was 0.25 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 3427;
@@ -518,6 +526,22 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 20.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 7803;
+
+UPDATE `dbc`.`spell` SET 
+    `Effect2` = 6 /* was 0 */,
+    `EffectDieSides2` = 1 /* was 0 */,
+    `EffectBasePoints2` = -51 /* was 0 */,
+    `EffectApplyAuraName2` = 108 /* was 0 */,
+    `EffectMiscValue2` = 10 /* was 0 */,
+    `EffectSpellClassMaskB1` = 1 /* was 0 */,
+    `SpellRankFlags7` = 16712190 /* was 16712188 */,
+    `SpellDescription0` = 'Blacksmithing +$s1.
+Reduces craft time for Blacksmithing recipes by $s2%.' /* was 'Blacksmithing +$s1.' */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */,
+    `EffectBonusMultiplier2` = 1.0 /* was 0.0 */
+WHERE `ID` = 7824;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -1916,23 +1940,22 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29844;
 
 UPDATE `dbc`.`spell` SET 
-    `MaximumLevel` = 80 /* was 0 */,
+    `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `SpellLevel` = 20 /* was 1 */,
     `Effect2` = 6 /* was 0 */,
     `Effect3` = 6 /* was 0 */,
     `EffectDieSides2` = 1 /* was 0 */,
     `EffectDieSides3` = 1 /* was 0 */,
-    `EffectRealPointsPerLevel2` = 1.0 /* was 0.0 */,
-    `EffectRealPointsPerLevel3` = 1.0 /* was 0.0 */,
+    `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 0 */,
-    `EffectBasePoints3` = 19 /* was 0 */,
+    `EffectBasePoints3` = 29 /* was 0 */,
     `EffectImplicitTargetA2` = 1 /* was 0 */,
     `EffectImplicitTargetA3` = 1 /* was 0 */,
     `EffectApplyAuraName2` = 32 /* was 0 */,
     `EffectApplyAuraName3` = 58 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Slow and steady... Increase speed in and out of the water by $s2%' /* was 'Slow and steady...' */
+    `SpellToolTip0` = 'Slow and steady... Increase speed on land by $s2% and in the water by $s3%' /* was 'Slow and steady...' */
 WHERE `ID` = 30174;
 
 UPDATE `dbc`.`spell` SET 
@@ -1943,6 +1966,16 @@ UPDATE `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 30346;
+
+UPDATE `dbc`.`spell` SET 
+    `EffectBasePoints1` = 999 /* was 0 */,
+    `EffectItemType1` = 23773 /* was 34504 */,
+    `SpellIconID` = 2336 /* was 2556 */,
+    `SpellName0` = 'Adamantite Shell' /* was 'Adamantite Shell Machine' */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 30347;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 16777216 /* was 0 */,
@@ -2204,6 +2237,32 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33891;
 
 UPDATE `dbc`.`spell` SET 
+    `Dispel` = 0 /* was 1 */,
+    `RecoveryTime` = 8000 /* was 20000 */,
+    `DurationIndex` = 0 /* was 27 */,
+    `Speed` = 0.0 /* was 60.0 */,
+    `Effect2` = 0 /* was 6 */,
+    `EffectDieSides2` = 0 /* was 1 */,
+    `EffectBasePoints1` = 74 /* was 49 */,
+    `EffectBasePoints2` = 0 /* was -1 */,
+    `EffectMechanic2` = 0 /* was 9 */,
+    `EffectImplicitTargetA2` = 0 /* was 6 */,
+    `EffectApplyAuraName2` = 0 /* was 27 */,
+    `SpellVisual1` = 557 /* was 8344 */,
+    `SpellIconID` = 5590 /* was 127 */,
+    `SpellName0` = 'Searing Shot' /* was 'Silencing Shot' */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'An instant shot that causes $m1% of weapon damage as fire damage. Empowered by the same effects as your Arcane Shot.' /* was 'A shot that deals $s1% weapon damage and Silences the target for $d.  Non-player victim spellcasting is also interrupted for $32747d.' */,
+    `SpellToolTip0` = 'Searing Shot' /* was 'Silenced.' */,
+    `StartRecoveryCategory` = 133 /* was 0 */,
+    `SpellFamilyFlags` = 2048 /* was 262144 */,
+    `PreventionType` = 0 /* was 2 */,
+    `SchoolMask` = 4 /* was 1 */,
+    `EffectBonusMultiplier1` = 0.0 /* was 1.0 */,
+    `EffectBonusMultiplier2` = 0.0 /* was 1.0 */
+WHERE `ID` = 34490;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 34955;
@@ -2222,6 +2281,10 @@ UPDATE `dbc`.`spell` SET
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 34961;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */
+WHERE `ID` = 35139;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -7337,7 +7400,7 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 16,
     `InterruptFlags` = 31,
     `ProcChance` = 101,
-    `MaximumLevel` = 80,
+    `MaximumLevel` = 60,
     `BaseLevel` = 20,
     `SpellLevel` = 20,
     `DurationIndex` = 21,
@@ -7346,7 +7409,7 @@ INSERT INTO `dbc`.`spell` SET
     `Effect1` = 6,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectRealPointsPerLevel2` = 1.0,
+    `EffectRealPointsPerLevel2` = 2.0,
     `EffectBasePoints2` = 19,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
@@ -7377,7 +7440,7 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 16,
     `InterruptFlags` = 31,
     `ProcChance` = 101,
-    `MaximumLevel` = 80,
+    `MaximumLevel` = 60,
     `BaseLevel` = 20,
     `SpellLevel` = 20,
     `DurationIndex` = 21,
@@ -7386,7 +7449,7 @@ INSERT INTO `dbc`.`spell` SET
     `Effect1` = 6,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectRealPointsPerLevel2` = 1.0,
+    `EffectRealPointsPerLevel2` = 2.0,
     `EffectBasePoints2` = 19,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
@@ -9325,6 +9388,55 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
     `EffectBonusMultiplier2` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91119;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91119,
+    `Dispel` = 1,
+    `Attributes` = 65538,
+    `AttributesEx2` = 131072,
+    `AttributesEx7` = 2048,
+    `FacingCasterFlags` = 1,
+    `CastingTimeIndex` = 18,
+    `RecoveryTime` = 8000,
+    `ProcChance` = 101,
+    `BaseLevel` = 4,
+    `SpellLevel` = 4,
+    `DurationIndex` = 39,
+    `RangeIndex` = 114,
+    `Speed` = 60.0,
+    `ModalNextSpell` = 75,
+    `EquippedItemClass` = 2,
+    `EquippedItemSubClassMask` = 262156,
+    `Effect1` = 31,
+    `Effect2` = 68,
+    `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints1` = 49,
+    `EffectBasePoints2` = -1,
+    `EffectMechanic2` = 9,
+    `EffectMechanic3` = 26,
+    `EffectImplicitTargetA1` = 6,
+    `EffectImplicitTargetA2` = 6,
+    `SpellVisual1` = 8344,
+    `SpellIconID` = 127,
+    `SpellName0` = 'Silencing Shot',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Interrupts the enemy''s spellcast, preventing any spell from that school of magic from being cast for $d. Deals $m1% weapon damage. ',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Silenced.',
+    `SpellToolTipFlags7` = 16712190,
+    `ManaCostPercentage` = 6,
+    `SpellFamilyName` = 9,
+    `SpellFamilyFlags` = 262144,
+    `DamageClass` = 3,
+    `PreventionType` = 2,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
