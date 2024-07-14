@@ -118,6 +118,8 @@ UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 21233);
 -- Arcane Annihilator
 UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 18856);
+-- Ar'kelos
+UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100034 WHERE (`entry` = 19494);
 
 -- LEVEL 70+ or ELITE TBC 
 
