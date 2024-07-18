@@ -10,6 +10,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;    
 
@@ -25,6 +26,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;    
 
@@ -40,6 +42,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1; 
 
@@ -55,6 +58,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1; 
 
@@ -70,6 +74,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;
 
@@ -85,6 +90,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;
 
@@ -100,6 +106,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;
 
@@ -115,6 +122,7 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;
 
@@ -130,5 +138,6 @@
         `InventoryType` = 23,
         `maxcount` = 1,
         `AllowableClass` = 128,
+        `ItemLimitCategory` = 86,
         `spellid_1` = 91054,
         `spelltrigger_1` = 1;
