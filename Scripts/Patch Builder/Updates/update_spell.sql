@@ -528,11 +528,6 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 7803;
 
 UPDATE `dbc`.`spell` SET 
-    `Effect2` = 6 /* was 0 */,
-    `EffectDieSides2` = 1 /* was 0 */,
-    `EffectBasePoints2` = -51 /* was 0 */,
-    `EffectApplyAuraName2` = 108 /* was 0 */,
-    `EffectMiscValue2` = 10 /* was 0 */,
     `EffectSpellClassMaskB1` = 1 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellDescription0` = 'Blacksmithing +$s1.
@@ -7578,7 +7573,7 @@ INSERT INTO `dbc`.`spell` SET
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
-    `EffectItemType1` = 902303,
+    `EffectItemType1` = 57002,
     `SpellVisual1` = 395,
     `SpellIconID` = 140,
     `SpellName0` = 'Elementium Aegis',
@@ -9437,6 +9432,73 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
     `EffectBonusMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91120;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91120,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect2` = 6,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = -11,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName2` = 108,
+    `EffectMiscValue2` = 10,
+    `EffectSpellClassMaskB1` = 1,
+    `SpellIconID` = 335,
+    `SpellName0` = 'Bronze Blacksmithing',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 1,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91121;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91121,
+    `Attributes` = 65584,
+    `AttributesEx` = 1024,
+    `RequiresSpellFocus` = 1,
+    `CastingTimeIndex` = 170,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent1` = 5956,
+    `Reagent2` = 1210,
+    `Reagent3` = 2841,
+    `ReagentCount1` = 1,
+    `ReagentCount2` = 2,
+    `ReagentCount3` = 6,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 57003,
+    `SpellVisual1` = 395,
+    `SpellIconID` = 140,
+    `SpellName0` = 'Bronze Smithing Hammer',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 162,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
