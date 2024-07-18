@@ -173,6 +173,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 1842;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2018;
+
+UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 4 /* was 14 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 2366;
@@ -193,6 +198,46 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2576;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2660;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2661;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2662;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2663;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2664;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2665;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2666;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2667;
+
+UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
@@ -201,9 +246,294 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2668;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2670;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2671;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2672;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2673;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2674;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2675;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2737;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2738;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2739;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2740;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2741;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 2742;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3100;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3115;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3116;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3117;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3292;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3293;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3294;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3295;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3296;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3297;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3319;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3320;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3321;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3323;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3324;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3325;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3326;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3328;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3330;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3331;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3333;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3334;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3336;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3337;
+
+UPDATE `dbc`.`spell` SET 
     `EffectRealPointsPerLevel1` = 1.0 /* was 0.25 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 3427;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3491;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3492;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3493;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3494;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3495;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3496;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3497;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3498;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3500;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3501;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3502;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3503;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3504;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3505;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3506;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3507;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3508;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3511;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3513;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3515;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 3538;
 
 UPDATE `dbc`.`spell` SET 
     `Reagent1` = 0 /* was 17031 */,
@@ -365,6 +695,16 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6435;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 6517;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 6518;
+
+UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 10000 /* was 0 */,
     `CategoryRecoveryTime` = 0 /* was 10000 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
@@ -430,6 +770,26 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 7154;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7221;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7222;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7223;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7224;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -515,6 +875,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 7393;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7408;
+
+UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
     `EffectRealPointsPerLevel1` = 20.0 /* was 1.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
@@ -526,6 +891,16 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 20.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 7803;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7817;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 7818;
 
 UPDATE `dbc`.`spell` SET 
     `EffectSpellClassMaskB1` = 1 /* was 0 */,
@@ -589,6 +964,21 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8150;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 8366;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 8367;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 8368;
+
+UPDATE `dbc`.`spell` SET 
     `EffectApplyAuraName3` = 79 /* was 118 */,
     `EffectBonusMultiplier3` = 1.0 /* was 0.0 */
 WHERE `ID` = 8406;
@@ -636,6 +1026,16 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8618;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 8768;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 8880;
+
+UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
     `EffectRealPointsPerLevel1` = 10.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
@@ -661,6 +1061,256 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel1` = 10.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 9672;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9785;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9787;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9788;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9811;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9813;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9814;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9818;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9820;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9916;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9918;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9920;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9921;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9926;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9928;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9931;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9933;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9935;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9937;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9939;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9942;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9945;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9950;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9952;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9954;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9957;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9959;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9961;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9964;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9966;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9968;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9970;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9972;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9974;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9979;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9980;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9983;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9985;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9986;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9987;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9993;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9995;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 9997;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10001;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10003;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10005;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10007;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10009;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10011;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10013;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 10015;
 
 UPDATE `dbc`.`spell` SET 
     `EffectApplyAuraName3` = 79 /* was 118 */,
@@ -762,6 +1412,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 11252;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 11454;
+
+UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 6 /* was 4 */
 WHERE `ID` = 11549;
 
@@ -784,6 +1439,11 @@ UPDATE `dbc`.`spell` SET
     `CategoryRecoveryTime` = 0 /* was 5000 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 11601;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 11643;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -816,6 +1476,16 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 10 /* was 14 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 11993;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 12259;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 12260;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -908,6 +1578,41 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 13880;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 14379;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 14380;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15292;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15293;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15294;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15295;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15296;
+
+UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
     `BaseLevel` = 30 /* was 20 */,
     `SpellLevel` = 30 /* was 20 */,
@@ -927,6 +1632,341 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel1` = 20.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 15531;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15972;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 15973;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16639;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16640;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16641;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16642;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16643;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16644;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16645;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16646;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16647;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16648;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16649;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16650;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16651;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16652;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16653;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16654;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16655;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16656;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16657;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16658;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16659;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16660;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16661;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16662;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16663;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16664;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16665;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16667;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16724;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16725;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16726;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16728;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16729;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16730;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16731;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16732;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16741;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16742;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16744;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16745;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16746;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16960;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16965;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16967;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16969;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16970;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16971;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16973;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16978;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16980;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16983;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16984;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16985;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16986;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16987;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16988;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16990;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16991;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16992;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16993;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16994;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 16995;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 17039;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 17040;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 17041;
 
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */
@@ -983,6 +2023,26 @@ WHERE `ID` = 19428;
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 19577;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 19666;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 19667;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 19668;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 19669;
 
 UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 30 /* was 6 */
@@ -1057,6 +2117,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 19873;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20201;
+
+UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 30 /* was 6 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 20217;
@@ -1084,8 +2149,48 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 20800;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20872;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20873;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20874;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20876;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20890;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 20897;
+
+UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 30 /* was 6 */
 WHERE `ID` = 20911;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 21161;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 21913;
 
 UPDATE `dbc`.`spell` SET 
     `EffectRadiusIndex1` = 45 /* was 9 */,
@@ -1104,6 +2209,11 @@ UPDATE `dbc`.`spell` SET
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
     `EffectBonusMultiplier2` = 0.0 /* was 1.0 */
 WHERE `ID` = 22683;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 22757;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 65568 /* was 448 */,
@@ -1219,6 +2329,61 @@ Deals $*2;23478s1 damage to surrounding allies on death.' */
 WHERE `ID` = 23620;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23628;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23629;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23632;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23633;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23636;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23637;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23638;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23639;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23650;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23652;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 23653;
+
+UPDATE `dbc`.`spell` SET 
     `Effect1` = 136 /* was 10 */,
     `EffectDieSides1` = 0 /* was 15001 */,
     `EffectBasePoints1` = 20 /* was 92499 */,
@@ -1251,6 +2416,36 @@ UPDATE `dbc`.`spell` SET
     `RecoveryTime` = 3000 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 24097;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24136;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24137;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24138;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24139;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24140;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24141;
 
 UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 149 /* was 49 */,
@@ -1289,9 +2484,29 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24394;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24399;
+
+UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 249 /* was 499 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 24573;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24912;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24913;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 24914;
 
 UPDATE `dbc`.`spell` SET 
     `EffectDieSides1` = 1 /* was 0 */,
@@ -1810,6 +3025,36 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 27143;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27585;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27586;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27587;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27588;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27589;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27590;
+
+UPDATE `dbc`.`spell` SET 
     `EffectMiscValueB1` = 2081 /* was 61 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
@@ -1821,6 +3066,21 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 27812;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27829;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27830;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 27832;
 
 UPDATE `dbc`.`spell` SET 
     `EffectDieSides1` = 1 /* was 0 */,
@@ -1835,6 +3095,21 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 28019;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28242;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28243;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28244;
 
 UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 9974 /* was 19974 */,
@@ -1852,6 +3127,21 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 28383;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28461;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28462;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 28463;
 
 UPDATE `dbc`.`spell` SET 
     `Effect2` = 6 /* was 0 */,
@@ -1917,6 +3207,221 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29354;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29545;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29547;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29548;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29549;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29550;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29551;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29552;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29553;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29556;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29557;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29558;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29565;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29566;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29568;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29569;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29571;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29603;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29605;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29606;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29608;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29610;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29611;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29613;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29614;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29615;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29616;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29617;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29619;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29620;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29621;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29622;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29628;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29629;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29630;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29642;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29643;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29645;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29648;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29649;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29654;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29656;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29657;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29658;
+
+UPDATE `dbc`.`spell` SET 
     `StackAmount` = 0 /* was 99 */,
     `EffectBasePoints1` = 399 /* was 9 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
@@ -1931,7 +3436,99 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29660;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29662;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29663;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29664;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29668;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29669;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29671;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29672;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29692;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29693;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29694;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29695;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29696;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29697;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29698;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29699;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29700;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29728;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 29729;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 29844;
 
 UPDATE `dbc`.`spell` SET 
@@ -2204,11 +3801,36 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32271;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 32284;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 32285;
+
+UPDATE `dbc`.`spell` SET 
     `StackAmount` = 10 /* was 0 */,
     `EffectBasePoints2` = -6 /* was -51 */,
     `EffectBasePoints3` = -6 /* was -51 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 32346;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 32655;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 32656;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 32657;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 10 /* was 16 */,
@@ -2258,6 +3880,96 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34490;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34529;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34530;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34533;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34534;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34535;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34537;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34538;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34540;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34541;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34542;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34543;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34544;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34545;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34546;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34547;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34548;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34607;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34608;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 34955;
@@ -2278,8 +3990,153 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34961;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34979;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34981;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34982;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 34983;
+
+UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 35139;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36122;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36124;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36125;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36126;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36128;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36129;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36130;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36131;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36133;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36134;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36135;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36136;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36137;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36256;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36257;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36258;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36259;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36260;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36261;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36262;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36263;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36389;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36390;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36391;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 36392;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -2348,6 +4205,36 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 38175;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38473;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38475;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38476;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38477;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38478;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 38479;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 38503;
@@ -2361,6 +4248,26 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName3` = 79 /* was 118 */,
     `EffectBonusMultiplier3` = 1.0 /* was 0.0 */
 WHERE `ID` = 38697;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 40033;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 40034;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 40035;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 40036;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -2386,6 +4293,26 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 40530;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 41132;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 41133;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 41134;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 41135;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 41414;
@@ -2399,6 +4326,16 @@ UPDATE `dbc`.`spell` SET
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 41418;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 42662;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 42688;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 268435456 /* was 268468224 */,
@@ -2449,6 +4386,16 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43008;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 43549;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 43846;
+
+UPDATE `dbc`.`spell` SET 
     `Effect2` = 6 /* was 0 */,
     `EffectDieSides2` = 1 /* was 0 */,
     `EffectBasePoints1` = 4 /* was 3 */,
@@ -2480,6 +4427,26 @@ UPDATE `dbc`.`spell` SET
     `SpellDescription0` = 'Increases your total Spirit by $s1% and reduces your chance of being critically hit by $s2%.' /* was 'Increases your total Spirit by $s1%.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 44399;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 46140;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 46141;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 46142;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 46144;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -2560,6 +4527,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 50433;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 51300;
+
+UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 2598 /* was 1581 */,
     `SpellDescription0` = 'Clap back for $s1 damage at any target that strikes you for the next $d.' /* was 'Snap back for $s1 damage at any target that strikes you for the next $d.' */,
     `SpellToolTip0` = 'Clap back when struck.' /* was 'Snap back when struck.' */
@@ -2588,6 +4560,36 @@ UPDATE `dbc`.`spell` SET
     `SpellDescription0` = 'Clap back for $s1 damage at any target that strikes you for the next $d.' /* was 'Snap back for $s1 damage at any target that strikes you for the next $d.' */,
     `SpellToolTip0` = 'Clap back when struck.' /* was 'Snap back when struck.' */
 WHERE `ID` = 52399;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52567;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52568;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52569;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52570;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52571;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 52572;
 
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 10000 /* was 180000 */,
@@ -2621,6 +4623,46 @@ UPDATE `dbc`.`spell` SET
     `SpellDescription0` = 'Reduces all damage taken by $s1% and increases dodge chance by $s2%.' /* was 'Reduces all damage taken by $s1% and reduces the fade time of your Invisibility spell by ${$m2/-1000} sec.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 54354;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54550;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54551;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54552;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54553;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54554;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54555;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54556;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54557;
 
 UPDATE `dbc`.`spell` SET 
     `Dispel` = 0 /* was 1 */,
@@ -2710,6 +4752,306 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 54659;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54917;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54918;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54941;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54944;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54945;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54946;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54947;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54948;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54949;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54978;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54979;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54980;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 54981;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55013;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55014;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55015;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55017;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55055;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55056;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55057;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55058;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55174;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55177;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55179;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55181;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55182;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55183;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55184;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55185;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55186;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55187;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55200;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55201;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55202;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55203;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55204;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55206;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55298;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55300;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55301;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55302;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55303;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55304;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55305;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55306;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55307;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55308;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55309;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55310;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55311;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55312;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55369;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55370;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55371;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55372;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55373;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55374;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55375;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55376;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55377;
+
+UPDATE `dbc`.`spell` SET 
     `RangeIndex` = 11 /* was 151 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 55550;
@@ -2718,6 +5060,41 @@ UPDATE `dbc`.`spell` SET
     `DurationIndex` = 8 /* was 575 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 55593;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55628;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55641;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55656;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55732;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55834;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55835;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 55839;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -2765,12 +5142,32 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 56203;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56234;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56280;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56357;
+
+UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 99 /* was 49 */,
     `EffectApplyAuraName2` = 107 /* was 108 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellDescription0` = 'Your Frost Armor bonus armor is increased by $56384s1% and generates an additional $56384s2% threat.' /* was 'Your Ice Armor and Frost Armor spells grant an additional $56384s1% armor and resistance.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 56384;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56400;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -2801,6 +5198,46 @@ UPDATE `dbc`.`spell` SET
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 56501;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56549;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56550;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56551;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56552;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56553;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56554;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56555;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 56556;
 
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
@@ -2958,9 +5395,59 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59285;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59405;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59406;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59436;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59438;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59440;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59441;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 59442;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 59759;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 61008;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 61009;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 61010;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 327696 /* was 327680 */,
@@ -3012,6 +5499,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 62195;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 62202;
+
+UPDATE `dbc`.`spell` SET 
     `Attributes` = 65568 /* was 0 */,
     `AttributesEx` = 1024 /* was 0 */,
     `CastingTimeIndex` = 37 /* was 1 */,
@@ -3035,6 +5527,41 @@ UPDATE `dbc`.`spell` SET
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 62203;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63182;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63187;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63188;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63189;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63190;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63191;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 63192;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -3071,6 +5598,66 @@ UPDATE `dbc`.`spell` SET
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 64728;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67091;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67092;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67093;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67094;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67095;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67096;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67130;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67131;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67132;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67133;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67134;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 67135;
 
 UPDATE `dbc`.`spell` SET 
     `Dispel` = 1 /* was 0 */,
@@ -3475,6 +6062,36 @@ UPDATE `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 69388;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70562;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70563;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70565;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70566;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70567;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 1 /* was 0 */
+WHERE `ID` = 70568;
 
 UPDATE `dbc`.`spell` SET 
     `Category` = 0 /* was 1155 */,
@@ -7581,6 +10198,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 1,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -9494,6 +12113,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 1,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,

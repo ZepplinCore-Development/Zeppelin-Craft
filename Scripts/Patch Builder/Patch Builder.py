@@ -21,6 +21,7 @@ db_config = {
 
 backup_dbc = "DBC_backup"
 live_dbc = "dbc"
+world_db = "acore_world"
 
 # Directories for updates
 update_dir = 'C:\\Games\\ChromieCraft_3.3.5a\\Custom Tools\\Zeppelin-Core\\Scripts\\Patch Builder\\updates'
@@ -165,8 +166,6 @@ def get_column_defaults(connection, table_name):
 
     return defaults
 
-import numbers
-
 def convert_to_number(value):
     try:
         return int(value)
@@ -176,7 +175,6 @@ def convert_to_number(value):
         except ValueError:
             return value  # Return as string if conversion fails
     
-
 # Function to check if two values are equivalent considering numeric types
 def values_are_equivalent(value1, value2):
 
@@ -189,7 +187,6 @@ def values_are_equivalent(value1, value2):
         str_value1 = str(value1)
         str_value2 = str(value2)
         return str_value1 == str_value2
-
 
 # Function to compare data between dbc and DBC_backup tables
 def compare_and_generate_updates():
@@ -296,9 +293,37 @@ def compare_and_generate_updates():
         if conn_dbc_backup:
             conn_dbc_backup.close()
 
+# Function to update ITEM.DBC
+def update_item_dbc():
+    try:
+        acore_world_conn = connect_to_db(world_db)
+        acore_world_cursor = acore_world_conn.cursor()
+
+        acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= 56899")
+        item_templates = acore_world_cursor.fetchall()
+
+        delete_query = "DELETE FROM dbc.item WHERE itemID >= 56899;"
+        print(delete_query)
+
+        # Constructing a single SQL statement for batch insert
+        insert_query = "INSERT INTO dbc.item (itemID, ItemClass, ItemSubClass, sound_override_subclassid, MaterialID, ItemDisplayInfo, inventorySlotID, SheathID) VALUES \n"
+        values = []
+
+        for item_template in item_templates:
+            values.append("(" + ", ".join(str(value) for value in item_template) + ")")
+
+        insert_query += ",\n".join(values) + ";"
+        print(insert_query)
+
+        acore_world_cursor.close()
+        acore_world_conn.close()
+
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
 
 try:
     create_dbc_backup()
+    update_item_dbc()
     create_tables_in_db_backup()
     compare_and_generate_updates()
 
