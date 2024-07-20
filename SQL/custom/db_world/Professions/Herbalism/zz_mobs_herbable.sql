@@ -311,3 +311,5 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100047 WHERE (`entry` = 23029);
 -- Laj botanica
 UPDATE `creature_template` SET `type_flags` = 328, `skinloot` = 100047 WHERE (`entry` = 17980); 
+-- Mutated Farahlon Lasher
+UPDATE `creature_template` SET `type_flags` = 328, `skinloot` = 100047 WHERE (`entry` = 20983); 
