@@ -1,26 +1,28 @@
-﻿Totem Categories,,
-Description,CategoryType,
-Shaman Totems,2,
-Enchanting,3,
-Blacksmithing,4,
-,,
-,,
-Enchanting Totems,,
-Description,Category Mask,Mask Expanded
-Runed Copper Rod,1,1
-Runed Silver Rod,3,1+2
-Runed Golden Rod,7,1+2+4
-Runed Truesilver Rod,15,1+2+4+8
-Runed Arcanite Rod,31,1+2+4+8+16
-Runed Fel Iron Rod,63,1+2+4+8+16+32
-Runed Adamantite Rod,127,1+2+4+8+16+32+64
-Runed Eternium Rod,255,1+2+4+8+16+32+64+128
-Runed Azurite Rod,511,1+2+4+8+16+32+64+256
-Runed Cobalt Rod (DO NOT USE),511,1+2+4+8+16+32+64+256
-Runed Titanium Rod,1023,1+2+4+8+16+32+64+256+512
-,,
-Blacksmithing Totems,,
-Description,Category Mask,Mask Expanded
-Copper Smithing Hammer,1,1
-Bronze Smithing Hammer,3,1+2
-Iron Smithing Hammer,7,1+2+4
+﻿Totem Categories,,,
+Description,CategoryType,,
+Shaman Totems,2,,
+Enchanting,3,,
+Blacksmithing,4,,
+,,,
+,,,
+Enchanting Totems,CategoryType,3,
+Description,Category Mask,Mask Expanded,Totem ID
+Runed Copper Rod,1,1-,
+Runed Silver Rod,3,1+2,
+Runed Golden Rod,7,1+2+4,
+Runed Truesilver Rod,15,1+2+4+8,
+Runed Arcanite Rod,31,1+2+4+8+16,
+Runed Fel Iron Rod,63,1+2+4+8+16+32,
+Runed Adamantite Rod,127,1+2+4+8+16+32+64,
+Runed Eternium Rod,255,1+2+4+8+16+32+64+128,
+Runed Azurite Rod,511,1+2+4+8+16+32+64+256,
+Runed Cobalt Rod (DO NOT USE),511,1+2+4+8+16+32+64+256,
+Runed Titanium Rod,1023,1+2+4+8+16+32+64+256+512,
+,,,
+Blacksmithing Totems,CategoryType,4,
+Description,Category Mask,Mask Expanded,Totem ID
+Basic Smithing Hammer,1,1-,162
+Bronze Smithing Hammer,3,1+2,192
+Iron Smithing Hammer,7,1+2+4,193
+Mithril Smithing Hammer,15,1+2+4+8,
+Thorium Smithing Hammer,31,1+2+4+8+16,
