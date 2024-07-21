@@ -1,70 +1,114 @@
 ﻿DBC,"HD Characters
 (Patch-6)","HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)",Double Fog Distance (PATCH-D),"HD Water 
 (PATCH-W)","Worgoblin 
-(Patch-G)","Spell Editor 
-(Patch-Z)",Source
-Achievement.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-Achievement_Criteria.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
+(Patch-G)","Custom DBC
+(Patch-Z)",Source,DBC DATABASE BACKUP
+Achievement.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+Achievement_Category.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+Achievement_Criteria.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
 AnimationData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 BarberShopStyle.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 CharacterFacialHairStyles.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",NOT WORKING?
 CharBaseInfo.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",NOT WORKING?
 CharHairGeosets.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 CharHairTextures.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 CharSections.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 CharStartOutfit.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
 ChrRaces.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-CreatureDisplayInfo.dbc,x,,,,x,x,"Spell Editor 
-(Patch-Z)"
-CreatureDisplayInfoExtra.dbc,x,,,,x,x,"Spell Editor 
-(Patch-Z)"
-CreatureModelData.dbc,x,,,,x,x,"Spell Editor 
-(Patch-Z)"
+(Patch-G)",x
+CreatureDisplayInfo.dbc,x,,,,x,x,"Custom DBC
+(Patch-Z)",x
+CreatureDisplayInfoExtra.dbc,x,,,,x,x,"Custom DBC
+(Patch-Z)",x
+CreatureFamily.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+CreatureModelData.dbc,x,,,,x,x,"Custom DBC
+(Patch-Z)",x
 CreatureSoundData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
+(Patch-G)",x
+CurrencyTypes.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+DungeonEncounter.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
 EmotesTextSound.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)"
-Faction.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
+(Patch-G)",x
+Faction.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
 HelmetGeosetVisData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-Item.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-ItemDisplayInfo.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-NameGen.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-SkillLine.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-SkillLineAbility.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-SkillRaceClassInfo.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-SoundEntries.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-Spell.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-SpellIcon.dbc,,,,,x,x,"Spell Editor 
-(Patch-Z)"
-SummonProperties.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-TalentTab.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-VocalUISounds.dbc,,,,,x,,"Worgoblin 
-(Patch-G)"
-LoadingScreens.dbc,,x,,,,,"HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)"
-LightFloatBand.dbc,,,x,,,,Double Fog Distance (PATCH-D)
-LightParams.dbc,,,x,,,,Double Fog Distance (PATCH-D)
+(Patch-G)",x
+Item.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+ItemDisplayInfo.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+ItemExtendedCost.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+ItemLimitCategory.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+LFGDungeonExpansion.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+LFGDungeonGroup.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+LFGDungeons.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+LightFloatBand.dbc,,,x,,,,Double Fog Distance (PATCH-D),x
+LightIntBand.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+LightParams.dbc,,,x,,,,Double Fog Distance (PATCH-D),x
 LiquidType.dbc,,,,x,,,"HD Water 
-(PATCH-W)"
+(PATCH-W)",NOT WORKING?
+LoadingScreens.dbc,,x,,,,,"HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)",x
+Lock.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+Map.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+MapDifficulty.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+NameGen.dbc,,,,,x,,"Worgoblin 
+(Patch-G)",x
+ParticleColor.dbc,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SkillLine.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+SkillLineAbility.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+SkillRaceClassInfo.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+SoundEntries.dbc,,,,,x,,"Worgoblin 
+(Patch-G)",x
+Spell.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+SpellIcon.dbc,,,,,x,x,"Custom DBC
+(Patch-Z)",x
+SpellMissile,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellMissileMotion,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisual,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisualEffectName,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisualKit,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisualKitAreaModel,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisualKitModelAttach,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SpellVisualPrecastTransitions,,,,,,x,"Custom DBC
+(Patch-Z)",x
+SummonProperties.dbc,,,,,x,,"Worgoblin 
+(Patch-G)",x
+TalentTab.dbc,,,,,x,,"Worgoblin 
+(Patch-G)",x
+VocalUISounds.dbc,,,,,x,,"Worgoblin 
+(Patch-G)",x

@@ -12,5 +12,5 @@ INSERT INTO `dbc`.`creaturefamily` SET
     `categoryenumid` = 64,
     `name1` = 'Cloud Serpent',
     `nameFlags` = 16712190,
-    `inconpath` = 'InterfaceIconsSpell_Nature_GuardianWard';
+    `iconpath` = 'InterfaceIconsSpell_Nature_GuardianWard';
 

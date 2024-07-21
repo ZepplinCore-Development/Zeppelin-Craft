@@ -58,19 +58,27 @@ def create_dbc_backup():
         if conn:
             conn.close()
 
-# Function to get tables in a database
-def get_tables_in_db(connection):
-    tables = []
+# Function to get tables in a database that contain data
+def get_tables_with_data(connection):
+    tables_with_data = []
     try:
         with connection.cursor() as cursor:
             cursor.execute("SHOW TABLES;")
             tables = cursor.fetchall()
             tables = [table[0] for table in tables]  # Extract table names from tuples
 
+            for table in tables:
+                # Use backticks to escape reserved keywords and special characters
+                query = f"SELECT COUNT(*) FROM `{table}`;"
+                cursor.execute(query)
+                row_count = cursor.fetchone()[0]
+                if row_count > 0:
+                    tables_with_data.append(table)
+    
     except mysql.connector.Error as err:
         print(f"Error retrieving tables: {err}")
 
-    return tables
+    return tables_with_data
 
 # Function to create tables in DBC_backup if they don't exist, by cloning structure and data
 def create_tables_in_db_backup():
@@ -84,7 +92,7 @@ def create_tables_in_db_backup():
             with conn_dbc.cursor() as cursor_dbc:
 
                 # Get list of tables from live DBC database
-                tables = get_tables_in_db(conn_dbc)
+                tables = get_tables_with_data(conn_dbc)
 
                 # Iterate through tables and create if not exists in DBC_backup
                 for table in tables:
@@ -196,7 +204,7 @@ def compare_and_generate_updates():
         conn_dbc_backup = connect_to_db(backup_dbc)
 
         # Get list of tables from live DBC database
-        tables = get_tables_in_db(conn_dbc)
+        tables = get_tables_with_data(conn_dbc)
 
         # Iterate through tables and compare data
         for table in tables:
