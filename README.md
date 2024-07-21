@@ -9,7 +9,6 @@ Place the launcher in the WoW_Directory with your Wow.EXE file.
 Run the launcher.
 
 # Reference List of MPQ Files
-PATCH-Z.MPQ - Spell Edits
 
 PATCH-4.MPQ - Open Azeroth Maps Assets
 
@@ -36,4 +35,8 @@ PATCH-S.MPQ - Sunlight
 PATCH-T.MPQ - Modern Trees
 
 PATCH-W.MPQ - HD Water
+
+PATCH-X.MPQ - Custom Models
+
+PATCH-Z.MPQ - Custom DBC Files
 
