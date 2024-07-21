@@ -27,6 +27,8 @@ PATCH-D.MPQ - Double Fog Distance
 
 PATCH-G.MPQ - Goblins and Worgens
 
+PATCH-I.MPQ - Custom Icons
+
 PATCH-M.MPQ - Music
 
 PATCH-S.MPQ - Sunlight
