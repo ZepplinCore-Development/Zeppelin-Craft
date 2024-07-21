@@ -1,31 +1,70 @@
-﻿DBC,HD Characters (Patch-6),Worgoblin (Patch-G),Spell Editor (Patch-Z),Source
-Achievement.dbc,,x,x,Spell Editor (Patch-Z)
-Achievement_Criteria.dbc,,x,x,Spell Editor (Patch-Z)
-AnimationData.dbc,,x,,Worgoblin (Patch-G)
-BarberShopStyle.dbc,,x,,Worgoblin (Patch-G)
-CharacterFacialHairStyles.dbc,x,x,,Worgoblin (Patch-G)
-CharBaseInfo.dbc,,x,,Worgoblin (Patch-G)
-CharHairGeosets.dbc,x,x,,Worgoblin (Patch-G)
-CharHairTextures.dbc,,x,,Worgoblin (Patch-G)
-CharSections.dbc,x,x,,Worgoblin (Patch-G)
-CharStartOutfit.dbc,,x,,Worgoblin (Patch-G)
-ChrRaces.dbc,,x,,Worgoblin (Patch-G)
-CreatureDisplayInfo.dbc,x,x,x,Spell Editor (Patch-Z)
-CreatureDisplayInfoExtra.dbc,x,x,x,Worgoblin (Patch-G)
-CreatureModelData.dbc,x,x,x,Spell Editor (Patch-Z)
-CreatureSoundData.dbc,,x,,Worgoblin (Patch-G)
-EmotesTextSound.dbc,x,x,,Worgoblin (Patch-G)
-Faction.dbc,,x,x,Worgoblin (Patch-G)
-HelmetGeosetVisData.dbc,,x,,Worgoblin (Patch-G)
-Item.dbc,,x,x,Spell Editor (Patch-Z)
-ItemDisplayInfo.dbc,,x,x,Worgoblin (Patch-G)
-NameGen.dbc,,x,,Worgoblin (Patch-G)
-SkillLine.dbc,,x,x,Spell Editor (Patch-Z)
-SkillLineAbility.dbc,,x,x,Spell Editor (Patch-Z)
-SkillRaceClassInfo.dbc,,x,x,Spell Editor (Patch-Z)
-SoundEntries.dbc,,x,,Worgoblin (Patch-G)
-Spell.dbc,,x,x,Spell Editor (Patch-Z)
-SpellIcon.dbc,,x,x,Spell Editor (Patch-Z)
-SummonProperties.dbc,,x,,Worgoblin (Patch-G)
-TalentTab.dbc,,x,,Worgoblin (Patch-G)
-VocalUISounds.dbc,,x,,Worgoblin (Patch-G)
+﻿DBC,"HD Characters
+(Patch-6)","HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)",Double Fog Distance (PATCH-D),"HD Water 
+(PATCH-W)","Worgoblin 
+(Patch-G)","Spell Editor 
+(Patch-Z)",Source
+Achievement.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+Achievement_Criteria.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+AnimationData.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+BarberShopStyle.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+CharacterFacialHairStyles.dbc,x,,,,x,,"Worgoblin 
+(Patch-G)"
+CharBaseInfo.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+CharHairGeosets.dbc,x,,,,x,,"Worgoblin 
+(Patch-G)"
+CharHairTextures.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+CharSections.dbc,x,,,,x,,"Worgoblin 
+(Patch-G)"
+CharStartOutfit.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+ChrRaces.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+CreatureDisplayInfo.dbc,x,,,,x,x,"Spell Editor 
+(Patch-Z)"
+CreatureDisplayInfoExtra.dbc,x,,,,x,x,"Spell Editor 
+(Patch-Z)"
+CreatureModelData.dbc,x,,,,x,x,"Spell Editor 
+(Patch-Z)"
+CreatureSoundData.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+EmotesTextSound.dbc,x,,,,x,,"Worgoblin 
+(Patch-G)"
+Faction.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+HelmetGeosetVisData.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+Item.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+ItemDisplayInfo.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+NameGen.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+SkillLine.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+SkillLineAbility.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+SkillRaceClassInfo.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+SoundEntries.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+Spell.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+SpellIcon.dbc,,,,,x,x,"Spell Editor 
+(Patch-Z)"
+SummonProperties.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+TalentTab.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+VocalUISounds.dbc,,,,,x,,"Worgoblin 
+(Patch-G)"
+LoadingScreens.dbc,,x,,,,,"HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)"
+LightFloatBand.dbc,,,x,,,,Double Fog Distance (PATCH-D)
+LightParams.dbc,,,x,,,,Double Fog Distance (PATCH-D)
+LiquidType.dbc,,,,x,,,"HD Water 
+(PATCH-W)"
