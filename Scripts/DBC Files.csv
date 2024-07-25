@@ -2,113 +2,117 @@
 (Patch-6)","HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)",Double Fog Distance (PATCH-D),"HD Water 
 (PATCH-W)","Worgoblin 
 (Patch-G)","Custom DBC
-(Patch-Z)",Source,DBC DATABASE BACKUP
-Achievement.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-Achievement_Category.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-Achievement_Criteria.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-AnimationData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-BarberShopStyle.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-CharacterFacialHairStyles.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)",NOT WORKING?
-CharBaseInfo.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",NOT WORKING?
-CharHairGeosets.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)",x
-CharHairTextures.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-CharSections.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)",x
-CharStartOutfit.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-ChrRaces.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-CreatureDisplayInfo.dbc,x,,,,x,x,"Custom DBC
-(Patch-Z)",x
-CreatureDisplayInfoExtra.dbc,x,,,,x,x,"Custom DBC
-(Patch-Z)",x
-CreatureFamily.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-CreatureModelData.dbc,x,,,,x,x,"Custom DBC
-(Patch-Z)",x
-CreatureSoundData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-CurrencyTypes.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-DungeonEncounter.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-EmotesTextSound.dbc,x,,,,x,,"Worgoblin 
-(Patch-G)",x
-Faction.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-HelmetGeosetVisData.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-Item.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-ItemDisplayInfo.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-ItemExtendedCost.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-ItemLimitCategory.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-LFGDungeonExpansion.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-LFGDungeonGroup.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-LFGDungeons.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-LightFloatBand.dbc,,,x,,,,Double Fog Distance (PATCH-D),x
-LightIntBand.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-LightParams.dbc,,,x,,,,Double Fog Distance (PATCH-D),x
-LiquidType.dbc,,,,x,,,"HD Water 
-(PATCH-W)",NOT WORKING?
-LoadingScreens.dbc,,x,,,,,"HD Character Creator and Login, Password Saving, HD Loading Screens (PATCH-C)",x
-Lock.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-Map.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-MapDifficulty.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-NameGen.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-ParticleColor.dbc,,,,,,x,"Custom DBC
-(Patch-Z)",x
-SkillLine.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-SkillLineAbility.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-SkillRaceClassInfo.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-SoundEntries.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-Spell.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
-SpellIcon.dbc,,,,,x,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",Source,DBC DATABASE BACKUP,
+Achievement,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+Achievement_Category,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+Achievement_Criteria,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+AnimationData,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+BarberShopStyle,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CharacterFacialHairStyles,x,,,,x,,"Worgoblin 
+(Patch-G)",NOT WORKING?,
+CharBaseInfo,,,,,x,,"Worgoblin 
+(Patch-G)",NOT WORKING?,
+CharHairGeosets,x,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CharHairTextures,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CharSections,x,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CharStartOutfit,,,,,x,,"Worgoblin 
+(Patch-G)",x,
+ChrRaces,,,,,x,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+CreatureDisplayInfo,x,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CreatureDisplayInfoExtra,x,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CreatureFamily,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+CreatureModelData,x,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+CreatureSoundData,,,,,x,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+CurrencyTypes,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+DungeonEncounter,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+EmotesTextSound,x,,,,x,,"Worgoblin 
+(Patch-G)",x,
+Faction,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+HelmetGeosetVisData,,,,,x,,"Worgoblin 
+(Patch-G)",x,
+Item,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+ItemDisplayInfo,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+ItemExtendedCost,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+ItemLimitCategory,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+LFGDungeonExpansion,,,,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+LFGDungeonGroup,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+LFGDungeons,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+LightFloatBand,,,x,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+LightIntBand,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+LightParams,,,x,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+LiquidType,,,,x,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+LoadingScreens,,x,,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+Lock,,,,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+Map,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+MapDifficulty,,,,,,x,"Custom DBC
+(Patch-Z)",x,
+NameGen,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+ParticleColor,,,,,,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+SkillLine,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+SkillLineAbility,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+SkillRaceClassInfo,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+SoundEntries,,,,,x,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+Spell,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+SpellIcon,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
 SpellMissile,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellMissileMotion,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisual,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisualEffectName,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisualKit,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisualKitAreaModel,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisualKitModelAttach,,,,,,x,"Custom DBC
-(Patch-Z)",x
+(Patch-Z)",x,
 SpellVisualPrecastTransitions,,,,,,x,"Custom DBC
-(Patch-Z)",x
-SummonProperties.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-TalentTab.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
-VocalUISounds.dbc,,,,,x,,"Worgoblin 
-(Patch-G)",x
+(Patch-Z)",x,
+SummonProperties,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
+TalentTab,,,,,x,x,"Custom DBC
+(Patch-Z)",x,No Changes from Base?
+TotemCategory,,,,,,x,,,
+VocalUISounds,,,,,x,x,"Custom DBC
+(Patch-Z)",x,
