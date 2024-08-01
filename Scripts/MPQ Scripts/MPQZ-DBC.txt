@@ -1,3 +1,3 @@
-a "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "C:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" "DBFilesClient" /auto /r
-compact "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ"
+a "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ" "D:\Games\ChromieCraft_3.3.5a\Custom Tools\WoW Spell Editor\Export" "DBFilesClient" /auto /r
+compact "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-Z.MPQ"
 exit

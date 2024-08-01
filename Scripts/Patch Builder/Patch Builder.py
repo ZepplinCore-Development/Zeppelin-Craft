@@ -24,7 +24,7 @@ live_dbc = "dbc"
 world_db = "acore_world"
 
 # Directories for updates
-update_dir = 'C:\\Games\\ChromieCraft_3.3.5a\\Custom Tools\\Zeppelin-Core\\Scripts\\Patch Builder\\updates'
+update_dir = 'D:\\Games\\ChromieCraft_3.3.5a\\Custom Tools\\Zeppelin-Core\\Scripts\\Patch Builder\\updates'
 os.makedirs(update_dir, exist_ok=True)
 
 # Function to establish database connection
@@ -350,9 +350,9 @@ except Exception as e:
 
 # Shell script equivalent starts here
 
-base_directory = r'C:\Games\ChromieCraft_3.3.5a\Custom Tools'
+base_directory = r'D:\Games\ChromieCraft_3.3.5a\Custom Tools'
 temp_file = os.path.join(base_directory, 'temp.txt')
-file_list = r'Z:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt'
+file_list = r'Y:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt'
 
 print(f"Script is running here {base_directory}")
 
@@ -363,7 +363,7 @@ subprocess.run(['HeadlessExport.exe'], check=True)
 
 # Copy DBC files
 export_dir = os.path.join(spell_editor_dir, 'Export')
-destination_dir = r'R:\env\dist\bin\dbc'
+destination_dir = r'X:\env\dist\bin\dbc'
 shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
 # Update MPQ files
@@ -374,12 +374,12 @@ subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppe
 
 # Copy updated Patch Z MPQ file
 mpqZ_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-Z.MPQ')
-mpqZ_patch_dest = r'Z:\binhex-nginx\nginx\MPQ\mandatory'
+mpqZ_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
 shutil.copy(mpqZ_patch_src, mpqZ_patch_dest)
 
 # Copy updated Patch X MPQ file
 mpqX_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-X.MPQ')
-mpqX_patch_dest = r'Z:\binhex-nginx\nginx\MPQ\mandatory'
+mpqX_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
 shutil.copy(mpqX_patch_src, mpqX_patch_dest)
 
 # Update version file
