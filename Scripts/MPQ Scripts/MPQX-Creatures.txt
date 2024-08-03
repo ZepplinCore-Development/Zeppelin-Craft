@@ -1,3 +1,3 @@
-a "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-X.MPQ" "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Models\Creature" "Creature" /auto /r
-compact "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\MPQ Patches\PATCH-X.MPQ"
+a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ" "D:\Games\ChromieCraft_3.3.5a\Custom Tools\Models\Creature" "Creature" /auto /r
+compact "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
 exit

@@ -373,14 +373,14 @@ subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppe
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Core', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
 
 # Copy updated Patch Z MPQ file
-mpqZ_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-Z.MPQ')
-mpqZ_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
-shutil.copy(mpqZ_patch_src, mpqZ_patch_dest)
+# mpqZ_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-Z.MPQ')
+# mpqZ_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
+# shutil.copy(mpqZ_patch_src, mpqZ_patch_dest)
 
 # Copy updated Patch X MPQ file
-mpqX_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-X.MPQ')
-mpqX_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
-shutil.copy(mpqX_patch_src, mpqX_patch_dest)
+# mpqX_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-X.MPQ')
+# mpqX_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
+# shutil.copy(mpqX_patch_src, mpqX_patch_dest)
 
 # Update version file
 with open(file_list, 'r') as f:
