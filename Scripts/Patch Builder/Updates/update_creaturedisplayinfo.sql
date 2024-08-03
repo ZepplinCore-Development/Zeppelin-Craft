@@ -816,7 +816,7 @@ WHERE `ID` = 2437;
 
 UPDATE `dbc`.`creaturedisplayinfo` SET 
     `ModelID` = 4001 /* was 66 */,
-    `CreatureModelScale` = 6.5 /* was 3.0 */,
+    `CreatureModelScale` = 2.0 /* was 3.0 */,
     `TextureVariation_2` = 'Ivory' /* was '' */,
     `TextureVariation_3` = 'Armor' /* was '' */
 WHERE `ID` = 2450;
