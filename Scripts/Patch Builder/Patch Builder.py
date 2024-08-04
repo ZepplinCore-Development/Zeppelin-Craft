@@ -6,11 +6,7 @@ import shutil
 
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
-# Split Patch Z into two patches, 1 for custom models and the other containing DBC edits. To cut down on uploads and downloads, models are the bulk of the patch size but are almost never changed.
 # Package this script into an executable if possible.
-# 
-#
-#
 
 # Database connection details
 db_config = {

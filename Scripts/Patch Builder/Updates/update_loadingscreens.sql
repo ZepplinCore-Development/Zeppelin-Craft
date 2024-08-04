@@ -367,3 +367,66 @@ UPDATE `dbc`.`loadingscreens` SET
     `HasWideScreen` = 1 /* was 0 */
 WHERE `ID` = 254;
 
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 255;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 255,
+    `Name` = 'InstanceCoTHyjal',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenHyjal.blp',
+    `HasWideScreen` = 1;
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 256;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 256,
+    `Name` = 'InstanceHallsofOrigination',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenhallsoforigination.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 257;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 257,
+    `Name` = 'InstanceCoTOpening',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenOpening.blp',
+    `HasWideScreen` = 1;
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 258;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 258,
+    `Name` = 'StoneCore',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreendeepholmdungeon.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 259;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 259,
+    `Name` = 'InstanceSkywall',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenskywall.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 264;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 264,
+    `Name` = 'InstanceUldumDungeon',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenuldumdungeon.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 268;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 268,
+    `Name` = 'Deepholm',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreendeepholm.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 271;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 271,
+    `Name` = 'InstanceSkywallRaid',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenskywallraid.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 300;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 300,
+    `Name` = 'AbyssalMawInterior',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenthroneofthetides.blp';
+
+DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 405;
+INSERT INTO `dbc`.`loadingscreens` SET 
+    `ID` = 405,
+    `Name` = 'MaelstromZone',
+    `FileName` = 'Interface\\Glues\\LoadingScreens\\loadingscreen_shamanartifact.blp',
+    `HasWideScreen` = 1;
+
