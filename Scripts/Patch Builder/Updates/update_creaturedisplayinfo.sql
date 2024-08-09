@@ -882,7 +882,7 @@ UPDATE `dbc`.`creaturedisplayinfo` SET
 WHERE `ID` = 2718;
 
 UPDATE `dbc`.`creaturedisplayinfo` SET 
-    `CreatureModelScale` = 3.0 /* was 1.0 */
+    `CreatureModelScale` = 2.0 /* was 1.0 */
 WHERE `ID` = 2719;
 
 UPDATE `dbc`.`creaturedisplayinfo` SET 
