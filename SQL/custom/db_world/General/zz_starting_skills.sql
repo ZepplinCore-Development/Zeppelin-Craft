@@ -56,7 +56,7 @@
 
 -- Swords - 43
     -- Warrior - Swords
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 3419, comment = 'Warrior - Swords' WHERE (classMask = 1 AND skill = 43);
+    UPDATE `playercreateinfo_skills` SET raceMask = 3419, comment = 'Warrior - Swords' WHERE (classMask = 1 AND skill = 43);
     -- Hunter - Swords
     UPDATE `playercreateinfo_skills` SET raceMask = 1024, comment = 'Hunter - Swords' WHERE (classMask = 4 AND skill = 43);
     -- Death Knight - Swords
@@ -64,25 +64,25 @@
 
 -- Thrown - 176
     -- Warrior - Thrown
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 3419, comment = 'Warrior - Thrown' WHERE (classMask = 1 AND skill = 176);
+    UPDATE `playercreateinfo_skills` SET raceMask = 3419, comment = 'Warrior - Thrown' WHERE (classMask = 1 AND skill = 176);
     -- Rogue - Thrown
     UPDATE `playercreateinfo_skills` SET raceMask = 3039, comment = 'Rogue - Thrown' WHERE (classMask = 8 AND skill = 176);
 
 -- Two Handed Axes - 172
     -- Warrior - Two Handed Axes
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 6, comment = 'Warrior - Two Handed Axes' WHERE (classMask = 1 AND skill = 172);
+    UPDATE `playercreateinfo_skills` SET raceMask = 6, comment = 'Warrior - Two Handed Axes' WHERE (classMask = 1 AND skill = 172);
     -- Death Knight - Two Handed Axes
     UPDATE `playercreateinfo_skills` SET raceMask = 4095, comment = 'Death Knight - Two Handed Axes' WHERE (classMask = 32 AND skill = 172);
 
 -- Two Handed Maces - 160
     -- Warrior - Two Handed Maces
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 288, comment = 'Warrior - Two Handed Maces' WHERE (classMask = 1 AND skill = 160);
+    UPDATE `playercreateinfo_skills` SET raceMask = 288, comment = 'Warrior - Two Handed Maces' WHERE (classMask = 1 AND skill = 160);
     -- Paladin - Two Handed Maces
     UPDATE `playercreateinfo_skills` SET raceMask = 1029, comment = 'Paladin - Two Handed Maces' WHERE (classMask = 2 AND skill = 160);
 
 -- Two Handed Swords - 55
     -- Warrior - Two Handed Swords
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 3088, comment = 'Warrior - Two Handed Swords' WHERE (classMask = 1 AND skill = 55);
+    UPDATE `playercreateinfo_skills` SET raceMask = 3088, comment = 'Warrior - Two Handed Swords' WHERE (classMask = 1 AND skill = 55);
     -- Paladin - Two Handed Swords
     UPDATE `playercreateinfo_skills` SET raceMask = 512, comment = 'Paladin - Two Handed Swords' WHERE (classMask = 2 AND skill = 55);
     -- Death Knight - Two Handed Swords
