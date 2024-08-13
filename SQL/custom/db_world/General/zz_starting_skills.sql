@@ -1,6 +1,6 @@
 -- Axes - 44
     -- Warrior - Axes
-    REPLACE INTO `playercreateinfo_skills` SET raceMask = 3511, comment = 'Warrior - Axes' WHERE (classMask = 1 AND skill = 44);
+    UPDATE `playercreateinfo_skills` SET raceMask = 3511, comment = 'Warrior - Axes' WHERE (classMask = 1 AND skill = 44);
     -- Hunter - Axes
     UPDATE `playercreateinfo_skills` SET raceMask = 422, comment = 'Hunter - Axes' WHERE (classMask = 4 AND skill = 44);
     -- Death Knight - Axes
