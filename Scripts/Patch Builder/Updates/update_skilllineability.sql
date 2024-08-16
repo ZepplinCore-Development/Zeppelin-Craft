@@ -1169,7 +1169,7 @@ INSERT INTO `dbc`.`skilllineability` SET
     `id` = 31578,
     `skillId` = 184,
     `spellId` = 91002,
-    `chrClasses` = 1,
+    `chrClasses` = 2,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31579;
