@@ -3794,6 +3794,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32179;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */
+WHERE `ID` = 32246;
+
+UPDATE `dbc`.`spell` SET 
     `Reagent1` = 0 /* was 17031 */,
     `ReagentCount1` = 0 /* was 1 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
