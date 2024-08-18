@@ -2759,6 +2759,12 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25918;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `AreaGroupID` = 0 /* was 38 */
+WHERE `ID` = 25953;
+
+UPDATE `dbc`.`spell` SET 
     `EffectImplicitTargetA2` = 0 /* was 53 */,
     `EffectImplicitTargetB2` = 0 /* was 16 */,
     `EffectRadiusIndex2` = 0 /* was 18 */,
@@ -2768,6 +2774,24 @@ UPDATE `dbc`.`spell` SET
     `SpellToolTip0` = 'Deals $s1 nature damage every $t1 sec.' /* was 'Deals $s1 nature damage every $t1 sec.
 Cannot cast spells.' */
 WHERE `ID` = 26053;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Red Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `AreaGroupID` = 0 /* was 38 */
+WHERE `ID` = 26054;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Yellow Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `AreaGroupID` = 0 /* was 38 */
+WHERE `ID` = 26055;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Green Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `AreaGroupID` = 0 /* was 38 */
+WHERE `ID` = 26056;
 
 UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 1 /* was 4 */,
