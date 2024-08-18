@@ -3607,7 +3607,7 @@
                     `QuestDescription` = 'Howdy, brave one! Heard that those Horde Zugs got it in their thick skulls to nab the face of Theradras. This''ll be the work of that pesky Zuglord Runthak. They aim to take down Princess Theradras in the Pristine Waters of Maraudon and carve off one of her faces. They''re plannin'' to use it as a mask to fool Therazane the Stonemother. Can''t let that happen! Saddle up, confront Princess Theradras, and bring back that face. We''ll make sure you''re handsomely rewarded. Let''s put a stop to them Horde schemes and secure Theradras'' face!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Face of Theradras to Travis Coomingham in Stormwind.',
-                    `RequiredItemId1` = 901724,
+                    `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
                     
