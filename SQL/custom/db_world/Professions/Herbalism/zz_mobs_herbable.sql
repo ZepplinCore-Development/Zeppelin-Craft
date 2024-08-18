@@ -286,6 +286,8 @@ UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18136);
 -- Lord Klaq
 UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 18282);
+-- Greater Frayer
+UPDATE `creature_template` SET `type_flags` = 256, `skinloot` = 100046 WHERE (`entry` = 19557);
 
 -- Outland 70+ MOBS
 
