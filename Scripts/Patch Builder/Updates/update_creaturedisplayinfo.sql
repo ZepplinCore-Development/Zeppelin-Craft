@@ -7182,6 +7182,17 @@ INSERT INTO `dbc`.`creaturedisplayinfo` SET
     `CreatureModelAlpha` = 255,
     `BloodLevel` = 1;
 
+DELETE FROM `dbc`.`creaturedisplayinfo` WHERE `ID` = 39094;
+INSERT INTO `dbc`.`creaturedisplayinfo` SET 
+    `ID` = 39094,
+    `ModelID` = 7053,
+    `CreatureModelScale` = 1.0,
+    `CreatureModelAlpha` = 255,
+    `TextureVariation_1` = 'unboundfireelementallord00',
+    `TextureVariation_2` = 'unboundfireelementallordskinyellow',
+    `TextureVariation_3` = 'unboundfireelementallordskinyellow',
+    `BloodLevel` = 1;
+
 DELETE FROM `dbc`.`creaturedisplayinfo` WHERE `ID` = 39095;
 INSERT INTO `dbc`.`creaturedisplayinfo` SET 
     `ID` = 39095,

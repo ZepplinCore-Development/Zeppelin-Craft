@@ -1932,3 +1932,26 @@ INSERT INTO `dbc`.`creaturemodeldata` SET
     `worldEffectScale` = 1.0,
     `attachedEffectScale` = 1.0;
 
+DELETE FROM `dbc`.`creaturemodeldata` WHERE `id` = 7053;
+INSERT INTO `dbc`.`creaturemodeldata` SET 
+    `id` = 7053,
+    `flags` = 4096,
+    `modelPath` = 'creature\\boundfireelemental\\unboundfireelementallord.mdx',
+    `modelScale` = 1.0,
+    `bloodId` = 3,
+    `footprintTextureId` = 4,
+    `footprintTextureLength` = 18.0,
+    `footprintTextureWidth` = 12.0,
+    `footprintParticleScale` = 1.0,
+    `soundData` = 4716,
+    `collisionWidth` = 0.6111,
+    `collisionHeight` = 2.031,
+    `geoBoxMinX` = -0.735,
+    `geoBoxMinY` = -1.65,
+    `geoBoxMinZ` = 0.33,
+    `geoBoxMaxX` = 1.45,
+    `geoBoxMaxY` = 1.811,
+    `geoBoxMaxZ` = 4.4,
+    `worldEffectScale` = 1.0,
+    `attachedEffectScale` = 1.0;
+
