@@ -4,7 +4,7 @@ INSERT INTO acore_world.dungeon_access_requirements (dungeon_access_id,requireme
 (26, 2, 28395, 'You must obtain the Shattered Halls Key.', 2, NULL, 0, 'Normal Shattered Halls'),
 (37,1,10277,'You must complete the quest "The Caverns of Time" to enter Old Hillsbrad.',2,NULL,0,'Caverns Of Time: Old Hillsbrad Foothills/Escape from Durnholde - Normal'),
 (39, 2, 27991, 'You must obtain the Shadow Labyrinth key.', 2, NULL, 0, 'Normal Shadow Labs'),
-(41,2,30623,NULL,2,NULL,0,'Coilfang Resevoir: The Steamvault (Heroic)'),
+(57,2,30623,NULL,2,NULL,0,'Coilfang Resevoir: The Steamvault (Heroic)'),
 (42,1,10285,'You must complete the quest "Return to Andormu" before entering the Black Morass.',2,NULL,0,'Caverns of Time: Opening the Dark Portal (Normal)'),
 (48,1,10901,'You must complete the quest "The Cudgel of Kar''desh" and be level 70 before entering Serpentshrine Reservoir.',2,NULL,0,'Coilfang Reservoir: Serpentshrine Cavern - 25man'),
 (49, 2, 31084, 'You must obtain the Arcatraz key.', 2, NULL, 0, 'Normal Arcatraz'),  
