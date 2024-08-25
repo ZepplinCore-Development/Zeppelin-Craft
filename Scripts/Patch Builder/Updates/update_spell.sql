@@ -3883,6 +3883,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33891;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712188 */,
+    `StartRecoveryCategory` = 0 /* was 133 */
+WHERE `ID` = 34477;
+
+UPDATE `dbc`.`spell` SET 
     `Dispel` = 0 /* was 1 */,
     `RecoveryTime` = 8000 /* was 20000 */,
     `DurationIndex` = 0 /* was 27 */,
