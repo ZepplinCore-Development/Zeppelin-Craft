@@ -63,3 +63,14 @@ SET `ID` = 201004,
     `MoneyCost` = 500, -- 5S 
     `ReqSkillLine` = 164, -- Blacksmithing
     `ReqSkillRank` = 150;
+
+
+DELETE FROM `spell_group` WHERE `id` = 1114;
+INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
+	 (1114,91120,0),
+	 (1114,91122,0),
+	 (1114,91124,0);
+
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
+INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,description) VALUES
+	 (1114,1,'Group of smithing hammers');
