@@ -17,7 +17,6 @@ SET `entry` = 57003,
     `class` = 15, -- Miscellaneous
     `subclass` = 1, -- Reagent 
     `SellPrice` = 30, -- 30C
-    `ItemLimitCategory` = 87,
     `ItemLevel` = 20,
     `name` = 'Bronze Smithing Hammer',
     `displayid` = 142061,
@@ -44,7 +43,6 @@ SET `entry` = 57004,
     `class` = 15, -- Miscellaneous
     `subclass` = 1, -- Reagent 
     `SellPrice` = 30, -- 30C
-    `ItemLimitCategory` = 87,
     `ItemLevel` = 20,
     `name` = 'Iron Smithing Hammer',
     `displayid` = 137284,
@@ -64,13 +62,14 @@ SET `ID` = 201004,
     `ReqSkillLine` = 164, -- Blacksmithing
     `ReqSkillRank` = 150;
 
-
+-- Place all the hammer spell auras into the spell group table so they can be made exclusive
 DELETE FROM `spell_group` WHERE `id` = 1114;
 INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
 	 (1114,91120,0),
 	 (1114,91122,0),
 	 (1114,91124,0);
 
+-- Apply the exclusivity flag to the spell group for hammers
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,description) VALUES
 	 (1114,1,'Group of smithing hammers');
