@@ -230,7 +230,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22390);
 -- Vortex Shardling
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22391);
-
+-- Enraged Earth Shard
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100027 WHERE (`entry` = 22115);
 
 -- TBC Creatures 70+
 
