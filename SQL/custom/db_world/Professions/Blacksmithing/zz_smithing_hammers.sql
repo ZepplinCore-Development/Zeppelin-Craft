@@ -19,7 +19,7 @@ SET `entry` = 57003,
     `SellPrice` = 30, -- 30C
     `ItemLevel` = 20,
     `name` = 'Bronze Smithing Hammer',
-    `displayid` = 142061,
+    `displayid` = 142061, -- RoM_durability_hammer_07
     `Quality` = 6, -- Artifact
     `BagFamily` = 1152, -- Mining + Engineering
     `TotemCategory` = 192,
@@ -45,7 +45,7 @@ SET `entry` = 57004,
     `SellPrice` = 30, -- 30C
     `ItemLevel` = 20,
     `name` = 'Iron Smithing Hammer',
-    `displayid` = 137284,
+    `displayid` = 137284, -- AO_Hammer02
     `Quality` = 6, -- Artifact
     `BagFamily` = 1152, -- Mining + Engineering
     `TotemCategory` = 193,
@@ -61,6 +61,32 @@ SET `ID` = 201004,
     `MoneyCost` = 500, -- 5S 
     `ReqSkillLine` = 164, -- Blacksmithing
     `ReqSkillRank` = 150;
+
+-- Mithril Smithing Hammer ITEM TEMPLATE
+DELETE FROM `item_template` WHERE (`entry` = 57005);
+INSERT INTO `item_template`
+SET `entry` = 57005,
+    `class` = 15, -- Miscellaneous
+    `subclass` = 1, -- Reagent 
+    `SellPrice` = 30, -- 30C
+    `ItemLevel` = 20,
+    `name` = 'Mithril Smithing Hammer',
+    `displayid` = 148461, -- RoM_quest_hammer05
+    `Quality` = 6, -- Artifact
+    `BagFamily` = 1152, -- Mining + Engineering
+    `TotemCategory` = 193,
+    `spellid_1` = 91124,
+    `spelltrigger_1` = 5,
+    `bonding` = 1; -- BOP
+
+-- Mithril Smithing Hammer TRAINER
+DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91124);
+INSERT INTO `npc_trainer`
+SET `ID` = 201004,
+    `SpellID` = 91124,
+    `MoneyCost` = 500, -- 5S 
+    `ReqSkillLine` = 164, -- Blacksmithing
+    `ReqSkillRank` = 225;
 
 -- Place all the hammer spell auras into the spell group table so they can be made exclusive
 DELETE FROM `spell_group` WHERE `id` = 1114;
