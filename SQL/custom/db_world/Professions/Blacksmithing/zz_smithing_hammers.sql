@@ -80,10 +80,10 @@ SET `entry` = 57005,
     `bonding` = 1; -- BOP
 
 -- Mithril Smithing Hammer TRAINER
-DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91124);
+DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91125);
 INSERT INTO `npc_trainer`
 SET `ID` = 201004,
-    `SpellID` = 91124,
+    `SpellID` = 91125,
     `MoneyCost` = 500, -- 5S 
     `ReqSkillLine` = 164, -- Blacksmithing
     `ReqSkillRank` = 225;

@@ -12281,7 +12281,7 @@ INSERT INTO `dbc`.`spell` SET
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
-    `EffectItemType1` = 57004,
+    `EffectItemType1` = 57005,
     `SpellVisual1` = 395,
     `SpellIconID` = 140,
     `SpellName0` = 'Mithril Smithing Hammer',

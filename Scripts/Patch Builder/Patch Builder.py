@@ -320,9 +320,12 @@ def update_item_dbc():
 
         insert_query += ",\n".join(values) + ";"
 
-        # print(f"{insert_query}")
+        #print(f"{insert_query}")
         dbc_cursor.execute(delete_query)
         dbc_cursor.execute(insert_query)
+        
+        # Commit the transaction to persist changes
+        dbc_conn.commit()
 
         acore_world_cursor.close()
         acore_world_conn.close()
