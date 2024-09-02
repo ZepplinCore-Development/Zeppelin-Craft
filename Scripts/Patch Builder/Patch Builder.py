@@ -19,6 +19,8 @@ backup_dbc = "DBC_backup"
 live_dbc = "dbc"
 world_db = "acore_world"
 
+blacklisted_tables = ["itemsubclass"]
+
 # Directories for updates
 update_dir = 'D:\\Games\\ChromieCraft_3.3.5a\\Custom Tools\\Zeppelin-Core\\Scripts\\Patch Builder\\updates'
 os.makedirs(update_dir, exist_ok=True)
@@ -132,18 +134,26 @@ def fetch_all_rows(connection, table_name):
 
 # Function to get the primary key column for a table
 def get_primary_key_column(connection, table_name):
+    composite_keys = {
+        "itemsubclass": ["Class", "subClass"],
+        # Add more tables and their composite key columns if needed
+    }
+
+    if table_name in composite_keys:
+        return composite_keys[table_name]
+
     try:
         with connection.cursor() as cursor:
             cursor.execute(f"SHOW KEYS FROM `{table_name}` WHERE Key_name = 'PRIMARY';")
             primary_key = cursor.fetchone()
             if primary_key:
-                return primary_key[4]  # Column name is at index 4
+                return [primary_key[4]]  # Return list with single column name for uniformity
             else:
                 # If no primary key found, assume the first column as pseudo key
                 cursor.execute(f"SHOW COLUMNS FROM `{table_name}`;")
                 columns = cursor.fetchall()
                 if columns:
-                    return columns[0][0]  # First column name
+                    return [columns[0][0]]  # Return list with first column name
                 else:
                     print(f"No columns found in table {table_name}.")
                     return None
@@ -152,6 +162,7 @@ def get_primary_key_column(connection, table_name):
         print(f"Error fetching primary key for {table_name}: {err}")
 
     return None
+
 
 # Function to get the default values for a table's columns
 def get_column_defaults(connection, table_name):
@@ -195,83 +206,76 @@ def values_are_equivalent(value1, value2):
 # Function to compare data between dbc and DBC_backup tables
 def compare_and_generate_updates():
     try:
-        # Connect to dbc and DBC_backup databases
         conn_dbc = connect_to_db(live_dbc)
         conn_dbc_backup = connect_to_db(backup_dbc)
 
-        # Get list of tables from live DBC database
         tables = get_tables_with_data(conn_dbc)
 
-        # Iterate through tables and compare data
         for table in tables:
-            # Fetch all rows from dbc and DBC_backup tables
             rows_dbc = fetch_all_rows(conn_dbc, table)
             rows_dbc_backup = fetch_all_rows(conn_dbc_backup, table)
-            primary_key_column = get_primary_key_column(conn_dbc, table)
+            primary_key_columns = get_primary_key_column(conn_dbc, table)
 
             if not rows_dbc or not rows_dbc_backup:
                 print(f"No data found in {table} in one of the databases.")
                 continue
-            elif not primary_key_column:
+            elif not primary_key_columns:
                 print(f"Skipping {table} due to no primary key or pseudo key.")
                 continue
             else:
                 print(f"Checking {table} for differences.")
-                print(f"Using {primary_key_column} as Key Column.")
+                print(f"Using {primary_key_columns} as Key Columns.")
 
-            # Get the default values for the table's columns
             column_defaults = get_column_defaults(conn_dbc, table)
 
-            # Create a dictionary for fast lookup of backup rows by primary key
-            backup_rows_dict = {row[primary_key_column]: row for row in rows_dbc_backup}
+            backup_rows_dict = {}
+            for row in rows_dbc_backup:
+                key = tuple(row[col] for col in primary_key_columns)
+                backup_rows_dict[key] = row
 
-            # Initialize a list to hold update queries for the current table
             update_queries = []
 
-            # Compare each row
             for row_dbc in rows_dbc:
-                backup_row = backup_rows_dict.get(row_dbc[primary_key_column])
+                key = tuple(row_dbc[col] for col in primary_key_columns)
+                backup_row = backup_rows_dict.get(key)
+
                 if backup_row:
                     if row_dbc != backup_row:
-                        # Generate update query to sync DBC_backup with dbc
                         update_query = f"UPDATE `{live_dbc}`.`{table}` SET \n"
                         update_fields = []
 
                         for key, value in row_dbc.items():
                             if backup_row.get(key) != value:
                                 if isinstance(value, str):
-                                    value = value.replace("\\", "\\\\")  # Escape backslashes
+                                    value = value.replace("\\", "\\\\")
                                     backup_value = backup_row.get(key)
                                     if isinstance(backup_value, str):
                                         backup_value = backup_value.replace("\\", "\\\\")
-                                        value = value.replace("'", "''")  # Escape apostrophes
+                                    value = value.replace("'", "''")
                                     update_fields.append(f"    `{key}` = '{value}' /* was '{backup_value}' */")
                                 else:
                                     update_fields.append(f"    `{key}` = {value} /* was {backup_row.get(key)} */")
 
                         if update_fields:
                             update_query += ",\n".join(update_fields)
-                            # Ensure the primary key value is correctly formatted
-                            if isinstance(row_dbc[primary_key_column], str):
-                                update_query += f"\nWHERE `{primary_key_column}` = '{row_dbc[primary_key_column]}';\n"
-                            else:
-                                update_query += f"\nWHERE `{primary_key_column}` = {row_dbc[primary_key_column]};\n"
+                            where_clause = " AND ".join(
+                                [f"`{col}` = '{row_dbc[col]}'" if isinstance(row_dbc[col], str) else f"`{col}` = {row_dbc[col]}" for col in primary_key_columns]
+                            )
+                            update_query += f"\nWHERE {where_clause};\n"
                             update_queries.append(update_query)
                 else:
-                    # Generate insert query for new rows
-                    insert_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE `{primary_key_column}` = "
-                    if isinstance(row_dbc[primary_key_column], str):
-                        insert_query += f"'{row_dbc[primary_key_column]}';\n"
-                    else:
-                        insert_query += f"{row_dbc[primary_key_column]};\n"
-                    insert_query += f"INSERT INTO `{live_dbc}`.`{table}` SET \n"
+                    insert_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE "
+                    insert_query += " AND ".join(
+                        [f"`{col}` = '{row_dbc[col]}'" if isinstance(row_dbc[col], str) else f"`{col}` = {row_dbc[col]}" for col in primary_key_columns]
+                    )
+                    insert_query += f";\nINSERT INTO `{live_dbc}`.`{table}` SET \n"
                     insert_fields = []
 
                     for key, value in row_dbc.items():
                         if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
                             if isinstance(value, str):
-                                value = value.replace("\\", "\\\\")  # Escape backslashes
-                                value = value.replace("'", "''")  # Escape apostrophes
+                                value = value.replace("\\", "\\\\")
+                                value = value.replace("'", "''")
                                 insert_fields.append(f"    `{key}` = '{value}'")
                             else:
                                 insert_fields.append(f"    `{key}` = {value}")
@@ -280,7 +284,6 @@ def compare_and_generate_updates():
                         insert_query += ",\n".join(insert_fields) + ";\n"
                         update_queries.append(insert_query)
 
-            # Save all update queries for the current table to a single SQL file
             if update_queries:
                 sql_file = os.path.join(update_dir, f"update_{table}.sql")
                 with open(sql_file, 'w') as f:
