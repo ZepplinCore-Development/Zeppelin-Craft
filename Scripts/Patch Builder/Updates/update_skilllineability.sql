@@ -1352,6 +1352,33 @@ INSERT INTO `dbc`.`skilllineability` SET
     `skillGreyLevel` = 330,
     `skillGreenLevel` = 310;
 
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 99987;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 99987,
+    `skillId` = 164,
+    `spellId` = 91131,
+    `requiredSkillValue` = 1,
+    `skillGreyLevel` = 475,
+    `skillGreenLevel` = 465;
+
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 99988;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 99988,
+    `skillId` = 164,
+    `spellId` = 91129,
+    `requiredSkillValue` = 1,
+    `skillGreyLevel` = 400,
+    `skillGreenLevel` = 390;
+
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 99989;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 99989,
+    `skillId` = 164,
+    `spellId` = 91127,
+    `requiredSkillValue` = 1,
+    `skillGreyLevel` = 325,
+    `skillGreenLevel` = 315;
+
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 99990;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 99990,
@@ -1392,8 +1419,8 @@ INSERT INTO `dbc`.`skilllineability` SET
     `skillId` = 164,
     `spellId` = 91121,
     `requiredSkillValue` = 1,
-    `skillGreyLevel` = 125,
-    `skillGreenLevel` = 115;
+    `skillGreyLevel` = 100,
+    `skillGreenLevel` = 90;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 99995;
 INSERT INTO `dbc`.`skilllineability` SET 
