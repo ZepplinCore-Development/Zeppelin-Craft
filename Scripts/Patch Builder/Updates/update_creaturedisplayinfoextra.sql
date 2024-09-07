@@ -58940,3 +58940,15 @@ UPDATE `dbc`.`creaturedisplayinfoextra` SET
     `BakedTextureIDblp` = 'CreatureDisplayExtra-21381_HD.blp' /* was 'CreatureDisplayExtra-21381.blp' */
 WHERE `ID` = 21381;
 
+DELETE FROM `dbc`.`creaturedisplayinfoextra` WHERE `ID` = 21382;
+INSERT INTO `dbc`.`creaturedisplayinfoextra` SET 
+    `ID` = 21382,
+    `DisplayRaceID` = 2,
+    `SkinID` = 10,
+    `FaceID` = 1,
+    `HairStyleID` = 1,
+    `HairColorID` = 1,
+    `FacialHairID` = 1,
+    `Flags` = 1,
+    `BakedTextureIDblp` = 'CreatureDisplayExtra-14558_HD.blp';
+
