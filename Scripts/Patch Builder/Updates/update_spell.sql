@@ -3584,6 +3584,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 30346;
 
 UPDATE `dbc`.`spell` SET 
+    `Reagent3` = 0 /* was 4470 */,
+    `ReagentCount3` = 0 /* was 4 */,
     `EffectBasePoints1` = 999 /* was 0 */,
     `EffectItemType1` = 23773 /* was 34504 */,
     `SpellIconID` = 2336 /* was 2556 */,
@@ -4362,6 +4364,12 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41418;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 42016;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 42662;
@@ -5084,6 +5092,11 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 55377;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellLevel` = 25 /* was 40 */,
+    `EffectBasePoints1` = 359 /* was 239 */
+WHERE `ID` = 55502;
 
 UPDATE `dbc`.`spell` SET 
     `RangeIndex` = 11 /* was 151 */,
