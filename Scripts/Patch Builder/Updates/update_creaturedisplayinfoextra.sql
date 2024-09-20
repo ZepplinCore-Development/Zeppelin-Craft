@@ -40673,6 +40673,12 @@ UPDATE `dbc`.`creaturedisplayinfoextra` SET
 WHERE `ID` = 14486;
 
 UPDATE `dbc`.`creaturedisplayinfoextra` SET 
+    `DisplayRaceID` = 2 /* was 12 */,
+    `SkinID` = 10 /* was 0 */,
+    `BakedTextureIDblp` = 'OrcMaleSkin00_101.blp' /* was 'a57a6e1181872890388c704e6ee10ae.blp' */
+WHERE `ID` = 14488;
+
+UPDATE `dbc`.`creaturedisplayinfoextra` SET 
     `BakedTextureIDblp` = 'CreatureDisplayExtra-14489_HD.blp' /* was '3e1c5f3a278b1b2b4a664ce75f14145.blp' */
 WHERE `ID` = 14489;
 

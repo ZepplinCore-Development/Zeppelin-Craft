@@ -1,0 +1,4 @@
+OrcMaleSkin00_100 = Grey Orcs = Color 9
+OrcMaleSkin00_101 = Red Orcs = Color 10
+OrcMaleSkin00_103 = Maghar Orcs = Color 12
+OrcMaleSkin00_105 = Blackrock Orcs = Color 14
