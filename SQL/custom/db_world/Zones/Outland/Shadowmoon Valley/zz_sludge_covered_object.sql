@@ -7,9 +7,6 @@ INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Quest
 (32724, 32506, 0, 0, 0, 1, 0, 1, 1, 'Sludge-covered Object - Netherwing Egg'),
 (32724, 32726, 0, 0, 0, 1, 0, 1, 1, 'Sludge-covered Object - Murkblood Escape Plans');
 
--- stacking up to 20 for QOL was 1
-UPDATE `item_template` SET `stackable` = 20 WHERE (`entry` = 32724);
-
 -- reduce drop chance from 50% to 20%
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 23286) AND (`Item` IN (32724));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
