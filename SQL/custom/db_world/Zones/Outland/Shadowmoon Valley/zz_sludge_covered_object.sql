@@ -1,10 +1,10 @@
 -- Make the Sludge-covered Object always contain something, remove the escape plans
 DELETE FROM `item_loot_template` WHERE (`Entry` = 32724);
 INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(32724, 32464, 0, 0, 0, 1, 1, 1, 5, 'Sludge-covered Object - Nethercite Ore'),
-(32724, 32468, 0, 0, 0, 1, 1, 1, 5, 'Sludge-covered Object - Netherdust Pollen'),
-(32724, 32470, 0, 0, 0, 1, 1, 1, 5, 'Sludge-covered Object - Nethermine Flayer Hide'),
-(32724, 32506, 0, 0, 0, 1, 1, 1, 1, 'Sludge-covered Object - Netherwing Egg');
+(32724, 32464, 0, 30, 0, 1, 1, 1, 5, 'Sludge-covered Object - Nethercite Ore'),
+(32724, 32468, 0, 30, 0, 1, 1, 1, 5, 'Sludge-covered Object - Netherdust Pollen'),
+(32724, 32470, 0, 30, 0, 1, 1, 1, 5, 'Sludge-covered Object - Nethermine Flayer Hide'),
+(32724, 32506, 0, 10, 0, 1, 1, 1, 1, 'Sludge-covered Object - Netherwing Egg');
 
 -- reduce Sludge-covered Object drop chance from 50% to 20%
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 23286) AND (`Item` IN (32724));
@@ -15,3 +15,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 DELETE FROM `creature_loot_template` WHERE (`Entry` = 23305) AND (`Item` IN (32726));
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (23305, 32726, 0, 50, 0, 1, 2, 1, 1, 'Crazed Murkblood Foreman - Murkblood Escape Plans');
+
+-- Move conditions over to the Murkblood Foreman.
+UPDATE `conditions` SET `SourceGroup` = 23305 WHERE (`SourceTypeOrReferenceId` = 1) AND (`SourceGroup` = 23286) AND (`SourceEntry` = 32726);
+UPDATE `conditions` SET `SourceGroup` = 23305 WHERE (`SourceTypeOrReferenceId` = 1) AND (`SourceGroup` = 32724) AND (`SourceEntry` = 32726);
