@@ -4358,6 +4358,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39800;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx4` = 0 /* was 67108864 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 39801;
 
