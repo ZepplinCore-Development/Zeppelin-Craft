@@ -17,13 +17,13 @@ gnome-terminal \
 
 gnome-terminal \
  --tab \
-   --title="Chat Bot" -- bash -c "cd; cd chatbot && ./run.sh; $SHELL"
+   --title="Chat Bot" -- bash -c "cd; cd chatbot && ./run.sh; cd; $SHELL"
 
 # Check if the files are executable before applying chmod +x
-if [[ ! -x "/Scripts/ubuntustartup.sh" ]]; then
-  chmod +x /Scripts/ubuntustartup.sh
+if [[ ! -x "Zeppelin-Core/Scripts/ubuntustartup.sh" ]]; then
+  chmod +x Zeppelin-Core/Scripts/ubuntustartup.sh
 fi
 
-if [[ ! -x "/Scripts/ubuntu_update_modules.sh" ]]; then
-  chmod +x /Scripts/ubuntu_update_modules.sh
+if [[ ! -x "Zeppelin-Core/Scripts/ubuntu_update_modules.sh" ]]; then
+  chmod +x Zeppelin-Core/Scripts/ubuntu_update_modules.sh
 fi
