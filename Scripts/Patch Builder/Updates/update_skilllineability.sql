@@ -15,6 +15,11 @@ UPDATE `dbc`.`skilllineability` SET
 WHERE `id` = 8439;
 
 UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
+WHERE `id` = 12042;
+
+UPDATE `dbc`.`skilllineability` SET 
     `skillId` = 270 /* was 212 */
 WHERE `id` = 17454;
 
