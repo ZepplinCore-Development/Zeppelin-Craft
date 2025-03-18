@@ -14,3 +14,12 @@ UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 705;
 
 -- Young Thistle Boar
 UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1984;
+
+-- Thistle Boar
+UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1985;
+
+-- Young Nightsaber
+UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2031;
+
+-- Mangy Nightsaber
+UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2032;
