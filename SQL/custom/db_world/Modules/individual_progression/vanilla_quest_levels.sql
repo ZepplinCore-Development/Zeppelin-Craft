@@ -19,6 +19,9 @@ UPDATE quest_template SET RequiredItemId1 = 750 WHERE ID=33;
 /*  The Legend of Stalvan  */
 UPDATE quest_template SET QuestLevel = 35 WHERE ID=98;
 
+/* Shadow Magic */
+UPDATE quest_template SET QuestInfoID = 1, SuggestedGroupNum = 2 WHERE ID=115;
+
 /*  Howling in the Hills  */
 UPDATE quest_template SET QuestLevel = 25 WHERE ID=126;
 
@@ -167,7 +170,57 @@ UPDATE quest_template SET QuestLevel = 51, MinLevel = 45 WHERE ID=630;
 UPDATE quest_template SET RequiredItemCount1 = 11 WHERE ID=640;
 
 /*  Tanaris Field Sampling  */
-UPDATE quest_template SET RequiredItemId1 = 9440, RequiredItemId2 = 9441, RequiredItemId3 = 9438, RequiredItemId4 = 8523, RequiredItemCount1 = 8, RequiredItemCount2 = 8, RequiredItemCount3 = 8, RequiredItemCount4 = 1 WHERE ID=654;
+UPDATE quest_template SET
+	ItemDrop1 = 9437,
+	ItemDropQuantity1 = 999,
+	ItemDrop2 = 9439,
+	ItemDropQuantity2 = 999,
+	ItemDrop3 = 9442,
+	ItemDropQuantity3 = 999,
+
+	RequiredItemId1 = 9440,
+	RequiredItemCount1 = 8,
+
+	RequiredItemId2 = 9441,
+	RequiredItemCount2 = 8,
+
+	RequiredItemId3 = 9438,
+	RequiredItemCount3 = 8,
+
+	RequiredItemId4 = 8523,
+	RequiredItemCount4 = 1,
+
+	RequiredItemId5 = 0,
+	RequiredItemId6 = 0
+WHERE ID=654;
+
+
+UPDATE item_template SET
+	spellid_1 = 11759
+WHERE entry = 9437;
+
+UPDATE item_template SET
+	spellid_1 = 11760
+WHERE entry = 9439;
+
+UPDATE item_template SET
+	spellid_1 = 11761
+WHERE entry = 9442;
+
+
+DELETE FROM spell_dbc
+WHERE
+	ID = 11759
+	OR ID = 11760
+	OR ID = 11761;
+
+INSERT INTO spell_dbc
+	(ID, Category, DispelType, Mechanic, Attributes, AttributesEx, AttributesEx2, AttributesEx3, AttributesEx4, AttributesEx5, AttributesEx6, AttributesEx7, ShapeshiftMask, unk_320_2, ShapeshiftExclude, unk_320_3, Targets, TargetCreatureType, RequiresSpellFocus, FacingCasterFlags, CasterAuraState, TargetAuraState, ExcludeCasterAuraState, ExcludeTargetAuraState, CasterAuraSpell, TargetAuraSpell, ExcludeCasterAuraSpell, ExcludeTargetAuraSpell, CastingTimeIndex, RecoveryTime, CategoryRecoveryTime, InterruptFlags, AuraInterruptFlags, ChannelInterruptFlags, ProcTypeMask, ProcChance, ProcCharges, MaxLevel, BaseLevel, SpellLevel, DurationIndex, PowerType, ManaCost, ManaCostPerLevel, ManaPerSecond, ManaPerSecondPerLevel, RangeIndex, Speed, ModalNextSpell, CumulativeAura, Totem_1, Totem_2, Reagent_1, Reagent_2, Reagent_3, Reagent_4, Reagent_5, Reagent_6, Reagent_7, Reagent_8, ReagentCount_1, ReagentCount_2, ReagentCount_3, ReagentCount_4, ReagentCount_5, ReagentCount_6, ReagentCount_7, ReagentCount_8, EquippedItemClass, EquippedItemSubclass, EquippedItemInvTypes, Effect_1, Effect_2, Effect_3, EffectDieSides_1, EffectDieSides_2, EffectDieSides_3, EffectRealPointsPerLevel_1, EffectRealPointsPerLevel_2, EffectRealPointsPerLevel_3, EffectBasePoints_1, EffectBasePoints_2, EffectBasePoints_3, EffectMechanic_1, EffectMechanic_2, EffectMechanic_3, ImplicitTargetA_1, ImplicitTargetA_2, ImplicitTargetA_3, ImplicitTargetB_1, ImplicitTargetB_2, ImplicitTargetB_3, EffectRadiusIndex_1, EffectRadiusIndex_2, EffectRadiusIndex_3, EffectAura_1, EffectAura_2, EffectAura_3, EffectAuraPeriod_1, EffectAuraPeriod_2, EffectAuraPeriod_3, EffectMultipleValue_1, EffectMultipleValue_2, EffectMultipleValue_3, EffectChainTargets_1, EffectChainTargets_2, EffectChainTargets_3, EffectItemType_1, EffectItemType_2, EffectItemType_3, EffectMiscValue_1, EffectMiscValue_2, EffectMiscValue_3, EffectMiscValueB_1, EffectMiscValueB_2, EffectMiscValueB_3, EffectTriggerSpell_1, EffectTriggerSpell_2, EffectTriggerSpell_3, EffectPointsPerCombo_1, EffectPointsPerCombo_2, EffectPointsPerCombo_3, EffectSpellClassMaskA_1, EffectSpellClassMaskA_2, EffectSpellClassMaskA_3, EffectSpellClassMaskB_1, EffectSpellClassMaskB_2, EffectSpellClassMaskB_3, EffectSpellClassMaskC_1, EffectSpellClassMaskC_2, EffectSpellClassMaskC_3, SpellVisualID_1, SpellVisualID_2, SpellIconID, ActiveIconID, SpellPriority, Name_Lang_enUS, Name_Lang_Mask, NameSubtext_Lang_Mask, Description_Lang_enUS, Description_Lang_Mask, AuraDescription_Lang_Mask, ManaCostPct, StartRecoveryCategory, StartRecoveryTime, MaxTargetLevel, SpellClassSet, SpellClassMask_1, SpellClassMask_2, SpellClassMask_3, MaxTargets, DefenseType, PreventionType, StanceBarOrder, EffectChainAmplitude_1, EffectChainAmplitude_2, EffectChainAmplitude_3, MinFactionID, MinReputation, RequiredAuraVision, RequiredTotemCategoryID_1, RequiredTotemCategoryID_2, RequiredAreasID, SchoolMask, RuneCostID, SpellMissileID, PowerDisplayID, EffectBonusMultiplier_1, EffectBonusMultiplier_2, EffectBonusMultiplier_3, SpellDescriptionVariableID, SpellDifficultyID)
+VALUES
+	(11759, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 8523, 0, 9437, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 24, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9440, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 92, 0, 1, 0, 0, 'Basilisk Sample', 16712190, 16712188, 'Test this sample for quality.  Requires Field Testing Kit.', 16712190, 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+	(11760, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 8523, 0, 9439, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 24, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9441, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 92, 0, 1, 0, 0, 'Hyena Sample', 16712190, 16712188, 'Test this sample for quality.  Requires Field Testing Kit.', 16712190, 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+	(11761, 0, 0, 0, 256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 8523, 0, 9442, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 24, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9438, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 92, 0, 1, 0, 0, 'Scorpid Sample', 16712190, 16712188, 'Test this sample for quality.  Requires Field Testing Kit.', 16712190, 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0);
+
 
 /*  Call to Arms  */
 UPDATE quest_template SET RequiredNpcOrGoCount1 = 15, RequiredNpcOrGoCount2 = 10 WHERE ID=679;
@@ -429,6 +482,9 @@ UPDATE quest_template SET RequiredItemId1 = 16208, RequiredItemId2 = 0, Required
 
 /*  Earthen Arise  */
 UPDATE quest_template SET RequiredItemId2 = 0, RequiredItemCount2 = 0 WHERE ID=6481;
+
+/* An Unholy Alliance */
+UPDATE `quest_template` SET `LogDescription` = "Take the Small Scroll to Varimathras in the Undercity." WHERE `ID` = 6522;
 
 /*  King of the Foulweald  */
 UPDATE quest_template SET RequiredItemId2 = 0, RequiredItemCount2 = 0 WHERE ID=6621;
@@ -938,6 +994,11 @@ UPDATE `quest_template` SET `LogDescription` = "Kill Magistrate Burnside and 5 H
 UPDATE `quest_template` SET `LogDescription` = "Travel to Dun Garok and kill 10 Mountaineers, 4 Riflemen, 2 Priests and Captain Ironhill and report back to Darthalia in Tarren Mill." WHERE `ID` = 541;
 
 
+/* Battle of Hillsbrad */
+UPDATE `quest_template` SET `LogDescription` = "Take Darthalia's Sealed Commendation to Varimathras in the Undercity." WHERE `ID` = 550;
+UPDATE `quest_template` SET `QuestDescription` = "Because you fought with such valor and perseverance in the Battle of Hillsbrad, I have written this commendation, extolling your heroics in combat for the high command to recognize.$b$bTake this sealed commendation to Varimathras in the Undercity.  Go with pride, $c." WHERE `ID` = 550;
+    
+
 /*  The Broken Sigil  */
 UPDATE `quest_template` SET `LogDescription` = "Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall." WHERE `ID` = 640;
 
@@ -999,14 +1060,18 @@ UPDATE `quest_template` SET `LogDescription` = "Fel'zerul in Stonard wants you t
 UPDATE `quest_template` SET `LogDescription` = "Kill 12 Rattlecage Skeletons, and then return to Shadow Priest Sarvis in Deathknell when you are done." WHERE `ID` = 3901;
 
 
+/* What Is Going On? */
+UPDATE `quest_template` SET `QuestCompletionLog` = "Return to Thrall in Orgrimmar." WHERE `ID` = 4001;
+
+
 /*  Galgar's Cactus Apple Surprise  */
 UPDATE `quest_template` SET `LogDescription` = "Bring Galgar 10 Cactus Apples. You remember him saying that they could be found near cactuses." WHERE `ID` = 4402;
 UPDATE `quest_template` SET `QuestDescription` = "It sure gets hot out here in the Valley of Trials.$B$B<Galgar wipes his brow.>$B$BIf only I had some cactus apples, I could make my famous cactus apple surprise! Nothing cools you off faster than a piece of that delicious treat.$B$BI'll tell you what, $N. If you bring me 10 cactus apples, I'll make you a few portions of cactus apple surprise to take with you on your adventures. If you're interested, you can find cactus apples growing near the cactus plants around here." WHERE `ID` = 4402;
 
 
 /*  Beware of Pterrordax  */
-UPDATE `quest_template` SET `LogDescription` = "Kill 115 Frenzied Pterrordax, then speak to Spraggle Frock at Marshal's Refuge." WHERE `ID` = 4501;
-UPDATE `quest_template` SET `QuestDescription` = "Wanted: A skilled fighter to deal with the threat of the Pterrordax that inhabit the Un'Goro Crater. Their numbers are growing, and they are becoming a menace to travelers in the area.$B$BDecrease the population by slaying 115 frenzied pterrordax.$B$BSpeak with Spraggle Frock after completing the task for a reward." WHERE `ID` = 4501;
+UPDATE `quest_template` SET `LogDescription` = "Kill 10 Pterrordax and 15 Frenzied Pterrordax, then speak to Spraggle Frock at Marshal's Refuge." WHERE `ID` = 4501;
+UPDATE `quest_template` SET `QuestDescription` = "Wanted: A skilled fighter to deal with the threat of the Pterrordax that inhabit the Un'Goro Crater. Their numbers are growing, and they are becoming a menace to travelers in the area.$B$BDecrease the population by slaying 10 Pterrordax and 15 frenzied pterrordax.$B$BSpeak with Spraggle Frock after completing the task for a reward." WHERE `ID` = 4501;
 
 
 /*  A Matter of Time  */
@@ -1024,6 +1089,34 @@ UPDATE `quest_template` SET `QuestDescription` = "You have the look of a fisherm
 
 /*  Twisted Evils  */
 UPDATE `quest_template` SET `LogDescription` = "Collect 25 Theradric Crystal Carvings for Willow in Desolace." WHERE `ID` = 7028;
+
+
+/* Imperial Plate Belt */
+UPDATE `quest_request_items` SET `CompletionText` = "For the belt plans, I'll be needin' 20 thorium bars."   WHERE `ID` = 7653;
+
+
+/* Imperial Plate Boots */
+UPDATE `quest_request_items` SET `CompletionText` = "For the boot plans, I'll be needin' 40 thorium bars. Yep, 40. Are you gonna cry? Would you like a hanky?$B$B<Derotain laughs.>"   WHERE `ID` = 7654;
+
+
+/* Imperial Plate Bracer */
+UPDATE `quest_request_items` SET `CompletionText` = "For the bracer plans, I'll be needin' 20 thorium bars.$B$BAre you alright, sonny? Yer getting' all red."   WHERE `ID` = 7655;
+
+
+/* Imperial Plate Chest */
+UPDATE `quest_request_items` SET `CompletionText` = "For the chest piece plans, I'll be needin' 60 thorium bars.$B$BOh boy, there you go again. Are you gonna be runnin' to yer blue Gods, askin' why they have forsaken you?!? Toughen up, Nancy! Nobody ever said life's fair."   WHERE `ID` = 7656;
+
+
+/* Imperial Plate Helm */
+UPDATE `quest_request_items` SET `CompletionText` = "Just hand over 50 thorium bars and the helm plans are yers."   WHERE `ID` = 7657;
+
+
+/* Imperial Plate Leggings */
+UPDATE `quest_request_items` SET `CompletionText` = "Just hand over 60 thorium bars and the leg plans are yers.$B$BI know, I'm driving you into bankruptcy! I've heard it all before so you can save your sob story, weakling."   WHERE `ID` = 7658;
+
+
+/* Imperial Plate Shoulders */
+UPDATE `quest_request_items` SET `CompletionText` = "For the shoulder plans, I'll be needin' 20 thorium bars."   WHERE `ID` = 7659;
 
 
 /*  Snapjaws, Mon!  */

@@ -10,7 +10,8 @@ INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES (459, 1598);
 UPDATE `creature_template` SET `faction`=17 WHERE `entry`=38;
 
 -- Diseased Timber Wolf
-UPDATE `creature_template` SET `modelid1`=604, `name`='Timber Wolf' WHERE `entry`=69;
+UPDATE `creature_template` SET `name`='Timber Wolf' WHERE `entry`=69;
+UPDATE `creature_template_model` SET `CreatureDisplayID`=604 WHERE `CreatureID`=69;
 
 -- Kobold Laborer
 UPDATE `creature_template` SET `maxlevel`=4 WHERE `entry`=80;
@@ -19,10 +20,11 @@ UPDATE `creature_template` SET `maxlevel`=4 WHERE `entry`=80;
 UPDATE `creature_template` SET `faction`=17 WHERE `entry`=103;
 
 -- Kobold Worker
-UPDATE `creature_template` SET `modelid1`=10912 WHERE `entry`=257;
+UPDATE `creature_template_model` SET `CreatureDisplayID`=10912 WHERE `CreatureID`=257;
 
 -- Diseased Young Wolf
-UPDATE `creature_template` SET `modelid1`=447, `name`='Young Wolf' WHERE `entry`=299;
+UPDATE `creature_template` SET `name`='Young Wolf' WHERE `entry`=299;
+UPDATE `creature_template_model` SET `CreatureDisplayID`=447 WHERE `CreatureID`=299;
 
 -- Northshire Guard
 UPDATE `creature_template` SET `minlevel`=55, `maxlevel`=55 WHERE `entry`=1642;
