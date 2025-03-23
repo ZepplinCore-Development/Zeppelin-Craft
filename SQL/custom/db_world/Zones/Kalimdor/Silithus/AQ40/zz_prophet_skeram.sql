@@ -1,4 +1,7 @@
--- Cloning was causing issues in this fight, so we subbed a new creature template to use.
+-- Reduce Skeram damage, it is very high with clones up
+UPDATE `creature_template` SET `DamageModifier` = '10.05', WHERE (`entry` = 15263);
+
+-- Clones were causing issues in this fight, so we added a new creature template to us for clones
 DELETE FROM `creature_template` WHERE (`entry` = 9000014);
 INSERT INTO `creature_template` SET
     `entry` = 9000014,
@@ -35,3 +38,10 @@ INSERT INTO `creature_template_model` SET
     `idx` = 1,
     `CreatureDisplayID` = '15345',
     `probability` = 1.0;
+
+-- Raid leader drum pattern drop
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 15263 AND `Item` = 57610);
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 15263,
+    `Item` = 57610,
+    `Comment` = 'Pattern: Drums of the Raid Leader';
