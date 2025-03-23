@@ -1,13 +1,19 @@
 -- Giant Murloc Creature Entry
 DELETE FROM `creature_template` WHERE (`entry` = 9102597);
-INSERT INTO `creature_template` 
-SET `entry` = 9102597,
-    `modelid1` = 39097,
+INSERT INTO `creature_template` SET
+    `entry` = 9102597,
     `name` = 'Giant Murloc',
     `faction` = 35, -- Friendly
     `type` = 1, -- Beast
     `unit_class` = 1, -- Warrior
     `unit_flags2` = 2048; -- Regen power
+
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 9102597;
+INSERT INTO `creature_template_model` SET
+    `CreatureID` = '9102597',
+    `idx` = 1,
+    `CreatureDisplayID` = '39097',
+    `probability` = 1.0;
 
 -- Giant Murloc Item Entry
 DELETE FROM `item_template` WHERE (`entry` = 58100);
