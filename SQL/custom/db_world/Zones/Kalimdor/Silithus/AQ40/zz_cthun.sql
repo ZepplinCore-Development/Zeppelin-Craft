@@ -1,7 +1,7 @@
-DELETE FROM `creature_template` WHERE (`entry` = 15589);
-INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `speed_swim`, `speed_flight`, `detection_range`, `scale`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `BaseVariance`, `RangeVariance`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `spell_school_immune_mask`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
-(15589, 0, 0, 0, 0, 0, 15556, 0, 0, 0, 'Eye of C\'Thun', '', NULL, 0, 63, 63, 0, 370, 2, 2.4, 1.42857, 1, 1, 20, 1, 3, 0, 14.85, 2500, 2000, 1, 1, 1, 64, 2048, 0, 0, 0, 0, 0, 0, 10, 76, 0, 0, 0, 0, 0, 102255, 133538, '', 0, 1, 300, 150, 1.3, 1, 0, 152, 1, 1724596059, 0, 1, 'boss_eye_of_cthun', 12340);
+-- Reduced Cthun health from 400 -> 300 fight was very long.
+UPDATE `creature_template` SET `HealthModifier` = 300 WHERE (`entry` = 15589);
 
+-- Updated summon groups?
 DELETE FROM `creature_summon_groups` WHERE (`entry` = 15589);
 REPLACE INTO `creature_summon_groups` (`summonerId`, `summonerType`, `groupId`, `entry`, `position_x`, `position_y`, `position_z`, `orientation`, `summonType`, `summonTime`, `Comment`) VALUES
 (15589, 0, 0, 15726, -8603.78, 1974.71, 100.221, 0, 6, 500, ''),

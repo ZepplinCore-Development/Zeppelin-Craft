@@ -86,9 +86,10 @@ normal = 2
 # Define constants for locations
 Mosh_Ogg_Ogre_Mound = 0
 Vile_Reef = 1
+Dun_Modr = 2
 
 # Select the dungeon to process
-area = Vile_Reef
+area = Dun_Modr
 
 # Create a dictionary of dictionaries to store the data
 data = {
@@ -101,6 +102,11 @@ data = {
         named_solo: [],
         named_group: [],
         normal: [871, 873, 875, 877, 879]
+    },
+    Dun_Modr: {
+        named_solo: [],
+        named_group: [],
+        normal: [1052, 6523, 1051, 1054, 1364]
     }
 }
 

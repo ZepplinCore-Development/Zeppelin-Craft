@@ -1,4 +1,26 @@
 DELETE FROM `creature_template` WHERE (`entry` = 10564);
-INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `speed_swim`, `speed_flight`, `detection_range`, `scale`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `BaseVariance`, `RangeVariance`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `spell_school_immune_mask`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
-(10564, 0, 0, 0, 0, 0, 1693, 0, 0, 0, 'Failed Abomination', '', '', 0, 12, 14, 0, 16, 0, 1, 1.14286, 1, 1, 20, 1, 0, 0, 0.3, 2000, 2000, 1, 1, 1, 0, 2048, 0, 0, 0, 0, 0, 0, 6, 0, 846, 0, 0, 0, 0, 17, 29, '', 1, 1, 1, 1, 1, 1, 0, 0, 1, 8388624, 0, 0, '', 0);
+INSERT INTO `creature_template` SET
+    `entry` = 10564,
+    `name` = 'Failed Abomination',
+    `minlevel` = 12,
+    `maxlevel` = 14,
+    `faction` = 16,
+    `DamageModifier` = '0.3',
+    `BaseAttackTime` = 2000,
+    `RangeAttackTime` = 2000,
+    `unit_class` = 1,
+    `unit_flags2` = 2048,
+    `type` = 6,
+    `lootid` = 846,
+    `mingold` = 17,
+    `maxgold` = 29,
+    `MovementType` = 1,
+    `mechanic_immune_mask` = 8388624,
+    `VerifiedBuild` = '0';
 
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 10564;
+INSERT INTO `creature_template_model` SET
+    `CreatureID` = '10564',
+    `idx` = 1,
+    `CreatureDisplayID` = '1693',
+    `probability` = 1.0;
