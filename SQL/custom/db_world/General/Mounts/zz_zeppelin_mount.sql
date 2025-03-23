@@ -1,13 +1,19 @@
 -- Butt Zeppelin Creature Entry
 DELETE FROM `creature_template` WHERE (`entry` = 9102598);
-INSERT INTO `creature_template` 
-SET `entry` = 9102598,
-    `modelid1` = 39098,
+INSERT INTO `creature_template` SET
+    `entry` = 9102598,
     `name` = 'Butt Zeppelin',
     `faction` = 35, -- Friendly
     `type` = 1, -- Beast
     `unit_class` = 1, -- Warrior
     `unit_flags2` = 2048; -- Regen power
+
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 9102598;
+INSERT INTO `creature_template_model` SET
+    `CreatureID` = '9102598',
+    `idx` = 1,
+    `CreatureDisplayID` = '39098',
+    `probability` = 1.0;
 
 -- Butt Zeppelin Item Entry
 DELETE FROM `item_template` WHERE (`entry` = 58101);
