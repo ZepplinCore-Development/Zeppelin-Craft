@@ -110,6 +110,8 @@ Stonewatch_Keep = 3
 Dun_Garok = 4
 Badlands = 5
 Stromgarde = 6
+Jintha_Alor = 7
+Loch_Modan = 8
 
 # Select the dungeon to process
 area = Dun_Modr
@@ -156,6 +158,18 @@ data = {
         named_solo: [],
         named_group: [2783, 2597, 2599, 2607],
         normal: [2588, 2591, 2590],
+        rare: []
+    },
+    Jintha_Alor: {
+        named_solo: [],
+        named_group: [],
+        normal: [7995, 8217, 2639, 2640, 2641, 2642, 2643, 2644, 2645, 2646, 2647, 2648, 2681, 4468, 4465],
+        rare: []
+    },
+    Loch_Modan: {
+        named_solo: [],
+        named_group: [],
+        normal: [1225, 2477, 2478, 7170, 1178, 1179, 1180, 1181, 1183],
         rare: []
     },
 }
