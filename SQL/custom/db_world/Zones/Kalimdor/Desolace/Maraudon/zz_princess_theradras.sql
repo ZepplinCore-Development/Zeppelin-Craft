@@ -1,6 +1,10 @@
--- replace the model with the modern Therazane model (Model was 12292)
-UPDATE `creature_template` SET `modelid1` = 32913 WHERE (`entry` = 12201);
+-- Replace Princess Theradras model with the modern Therazane model (Model was 12292)
+UPDATE `creature_template_model` SET `CreatureDisplayID` = 32913 WHERE `CreatureID` = 12201;
 
 DELETE FROM `creature_model_info` WHERE `DisplayID` = 32913;
-INSERT INTO `creature_model_info` (DisplayID,BoundingRadius,CombatReach,Gender,DisplayID_Other_Gender) VALUES
-	 (32913,2.0,3.0,2,0);
+INSERT INTO `creature_model_info` SET
+    `DisplayID` = '32913',
+    `BoundingRadius` = '2.0',
+    `CombatReach` = '3.0',
+    `Gender` = '2',
+    `DisplayID_Other_Gender` = '0';

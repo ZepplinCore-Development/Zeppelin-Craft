@@ -1,3 +1,32 @@
+-- A new creature template for Naxx 40 crypt guard?
 DELETE FROM `creature_template` WHERE (`entry` = 351082);
-INSERT INTO `creature_template` (`entry`, `difficulty_entry_1`, `difficulty_entry_2`, `difficulty_entry_3`, `KillCredit1`, `KillCredit2`, `modelid1`, `modelid2`, `modelid3`, `modelid4`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`, `speed_walk`, `speed_run`, `speed_swim`, `speed_flight`, `detection_range`, `scale`, `rank`, `dmgschool`, `DamageModifier`, `BaseAttackTime`, `RangeAttackTime`, `BaseVariance`, `RangeVariance`, `unit_class`, `unit_flags`, `unit_flags2`, `dynamicflags`, `family`, `trainer_type`, `trainer_spell`, `trainer_class`, `trainer_race`, `type`, `type_flags`, `lootid`, `pickpocketloot`, `skinloot`, `PetSpellDataId`, `VehicleId`, `mingold`, `maxgold`, `AIName`, `MovementType`, `HoverHeight`, `HealthModifier`, `ManaModifier`, `ArmorModifier`, `ExperienceModifier`, `RacialLeader`, `movementId`, `RegenHealth`, `mechanic_immune_mask`, `spell_school_immune_mask`, `flags_extra`, `ScriptName`, `VerifiedBuild`) VALUES
-(351082, 0, 0, 0, 0, 0, 14698, 0, 0, 0, 'Crypt Guard', '', NULL, 0, 61, 61, 0, 21, 0, 1, 1.42857, 1, 1, 20, 1, 1, 0, 14.7, 1000, 1265, 1, 1, 1, 64, 2048, 0, 0, 0, 0, 0, 0, 6, 72, 0, 0, 0, 0, 0, 0, 0, 'SmartAI', 0, 1, 30, 1, 1.15, 1, 0, 144, 1, 1023391482, 0, 0, '', NULL);
+INSERT INTO `creature_template` SET
+    `entry` = 351082,
+    `name` = 'Crypt Guard',
+    `IconName` = NULL,
+    `minlevel` = 61,
+    `maxlevel` = 61,
+    `faction` = 21,
+    `speed_run` = 1.42857,
+    `rank` = 1,
+    `DamageModifier` = '14.7',
+    `BaseAttackTime` = 1000,
+    `RangeAttackTime` = 1265,
+    `unit_class` = 1,
+    `unit_flags` = 64,
+    `unit_flags2` = 2048,
+    `type` = 6,
+    `type_flags` = 72,
+    `AIName` = 'SmartAI',
+    `HealthModifier` = 30,
+    `ArmorModifier` = '1.15',
+    `movementId` = 144,
+    `mechanic_immune_mask` = 1023391482,
+    `VerifiedBuild` = NULL;
+
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 351082;
+INSERT INTO `creature_template_model` SET
+    `CreatureID` = '351082',
+    `idx` = 1,
+    `CreatureDisplayID` = '14698',
+    `probability` = 1.0;

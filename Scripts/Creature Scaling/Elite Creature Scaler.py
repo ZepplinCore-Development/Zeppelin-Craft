@@ -1,6 +1,11 @@
 import mysql.connector
 import random
 
+# This script is designed to adjust elite creature templates to be scaling suitably.
+# It is used for BRS where UBRS and LBRS have the same Autobalance tuning as a single dungeon.
+# This balances the wildly different mob strength between LBRS and UBRS.
+# both LBRS and UBRS creatures have been added to the dictionary
+
 # Function to connect to the database and execute queries
 def execute_queries(entry_value, power):
     # Database connection configuration

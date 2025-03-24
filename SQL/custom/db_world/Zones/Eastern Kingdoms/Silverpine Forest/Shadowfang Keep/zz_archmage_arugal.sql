@@ -7,7 +7,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (4275, 0, 2, 0, 5, 0, 100, 0, 5000, 5000, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - Killed Unit - Say Line 3'),
 (4275, 0, 3, 0, 0, 0, 100, 2, 0, 500, 3000, 3500, 0, 0, 11, 7588, 64, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - In Combat - Cast Void Bolt'),
 (4275, 0, 4, 0, 0, 0, 100, 0, 7000, 16000, 25000, 27500, 0, 0, 11, 7803, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - In Combat - Cast Thundershock'),
-(4275, 0, 5, 6, 0, 0, 100, 0, 7000, 16000, 25000, 27500, 0, 0, 11, 7621, 0, 0, 0, 0, 0, 6, 30, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - In Combat - Cast Arugal\'s Curse'),
+(4275, 0, 5, 6, 0, 0, 100, 0, 7000, 16000, 25000, 27500, 0, 0, 11, 7621, 0, 0, 0, 0, 0, 6, 30, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - In Combat - Cast Arugal''s Curse'),
 (4275, 0, 6, 0, 61, 0, 100, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - Killed Unit - Say Line 2'),
 (4275, 0, 7, 0, 0, 0, 100, 512, 3000, 3000, 13000, 13000, 0, 0, 125, 1, 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - In Combat - Run Random Timed Event'),
 (4275, 0, 8, 0, 59, 0, 100, 0, 1, 0, 0, 0, 0, 0, 11, 7136, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Archmage Arugal - On Timed Event - Cast Shadow Port'),

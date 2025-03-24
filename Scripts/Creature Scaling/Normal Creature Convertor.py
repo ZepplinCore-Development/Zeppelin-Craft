@@ -1,6 +1,16 @@
 import mysql.connector
 import random
 
+# The converter script needs some work, there are a couple things I want to change
+
+# 1.
+# It references fields by counting them which is now broken from the structural changes. 
+# It'd be better to just hunt for specific field names.
+
+# 2.
+# It generates queries using the DELETE INSERT format which isn't really needed.
+# when all it does is adjust the creature rank, health and damage. Better to use the UPDATE method.
+
 # Function to connect to the database and execute queries
 def execute_queries(entry_value, power):
     # Database connection configuration
@@ -58,6 +68,14 @@ def execute_queries(entry_value, power):
                 # Update rank
                 original_row[25] = 0 #normal
 
+            if power == 3: #rare
+                # Set 'DamageModifier' and 'HealthModifier' to random values
+                original_row[27] = round(random.uniform(1.5, 2.0), 2)  # Set 'DamageModifier'
+                original_row[53] = round(random.uniform(1.7, 2.0), 2)  # Set 'HealthModifier'
+                
+                # Update rank
+                original_row[25] = 2 #rare elite
+
             # Format original row with single quotes and NULL
             formatted_original_row = [
                 f"'{value}'" if value is not None and field != "ScriptName" else "NULL"
@@ -79,14 +97,19 @@ def execute_queries(entry_value, power):
         print(f"Error: {err}")
 
 # Define constants for data attributes
-named_solo = 0
-named_group = 1
+named_solo = 0 # Solo Fight
+named_group = 1 # Group Fight
 normal = 2
+rare = 3
 
 # Define constants for locations
 Mosh_Ogg_Ogre_Mound = 0
 Vile_Reef = 1
 Dun_Modr = 2
+Stonewatch_Keep = 3
+Dun_Garok = 4
+Badlands = 5
+Stromgarde = 6
 
 # Select the dungeon to process
 area = Dun_Modr
@@ -96,24 +119,52 @@ data = {
     Mosh_Ogg_Ogre_Mound: {
         named_solo: [],
         named_group: [],
-        normal: [678, 679, 680, 709, 710, 723, 1142, 1144]
+        normal: [678, 679, 680, 709, 710, 723, 1142, 1144],
+        rare: []
     },
     Vile_Reef: {
         named_solo: [],
         named_group: [],
-        normal: [871, 873, 875, 877, 879]
+        normal: [871, 873, 875, 877, 879],
+        rare: []
     },
     Dun_Modr: {
         named_solo: [],
+        named_group: [1364],
+        normal: [1052, 6523, 1051, 1054],
+        rare: []
+    },
+    Stonewatch_Keep: {
+        named_solo: [],
+        named_group: [486, 334],
+        normal: [436, 4065, 4064, 4462, 4464],
+        rare: []
+    },
+    Dun_Garok: {
+        named_solo: [],
+        named_group: [2304],
+        normal: [2345, 2346, 2344],
+        rare: []
+    },
+    Badlands: {
+        named_solo: [275, 2745, 2759],
         named_group: [],
-        normal: [1052, 6523, 1051, 1054, 1364]
-    }
+        normal: [2726, 2892, 6733, 4844, 4846, 4872],
+        rare: [2754, 2931, 2749]
+    },
+    Stromgarde: {
+        named_solo: [],
+        named_group: [2783, 2597, 2599, 2607],
+        normal: [2588, 2591, 2590],
+        rare: []
+    },
 }
 
 # Assign the instance variables
 named_solo_values = data[area][named_solo]
 named_group_values = data[area][named_group]
 normal_values = data[area][normal]
+rare_values = data[area][rare]
 
 # Execute SQL queries for named_solo
 for value in named_solo_values:
@@ -126,3 +177,7 @@ for value in named_group_values:
 # Execute SQL queries for normal
 for value in normal_values:
     execute_queries(value, power=normal)
+
+# Execute SQL queries for normal
+for value in rare_values:
+    execute_queries(value, power=rare)
