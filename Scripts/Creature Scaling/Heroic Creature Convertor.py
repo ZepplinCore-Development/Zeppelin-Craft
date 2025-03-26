@@ -1,183 +1,297 @@
 import mysql.connector
 import random
+import os
 
-heroic_boss_health_min = 5.8
-heroic_boss_health_max = 6.5
-heroic_boss_damage_min = 4.9
-heroic_boss_damage_max = 5.1
+# Define the actual column names you want to fetch and modify
+columns = [
+    "difficulty_entry_1", 
+    "difficulty_entry_2", 
+    "name", 
+    "subname", 
+    "minlevel", 
+    "maxlevel", 
+    "DamageModifier", 
+    "lootid", 
+    "AIName", 
+    "HealthModifier", 
+    "ScriptName"
+]
 
-heroic_rare_health_min = 4.8
-heroic_rare_health_max = 5.5
-heroic_rare_damage_min = 3.9
-heroic_rare_damage_max = 4.1
+class heroic:
+    boss_health_min = 5.8
+    boss_health_max = 6.5
+    boss_damage_min = 4.9
+    boss_damage_max = 5.1
 
-heroic_elite_health_min = 2.8
-heroic_elite_health_max = 3.5
-heroic_elite_damage_min = 1.9
-heroic_elite_damage_max = 2.1
+    rare_health_min = 4.8
+    rare_health_max = 5.5
+    rare_damage_min = 3.9
+    rare_damage_max = 4.1
 
-heroic_normal_health_min = 1.8
-heroic_normal_health_max = 2.5
-heroic_normal_damage_min = 0.9
-heroic_normal_damage_max = 1.1
+    elite_health_min = 2.8
+    elite_health_max = 3.5
+    elite_damage_min = 1.9
+    elite_damage_max = 2.1
 
-mythic_boss_health_min = 7.8
-mythic_boss_health_max = 8.5
-mythic_boss_damage_min = 6.9
-mythic_boss_damage_max = 7.1
+    normal_health_min = 1.8
+    normal_health_max = 2.5
+    normal_damage_min = 0.9
+    normal_damage_max = 1.1
 
-mythic_rare_health_min = 6.8
-mythic_rare_health_max = 7.5
-mythic_rare_damage_min = 5.9
-mythic_rare_damage_max = 6.1
+class mythic:
+    boss_health_min = 7.8
+    boss_health_max = 8.5
+    boss_damage_min = 6.9
+    boss_damage_max = 7.1
 
-mythic_elite_health_min = 3.8
-mythic_elite_health_max = 4.5
-mythic_elite_damage_min = 2.9
-mythic_elite_damage_max = 3.1
+    rare_health_min = 6.8
+    rare_health_max = 7.5
+    rare_damage_min = 5.9
+    rare_damage_max = 6.1
 
-mythic_normal_health_min = 2.8
-mythic_normal_health_max = 3.5
-mythic_normal_damage_min = 1.9
-mythic_normal_damage_max = 2.1
+    elite_health_min = 3.8
+    elite_health_max = 4.5
+    elite_damage_min = 2.9
+    elite_damage_max = 3.1
 
+    normal_health_min = 2.8
+    normal_health_max = 3.5
+    normal_damage_min = 1.9
+    normal_damage_max = 2.1
 
-
-# Function to connect to the database and execute queries
-def execute_queries(entry_value, start_new_entry, challenge, is_mythic, map_value):
-    # Database connection configuration
+# Function to connect to the database
+def connect_to_database():
     db_config = {
         "host": "192.168.0.99",
         "user": "keira",
         "password": "slipknot9",
         "database": "acore_world"
     }
+    return mysql.connector.connect(**db_config)
 
-    conn = None  # Initialize conn to None
+def fetch_original_row(cursor, entry_value):
+    # Construct query string
+    column_names = ", ".join(columns)
+    query = f"SELECT {column_names} FROM creature_template WHERE entry = %s;"
+    
+    # Execute query
+    cursor.execute(query, (entry_value,))
+    result = cursor.fetchone()
 
+    # Return a dictionary with column names as keys
+    if result:
+        result = dict(zip(columns, result))
+        return result
+    else:
+        return None  # Return None if no result is found
+
+# Function to modify the row based on parameters
+def modify_original_row(original_row, challenge, is_mythic):
+    # Modify the 'name' field
+    creature_name = original_row["name"].replace("'", "''")
+    prefix = "Mythic " if is_mythic else "Heroic "
+    original_row["name"] = f"{prefix}{creature_name}"
+    prefixed_name = original_row["name"]
+
+    # Modify the 'subname' field if it exists
+    if original_row["subname"]:
+        original_row["subname"] = original_row["subname"].replace("'", "''")
+
+    # Modify specific row fields
+    original_row["difficulty_entry_1"] = 0  # Reset Difficulty Entry 1
+    original_row["difficulty_entry_2"] = 0  # Reset Difficulty Entry 2
+    original_row["AIName"] = ""  # Blank AIName
+    original_row["ScriptName"] = ""  # Blank NPC Script
+    original_row["minlevel"] = 60  # Set minimum level
+    original_row["maxlevel"] = 60  # Set maximum level
+
+    # Base configuration for levels and loot
+    level = 63 if challenge == "boss" else 60
+    original_row["minlevel"] = level
+    original_row["maxlevel"] = level
+
+    # Assign loot table if applicable
+    if challenge == "boss" and is_mythic:
+        original_row["lootid"] = mythiclootid
+
+    # Apply challenge modifiers
+    apply_challenge_modifiers(original_row, challenge, is_mythic)
+    modified_row = original_row
+
+    return modified_row, creature_name, prefixed_name
+
+def apply_challenge_modifiers(original_row, challenge, is_mythic):
+    # Define challenge tiers with their corresponding attribute names
+    challenge_tiers = {
+        "boss": ("boss_damage_min", "boss_damage_max", "boss_health_min", "boss_health_max"),
+        "elite": ("elite_damage_min", "elite_damage_max", "elite_health_min", "elite_health_max"),
+        "rare": ("rare_damage_min", "rare_damage_max", "rare_health_min", "rare_health_max"),
+        "normal": ("normal_damage_min", "normal_damage_max", "normal_health_min", "normal_health_max"),
+    }
+
+    # Get the appropriate difficulty class
+    difficulty = mythic if is_mythic else heroic
+
+    # Apply modifiers if challenge is valid
+    if challenge in challenge_tiers:
+        damage_min, damage_max, health_min, health_max = challenge_tiers[challenge]
+        
+        # Set damage modifier
+        original_row["DamageModifier"] = round(
+            random.uniform(
+                getattr(difficulty, damage_min),
+                getattr(difficulty, damage_max)
+            ), 2
+        )
+        
+        # Set health modifier
+        original_row["HealthModifier"] = round(
+            random.uniform(
+                getattr(difficulty, health_min),
+                getattr(difficulty, health_max)
+            ), 2
+        )
+
+        # Special handling for bosses
+        if challenge == "boss":
+            original_row["minlevel"] = 63
+            original_row["maxlevel"] = 63
+            if is_mythic and "lootid" in original_row:
+                original_row["lootid"] = mythiclootid
+
+    return original_row
+
+# Function to generate SQL queries
+def generate_sql_queries(modified_row, new_entry, entry_value, is_mythic, map_value, creature_name, prefixed_name):
+    """Generate queries to duplicate and update a creature template"""
+    queries = []
+
+    # 0. Add creature name as comment header
+    queries.append(f"-- Processing: {prefixed_name}")
+    queries.append("")
+    
+    # 1. Clean up existing entry
+    queries.append(f"-- Delete Creature Template for {prefixed_name}")
+    queries.append(f"DELETE FROM `creature_template` WHERE entry = {new_entry};")
+    queries.append("")
+    
+    # 2. Duplicate the entire original creature with new ID
+    queries.append(f"-- Create creature template for {prefixed_name} from a copy of {creature_name}")
+    queries.append("CREATE TEMPORARY TABLE `temp_creature` LIKE `creature_template`;")
+    queries.append(f"INSERT INTO `temp_creature` SELECT * FROM `creature_template` WHERE `entry` = {entry_value};")
+    queries.append(f"UPDATE `temp_creature` SET `entry` = {new_entry};")
+    queries.append("INSERT INTO `creature_template` SELECT * FROM `temp_creature`;")
+    queries.append(f"DROP TEMPORARY TABLE `temp_creature`;")
+    queries.append("")
+
+    # 3. Build UPDATE query using only our modified columns
+    update_fields = []
+    for col in columns:  # Using your predefined columns list
+        value = modified_row[col]  # Direct access since we control these fields
+        if value is None:
+            update_fields.append(f"    `{col}` = NULL")
+        elif isinstance(value, str):
+            value.replace("'", "''")
+            value.replace("'''", "")
+            update_fields.append(f"    `{col}` = '{value}'")
+        else:
+            update_fields.append(f"    `{col}` = {value}")
+    queries.append(f"-- Overide the values for {prefixed_name}")
+    queries.append("UPDATE `creature_template` SET")
+    queries.append(",\n".join(update_fields))
+    queries.append(f"WHERE `entry` = {new_entry};")
+    queries.append("")
+    
+    # 4. Update original creature's difficulty entry
+    difficulty_field = "difficulty_entry_2" if is_mythic else "difficulty_entry_1"
+    queries.append(f"-- Link {creature_name} to {prefixed_name}")
+    queries.append(f"UPDATE `creature_template`")
+    queries.append(f"SET `{difficulty_field}` = {new_entry}")
+    queries.append(f"WHERE `entry` = {entry_value};")
+    queries.append("")
+    
+    # 5. Update spawn masks
+    queries.append(f"-- Update {creature_name} spawn masks for the dungeon map")
+    queries.append(f"UPDATE `creature`")
+    queries.append(f"SET `spawnMask` = 7")
+    queries.append(f"WHERE `id1` = {entry_value} AND `map` = {map_value};")
+    queries.append("")
+
+    return queries
+
+# Main function to execute queries
+def execute_queries(entry_value, new_entry, challenge, is_mythic, map_value):
+    """Execute database operations for creating heroic/mythic creature templates.
+    
+    Args:
+        entry_value: Original creature entry ID
+        new_entry: New entry ID to use for the heroic/mythic version
+        challenge: Creature type ("boss", "elite", "rare", "normal")
+        is_mythic: Boolean flag for mythic difficulty
+        map_value: Map ID for spawn mask updates
+    """
+    conn = None
     try:
-        # Connect to the database
-        conn = mysql.connector.connect(**db_config)
+        # Establish database connection
+        conn = connect_to_database()
         cursor = conn.cursor()
 
-        # Check if a matching record exists for the given entry_value
-        select_query = "SELECT * FROM creature_template WHERE entry = %s;"
-        cursor.execute(select_query, (entry_value,))
-        result = cursor.fetchone()
+        # 1. Fetch original creature data
+        original_row = fetch_original_row(cursor, entry_value)
+        if not original_row:
+            print(f"Warning: No creature found with entry {entry_value}")
+            return
 
-        if result is not None:
-            # Delete the newly inserted row if it exists
-            delete_new_entry_query = f"DELETE FROM `creature_template` WHERE entry = {start_new_entry};"
-            cursor.execute(delete_new_entry_query)
-            # Fetch the original row from the creature_template table
-            original_row = list(result)  # Use the fetched row directly
+        # 2. Prepare modified creature data
+        modified_row, creature_name, prefixed_name = modify_original_row(original_row, challenge, is_mythic)
 
-            # Fetch and update the creature name
-            creature_name = original_row[10]  
-            if is_mythic:
-                creature_name = "Mythic "  + creature_name.replace("'", "")  # Remove apostrophes
-            else:
-                creature_name = "Heroic "  + creature_name.replace("'", "")  # Remove apostrophes
+        # 3. Generate and SQL queries
+        queries = generate_sql_queries(modified_row, new_entry, entry_value,is_mythic, map_value, creature_name, prefixed_name)
 
-            original_row[10] = creature_name
+        # 3. Print SQL queries
+        print_queries_and_save(queries)
 
-            # Fetch and update the subname if it exists
-            if original_row[11]:
-                subname = original_row[11]
-                subname = subname.replace("'", "''")  # Add second apostrophes to the subname
-                original_row[11] = subname
-
-            # modify difficulty entries for the new entry
-            original_row[1] = 0
-            original_row[2] = 0
-
-            # Blank the SmartAI
-            original_row[50] = ''
-
-            # Blank the NPC Script
-            original_row[63] = ''
-
-            # Modify 'minlevel' and 'maxlevel' for entries
-            original_row[14] = 60  # Set 'minlevel' to 60
-            original_row[15] = 60  # Set 'maxlevel' to 60
-
-            if challenge == "boss":
-                # Modify 'minlevel' and 'maxlevel' for boss entries
-                original_row[14] = 63  # Set 'minlevel' to 63
-                original_row[15] = 63  # Set 'maxlevel' to 63
-                if is_mythic:
-                    # assign loot table 
-                    original_row[43] = mythiclootid
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(mythic_boss_damage_min, mythic_boss_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(mythic_boss_health_min, mythic_boss_health_max), 2)  # Set 'HealthModifier'
-                else:  
-                    # assign loot table 
-                    original_row[43] = lootid
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(heroic_boss_damage_min, heroic_boss_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(heroic_boss_health_min, heroic_boss_health_max), 2)  # Set 'HealthModifier'
-
-            elif challenge == "elite":
-                if is_mythic:
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(mythic_elite_damage_min, mythic_elite_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(mythic_elite_health_min, mythic_elite_health_max), 2)  # Set 'HealthModifier'
-                else:  
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(heroic_elite_damage_min, heroic_elite_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(heroic_elite_health_min, heroic_elite_health_max), 2)  # Set 'HealthModifier'
-
-            elif challenge == "rare":
-                if is_mythic:
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(mythic_rare_damage_min, mythic_rare_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(mythic_rare_health_min, mythic_rare_health_max), 2)  # Set 'HealthModifier'
-                else:  
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(heroic_rare_damage_min, heroic_rare_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(heroic_rare_health_min, heroic_rare_health_max), 2)  # Set 'HealthModifier'
-
-            elif challenge == "normal":
-                if is_mythic:
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(mythic_normal_damage_min, mythic_normal_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(mythic_normal_health_min, mythic_normal_health_max), 2)  # Set 'HealthModifier'
-                else:  
-                    # Set 'DamageModifier' and 'HealthModifier' to random values
-                    original_row[27] = round(random.uniform(heroic_normal_damage_min, heroic_normal_damage_max), 2)  # Set 'DamageModifier'
-                    original_row[53] = round(random.uniform(heroic_normal_health_min, heroic_normal_health_max), 2)  # Set 'HealthModifier'
-
-            # Format original row with single quotes and NULL
-            formatted_original_row = [
-                f"'{value}'" if value is not None and field != "ScriptName" else "NULL"
-                for field, value in zip(original_row, original_row[1:])
-            ]
-
-            # Insert a new row with the new entry number
-            insert_query = (
-                f"INSERT INTO `creature_template` VALUES ({start_new_entry}, "
-                f"{', '.join(formatted_original_row)});"
-            )
-
-            # Update the original row's difficulty_entry fields
-            if is_mythic:
-                update_query = f"UPDATE `creature_template` SET `difficulty_entry_2` = {start_new_entry} WHERE (`entry` = {entry_value});"
-            else:
-                update_query = f"UPDATE `creature_template` SET `difficulty_entry_1` = {start_new_entry} WHERE (`entry` = {entry_value});"
-
-            # Output the SQL queries with the creature name, DELETE (new entry), INSERT, and UPDATE queries
-            print(f"-- {creature_name}")
-            print(delete_new_entry_query)
-            print(insert_query)
-            print(update_query)
-
-            # Search the 'creature' table and print the update query for 'spawnMask' field
-            search_and_print_update_creature_table(entry_value, map_value)
-
+    except mysql.connector.Error as db_err:
+        print(f"Database error processing entry {entry_value}: {db_err}")
     except Exception as err:
-        print(f"Error: {err}")
+        print(f"Unexpected error processing entry {entry_value}: {err}")
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
 
+def print_queries_and_save(queries, filename="zz_heroic_and_mythic_creatures.sql", first_call=False):
+    """
+    Print the generated SQL queries and append them to an SQL file.
+    
+    Args:
+        queries (list): List of SQL query strings
+        filename (str): Name of the output SQL file
+        first_call (bool): Whether this is the first call (writes header)
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, filename)
+    
+    # Print each query to console
+    for query in queries:
+        print(query)
+    
+    # Save queries to file
+    try:
+        mode = 'w' if first_call else 'a'  # Overwrite on first call, append thereafter
+        
+        with open(output_path, mode, encoding='utf-8') as f:
+            if first_call:
+                f.write("-- SQL queries generated automatically\n")
+                f.write("-- Created by creature cloning script\n\n")
+            
+            for query in queries:
+                f.write(query + "\n")
+                
+        if first_call:
+            print(f"\n=== Created new SQL file: {output_path} ===")
+    except Exception as e:
+        print(f"\n!!! Error saving queries to file: {e} !!!")
+    
 # Function to search 'creature' table and print the update query
 def search_and_print_update_creature_table(entry_value, map_value):
     try:
@@ -200,33 +314,9 @@ loot = 5
 mythicloot = 6
 map = 7
 
-# Define constants for locations
-Ragefire_Chasm = 0
-Wailing_Caverns = 1
-The_Deadmines = 2
-Shadowfang_Keep = 3
-The_Stockade = 4
-Blackfathom_Deeps = 5
-Gnomeregan = 6
-Razorfen_Kraul = 7
-Scarlet_Monastery = 8
-Razorfen_Downs = 9
-Uldaman = 10
-Zul_Farrak = 11
-Maraudon = 12
-Sunken_Temple = 13
-Blackrock_Depths = 14
-Blackrock_Spire = 15
-Scholomance = 16
-Stratholme = 17
-Dire_Maul = 18
-
-# Select the dungeon to process
-dungeon = Dire_Maul
-
 # Create a dictionary of dictionaries to store the data
 data = {
-    Ragefire_Chasm: {
+    "Ragefire_Chasm": {
         entry: 9100000,
         boss: [11519, 11518, 11517, 11520, 17830],
         rare: [],
@@ -236,7 +326,7 @@ data = {
         mythicloot: 9100500,
         map: 389 
     },
-    Wailing_Caverns: {
+    "Wailing_Caverns": {
         entry: 9100100,
         boss: [3653, 3671, 3669, 3670, 3673, 3654, 3674, 5775],
         rare: [5912],
@@ -246,7 +336,7 @@ data = {
         mythicloot: 9100500,
         map: 43 
     },
-    The_Deadmines: {
+    "The_Deadmines": {
         entry: 9100200,
         boss: [639, 647, 645, 1763, 646, 643, 642, 644],
         rare: [3586],
@@ -256,7 +346,7 @@ data = {
         mythicloot: 9100500,
         map: 36 
     },
-    Shadowfang_Keep: {
+    "Shadowfang_Keep": {
         entry: 9100300,
         boss: [3914, 3886, 3887, 4278, 4279, 3872, 4274, 3927, 4275],
         rare: [],
@@ -266,7 +356,7 @@ data = {
         mythicloot: 9100500,
         map: 33 
     },
-    The_Stockade: {
+    "The_Stockade": {
         entry: 9100400,
         boss: [1696, 1663, 1720, 1666, 1717, 1716],
         rare: [],
@@ -276,7 +366,7 @@ data = {
         mythicloot: 9100500,
         map: 34 
     },
-    Blackfathom_Deeps: {
+    "Blackfathom_Deeps": {
         entry: 9100500,
         boss: [4829, 12876, 6243, 12902, 4830, 4832, 4887, 4831],
         rare: [],
@@ -286,7 +376,7 @@ data = {
         mythicloot: 9100500,
         map: 48 
     },
-    Gnomeregan: {
+    "Gnomeregan": {
         entry: 9100600,
         boss: [6229, 6235, 7361, 7800, 7079],
         rare: [6228],
@@ -296,7 +386,7 @@ data = {
         mythicloot: 9100500,
         map: 90 
     },
-    Razorfen_Kraul: {
+    "Razorfen_Kraul": {
         entry: 9100700,
         boss: [4422, 4424, 4421, 4428, 4420, 6168],
         rare: [4425, 4842],
@@ -306,7 +396,7 @@ data = {
         mythicloot: 9100500,
         map: 47 
     },
-    Scarlet_Monastery: {
+    "Scarlet_Monastery": {
         entry: 9100800,
         boss: [3983, 3977, 3976, 3975, 4542, 6487, 4543, 3974],
         rare: [6488, 6490, 6489],
@@ -316,7 +406,7 @@ data = {
         mythicloot: 9100500,
         map: 189 
     },
-    Razorfen_Downs: {
+    "Razorfen_Downs": {
         entry: 9100900,
         boss: [7358, 8567, 14686, 7357, 7356, 7354, 7355],
         rare: [],
@@ -326,7 +416,7 @@ data = {
         mythicloot: 9100500,
         map: 129 
     },
-    Uldaman: {
+    "Uldaman": {
         entry: 9101000,
         boss: [7206, 2748, 6906, 6907, 7291, 4854, 7228, 7023, 6908, 6910, 4857],
         rare: [],
@@ -336,7 +426,7 @@ data = {
         mythicloot: 9100500,
         map: 70 
     },
-    Zul_Farrak: {
+    "Zul_Farrak": {
         entry: 9101100,
         boss: [8127, 7267, 7273, 7795, 7796, 7797, 7275, 7272, 7271],
         rare: [10080, 10081, 10082],
@@ -346,7 +436,7 @@ data = {
         mythicloot: 9100500,
         map: 209 
     },
-    Maraudon: {
+    "Maraudon": {
         entry: 9101200,
         boss: [12225, 12203, 12236, 13282, 12201, 12258, 13596, 13601],
         rare: [12237],
@@ -356,7 +446,7 @@ data = {
         mythicloot: 9100500,
         map: 349 
     },
-    Sunken_Temple: {
+    "Sunken_Temple": {
         entry: 9101300,
         boss: [8443, 5721, 5722, 5710, 5719, 5711, 5709, 5720, 5715, 5714, 5717, 5712, 5716, 5713, 8580],
         rare: [],
@@ -366,7 +456,7 @@ data = {
         mythicloot: 9100500,
         map: 109 
     },
-    Blackrock_Depths: {
+    "Blackrock_Depths": {
         entry: 9101400,
         boss: [9156, 9035, 9031, 9016, 9438, 9442, 9443, 9439, 9437, 9441, 9039, 9040, 9019, 9029, 9056, 9033, 9037, 8983, 9027, 9028, 9034, 9032, 9018, 9319, 9537, 9017, 9025, 9938, 9030, 9502, 9499, 8929, 9024, 9543, 9038, 16059, 9042, 9036, 9041, 9476],
         rare: [8923],
@@ -376,7 +466,7 @@ data = {
         mythicloot: 9100500,
         map: 230 
     },
-    Blackrock_Spire: {
+    "Blackrock_Spire": {
         entry: 9101700,
         boss: [10363, 16042, 9816, 10430, 10429, 10339, 10584, 10268, 16080, 9568, 10264, 9736, 10220, 9196, 10596, 9237, 9236],
         rare: [9596, 10263, 10376, 9718, 9218, 9219, 9217, 10509, 10899],
@@ -386,7 +476,7 @@ data = {
         mythicloot: 9100500,
         map: 229 
     },
-    Scholomance: {
+    "Scholomance": {
         entry: 9102000,
         boss: [10506, 10503, 11622, 10433, 10432, 10508, 10505, 11261, 10901, 10507, 10504, 10502, 1853, 16118, 14695],
         rare: [],
@@ -396,7 +486,7 @@ data = {
         mythicloot: 9100500,
         map: 289 
     },
-    Stratholme: {
+    "Stratholme": {
         entry: 9102200,
         boss: [10811, 10813, 10436, 11121, 10997, 11120, 11058, 16101, 10435, 10438, 11032, 10437, 11143, 10439, 16102, 11082, 10516, 10808, 16387, 14684, 10440],
         rare: [10558, 10393, 10809],
@@ -406,7 +496,7 @@ data = {
         mythicloot: 9100500,
         map: 329 
     },
-    Dire_Maul: {
+    "Dire_Maul": {
         entry: 9102400,
         boss: [16097, 14506, 11501, 14325, 11496, 11486, 14324, 11488, 11487, 11489, 11467, 14321, 14326, 14323, 14322, 11492, 13280, 14327, 14354, 11490, 14349],
         rare: [],
@@ -418,64 +508,73 @@ data = {
     }
 }
 
-# Assign the instance variables
-lootid = data[dungeon][loot]
-start_new_entry = data[dungeon][entry]
-elite_entry_values = data[dungeon][elite]
-boss_entry_values = data[dungeon][boss]
-rare_entry_values = data[dungeon][rare]
-normal_entry_values = data[dungeon][normal]
-mythiclootid = data[dungeon][mythicloot]
-map_id = data[dungeon][map]
+# First call (creates file with header)
+print_queries_and_save([], first_call=True)
 
-# HEROIC
+for dungeon in data:
+    dungeon_name = []
+    dungeon_name.append("-- " + dungeon)
+    dungeon_name.append("")
+    print_queries_and_save(dungeon_name)
 
-# Execute SQL queries for Heroic elite_entry_values
-for entry_value in elite_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="elite", is_mythic=False, map_value=map_id)
-    # Increment the start_new_entry for the next creature (elite)
-    start_new_entry += 1
+    # Assign the instance variables
+    lootid = data[dungeon][loot]
+    new_entry = data[dungeon][entry]
+    elite_entry_values = data[dungeon][elite]
+    boss_entry_values = data[dungeon][boss]
+    rare_entry_values = data[dungeon][rare]
+    normal_entry_values = data[dungeon][normal]
+    mythiclootid = data[dungeon][mythicloot]
+    map_id = data[dungeon][map]
 
-# Execute SQL queries for Heroic boss_entry_values
-for entry_value in boss_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="boss", is_mythic=False, map_value=map_id)
-    # Increment the start_new_entry for the next creature (boss)
-    start_new_entry += 1
+    # HEROIC
 
-# Execute SQL queries for Heroic rare_entry_values
-for entry_value in rare_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="rare", is_mythic=False, map_value=map_id)
-    # Increment the start_new_entry for the next creature (rare)
-    start_new_entry += 1
+    # Execute SQL queries for Heroic elite_entry_values
+    for entry_value in elite_entry_values:
+        execute_queries(entry_value, new_entry, challenge="elite", is_mythic=False, map_value=map_id)
+        # Increment the new_entry for the next creature (elite)
+        new_entry += 1
 
-# Execute SQL queries for Heroic normal_entry_values
-for entry_value in normal_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="normal", is_mythic=False, map_value=map_id)
-    # Increment the start_new_entry for the next creature (normal)
-    start_new_entry += 1
+    # Execute SQL queries for Heroic boss_entry_values
+    for entry_value in boss_entry_values:
+        execute_queries(entry_value, new_entry, challenge="boss", is_mythic=False, map_value=map_id)
+        # Increment the new_entry for the next creature (boss)
+        new_entry += 1
 
-# MYTHICS
+    # Execute SQL queries for Heroic rare_entry_values
+    for entry_value in rare_entry_values:
+        execute_queries(entry_value, new_entry, challenge="rare", is_mythic=False, map_value=map_id)
+        # Increment the new_entry for the next creature (rare)
+        new_entry += 1
 
-# Execute SQL queries for Mythic elite_entry_values
-for entry_value in elite_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="elite", is_mythic=True, map_value=map_id)
-    # Increment the start_new_entry for the next creature (elite)
-    start_new_entry += 1
+    # Execute SQL queries for Heroic normal_entry_values
+    for entry_value in normal_entry_values:
+        execute_queries(entry_value, new_entry, challenge="normal", is_mythic=False, map_value=map_id)
+        # Increment the new_entry for the next creature (normal)
+        new_entry += 1
 
-# Execute SQL queries for Mythic boss_entry_values
-for entry_value in boss_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="boss", is_mythic=True, map_value=map_id)
-    # Increment the start_new_entry for the next creature (boss)
-    start_new_entry += 1
+    # MYTHICS
 
-# Execute SQL queries for Mythic rare_entry_values
-for entry_value in rare_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="rare", is_mythic=True, map_value=map_id)
-    # Increment the start_new_entry for the next creature (rare)
-    start_new_entry += 1
+    # Execute SQL queries for Mythic elite_entry_values
+    for entry_value in elite_entry_values:
+        execute_queries(entry_value, new_entry, challenge="elite", is_mythic=True, map_value=map_id)
+        # Increment the new_entry for the next creature (elite)
+        new_entry += 1
 
-# Execute SQL queries for Mythic normal_entry_values
-for entry_value in normal_entry_values:
-    execute_queries(entry_value, start_new_entry, challenge="normal", is_mythic=True, map_value=map_id)
-    # Increment the start_new_entry for the next creature (normal)
-    start_new_entry += 1
+    # Execute SQL queries for Mythic boss_entry_values
+    for entry_value in boss_entry_values:
+        execute_queries(entry_value, new_entry, challenge="boss", is_mythic=True, map_value=map_id)
+        # Increment the new_entry for the next creature (boss)
+        new_entry += 1
+
+    # Execute SQL queries for Mythic rare_entry_values
+    for entry_value in rare_entry_values:
+        execute_queries(entry_value, new_entry, challenge="rare", is_mythic=True, map_value=map_id)
+        # Increment the new_entry for the next creature (rare)
+        new_entry += 1
+
+    # Execute SQL queries for Mythic normal_entry_values
+    for entry_value in normal_entry_values:
+        execute_queries(entry_value, new_entry, challenge="normal", is_mythic=True, map_value=map_id)
+        # Increment the new_entry for the next creature (normal)
+        new_entry += 1
