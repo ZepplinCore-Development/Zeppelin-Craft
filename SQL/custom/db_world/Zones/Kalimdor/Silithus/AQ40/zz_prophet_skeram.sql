@@ -1,5 +1,5 @@
 -- Reduce Skeram damage 20.05 -> 10.05, it is very high with clones up
-UPDATE `creature_template` SET `DamageModifier` = '10.05', WHERE (`entry` = 15263);
+UPDATE `creature_template` SET `DamageModifier` = '10.05' WHERE (`entry` = 15263);
 
 -- Clones were causing issues in this fight, so we added a new creature template to us for clones
 DELETE FROM `creature_template` WHERE (`entry` = 9000014);
