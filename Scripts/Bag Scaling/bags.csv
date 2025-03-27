@@ -1,92 +1,92 @@
 entry,name,source,slots,scale_factor,new_slots
-41600,Glacial Bag,Glacial Bag Tailoring,22,2,36
+41600,Glacial Bag,Glacial Bag Tailoring,22,1.636363636,36
 1100,Monster Bag,-,36,1,36
-41599,Frostweave Bag,Frostweave Bag Tailoring,20,2,35
-21876,Primal Mooncloth Bag,Primal Mooncloth Bag Tailoring,20,2,35
-21843,Imbued Netherweave Bag,Imbued Netherweave Bag Tailoring,18,2,34
-14156,Bottomless Bag,Bottomless Bag Tailoring,18,2,34
-43345,Dragon Hide Bag,Sartharion The Obsidian Sanctum,22,1.5,33
-50316,Papa's Brand New Bag,Bronjahm The Forge of Souls,22,1.5,33
-49295,Enlarged Onyxia Hide Backpack,Onyxia Onyxia's Lair,22,1.5,33
-21841,Netherweave Bag,Netherweave Bag Tailoring,16,2,32
-14155,Mooncloth Bag,Mooncloth Bag Tailoring,16,2,32
-50317,Papa's New Bag,Bronjahm The Forge of Souls,20,1.5,30
-35516,Sun Touched Satchel,Drop,20,1.5,30
-34845,Pit Lord's Satchel,Zone Drop Magtheridon's Lair,20,1.5,30
-14046,Runecloth Bag,Runecloth Bag Tailoring,14,2,28
-19914,Panther Hide Sack,High Priestess Arlokk Zul'Gurub,18,1.5,27
-17966,Onyxia Hide Backpack,Onyxia Onyxia's Lair,18,1.5,27
-33117,Jack-o'-Lantern,Drop,18,1.5,27
+41599,Frostweave Bag,Frostweave Bag Tailoring,20,1.5,30
+21876,Primal Mooncloth Bag,Primal Mooncloth Bag Tailoring,20,1.5,30
+43345,Dragon Hide Bag,Sartharion The Obsidian Sanctum,22,1.363636364,30
+50316,Papa's Brand New Bag,Bronjahm The Forge of Souls,22,1.363636364,30
+49295,Enlarged Onyxia Hide Backpack,Onyxia Onyxia's Lair,22,1.363636364,30
+21843,Imbued Netherweave Bag,Imbued Netherweave Bag Tailoring,18,1.555555556,28
+14156,Bottomless Bag,Bottomless Bag Tailoring,18,1.555555556,28
+50317,Papa's New Bag,Bronjahm The Forge of Souls,20,1.3,26
+35516,Sun Touched Satchel,Drop,20,1.3,26
+34845,Pit Lord's Satchel,Zone Drop Magtheridon's Lair,20,1.3,26
+21841,Netherweave Bag,Netherweave Bag Tailoring,16,1.5,24
+14155,Mooncloth Bag,Mooncloth Bag Tailoring,16,1.5,24
+19914,Panther Hide Sack,High Priestess Arlokk Zul'Gurub,18,1.333333333,24
+17966,Onyxia Hide Backpack,Onyxia Onyxia's Lair,18,1.333333333,24
+33117,Jack-o'-Lantern,Drop,18,1.333333333,24
 51809,Portable Hole,Haris Pilton Vendor in Shattrath City,24,1,24
 35874,Whizzlespark's Portable Pet Mansion,-,24,1,24
-4500,Traveler's Backpack,Drop Fished,16,1.5,24
-20400,Pumpkin Bag,Drop,16,1.5,24
-11742,Wayfarer's Knapsack,Ribbly Screwspigot Blackrock Depths (N),16,1.5,24
-10959,Demon Hide Sack,"You Are Rakh'likh, Demon Blasted Lands",16,1.5,24
-10051,Red Mageweave Bag,Red Mageweave Bag Tailoring,12,2,24
+14046,Runecloth Bag,Runecloth Bag Tailoring,14,1.571428571,22
 38082,Gigantique Bag,Haris Pilton Vendor in Shattrath City,22,1,22
-3914,Journeyman's Backpack,Drop Fished,14,1.5,21
-19291,Darkmoon Storage Box,50 Tickets - Darkmoon Storage Box Darkmoon Faire,14,1.5,21
-11324,Explorer's Knapsack,Cortello's Riddle Stranglethorn Vale,14,1.5,21
-9587,Thawpelt Sack,Quests,14,1.5,21
-1685,Troll-hide Bag,Drop,14,1.5,21
+4500,Traveler's Backpack,Drop Fished,16,1.25,20
+20400,Pumpkin Bag,Drop,16,1.25,20
+11742,Wayfarer's Knapsack,Ribbly Screwspigot Blackrock Depths (N),16,1.25,20
+10959,Demon Hide Sack,"You Are Rakh'likh, Demon Blasted Lands",16,1.25,20
+3914,Journeyman's Backpack,Drop Fished,14,1.428571429,20
+19291,Darkmoon Storage Box,50 Tickets - Darkmoon Storage Box Darkmoon Faire,14,1.428571429,20
+11324,Explorer's Knapsack,Cortello's Riddle Stranglethorn Vale,14,1.428571429,20
+9587,Thawpelt Sack,Quests,14,1.428571429,20
+1685,Troll-hide Bag,Drop,14,1.428571429,20
 1977,20-slot Bag,-,20,1,20
 34067,Tattered Hexcloth Sack,"Promises, Promises... Zul'Aman",20,1,20
-10050,Mageweave Bag,Mageweave Bag Tailoring,10,2,20
-4245,Small Silk Pack,Small Silk Pack Tailoring,10,2,20
-5764,Green Silk Pack,Green Silk Pack Tailoring,10,2,20
-5765,Black Silk Pack,Black Silk Pack Tailoring,10,2,20
+10051,Red Mageweave Bag,Red Mageweave Bag Tailoring,12,1.5,18
 22679,Supply Bag,Quests Eastern Plaguelands,18,1,18
 27680,Halaani Bag,Vendors Nagrand,18,1,18
 13330,Derek's Radish Bag,-,18,1,18
-1725,Large Knapsack,Drop Fished,12,1.5,18
+10050,Mageweave Bag,Mageweave Bag Tailoring,10,1.6,16
+4245,Small Silk Pack,Small Silk Pack Tailoring,10,1.6,16
+5764,Green Silk Pack,Green Silk Pack Tailoring,10,1.6,16
+5765,Black Silk Pack,Black Silk Pack Tailoring,10,1.6,16
+1725,Large Knapsack,Drop Fished,12,1.333333333,16
 10683,Explorer's Knapsack,-,16,1,16
 22233,Zigris' Footlocker,-,16,1,16
-4240,Woolen Bag,Woolen Bag Tailoring,8,2,16
-4241,Green Woolen Bag,Green Woolen Bag Tailoring,8,2,16
-5763,Red Woolen Bag,Red Woolen Bag Tailoring,8,2,16
-1652,Sturdy Lunchbox,Venture Co. Foreman Stranglethorn Vale,10,1.5,15
-5576,Large Brown Sack,Drop,10,1.5,15
-918,Deviate Hide Pack,Deviate Hides Wailing Caverns,10,1.5,15
-3352,Ooze-covered Bag,Digging Through the Ooze Wetlands,10,1.5,15
-932,Fel Steed Saddlebags,Fel Steed Shadowfang Keep (N),10,1.5,15
-1470,Murloc Skin Bag,Gelihast Blackfathom Deeps (N),10,1.5,15
-933,Large Rucksack,Foe Reaper 4000 Westfall (N),10,1.5,15
-1729,Gunnysack of the Night Watch,The Night Watch Duskwood,10,1.5,15
-5575,Large Green Sack,Drop Fished,10,1.5,15
-804,Large Blue Sack,Drop Fished,10,1.5,15
-857,Large Red Sack,Drop Disenchanted Fished,10,1.5,15
-6446,Snakeskin Bag,Lady Anacondra Wailing Caverns (N),10,1.5,15
+1652,Sturdy Lunchbox,Venture Co. Foreman Stranglethorn Vale,10,1.4,14
+5576,Large Brown Sack,Drop,10,1.4,14
+918,Deviate Hide Pack,Deviate Hides Wailing Caverns,10,1.4,14
+3352,Ooze-covered Bag,Digging Through the Ooze Wetlands,10,1.4,14
+932,Fel Steed Saddlebags,Fel Steed Shadowfang Keep (N),10,1.4,14
+1470,Murloc Skin Bag,Gelihast Blackfathom Deeps (N),10,1.4,14
+933,Large Rucksack,Foe Reaper 4000 Westfall (N),10,1.4,14
+1729,Gunnysack of the Night Watch,The Night Watch Duskwood,10,1.4,14
+5575,Large Green Sack,Drop Fished,10,1.4,14
+804,Large Blue Sack,Drop Fished,10,1.4,14
+857,Large Red Sack,Drop Disenchanted Fished,10,1.4,14
+6446,Snakeskin Bag,Lady Anacondra Wailing Caverns (N),10,1.4,14
 30744,Draenic Leather Pack,Vendors,14,1,14
 4499,Huge Brown Sack,Vendors,14,1,14
-11845,Handmade Leather Bag,Carry Your Weight Durotar,8,1.5,12
-3343,Captain Sanders' Booty Bag,Captain Sanders' Hidden Treasure Westfall,8,1.5,12
-1537,Old Blanchy's Feed Pouch,Poor Old Blanchy Westfall,8,1.5,12
-3233,Gnoll Hide Sack,Fedfennel Elwynn Forest (N),8,1.5,12
-23852,Nolkai's Bag,Nolkai's Box,8,1.5,12
+4240,Woolen Bag,Woolen Bag Tailoring,8,1.5,12
+4241,Green Woolen Bag,Green Woolen Bag Tailoring,8,1.5,12
+5763,Red Woolen Bag,Red Woolen Bag Tailoring,8,1.5,12
 3762,Librarian's Satchel,-,12,1,12
 38145,Deathweave Bag,-,12,1,12
 16057,Explorer's Knapsack,-,12,1,12
 4981,Agmond's Belt Pouch,-,12,1,12
 1623,Raptor Skin Pouch,-,12,1,12
-5574,White Leather Bag,Drop,8,1.5,12
-856,Blue Leather Bag,Drop Fished,8,1.5,12
-5573,Green Leather Bag,Drop Fished,8,1.5,12
-2657,Red Leather Bag,Drop Fished,8,1.5,12
-4238,Linen Bag,Linen Bag Tailoring,6,2,12
-5081,Kodo Hide Bag,Kodo Hide Bag Leatherworking,6,2,12
-5762,Red Linen Bag,Red Linen Bag Tailoring,6,2,12
+11845,Handmade Leather Bag,Carry Your Weight Durotar,8,1.25,10
+3343,Captain Sanders' Booty Bag,Captain Sanders' Hidden Treasure Westfall,8,1.25,10
+1537,Old Blanchy's Feed Pouch,Poor Old Blanchy Westfall,8,1.25,10
+3233,Gnoll Hide Sack,Fedfennel Elwynn Forest (N),8,1.25,10
+23852,Nolkai's Bag,Nolkai's Box,8,1.25,10
+5574,White Leather Bag,Drop,8,1.25,10
+856,Blue Leather Bag,Drop Fished,8,1.25,10
+5573,Green Leather Bag,Drop Fished,8,1.25,10
+2657,Red Leather Bag,Drop Fished,8,1.25,10
+4238,Linen Bag,Linen Bag Tailoring,6,1.666666667,10
+5081,Kodo Hide Bag,Kodo Hide Bag Leatherworking,6,1.666666667,10
+5762,Red Linen Bag,Red Linen Bag Tailoring,6,1.666666667,10
 4497,Heavy Brown Bag,Vendors,10,1,10
 4498,Brown Leather Satchel,Vendors,10,1,10
-2082,Wizbang's Gunnysack,Buzzbox 525 Darkshore,6,1.5,9
-6756,Jewelry Box,A Small Container of Gems,6,1.5,9
-22571,Courier's Bag,Delivery to Tranquillien Ghostlands,6,1.5,9
-4496,Small Brown Pouch,Drop Vendor Fished Pickpocketed,6,1.5,9
-828,Small Blue Pouch,Drop Disenchanted Pickpocketed,6,1.5,9
-5571,Small Black Pouch,Drop Disenchanted,6,1.5,9
-4957,Old Moneybag,Zone Drop Stonetalon Mountains (N),6,1.5,9
-5572,Small Green Pouch,Drop Fished Mined,6,1.5,9
-805,Small Red Pouch,Drop Disenchanted Fished Pickpocketed,6,1.5,9
+2082,Wizbang's Gunnysack,Buzzbox 525 Darkshore,6,1.333333333,8
+6756,Jewelry Box,A Small Container of Gems,6,1.333333333,8
+22571,Courier's Bag,Delivery to Tranquillien Ghostlands,6,1.333333333,8
+4496,Small Brown Pouch,Drop Vendor Fished Pickpocketed,6,1.333333333,8
+828,Small Blue Pouch,Drop Disenchanted Pickpocketed,6,1.333333333,8
+5571,Small Black Pouch,Drop Disenchanted,6,1.333333333,8
+4957,Old Moneybag,Zone Drop Stonetalon Mountains (N),6,1.333333333,8
+5572,Small Green Pouch,Drop Fished Mined,6,1.333333333,8
+805,Small Red Pouch,Drop Disenchanted Fished Pickpocketed,6,1.333333333,8
 6754,Large Moneybag,-,8,1,8
 5603,Wizbang's Gunnysack,-,8,1,8
 23389,Empty Draenei Supply Pouch,Rescue the Survivors! Azuremyst Isle,4,1.5,6
@@ -94,4 +94,4 @@ entry,name,source,slots,scale_factor,new_slots
 20474,Sunstrider Book Satchel,Solanian's Belongings Eversong Woods,4,1.5,6
 4930,Handmade Leather Bag,-,6,1,6
 37606,Penny Pouch,Drop,1,1,1
-30806,Fel Hound Walking Kit,-,0,1,0
+30806,Fel Hound Walking Kit,-,0,#DIV/0!,0
