@@ -36,10 +36,10 @@ class named_group_fight:
     rank = 0
 
 class normal:
-    health_min = 1.1
-    health_max = 1.5
+    health_min = 1.0
+    health_max = 1.2
     damage_min = 1.0
-    damage_max = 1.3
+    damage_max = 1.1
     rank = 0
 
 class rare:
