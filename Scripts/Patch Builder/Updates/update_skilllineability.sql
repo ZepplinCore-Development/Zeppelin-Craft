@@ -20,12 +20,64 @@ UPDATE `dbc`.`skilllineability` SET
 WHERE `id` = 12042;
 
 UPDATE `dbc`.`skilllineability` SET 
-    `skillId` = 792 /* was 613 */
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
 WHERE `id` = 12043;
 
 UPDATE `dbc`.`skilllineability` SET 
-    `skillId` = 792 /* was 613 */
+    `skillId` = 792 /* was 573 */,
+    `chrClasses` = 0 /* was 1024 */
+WHERE `id` = 12096;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 573 */,
+    `chrClasses` = 0 /* was 1024 */
+WHERE `id` = 12097;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 237 */,
+    `chrClasses` = 0 /* was 128 */
+WHERE `id` = 12397;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
 WHERE `id` = 13256;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 267 */,
+    `chrClasses` = 0 /* was 2 */
+WHERE `id` = 13456;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 573 */,
+    `chrClasses` = 0 /* was 1024 */
+WHERE `id` = 13575;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 237 */,
+    `chrClasses` = 0 /* was 128 */
+WHERE `id` = 13659;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
+WHERE `id` = 13809;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
+WHERE `id` = 14939;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 237 */,
+    `chrClasses` = 0 /* was 128 */
+WHERE `id` = 15955;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */,
+    `chrClasses` = 0 /* was 16 */
+WHERE `id` = 16529;
 
 UPDATE `dbc`.`skilllineability` SET 
     `skillId` = 270 /* was 212 */
@@ -147,7 +199,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31441;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31441,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 56992,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -155,7 +207,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31442;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31442,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61199,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -163,7 +215,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31443;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31443,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17253,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17255,
@@ -172,7 +224,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31444;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31444,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 58598,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -180,7 +232,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31445;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31445,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17255,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17256,
@@ -189,7 +241,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31446;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31446,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17256,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17257,
@@ -198,7 +250,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31447;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31447,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17257,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17258,
@@ -207,7 +259,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31448;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31448,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17258,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17259,
@@ -216,7 +268,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31449;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31449,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17259,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17260,
@@ -225,7 +277,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31450;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31450,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17260,
     `requiredSkillValue` = 1,
     `spellIdParent` = 17261,
@@ -234,7 +286,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31451;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31451,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 17261,
     `requiredSkillValue` = 1,
     `spellIdParent` = 27050,
@@ -243,7 +295,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31452;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31452,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 27050,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52473,
@@ -252,7 +304,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31453;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31453,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52473,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52474,
@@ -261,7 +313,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31454;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31454,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52474,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -285,7 +337,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31457;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31457,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 50433,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52395,
@@ -294,7 +346,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31458;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31458,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52395,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52396,
@@ -303,7 +355,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31459;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31459,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52396,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52397,
@@ -312,7 +364,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31460;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31460,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52397,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52398,
@@ -321,7 +373,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31461;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31461,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52398,
     `requiredSkillValue` = 1,
     `spellIdParent` = 52399,
@@ -330,7 +382,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31462;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31462,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52399,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -338,21 +390,21 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31463;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31463,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 24394,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31464;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31464,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19577,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31465;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31465,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 1742,
     `requiredSkillValue` = 1,
     `spellIdParent` = 1753,
@@ -361,7 +413,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31466;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31466,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 2649,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14916,
@@ -370,7 +422,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31467;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31467,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14916,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14917,
@@ -379,7 +431,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31468;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31468,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14917,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14918,
@@ -388,7 +440,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31469;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31469,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14918,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14919,
@@ -397,7 +449,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31470;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31470,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14919,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14920,
@@ -406,7 +458,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31471;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31471,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14920,
     `requiredSkillValue` = 1,
     `spellIdParent` = 14921,
@@ -415,7 +467,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31472;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31472,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 14921,
     `requiredSkillValue` = 1,
     `spellIdParent` = 27047,
@@ -424,7 +476,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31473;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31473,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 27047,
     `requiredSkillValue` = 1,
     `spellIdParent` = 61676,
@@ -433,7 +485,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31474;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31474,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34666,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -441,7 +493,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31475;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31475,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34667,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -449,7 +501,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31476;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31476,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34675,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -457,7 +509,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31477;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31477,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 20782,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -465,7 +517,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31478;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31478,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 8875,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -473,7 +525,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31479;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31479,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19580,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -481,7 +533,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31480;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31480,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19581,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -489,7 +541,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31481;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31481,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19582,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -497,7 +549,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31482;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31482,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19589,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -505,7 +557,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31483;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31483,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19591,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -513,7 +565,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31484;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31484,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 20784,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -521,7 +573,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31485;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31485,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34902,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -529,7 +581,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31486;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31486,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34903,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -537,7 +589,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31487;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31487,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 34904,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -545,105 +597,105 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31488;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31488,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53175,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31489;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31489,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53176,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31490;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31490,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53178,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31491;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31491,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53179,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31492;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31492,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53180,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31493;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31493,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53181,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31494;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31494,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53182,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31495;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31495,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53183,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31496;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31496,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53184,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31497;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31497,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53186,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31498;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31498,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53187,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31499;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31499,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53203,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31500;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31500,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53204,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31501;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31501,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53205,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31502;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31502,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53397,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -651,231 +703,231 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31503;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31503,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53401,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31504;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31504,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53409,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31505;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31505,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53411,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31506;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31506,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53426,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31507;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31507,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53427,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31508;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31508,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53429,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31509;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31509,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53430,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31510;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31510,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 19596,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31511;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31511,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53434,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31512;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31512,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53450,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31513;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31513,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53451,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31514;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31514,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52858,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31515;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31515,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53476,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31516;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31516,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53477,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31517;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31517,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53478,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31518;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31518,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53480,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31519;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31519,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53481,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31520;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31520,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53482,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31521;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31521,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53490,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31522;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31522,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 52234,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31523;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31523,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53497,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31524;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31524,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53508,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31525;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31525,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53511,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31526;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31526,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53512,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31527;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31527,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53514,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31528;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31528,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53516,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31529;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31529,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53517,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31530;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31530,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 54044,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31531;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31531,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53483,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31532;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31532,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53485,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31533;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31533,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53554,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31534;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31534,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 53555,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31535;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31535,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 55566,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -883,14 +935,14 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31536;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31536,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 55709,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31537;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31537,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61017,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -898,7 +950,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31538;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31538,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61676,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -906,119 +958,119 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31539;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31539,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61680,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31540;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31540,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61681,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31541;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31541,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61682,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31542;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31542,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61683,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31543;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31543,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61689,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31544;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31544,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61690,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31545;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31545,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61686,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31546;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31546,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61687,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31547;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31547,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 61688,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31548;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31548,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62758,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31549;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31549,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62759,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31550;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31550,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62760,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31551;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31551,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62762,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31552;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31552,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62764,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31553;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31553,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 62765,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31554;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31554,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 63900,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31555;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31555,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 65220,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
@@ -1026,28 +1078,28 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31556;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31556,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 75446,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31557;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31557,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 75447,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31558;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31558,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 75593,
     `requiredSkillValue` = 1;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 31559;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 31559,
-    `skillId` = 789,
+    `skillId` = 900,
     `spellId` = 22683,
     `requiredSkillValue` = 1,
     `acquireMethod` = 2;
