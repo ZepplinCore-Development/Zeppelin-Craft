@@ -1,26 +1,93 @@
-DELETE FROM `item_template` WHERE (`entry` = 2280);
-INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
-(2280, 2, 10, -1, 'Walking Stick of Kam', 20370, 3, 0, 0, 1, 20117, 4023, 17, -1, -1, 27, 22, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 3, 8, 5, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2800, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 1, '', 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, '', 24, 0, 0, 0, 0, 12340);
+-- Kam's Walking Stick -> Walking Stick of Kam
+-- Rebalanced the item to be more suitable for hunters to claim
+-- AGI as a side stat is worthless for casters.
+UPDATE `item_template` SET
+    `name` = 'Walking Stick of Kam',
+    `Quality` = 3,
+    `InventoryType` = 17,
+    `stat_type1` = 3,
+    `stat_value1` = 8,
+    `stat_type2` = 5,
+    `stat_value2` = 4
+WHERE (`entry` = 2280);
 
+-- Add New Items
 DELETE FROM `item_template` WHERE (`entry` = 901102);
-INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
-(901102, 2, 4, -1, 'Tim Kam Slam', 8567, 3, 0, 0, 1, 16383, 3276, 13, -1, -1, 25, 20, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 4, 4, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 29, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2400, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 1, '', 0, 0, 0, 0, 0, 2, 3, 0, 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, '', 41, 0, 0, 0, 0, 12340);
+INSERT INTO `item_template` SET
+    `entry` = 901102,
+    `class` = 2,
+    `subclass` = 4,
+    `name` = 'Tim Kam Slam',
+    `displayid` = 8567,
+    `Quality` = 3,
+    `BuyPrice` = 16383,
+    `SellPrice` = 3276,
+    `InventoryType` = 13,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 20,
+    `StatsCount` = 2,
+    `stat_type1` = 4,
+    `stat_value1` = 4,
+    `stat_type2` = 7,
+    `stat_value2` = 4,
+    `dmg_min1` = 29,
+    `dmg_max1` = 54,
+    `delay` = 2400,
+    `bonding` = 1,
+    `Material` = 2,
+    `sheath` = 3,
+    `MaxDurability` = 75,
+    `RequiredDisenchantSkill` = 50,
+    `DisenchantID` = 41,
+    `VerifiedBuild` = '12340';
 
 DELETE FROM `item_template` WHERE (`entry` = 901103);
-INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
-(901103, 4, 3, -1, 'Deepfury Mantle', 28444, 3, 0, 0, 1, 11563, 2312, 3, -1, -1, 26, 22, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 7, 4, 4, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 1, '', 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, '', 42, 0, 0, 0, 0, 12340);
+INSERT INTO `item_template` SET
+    `entry` = 901103,
+    `class` = 4,
+    `subclass` = 3,
+    `name` = 'Deepfury Mantle',
+    `displayid` = 28444,
+    `Quality` = 3,
+    `BuyPrice` = 11563,
+    `SellPrice` = 2312,
+    `InventoryType` = 3,
+    `ItemLevel` = 26,
+    `RequiredLevel` = 22,
+    `StatsCount` = 2,
+    `stat_type1` = 7,
+    `stat_value1` = 4,
+    `stat_type2` = 4,
+    `stat_value2` = 9,
+    `armor` = 160,
+    `delay` = 0,
+    `bonding` = 1,
+    `Material` = 5,
+    `MaxDurability` = 70,
+    `RequiredDisenchantSkill` = 50,
+    `DisenchantID` = 42,
+    `VerifiedBuild` = '12340';
 
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 1666);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(1666, 929, 0, 1.5, 0, 1, 4, 1, 1, 'Kam Deepfury - Healing Potion'),
-(1666, 1205, 0, 3, 0, 1, 3, 1, 1, 'Kam Deepfury - Melon Juice'),
-(1666, 2280, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Walking Stick of Kam'),
-(1666, 2592, 0, 13, 0, 1, 2, 1, 2, 'Kam Deepfury - Wool Cloth'),
-(1666, 3385, 0, 1, 0, 1, 4, 1, 1, 'Kam Deepfury - Lesser Mana Potion'),
-(1666, 3640, 0, 100, 1, 1, 0, 1, 1, 'Kam Deepfury - Head of Deepfury'),
-(1666, 4306, 0, 30, 0, 1, 2, 1, 2, 'Kam Deepfury - Silk Cloth'),
-(1666, 4542, 0, 7, 0, 1, 3, 1, 1, 'Kam Deepfury - Moist Cornbread'),
-(1666, 24059, 24059, 5, 0, 1, 1, 1, 1, 'Kam Deepfury - (ReferenceTable)'),
-(1666, 24722, 24722, 1, 0, 1, 1, 1, 1, 'Kam Deepfury - (ReferenceTable)'),
-(1666, 901102, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Tim Kam Slam'),
-(1666, 901103, 0, 0, 0, 1, 5, 1, 1, 'Kam Deepfury - Deepfury Mantle');
+-- Update loot tables   
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 1666) AND `Item` IN (2280, 901102, 901103);
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 1666,
+    `Item` = 2280,
+    `Chance` = 0,
+    `GroupId` = 5,
+    `Comment` = 'Kam Deepfury - Walking Stick of Kam';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 1666,
+    `Item` = 901102,
+    `Chance` = 0,
+    `GroupId` = 5,
+    `Comment` = 'Kam Deepfury - Tim Kam Slam';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 1666,
+    `Item` = 901103,
+    `Chance` = 0,
+    `GroupId` = 5,
+    `Comment` = 'Kam Deepfury - Deepfury Mantle';

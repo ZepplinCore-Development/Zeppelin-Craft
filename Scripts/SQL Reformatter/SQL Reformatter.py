@@ -11,9 +11,16 @@ query = """
 
 
 
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
+(12258, 0, 2, 0, 0, 0, 100, 0, 5000, 6000, 20000, 24000, 0, 0, 11, 91047, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Razorlash - In Combat - Cast Razor Thorns');
 
-INSERT INTO npc_trainer (ID,SpellID,MoneyCost,ReqSkillLine,ReqSkillRank,ReqLevel,ReqSpell) VALUES
-	 (200003,91002,100,0,0,6,0);
+
+
+
+
+
+
+
 
 
 
@@ -126,6 +133,40 @@ TABLE_STRUCTURES = {
     "`ReqSkillRank`": 0,
     "`ReqLevel`": 1,
     "`ReqSpell`": 0,
+    },
+
+    "smart_scripts": {
+    "`entryorguid`": 0,
+    "`source_type`": 0,
+    "`id`": 0,
+    "`link`": 0,
+    "`event_type`": 0,
+    "`event_phase_mask`": 0,
+    "`event_chance`": 100,
+    "`event_flags`": 0,
+    "`event_param1`": 0,
+    "`event_param2`": 0,
+    "`event_param3`": 0,
+    "`event_param4`": 0,
+    "`event_param5`": 0,
+    "`event_param6`": 0,
+    "`action_type`": 0,
+    "`action_param1`": 0,
+    "`action_param2`": 0,
+    "`action_param3`": 0,
+    "`action_param4`": 0,
+    "`action_param5`": 0,
+    "`action_param6`": 0,
+    "`target_type`": 0,
+    "`target_param1`": 0,
+    "`target_param2`": 0,
+    "`target_param3`": 0,
+    "`target_param4`": 0,
+    "`target_x`": 0,
+    "`target_y`": 0,
+    "`target_z`": 0,
+    "`target_o`": 0,
+    "`comment`": "",
     },
 
     "creature": {
@@ -298,6 +339,19 @@ TABLE_STRUCTURES = {
         "`maxMoneyLoot`": 0,
         "`flagsCustom`": 0,
         "`VerifiedBuild`": ""
+    },
+
+    "reference_loot_template": {
+        "`Entry`": 0,
+        "`Item`": 0,
+        "`Reference`": 0,
+        "`Chance`": 100,  # Note: Chance is typically a float (e.g., 100.0 for 100%)
+        "`QuestRequired`": 0,
+        "`LootMode`": 1,     # Default is usually 1 (all modes enabled)
+        "`GroupId`": 0,
+        "`MinCount`": 1,      # Default minimum drop count
+        "`MaxCount`": 1,      # Default maximum drop count
+        "`Comment`": "",      # Empty string by default
     },
 
     "quest_offer_reward_entry": {
