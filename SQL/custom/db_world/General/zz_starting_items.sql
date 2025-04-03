@@ -1,5 +1,13 @@
-DELETE FROM acore_world.playercreateinfo_item;
-INSERT INTO acore_world.playercreateinfo_item (race,class,itemid,amount,Note) VALUES 
-(0,0,7005,1,'Skinning Knife'), 
-(0,0,2901,1,'Mining Pick'), 
-(0,0,3762,1,'Librarian''s Satchel');
+DELETE FROM `playercreateinfo_item`;
+
+INSERT INTO `playercreateinfo_item` SET
+    `itemid` = 7005,
+    `Note` = 'Skinning Knife';
+
+INSERT INTO `playercreateinfo_item` SET
+    `itemid` = 2901,
+    `Note` = 'Mining Pick';
+
+INSERT INTO `playercreateinfo_item` SET
+    `itemid` = 3762,
+    `Note` = 'Librarians Satchel';

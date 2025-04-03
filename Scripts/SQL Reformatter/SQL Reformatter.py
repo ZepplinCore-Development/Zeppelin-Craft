@@ -11,19 +11,16 @@ query = """
 
 
 
-INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-(12258, 0, 2, 0, 0, 0, 100, 0, 5000, 6000, 20000, 24000, 0, 0, 11, 91047, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Razorlash - In Combat - Cast Razor Thorns');
-
-
-
-
-
-
-
-
-
-
-
+REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
+(300015,1,'Vanilla Alliance Normal Dungeons Levels 15 - 20'),
+(300006,1,'Vanilla Alliance Normal Dungeons Levels 21 - 25'),
+(300013,1,'Vanilla Alliance Normal Dungeons Levels 26 - 30'),
+(300007,1,'Vanilla Alliance Normal Dungeons Levels 31 - 35'),
+(300017,1,'Vanilla Alliance Normal Dungeons Levels 36 - 40'),
+(300008,1,'Vanilla Alliance Normal Dungeons Levels 41 - 45'),
+(300009,1,'Vanilla Alliance Normal Dungeons Levels 46 - 50'),
+(300010,1,'Vanilla Alliance Normal Dungeons Levels 51 - 58'),
+(300011,1,'Vanilla Alliance Normal Dungeons Levels 59 - 60');
 
 
 
@@ -101,6 +98,142 @@ TABLE_STRUCTURES = {
         "`flags_extra`": 0, 
         "`ScriptName`": "", 
         "`VerifiedBuild`": ""
+    },
+
+    "achievement_criteria_data": {
+        "`criteria_id`": 0,
+        "`type`": 0,
+        "`value1`": 0,
+        "`value2`": 0,
+        "`ScriptName`": "",
+    },
+
+    "quest_template": {
+    "`ID`": 0,
+    "`QuestType`": 2,
+    "`QuestLevel`": 1,
+    "`MinLevel`": 0,
+    "`QuestSortID`": 0,
+    "`QuestInfoID`": 0,
+    "`SuggestedGroupNum`": 0,
+    "`RequiredFactionId1`": 0,
+    "`RequiredFactionId2`": 0,
+    "`RequiredFactionValue1`": 0,
+    "`RequiredFactionValue2`": 0,
+    "`RewardNextQuest`": 0,
+    "`RewardXPDifficulty`": 0,
+    "`RewardMoney`": 0,
+    "`RewardMoneyDifficulty`": 0,
+    "`RewardDisplaySpell`": 0,
+    "`RewardSpell`": 0,
+    "`RewardHonor`": 0,
+    "`RewardKillHonor`": 0,
+    "`StartItem`": 0,
+    "`Flags`": 0,
+    "`RequiredPlayerKills`": 0,
+    "`RewardItem1`": 0,
+    "`RewardAmount1`": 0,
+    "`RewardItem2`": 0,
+    "`RewardAmount2`": 0,
+    "`RewardItem3`": 0,
+    "`RewardAmount3`": 0,
+    "`RewardItem4`": 0,
+    "`RewardAmount4`": 0,
+    "`ItemDrop1`": 0,
+    "`ItemDropQuantity1`": 0,
+    "`ItemDrop2`": 0,
+    "`ItemDropQuantity2`": 0,
+    "`ItemDrop3`": 0,
+    "`ItemDropQuantity3`": 0,
+    "`ItemDrop4`": 0,
+    "`ItemDropQuantity4`": 0,
+    "`RewardChoiceItemID1`": 0,
+    "`RewardChoiceItemQuantity1`": 0,
+    "`RewardChoiceItemID2`": 0,
+    "`RewardChoiceItemQuantity2`": 0,
+    "`RewardChoiceItemID3`": 0,
+    "`RewardChoiceItemQuantity3`": 0,
+    "`RewardChoiceItemID4`": 0,
+    "`RewardChoiceItemQuantity4`": 0,
+    "`RewardChoiceItemID5`": 0,
+    "`RewardChoiceItemQuantity5`": 0,
+    "`RewardChoiceItemID6`": 0,
+    "`RewardChoiceItemQuantity6`": 0,
+    "`POIContinent`": 0,
+    "`POIx`": 0,
+    "`POIy`": 0,
+    "`POIPriority`": 0,
+    "`RewardTitle`": 0,
+    "`RewardTalents`": 0,
+    "`RewardArenaPoints`": 0,
+    "`RewardFactionID1`": 0,
+    "`RewardFactionValue1`": 0,
+    "`RewardFactionOverride1`": 0,
+    "`RewardFactionID2`": 0,
+    "`RewardFactionValue2`": 0,
+    "`RewardFactionOverride2`": 0,
+    "`RewardFactionID3`": 0,
+    "`RewardFactionValue3`": 0,
+    "`RewardFactionOverride3`": 0,
+    "`RewardFactionID4`": 0,
+    "`RewardFactionValue4`": 0,
+    "`RewardFactionOverride4`": 0,
+    "`RewardFactionID5`": 0,
+    "`RewardFactionValue5`": 0,
+    "`RewardFactionOverride5`": 0,
+    "`TimeAllowed`": 0,
+    "`AllowableRaces`": 0,
+    "`LogTitle`": "",
+    "`LogDescription`": "",
+    "`QuestDescription`": "",
+    "`AreaDescription`": "",
+    "`QuestCompletionLog`": "",
+    "`RequiredNpcOrGo1`": 0,
+    "`RequiredNpcOrGo2`": 0,
+    "`RequiredNpcOrGo3`": 0,
+    "`RequiredNpcOrGo4`": 0,
+    "`RequiredNpcOrGoCount1`": 0,
+    "`RequiredNpcOrGoCount2`": 0,
+    "`RequiredNpcOrGoCount3`": 0,
+    "`RequiredNpcOrGoCount4`": 0,
+    "`RequiredItemId1`": 0,
+    "`RequiredItemId2`": 0,
+    "`RequiredItemId3`": 0,
+    "`RequiredItemId4`": 0,
+    "`RequiredItemId5`": 0,
+    "`RequiredItemId6`": 0,
+    "`RequiredItemCount1`": 0,
+    "`RequiredItemCount2`": 0,
+    "`RequiredItemCount3`": 0,
+    "`RequiredItemCount4`": 0,
+    "`RequiredItemCount5`": 0,
+    "`RequiredItemCount6`": 0,
+    "`Unknown0`": 0,
+    "`ObjectiveText1`": "",
+    "`ObjectiveText2`": "",
+    "`ObjectiveText3`": "",
+    "`ObjectiveText4`": "",
+    "`VerifiedBuild`": "",
+    },
+
+    "quest_template_addon": {
+    "`ID`": 0,
+    "`MaxLevel`": 0,
+    "`AllowableClasses`": 0,
+    "`SourceSpellID`": 0,
+    "`PrevQuestID`": 0,
+    "`NextQuestID`": 0,
+    "`ExclusiveGroup`": 0,
+    "`RewardMailTemplateID`": 0,
+    "`RewardMailDelay`": 0,
+    "`RequiredSkillID`": 0,
+    "`RequiredSkillPoints`": 0,
+    "`RequiredMinRepFaction`": 0,
+    "`RequiredMaxRepFaction`": 0,
+    "`RequiredMinRepValue`": 0,
+    "`RequiredMaxRepValue`": 0,
+    "`ProvidedItemCount`": 0,
+    "`SpecialFlags`": 0,
     },
 
     "creature_template_model" : {
@@ -354,6 +487,14 @@ TABLE_STRUCTURES = {
         "`Comment`": "",      # Empty string by default
     },
 
+    "playercreateinfo_item": {
+        "`race`": 0,
+        "`class`": 0,
+        "`itemid`": 0,
+        "`amount`": 1,  # Default is typically 1 for starting items
+        "`Note`": "",  # Empty string by default
+    },
+
     "quest_offer_reward_entry": {
         "`ID`": 0,
         "`Emote1`": 0,
@@ -373,6 +514,9 @@ TABLE_STRUCTURES = {
 
 def extract_table_name(query):
     match = re.search(r"INSERT INTO\s+`?(\w+)`?", query, re.IGNORECASE)
+    if match:
+        return match.group(1).lower()  # Normalize to lowercase
+    match = re.search(r"REPLACE INTO\s+`?(\w+)`?", query, re.IGNORECASE)
     if match:
         return match.group(1).lower()  # Normalize to lowercase
     return None
@@ -395,119 +539,257 @@ def parse_value(value):
 
     return value
 
-def parse_insert_query(query):
+def parse_set_syntax(query, table_name, query_type):
     """
-    Parses an SQL INSERT query and extracts the table name, fields, values, and optionally comments.
-    Supports both `SET` syntax and `(fields) VALUES` syntax.
+    Parses the SET syntax variant of INSERT/REPLACE queries.
     """
-    # Extract table name
-    table_name = extract_table_name(query)
-    if not table_name:
-        raise ValueError("Table name not found in the query")
-    print(f"Table Name: {table_name}\n")
-
-    # Check for SET syntax
-    set_match = re.search(r"SET\s+(.*?)$", query, re.DOTALL)
-    if set_match:
-        # Parse the `field = value` pairs from the SET clause
-        set_clause = set_match.group(1)
-        field_value_pairs = {}
-        comments = {}
-
-        # Split the set clause into lines and process each line individually
-        for line in set_clause.splitlines():
-            # Match field, value, and comment
-            match = re.match(r"(`\w+`)\s*=\s*(.*?)(?:\s*--\s*(.*))?$", line.strip())
-            if match:
-                field = match.group(1).strip()
-                value = match.group(2).strip().rstrip(',')
-                comment = match.group(3).strip() if match.group(3) else None
-                value = parse_value(value)  # Process the value with our function
-
-                # Add field and value to the dictionary
-                field_value_pairs[field] = value
-
-                # Store comments if they exist
-                if comment:
-                    comments[field] = comment
-
-        return {
-            "table_name": table_name,
-            "fields": list(field_value_pairs.keys()),
-            "values": list(field_value_pairs.values()),
-            "field_value_pairs": field_value_pairs,
-            "comments": comments,  # Optional: associate comments with fields
-        }
-
-    # Check for (fields) VALUES syntax
-    fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL)
-    values_match = re.search(r"VALUES\s*\((.*?)\)\s*;", query, re.DOTALL)
+    set_match = re.search(r"SET\s+(.*?)(?:;|$)", query, re.DOTALL | re.IGNORECASE)
+    if not set_match:
+        raise ValueError("SET syntax not properly formatted")
+    
+    set_clause = set_match.group(1)
+    field_value_pairs = {}
     comments = {}
 
-    if fields_match and values_match:
-        # Extract fields enclosed in backticks
-        fields = [field.strip("` ") for field in fields_match.group(1).split(",")]
-        values = [value.strip() for value in values_match.group(1).split(",")]
+    for line in set_clause.split(','):
+        line = line.strip()
+        if not line:
+            continue
+            
+        # Match field, value, and comment
+        match = re.match(r"(`\w+`|\w+)\s*=\s*(.*?)(?:\s*--\s*(.*))?$", line)
+        if match:
+            field = match.group(1).strip()
+            if not field.startswith('`'):
+                field = f'`{field}`'
+            value = match.group(2).strip()
+            comment = match.group(3).strip() if match.group(3) else None
+            
+            field_value_pairs[field] = parse_value(value)
+            if comment:
+                comments[field] = comment
 
-        # Iterate over the values and update the list with parsed values
-        for i in range(len(values)):
-            values[i] = parse_value(values[i])  # Process and update the value in place
+    return {
+        "table_name": table_name,
+        "query_type": query_type,
+        "fields": list(field_value_pairs.keys()),
+        "values": list(field_value_pairs.values()),
+        "field_value_pairs": field_value_pairs,
+        "comments": comments,
+    }
 
-        # Ensure the lengths match
-        if len(fields) != len(values):
-            raise ValueError("Number of fields does not match the number of values")
+def parse_values_syntax(query, table_name, query_type):
+    """
+    Parses the (fields) VALUES (values) syntax variant of INSERT/REPLACE queries.
+    Properly handles parentheses while excluding them from the captured values.
+    """
+    # Extract field list
+    fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL | re.IGNORECASE)
+    if not fields_match:
+        raise ValueError("Fields list not found in VALUES syntax query")
+    
+    fields = [f'`{field.strip("` ")}`' for field in fields_match.group(1).split(",")]
+    num_fields = len(fields)
 
-        # Combine fields and values
-        field_value_pairs = dict(zip([f"`{field}`" for field in fields], values))
-        return {
-            "table_name": table_name,
-            "fields": list(field_value_pairs.keys()),
-            "values": list(field_value_pairs.values()),
-            "field_value_pairs": field_value_pairs,
-            "comments": comments,  # Optional: associate comments with fields
-        }
+    # Find the VALUES clause
+    values_match = re.search(r"VALUES\s*", query, re.IGNORECASE)
+    if not values_match:
+        raise ValueError("VALUES clause not found in query")
+    
+    values_content = query[values_match.end():]
+    values_sets = []
+    comments = {}
+    field_value_pairs = {}
+    
+    # New parsing approach that properly handles parentheses
+    current_set = []
+    current_value = []
+    in_quotes = False
+    in_value = False
+    paren_depth = 0
+    
+    i = 0
+    while i < len(values_content):
+        char = values_content[i]
+        
+        if char == "'":
+            in_quotes = not in_quotes
+            current_value.append(char)
+            i += 1
+        elif char == "(" and not in_quotes:
+            if paren_depth == 0:  # Start of new value set
+                current_set = []
+                in_value = True
+            else:
+                current_value.append(char)
+            paren_depth += 1
+            i += 1
+        elif char == ")" and not in_quotes:
+            paren_depth -= 1
+            if paren_depth == 0:  # End of current value set
+                if current_value:  # Add the last value
+                    current_set.append("".join(current_value).strip())
+                    current_value = []
+                if len(current_set) == num_fields:
+                    values_sets.append(current_set)
+                in_value = False
+            else:
+                current_value.append(char)
+            i += 1
+        elif char == "," and not in_quotes and in_value:
+            if current_value:  # Add completed value
+                current_set.append("".join(current_value).strip())
+                current_value = []
+            i += 1
+        elif in_value:
+            current_value.append(char)
+            i += 1
+        elif char == "-" and i+1 < len(values_content) and values_content[i+1] == "-":
+            # Handle comments
+            comment = values_content[i:].split("\n", 1)[0]
+            if values_sets:
+                comments[len(values_sets)-1] = comment[2:].strip()
+            break
+        else:
+            i += 1
+    
+    # Process all collected value sets
+    for row_idx, values in enumerate(values_sets):
+        parsed_values = []
+        for val in values:
+            # Remove surrounding quotes if present
+            if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
+                val = val[1:-1]
+            parsed_values.append(parse_value(val))
+        
+        if len(parsed_values) != num_fields:
+            raise ValueError(f"Field count mismatch. Expected {num_fields}, got {len(parsed_values)}")
+        
+        field_value_pairs[row_idx] = dict(zip(fields, parsed_values))
+    
+    if not values_sets:
+        raise ValueError("No value sets found in VALUES syntax query")
+    
+    return {
+        "query_type": query_type,
+        "table_name": table_name,
+        "fields": fields,
+        "values": values_sets[0] if len(values_sets) == 1 else values_sets,
+        "field_value_pairs": field_value_pairs,
+        "comments": comments,
+        "multiple_rows": len(values_sets) > 1,
+        "row_count": len(values_sets)
+    }
 
-    # If neither syntax is matched, raise an error
-    raise ValueError("Could not parse the query. Unsupported format.")
+def parse_query(query):
+    """
+    Main function to parse INSERT or REPLACE queries.
+    Determines the query type and delegates to specific parsers.
+    """
+    # Normalize the query by removing extra whitespace and comments for easier parsing
+    normalized_query = ' '.join(query.split()).replace(' ,', ',')
+    
+    # Extract basic components
+    query_type = "INSERT" if "INSERT" in normalized_query.upper() else "REPLACE"
+    table_name = extract_table_name(normalized_query)
+    
+    if not table_name:
+        raise ValueError("Table name not found in the query")
+    
+    # Determine which parser to use based on query structure
+    if "SET" in normalized_query.upper():
+        output = parse_set_syntax(normalized_query, table_name, query_type)
+        return output
+    elif "VALUES" in normalized_query.upper():  
+        output = parse_values_syntax(normalized_query, table_name, query_type)
+        return output
+    else:
+        raise ValueError("Could not parse the query. Unsupported format.")
 
 def strip_default_values(query):
     """
     Strips fields with default values from the query while maintaining the same structure for input and output.
+    Handles both single-row and multi-row queries with proper type conversion.
     """
     table_name = query["table_name"]
     field_value_pairs = query["field_value_pairs"]
 
     # Get the default values for the table
     if table_name not in TABLE_STRUCTURES:
-        print("Could not find the table when checking for default values")
+        print(f"Warning: Could not find table '{table_name}' when checking for default values")
         return query  # Return the original query if no default values are found
 
     table_info = TABLE_STRUCTURES[table_name]
-
-    # Strip fields where the value matches the default value
     cleaned_field_value_pairs = {}
-    for field, value in field_value_pairs.items():
-        default_value = table_info.get(field)
 
-        # Convert value to match the type of the default value
-        if isinstance(default_value, int):
-            try:
-                value = int(value)
-            except ValueError:
-                pass  # Leave as string if conversion fails
-        elif isinstance(default_value, float):
-            try:
-                value = float(value)
-            except ValueError:
-                pass  # Leave as string if conversion fails
+    for row_idx, row_data in field_value_pairs.items():
+        cleaned_row = {}
+        for field, value in row_data.items():
+            default_value = table_info.get(field)
 
-        # If the value is not equal to the default value, keep it
-        if value != default_value:
-            cleaned_field_value_pairs[field] = value
+            if default_value is None:
+                # Keep the field if we don't have default value info
+                cleaned_row[field] = value
+                print("NO DEFAULT VALUE")
+                continue
+
+            # Convert string values to proper types before comparison
+            try:
+                if isinstance(default_value, int):
+                    # Handle empty strings and NULL values
+                    print("DEFAULT VALUE IS INT")
+                    if value == '' or value is None:
+                        converted_value = 0
+                    else:
+                        converted_value = int(float(value)) if '.' in str(value) else int(value)
+                elif isinstance(default_value, float):
+                    print("DEFAULT VALUE IS FLOAT")
+                    converted_value = float(value) if value not in ('', None) else 0.0
+                elif isinstance(default_value, str):
+                    print("DEFAULT VALUE IS STRING")
+                    # Remove surrounding quotes if present
+                    if isinstance(value, str) and len(value) >= 2 and value[0] == "'" and value[-1] == "'":
+                        converted_value = value[1:-1]
+                    else:
+                        converted_value = str(value)
+                else:
+                    converted_value = value
+                    print("UNABLE TO MATCH DEFAULT VALUES TYPE")
+            except (ValueError, TypeError):
+                converted_value = value
+                print("UNABLE TO MATCH DEFAULT VALUES TYPE")
+
+            # Special handling for NULL values
+            if str(value).upper() == 'NULL':
+                if default_value is not None:
+                    cleaned_row[field] = 'NULL'
+                continue
+
+            # If the value is not equal to the default value, keep it
+            if converted_value != default_value:
+                # Preserve the original value's type where possible
+                if isinstance(default_value, int) and isinstance(converted_value, int):
+                    cleaned_row[field] = converted_value
+                elif isinstance(default_value, float) and isinstance(converted_value, float):
+                    cleaned_row[field] = converted_value
+                else:
+                    cleaned_row[field] = value
+
+        # Only add the row if it has any non-default values
+        if cleaned_row:
+            cleaned_field_value_pairs[row_idx] = cleaned_row
 
     # Return the updated query with cleaned field_value_pairs
     updated_query = query.copy()
     updated_query["field_value_pairs"] = cleaned_field_value_pairs
+    
+    # Update the values list to match the cleaned field_value_pairs
+    if query.get("multiple_rows", False):
+        updated_query["values"] = [list(row.values()) for row in cleaned_field_value_pairs.values()]
+    elif cleaned_field_value_pairs:
+        # For single row case
+        updated_query["values"] = list(cleaned_field_value_pairs[0].values())
+    
     return updated_query
 
 def creature_template_update(primary_query):
@@ -569,53 +851,85 @@ def creature_template_update(primary_query):
 
     return updated_primary_query, secondary_queries
 
-def new_insert_query(query):
+def new_query(query):
     """
-    Prints a new SQL INSERT query with strict formatting, including comments.
-    Example format:
-    INSERT INTO TABLE_NAME SET
-        Field1 = Value1, -- Comment1
-        Field2 = Value2, -- Comment2
-        ...;
+    Generates DELETE and INSERT statements for each row instead of REPLACE.
+    This provides better control when we're excluding default values.
     """
     table_name = query.get("table_name")
-    field_value_pairs = query.get("field_value_pairs")
+    query_type = query.get("query_type", "REPLACE").upper()
+    field_value_pairs = query.get("field_value_pairs", {})
     comments = query.get("comments", {})
+    fields = query.get("fields", [])
 
     if not table_name or not field_value_pairs:
         print("Error: Query is missing table_name or field_value_pairs.")
         return
 
-    # Start building the SQL query
-    print(f"INSERT INTO `{table_name}` SET")
+    # Find primary key field (assuming first field is PK)
+    primary_key_field = fields[0] if fields else None
 
-    # Format each field-value pair with comments if available
-    formatted_pairs = []
-    for index, (field, value) in enumerate(field_value_pairs.items()):
-        # Ensure proper formatting of values (e.g., quotes for strings)
-        if isinstance(value, str) and not value.startswith("'"):
-            formatted_value = f"'{value}'"
-        elif value is None:
-            formatted_value = "NULL"
-        else:
-            formatted_value = value
+    for row_idx, row_data in field_value_pairs.items():
+        # Get the comment for this specific row if it exists
+        row_comment = comments.get(row_idx, "")
+        
+        # Start building the DELETE statement
+        delete_lines = []
+        if row_comment:
+            delete_lines.append(f"-- {row_comment}")
+        
+        # Only generate DELETE if we have a primary key value
+        if primary_key_field and primary_key_field in row_data:
+            pk_value = row_data[primary_key_field]
+            # Format the PK value appropriately
+            if pk_value is None:
+                formatted_pk = "NULL"
+            elif isinstance(pk_value, str):
+                formatted_pk = f"'{pk_value}'" if not pk_value.startswith("'") else pk_value
+            else:
+                formatted_pk = str(pk_value)
+            
+            delete_lines.append(f"DELETE FROM `{table_name}` WHERE {primary_key_field} = {formatted_pk};")
+            print("\n".join(delete_lines))
+            print()  # Blank line between statements
 
-        # Add the comment for the field if it exists
-        comment = f" -- {comments[field]}" if field in comments else ""
+        # Build the INSERT statement
+        insert_lines = []
+        if row_comment and not delete_lines:  # Only show comment once
+            insert_lines.append(f"-- {row_comment}")
+        insert_lines.append(f"INSERT INTO `{table_name}` SET")
+        
+        # Format each field-value pair
+        formatted_pairs = []
+        for i, field in enumerate(fields):
+            if field not in row_data:
+                continue  # Skip fields that were stripped as defaults
+                
+            value = row_data[field]
+            
+            # Format the value appropriately
+            if value is None:
+                formatted_value = "NULL"
+            elif isinstance(value, str):
+                formatted_value = f"'{value}'" if not value.startswith("'") else value
+            else:
+                formatted_value = str(value)
 
-        # Check if it's the last field and format accordingly
-        if index == len(field_value_pairs) - 1:
-            formatted_pairs.append(f"    {field} = {formatted_value};{comment}")
-        else:
-            formatted_pairs.append(f"    {field} = {formatted_value},{comment}")
+            # Format the line (comma except for last field)
+            is_last_field = (i == len(fields) - 1 or 
+                           field == list(row_data.keys())[-1])
+            
+            line_end = ";" if is_last_field else ","
+            formatted_line = f"    {field} = {formatted_value}{line_end}"
+            formatted_pairs.append(formatted_line)
 
-    # Join all pairs and print
-    print("\n".join(formatted_pairs))
-
-
-
+        insert_lines.extend(formatted_pairs)
+        
+        # Print the complete INSERT query for this row
+        print("\n".join(insert_lines))
+        print()  # Add blank line between queries
 # Parse
-parsed_query = parse_insert_query(query)  # Parse the query using the previously defined function
+parsed_query = parse_query(query)  # Parse the query using the previously defined function
 secondary_queries = []
 print(parsed_query) 
 print("")
@@ -640,7 +954,7 @@ print(stripped_query)
 print("")
 
 # Primary Query Outputs
-new_insert_query(stripped_query)
+new_query(stripped_query)
 print("")
 
 # Secondary Query Outputs
@@ -657,7 +971,7 @@ if secondary_queries:
             print(f"DELETE FROM `{table_name}` WHERE `CreatureID` = {creature_id};")
             delete = True
         
-        new_insert_query(secondary_query)
+        new_query(secondary_query)
 
 
 
