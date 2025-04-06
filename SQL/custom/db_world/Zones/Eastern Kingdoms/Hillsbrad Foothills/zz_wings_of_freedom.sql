@@ -1,14 +1,43 @@
-DELETE FROM `quest_template` WHERE (`ID` = 441154);
-INSERT INTO `quest_template` (`ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`, `SuggestedGroupNum`, `RequiredFactionId1`, `RequiredFactionId2`, `RequiredFactionValue1`, `RequiredFactionValue2`, `RewardNextQuest`, `RewardXPDifficulty`, `RewardMoney`, `RewardMoneyDifficulty`, `RewardDisplaySpell`, `RewardSpell`, `RewardHonor`, `RewardKillHonor`, `StartItem`, `Flags`, `RequiredPlayerKills`, `RewardItem1`, `RewardAmount1`, `RewardItem2`, `RewardAmount2`, `RewardItem3`, `RewardAmount3`, `RewardItem4`, `RewardAmount4`, `ItemDrop1`, `ItemDropQuantity1`, `ItemDrop2`, `ItemDropQuantity2`, `ItemDrop3`, `ItemDropQuantity3`, `ItemDrop4`, `ItemDropQuantity4`, `RewardChoiceItemID1`, `RewardChoiceItemQuantity1`, `RewardChoiceItemID2`, `RewardChoiceItemQuantity2`, `RewardChoiceItemID3`, `RewardChoiceItemQuantity3`, `RewardChoiceItemID4`, `RewardChoiceItemQuantity4`, `RewardChoiceItemID5`, `RewardChoiceItemQuantity5`, `RewardChoiceItemID6`, `RewardChoiceItemQuantity6`, `POIContinent`, `POIx`, `POIy`, `POIPriority`, `RewardTitle`, `RewardTalents`, `RewardArenaPoints`, `RewardFactionID1`, `RewardFactionValue1`, `RewardFactionOverride1`, `RewardFactionID2`, `RewardFactionValue2`, `RewardFactionOverride2`, `RewardFactionID3`, `RewardFactionValue3`, `RewardFactionOverride3`, `RewardFactionID4`, `RewardFactionValue4`, `RewardFactionOverride4`, `RewardFactionID5`, `RewardFactionValue5`, `RewardFactionOverride5`, `TimeAllowed`, `AllowableRaces`, `LogTitle`, `LogDescription`, `QuestDescription`, `AreaDescription`, `QuestCompletionLog`, `RequiredNpcOrGo1`, `RequiredNpcOrGo2`, `RequiredNpcOrGo3`, `RequiredNpcOrGo4`, `RequiredNpcOrGoCount1`, `RequiredNpcOrGoCount2`, `RequiredNpcOrGoCount3`, `RequiredNpcOrGoCount4`, `RequiredItemId1`, `RequiredItemId2`, `RequiredItemId3`, `RequiredItemId4`, `RequiredItemId5`, `RequiredItemId6`, `RequiredItemCount1`, `RequiredItemCount2`, `RequiredItemCount3`, `RequiredItemCount4`, `RequiredItemCount5`, `RequiredItemCount6`, `Unknown0`, `ObjectiveText1`, `ObjectiveText2`, `ObjectiveText3`, `ObjectiveText4`, `VerifiedBuild`) VALUES
-(441154, 2, 40, 36, 267, 0, 0, 0, 0, 0, 0, 0, 0, 2342, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19532, 1, 16336, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 68, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 690, 'Wings of Freedom', 'Kill Kurdros and Granistad then report back to Doctor Gregory Victory in Hammerfall', 'The path between Hillsbrad Foothills and the Hinterlands has been plagued by the relentless attacks of two fierce griffins known as Kurdros and Granistad. These winged beasts have caused great disruption to our supply lines and the safety of our travelers. To secure this crucial route, we need these creatures removed. We''re looking for brave adventurers to take on this perilous task.', '', 'Return to Doctor Gregory Victory in Hammerfall', 2473, 2474, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', 0);
+-- Wings of Freedom
+SET @QUESTID := 441154;
 
-DELETE FROM `creature_queststarter` WHERE (`quest` = 441154);
-INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES
-(12920, 441154);
+-- QUEST TEMPLATE
+DELETE FROM `quest_template` WHERE (`ID` = @QUESTID);
+INSERT INTO `quest_template` SET
+    `ID` = @QUESTID,
+    `QuestLevel` = 40,
+    `MinLevel` = 36,
+    `QuestSortID` = 267,
+    `RewardMoney` = 2342,
+    `Flags` = 8,
+    `RewardChoiceItemID1` = 19532,
+    `RewardChoiceItemQuantity1` = 1,
+    `RewardChoiceItemID2` = 16336,
+    `RewardChoiceItemQuantity2` = 1,
+    `RewardFactionID1` = 68,
+    `RewardFactionValue1` = 8,
+    `AllowableRaces` = 690,
+    `LogTitle` = 'Wings of Freedom',
+    `LogDescription` = 'Kill Kurdros and Granistad then report back to Doctor Gregory Victory in Hammerfall',
+    `QuestDescription` = 'The path between Hillsbrad Foothills and the Hinterlands has been plagued by the relentless attacks of two fierce griffins known as Kurdros and Granistad. These winged beasts have caused great disruption to our supply lines and the safety of our travelers. To secure this crucial route, we need these creatures removed. Were looking for brave adventurers to take on this perilous task.',
+    `QuestCompletionLog` = 'Return to Doctor Gregory Victory in Hammerfall',
+    `RequiredNpcOrGo1` = 2473,
+    `RequiredNpcOrGo2` = 2474,
+    `RequiredNpcOrGoCount1` = 1,
+    `RequiredNpcOrGoCount2` = 1,
+    `VerifiedBuild` = '0';
 
-DELETE FROM `creature_questender` WHERE (`quest` = 441154);
-INSERT INTO `creature_questender` (`id`, `quest`) VALUES
-(12920, 441154);
+-- QUEST STARTER
+DELETE FROM `creature_queststarter` WHERE (`quest` = @QUESTID);
+INSERT INTO `creature_queststarter` SET
+    `id` = 12920,
+    `quest` = @QUESTID;
+
+-- QUEST ENDER
+DELETE FROM `creature_questender` WHERE (`quest` = @QUESTID);
+INSERT INTO `creature_questender` SET
+    `id` = 12920,
+    `quest` = @QUESTID;
 
 -- Granistad and Kurdros upgraded to 'elite' units, Health increased (was 1.15), Damage increased (was 1)
-UPDATE `creature_template` SET `rank` = 1, `HealthModifier` = '1.5', `DamageModifier` = '1.8' WHERE (`entry` = 2473 OR `entry` = 2474);
+UPDATE `creature_template` SET `rank` = 1, `HealthModifier` = 1.5, `DamageModifier` = 1.8 WHERE (`entry` = 2473 OR `entry` = 2474);

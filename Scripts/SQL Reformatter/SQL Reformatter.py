@@ -10,8 +10,9 @@ import re
 query = """
 
 
+
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(2561, 902200, 0, 80, 1, 1, 0, 1, 1, 'Highland Fleshstalker - Raptor Flank');
+(5983, 8396, 0, 100, 0, 1, 0, 1, 1, 'Bonepicker - Vulture Gizzard');
 
 
 
