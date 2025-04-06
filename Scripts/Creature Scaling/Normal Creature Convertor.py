@@ -196,6 +196,12 @@ area_data = {
         normal: [1052, 6523, 1051, 1054],
         rare: []
     },
+    "Wetlands": {
+    named_solo_fight: [2091],
+    named_group_fight: [],
+    normal: [],
+    rare: []
+    },
     "Stonewatch_Keep": {
         named_solo_fight: [],
         named_group_fight: [486, 334],

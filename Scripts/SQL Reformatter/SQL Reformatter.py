@@ -9,16 +9,10 @@ import re
 # Example usage
 query = """
 
-REPLACE INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild) VALUES
-(10564,0,0,0,0,0,1,1,0,1584.77,90.939,60.8592,1.455,300,10.0,0,247,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1584.3,128.86,61.6605,5.96744,300,10.0,0,247,0,1,0,0,0,'',NULL),	 
-(10564,0,0,0,0,0,1,1,0,1635.79,125.086,60.2829,4.92129,300,10.0,0,273,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1725.56,102.697,62.23,1.33909,300,10.0,0,247,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1753.24,120.584,60.25,6.17492,300,10.0,0,247,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1620.35,89.1532,62.3827,0.933036,300,10.0,0,300,0,1,0,0,0,'',NULL),	 
-(10564,0,0,0,0,0,1,1,0,1694.29,153.519,61.0871,4.99197,300,10.0,0,300,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1667.2,118.361,60.7033,4.17359,300,10.0,0,247,0,1,0,0,0,'',NULL),
-(10564,0,0,0,0,0,1,1,0,1796.18,105.216,61.5189,3.2047,300,10.0,0,300,0,1,0,0,0,'',NULL);
+INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
+(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
+(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
+
 
 
 
@@ -387,6 +381,19 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": ""
     },
 
+    "gameobject_loot_template": {
+        "`Entry`": 0,              # GameObject template ID
+        "`Item`": 0,                # Item ID from item_template
+        "`Reference`": 0,           # Reference to other loot templates
+        "`Chance`": 100.0,          # Drop chance percentage (float)
+        "`QuestRequired`": 0,       # 1 = Only drops for quest
+        "`LootMode`": 1,            # Default loot mode
+        "`GroupId`": 0,             # Grouping for mutual exclusivity
+        "`MinCount`": 1,            # Minimum quantity
+        "`MaxCount`": 1,            # Maximum quantity
+        "`Comment`": "",            # Descriptive comment
+    },
+
     "reference_loot_template": {
         "`Entry`": 0,
         "`Item`": 0,
@@ -720,9 +727,17 @@ def parse_values_syntax(query, table_name, query_type):
                 
                 # Look for comment after this tuple
                 remaining_content = values_content[i+1:]
-                if "--" in remaining_content:
+                # Find the next comma or semicolon to properly bound the comment
+                next_delimiter = min(
+                    remaining_content.find(","),
+                    remaining_content.find(";"),
+                    len(remaining_content)
+                )
+                if "--" in remaining_content[:next_delimiter]:
                     comment_start = remaining_content.find("--")
                     comment_end = remaining_content.find("\n", comment_start)
+                    if comment_end == -1:
+                        comment_end = next_delimiter
                     comment = remaining_content[comment_start:comment_end].strip()
                     comments[len(values_sets)-1] = comment[2:].strip()
             else:
