@@ -58,7 +58,6 @@ INSERT INTO `quest_poi_points` SET
     `X` = -1331,
     `Y` = -2266;
 
-
 -- QUEST POI
 DELETE FROM `quest_poi` WHERE `QuestID` = @QUESTID;
 INSERT INTO `quest_poi` SET
