@@ -10,8 +10,7 @@ import re
 query = """
 
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(18124, 24373, 0, 15, 1, 1, 0, 1, 1, 'Withered Giant - Scout Jyoba''s Report');
-
+(17306, 57207, 0, 100, 0, 1, 0, 1, 1, 'Schematic: Fel Iron Arrows');
 
 
 
