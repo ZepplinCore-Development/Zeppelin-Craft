@@ -10,18 +10,8 @@ import re
 query = """
 
 
-
-REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
-(300015,1,'Vanilla Alliance Normal Dungeons Levels 15 - 20'),
-(300006,1,'Vanilla Alliance Normal Dungeons Levels 21 - 25'),
-(300013,1,'Vanilla Alliance Normal Dungeons Levels 26 - 30'),
-(300007,1,'Vanilla Alliance Normal Dungeons Levels 31 - 35'),
-(300017,1,'Vanilla Alliance Normal Dungeons Levels 36 - 40'),
-(300008,1,'Vanilla Alliance Normal Dungeons Levels 41 - 45'),
-(300009,1,'Vanilla Alliance Normal Dungeons Levels 46 - 50'),
-(300010,1,'Vanilla Alliance Normal Dungeons Levels 51 - 58'),
-(300011,1,'Vanilla Alliance Normal Dungeons Levels 59 - 60');
-
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(2561, 902200, 0, 80, 1, 1, 0, 1, 1, 'Highland Fleshstalker - Raptor Flank');
 
 
 
@@ -302,6 +292,16 @@ TABLE_STRUCTURES = {
     "`comment`": "",
     },
 
+    "creature_questender": {
+        "`id`": 0,
+        "`quest`": 0,
+    },
+
+    "creature_queststarter": {
+        "`id`": 0,
+        "`quest`": 0,
+    },
+
     "creature": {
     "`guid`": 0,
     "`id1`": 0,
@@ -330,6 +330,13 @@ TABLE_STRUCTURES = {
     "`VerifiedBuild`": "",
     "`CreateObject`": 0,
     "`Comment`": ""
+    },
+
+    "creature_questitem": {
+        "`CreatureEntry`": 0,
+        "`Idx`": 0,
+        "`ItemId`": 0,
+        "`VerifiedBuild`": 0,
     },
 
     "item_template": {
@@ -493,6 +500,49 @@ TABLE_STRUCTURES = {
         "`itemid`": 0,
         "`amount`": 1,  # Default is typically 1 for starting items
         "`Note`": "",  # Empty string by default
+    },
+
+    "quest_offer_reward": {
+        "`ID`": 0,
+        "`Emote1`": 0,
+        "`Emote2`": 0,
+        "`Emote3`": 0,
+        "`Emote4`": 0,
+        "`EmoteDelay1`": 0,
+        "`EmoteDelay2`": 0,
+        "`EmoteDelay3`": 0,
+        "`EmoteDelay4`": 0,
+        "`RewardText`": "",
+        "`VerifiedBuild`": 0,
+    },
+
+    "quest_poi": {
+        "`QuestID`": 0,
+        "`id`": 0,
+        "`ObjectiveIndex`": 0,
+        "`MapID`": 0,
+        "`WorldMapAreaId`": 0,
+        "`Floor`": 0,
+        "`Priority`": 0,
+        "`Flags`": 0,
+        "`VerifiedBuild`": 0,
+    },
+
+    "quest_poi_points": {
+        "`QuestID`": 0,
+        "`Idx1`": 0,
+        "`Idx2`": 0,
+        "`X`": 0,
+        "`Y`": 0,
+        "`VerifiedBuild`": 0,
+    },
+
+    "quest_request_items": {
+        "`ID`": 0,
+        "`EmoteOnComplete`": 0,
+        "`EmoteOnIncomplete`": 0,
+        "`CompletionText`": "",
+        "`VerifiedBuild`": 0,
     },
 
     "quest_offer_reward_entry": {
@@ -696,13 +746,17 @@ def parse_query(query):
     if not table_name:
         raise ValueError("Table name not found in the query")
     
-    # Determine which parser to use based on query structure
-    if "SET" in normalized_query.upper():
-        output = parse_set_syntax(normalized_query, table_name, query_type)
-        return output
-    elif "VALUES" in normalized_query.upper():  
-        output = parse_values_syntax(normalized_query, table_name, query_type)
-        return output
+    # More precise detection of query syntax
+    # Look for SET or VALUES after the table name
+    table_name_pos = normalized_query.upper().find(table_name.upper()) + len(table_name)
+    query_remainder = normalized_query[table_name_pos:].strip()
+
+    # Check for explicit SET syntax (must appear right after table name)
+    if query_remainder.upper().startswith("SET"):
+        return parse_set_syntax(normalized_query, table_name, query_type)
+    # Check for explicit VALUES syntax (must appear after fields list)
+    elif re.search(r"\)\s+VALUES\s*\(", normalized_query, re.IGNORECASE):
+        return parse_values_syntax(normalized_query, table_name, query_type)
     else:
         raise ValueError("Could not parse the query. Unsupported format.")
 
@@ -928,6 +982,7 @@ def new_query(query):
         # Print the complete INSERT query for this row
         print("\n".join(insert_lines))
         print()  # Add blank line between queries
+
 # Parse
 parsed_query = parse_query(query)  # Parse the query using the previously defined function
 secondary_queries = []

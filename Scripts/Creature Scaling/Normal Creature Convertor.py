@@ -216,8 +216,8 @@ area_data = {
     },
     "Stromgarde": {
         named_solo_fight: [],
-        named_group_fight: [2783, 2597, 2599, 2607],
-        normal: [2588, 2591, 2590],
+        named_group_fight: [2783, 2597, 2599, 2607, 2611],
+        normal: [2588, 2591, 2590, 2571, 2569, 2570, 2558],
         rare: []
     },
     "Jintha_Alor": {
