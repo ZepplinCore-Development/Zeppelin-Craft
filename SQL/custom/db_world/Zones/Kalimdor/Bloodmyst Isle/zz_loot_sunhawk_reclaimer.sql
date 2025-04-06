@@ -1,4 +1,9 @@
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 17606) AND (`Item` IN (23873));
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(17606, 23873, 0, 10, 1, 1, 0, 1, 1, 'Sunhawk Reclaimer - Galaen\'s Amulet');
+-- Increased drop chance of Galaens Amulet
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 17606 AND `Item` = 23873);
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 17606,
+    `Item` = 23873,
+    `Chance` = 10,
+    `QuestRequired` = 1,
+    `Comment` = 'Sunhawk Reclaimer - Galaens Amulet';
 

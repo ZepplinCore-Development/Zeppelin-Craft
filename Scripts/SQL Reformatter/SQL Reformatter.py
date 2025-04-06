@@ -9,9 +9,17 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
-(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
-(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
+(6557, 0, 0, 0, 8, 0, 100, 512, 16031, 0, 0, 0, 0, 0, 22, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Spellhit \'Releasing Corrupt Ooze\' - Set Event Phase 2'),
+(6557, 0, 1, 2, 60, 2, 100, 513, 1500, 1500, 0, 0, 0, 0, 45, 0, 1, 0, 0, 0, 0, 9, 10290, 0, 35, 0, 0, 0, 0, 0, 'Primal Ooze - On Update - Set Data 0 1 (Phase 2) (No Repeat)'),
+(6557, 0, 2, 0, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 29, 0, 0, 10290, 1, 1, 0, 9, 10290, 0, 35, 0, 0, 0, 0, 0, 'Primal Ooze - On Update - Start Follow Closest Creature \'Captured Felwood Ooze\' (Phase 2) (No Repeat)'),
+(6557, 0, 3, 4, 65, 2, 100, 512, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Set Visibility Off (Phase 2)'),
+(6557, 0, 4, 5, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 12, 9621, 6, 20000, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Summon Creature \'Gargantuan Ooze\' (Phase 2)'),
+(6557, 0, 5, 6, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 11, 16032, 0, 0, 0, 0, 0, 9, 9621, 0, 5, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Cast \'Merging Oozes\' (Phase 2)'),
+(6557, 0, 6, 0, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 41, 50, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Despawn In 50 ms (Phase 2)'),
+(6557, 0, 7, 0, 8, 0, 100, 513, 15702, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Spell Hit (Filling Empty Jar) - Despawn'),
+(6557, 0, 8, 0, 2, 0, 100, 1, 0, 30, 0, 0, 0, 0, 11, 14146, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - Between 0-30% Health - Cast \'Clone\' (No Repeat)'),
+(6557, 0, 9, 0, 2, 0, 100, 1, 0, 30, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - Between 0-30% Health - Say Line 0 (No Repeat)');
 
 
 
@@ -381,6 +389,28 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": ""
     },
 
+    "gameobject": {
+        "`id`": 0,                  # GameObject template ID
+        "`map`": 0,                 # Map ID
+        "`zoneId`": 0,              # Zone ID (optional)
+        "`areaId`": 0,              # Area ID (optional)
+        "`spawnMask`": 1,           # Spawn mask (1 for all modes)
+        "`phaseMask`": 1,           # Phase mask (1 = visible in all phases)
+        "`position_x`": 0.0,        # World X coordinate
+        "`position_y`": 0.0,        # World Y coordinate
+        "`position_z`": 0.0,        # World Z coordinate
+        "`orientation`": 0.0,       # Facing angle (radians)
+        "`rotation0`": 0.0,         # Quaternion rotation X
+        "`rotation1`": 0.0,         # Quaternion rotation Y
+        "`rotation2`": 0.0,         # Quaternion rotation Z
+        "`rotation3`": 1.0,         # Quaternion rotation W (default 1.0)
+        "`spawntimesecs`": 300,     # Respawn time in seconds
+        "`animprogress`": 0,        # Animation progress (0-100)
+        "`state`": 1,               # GameObject state (1 = active)
+        "`ScriptName`": "",         # Empty string unless scripted
+        "`VerifiedBuild`": None,    # NULL for custom entries
+    },
+
     "gameobject_loot_template": {
         "`Entry`": 0,              # GameObject template ID
         "`Item`": 0,                # Item ID from item_template
@@ -722,24 +752,21 @@ def parse_values_syntax(query, table_name, query_type):
                     current_set.append("".join(current_value).strip())
                     current_value = []
                 if len(current_set) == num_fields:
+                    row_idx = len(values_sets)
                     values_sets.append(current_set)
-                in_value = False
-                
-                # Look for comment after this tuple
-                remaining_content = values_content[i+1:]
-                # Find the next comma or semicolon to properly bound the comment
-                next_delimiter = min(
-                    remaining_content.find(","),
-                    remaining_content.find(";"),
-                    len(remaining_content)
-                )
-                if "--" in remaining_content[:next_delimiter]:
-                    comment_start = remaining_content.find("--")
-                    comment_end = remaining_content.find("\n", comment_start)
-                    if comment_end == -1:
-                        comment_end = next_delimiter
-                    comment = remaining_content[comment_start:comment_end].strip()
-                    comments[len(values_sets)-1] = comment[2:].strip()
+                    
+                    # Look for comment immediately after this tuple
+                    comment_start = values_content.find("--", i+1)
+                    if comment_start != -1:
+                        # Find comment end (either newline or next tuple/semicolon)
+                        comment_end = len(values_content)
+                        for end_char in ("\n", ",", ";"):
+                            pos = values_content.find(end_char, comment_start)
+                            if pos != -1 and pos < comment_end:
+                                comment_end = pos
+                        
+                        comment = values_content[comment_start:comment_end].strip()
+                        comments[row_idx] = comment[2:].strip()
             else:
                 current_value.append(char)
             i += 1
