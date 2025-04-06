@@ -9,10 +9,11 @@ import re
 # Example usage
 query = """
 
+INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
+(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
+(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
 
 
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(5983, 8396, 0, 100, 0, 1, 0, 1, 1, 'Bonepicker - Vulture Gizzard');
 
 
 
@@ -23,6 +24,14 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 # Define the table structure and default values
 TABLE_STRUCTURES = {
+    "achievement_criteria_data": {
+        "`criteria_id`": 0,
+        "`type`": 0,
+        "`value1`": 0,
+        "`value2`": 0,
+        "`ScriptName`": "",
+    },
+
     "creature_template": {
         "`entry`": 0,
         "`difficulty_entry_1`": 0,
@@ -91,140 +100,15 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": ""
     },
 
-    "achievement_criteria_data": {
-        "`criteria_id`": 0,
-        "`type`": 0,
-        "`value1`": 0,
-        "`value2`": 0,
-        "`ScriptName`": "",
-    },
-
-    "quest_template": {
-    "`ID`": 0,
-    "`QuestType`": 2,
-    "`QuestLevel`": 1,
-    "`MinLevel`": 0,
-    "`QuestSortID`": 0,
-    "`QuestInfoID`": 0,
-    "`SuggestedGroupNum`": 0,
-    "`RequiredFactionId1`": 0,
-    "`RequiredFactionId2`": 0,
-    "`RequiredFactionValue1`": 0,
-    "`RequiredFactionValue2`": 0,
-    "`RewardNextQuest`": 0,
-    "`RewardXPDifficulty`": 0,
-    "`RewardMoney`": 0,
-    "`RewardMoneyDifficulty`": 0,
-    "`RewardDisplaySpell`": 0,
-    "`RewardSpell`": 0,
-    "`RewardHonor`": 0,
-    "`RewardKillHonor`": 0,
-    "`StartItem`": 0,
-    "`Flags`": 0,
-    "`RequiredPlayerKills`": 0,
-    "`RewardItem1`": 0,
-    "`RewardAmount1`": 0,
-    "`RewardItem2`": 0,
-    "`RewardAmount2`": 0,
-    "`RewardItem3`": 0,
-    "`RewardAmount3`": 0,
-    "`RewardItem4`": 0,
-    "`RewardAmount4`": 0,
-    "`ItemDrop1`": 0,
-    "`ItemDropQuantity1`": 0,
-    "`ItemDrop2`": 0,
-    "`ItemDropQuantity2`": 0,
-    "`ItemDrop3`": 0,
-    "`ItemDropQuantity3`": 0,
-    "`ItemDrop4`": 0,
-    "`ItemDropQuantity4`": 0,
-    "`RewardChoiceItemID1`": 0,
-    "`RewardChoiceItemQuantity1`": 0,
-    "`RewardChoiceItemID2`": 0,
-    "`RewardChoiceItemQuantity2`": 0,
-    "`RewardChoiceItemID3`": 0,
-    "`RewardChoiceItemQuantity3`": 0,
-    "`RewardChoiceItemID4`": 0,
-    "`RewardChoiceItemQuantity4`": 0,
-    "`RewardChoiceItemID5`": 0,
-    "`RewardChoiceItemQuantity5`": 0,
-    "`RewardChoiceItemID6`": 0,
-    "`RewardChoiceItemQuantity6`": 0,
-    "`POIContinent`": 0,
-    "`POIx`": 0,
-    "`POIy`": 0,
-    "`POIPriority`": 0,
-    "`RewardTitle`": 0,
-    "`RewardTalents`": 0,
-    "`RewardArenaPoints`": 0,
-    "`RewardFactionID1`": 0,
-    "`RewardFactionValue1`": 0,
-    "`RewardFactionOverride1`": 0,
-    "`RewardFactionID2`": 0,
-    "`RewardFactionValue2`": 0,
-    "`RewardFactionOverride2`": 0,
-    "`RewardFactionID3`": 0,
-    "`RewardFactionValue3`": 0,
-    "`RewardFactionOverride3`": 0,
-    "`RewardFactionID4`": 0,
-    "`RewardFactionValue4`": 0,
-    "`RewardFactionOverride4`": 0,
-    "`RewardFactionID5`": 0,
-    "`RewardFactionValue5`": 0,
-    "`RewardFactionOverride5`": 0,
-    "`TimeAllowed`": 0,
-    "`AllowableRaces`": 0,
-    "`LogTitle`": "",
-    "`LogDescription`": "",
-    "`QuestDescription`": "",
-    "`AreaDescription`": "",
-    "`QuestCompletionLog`": "",
-    "`RequiredNpcOrGo1`": 0,
-    "`RequiredNpcOrGo2`": 0,
-    "`RequiredNpcOrGo3`": 0,
-    "`RequiredNpcOrGo4`": 0,
-    "`RequiredNpcOrGoCount1`": 0,
-    "`RequiredNpcOrGoCount2`": 0,
-    "`RequiredNpcOrGoCount3`": 0,
-    "`RequiredNpcOrGoCount4`": 0,
-    "`RequiredItemId1`": 0,
-    "`RequiredItemId2`": 0,
-    "`RequiredItemId3`": 0,
-    "`RequiredItemId4`": 0,
-    "`RequiredItemId5`": 0,
-    "`RequiredItemId6`": 0,
-    "`RequiredItemCount1`": 0,
-    "`RequiredItemCount2`": 0,
-    "`RequiredItemCount3`": 0,
-    "`RequiredItemCount4`": 0,
-    "`RequiredItemCount5`": 0,
-    "`RequiredItemCount6`": 0,
-    "`Unknown0`": 0,
-    "`ObjectiveText1`": "",
-    "`ObjectiveText2`": "",
-    "`ObjectiveText3`": "",
-    "`ObjectiveText4`": "",
-    "`VerifiedBuild`": "",
-    },
-
-    "quest_template_addon": {
-    "`ID`": 0,
-    "`MaxLevel`": 0,
-    "`AllowableClasses`": 0,
-    "`SourceSpellID`": 0,
-    "`PrevQuestID`": 0,
-    "`NextQuestID`": 0,
-    "`ExclusiveGroup`": 0,
-    "`RewardMailTemplateID`": 0,
-    "`RewardMailDelay`": 0,
-    "`RequiredSkillID`": 0,
-    "`RequiredSkillPoints`": 0,
-    "`RequiredMinRepFaction`": 0,
-    "`RequiredMaxRepFaction`": 0,
-    "`RequiredMinRepValue`": 0,
-    "`RequiredMaxRepValue`": 0,
-    "`ProvidedItemCount`": 0,
-    "`SpecialFlags`": 0,
+    "creature_addon": {
+        "`guid`": 0,                   # Must match creature.guid
+        "`path_id`": 0,                # Waypoint path ID (0 = none)
+        "`mount`": 0,                  # Display mount ID (0 = none)
+        "`bytes1`": 0,                 # StandState/SheathState etc.
+        "`bytes2`": 0,                 # UnitFlags
+        "`emote`": 0,                  # Persistent emote ID
+        "`visibilityDistanceType`": 0, # 0=Default, 1=Tiny, 2=Small, etc.
+        "`auras`": None,               # NULL or aura strings
     },
 
     "creature_template_model" : {
@@ -257,6 +141,16 @@ TABLE_STRUCTURES = {
     "`ReqSkillRank`": 0,
     "`ReqLevel`": 1,
     "`ReqSpell`": 0,
+    },
+
+    "npc_vendor": {
+        "`entry`": 0,            # NPC entry from creature_template
+        "`slot`": 0,             # Display slot (0 = no specific order)
+        "`item`": 0,             # Item ID from item_template
+        "`maxcount`": 0,         # 0 = unlimited stock
+        "`incrtime`": 0,         # Restock time in seconds (0 = no restock)
+        "`ExtendedCost`": 0,     # Honor/arena cost reference
+        "`VerifiedBuild`": '', # NULL for custom entries
     },
 
     "smart_scripts": {
@@ -503,6 +397,134 @@ TABLE_STRUCTURES = {
         "`Note`": "",  # Empty string by default
     },
 
+    "quest_template": {
+    "`ID`": 0,
+    "`QuestType`": 2,
+    "`QuestLevel`": 1,
+    "`MinLevel`": 0,
+    "`QuestSortID`": 0,
+    "`QuestInfoID`": 0,
+    "`SuggestedGroupNum`": 0,
+    "`RequiredFactionId1`": 0,
+    "`RequiredFactionId2`": 0,
+    "`RequiredFactionValue1`": 0,
+    "`RequiredFactionValue2`": 0,
+    "`RewardNextQuest`": 0,
+    "`RewardXPDifficulty`": 0,
+    "`RewardMoney`": 0,
+    "`RewardMoneyDifficulty`": 0,
+    "`RewardDisplaySpell`": 0,
+    "`RewardSpell`": 0,
+    "`RewardHonor`": 0,
+    "`RewardKillHonor`": 0,
+    "`StartItem`": 0,
+    "`Flags`": 0,
+    "`RequiredPlayerKills`": 0,
+    "`RewardItem1`": 0,
+    "`RewardAmount1`": 0,
+    "`RewardItem2`": 0,
+    "`RewardAmount2`": 0,
+    "`RewardItem3`": 0,
+    "`RewardAmount3`": 0,
+    "`RewardItem4`": 0,
+    "`RewardAmount4`": 0,
+    "`ItemDrop1`": 0,
+    "`ItemDropQuantity1`": 0,
+    "`ItemDrop2`": 0,
+    "`ItemDropQuantity2`": 0,
+    "`ItemDrop3`": 0,
+    "`ItemDropQuantity3`": 0,
+    "`ItemDrop4`": 0,
+    "`ItemDropQuantity4`": 0,
+    "`RewardChoiceItemID1`": 0,
+    "`RewardChoiceItemQuantity1`": 0,
+    "`RewardChoiceItemID2`": 0,
+    "`RewardChoiceItemQuantity2`": 0,
+    "`RewardChoiceItemID3`": 0,
+    "`RewardChoiceItemQuantity3`": 0,
+    "`RewardChoiceItemID4`": 0,
+    "`RewardChoiceItemQuantity4`": 0,
+    "`RewardChoiceItemID5`": 0,
+    "`RewardChoiceItemQuantity5`": 0,
+    "`RewardChoiceItemID6`": 0,
+    "`RewardChoiceItemQuantity6`": 0,
+    "`POIContinent`": 0,
+    "`POIx`": 0,
+    "`POIy`": 0,
+    "`POIPriority`": 0,
+    "`RewardTitle`": 0,
+    "`RewardTalents`": 0,
+    "`RewardArenaPoints`": 0,
+    "`RewardFactionID1`": 0,
+    "`RewardFactionValue1`": 0,
+    "`RewardFactionOverride1`": 0,
+    "`RewardFactionID2`": 0,
+    "`RewardFactionValue2`": 0,
+    "`RewardFactionOverride2`": 0,
+    "`RewardFactionID3`": 0,
+    "`RewardFactionValue3`": 0,
+    "`RewardFactionOverride3`": 0,
+    "`RewardFactionID4`": 0,
+    "`RewardFactionValue4`": 0,
+    "`RewardFactionOverride4`": 0,
+    "`RewardFactionID5`": 0,
+    "`RewardFactionValue5`": 0,
+    "`RewardFactionOverride5`": 0,
+    "`TimeAllowed`": 0,
+    "`AllowableRaces`": 0,
+    "`LogTitle`": "",
+    "`LogDescription`": "",
+    "`QuestDescription`": "",
+    "`AreaDescription`": "",
+    "`QuestCompletionLog`": "",
+    "`RequiredNpcOrGo1`": 0,
+    "`RequiredNpcOrGo2`": 0,
+    "`RequiredNpcOrGo3`": 0,
+    "`RequiredNpcOrGo4`": 0,
+    "`RequiredNpcOrGoCount1`": 0,
+    "`RequiredNpcOrGoCount2`": 0,
+    "`RequiredNpcOrGoCount3`": 0,
+    "`RequiredNpcOrGoCount4`": 0,
+    "`RequiredItemId1`": 0,
+    "`RequiredItemId2`": 0,
+    "`RequiredItemId3`": 0,
+    "`RequiredItemId4`": 0,
+    "`RequiredItemId5`": 0,
+    "`RequiredItemId6`": 0,
+    "`RequiredItemCount1`": 0,
+    "`RequiredItemCount2`": 0,
+    "`RequiredItemCount3`": 0,
+    "`RequiredItemCount4`": 0,
+    "`RequiredItemCount5`": 0,
+    "`RequiredItemCount6`": 0,
+    "`Unknown0`": 0,
+    "`ObjectiveText1`": "",
+    "`ObjectiveText2`": "",
+    "`ObjectiveText3`": "",
+    "`ObjectiveText4`": "",
+    "`VerifiedBuild`": "",
+    },
+
+    "quest_template_addon": {
+    "`ID`": 0,
+    "`MaxLevel`": 0,
+    "`AllowableClasses`": 0,
+    "`SourceSpellID`": 0,
+    "`PrevQuestID`": 0,
+    "`NextQuestID`": 0,
+    "`ExclusiveGroup`": 0,
+    "`RewardMailTemplateID`": 0,
+    "`RewardMailDelay`": 0,
+    "`RequiredSkillID`": 0,
+    "`RequiredSkillPoints`": 0,
+    "`RequiredMinRepFaction`": 0,
+    "`RequiredMaxRepFaction`": 0,
+    "`RequiredMinRepValue`": 0,
+    "`RequiredMaxRepValue`": 0,
+    "`ProvidedItemCount`": 0,
+    "`SpecialFlags`": 0,
+    },
+
     "quest_offer_reward": {
         "`ID`": 0,
         "`Emote1`": 0,
@@ -684,6 +706,14 @@ def parse_values_syntax(query, table_name, query_type):
                 if len(current_set) == num_fields:
                     values_sets.append(current_set)
                 in_value = False
+                
+                # Look for comment after this tuple
+                remaining_content = values_content[i+1:]
+                if "--" in remaining_content:
+                    comment_start = remaining_content.find("--")
+                    comment_end = remaining_content.find("\n", comment_start)
+                    comment = remaining_content[comment_start:comment_end].strip()
+                    comments[len(values_sets)-1] = comment[2:].strip()
             else:
                 current_value.append(char)
             i += 1
@@ -695,12 +725,6 @@ def parse_values_syntax(query, table_name, query_type):
         elif in_value:
             current_value.append(char)
             i += 1
-        elif char == "-" and i+1 < len(values_content) and values_content[i+1] == "-":
-            # Handle comments
-            comment = values_content[i:].split("\n", 1)[0]
-            if values_sets:
-                comments[len(values_sets)-1] = comment[2:].strip()
-            break
         else:
             i += 1
     
