@@ -9,25 +9,8 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `event_param5`, `event_param6`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_param4`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-(6557, 0, 0, 0, 8, 0, 100, 512, 16031, 0, 0, 0, 0, 0, 22, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Spellhit \'Releasing Corrupt Ooze\' - Set Event Phase 2'),
-(6557, 0, 1, 2, 60, 2, 100, 513, 1500, 1500, 0, 0, 0, 0, 45, 0, 1, 0, 0, 0, 0, 9, 10290, 0, 35, 0, 0, 0, 0, 0, 'Primal Ooze - On Update - Set Data 0 1 (Phase 2) (No Repeat)'),
-(6557, 0, 2, 0, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 29, 0, 0, 10290, 1, 1, 0, 9, 10290, 0, 35, 0, 0, 0, 0, 0, 'Primal Ooze - On Update - Start Follow Closest Creature \'Captured Felwood Ooze\' (Phase 2) (No Repeat)'),
-(6557, 0, 3, 4, 65, 2, 100, 512, 0, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Set Visibility Off (Phase 2)'),
-(6557, 0, 4, 5, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 12, 9621, 6, 20000, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Summon Creature \'Gargantuan Ooze\' (Phase 2)'),
-(6557, 0, 5, 6, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 11, 16032, 0, 0, 0, 0, 0, 9, 9621, 0, 5, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Cast \'Merging Oozes\' (Phase 2)'),
-(6557, 0, 6, 0, 61, 2, 100, 512, 0, 0, 0, 0, 0, 0, 41, 50, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Follow Complete - Despawn In 50 ms (Phase 2)'),
-(6557, 0, 7, 0, 8, 0, 100, 513, 15702, 0, 0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - On Spell Hit (Filling Empty Jar) - Despawn'),
-(6557, 0, 8, 0, 2, 0, 100, 1, 0, 30, 0, 0, 0, 0, 11, 14146, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - Between 0-30% Health - Cast \'Clone\' (No Repeat)'),
-(6557, 0, 9, 0, 2, 0, 100, 1, 0, 30, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Primal Ooze - Between 0-30% Health - Say Line 0 (No Repeat)');
-
-
-
-
-
-
-
-
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(18124, 24373, 0, 15, 1, 1, 0, 1, 1, 'Withered Giant - Scout Jyoba''s Report');
 
 
 
@@ -387,6 +370,19 @@ TABLE_STRUCTURES = {
         "`maxMoneyLoot`": 0,
         "`flagsCustom`": 0,
         "`VerifiedBuild`": ""
+    },
+
+    "item_loot_template": {
+        "`Entry`": 0,               # Source item ID (container)
+        "`Item`": 0,                # Loot item ID
+        "`Reference`": 0,           # Reference to other loot templates
+        "`Chance`": 100.0,          # Drop chance percentage (float)
+        "`QuestRequired`": 0,       # 1 = Requires quest
+        "`LootMode`": 1,            # Default loot mode
+        "`GroupId`": 0,             # Group ID (0 = independent)
+        "`MinCount`": 1,            # Minimum quantity
+        "`MaxCount`": 1,            # Maximum quantity
+        "`Comment`": "",            # Descriptive comment
     },
 
     "gameobject": {
@@ -755,18 +751,18 @@ def parse_values_syntax(query, table_name, query_type):
                     row_idx = len(values_sets)
                     values_sets.append(current_set)
                     
-                    # Look for comment immediately after this tuple
-                    comment_start = values_content.find("--", i+1)
-                    if comment_start != -1:
-                        # Find comment end (either newline or next tuple/semicolon)
-                        comment_end = len(values_content)
-                        for end_char in ("\n", ",", ";"):
-                            pos = values_content.find(end_char, comment_start)
-                            if pos != -1 and pos < comment_end:
-                                comment_end = pos
-                        
-                        comment = values_content[comment_start:comment_end].strip()
-                        comments[row_idx] = comment[2:].strip()
+                    # Look for comment on this line only
+                    line_end = values_content.find("\n", i)
+                    if line_end == -1:
+                        line_end = len(values_content)
+                    line_content = values_content[i+1:line_end]
+                    
+                    if "--" in line_content:
+                        comment_start = line_content.find("--") + 2
+                        comment = line_content[comment_start:].strip()
+                        # Clean comment by removing any trailing SQL
+                        comment = re.sub(r"[,;].*$", "", comment).strip()
+                        comments[row_idx] = comment
             else:
                 current_value.append(char)
             i += 1
