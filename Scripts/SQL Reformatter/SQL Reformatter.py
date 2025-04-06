@@ -9,9 +9,20 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
-(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
-(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
+REPLACE INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild) VALUES
+(10564,0,0,0,0,0,1,1,0,1584.77,90.939,60.8592,1.455,300,10.0,0,247,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1584.3,128.86,61.6605,5.96744,300,10.0,0,247,0,1,0,0,0,'',NULL),	 
+(10564,0,0,0,0,0,1,1,0,1635.79,125.086,60.2829,4.92129,300,10.0,0,273,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1725.56,102.697,62.23,1.33909,300,10.0,0,247,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1753.24,120.584,60.25,6.17492,300,10.0,0,247,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1620.35,89.1532,62.3827,0.933036,300,10.0,0,300,0,1,0,0,0,'',NULL),	 
+(10564,0,0,0,0,0,1,1,0,1694.29,153.519,61.0871,4.99197,300,10.0,0,300,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1667.2,118.361,60.7033,4.17359,300,10.0,0,247,0,1,0,0,0,'',NULL),
+(10564,0,0,0,0,0,1,1,0,1796.18,105.216,61.5189,3.2047,300,10.0,0,300,0,1,0,0,0,'',NULL);
+
+
+
+
 
 
 
