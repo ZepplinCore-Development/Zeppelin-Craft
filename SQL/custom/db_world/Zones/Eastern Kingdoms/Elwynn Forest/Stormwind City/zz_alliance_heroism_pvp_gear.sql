@@ -764,6 +764,9 @@
 
 -- ALLIANCE MOUNTS FROM LIEUTENANT KARTER
 
+    -- REMOVE EXISTING ITEMS
+    DELETE FROM `npc_vendor` WHERE `entry` = 12783;
+
     -- Black War Steed Bridle
     INSERT INTO `npc_vendor` SET
         `entry` = 12783,
