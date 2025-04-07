@@ -10,8 +10,7 @@
     -- DELETE ITEMS
     DELETE FROM `npc_vendor` WHERE `entry` = 12777;
 
-    --********** MAGE EPICS --**********
-
+    -- MAGE EPICS -- 
         -- Marshal's Silk Footwraps
             INSERT INTO `npc_vendor` SET
                 `entry` = 12777,
@@ -49,7 +48,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** ROGUE EPICS --**********
+    -- ROGUE EPICS --
 
         -- Marshal's Leather Footguards
         INSERT INTO `npc_vendor` SET
@@ -88,7 +87,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** DRUID EPICS --**********
+    -- DRUID EPICS --
 
         -- Marshal's Dragonhide Gauntlets
         INSERT INTO `npc_vendor` SET
@@ -127,7 +126,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** HUNTER EPICS --**********
+    -- HUNTER EPICS --
 
         -- Marshal's Chain Boots
         INSERT INTO `npc_vendor` SET
@@ -166,7 +165,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** PALADIN EPICS --**********
+    -- PALADIN EPICS --
 
         -- Marshal's Lamellar Gloves
         INSERT INTO `npc_vendor` SET
@@ -205,7 +204,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** WARRIOR EPICS --**********
+    -- WARRIOR EPICS --
 
         -- Field Marshal's Plate Armor
         INSERT INTO `npc_vendor` SET
@@ -244,7 +243,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** WARLOCK EPICS --**********
+    -- WARLOCK EPICS --
 
         -- Field Marshal's Coronal
         INSERT INTO `npc_vendor` SET
@@ -283,7 +282,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** PRIEST EPICS --**********
+    -- PRIEST EPICS --
 
         -- Field Marshal's Headdress
         INSERT INTO `npc_vendor` SET
@@ -322,7 +321,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** PALADIN RARES --**********
+    -- PALADIN RARES --
 
         -- Knight-Captain's Lamellar Breastplate
         INSERT INTO `npc_vendor` SET
@@ -361,7 +360,7 @@
         `ExtendedCost` = 3000,
         `VerifiedBuild` = NULL;
 
-    --********** HUNTER RARES --**********
+    -- HUNTER RARES --
 
         -- Knight-Lieutenant's Chain Greaves
         INSERT INTO `npc_vendor` SET
@@ -400,7 +399,7 @@
         `ExtendedCost` = 2998,
         `VerifiedBuild` = NULL;
 
-    --********** DRUID RARES --**********
+    -- DRUID RARES --
 
         -- Knight-Lieutenant's Dragonhide Grips
         INSERT INTO `npc_vendor` SET
@@ -439,7 +438,7 @@
         `ExtendedCost` = 2998,
         `VerifiedBuild` = NULL;
 
-    --********** WARLOCK RARES --**********
+    -- WARLOCK RARES --
 
         -- Knight-Lieutenant's Dreadweave Handwraps
         INSERT INTO `npc_vendor` SET
@@ -477,7 +476,7 @@
             `item` = 23311,
             `ExtendedCost` = 2998;
             
-    --********** ROGUE RARES --**********
+    -- ROGUE RARES --
 
         -- Knight-Lieutenant's Leather Grips
         INSERT INTO `npc_vendor` SET
@@ -516,7 +515,7 @@
         `ExtendedCost` = 2998,
         `VerifiedBuild` = NULL;
 
-    --********** WARRIOR RARES --**********
+    -- WARRIOR RARES --
 
         -- Knight-Lieutenant's Plate Gauntlets
         INSERT INTO `npc_vendor` SET
@@ -555,7 +554,7 @@
         `ExtendedCost` = 2998,
         `VerifiedBuild` = NULL;
 
-    --********** PRIEST RARES --**********
+    -- PRIEST RARES --
 
         -- Knight-Lieutenant's Satin Handwraps
         INSERT INTO `npc_vendor` SET
@@ -594,7 +593,7 @@
         `ExtendedCost` = 2998,
         `VerifiedBuild` = NULL;
 
-    --********** MAGE RARES --**********
+    -- MAGE RARES --
 
         -- Knight-Lieutenant's Silk Handwraps
         INSERT INTO `npc_vendor` SET

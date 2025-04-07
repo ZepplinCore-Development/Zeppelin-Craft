@@ -10,7 +10,7 @@
     -- DELETE ITEMS
     DELETE FROM `npc_vendor` WHERE `entry` = 12792;
 
-    --********** MAGE EPICS --**********
+    -- MAGE EPICS --
 
         -- Warlord's Silk Cowl
         INSERT INTO `npc_vendor` SET
@@ -48,7 +48,7 @@
             `item` = 16540,
             `ExtendedCost` = 3000;
 
-    --********** WARRIOR EPICS --**********
+    -- WARRIOR EPICS --
 
         -- Warlord's Plate Armor
         INSERT INTO `npc_vendor` SET
@@ -86,7 +86,7 @@
             `item` = 16548,
             `ExtendedCost` = 3000;
 
-    --********** DRUID EPICS --**********
+    -- DRUID EPICS --
 
         -- Warlord's Dragonhide Hauberk
         INSERT INTO `npc_vendor` SET
@@ -124,7 +124,7 @@
             `item` = 16555,
             `ExtendedCost` = 3000;
 
-    --********** ROGUE EPICS --**********
+    -- ROGUE EPICS --
 
         -- General's Leather Treads
         INSERT INTO `npc_vendor` SET
@@ -162,7 +162,7 @@
             `item` = 16564,
             `ExtendedCost` = 3000;
 
-    --********** HUNTER EPICS --**********
+    -- HUNTER EPICS --
 
         -- Warlord's Chain Chestpiece
         INSERT INTO `npc_vendor` SET
@@ -200,7 +200,7 @@
             `item` = 16571,
             `ExtendedCost` = 3000;
 
-    --********** SHAMAN EPICS --**********
+    -- SHAMAN EPICS --
 
         -- General's Mail Boots
         INSERT INTO `npc_vendor` SET
@@ -238,7 +238,7 @@
             `item` = 16580,
             `ExtendedCost` = 3000;
 
-    --********** WARLOCK EPICS --**********
+    -- WARLOCK EPICS --
 
         -- General's Dreadweave Boots
         INSERT INTO `npc_vendor` SET
@@ -276,7 +276,7 @@
             `item` = 17593,
             `ExtendedCost` = 3000;
 
-    --********** PRIEST EPICS --**********
+    -- PRIEST EPICS --
 
         -- General's Satin Boots
         INSERT INTO `npc_vendor` SET
@@ -314,7 +314,7 @@
             `item` = 17625,
             `ExtendedCost` = 3000;
 
-    --********** HUNTER RARES --**********
+    -- HUNTER RARES --
 
         -- Blood Guard's Chain Greaves
         INSERT INTO `npc_vendor` SET
@@ -352,7 +352,7 @@
             `item` = 23252,
             `ExtendedCost` = 2998;
 
-    --********** DRUID RARES --**********
+    -- DRUID RARES --
 
         -- Blood Guard's Dragonhide Treads
         INSERT INTO `npc_vendor` SET
@@ -390,7 +390,7 @@
             `item` = 23254,
             `ExtendedCost` = 2998;
 
-    --********** WARLOCK RARES --**********
+    -- WARLOCK RARES --
 
         -- Blood Guard's Dreadweave Walkers
         INSERT INTO `npc_vendor` SET
@@ -428,7 +428,7 @@
             `item` = 23256,
             `ExtendedCost` = 2998;
 
-    --********** ROGUE RARES --**********
+    -- ROGUE RARES --
 
         -- Blood Guard's Leather Walkers
         INSERT INTO `npc_vendor` SET
@@ -466,7 +466,7 @@
             `item` = 23258,
             `ExtendedCost` = 2998;
 
-    --********** SHAMAN RARES --**********
+    -- SHAMAN RARES --
 
         -- Blood Guard's Mail Greaves
         INSERT INTO `npc_vendor` SET
@@ -504,7 +504,7 @@
             `item` = 23260,
             `ExtendedCost` = 2998;
 
-    --********** WARRIOR RARES --**********
+    -- WARRIOR RARES --
 
         -- Blood Guard's Plate Greaves
         INSERT INTO `npc_vendor` SET
@@ -542,7 +542,7 @@
             `item` = 23244,
             `ExtendedCost` = 2998;
 
-    --********** PRIEST RARES --**********
+    -- PRIEST RARES --
 
         -- Blood Guard's Satin Walkers
         INSERT INTO `npc_vendor` SET
@@ -580,7 +580,7 @@
             `item` = 23262,
             `ExtendedCost` = 2998;
 
-    --********** MAGE RARES --**********
+    -- MAGE RARES --
 
         -- Blood Guard's Silk Walkers
         INSERT INTO `npc_vendor` SET
