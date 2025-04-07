@@ -402,6 +402,7 @@ DELETE FROM `dungeon_access_requirements`;
 -- Icecrown Citadel (10 player, Heroic)
     INSERT INTO `dungeon_access_requirements` SET
         `dungeon_access_id` = 111,
+        `requirement_type` = 0, -- Achievement
         `requirement_id` = 4530,
         `requirement_note` = NULL,
         `faction` = 2,
@@ -411,6 +412,7 @@ DELETE FROM `dungeon_access_requirements`;
 -- Icecrown Citadel (25 player, Heroic)
     INSERT INTO `dungeon_access_requirements` SET
         `dungeon_access_id` = 112,
+        `requirement_type` = 0, -- Achievement
         `requirement_id` = 4597,
         `requirement_note` = NULL,
         `faction` = 2,
@@ -420,6 +422,7 @@ DELETE FROM `dungeon_access_requirements`;
 -- Trial of the Crusader (10 player, Heroic)
     INSERT INTO `dungeon_access_requirements` SET
         `dungeon_access_id` = 116,
+        `requirement_type` = 0, -- Achievement
         `requirement_id` = 3917,
         `requirement_note` = NULL,
         `faction` = 2,
@@ -429,6 +432,7 @@ DELETE FROM `dungeon_access_requirements`;
 -- Trial of the Crusader (25 player, Heroic)
     INSERT INTO `dungeon_access_requirements` SET
         `dungeon_access_id` = 117,
+        `requirement_type` = 0, -- Achievement
         `requirement_id` = 3916,
         `requirement_note` = NULL,
         `faction` = 2,
@@ -466,7 +470,7 @@ DELETE FROM `dungeon_access_requirements`;
 -- Icecrown Citadel: Halls of Reflection (Heroic) - Horde
     INSERT INTO `dungeon_access_requirements` SET
         `dungeon_access_id` = 120,
-        `requirement_type` = 1,
+        `requirement_type` = 1, -- Quest
         `requirement_id` = 24712,
         `requirement_note` = 'You must complete the quest "Deliverance from the Pit" and be level 80 before entering the Heroic difficulty of the Halls of Reflection.',
         `faction` = 1,

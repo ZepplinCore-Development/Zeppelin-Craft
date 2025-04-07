@@ -240,14 +240,14 @@ TABLE_STRUCTURES = {
     },
 
     "dungeon_access_requirements": {
-        "`dungeon_access_id`": 0,         # Links to dungeon_access_template
-        "`requirement_type`": 0,          # 0=None, 1=Quest, 2=Item, 3=Achievement
-        "`requirement_id`": 0,            # Quest/Item/Achievement ID
-        "`requirement_note`": "",         # Displayed requirement text
-        "`faction`": 0,                   # 0=Both, 1=Alliance, 2=Horde
+        "`dungeon_access_id`": None,         # Links to dungeon_access_template
+        "`requirement_type`": None,          # 0=None, 1=Quest, 2=Item, 3=Achievement
+        "`requirement_id`": None,            # Quest/Item/Achievement ID
+        "`requirement_note`": None,         # Displayed requirement text
+        "`faction`": 2,                   # 0=Both, 1=Alliance, 2=Horde
         "`priority`": None,               # NULL for default ordering
         "`leader_only`": 0,               # 0=All party members, 1=Leader only
-        "`comment`": "",                  # Developer notes
+        "`comment`": None,                  # Developer notes
     },
 
     "item_template": {
