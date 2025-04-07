@@ -9,11 +9,9 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
-(9442, 12, 0, -1, 'Untested Scorpid Sample', 18712, 1, 65600, 0, 1, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11761, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, -1, 0, -1, 4, '', 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 7260, 0, 0, '', 0, 0, 0, 0, 0, 12340);
-
-
-
+INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
+(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
+(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
 
 
 
@@ -231,6 +229,27 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": 0,
     },
 
+    "dungeon_access_template": {
+        "`id`": 0,                      # Unique access template ID
+        "`map_id`": 0,                  # Dungeon map ID
+        "`difficulty`": 0,              # 0=Normal, 1=Heroic, etc.
+        "`min_level`": 0,               # 0 = no level restriction
+        "`max_level`": 0,               # 0 = no max level cap
+        "`min_avg_item_level`": 0,      # 0 = no ilvl requirement
+        "`comment`": "",                # Description
+    },
+
+    "dungeon_access_requirements": {
+        "`dungeon_access_id`": 0,         # Links to dungeon_access_template
+        "`requirement_type`": 0,          # 0=None, 1=Quest, 2=Item, 3=Achievement
+        "`requirement_id`": 0,            # Quest/Item/Achievement ID
+        "`requirement_note`": "",         # Displayed requirement text
+        "`faction`": 0,                   # 0=Both, 1=Alliance, 2=Horde
+        "`priority`": None,               # NULL for default ordering
+        "`leader_only`": 0,               # 0=All party members, 1=Leader only
+        "`comment`": "",                  # Developer notes
+    },
+
     "item_template": {
         "`entry`": 0,
         "`class`": 0,
@@ -386,6 +405,14 @@ TABLE_STRUCTURES = {
         "`Comment`": "",            # Descriptive comment
     },
 
+    "instance_encounters": {
+        "`entry`": 0,                  # Unique encounter ID
+        "`creditType`": 0,             # 0=Creature, 1=GameObject
+        "`creditEntry`": 0,            # Creature/GameObject ID
+        "`lastEncounterDungeon`": 0,   # Dungeon achievement reference
+        "`comment`": "",               # Encounter description
+    },
+
     "gameobject": {
         "`id`": 0,                  # GameObject template ID
         "`map`": 0,                 # Map ID
@@ -419,6 +446,16 @@ TABLE_STRUCTURES = {
         "`MinCount`": 1,            # Minimum quantity
         "`MaxCount`": 1,            # Maximum quantity
         "`Comment`": "",            # Descriptive comment
+    },
+
+    "lfg_dungeon_template": {
+        "`dungeonId`": 0,              # LFG dungeon ID
+        "`name`": "",                   # Dungeon display name
+        "`position_x`": 0.0,            # Teleport X coordinate
+        "`position_y`": 0.0,            # Teleport Y coordinate
+        "`position_z`": 0.0,            # Teleport Z coordinate
+        "`orientation`": 0.0,          # Facing angle (radians)
+        "`VerifiedBuild`": 0,           # 0 for custom entries
     },
 
     "reference_loot_template": {
@@ -705,103 +742,127 @@ def parse_set_syntax(query, table_name, query_type):
 
 def parse_values_syntax(query, table_name, query_type):
     """
-    Parses the (fields) VALUES (values) syntax variant of INSERT/REPLACE queries.
-    Properly handles parentheses while excluding them from the captured values.
+    Main function that coordinates the parsing of VALUES syntax queries.
     """
-    # Extract field list
-    fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL | re.IGNORECASE)
-    if not fields_match:
-        raise ValueError("Fields list not found in VALUES syntax query")
+    fields = extract_fields_from_query(query)
+    values_content = extract_values_content(query)
+    rows = split_into_individual_rows(values_content)
     
-    fields = [f'`{field.strip("` ")}`' for field in fields_match.group(1).split(",")]
-    num_fields = len(fields)
-
-    # Find the VALUES clause
-    values_match = re.search(r"VALUES\s*", query, re.IGNORECASE)
-    if not values_match:
-        raise ValueError("VALUES clause not found in query")
-    
-    values_content = query[values_match.end():]
     values_sets = []
     comments = {}
     field_value_pairs = {}
     
-    # New parsing approach that properly handles parentheses
-    current_set = []
-    current_value = []
-    in_quotes = False
-    in_value = False
-    paren_depth = 0
-    
-    i = 0
-    while i < len(values_content):
-        char = values_content[i]
+    for row in rows:
+        if not is_valid_row(row):
+            continue
+            
+        value_part = extract_value_part(row)
+        current_set = parse_value_tuple(value_part)
         
-        if char == "'":
-            in_quotes = not in_quotes
-            current_value.append(char)
-            i += 1
-        elif char == "(" and not in_quotes:
-            if paren_depth == 0:  # Start of new value set
-                current_set = []
-                in_value = True
-            else:
-                current_value.append(char)
-            paren_depth += 1
-            i += 1
-        elif char == ")" and not in_quotes:
-            paren_depth -= 1
-            if paren_depth == 0:  # End of current value set
-                if current_value:  # Add the last value
-                    current_set.append("".join(current_value).strip())
-                    current_value = []
-                if len(current_set) == num_fields:
-                    row_idx = len(values_sets)
-                    values_sets.append(current_set)
-                    
-                    # Look for comment on this line only
-                    line_end = values_content.find("\n", i)
-                    if line_end == -1:
-                        line_end = len(values_content)
-                    line_content = values_content[i+1:line_end]
-                    
-                    if "--" in line_content:
-                        comment_start = line_content.find("--") + 2
-                        comment = line_content[comment_start:].strip()
-                        # Clean comment by removing any trailing SQL
-                        comment = re.sub(r"[,;].*$", "", comment).strip()
-                        comments[row_idx] = comment
-            else:
-                current_value.append(char)
-            i += 1
-        elif char == "," and not in_quotes and in_value:
-            if current_value:  # Add completed value
-                current_set.append("".join(current_value).strip())
-                current_value = []
-            i += 1
-        elif in_value:
-            current_value.append(char)
-            i += 1
-        else:
-            i += 1
+        if len(current_set) == len(fields):
+            row_idx = len(values_sets)
+            values_sets.append(current_set)
+            comments[row_idx] = extract_row_comment(row)
     
     # Process all collected value sets
     for row_idx, values in enumerate(values_sets):
-        parsed_values = []
-        for val in values:
-            # Remove surrounding quotes if present
-            if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
-                val = val[1:-1]
-            parsed_values.append(parse_value(val))
-        
-        if len(parsed_values) != num_fields:
-            raise ValueError(f"Field count mismatch. Expected {num_fields}, got {len(parsed_values)}")
-        
-        field_value_pairs[row_idx] = dict(zip(fields, parsed_values))
+        parsed_values = [parse_individual_value(val) for val in values]
+        validate_field_count(parsed_values, fields)
+        field_value_pairs[row_idx] = create_field_value_dict(fields, parsed_values)
     
+    validate_at_least_one_row(values_sets)
+    
+    return build_result(query_type, table_name, fields, values_sets, field_value_pairs, comments)
+
+def extract_fields_from_query(query):
+    """Extracts and formats the field list from the query."""
+    fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL | re.IGNORECASE)
+    if not fields_match:
+        raise ValueError("Fields list not found in VALUES syntax query")
+    return [f'`{field.strip("` ")}`' for field in fields_match.group(1).split(",")]
+
+def extract_values_content(query):
+    """Extracts the content after VALUES clause."""
+    values_match = re.search(r"VALUES\s*", query, re.IGNORECASE)
+    if not values_match:
+        raise ValueError("VALUES clause not found in query")
+    return query[values_match.end():]
+
+def split_into_individual_rows(content):
+    """Splits the values content into distinct rows."""
+    return re.split(r"(?<=\))\s*,?\s*(?=\(|--|$)", content)
+
+def is_valid_row(row):
+    """Determines if a row contains valid data."""
+    return row.strip() and row.strip() != ";"
+
+def extract_value_part(row):
+    """Extracts just the value portion before any comments."""
+    value_part = re.split(r"--", row)[0].strip()
+    if not value_part.startswith("("):
+        raise ValueError("Malformed value tuple")
+    return value_part
+
+def parse_value_tuple(value_part):
+    """Parses an individual value tuple into its components."""
+    current_set = []
+    current_value = []
+    in_quotes = False
+    paren_depth = 0
+    
+    for char in value_part:
+        if char == "'":
+            in_quotes = not in_quotes
+            current_value.append(char)
+        elif char == "(" and not in_quotes:
+            paren_depth += 1
+            if paren_depth > 1:  # Nested parentheses
+                current_value.append(char)
+        elif char == ")" and not in_quotes:
+            paren_depth -= 1
+            if paren_depth == 0:  # End of tuple
+                if current_value:
+                    current_set.append("".join(current_value).strip())
+            else:  # Nested parentheses
+                current_value.append(char)
+        elif char == "," and not in_quotes and paren_depth == 1:
+            if current_value:
+                current_set.append("".join(current_value).strip())
+                current_value = []
+        else:
+            current_value.append(char)
+    
+    return current_set
+
+def extract_row_comment(row):
+    """Extracts and cleans the comment from a row."""
+    if "--" in row:
+        comment = row.split("--", 1)[1].strip()
+        return re.sub(r"[,;].*$", "", comment).strip()
+    return None
+
+def parse_individual_value(val):
+    """Parses and cleans an individual value."""
+    if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
+        val = val[1:-1]
+    return parse_value(val)  # Your existing parse_value function
+
+def validate_field_count(values, fields):
+    """Validates the number of values matches fields."""
+    if len(values) != len(fields):
+        raise ValueError(f"Field count mismatch. Expected {len(fields)}, got {len(values)}")
+
+def create_field_value_dict(fields, values):
+    """Creates a dictionary mapping fields to values."""
+    return dict(zip(fields, values))
+
+def validate_at_least_one_row(values_sets):
+    """Ensures at least one valid row was found."""
     if not values_sets:
         raise ValueError("No value sets found in VALUES syntax query")
-    
+
+def build_result(query_type, table_name, fields, values_sets, field_value_pairs, comments):
+    """Constructs the final result dictionary."""
     return {
         "query_type": query_type,
         "table_name": table_name,
@@ -812,7 +873,6 @@ def parse_values_syntax(query, table_name, query_type):
         "multiple_rows": len(values_sets) > 1,
         "row_count": len(values_sets)
     }
-
 def parse_query(query):
     """
     Main function to parse INSERT or REPLACE queries.
