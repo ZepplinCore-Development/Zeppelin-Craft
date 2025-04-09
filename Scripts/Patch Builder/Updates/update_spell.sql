@@ -12947,6 +12947,62 @@ INSERT INTO `dbc`.`spell` SET
     `TotemCategory1` = 162,
     `SchoolMask` = 1;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91132;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91132,
+    `Attributes` = 2164261120,
+    `AttributesEx3` = 1048576,
+    `AttributesEx4` = 128,
+    `AttributesEx6` = 4096,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = 24,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 190,
+    `EffectMiscValue1` = 947,
+    `SpellIconID` = 2625,
+    `ActiveIconID` = 2625,
+    `SpellName0` = 'Champion of Thrallmar',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'You champion the cause of Thrallmar. Increases Thrallmar reputation gained from killing monsters by  $s1%.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91133;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91133,
+    `Attributes` = 2164261120,
+    `AttributesEx3` = 1048576,
+    `AttributesEx4` = 128,
+    `AttributesEx6` = 4096,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 4,
+    `SpellIconID` = 1487,
+    `SpellName0` = 'Champion of Thrallmar 2',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'You champion the cause of the Kirin Tor.  All reputation gains while in level 80 dungeons will be applied to your standing with them.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0;
+
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 103195,
