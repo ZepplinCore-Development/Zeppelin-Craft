@@ -6,10 +6,15 @@
         -- Thrallmar Tabard
             UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91132, `spelltrigger_1` = 1 WHERE (`entry` = 24004);
         -- Honor Hold
+            UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91133, `spelltrigger_1` = 1 WHERE (`entry` = 23999);
         -- Cenarion Expedition
+            UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91134, `spelltrigger_1` = 1 WHERE (`entry` = 31804);
         -- Lower City
-        -- The Sha'tar
+            UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91135, `spelltrigger_1` = 1 WHERE (`entry` = 31778);
         -- Keepers of Time
+            UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91136, `spelltrigger_1` = 1 WHERE (`entry` = 31777);
+        -- The Sha'tar
+            UPDATE `item_template` SET `RequiredReputationRank` = 4, `spellid_1` = 91137, `spelltrigger_1` = 1 WHERE (`entry` = 31781);
 
     -- RAIDS
         -- Ashtongue Deathsworn (NO TABARD IN GAME)
