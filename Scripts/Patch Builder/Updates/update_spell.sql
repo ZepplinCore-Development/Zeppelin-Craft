@@ -2196,6 +2196,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21562;
 
 UPDATE `dbc`.`spell` SET 
+    `Reagent1` = 901203 /* was 17021 */
+WHERE `ID` = 21849;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 21913;

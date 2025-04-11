@@ -40674,8 +40674,12 @@ WHERE `ID` = 14486;
 
 UPDATE `dbc`.`creaturedisplayinfoextra` SET 
     `DisplayRaceID` = 2 /* was 12 */,
-    `SkinID` = 10 /* was 0 */,
-    `BakedTextureIDblp` = 'OrcMaleSkin00_101.blp' /* was 'a57a6e1181872890388c704e6ee10ae.blp' */
+    `SkinID` = 12 /* was 0 */,
+    `FaceID` = 2 /* was 0 */,
+    `HairStyleID` = 2 /* was 0 */,
+    `HairColorID` = 2 /* was 0 */,
+    `FacialHairID` = 2 /* was 0 */,
+    `BakedTextureIDblp` = '' /* was 'a57a6e1181872890388c704e6ee10ae.blp' */
 WHERE `ID` = 14488;
 
 UPDATE `dbc`.`creaturedisplayinfoextra` SET 
