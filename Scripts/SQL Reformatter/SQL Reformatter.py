@@ -752,36 +752,27 @@ def find_matching_parenthesis(s, start):
 
 def parse_values_syntax(query, table_name, query_type):
     """
-    Final robust implementation that correctly handles:
-    - Multiple rows
-    - Associated comments
-    - Complex value formats
+    Final fixed version with precise comment isolation.
     """
     fields = extract_fields_from_query(query)
     values_content = extract_values_content(query)
     
-    # Initialize result storage
     values_sets = []
     comments = {}
     field_value_pairs = {}
     
-    # Use a more reliable parsing approach
     pos = 0
     while pos < len(values_content):
-        # Find the next tuple start
         tuple_start = values_content.find("(", pos)
         if tuple_start == -1:
             break
             
-        # Find matching closing parenthesis
         tuple_end = find_matching_parenthesis(values_content, tuple_start)
         if tuple_end == -1:
             break
             
-        # Extract the complete tuple
+        # Parse the tuple content
         tuple_content = values_content[tuple_start+1:tuple_end]
-        
-        # Parse the values from this tuple
         current_set = []
         current_value = []
         in_quotes = False
@@ -796,27 +787,32 @@ def parse_values_syntax(query, table_name, query_type):
             else:
                 current_value.append(char)
         
-        # Add the last value
         if current_value:
             current_set.append("".join(current_value).strip())
         
-        # Validate and store if we got the right number of values
         if len(current_set) == len(fields):
             row_idx = len(values_sets)
             values_sets.append(current_set)
             
-            # Look for comment after this tuple
+            # Improved comment extraction
             comment_start = values_content.find("--", tuple_end)
             if comment_start != -1:
-                comment_end = values_content.find("\n", comment_start)
-                if comment_end == -1:
-                    comment_end = len(values_content)
+                # Find the next tuple start or semicolon
+                next_tuple = values_content.find("(", tuple_end)
+                semicolon = values_content.find(";", tuple_end)
+                
+                # Determine the comment end boundary
+                comment_end = len(values_content)
+                if next_tuple != -1:
+                    comment_end = min(comment_end, next_tuple)
+                if semicolon != -1:
+                    comment_end = min(comment_end, semicolon)
+                
+                # Extract and clean the comment
                 comment = values_content[comment_start+2:comment_end].strip()
-                # Clean up comment (remove trailing commas/semicolons)
-                comment = re.sub(r"[;,]\s*$", "", comment)
+                comment = re.sub(r"[;,]\s*$", "", comment)  # Remove trailing delimiters
                 comments[row_idx] = comment
         
-        # Move position to after this tuple
         pos = tuple_end + 1
     
     # Process all collected value sets
@@ -837,7 +833,6 @@ def parse_values_syntax(query, table_name, query_type):
         "multiple_rows": len(values_sets) > 1,
         "row_count": len(values_sets)
     }
-
 def extract_fields_from_query(query):
     """Extracts and formats the field list from the query."""
     fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL | re.IGNORECASE)

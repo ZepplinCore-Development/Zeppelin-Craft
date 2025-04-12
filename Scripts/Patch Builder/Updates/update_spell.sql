@@ -2192,8 +2192,12 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21161;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 901203 /* was 17028 */
+    `Reagent1` = 58302 /* was 17028 */
 WHERE `ID` = 21562;
+
+UPDATE `dbc`.`spell` SET 
+    `Reagent1` = 58302 /* was 17029 */
+WHERE `ID` = 21564;
 
 UPDATE `dbc`.`spell` SET 
     `Reagent1` = 58302 /* was 17021 */
@@ -2679,6 +2683,10 @@ UPDATE `dbc`.`spell` SET
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 25339;
+
+UPDATE `dbc`.`spell` SET 
+    `Reagent1` = 58302 /* was 17029 */
+WHERE `ID` = 25392;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
