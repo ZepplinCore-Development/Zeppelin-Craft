@@ -2196,7 +2196,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21562;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 901203 /* was 17021 */
+    `Reagent1` = 58302 /* was 17021 */
 WHERE `ID` = 21849;
 
 UPDATE `dbc`.`spell` SET 
@@ -13124,6 +13124,35 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTip0` = 'Increases Sha''tar reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91138;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91138,
+    `Attributes` = 150994944,
+    `AttributesEx` = 32,
+    `AttributesEx2` = 16384,
+    `CastingTimeIndex` = 1,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent1` = 58302,
+    `ReagentCount1` = 2,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 58303,
+    `SpellIconID` = 5264,
+    `SpellName0` = 'Azerite Crystal',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Merge three Azerite Shards into an Azerite Crystal.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 

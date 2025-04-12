@@ -13,8 +13,6 @@ INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equi
 (19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
 (19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
 
-
-
 """
 
 # Define the table structure and default values
@@ -797,11 +795,31 @@ def is_valid_row(row):
     return row.strip() and row.strip() != ";"
 
 def extract_value_part(row):
-    """Extracts just the value portion before any comments."""
-    value_part = re.split(r"--", row)[0].strip()
-    if not value_part.startswith("("):
-        raise ValueError("Malformed value tuple")
-    return value_part
+    """Extracts just the value portion before any comments with more flexible validation."""
+    # Split on comment marker but keep empty parts
+    parts = re.split(r"--", row, maxsplit=1)
+    value_part = parts[0].strip()
+    
+    # More flexible validation that handles:
+    # 1. Standard (value1, value2) format
+    # 2. NULL values
+    # 3. Empty strings
+    if not value_part or value_part == ";":
+        return None  # Skip empty rows
+    
+    # Ensure we have parentheses but don't fail if they're not at start
+    if "(" in value_part and ")" in value_part:
+        # Extract just the part between parentheses
+        start = value_part.find("(")
+        end = value_part.rfind(")")
+        if start < end:
+            return value_part[start:end+1]
+    
+    # If we get here, try to salvage what we can
+    if "," in value_part:  # If it looks like values without parentheses
+        return f"({value_part})"
+    
+    return None  # Skip if we can't parse
 
 def parse_value_tuple(value_part):
     """Parses an individual value tuple into its components."""
