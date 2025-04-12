@@ -39,7 +39,7 @@ REPLACE INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Ext
 -- Consumables
 (9000010, 0, 57611, 0, 0, 2998, 0), -- Drums of the Raid Leader
 (9000010, 0, 41605, 0, 0, 2998, 0), -- Mystic Resonator
-(9000010, 0, 901203, 0, 0, 2998, 0), -- Azerite Shard
+(9000010, 0, 58302, 0, 0, 2998, 0), -- Azerite Shard
 
 -- Mage T1
 

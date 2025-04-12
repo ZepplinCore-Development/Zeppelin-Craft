@@ -11,7 +11,7 @@
             `Flags` = 136,
             `RewardItem1` = 51999,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 5-15 (1st)',
             `VerifiedBuild` = '12340';
@@ -27,7 +27,7 @@
             `Flags` = 136,
             `RewardItem1` = 51999,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 15-25 (1st)',
             `VerifiedBuild` = '12340';
@@ -43,7 +43,7 @@
             `Flags` = 136,
             `RewardItem1` = 52000,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 24-34 (1st)',
             `VerifiedBuild` = '12340';
@@ -59,7 +59,7 @@
             `Flags` = 136,
             `RewardItem1` = 52001,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 35-45 (1st)',
             `VerifiedBuild` = '12340';
@@ -75,7 +75,7 @@
             `Flags` = 136,
             `RewardItem1` = 52002,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 46-55 (1st)',
             `VerifiedBuild` = '12340';
@@ -91,7 +91,7 @@
             `Flags` = 136,
             `RewardItem1` = 52003,
             `RewardAmount1` = 1,
-            `RewardItem2` = 901203,
+            `RewardItem2` = 58302,
             `RewardAmount2` = 1,
             `LogTitle` = 'Classic Random 56-60 (1st)',
             `VerifiedBuild` = '12340';
@@ -109,9 +109,9 @@
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 18000,
                     `Flags` = 136,
-                    `RewardItem1` = 901201,
+                    `RewardItem1` = 58300,
                     `RewardAmount1` = 1,
-                    `RewardItem2` = 901203,
+                    `RewardItem2` = 58302,
                     `RewardAmount2` = 2,
                     `LogTitle` = 'Azeroth Heroic Random (1st)',
                     `VerifiedBuild` = '12340';
@@ -133,7 +133,7 @@
                 `RewardXPDifficulty` = 5,
                 `RewardMoney` = 9000,
                 `Flags` = 136,
-                `RewardItem1` = 901201,
+                `RewardItem1` = 58300,
                 `RewardAmount1` = 1,
                 `LogTitle` = 'Azeroth Heroic Random (Nth)',
                 `VerifiedBuild` = '1234';
@@ -157,9 +157,9 @@
                 `RewardXPDifficulty` = 7,
                 `RewardMoney` = 18000,
                 `Flags` = 136,
-                `RewardItem1` = 901205,
+                `RewardItem1` = 58301,
                 `RewardAmount1` = 1,
-                `RewardItem2` = 901203,
+                `RewardItem2` = 58302,
                 `RewardAmount2` = 3,
                 `LogTitle` = 'Azeroth Mythic Random (1st)',
                 `VerifiedBuild` = '12340';
@@ -181,7 +181,7 @@
                 `RewardXPDifficulty` = 5,
                 `RewardMoney` = 9000,
                 `Flags` = 136,
-                `RewardItem1` = 901205,
+                `RewardItem1` = 58301,
                 `RewardAmount1` = 1,
                 `LogTitle` = 'Azeroth Mythic Random (Nth)',
                 `VerifiedBuild` = '12340';

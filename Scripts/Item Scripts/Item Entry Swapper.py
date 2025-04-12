@@ -9,7 +9,7 @@ def replace_numbers(text, replacements):
     return text
 
 # Specify the root directory to start searching from
-root_directory = 'C:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\SQL\custom\db_world'
+root_directory = 'D:\Games\ChromieCraft_3.3.5a\Custom Tools\Zeppelin-Core\SQL\custom\db_world'
 
 # Verify the root directory
 if not os.path.exists(root_directory):
@@ -64,6 +64,10 @@ replacements = {
     #Currencies
     '901200': '58200',      # Badge of Heroism     
     #satchels
+    '901205': '58301',      # Azeroth Mythic Satchel
+    '901201': '58300',      # Azeroth Heroic Satchel
+    #Crystals
+    '901203': '58302',      # Azerite Shard  
     #stockades
     #vanilla recipes
     #quest items vanilla
