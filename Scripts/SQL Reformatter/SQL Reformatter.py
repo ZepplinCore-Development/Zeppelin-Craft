@@ -738,39 +738,105 @@ def parse_set_syntax(query, table_name, query_type):
         "comments": comments,
     }
 
+def find_matching_parenthesis(s, start):
+    """Finds the closing parenthesis matching the one at start position."""
+    depth = 1
+    for i in range(start + 1, len(s)):
+        if s[i] == "(":
+            depth += 1
+        elif s[i] == ")":
+            depth -= 1
+            if depth == 0:
+                return i
+    return -1
+
 def parse_values_syntax(query, table_name, query_type):
     """
-    Main function that coordinates the parsing of VALUES syntax queries.
+    Final robust implementation that correctly handles:
+    - Multiple rows
+    - Associated comments
+    - Complex value formats
     """
     fields = extract_fields_from_query(query)
     values_content = extract_values_content(query)
-    rows = split_into_individual_rows(values_content)
     
+    # Initialize result storage
     values_sets = []
     comments = {}
     field_value_pairs = {}
     
-    for row in rows:
-        if not is_valid_row(row):
-            continue
+    # Use a more reliable parsing approach
+    pos = 0
+    while pos < len(values_content):
+        # Find the next tuple start
+        tuple_start = values_content.find("(", pos)
+        if tuple_start == -1:
+            break
             
-        value_part = extract_value_part(row)
-        current_set = parse_value_tuple(value_part)
+        # Find matching closing parenthesis
+        tuple_end = find_matching_parenthesis(values_content, tuple_start)
+        if tuple_end == -1:
+            break
+            
+        # Extract the complete tuple
+        tuple_content = values_content[tuple_start+1:tuple_end]
         
+        # Parse the values from this tuple
+        current_set = []
+        current_value = []
+        in_quotes = False
+        
+        for char in tuple_content:
+            if char == "'":
+                in_quotes = not in_quotes
+                current_value.append(char)
+            elif char == "," and not in_quotes:
+                current_set.append("".join(current_value).strip())
+                current_value = []
+            else:
+                current_value.append(char)
+        
+        # Add the last value
+        if current_value:
+            current_set.append("".join(current_value).strip())
+        
+        # Validate and store if we got the right number of values
         if len(current_set) == len(fields):
             row_idx = len(values_sets)
             values_sets.append(current_set)
-            comments[row_idx] = extract_row_comment(row)
+            
+            # Look for comment after this tuple
+            comment_start = values_content.find("--", tuple_end)
+            if comment_start != -1:
+                comment_end = values_content.find("\n", comment_start)
+                if comment_end == -1:
+                    comment_end = len(values_content)
+                comment = values_content[comment_start+2:comment_end].strip()
+                # Clean up comment (remove trailing commas/semicolons)
+                comment = re.sub(r"[;,]\s*$", "", comment)
+                comments[row_idx] = comment
+        
+        # Move position to after this tuple
+        pos = tuple_end + 1
     
     # Process all collected value sets
     for row_idx, values in enumerate(values_sets):
         parsed_values = [parse_individual_value(val) for val in values]
-        validate_field_count(parsed_values, fields)
-        field_value_pairs[row_idx] = create_field_value_dict(fields, parsed_values)
+        field_value_pairs[row_idx] = dict(zip(fields, parsed_values))
     
-    validate_at_least_one_row(values_sets)
+    if not values_sets:
+        raise ValueError("No value sets found in VALUES syntax query")
     
-    return build_result(query_type, table_name, fields, values_sets, field_value_pairs, comments)
+    return {
+        "query_type": query_type,
+        "table_name": table_name,
+        "fields": fields,
+        "values": values_sets[0] if len(values_sets) == 1 else values_sets,
+        "field_value_pairs": field_value_pairs,
+        "comments": comments,
+        "multiple_rows": len(values_sets) > 1,
+        "row_count": len(values_sets)
+    }
 
 def extract_fields_from_query(query):
     """Extracts and formats the field list from the query."""
@@ -787,39 +853,20 @@ def extract_values_content(query):
     return query[values_match.end():]
 
 def split_into_individual_rows(content):
-    """Splits the values content into distinct rows."""
-    return re.split(r"(?<=\))\s*,?\s*(?=\(|--|$)", content)
+    """Splits the values content into distinct rows while preserving comments."""
+    # Split on commas only when they're outside parentheses and not followed by another opening parenthesis
+    rows = re.split(r"(?<=\))\s*(?:,\s*(?=\()|;)", content)
+    return [row.strip() for row in rows if row.strip()]
 
 def is_valid_row(row):
     """Determines if a row contains valid data."""
     return row.strip() and row.strip() != ";"
 
 def extract_value_part(row):
-    """Extracts just the value portion before any comments with more flexible validation."""
-    # Split on comment marker but keep empty parts
-    parts = re.split(r"--", row, maxsplit=1)
-    value_part = parts[0].strip()
-    
-    # More flexible validation that handles:
-    # 1. Standard (value1, value2) format
-    # 2. NULL values
-    # 3. Empty strings
-    if not value_part or value_part == ";":
-        return None  # Skip empty rows
-    
-    # Ensure we have parentheses but don't fail if they're not at start
-    if "(" in value_part and ")" in value_part:
-        # Extract just the part between parentheses
-        start = value_part.find("(")
-        end = value_part.rfind(")")
-        if start < end:
-            return value_part[start:end+1]
-    
-    # If we get here, try to salvage what we can
-    if "," in value_part:  # If it looks like values without parentheses
-        return f"({value_part})"
-    
-    return None  # Skip if we can't parse
+    """Extracts the value tuple portion from a row."""
+    # Find the first complete tuple in the row
+    match = re.search(r"\(([^()]|\([^()]*\))*\)", row)
+    return match.group(0) if match else None
 
 def parse_value_tuple(value_part):
     """Parses an individual value tuple into its components."""
@@ -853,10 +900,16 @@ def parse_value_tuple(value_part):
     return current_set
 
 def extract_row_comment(row):
-    """Extracts and cleans the comment from a row."""
-    if "--" in row:
-        comment = row.split("--", 1)[1].strip()
-        return re.sub(r"[,;].*$", "", comment).strip()
+    """Extracts the comment from a row, ensuring it's after the tuple."""
+    # Find comment only after the tuple
+    tuple_end = row.rfind(")")
+    if tuple_end == -1:
+        return None
+    comment_part = row[tuple_end+1:]
+    if "--" in comment_part:
+        comment = comment_part.split("--", 1)[1].strip()
+        # Remove any trailing SQL characters
+        return re.sub(r"[;,].*$", "", comment).strip()
     return None
 
 def parse_individual_value(val):
@@ -891,6 +944,7 @@ def build_result(query_type, table_name, fields, values_sets, field_value_pairs,
         "multiple_rows": len(values_sets) > 1,
         "row_count": len(values_sets)
     }
+
 def parse_query(query):
     """
     Main function to parse INSERT or REPLACE queries.
@@ -913,9 +967,11 @@ def parse_query(query):
 
     # Check for explicit SET syntax (must appear right after table name)
     if query_remainder.upper().startswith("SET"):
+        print("Parsing as a SET query")
         return parse_set_syntax(normalized_query, table_name, query_type)
     # Check for explicit VALUES syntax (must appear after fields list)
     elif re.search(r"\)\s+VALUES\s*\(", normalized_query, re.IGNORECASE):
+        print("Parsing as VALUES query")
         return parse_values_syntax(normalized_query, table_name, query_type)
     else:
         raise ValueError("Could not parse the query. Unsupported format.")
