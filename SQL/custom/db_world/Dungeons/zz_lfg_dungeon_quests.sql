@@ -3,7 +3,7 @@
         @OUTLAND_HEROIC_SATCHEL = 58302,
         @OUTLAND_MYTHIC_SATCHEL = 58303,    
         @NORTHREND_HEROIC_SATCHEL = 58304,
-        @NORTHREND_MYTHIC_SATCHEL = 58305;
+        @NORTHREND_MYTHIC_SATCHEL = 58305,
         @BADGE_OF_HEROISM = 58200,
         @BADGE_OF_JUSTICE = 29434,
         @AZERITE_SHARD = 58302;
@@ -221,7 +221,7 @@
             `RewardItem1` = @OUTLAND_HEROIC_SATCHEL, 
             `RewardAmount1` = 1,            
             `RewardItem2` = @AZERITE_SHARD, 
-            `RewardAmount2` = 3,        
+            `RewardAmount2` = 3        
             WHERE `ID` = 24923;
 
     -- Mythic Outland Quests
