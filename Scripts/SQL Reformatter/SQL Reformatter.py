@@ -9,9 +9,11 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `creature` (id1,id2,id3,`map`,zoneId,areaId,spawnMask,phaseMask,equipment_id,position_x,position_y,position_z,orientation,spawntimesecs,wander_distance,currentwaypoint,curhealth,curmana,MovementType,npcflag,unit_flags,dynamicflags,ScriptName,VerifiedBuild,CreateObject,Comment) VALUES
-(19778,0,0,530,0,0,1,1,0,-3781.55,-11541.8,-134.744,1.93941,120,0.0,0,811,852,0,0,0,0,'',0,0,NULL), -- Exodar
-(19778,0,0,0,0,0,1,1,0,-8714.31,620.134,100.927,0.0639622,300,0.0,0,811,852,0,0,0,0,'',NULL,0,NULL); -- Stormwind
+INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(52005, 1, 10058, 100, 0, 1, 1, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
+(52005, 2, 10059, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
+(52005, 3, 10060, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
+(52005, 4, 10061, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)');
 
 """
 
@@ -456,6 +458,13 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": 0,           # 0 for custom entries
     },
 
+    "lfg_dungeon_rewards": {
+        "`dungeonId`": 0,
+        "`maxLevel`": 0,
+        "`firstQuestId`": 0,
+        "`otherQuestId`": 0,
+    },
+
     "reference_loot_template": {
         "`Entry`": 0,
         "`Item`": 0,
@@ -752,7 +761,7 @@ def find_matching_parenthesis(s, start):
 
 def parse_values_syntax(query, table_name, query_type):
     """
-    Final fixed version with precise comment isolation.
+    Final version that correctly handles all comments including the final one.
     """
     fields = extract_fields_from_query(query)
     values_content = extract_values_content(query)
@@ -794,19 +803,22 @@ def parse_values_syntax(query, table_name, query_type):
             row_idx = len(values_sets)
             values_sets.append(current_set)
             
-            # Improved comment extraction
+            # Find comment after this tuple
             comment_start = values_content.find("--", tuple_end)
             if comment_start != -1:
-                # Find the next tuple start or semicolon
-                next_tuple = values_content.find("(", tuple_end)
-                semicolon = values_content.find(";", tuple_end)
-                
-                # Determine the comment end boundary
+                # Look for the end of this specific comment
                 comment_end = len(values_content)
-                if next_tuple != -1:
-                    comment_end = min(comment_end, next_tuple)
-                if semicolon != -1:
-                    comment_end = min(comment_end, semicolon)
+                
+                # Check for line break or semicolon after comment
+                for end_marker in ["\n", ";"]:
+                    marker_pos = values_content.find(end_marker, comment_start)
+                    if marker_pos != -1 and marker_pos < comment_end:
+                        comment_end = marker_pos
+                
+                # Also stop at next tuple if it exists
+                next_tuple = values_content.find("(", tuple_end)
+                if next_tuple != -1 and next_tuple < comment_end:
+                    comment_end = next_tuple
                 
                 # Extract and clean the comment
                 comment = values_content[comment_start+2:comment_end].strip()
@@ -833,6 +845,7 @@ def parse_values_syntax(query, table_name, query_type):
         "multiple_rows": len(values_sets) > 1,
         "row_count": len(values_sets)
     }
+
 def extract_fields_from_query(query):
     """Extracts and formats the field list from the query."""
     fields_match = re.search(r"\((.*?)\)\s+VALUES", query, re.DOTALL | re.IGNORECASE)
@@ -847,85 +860,11 @@ def extract_values_content(query):
         raise ValueError("VALUES clause not found in query")
     return query[values_match.end():]
 
-def split_into_individual_rows(content):
-    """Splits the values content into distinct rows while preserving comments."""
-    # Split on commas only when they're outside parentheses and not followed by another opening parenthesis
-    rows = re.split(r"(?<=\))\s*(?:,\s*(?=\()|;)", content)
-    return [row.strip() for row in rows if row.strip()]
-
-def is_valid_row(row):
-    """Determines if a row contains valid data."""
-    return row.strip() and row.strip() != ";"
-
-def extract_value_part(row):
-    """Extracts the value tuple portion from a row."""
-    # Find the first complete tuple in the row
-    match = re.search(r"\(([^()]|\([^()]*\))*\)", row)
-    return match.group(0) if match else None
-
-def parse_value_tuple(value_part):
-    """Parses an individual value tuple into its components."""
-    current_set = []
-    current_value = []
-    in_quotes = False
-    paren_depth = 0
-    
-    for char in value_part:
-        if char == "'":
-            in_quotes = not in_quotes
-            current_value.append(char)
-        elif char == "(" and not in_quotes:
-            paren_depth += 1
-            if paren_depth > 1:  # Nested parentheses
-                current_value.append(char)
-        elif char == ")" and not in_quotes:
-            paren_depth -= 1
-            if paren_depth == 0:  # End of tuple
-                if current_value:
-                    current_set.append("".join(current_value).strip())
-            else:  # Nested parentheses
-                current_value.append(char)
-        elif char == "," and not in_quotes and paren_depth == 1:
-            if current_value:
-                current_set.append("".join(current_value).strip())
-                current_value = []
-        else:
-            current_value.append(char)
-    
-    return current_set
-
-def extract_row_comment(row):
-    """Extracts the comment from a row, ensuring it's after the tuple."""
-    # Find comment only after the tuple
-    tuple_end = row.rfind(")")
-    if tuple_end == -1:
-        return None
-    comment_part = row[tuple_end+1:]
-    if "--" in comment_part:
-        comment = comment_part.split("--", 1)[1].strip()
-        # Remove any trailing SQL characters
-        return re.sub(r"[;,].*$", "", comment).strip()
-    return None
-
 def parse_individual_value(val):
     """Parses and cleans an individual value."""
     if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
         val = val[1:-1]
     return parse_value(val)  # Your existing parse_value function
-
-def validate_field_count(values, fields):
-    """Validates the number of values matches fields."""
-    if len(values) != len(fields):
-        raise ValueError(f"Field count mismatch. Expected {len(fields)}, got {len(values)}")
-
-def create_field_value_dict(fields, values):
-    """Creates a dictionary mapping fields to values."""
-    return dict(zip(fields, values))
-
-def validate_at_least_one_row(values_sets):
-    """Ensures at least one valid row was found."""
-    if not values_sets:
-        raise ValueError("No value sets found in VALUES syntax query")
 
 def build_result(query_type, table_name, fields, values_sets, field_value_pairs, comments):
     """Constructs the final result dictionary."""
