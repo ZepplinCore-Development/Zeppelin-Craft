@@ -1,5 +1,5 @@
 -- VANILLA HORDE NORMAL DUNGEON POOLS
-REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
+REPLACE INTO `pool_template` (`entry`,`max_limit`,`description`) VALUES
 (300014,1,'Vanilla Horde Normal Dungeons Levels 15 - 20'),
 (300000,1,'Vanilla Horde Normal Dungeons Levels 21 - 25'),
 (300012,1,'Vanilla Horde Normal Dungeons Levels 26 - 30'),
@@ -11,7 +11,7 @@ REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
 (300005,1,'Vanilla Horde Normal Dungeons Levels 59 - 60');
 
 -- VANILLA ALLIANCE NORMAL DUNGEON POOLS
-REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
+REPLACE INTO `pool_template` (`entry`,`max_limit`,`description`) VALUES
 (300015,1,'Vanilla Alliance Normal Dungeons Levels 15 - 20'),
 (300006,1,'Vanilla Alliance Normal Dungeons Levels 21 - 25'),
 (300013,1,'Vanilla Alliance Normal Dungeons Levels 26 - 30'),
@@ -23,7 +23,7 @@ REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
 (300011,1,'Vanilla Alliance Normal Dungeons Levels 59 - 60');
 
 -- OUTLAND NORMAL DUNGEON POOLS
-REPLACE INTO `pool_template` (entry,max_limit,description) VALUES
+REPLACE INTO `pool_template` (`entry`,`max_limit`,`description`) VALUES
 (300018,1,'Outland Normal Dungeons Levels 60 - 64'),
 (300019,1,'Outland Normal Dungeons Levels 65 - 68'),
 (300020,1,'Outland Normal Dungeons Levels 69 - 70');
