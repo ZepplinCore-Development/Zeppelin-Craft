@@ -1,125 +1,1279 @@
 -- Reduced Cthun health from 400 -> 300 fight was very long.
-UPDATE `creature_template` SET `HealthModifier` = 300 WHERE (`entry` = 15589);
+    UPDATE `creature_template` SET `HealthModifier` = 300 WHERE (`entry` = 15589);
 
 -- Updated summon groups?
-DELETE FROM `creature_summon_groups` WHERE (`entry` = 15589);
-REPLACE INTO `creature_summon_groups` (`summonerId`, `summonerType`, `groupId`, `entry`, `position_x`, `position_y`, `position_z`, `orientation`, `summonType`, `summonTime`, `Comment`) VALUES
-(15589, 0, 0, 15726, -8603.78, 1974.71, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8605.35, 1994.27, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8589.45, 2012.54, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8563.07, 2010.91, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8550.45, 1992.4, 100.172, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8554.34, 1972.1, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8565.43, 1961.39, 100.221, 0, 6, 500, ''),
-(15589, 0, 0, 15726, -8588.68, 1957.96, 100.498, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8604.79, 1977.72, 100.221, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8604.77, 1997.84, 100.221, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8586.7, 2014.36, 100.221, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8560.73, 2009.24, 100.312, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8549.13, 1989.69, 100.219, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8555, 1969.07, 100.221, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8567.55, 1959.6, 100.341, 0, 6, 500, ''),
-(15589, 0, 1, 15726, -8591.76, 1960.18, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8584.18, 2015.21, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8558.46, 2007.34, 100.5, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8557.41, 1967.25, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8570.91, 1958.95, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8594.71, 1962.33, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8605.22, 1981.86, 100.221, 0, 6, 500, ''),
-(15589, 0, 2, 15726, -8602.66, 2000.3, 100.3, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8574.7, 1958.38, 100.22, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8597.28, 1964.75, 100.221, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8605.61, 1984.79, 100.221, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8601.55, 2002.83, 100.412, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8580.92, 2015.31, 100.221, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8556.54, 2004.97, 100.221, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8549.05, 1984.37, 100.22, 0, 6, 500, ''),
-(15589, 0, 3, 15726, -8559.1, 1965.34, 100.221, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8606.48, 1987.26, 100.221, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8598.74, 2005.75, 100.221, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8577.38, 2015.37, 100.221, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8554.27, 2001.83, 100.167, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8550.04, 1980.84, 100.219, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8560.64, 1963.64, 100.219, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8578.72, 1957.53, 100.404, 0, 6, 500, ''),
-(15589, 0, 4, 15726, -8599.99, 1968.16, 100.221, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8562.93, 1962.27, 100.221, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8583.31, 1956.97, 100.499, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8601.91, 1970.63, 100.263, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8606.08, 1990.23, 100.221, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8595.29, 2009.54, 100.221, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8573.63, 2014.62, 100.221, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8552.32, 1998.95, 100.131, 0, 6, 500, ''),
-(15589, 0, 5, 15726, -8550.86, 1978.12, 100.219, 0, 6, 500, ''),
-(15589, 0, 6, 15726, -8589.450000, 2012.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 6, 15726, -8554.340000, 1972.100000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 7, 15726, -8604.790000, 1977.720000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 7, 15726, -8555.000000, 1969.070000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 8, 15726, -8558.460000, 2007.340000, 100.500000, 0, 6, 500,  ''),
-(15589, 0, 8, 15726, -8605.220000, 1981.860000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 9, 15726, -8580.920000, 2015.310000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 9, 15726, -8559.100000, 1965.340000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 10, 15726, -8577.380000, 2015.370000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 10, 15726, -8606.480000, 1987.260000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 11, 15726, -8595.290000, 2009.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 11, 15726, -8562.930000, 1962.270000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 12, 15726, -8589.450000, 2012.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 12, 15726, -8554.340000, 1972.100000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 12, 15726, -8603.780000, 1974.710000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 12, 15726, -8605.350000, 1994.270000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 13, 15726, -8567.550000, 1959.600000, 100.341000, 0, 6, 500,  ''),
-(15589, 0, 13, 15726, -8549.130000, 1989.690000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 13, 15726, -8591.760000, 1960.180000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 13, 15726, -8586.700000, 2014.360000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 14, 15726, -8584.180000, 2015.210000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 14, 15726, -8570.910000, 1958.950000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 14, 15726, -8602.660000, 2000.300000, 100.300000, 0, 6, 500,  ''),
-(15589, 0, 14, 15726, -8594.710000, 1962.330000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 15, 15726, -8574.700000, 1958.380000, 100.220000, 0, 6, 500,  ''),
-(15589, 0, 15, 15726, -8597.280000, 1964.750000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 15, 15726, -8559.100000, 1965.340000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 15, 15726, -8580.920000, 2015.310000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 16, 15726, -8599.990000, 1968.160000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 16, 15726, -8550.040000, 1980.840000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 16, 15726, -8606.480000, 1987.260000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 16, 15726, -8577.380000, 2015.370000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 17, 15726, -8552.320000, 1998.950000, 100.131000, 0, 6, 500,  ''),
-(15589, 0, 17, 15726, -8562.930000, 1962.270000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 17, 15726, -8595.290000, 2009.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 17, 15726, -8606.080000, 1990.230000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8589.450000, 2012.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8554.340000, 1972.100000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8603.780000, 1974.710000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8605.350000, 1994.270000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8565.430000, 1961.390000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 18, 15726, -8550.450000, 1992.400000, 100.172000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8549.130000, 1989.690000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8591.760000, 1960.180000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8586.700000, 2014.360000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8604.790000, 1977.720000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8555.000000, 1969.070000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 19, 15726, -8604.770000, 1997.840000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8602.660000, 2000.300000, 100.300000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8570.910000, 1958.950000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8584.180000, 2015.210000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8548.820000, 1987.050000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8605.220000, 1981.860000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 20, 15726, -8557.410000, 1967.250000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8580.920000, 2015.310000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8574.700000, 1958.380000, 100.220000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8556.540000, 2004.970000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8559.100000, 1965.340000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8601.550000, 2002.830000, 100.412000, 0, 6, 500,  ''),
-(15589, 0, 21, 15726, -8605.610000, 1984.790000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8599.990000, 1968.160000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8606.480000, 1987.260000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8560.640000, 1963.640000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8550.040000, 1980.840000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8554.270000, 2001.830000, 100.167000, 0, 6, 500,  ''),
-(15589, 0, 22, 15726, -8577.380000, 2015.370000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8550.860000, 1978.120000, 100.219000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8583.310000, 1956.970000, 100.499000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8601.910000, 1970.630000, 100.263000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8606.080000, 1990.230000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8595.290000, 2009.540000, 100.221000, 0, 6, 500,  ''),
-(15589, 0, 23, 15726, -8552.320000, 1998.950000, 100.131000, 0, 6, 500,  '');
+    DELETE FROM `creature_summon_groups` WHERE (`entry` = 15589);
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8603.78,
+        `position_y` = 1974.71,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8605.35,
+        `position_y` = 1994.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8589.45,
+        `position_y` = 2012.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8563.07,
+        `position_y` = 2010.91,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8550.45,
+        `position_y` = 1992.4,
+        `position_z` = 100.172,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8554.34,
+        `position_y` = 1972.1,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8565.43,
+        `position_y` = 1961.39,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `entry` = 15726,
+        `position_x` = -8588.68,
+        `position_y` = 1957.96,
+        `position_z` = 100.498,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8604.79,
+        `position_y` = 1977.72,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8604.77,
+        `position_y` = 1997.84,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8586.7,
+        `position_y` = 2014.36,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8560.73,
+        `position_y` = 2009.24,
+        `position_z` = 100.312,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8549.13,
+        `position_y` = 1989.69,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8555.0,
+        `position_y` = 1969.07,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8567.55,
+        `position_y` = 1959.6,
+        `position_z` = 100.341,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 1,
+        `entry` = 15726,
+        `position_x` = -8591.76,
+        `position_y` = 1960.18,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8584.18,
+        `position_y` = 2015.21,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8558.46,
+        `position_y` = 2007.34,
+        `position_z` = 100.5,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8557.41,
+        `position_y` = 1967.25,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8570.91,
+        `position_y` = 1958.95,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8594.71,
+        `position_y` = 1962.33,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8605.22,
+        `position_y` = 1981.86,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 2,
+        `entry` = 15726,
+        `position_x` = -8602.66,
+        `position_y` = 2000.3,
+        `position_z` = 100.3,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8574.7,
+        `position_y` = 1958.38,
+        `position_z` = 100.22,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8597.28,
+        `position_y` = 1964.75,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8605.61,
+        `position_y` = 1984.79,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8601.55,
+        `position_y` = 2002.83,
+        `position_z` = 100.412,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8580.92,
+        `position_y` = 2015.31,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8556.54,
+        `position_y` = 2004.97,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8549.05,
+        `position_y` = 1984.37,
+        `position_z` = 100.22,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 3,
+        `entry` = 15726,
+        `position_x` = -8559.1,
+        `position_y` = 1965.34,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8606.48,
+        `position_y` = 1987.26,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8598.74,
+        `position_y` = 2005.75,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8577.38,
+        `position_y` = 2015.37,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8554.27,
+        `position_y` = 2001.83,
+        `position_z` = 100.167,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8550.04,
+        `position_y` = 1980.84,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8560.64,
+        `position_y` = 1963.64,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8578.72,
+        `position_y` = 1957.53,
+        `position_z` = 100.404,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 4,
+        `entry` = 15726,
+        `position_x` = -8599.99,
+        `position_y` = 1968.16,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8562.93,
+        `position_y` = 1962.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8583.31,
+        `position_y` = 1956.97,
+        `position_z` = 100.499,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8601.91,
+        `position_y` = 1970.63,
+        `position_z` = 100.263,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8606.08,
+        `position_y` = 1990.23,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8595.29,
+        `position_y` = 2009.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8573.63,
+        `position_y` = 2014.62,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8552.32,
+        `position_y` = 1998.95,
+        `position_z` = 100.131,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 5,
+        `entry` = 15726,
+        `position_x` = -8550.86,
+        `position_y` = 1978.12,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 6,
+        `entry` = 15726,
+        `position_x` = -8589.45,
+        `position_y` = 2012.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 6,
+        `entry` = 15726,
+        `position_x` = -8554.34,
+        `position_y` = 1972.1,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 7,
+        `entry` = 15726,
+        `position_x` = -8604.79,
+        `position_y` = 1977.72,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 7,
+        `entry` = 15726,
+        `position_x` = -8555.0,
+        `position_y` = 1969.07,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 8,
+        `entry` = 15726,
+        `position_x` = -8558.46,
+        `position_y` = 2007.34,
+        `position_z` = 100.5,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 8,
+        `entry` = 15726,
+        `position_x` = -8605.22,
+        `position_y` = 1981.86,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 9,
+        `entry` = 15726,
+        `position_x` = -8580.92,
+        `position_y` = 2015.31,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 9,
+        `entry` = 15726,
+        `position_x` = -8559.1,
+        `position_y` = 1965.34,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 10,
+        `entry` = 15726,
+        `position_x` = -8577.38,
+        `position_y` = 2015.37,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 10,
+        `entry` = 15726,
+        `position_x` = -8606.48,
+        `position_y` = 1987.26,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 11,
+        `entry` = 15726,
+        `position_x` = -8595.29,
+        `position_y` = 2009.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 11,
+        `entry` = 15726,
+        `position_x` = -8562.93,
+        `position_y` = 1962.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 12,
+        `entry` = 15726,
+        `position_x` = -8589.45,
+        `position_y` = 2012.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 12,
+        `entry` = 15726,
+        `position_x` = -8554.34,
+        `position_y` = 1972.1,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 12,
+        `entry` = 15726,
+        `position_x` = -8603.78,
+        `position_y` = 1974.71,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 12,
+        `entry` = 15726,
+        `position_x` = -8605.35,
+        `position_y` = 1994.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 13,
+        `entry` = 15726,
+        `position_x` = -8567.55,
+        `position_y` = 1959.6,
+        `position_z` = 100.341,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 13,
+        `entry` = 15726,
+        `position_x` = -8549.13,
+        `position_y` = 1989.69,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 13,
+        `entry` = 15726,
+        `position_x` = -8591.76,
+        `position_y` = 1960.18,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 13,
+        `entry` = 15726,
+        `position_x` = -8586.7,
+        `position_y` = 2014.36,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 14,
+        `entry` = 15726,
+        `position_x` = -8584.18,
+        `position_y` = 2015.21,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 14,
+        `entry` = 15726,
+        `position_x` = -8570.91,
+        `position_y` = 1958.95,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 14,
+        `entry` = 15726,
+        `position_x` = -8602.66,
+        `position_y` = 2000.3,
+        `position_z` = 100.3,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 14,
+        `entry` = 15726,
+        `position_x` = -8594.71,
+        `position_y` = 1962.33,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 15,
+        `entry` = 15726,
+        `position_x` = -8574.7,
+        `position_y` = 1958.38,
+        `position_z` = 100.22,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 15,
+        `entry` = 15726,
+        `position_x` = -8597.28,
+        `position_y` = 1964.75,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 15,
+        `entry` = 15726,
+        `position_x` = -8559.1,
+        `position_y` = 1965.34,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 15,
+        `entry` = 15726,
+        `position_x` = -8580.92,
+        `position_y` = 2015.31,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 16,
+        `entry` = 15726,
+        `position_x` = -8599.99,
+        `position_y` = 1968.16,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 16,
+        `entry` = 15726,
+        `position_x` = -8550.04,
+        `position_y` = 1980.84,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 16,
+        `entry` = 15726,
+        `position_x` = -8606.48,
+        `position_y` = 1987.26,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 16,
+        `entry` = 15726,
+        `position_x` = -8577.38,
+        `position_y` = 2015.37,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 17,
+        `entry` = 15726,
+        `position_x` = -8552.32,
+        `position_y` = 1998.95,
+        `position_z` = 100.131,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 17,
+        `entry` = 15726,
+        `position_x` = -8562.93,
+        `position_y` = 1962.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 17,
+        `entry` = 15726,
+        `position_x` = -8595.29,
+        `position_y` = 2009.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 17,
+        `entry` = 15726,
+        `position_x` = -8606.08,
+        `position_y` = 1990.23,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8589.45,
+        `position_y` = 2012.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8554.34,
+        `position_y` = 1972.1,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8603.78,
+        `position_y` = 1974.71,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8605.35,
+        `position_y` = 1994.27,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8565.43,
+        `position_y` = 1961.39,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 18,
+        `entry` = 15726,
+        `position_x` = -8550.45,
+        `position_y` = 1992.4,
+        `position_z` = 100.172,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8549.13,
+        `position_y` = 1989.69,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8591.76,
+        `position_y` = 1960.18,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8586.7,
+        `position_y` = 2014.36,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8604.79,
+        `position_y` = 1977.72,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8555.0,
+        `position_y` = 1969.07,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 19,
+        `entry` = 15726,
+        `position_x` = -8604.77,
+        `position_y` = 1997.84,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8602.66,
+        `position_y` = 2000.3,
+        `position_z` = 100.3,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8570.91,
+        `position_y` = 1958.95,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8584.18,
+        `position_y` = 2015.21,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8548.82,
+        `position_y` = 1987.05,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8605.22,
+        `position_y` = 1981.86,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 20,
+        `entry` = 15726,
+        `position_x` = -8557.41,
+        `position_y` = 1967.25,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8580.92,
+        `position_y` = 2015.31,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8574.7,
+        `position_y` = 1958.38,
+        `position_z` = 100.22,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8556.54,
+        `position_y` = 2004.97,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8559.1,
+        `position_y` = 1965.34,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8601.55,
+        `position_y` = 2002.83,
+        `position_z` = 100.412,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 21,
+        `entry` = 15726,
+        `position_x` = -8605.61,
+        `position_y` = 1984.79,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8599.99,
+        `position_y` = 1968.16,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8606.48,
+        `position_y` = 1987.26,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8560.64,
+        `position_y` = 1963.64,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8550.04,
+        `position_y` = 1980.84,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8554.27,
+        `position_y` = 2001.83,
+        `position_z` = 100.167,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 22,
+        `entry` = 15726,
+        `position_x` = -8577.38,
+        `position_y` = 2015.37,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8550.86,
+        `position_y` = 1978.12,
+        `position_z` = 100.219,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8583.31,
+        `position_y` = 1956.97,
+        `position_z` = 100.499,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8601.91,
+        `position_y` = 1970.63,
+        `position_z` = 100.263,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8606.08,
+        `position_y` = 1990.23,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8595.29,
+        `position_y` = 2009.54,
+        `position_z` = 100.221,
+        `summonType` = 6,
+        `summonTime` = 500;
+
+    INSERT INTO `creature_summon_groups` SET
+        `summonerId` = 15589,
+        `groupId` = 23,
+        `entry` = 15726,
+        `position_x` = -8552.32,
+        `position_y` = 1998.95,
+        `position_z` = 100.131,
+        `summonType` = 6,
+        `summonTime` = 500;

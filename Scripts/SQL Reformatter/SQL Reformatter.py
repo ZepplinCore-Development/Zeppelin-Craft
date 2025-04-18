@@ -9,8 +9,12 @@ import re
 # Example usage
 query = """
 
-        INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
-        (21218, 15, 5, -1, 'Blue Qiraji Resonating Crystal', 33969, 3, 0, 0, 1, 1000000, 0, 0, -1, -1, 40, 60, 762, 75, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55884, 0, -1, 0, -1, 330, 3000, 25953, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'Teaches you how to summon this mount.  This mount may only be summoned in the Temple of Ahn''Qiraj.', 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, '', 31, 0, 0, 0, 0, 12340);
+INSERT INTO `gameobject_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(17884, 7076, 0, 9.9, 0, 1, 0, 1, 1, 'Large Obsidian Chunk - Essence of Earth'),
+(17884, 12363, 0, 100, 0, 1, 0, 1, 3, 'Large Obsidian Chunk - Arcane Crystal'),
+(17884, 12364, 0, 1.4, 0, 1, 0, 1, 1, 'Large Obsidian Chunk - Huge Emerald'),
+(17884, 22202, 0, 50.5, 0, 1, 0, 2, 3, 'Large Obsidian Chunk - Small Obsidian Shard'),
+(17884, 22203, 0, 37.8, 0, 1, 0, 1, 1, 'Large Obsidian Chunk - Large Obsidian Shard');
 
 
 """
@@ -225,6 +229,20 @@ TABLE_STRUCTURES = {
         "`Idx`": 0,
         "`ItemId`": 0,
         "`VerifiedBuild`": 0,
+    },
+
+    "creature_summon_groups": {
+        "`summonerId`": 0,            # NPC/GO ID that triggers summon
+        "`summonerType`": 0,           # 0=Creature, 1=GameObject
+        "`groupId`": 0,                # Group identifier
+        "`entry`": 0,                  # Creature ID to summon
+        "`position_x`": 0.0,           # Spawn X coordinate
+        "`position_y`": 0.0,           # Spawn Y coordinate
+        "`position_z`": 0.0,           # Spawn Z coordinate
+        "`orientation`": 0.0,          # Facing angle (radians)
+        "`summonType`": 4,             # 4=TimedOrCorpseDespawn (common default)
+        "`summonTime`": 0,             # Despawn time in ms (0=infinite)
+        "`Comment`": "",               # Description
     },
 
     "dungeon_access_template": {
