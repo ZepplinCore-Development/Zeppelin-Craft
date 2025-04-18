@@ -9,11 +9,9 @@ import re
 # Example usage
 query = """
 
-INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(52005, 1, 10058, 100, 0, 1, 1, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52005, 2, 10059, 100, 0, 1, 2, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52005, 3, 10060, 100, 0, 1, 3, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)'),
-(52005, 4, 10061, 100, 0, 1, 4, 1, 1, 'Satchel of Helpful Goods - (ReferenceTable)');
+        INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, `Flags`, `FlagsExtra`, `BuyCount`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `RequiredSkill`, `RequiredSkillRank`, `requiredspell`, `requiredhonorrank`, `RequiredCityRank`, `RequiredReputationFaction`, `RequiredReputationRank`, `maxcount`, `stackable`, `ContainerSlots`, `StatsCount`, `stat_type1`, `stat_value1`, `stat_type2`, `stat_value2`, `stat_type3`, `stat_value3`, `stat_type4`, `stat_value4`, `stat_type5`, `stat_value5`, `stat_type6`, `stat_value6`, `stat_type7`, `stat_value7`, `stat_type8`, `stat_value8`, `stat_type9`, `stat_value9`, `stat_type10`, `stat_value10`, `ScalingStatDistribution`, `ScalingStatValue`, `dmg_min1`, `dmg_max1`, `dmg_type1`, `dmg_min2`, `dmg_max2`, `dmg_type2`, `armor`, `holy_res`, `fire_res`, `nature_res`, `frost_res`, `shadow_res`, `arcane_res`, `delay`, `ammo_type`, `RangedModRange`, `spellid_1`, `spelltrigger_1`, `spellcharges_1`, `spellppmRate_1`, `spellcooldown_1`, `spellcategory_1`, `spellcategorycooldown_1`, `spellid_2`, `spelltrigger_2`, `spellcharges_2`, `spellppmRate_2`, `spellcooldown_2`, `spellcategory_2`, `spellcategorycooldown_2`, `spellid_3`, `spelltrigger_3`, `spellcharges_3`, `spellppmRate_3`, `spellcooldown_3`, `spellcategory_3`, `spellcategorycooldown_3`, `spellid_4`, `spelltrigger_4`, `spellcharges_4`, `spellppmRate_4`, `spellcooldown_4`, `spellcategory_4`, `spellcategorycooldown_4`, `spellid_5`, `spelltrigger_5`, `spellcharges_5`, `spellppmRate_5`, `spellcooldown_5`, `spellcategory_5`, `spellcategorycooldown_5`, `bonding`, `description`, `PageText`, `LanguageID`, `PageMaterial`, `startquest`, `lockid`, `Material`, `sheath`, `RandomProperty`, `RandomSuffix`, `block`, `itemset`, `MaxDurability`, `area`, `Map`, `BagFamily`, `TotemCategory`, `socketColor_1`, `socketContent_1`, `socketColor_2`, `socketContent_2`, `socketColor_3`, `socketContent_3`, `socketBonus`, `GemProperties`, `RequiredDisenchantSkill`, `ArmorDamageModifier`, `duration`, `ItemLimitCategory`, `HolidayId`, `ScriptName`, `DisenchantID`, `FoodType`, `minMoneyLoot`, `maxMoneyLoot`, `flagsCustom`, `VerifiedBuild`) VALUES
+        (21218, 15, 5, -1, 'Blue Qiraji Resonating Crystal', 33969, 3, 0, 0, 1, 1000000, 0, 0, -1, -1, 40, 60, 762, 75, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 55884, 0, -1, 0, -1, 330, 3000, 25953, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'Teaches you how to summon this mount.  This mount may only be summoned in the Temple of Ahn''Qiraj.', 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, '', 31, 0, 0, 0, 0, 12340);
+
 
 """
 
@@ -912,153 +910,195 @@ def parse_query(query):
 
 def strip_default_values(query):
     """
-    Strips fields with default values from the query while maintaining the same structure for input and output.
-    Handles both single-row and multi-row queries with proper type conversion.
+    Strips fields with default values with proper type handling for numeric values.
+    Handles both flat and nested field_value_pairs structures.
     """
     table_name = query["table_name"]
-    field_value_pairs = query["field_value_pairs"]
+    field_value_pairs = query.get("field_value_pairs", {})
+    fields = query.get("fields", [])
 
-    # Get the default values for the table
     if table_name not in TABLE_STRUCTURES:
         print(f"Warning: Could not find table '{table_name}' when checking for default values")
-        return query  # Return the original query if no default values are found
+        return query
 
     table_info = TABLE_STRUCTURES[table_name]
     cleaned_field_value_pairs = {}
 
-    for row_idx, row_data in field_value_pairs.items():
+    # Handle both flat and nested structures
+    if not any(isinstance(k, int) for k in field_value_pairs.keys()):
+        # Convert flat structure to nested with single row (index 0)
+        rows_to_process = {0: field_value_pairs}
+    else:
+        rows_to_process = field_value_pairs
+
+    for row_idx, row_data in rows_to_process.items():
+        if not isinstance(row_data, dict):
+            continue
+            
         cleaned_row = {}
         for field, value in row_data.items():
-            default_value = table_info.get(field)
+            lookup_field = f"`{field.strip('`')}`"
+            default_value = table_info.get(lookup_field)
 
             if default_value is None:
-                # Keep the field if we don't have default value info
                 cleaned_row[field] = value
-                print("NO DEFAULT VALUE")
                 continue
 
-            # Convert string values to proper types before comparison
-            try:
-                if isinstance(default_value, int):
-                    # Handle empty strings and NULL values
-                    print("DEFAULT VALUE IS INT")
-                    if value == '' or value is None:
-                        converted_value = 0
-                    else:
-                        converted_value = int(float(value)) if '.' in str(value) else int(value)
-                elif isinstance(default_value, float):
-                    print("DEFAULT VALUE IS FLOAT")
-                    converted_value = float(value) if value not in ('', None) else 0.0
-                elif isinstance(default_value, str):
-                    print("DEFAULT VALUE IS STRING")
-                    # Remove surrounding quotes if present
-                    if isinstance(value, str) and len(value) >= 2 and value[0] == "'" and value[-1] == "'":
-                        converted_value = value[1:-1]
-                    else:
-                        converted_value = str(value)
-                else:
-                    converted_value = value
-                    print("UNABLE TO MATCH DEFAULT VALUES TYPE")
-            except (ValueError, TypeError):
-                converted_value = value
-                print("UNABLE TO MATCH DEFAULT VALUES TYPE")
-
-            # Special handling for NULL values
+            # Handle NULL values
             if str(value).upper() == 'NULL':
                 if default_value is not None:
-                    cleaned_row[field] = 'NULL'
+                    cleaned_row[field] = None  # Keep as NULL
                 continue
 
-            # If the value is not equal to the default value, keep it
-            if converted_value != default_value:
-                # Preserve the original value's type where possible
-                if isinstance(default_value, int) and isinstance(converted_value, int):
-                    cleaned_row[field] = converted_value
-                elif isinstance(default_value, float) and isinstance(converted_value, float):
-                    cleaned_row[field] = converted_value
-                else:
+            # Process the value for comparison
+            processed_value = value
+            
+            # Remove surrounding quotes if present
+            if isinstance(value, str):
+                if len(value) >= 2 and value.startswith("'") and value.endswith("'"):
+                    processed_value = value[1:-1]
+                
+                # Try to convert to appropriate numeric type based on default value
+                try:
+                    if isinstance(default_value, int):
+                        processed_value = int(float(processed_value))  # Handle cases like '1.0'
+                    elif isinstance(default_value, float):
+                        processed_value = float(processed_value)
+                except (ValueError, TypeError):
+                    pass  # Keep as string if conversion fails
+
+            # Compare with default value (using type-aware comparison)
+            if (isinstance(default_value, (int, float)) and 
+                isinstance(processed_value, (int, float))):
+                # Numeric comparison
+                if processed_value != default_value:
+                    # Preserve the numeric type in output
+                    cleaned_row[field] = processed_value
+            else:
+                # String comparison
+                if str(processed_value) != str(default_value):
+                    # For strings, keep the original formatting (quoted or not)
                     cleaned_row[field] = value
 
-        # Only add the row if it has any non-default values
         if cleaned_row:
             cleaned_field_value_pairs[row_idx] = cleaned_row
 
-    # Return the updated query with cleaned field_value_pairs
+    # Update the query structure
     updated_query = query.copy()
-    updated_query["field_value_pairs"] = cleaned_field_value_pairs
     
-    # Update the values list to match the cleaned field_value_pairs
-    if query.get("multiple_rows", False):
-        updated_query["values"] = [list(row.values()) for row in cleaned_field_value_pairs.values()]
-    elif cleaned_field_value_pairs:
-        # For single row case
-        updated_query["values"] = list(cleaned_field_value_pairs[0].values())
+    # Handle single row case by returning to flat structure if that's what we started with
+    if len(cleaned_field_value_pairs) == 1 and 0 in cleaned_field_value_pairs:
+        if not any(isinstance(k, int) for k in query.get("field_value_pairs", {}).keys()):
+            updated_query["field_value_pairs"] = cleaned_field_value_pairs[0]
+        else:
+            updated_query["field_value_pairs"] = cleaned_field_value_pairs
+    else:
+        updated_query["field_value_pairs"] = cleaned_field_value_pairs
+    
+    # Update values list if present
+    if "values" in query:
+        if len(cleaned_field_value_pairs) == 1:
+            # Single row case
+            row_data = next(iter(cleaned_field_value_pairs.values()))
+            updated_values = []
+            for field in fields:
+                if field in row_data:
+                    updated_values.append(row_data[field])
+            updated_query["values"] = updated_values
+        else:
+            # Multiple rows case
+            updated_values = []
+            for row_idx in sorted(cleaned_field_value_pairs.keys()):
+                row_data = cleaned_field_value_pairs[row_idx]
+                row_values = []
+                for field in fields:
+                    if field in row_data:
+                        row_values.append(row_data[field])
+                updated_values.append(row_values)
+            updated_query["values"] = updated_values
     
     return updated_query
 
 def creature_template_update(primary_query):
     """
     Updates the `creature_template` query by removing modelid fields and generates
-    a secondary query for the `creature_template_model` table. Ensures both queries
-    include `field_value_pairs` in the same structure.
+    a secondary query for the `creature_template_model` table.
+    Preserves the nested structure of field_value_pairs.
     """
-    # Extract fields and values from the primary query
+    # Get the field_value_pairs structure
+    field_value_pairs = primary_query.get("field_value_pairs", {})
     fields = primary_query["fields"]
-    values = primary_query["values"]
-    comments = primary_query["comments"]
-    field_value_pairs = dict(zip(fields, values))  # Create field-value pairs
+    comments = primary_query.get("comments", {})
     
-    # Get the 'entry' field value from creature_template to use as CreatureID
-    entry_index = fields.index("`entry`")
-    creature_id = values[entry_index]
+    # Normalize to nested structure if it's flat
+    if not any(isinstance(k, int) for k in field_value_pairs.keys()):
+        field_value_pairs = {0: field_value_pairs}
 
-    # Identify modelid fields and their values
-    modelid_fields = ["`modelid1`", "`modelid2`", "`modelid3`", "`modelid4`"]
-    modelid_indexes = [fields.index(field) for field in modelid_fields if field in fields]
-    modelid_values = [values[idx] for idx in modelid_indexes if values[idx] != '0']
-
-    # Create secondary queries for each modelid
+    # Process each row
+    updated_field_value_pairs = {}
     secondary_queries = []
-    num_models = len(modelid_values)
-    if num_models > 0:
-        probability = 1 / num_models  # Set equal probability for each modelid
-        for idx, modelid in enumerate(modelid_values, start=1):
-            # Create the secondary query for creature_template_model
-            secondary_field_value_pairs = {
-                "`CreatureID`": creature_id,
-                "`idx`": idx,
-                "`CreatureDisplayID`": modelid,
-                "`probability`": probability
-            }
-            secondary_query = {
-                "table_name": "creature_template_model",
-                "fields": list(secondary_field_value_pairs.keys()),
-                "values": list(secondary_field_value_pairs.values()),
-                "field_value_pairs": secondary_field_value_pairs
-            }
-            secondary_queries.append(secondary_query)
+    
+    for row_idx, row_data in field_value_pairs.items():
+        if not isinstance(row_data, dict):
+            continue
+            
+        # Get the 'entry' field value from creature_template to use as CreatureID
+        creature_id = row_data.get("`entry`")
+        if not creature_id:
+            continue
 
-    # Remove modelid fields from the primary query
-    for idx in sorted(modelid_indexes, reverse=True):
-        fields.pop(idx)
-        values.pop(idx)
-        del field_value_pairs[modelid_fields[modelid_indexes.index(idx)]]
+        # Identify modelid fields and their values
+        modelid_fields = ["`modelid1`", "`modelid2`", "`modelid3`", "`modelid4`"]
+        modelid_values = [row_data.get(field, '0') for field in modelid_fields 
+                         if field in row_data and row_data.get(field, '0') != '0']
+
+        # Create secondary queries for each modelid
+        num_models = len(modelid_values)
+        if num_models > 0:
+            probability = 1 / num_models  # Set equal probability for each modelid
+            for idx, modelid in enumerate(modelid_values, start=1):
+                secondary_field_value_pairs = {
+                    "`CreatureID`": creature_id,
+                    "`Idx`": idx,
+                    "`CreatureDisplayID`": modelid,
+                    "`DisplayScale`": 1,
+                    "`Probability`": probability,
+                    "`VerifiedBuild`": ""
+                }
+                secondary_query = {
+                    "table_name": "creature_template_model",
+                    "fields": list(secondary_field_value_pairs.keys()),
+                    "values": list(secondary_field_value_pairs.values()),
+                    "field_value_pairs": secondary_field_value_pairs
+                }
+                secondary_queries.append(secondary_query)
+
+        # Remove modelid fields from the row data
+        updated_row = {k: v for k, v in row_data.items() 
+                      if k not in modelid_fields}
+        updated_field_value_pairs[row_idx] = updated_row
+
+    # Update the fields list by removing modelid fields
+    updated_fields = [f for f in fields if f not in ["`modelid1`", "`modelid2`", "`modelid3`", "`modelid4`"]]
 
     # Return the updated primary query and the list of secondary queries
     updated_primary_query = {
         "table_name": primary_query["table_name"],
-        "fields": fields,
-        "values": values,
-        "field_value_pairs": field_value_pairs,
-        "comments": comments,  # Optional: associate comments with fields
+        "query_type": primary_query.get("query_type", "INSERT"),
+        "fields": updated_fields,
+        "values": None,  # Will be updated by strip_default_values
+        "field_value_pairs": updated_field_value_pairs,
+        "comments": comments,
+        "multiple_rows": len(updated_field_value_pairs) > 1,
+        "row_count": len(updated_field_value_pairs)
     }
 
     return updated_primary_query, secondary_queries
 
 def new_query(query):
     """
-    Generates DELETE and INSERT statements for each row instead of REPLACE.
-    This provides better control when we're excluding default values.
+    Generates DELETE and INSERT statements that handles both flat and nested field_value_pairs structures.
+    Properly formats numeric values without quotes.
     """
     table_name = query.get("table_name")
     query_type = query.get("query_type", "REPLACE").upper()
@@ -1070,10 +1110,18 @@ def new_query(query):
         print("Error: Query is missing table_name or field_value_pairs.")
         return
 
+    # Normalize field_value_pairs structure
+    if not any(isinstance(k, int) for k in field_value_pairs.keys()):
+        # Convert flat structure to nested structure with single row (index 0)
+        field_value_pairs = {0: field_value_pairs}
+
     # Find primary key field (assuming first field is PK)
     primary_key_field = fields[0] if fields else None
 
     for row_idx, row_data in field_value_pairs.items():
+        if not isinstance(row_data, dict):
+            continue
+            
         # Get the comment for this specific row if it exists
         row_comment = comments.get(row_idx, "")
         
@@ -1088,6 +1136,8 @@ def new_query(query):
             # Format the PK value appropriately
             if pk_value is None:
                 formatted_pk = "NULL"
+            elif isinstance(pk_value, (int, float)):
+                formatted_pk = str(pk_value)
             elif isinstance(pk_value, str):
                 formatted_pk = f"'{pk_value}'" if not pk_value.startswith("'") else pk_value
             else:
@@ -1105,24 +1155,23 @@ def new_query(query):
         
         # Format each field-value pair
         formatted_pairs = []
-        for i, field in enumerate(fields):
-            if field not in row_data:
-                continue  # Skip fields that were stripped as defaults
-                
-            value = row_data[field]
-            
+        for i, (field, value) in enumerate(row_data.items()):
             # Format the value appropriately
             if value is None:
                 formatted_value = "NULL"
+            elif isinstance(value, (int, float)):
+                formatted_value = str(value)
             elif isinstance(value, str):
-                formatted_value = f"'{value}'" if not value.startswith("'") else value
+                # Handle already-quoted strings
+                if value.startswith("'") and value.endswith("'"):
+                    formatted_value = value
+                else:
+                    formatted_value = f"'{value}'"
             else:
                 formatted_value = str(value)
 
             # Format the line (comma except for last field)
-            is_last_field = (i == len(fields) - 1 or 
-                           field == list(row_data.keys())[-1])
-            
+            is_last_field = (i == len(row_data) - 1)
             line_end = ";" if is_last_field else ","
             formatted_line = f"    {field} = {formatted_value}{line_end}"
             formatted_pairs.append(formatted_line)
@@ -1136,6 +1185,7 @@ def new_query(query):
 # Parse
 parsed_query = parse_query(query)  # Parse the query using the previously defined function
 secondary_queries = []
+print("Parsed Query:")
 print(parsed_query) 
 print("")
 
@@ -1155,10 +1205,12 @@ if table_name == "creature_template":
 
 # Default Value Stripping
 stripped_query = strip_default_values(parsed_query)
+print("Stripped Query:")
 print(stripped_query) 
 print("")
 
 # Primary Query Outputs
+print("New Query:")
 new_query(stripped_query)
 print("")
 
