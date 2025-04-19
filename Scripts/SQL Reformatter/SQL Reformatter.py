@@ -11,7 +11,7 @@ query = """
 
 
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `detection_range`,`scale`,`rank`,`dmgschool`,`DamageModifier`,`BaseAttackTime`,`RangeAttackTime`,`BaseVariance`,`RangeVariance`,`unit_class`,`unit_flags`,`unit_flags2`,`family`,`type`,`type_flags`,`lootid`,`skinloot`,`PetSpellDataId`,`mingold`,`maxgold`,`AIName`,`MovementType`,`HoverHeight`,`HealthModifier`,`ManaModifier`,`ArmorModifier`,`ExperienceModifier`,`movementId`,`RegenHealth`,`mechanic_immune_mask`,`spell_school_immune_mask`,`flags_extra`,`ScriptName`) VALUES
-(351087, "Plagued Warrior", "", 61, 61, 21, 1.0, 1.42857, 20.0, 1.0, 1, 0, 22.4, 2700, 2000, 1.0, 1.0, 1, 64, 2048, 0, 6, 72, 0, 0, 0, 0, 0, 'SmartAI', 0, 1.0, 10.0, 1.0, 1.15, 1.0, 144, 1, 1021518353, 0, 0, ''),
+(351069, "Zombie Chow", "", 60, 60, 89, 1.0, 1.14286, 20.0, 1.0, 1, 0, 3.4, 3000, 2000, 1.0, 1.0, 1, 1, 2048, 0, 6, 72, 0, 0, 0, 0, 0, '', 0, 1.0, 40.0, 3.0, 1.1, 1.0, 100, 1, 1015226896, 0, 0, ''),
 
 
 
