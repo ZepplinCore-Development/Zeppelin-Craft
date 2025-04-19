@@ -1,9 +1,16 @@
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11981);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11981, 30337, 30337, 100, 0, 1, 0, 1, 1, NULL),
-(11981, 30342, 30342, 100, 0, 1, 0, 1, 1, NULL),
-(11981, 900000, 900000, 100, 0, 1, 0, 1, 1, NULL);
+-- Flamegor Loot Table
+    DELETE FROM `creature_loot_template` WHERE (`Entry` = 11981 AND `Item` = 900000);
+    INSERT INTO `creature_loot_template` SET
+        `Entry` = 11981,
+        `Item` = 900000,
+        `Reference` = 900000,
+        `Comment` = 'Flamegor - Elementium Trinket Recipes';
 
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11981);
-INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11981, 57801, 0, 100, 0, 1, 0, 2, 4, 'Ancient Dragonscale');
+-- Flamegor Skinning Table
+    DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11981);
+    INSERT INTO `skinning_loot_template` SET
+        `Entry` = 11981,
+        `Item` = 57801,
+        `MinCount` = 2,
+        `MaxCount` = 4,
+        `Comment` = 'Ancient Dragonscale';

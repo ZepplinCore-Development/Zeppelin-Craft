@@ -1,18 +1,44 @@
-DELETE FROM `creature_loot_template` WHERE (`Entry` = 11983);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11983, 30341, 30341, 100, 0, 1, 0, 1, 1, NULL),
-(11983, 30342, 30342, 100, 0, 1, 0, 1, 1, NULL),
-(11983, 900000, 900000, 100, 0, 1, 0, 1, 1, NULL);
+-- Elementium Recipe Reference Loot Table
+    DELETE FROM `reference_loot_template` WHERE (`Entry` = 900000);
+    INSERT INTO `reference_loot_template` SET
+        `Entry` = 900000,
+        `Item` = 57500,
+        `Chance` = 0,
+        `GroupId` = 1,
+        `Comment` = 'Design: Elementium Talisman';
 
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11983);
-INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(11983, 57801, 0, 100, 0, 1, 1, 2, 4, 'Firemaw - Ancient Dragonscale');
+    INSERT INTO `reference_loot_template` SET
+        `Entry` = 900000,
+        `Item` = 57001,
+        `Chance` = 0,
+        `GroupId` = 1,
+        `Comment` = 'Plans: Elementium Aegis';
 
-DELETE FROM `reference_loot_template` WHERE (`Entry` = 900000);
-INSERT INTO `reference_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(900000, 57500, 0, 0, 0, 1, 1, 1, 1, 'Design: Elementium Talisman'),
-(900000, 57001, 0, 0, 0, 1, 1, 1, 1, 'Plans: Elementium Aegis'),
-(900000, 57204, 0, 0, 0, 1, 1, 1, 1, 'Schematic: Elementium Targeting Matrix');
+    INSERT INTO `reference_loot_template` SET
+        `Entry` = 900000,
+        `Item` = 57204,
+        `Chance` = 0,
+        `GroupId` = 1,
+        `Comment` = 'Schematic: Elementium Targeting Matrix';
+
+-- Firemaw Loot Table
+    DELETE FROM `creature_loot_template` WHERE (`Entry` = 11983 AND `Item` = 900000);
+    INSERT INTO `creature_loot_template` SET
+        `Entry` = 11983,
+        `Item` = 900000,
+        `Reference` = 900000,
+        `Comment` = 'Firemaw - Elementium Trinket Recipes';
+
+-- Firemaw Skinning Loot Table
+    DELETE FROM `skinning_loot_template` WHERE (`Entry` = 11983);
+    INSERT INTO `skinning_loot_template` SET
+        `Entry` = 11983,
+        `Item` = 57801,
+        `GroupId` = 1,
+        `MinCount` = 2,
+        `MaxCount` = 4,
+        `Comment` = 'Firemaw - Ancient Dragonscale';
+
 
 
 

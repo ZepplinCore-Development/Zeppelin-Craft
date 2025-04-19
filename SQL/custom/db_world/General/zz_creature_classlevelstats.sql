@@ -403,25 +403,25 @@
 
 -- Buffed Creature Class Level Stats
 
-	-- Update levels 1 to 40 with incremental increases
+	-- Update levels 1 to 40 with incremental increases and a flat 20% across the board
 	UPDATE `creature_classlevelstats`
 	SET 
-		`basehp0` = `basehp0` * (1 + level * 0.01),
-		`basehp1` = `basehp1` * (1 + level * 0.01),
-		`damage_base` = `damage_base` * (1 + level * 0.01),
-		`damage_exp1` = `damage_exp1` * (1 + level * 0.01),
-		`attackpower` = `attackpower` * (1 + level * 0.01),
-		`rangedattackpower` = `rangedattackpower` * (1 + level * 0.01)
-	WHERE level BETWEEN 1 AND 40;
+		`basehp0` = `basehp0` * (1 + level* 0.001 + 0.2),
+		`basehp1` = `basehp1` * (1 + level * 0.001 + 0.2),
+		`damage_base` = `damage_base` * (1 + level * 0.001 + 0.2),
+		`damage_exp1` = `damage_exp1` * (1 + level * 0.001 + 0.2),
+		`attackpower` = `attackpower` * (1 + level * 0.001 + 0.2),
+		`rangedattackpower` = `rangedattackpower` * (1 + level * 0.001 + 0.2)
+	WHERE level BETWEEN 1 AND 60;
 
-	-- Update levels 41 and above with a flat 40% increase
+	-- Update levels 61 and above with a flat 26 (Azeroth) and 40% increase (Outland)
 	UPDATE `creature_classlevelstats`
 	SET 
-		`basehp0` = `basehp0` * 1.40,
+		`basehp0` = `basehp0` * 1.26,
 		`basehp1` = `basehp1` * 1.40,
-		`damage_base` = `damage_base` * 1.40,
+		`damage_base` = `damage_base` * 1.26,
 		`damage_exp1` = `damage_exp1` * 1.40,
-		`attackpower` = `attackpower` * 1.40,
-		`rangedattackpower` = `rangedattackpower` * 1.40
-	WHERE level >= 41;
+		`attackpower` = `attackpower` * 1.26,
+		`rangedattackpower` = `rangedattackpower` * 1.26
+	WHERE level >= 61;
 

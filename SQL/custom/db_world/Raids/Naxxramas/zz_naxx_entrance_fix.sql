@@ -1,17 +1,162 @@
-DELETE FROM `creature` WHERE (`id1` = 12262);
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(53118, 12262, 0, 0, 0, 0, 0, 1, 1, 0, 3227.72, -3096.21, 161.423, 3.47321, 345, 0, 0, 3589, 0, 0, 0, 0, 0, '', 0, 0, NULL),
-(91941, 12262, 0, 0, 0, 0, 0, 1, 1, 0, 2794.86, -3761.12, 125.507, 3.36848, 345, 0, 0, 3589, 0, 0, 0, 0, 0, '', 0, 0, NULL),
-(91947, 12262, 0, 0, 0, 0, 0, 1, 1, 0, 2862.1, -3232.82, 134.27, 0.034907, 345, 0, 0, 3589, 0, 0, 0, 0, 0, '', 0, 0, NULL),
-(92258, 12262, 0, 0, 0, 0, 0, 1, 1, 0, 3175.24, -3315.21, 165.244, 2.28638, 345, 0, 0, 3589, 0, 0, 0, 0, 0, '', 0, 0, NULL),
-(92266, 12262, 0, 0, 0, 0, 0, 1, 1, 0, 3178.88, -3468.25, 167.479, 4.27606, 345, 0, 0, 3589, 0, 0, 0, 0, 0, '', 0, 0, NULL);
+-- Ziggurat Protector Remove Spawns Near Teleport
+    DELETE FROM `creature` WHERE (`id1` = 12262);
 
-DELETE FROM `creature` WHERE (`id1` = 8553);
-INSERT INTO `creature` (`guid`, `id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`, `CreateObject`, `Comment`) VALUES
-(91940, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 2814.52, -3757.79, 122.507, 3.35103, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(91946, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 2855.31, -3232.34, 134.27, 6.26573, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(92264, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 3185.53, -3456.8, 165.529, 4.13643, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(92269, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 3075.49, -3368.79, 154.443, 0, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(92271, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 3083.83, -3368.92, 154.443, 3.22886, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(92274, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 3259.74, -3390.09, 143.522, 1.71042, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL),
-(92279, 8553, 0, 0, 0, 0, 0, 1, 1, 1, 3258.43, -3373.41, 144.274, 4.67748, 345, 0, 0, 2305, 4896, 0, 0, 0, 0, '', 0, 0, NULL);
+    INSERT INTO `creature` SET
+        `guid` = 53118,
+        `id1` = 12262,
+        `position_x` = 3227.72,
+        `position_y` = -3096.21,
+        `position_z` = 161.423,
+        `orientation` = 3.47321,
+        `spawntimesecs` = 345,
+        `curhealth` = 3589,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 91941,
+        `id1` = 12262,
+        `position_x` = 2794.86,
+        `position_y` = -3761.12,
+        `position_z` = 125.507,
+        `orientation` = 3.36848,
+        `spawntimesecs` = 345,
+        `curhealth` = 3589,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 91947,
+        `id1` = 12262,
+        `position_x` = 2862.1,
+        `position_y` = -3232.82,
+        `position_z` = 134.27,
+        `orientation` = 0.034907,
+        `spawntimesecs` = 345,
+        `curhealth` = 3589,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92258,
+        `id1` = 12262,
+        `position_x` = 3175.24,
+        `position_y` = -3315.21,
+        `position_z` = 165.244,
+        `orientation` = 2.28638,
+        `spawntimesecs` = 345,
+        `curhealth` = 3589,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92266,
+        `id1` = 12262,
+        `position_x` = 3178.88,
+        `position_y` = -3468.25,
+        `position_z` = 167.479,
+        `orientation` = 4.27606,
+        `spawntimesecs` = 345,
+        `curhealth` = 3589,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+-- Necromancer Remove Spawns Near Teleport
+    DELETE FROM `creature` WHERE (`id1` = 8553);
+
+    INSERT INTO `creature` SET
+        `guid` = 91940,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 2814.52,
+        `position_y` = -3757.79,
+        `position_z` = 122.507,
+        `orientation` = 3.35103,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 91946,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 2855.31,
+        `position_y` = -3232.34,
+        `position_z` = 134.27,
+        `orientation` = 6.26573,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92264,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 3185.53,
+        `position_y` = -3456.8,
+        `position_z` = 165.529,
+        `orientation` = 4.13643,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92269,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 3075.49,
+        `position_y` = -3368.79,
+        `position_z` = 154.443,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92271,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 3083.83,
+        `position_y` = -3368.92,
+        `position_z` = 154.443,
+        `orientation` = 3.22886,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92274,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 3259.74,
+        `position_y` = -3390.09,
+        `position_z` = 143.522,
+        `orientation` = 1.71042,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
+
+    INSERT INTO `creature` SET
+        `guid` = 92279,
+        `id1` = 8553,
+        `equipment_id` = 1,
+        `position_x` = 3258.43,
+        `position_y` = -3373.41,
+        `position_z` = 144.274,
+        `orientation` = 4.67748,
+        `spawntimesecs` = 345,
+        `curhealth` = 2305,
+        `curmana` = 4896,
+        `VerifiedBuild` = '0',
+        `Comment` = NULL;
