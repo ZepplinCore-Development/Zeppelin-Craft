@@ -190,6 +190,11 @@ SET @CLASSIC_HEROIC_SATCHEL = 58300,
             `RewardAmount3` = 1           
             WHERE `ID` = 24887;
 
+        -- Outland Random 61-64 (Nth)
+            UPDATE `quest_template` SET 
+            `LogTitle` = 'Outland Random 61-64 (Nth)'        
+            WHERE `ID` = 24895;
+
         -- Outland Random 65-70 (1st)
             UPDATE `quest_template` SET 
             `LogTitle` = 'Outland Random 65-70 (1st)', 
@@ -199,6 +204,11 @@ SET @CLASSIC_HEROIC_SATCHEL = 58300,
             `RewardItem3` = @BADGE_OF_JUSTICE, 
             `RewardAmount3` = 1           
             WHERE `ID` = 24888;
+
+        -- Outland Random 65-70 (Nth)
+            UPDATE `quest_template` SET 
+            `LogTitle` = 'Outland Random 65-70 (Nth)'       
+            WHERE `ID` = 24896;
 
     -- Heroic Outland Quests
 
@@ -216,7 +226,7 @@ SET @CLASSIC_HEROIC_SATCHEL = 58300,
 
         -- Outland Random Heroic (Nth)
             UPDATE `quest_template` SET 
-            `LogTitle` = 'Outland Random Heroic (1st)', 
+            `LogTitle` = 'Outland Random Heroic (Nth)', 
             `RewardXPDifficulty` = 8, 
             `RewardItem1` = @OUTLAND_HEROIC_SATCHEL, 
             `RewardAmount1` = 1,            
@@ -227,18 +237,112 @@ SET @CLASSIC_HEROIC_SATCHEL = 58300,
     -- Mythic Outland Quests
 
 -- LFG Rewards
-    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` IN (401, 406);
 
-    -- Heroic Classic
-        INSERT INTO `lfg_dungeon_rewards` SET
-            `dungeonId` = 401,
-            `maxLevel` = 60,
-            `firstQuestId` = 90003,
-            `otherQuestId` = 90004;
+    -- Classic Random 5-15
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 15,
+        `firstQuestId` = 24881,
+        `otherQuestId` = 24889;
 
-    -- Mythic Classic
-        INSERT INTO `lfg_dungeon_rewards` SET
-            `dungeonId` = 406,
-            `maxLevel` = 60,
-            `firstQuestId` = 90005,
-            `otherQuestId` = 90006;
+    -- Classic Random 15-25
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 25,
+        `firstQuestId` = 24882,
+        `otherQuestId` = 24890;
+
+    -- Classic Random 24-34
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 34,
+        `firstQuestId` = 24883,
+        `otherQuestId` = 24891;
+
+    -- Classic Random 35 - 45
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 45,
+        `firstQuestId` = 24884,
+        `otherQuestId` = 24892;
+
+    -- Classic Random 45 - 55
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 55,
+        `firstQuestId` = 24885,
+        `otherQuestId` = 24893;
+
+    -- Classic Random 55 - 60
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 400,
+        `maxLevel` = 60,
+        `firstQuestId` = 24886,
+        `otherQuestId` = 24894;
+
+    -- Heroic Classic Random
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 401;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 401,
+        `maxLevel` = 60,
+        `firstQuestId` = 90003,
+        `otherQuestId` = 90004;
+
+    -- Outland Random 61 - 64
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 402;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 402,
+        `maxLevel` = 64,
+        `firstQuestId` = 24887,
+        `otherQuestId` = 24895;
+
+    -- Outland Random 64 - 70 
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 402;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 402,
+        `maxLevel` = 70,
+        `firstQuestId` = 24888,
+        `otherQuestId` = 24896;
+
+    -- Heroic Outland Random 64 - 70
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 403;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 403,
+        `maxLevel` = 70,
+        `firstQuestId` = 24922,
+        `otherQuestId` = 24923;
+
+    -- Northrend Random 70 - 80   
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 404;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 404,
+        `maxLevel` = 80,
+        `firstQuestId` = 24790,
+        `otherQuestId` = 24791;
+
+    -- Heroic Northrend Random
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 405;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 405,
+        `maxLevel` = 80,
+        `firstQuestId` = 24788,
+        `otherQuestId` = 24789;
+
+    -- Mythic Classic Random
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 406;
+    INSERT INTO `lfg_dungeon_rewards` SET
+        `dungeonId` = 406,
+        `maxLevel` = 60,
+        `firstQuestId` = 90005,
+        `otherQuestId` = 90006;
+
+            
+
+            
+
