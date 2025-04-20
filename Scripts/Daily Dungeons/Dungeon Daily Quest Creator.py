@@ -82,25 +82,25 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 1
                     reward_2 = 58302 # Azerite Shard
-                    rewardamount_2 = 2
+                    rewardamount_2 = 3
 
                 case "Vanilla Heroic":
                     reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 2
                     reward_2 = 58302 # Azerite Shard
-                    rewardamount_2 = 3
+                    rewardamount_2 = 4
 
                 case "Vanilla Mythic":
                     reward_1 = 58200 # Badge of Heroism
                     rewardamount_1 = 3
                     reward_2 = 58302 # Azerite Shard
-                    rewardamount_2 = 4
+                    rewardamount_2 = 5
 
                 case "Outland Normal":
                     reward_1 = 29434 # Badge of Justice
                     rewardamount_1 = 1
                     reward_2 = 58302 # Azerite Shard
-                    rewardamount_2 = 2
+                    rewardamount_2 = 3
 
             match faction:
                 case "Horde":
@@ -145,6 +145,24 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     rep1 = "933" # Consortium reputation
                     reward_text = "My buyer will be most pleased."
                     flag = "4232"    
+
+                case "Sha'tar":
+                    quest_npc_name = "Nether-Stalker Mah''duun"
+                    quest_npc_id = "24370"
+                    npc_city = "Shattrath"  
+                    rep1 = "933" # Consortium reputation
+                    rep2 = "935" # Sha'tar
+                    reward_text = "My buyer will be most pleased."
+                    flag = "4232"    
+
+                case "Keepers of Time":
+                    quest_npc_name = "Nether-Stalker Mah''duun"
+                    quest_npc_id = "24370"
+                    npc_city = "Shattrath"  
+                    rep1 = "933" # Consortium reputation
+                    rep2 = "989" # Keepers of Time
+                    reward_text = "My buyer will be most pleased."
+                    flag = "4232"                        
 
             if item_name:
 
