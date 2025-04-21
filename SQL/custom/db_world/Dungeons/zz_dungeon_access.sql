@@ -492,6 +492,7 @@ DELETE FROM `dungeon_access_requirements`;
                     `dungeon_access_id` = 55,
                     `requirement_type` = 2, -- Item
                     `requirement_id` = 30622,
+                    `faction` = 0,
                     `comment` = 'Hellfire Citadel: The Blood Furnace - Heroic - Alliance - Flamewrought Key';
 
                 INSERT INTO `dungeon_access_requirements` SET
@@ -538,7 +539,8 @@ DELETE FROM `dungeon_access_requirements`;
                     `dungeon_access_id` = 54,
                     `requirement_type` = 2, -- Item
                     `requirement_id` = 30622,
-                    `comment` = 'Hellfire Citadel: The Shattered Halls (Heroic) - Aliance - Flamewrought Key';
+                    `faction` = 0,
+                    `comment` = 'Hellfire Citadel: The Shattered Halls (Heroic) - Alliance - Flamewrought Key';
 
                 INSERT INTO `dungeon_access_requirements` SET
                     `dungeon_access_id` = 54,
@@ -575,6 +577,7 @@ DELETE FROM `dungeon_access_requirements`;
                 `dungeon_access_id` = 56,
                 `requirement_type` = 2, -- Item
                 `requirement_id` = 30622,
+                `faction` = 0,
                 `comment` = 'Hellfire Citadel: Hellfire Ramparts (Heroic) - Alliance - Flamewrought Key';
 
             INSERT INTO `dungeon_access_requirements` SET
@@ -989,6 +992,7 @@ DELETE FROM `dungeon_access_requirements`;
                         `requirement_type` = 1, -- Quest
                         `requirement_id` = 24499,
                         `requirement_note` = 'You must complete the quest "Echoes of Tortured Souls" before entering the Pit of Saron.',
+                        `faction` = 0,
                         `comment` = 'Icecrown Citadel: Pit of Saron (Normal) - Alliance';
 
                     INSERT INTO `dungeon_access_requirements` SET
@@ -1013,6 +1017,7 @@ DELETE FROM `dungeon_access_requirements`;
                         `requirement_type` = 1, -- Quest
                         `requirement_id` = 24499,
                         `requirement_note` = 'You must complete the quest "Echoes of Tortured Souls" and be level 80 before entering the Heroic difficulty of the Pit of Saron.',
+                        `faction` = 0,
                         `comment` = 'Icecrown Citadel: Pit of Saron (Heroic) - Alliance';
 
                     INSERT INTO `dungeon_access_requirements` SET
@@ -1038,6 +1043,7 @@ DELETE FROM `dungeon_access_requirements`;
                     `requirement_type` = 1, -- Quest
                     `requirement_id` = 24710,
                     `requirement_note` = 'You must complete the quest "Deliverance from the Pit" before entering the Halls of Reflection.',
+                    `faction` = 0,
                     `comment` = 'Icecrown Citadel: Halls of Reflection (Normal) - Alliance';
 
                 INSERT INTO `dungeon_access_requirements` SET
@@ -1062,6 +1068,7 @@ DELETE FROM `dungeon_access_requirements`;
                     `requirement_type` = 1, -- Quest
                     `requirement_id` = 24710,
                     `requirement_note` = 'You must complete the quest "Deliverance from the Pit" and be level 80 before entering the Heroic difficulty of the Halls of Reflection.',
+                    `faction` = 0,
                     `comment` = 'Icecrown Citadel: Halls of Reflection (Heroic) - Alliance';
 
                 INSERT INTO `dungeon_access_requirements` SET
