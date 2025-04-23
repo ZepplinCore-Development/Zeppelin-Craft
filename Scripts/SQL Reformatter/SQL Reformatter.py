@@ -10,9 +10,8 @@ import re
 query = """
 
 
-INSERT INTO `creature_template` (`entry`, `name`, `subname`, `minlevel`, `maxlevel`, `faction`, `speed_walk`, `speed_run`, `detection_range`,`scale`,`rank`,`dmgschool`,`DamageModifier`,`BaseAttackTime`,`RangeAttackTime`,`BaseVariance`,`RangeVariance`,`unit_class`,`unit_flags`,`unit_flags2`,`family`,`type`,`type_flags`,`lootid`,`skinloot`,`PetSpellDataId`,`mingold`,`maxgold`,`AIName`,`MovementType`,`HoverHeight`,`HealthModifier`,`ManaModifier`,`ArmorModifier`,`ExperienceModifier`,`movementId`,`RegenHealth`,`mechanic_immune_mask`,`spell_school_immune_mask`,`flags_extra`,`ScriptName`) VALUES
-(351069, "Zombie Chow", "", 60, 60, 89, 1.0, 1.14286, 20.0, 1.0, 1, 0, 3.4, 3000, 2000, 1.0, 1.0, 1, 1, 2048, 0, 6, 72, 0, 0, 0, 0, 0, '', 0, 1.0, 40.0, 3.0, 1.1, 1.0, 100, 1, 1015226896, 0, 0, ''),
-
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(351008, 22708, 0, 1, 1, 1, 0, 1, 1, NULL),
 
 
 
@@ -167,40 +166,6 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": '', # NULL for custom entries
     },
 
-    "smart_scripts": {
-    "`entryorguid`": 0,
-    "`source_type`": 0,
-    "`id`": 0,
-    "`link`": 0,
-    "`event_type`": 0,
-    "`event_phase_mask`": 0,
-    "`event_chance`": 100,
-    "`event_flags`": 0,
-    "`event_param1`": 0,
-    "`event_param2`": 0,
-    "`event_param3`": 0,
-    "`event_param4`": 0,
-    "`event_param5`": 0,
-    "`event_param6`": 0,
-    "`action_type`": 0,
-    "`action_param1`": 0,
-    "`action_param2`": 0,
-    "`action_param3`": 0,
-    "`action_param4`": 0,
-    "`action_param5`": 0,
-    "`action_param6`": 0,
-    "`target_type`": 0,
-    "`target_param1`": 0,
-    "`target_param2`": 0,
-    "`target_param3`": 0,
-    "`target_param4`": 0,
-    "`target_x`": 0,
-    "`target_y`": 0,
-    "`target_z`": 0,
-    "`target_o`": 0,
-    "`comment`": "",
-    },
-
     "creature_questender": {
         "`id`": 0,
         "`quest`": 0,
@@ -277,7 +242,7 @@ TABLE_STRUCTURES = {
         "`requirement_type`": None,          # 0=None, 1=Quest, 2=Item, 3=Achievement
         "`requirement_id`": None,            # Quest/Item/Achievement ID
         "`requirement_note`": None,         # Displayed requirement text
-        "`faction`": 2,                   # 0=Both, 1=Alliance, 2=Horde
+        "`faction`": 2,                   # 0=Alliance, 1=Horde, 2=Both
         "`priority`": None,               # NULL for default ordering
         "`leader_only`": 0,               # 0=All party members, 1=Leader only
         "`comment`": None,                  # Developer notes
@@ -711,6 +676,40 @@ TABLE_STRUCTURES = {
         "`VerifiedBuild`": ""
     },
 
+    "smart_scripts": {
+    "`entryorguid`": 0,
+    "`source_type`": 0,
+    "`id`": 0,
+    "`link`": 0,
+    "`event_type`": 0,
+    "`event_phase_mask`": 0,
+    "`event_chance`": 100,
+    "`event_flags`": 0,
+    "`event_param1`": 0,
+    "`event_param2`": 0,
+    "`event_param3`": 0,
+    "`event_param4`": 0,
+    "`event_param5`": 0,
+    "`event_param6`": 0,
+    "`action_type`": 0,
+    "`action_param1`": 0,
+    "`action_param2`": 0,
+    "`action_param3`": 0,
+    "`action_param4`": 0,
+    "`action_param5`": 0,
+    "`action_param6`": 0,
+    "`target_type`": 0,
+    "`target_param1`": 0,
+    "`target_param2`": 0,
+    "`target_param3`": 0,
+    "`target_param4`": 0,
+    "`target_x`": 0,
+    "`target_y`": 0,
+    "`target_z`": 0,
+    "`target_o`": 0,
+    "`comment`": "",
+    },
+
     "spell_dbc": {
         "`ID`": 0,
         "`Category`": 0,
@@ -946,6 +945,17 @@ TABLE_STRUCTURES = {
         "`EffectBonusMultiplier_3`": 0,
         "`SpellDescriptionVariableID`": 0,
         "`SpellDifficultyID`": 0,
+    },
+
+    "spell_target_position": {
+        "`ID`": 0,                  # Spell ID from Spell.dbc
+        "`EffectIndex`": 0,          # 0=Effect_1, 1=Effect_2, 2=Effect_3
+        "`MapID`": 0,                # Target map ID
+        "`PositionX`": 0.0,          # World X coordinate
+        "`PositionY`": 0.0,          # World Y coordinate
+        "`PositionZ`": 0.0,          # World Z coordinate
+        "`Orientation`": 0.0,        # Facing angle (radians)
+        "`VerifiedBuild`": 0,        # 0 for custom entries
     },
 
     "skinning_loot_template": {
