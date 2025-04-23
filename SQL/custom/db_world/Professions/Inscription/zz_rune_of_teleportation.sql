@@ -1,1 +1,0 @@
-UPDATE `item_template` SET `BuyPrice` = 100000, `SellPrice` = 25000, `stackable` = 20 WHERE (`entry` = 17031);

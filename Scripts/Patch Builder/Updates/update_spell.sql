@@ -2766,6 +2766,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25782;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji battle tank. This is a very fast mount.' /* was 'Summons and dismisses a rideable Qiraji battle tank. This is a very fast mount.' */
+WHERE `ID` = 25863;
+
+UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 42 /* was 30 */
 WHERE `ID` = 25894;
 
@@ -3651,6 +3656,13 @@ UPDATE `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 30555;
+
+UPDATE `dbc`.`spell` SET 
+    `Attributes` = 0 /* was 256 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 30953;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -13176,6 +13188,39 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91139;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91139,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 14,
+    `InterruptFlags` = 47,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent1` = 22682,
+    `Reagent2` = 10648,
+    `ReagentCount1` = 1,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 57400,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Mind Control',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
     `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
