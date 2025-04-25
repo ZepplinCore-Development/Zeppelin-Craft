@@ -2192,19 +2192,23 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21161;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17028 */
+    `Reagent1` = 58302 /* was 17028 */,
+    `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 21562;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17029 */
+    `Reagent1` = 58302 /* was 17029 */,
+    `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 21564;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17021 */
+    `Reagent1` = 58302 /* was 17021 */,
+    `ManaCostPercentage` = 0 /* was 64 */
 WHERE `ID` = 21849;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17026 */
+    `Reagent1` = 58302 /* was 17026 */,
+    `ManaCostPercentage` = 0 /* was 64 */
 WHERE `ID` = 21850;
 
 UPDATE `dbc`.`spell` SET 
@@ -2236,7 +2240,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22757;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17020 */
+    `Reagent1` = 58302 /* was 17020 */,
+    `ManaCostPercentage` = 0 /* was 81 */
 WHERE `ID` = 23028;
 
 UPDATE `dbc`.`spell` SET 
@@ -2685,7 +2690,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25339;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17029 */
+    `Reagent1` = 58302 /* was 17029 */,
+    `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 25392;
 
 UPDATE `dbc`.`spell` SET 
@@ -3036,6 +3042,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 26928;
 
 UPDATE `dbc`.`spell` SET 
+    `ManaCostPercentage` = 0 /* was 64 */
+WHERE `ID` = 26991;
+
+UPDATE `dbc`.`spell` SET 
     `EffectApplyAuraName3` = 79 /* was 118 */,
     `EffectBonusMultiplier3` = 1.0 /* was 0.0 */
 WHERE `ID` = 27071;
@@ -3066,7 +3076,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 27124;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17020 */
+    `Reagent1` = 58302 /* was 17020 */,
+    `ManaCostPercentage` = 0 /* was 81 */
 WHERE `ID` = 27127;
 
 UPDATE `dbc`.`spell` SET 
@@ -3659,6 +3670,9 @@ WHERE `ID` = 30555;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 0 /* was 256 */,
+    `Effect2` = 0 /* was 2 */,
+    `EffectDieSides2` = 0 /* was 187 */,
+    `EffectBasePoints2` = 0 /* was 656 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
@@ -4583,7 +4597,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42931;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 58302 /* was 17020 */
+    `Reagent1` = 58302 /* was 17020 */,
+    `ManaCostPercentage` = 0 /* was 81 */
 WHERE `ID` = 43002;
 
 UPDATE `dbc`.`spell` SET 
@@ -6483,7 +6498,7 @@ INSERT INTO `dbc`.`spell` SET
     `SchoolMask` = 1;
 
 UPDATE `dbc`.`spell` SET 
-    `Reagent1` = 17967 /* was 38425 */,
+    `Reagent1` = 57801 /* was 38425 */,
     `Reagent2` = 12810 /* was 38557 */,
     `Reagent3` = 14341 /* was 0 */,
     `ReagentCount3` = 4 /* was 0 */,
