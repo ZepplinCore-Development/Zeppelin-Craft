@@ -238,6 +238,8 @@ SET @CLASSIC_HEROIC_SATCHEL = 58300,
 
 -- LFG Rewards
 
+    DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` IN (258, 259, 260, 261, 262);    
+
     -- Classic Random 5-15
     DELETE FROM `lfg_dungeon_rewards` WHERE `dungeonId` = 400;
     INSERT INTO `lfg_dungeon_rewards` SET
