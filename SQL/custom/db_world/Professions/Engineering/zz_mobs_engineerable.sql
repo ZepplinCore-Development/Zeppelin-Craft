@@ -181,10 +181,10 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 15691);
 
     -- Mekgineer Steamrigger
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 17796);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 17796 OR 20630);
 
     -- Mechano-Lord Capacitus
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19219);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19219 OR 21533);
 
     -- Promenade Sentinel
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 23394);
@@ -202,19 +202,19 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20041);
 
     -- Tempest-Forge Peacekeeper
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 18405);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 18405 OR 21578);
 
     -- Tempest-Forge Destroyer
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19735);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19735 OR 21542);
 
     -- Tempest-Forge Patroller
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19166);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 19166 OR 21543);
 
     -- Fel Reaver
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 18733);
 
     -- Arcatraz Sentinel
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20869);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20869 OR 21586);
     
     -- Scrapped Fel Reaver
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100035 WHERE (`entry` = 20243);
