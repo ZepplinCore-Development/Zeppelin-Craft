@@ -10,21 +10,121 @@ import re
 query = """
 
 
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351008, 22708, 0, 1, 1, 1, 0, 1, 1, NULL),
-
+INSERT INTO `mod_auctionhousebot` (`auctionhouse`, `name`, `minitems`, `maxitems`, `percentgreytradegoods`, `percentwhitetradegoods`, `percentgreentradegoods`, `percentbluetradegoods`, `percentpurpletradegoods`, `percentorangetradegoods`, `percentyellowtradegoods`, `percentgreyitems`, `percentwhiteitems`, `percentgreenitems`, `percentblueitems`, `percentpurpleitems`, `percentorangeitems`, `percentyellowitems`, `minpricegrey`, `maxpricegrey`, `minpricewhite`, `maxpricewhite`, `minpricegreen`, `maxpricegreen`, `minpriceblue`, `maxpriceblue`, `minpricepurple`, `maxpricepurple`, `minpriceorange`, `maxpriceorange`, `minpriceyellow`, `maxpriceyellow`, `minbidpricegrey`, `maxbidpricegrey`, `minbidpricewhite`, `maxbidpricewhite`, `minbidpricegreen`, `maxbidpricegreen`, `minbidpriceblue`, `maxbidpriceblue`, `minbidpricepurple`, `maxbidpricepurple`, `minbidpriceorange`, `maxbidpriceorange`, `minbidpriceyellow`, `maxbidpriceyellow`, `maxstackgrey`, `maxstackwhite`, `maxstackgreen`, `maxstackblue`, `maxstackpurple`, `maxstackorange`, `maxstackyellow`, `buyerpricegrey`, `buyerpricewhite`, `buyerpricegreen`, `buyerpriceblue`, `buyerpricepurple`, `buyerpriceorange`, `buyerpriceyellow`, `buyerbiddinginterval`, `buyerbidsperinterval`)
+VALUES
+(2,'Alliance',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1),
+(6,'Horde',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1),
+(7,'Neutral',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1);
 
 
 """
 
 # Define the table structure and default values
 TABLE_STRUCTURES = {
+    "mod_auctionhousebot": {
+        # Core Identification
+        "`auctionhouse`": 0,                      # Map ID of AH (e.g., 1 for Stormwind)
+        "`name`": None,                           # Display name (e.g., "Stormwind AH")
+
+        # Item Quantity Control
+        "`minitems`": 0,                          # Min items to maintain (0 = use maxitems)
+        "`maxitems`": 0,                          # Target item count
+
+        # Trade Goods Distribution (%)
+        "`percentgreytradegoods`": 0,
+        "`percentwhitetradegoods`": 27,
+        "`percentgreentradegoods`": 12,
+        "`percentbluetradegoods`": 10,
+        "`percentpurpletradegoods`": 1,
+        "`percentorangetradegoods`": 0,
+        "`percentyellowtradegoods`": 0,
+
+        # Regular Items Distribution (%)
+        "`percentgreyitems`": 0,
+        "`percentwhiteitems`": 10,
+        "`percentgreenitems`": 30,
+        "`percentblueitems`": 8,
+        "`percentpurpleitems`": 2,
+        "`percentorangeitems`": 0,
+        "`percentyellowitems`": 0,
+
+        # Buyout Price Ranges (% of vendor price)
+        "`minpricegrey`": 250,
+        "`maxpricegrey`": 500,
+        "`minpricewhite`": 750,
+        "`maxpricewhite`": 1000,
+        "`minpricegreen`": 1250,
+        "`maxpricegreen`": 1500,
+        "`minpriceblue`": 1750,
+        "`maxpriceblue`": 2000,
+        "`minpricepurple`": 3000,
+        "`maxpricepurple`": 4000,
+        "`minpriceorange`": 5000,
+        "`maxpriceorange`": 10000,
+        "`minpriceyellow`": 5000,
+        "`maxpriceyellow`": 10000,
+
+        # Bid Price Ranges (% of buyout price)
+        "`minbidpricegrey`": 70,
+        "`maxbidpricegrey`": 100,
+        "`minbidpricewhite`": 70,
+        "`maxbidpricewhite`": 100,
+        "`minbidpricegreen`": 80,
+        "`maxbidpricegreen`": 100,
+        "`minbidpriceblue`": 75,
+        "`maxbidpriceblue`": 100,
+        "`minbidpricepurple`": 80,
+        "`maxbidpricepurple`": 100,
+        "`minbidpriceorange`": 80,
+        "`maxbidpriceorange`": 100,
+        "`minbidpriceyellow`": 80,
+        "`maxbidpriceyellow`": 100,
+
+        # Stack Limits (0 = no limit)
+        "`maxstackgrey`": 0,
+        "`maxstackwhite`": 0,
+        "`maxstackgreen`": 0,
+        "`maxstackblue`": 0,
+        "`maxstackpurple`": 0,
+        "`maxstackorange`": 0,
+        "`maxstackyellow`": 0,
+
+        # Buyer Configuration
+        "`buyerpricegrey`": 5,                   # Multiplier to vendor price
+        "`buyerpricewhite`": 30,
+        "`buyerpricegreen`": 40,
+        "`buyerpriceblue`": 50,
+        "`buyerpricepurple`": 60,
+        "`buyerpriceorange`": 80,
+        "`buyerpriceyellow`": 100,
+        "`buyerbiddinginterval`": 1,             # Minutes between bid cycles
+        "`buyerbidsperinterval`": 1              # Bids per cycle
+    },
+
     "achievement_criteria_data": {
         "`criteria_id`": 0,
         "`type`": 0,
         "`value1`": 0,
         "`value2`": 0,
         "`ScriptName`": "",
+    },
+
+    "conditions": {
+        "`SourceTypeOrReferenceId`": 0,      # 17 = SPELL_SCRIPT_TARGET
+        "`SourceGroup`": 0,                  # Often spell family
+        "`SourceEntry`": 0,                  # Spell/quest/etc. ID
+        "`SourceId`": 0,                     # Usually 0
+        "`ElseGroup`": 0,                    # Alternative condition group
+        "`ConditionTypeOrReference`": 0,     # 31 = CONDITION_SPELL_SCRIPT_TARGET
+        "`ConditionTarget`": 0,              # 0=SOURCE, 1=TARGET
+        "`ConditionValue1`": 0,              # Param 1 (type/subtype)
+        "`ConditionValue2`": 0,              # Param 2 (entry ID)
+        "`ConditionValue3`": 0,              # Param 3 (misc)
+        "`NegativeCondition`": 0,            # 0=Must meet, 1=Must NOT meet
+        "`ErrorType`": 0,                    # UI error to display
+        "`ErrorTextId`": 0,                  # Text ID for error
+        "`ScriptName`": "",                  # Custom script hook
+        "`Comment`": "",                     # Developer notes
     },
 
     "creature_template": {
@@ -106,14 +206,22 @@ TABLE_STRUCTURES = {
         "`auras`": None,               # NULL or aura strings
     },
 
-    "creature_template_model" : {
-    "`CreatureID`": "",
-    "`Idx`": 0,
-    "`CreatureDisplayID`": "",
-    "`DisplayScale`": 1,
-    "`Probability`": 0,
-    "`VerifiedBuild`": "",
-    },    
+    "creature_model_info": {
+        "`DisplayID`": 0,                # Matches CreatureDisplayInfo.dbc
+        "`BoundingRadius`": 0.0,          # Melee attack distance
+        "`CombatReach`": 0.0,             # Ranged attack range
+        "`Gender`": 2,                    # 0=Male, 1=Female, 2=None
+        "`DisplayID_Other_Gender`": 0     # Alternate gender model
+    },
+
+    "creature_template_model": {
+        "`CreatureID`": 0,               # Links to creature_template.entry
+        "`Idx`": 0,                      # 0-3 model slot index
+        "`CreatureDisplayID`": 0,         # DisplayID from CreatureDisplayInfo.dbc
+        "`DisplayScale`": 1.0,            # Model size multiplier
+        "`Probability`": 1.0,             # 0-1 (auto-normalized to sum=1)
+        "`VerifiedBuild`": 0              # 0=unverified, -1=placeholder
+    },
 
     "creature_loot_template": {
     "`Entry`": 0,
@@ -126,44 +234,6 @@ TABLE_STRUCTURES = {
     "`MinCount`": 1,
     "`MaxCount`": 1,
     "`Comment`": "",
-    },
-
-    "conditions": {
-        "`SourceTypeOrReferenceId`": 0,      # 17 = SPELL_SCRIPT_TARGET
-        "`SourceGroup`": 0,                  # Often spell family
-        "`SourceEntry`": 0,                  # Spell/quest/etc. ID
-        "`SourceId`": 0,                     # Usually 0
-        "`ElseGroup`": 0,                    # Alternative condition group
-        "`ConditionTypeOrReference`": 0,     # 31 = CONDITION_SPELL_SCRIPT_TARGET
-        "`ConditionTarget`": 0,              # 0=SOURCE, 1=TARGET
-        "`ConditionValue1`": 0,              # Param 1 (type/subtype)
-        "`ConditionValue2`": 0,              # Param 2 (entry ID)
-        "`ConditionValue3`": 0,              # Param 3 (misc)
-        "`NegativeCondition`": 0,            # 0=Must meet, 1=Must NOT meet
-        "`ErrorType`": 0,                    # UI error to display
-        "`ErrorTextId`": 0,                  # Text ID for error
-        "`ScriptName`": "",                  # Custom script hook
-        "`Comment`": "",                     # Developer notes
-    },
-
-    "npc_trainer": {
-    "`ID`": 0,
-    "`SpellID`": 0,
-    "`MoneyCost`": 0,
-    "`ReqSkillLine`": 0,
-    "`ReqSkillRank`": 0,
-    "`ReqLevel`": 1,
-    "`ReqSpell`": 0,
-    },
-
-    "npc_vendor": {
-        "`entry`": 0,            # NPC entry from creature_template
-        "`slot`": 0,             # Display slot (0 = no specific order)
-        "`item`": 0,             # Item ID from item_template
-        "`maxcount`": 0,         # 0 = unlimited stock
-        "`incrtime`": 0,         # Restock time in seconds (0 = no restock)
-        "`ExtendedCost`": 0,     # Honor/arena cost reference
-        "`VerifiedBuild`": '', # NULL for custom entries
     },
 
     "creature_questender": {
@@ -461,6 +531,26 @@ TABLE_STRUCTURES = {
         "`maxLevel`": 0,
         "`firstQuestId`": 0,
         "`otherQuestId`": 0,
+    },
+
+    "npc_trainer": {
+    "`ID`": 0,
+    "`SpellID`": 0,
+    "`MoneyCost`": 0,
+    "`ReqSkillLine`": 0,
+    "`ReqSkillRank`": 0,
+    "`ReqLevel`": 1,
+    "`ReqSpell`": 0,
+    },
+
+    "npc_vendor": {
+        "`entry`": 0,            # NPC entry from creature_template
+        "`slot`": 0,             # Display slot (0 = no specific order)
+        "`item`": 0,             # Item ID from item_template
+        "`maxcount`": 0,         # 0 = unlimited stock
+        "`incrtime`": 0,         # Restock time in seconds (0 = no restock)
+        "`ExtendedCost`": 0,     # Honor/arena cost reference
+        "`VerifiedBuild`": '', # NULL for custom entries
     },
 
     "reference_loot_template": {
