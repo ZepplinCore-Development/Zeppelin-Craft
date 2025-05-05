@@ -1,5 +1,7 @@
--- Update the cloud serpent models to use the modern chinese dragons
+-- Set the Cloud Serpents to be of the Cloud Serpent Pet Family
+UPDATE `creature_template` SET `family` = 47 WHERE `entry` IN (4117, 4118, 4119);
 
+-- Update the cloud serpent models to use the modern chinese dragons
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 4117;
 INSERT INTO `creature_template_model` SET
     `CreatureID` = '4117',
