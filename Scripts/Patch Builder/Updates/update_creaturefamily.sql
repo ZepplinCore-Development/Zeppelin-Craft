@@ -82,9 +82,9 @@ INSERT INTO `dbc`.`creaturefamily` SET
 DELETE FROM `dbc`.`creaturefamily` WHERE `ID` = 47;
 INSERT INTO `dbc`.`creaturefamily` SET 
     `ID` = 47,
-    `minScale` = 0.5,
+    `minScale` = 0.4,
     `minScaleLevel` = 1,
-    `maxScale` = 0.6,
+    `maxScale` = 0.5,
     `maxScaleLevel` = 60,
     `skillline_1` = 789,
     `skillline_2` = 270,
