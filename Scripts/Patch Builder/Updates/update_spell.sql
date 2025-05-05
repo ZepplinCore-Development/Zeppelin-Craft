@@ -3248,6 +3248,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28596;
 
 UPDATE `dbc`.`spell` SET 
+    `Attributes` = 16777232 /* was 16 */,
     `CastingTimeIndex` = 10 /* was 14 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 28695;
@@ -4623,6 +4624,15 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43549;
 
 UPDATE `dbc`.`spell` SET 
+    `EffectBasePoints1` = 999 /* was 0 */,
+    `EffectItemType1` = 33803 /* was 20475 */,
+    `SpellIconID` = 288 /* was 333 */,
+    `SpellName0` = 'Adamantite Arrow' /* was 'Adamantite Arrow Maker' */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 43676;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 43846;
@@ -4800,6 +4810,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 50305;
 
 UPDATE `dbc`.`spell` SET 
+    `Attributes` = 16842768 /* was 65552 */,
     `CastingTimeIndex` = 10 /* was 28 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 50310;
