@@ -68,4 +68,5 @@
 
     INSERT INTO `creature_template_model` SET
         `CreatureID` = 9102600,
-        `CreatureDisplayID` = 19295;
+        `CreatureDisplayID` = 19295,
+        `DisplayScale` = 0.5;
