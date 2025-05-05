@@ -1,4 +1,4 @@
--- Design: Black Diamond Dragonling
+-- Item Template - Design: Black Diamond Dragonling
     DELETE FROM `item_template` WHERE (`entry` = 57502);
     INSERT INTO `item_template`
     SET `entry` = 57502,
@@ -17,7 +17,7 @@
         `spellid_2` = 91085,
         `spelltrigger_2` = 6;
 
--- Black Diamond Dragonling
+-- Item Template - Black Diamond Dragonling
     DELETE FROM `item_template` WHERE (`entry` = 57503);
     INSERT INTO `item_template`
     SET `entry` = 57503,
@@ -39,25 +39,33 @@
         `spellid_1` = 91008,
         `spellcooldown_1` = 300000;
 
-DELETE FROM `creature_template` 
-WHERE `entry` = 1979;
+-- Creature Template - Black Diamond Dragonling
+    DELETE FROM `creature_template` 
+    WHERE `entry` = 9102600;
 
-INSERT INTO `creature_template` SET
-    `entry` = 1979,
-    `name` = 'Black Diamond Dragonling',
-    `minlevel` = 60,
-    `maxlevel` = 60,
-    `faction` = 35,
-    `speed_walk` = 1.11111,
-    `speed_run` = 0.857143,
-    `detection_range` = 18,
-    `DamageModifier` = 3,
-    `BaseAttackTime` = 2000,
-    `RangeAttackTime` = 2000,
-    `unit_class` = 1,
-    `unit_flags2` = 2048,
-    `type` = 9,
-    `movementId` = 100,
-    `mechanic_immune_mask` = 8405008,
-    `ScriptName` = 'npc_arcanite_dragonling',
-    `VerifiedBuild` = 12340;
+    INSERT INTO `creature_template` SET
+        `entry` = 9102600,
+        `name` = 'Black Diamond Dragonling',
+        `minlevel` = 60,
+        `maxlevel` = 60,
+        `faction` = 35,
+        `speed_walk` = 1.11111,
+        `speed_run` = 0.857143,
+        `detection_range` = 18,
+        `DamageModifier` = 3,
+        `BaseAttackTime` = 2000,
+        `RangeAttackTime` = 2000,
+        `unit_class` = 1,
+        `unit_flags2` = 2048,
+        `type` = 9,
+        `movementId` = 100,
+        `mechanic_immune_mask` = 8405008,
+        `ScriptName` = 'npc_arcanite_dragonling',
+        `VerifiedBuild` = 12340;
+
+-- Creature Template Model - Black Diamond Dragonling
+    DELETE FROM `creature_template_model` WHERE `CreatureID` = 9102600;
+
+    INSERT INTO `creature_template_model` SET
+        `CreatureID` = 9102600,
+        `CreatureDisplayID` = 19295;
