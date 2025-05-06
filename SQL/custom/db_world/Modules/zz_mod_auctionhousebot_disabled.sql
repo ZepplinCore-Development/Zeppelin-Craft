@@ -1,6 +1,18 @@
+-- Sunwell Gems
+    REPLACE INTO `mod_auctionhousebot_disabled_items` (`item`) VALUES
+    (39705), (39712), (39706), (39714),
+    (39711), (39713), (39710), (39717),
+    (39715), (39716), (39718), (39719),
+    (39722), (39725), (39724), (47056),
+    (39721), (39720), (39723), (39736),
+    (39733), (39735), (39734), (47055),
+    (39737), (39738), (39741), (39739),
+    (47053), (39742), (39740), (47054),
+    (39729), (39731), (39730), (48789),
+    (39732), (39728), (39727); 
 
--- Items unavailable to players
-    REPLACE INTO `mod_auctionhousebot_disabled_items` VALUES
+-- Deprecated Items unavailable to players
+    REPLACE INTO `mod_auctionhousebot_disabled_items` (`item`) VALUES
     (17),
     (3895),
     (1700),
