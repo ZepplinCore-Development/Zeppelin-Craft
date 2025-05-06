@@ -48,3 +48,7 @@
 -- 1000 base stack size
     -- Universally increase stack sizes to 1000 where it is currently 100.
     UPDATE `item_template` SET `stackable` = 1000 WHERE (`stackable` = 100);
+
+-- 100 base stack size
+    -- Universally increase stack sizes to 100 where it is currently 5.
+    UPDATE `item_template` SET `stackable` = 100 WHERE (`stackable` = 5);
