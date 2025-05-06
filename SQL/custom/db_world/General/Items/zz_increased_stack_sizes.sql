@@ -24,19 +24,19 @@
     -- Libram of Protection stacks to 20, non unique
     UPDATE `item_template` SET `stackable` = 20, `maxcount` = 0 WHERE (`entry` = 18334);
 
--- 5 base stack size
+-- 5 -> 50 stack size
     -- Universally increase stack sizes to 50 where it is currently 5.
     UPDATE `item_template` SET `stackable` = 50 WHERE (`stackable` = 5);
 
--- 20 base stack size
+-- 20 -> 200 stack size
     -- Universally increase stack sizes to 200 where it is currently 20.
     UPDATE `item_template` SET `stackable` = 200 WHERE (`stackable` = 20);
     
--- 100 base stack size
+-- 100 -> 1000 stack size
     -- Universally increase stack sizes to 1000 where it is currently 100.
     UPDATE `item_template` SET `stackable` = 1000 WHERE (`stackable` = 100);
 
--- 2000 Stack Size
+-- Forced 2000 Stack Size
 
     -- Unidentified Plant Parts stacks to 2000
     UPDATE `item_template` SET `stackable` = 2000 WHERE (`entry` = 24401);
