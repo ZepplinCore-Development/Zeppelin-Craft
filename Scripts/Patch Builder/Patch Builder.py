@@ -7,22 +7,23 @@ import shutil
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
 # Package this script into an executable if possible.
+# 
 
 # Database connection details
 db_config = {
-    "host": "192.168.0.99",
-    "user": "keira",
-    "password": "slipknot9",
+    "host": "192.168.0.55",
+    "user": "acore",
+    "password": "acore",
 }
 
-backup_dbc = "DBC_backup"
+backup_dbc = "original_dbc"
 live_dbc = "dbc"
 world_db = "acore_world"
 
 blacklisted_tables = ["itemsubclass"]
 
 # Directories for updates
-update_dir = 'D:\\Games\\ChromieCraft_3.3.5a\\Custom Tools\\Zeppelin-Core\\Scripts\\Patch Builder\\updates'
+update_dir = r'Y:\wow-server\Zeppelin-Craft\Scripts\Patch Builder\Updates'
 os.makedirs(update_dir, exist_ok=True)
 
 # Function to establish database connection
@@ -352,27 +353,27 @@ except Exception as e:
 
 # Shell script equivalent starts here
 
-base_directory = r'D:\Games\ChromieCraft_3.3.5a\Custom Tools'
+base_directory = r'Y:\wow-server'
 temp_file = os.path.join(base_directory, 'temp.txt')
 file_list = r'Y:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt'
 
 print(f"Script is running here {base_directory}")
 
 # Headless export
-spell_editor_dir = os.path.join(base_directory, 'WoW Spell Editor')
+spell_editor_dir = r'Y:\wow-server\Zeppelin-Tools\WoW Spell Editor'
 os.chdir(spell_editor_dir)
 subprocess.run(['HeadlessExport.exe'], check=True)
 
-# Copy DBC files
+# Copy DBC files to Server
 export_dir = os.path.join(spell_editor_dir, 'Export')
-destination_dir = r'X:\env\dist\bin\dbc'
+destination_dir = r'Y:\wow-server\data\dbc'
 shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
 # Update MPQ files
-mpq_editor_dir = os.path.join(base_directory, 'MPQ Editor')
+mpq_editor_dir = r'Y:\wow-server\Zeppelin-Tools\MPQ Editor'
 os.chdir(mpq_editor_dir)
-subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Core', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
-subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Core', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
+subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
+subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
 
 # Copy updated Patch Z MPQ file
 # mpqZ_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-Z.MPQ')
