@@ -197,10 +197,10 @@ area_data = {
         rare: []
     },
     "Wetlands": {
-    named_solo_fight: [2091],
-    named_group_fight: [],
-    normal: [],
-    rare: []
+        named_solo_fight: [2091],
+        named_group_fight: [],
+        normal: [],
+        rare: []
     },
     "Stonewatch_Keep": {
         named_solo_fight: [],
