@@ -4,9 +4,9 @@ import os
 
 # Database configuration
 DB_CONFIG = {
-    "host": "192.168.0.99",
+    "host": "192.168.0.55",
     "user": "keira",
-    "password": "slipknot9",
+    "password": "@5$Ekx3Xah2sXw",
     "database": "acore_world"
 }
 
