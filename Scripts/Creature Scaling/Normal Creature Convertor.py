@@ -238,6 +238,12 @@ area_data = {
         normal: [1225, 2477, 2478, 7170, 1178, 1179, 1180, 1181, 1183],
         rare: []
     },
+    "Teldrasil": {
+        named_solo_fight: [],
+        named_group_fight: [],
+        normal: [2166],
+        rare: []
+    },
 }
 
 # First call (creates file with header)
