@@ -7179,6 +7179,25 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
+DELETE FROM `dbc`.`lightparams` WHERE `ID` = 919;
+INSERT INTO `dbc`.`lightparams` SET 
+    `ID` = 919,
+    `skyboxId` = 124,
+    `glow` = 0.2,
+    `waterShallowAlpha` = 0.5,
+    `waterDeepAlpha` = 1.0,
+    `oceanShallowAlpha` = 0.75,
+    `oceanDeepAlpha` = 1.0;
+
+DELETE FROM `dbc`.`lightparams` WHERE `ID` = 920;
+INSERT INTO `dbc`.`lightparams` SET 
+    `ID` = 920,
+    `glow` = 0.2,
+    `waterShallowAlpha` = 0.5,
+    `waterDeepAlpha` = 1.0,
+    `oceanShallowAlpha` = 0.75,
+    `oceanDeepAlpha` = 1.0;
+
 DELETE FROM `dbc`.`lightparams` WHERE `ID` = 921;
 INSERT INTO `dbc`.`lightparams` SET 
     `ID` = 921,
@@ -8551,4 +8570,24 @@ INSERT INTO `dbc`.`lightparams` SET
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
+
+DELETE FROM `dbc`.`lightparams` WHERE `ID` = 2516;
+INSERT INTO `dbc`.`lightparams` SET 
+    `ID` = 2516,
+    `higlightSky` = 1,
+    `skyboxId` = 323,
+    `glow` = 0.2,
+    `waterShallowAlpha` = 0.5,
+    `waterDeepAlpha` = 1.0,
+    `oceanShallowAlpha` = 0.75,
+    `oceanDeepAlpha` = 1.0;
+
+DELETE FROM `dbc`.`lightparams` WHERE `ID` = 3725;
+INSERT INTO `dbc`.`lightparams` SET 
+    `ID` = 3725,
+    `glow` = 0.4,
+    `waterShallowAlpha` = 0.5,
+    `waterDeepAlpha` = 1.0,
+    `oceanShallowAlpha` = 0.1,
+    `oceanDeepAlpha` = 0.3;
 

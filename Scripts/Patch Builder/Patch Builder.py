@@ -12,8 +12,8 @@ import shutil
 # Database connection details
 db_config = {
     "host": "192.168.0.55",
-    "user": "acore",
-    "password": "acore",
+    "user": "spell-editor",
+    "password": "HW8Y%L6&f0ePJO",
 }
 
 backup_dbc = "original_dbc"

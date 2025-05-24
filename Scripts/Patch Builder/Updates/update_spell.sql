@@ -48,6 +48,18 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 205;
 
 UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26364s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26364s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26364s1 Nature damage to attacker on hit.  ' /* was 'Causes $26364s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 324;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26365s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26365s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26365s1 Nature damage to attacker on hit. ' /* was 'Causes $26365s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 325;
+
+UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 60 /* was 37 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 421;
@@ -128,6 +140,18 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName3` = 79 /* was 118 */,
     `EffectBonusMultiplier3` = 1.0 /* was 0.0 */
 WHERE `ID` = 837;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26366s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26366s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26366s1 Nature damage to attacker on hit.  ' /* was 'Causes $26366s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 905;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26367s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26367s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26367s1 Nature damage to attacker on hit.  ' /* was 'Causes $26367s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 945;
 
 UPDATE `dbc`.`spell` SET 
     `EffectBasePoints2` = 496 /* was 248 */,
@@ -950,6 +974,12 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8041;
 
 UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26369s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26369s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26369s1 Nature damage to attacker on hit.  ' /* was 'Causes $26369s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 8134;
+
+UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
     `EffectRealPointsPerLevel1` = 20.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
@@ -1374,6 +1404,18 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 10 /* was 28 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 10248;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26370s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26370s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26370s1 Nature damage to attacker on hit. ' /* was 'Causes $26370s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 10431;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26363s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26363s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26363s1 Nature damage to attacker on hit.  ' /* was 'Causes $26363s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 10432;
 
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
@@ -2693,6 +2735,18 @@ UPDATE `dbc`.`spell` SET
     `Reagent1` = 58302 /* was 17029 */,
     `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 25392;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26371s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26371s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26371s1 Nature damage to attacker on hit.  ' /* was 'Causes $26371s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 25469;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26372s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26372s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = 'Causes $26372s1 Nature damage to attacker on hit.  ' /* was 'Causes $26372s1 Nature damage to attacker on hit.  $n charges.' */
+WHERE `ID` = 25472;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -4120,6 +4174,12 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 34608;
+
+UPDATE `dbc`.`spell` SET 
+    `EffectBasePoints1` = 29 /* was 499 */,
+    `EffectApplyAuraName1` = 87 /* was 14 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */
+WHERE `ID` = 34697;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -8176,7 +8236,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 18,
     `EffectMultipleValue1` = 1000.0,
-    `EffectMiscValue1` = 1979,
+    `EffectMiscValue1` = 9102600,
     `EffectMiscValueB1` = 2081,
     `SpellVisual1` = 74,
     `SpellIconID` = 1699,

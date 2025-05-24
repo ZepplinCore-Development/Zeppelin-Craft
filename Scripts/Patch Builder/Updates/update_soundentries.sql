@@ -834,6 +834,19 @@ INSERT INTO `dbc`.`soundentries` SET
     `MinDistance` = 8.0,
     `MaxDistance` = 45.0;
 
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 18413;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 18413,
+    `SoundType` = 50,
+    `SoundName` = 'AMB_Deepholm',
+    `Name1` = 'amb_deepholm_02.ogg',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\ambience\\zoneambience',
+    `Volume` = 0.91,
+    `Flags` = 512,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
 DELETE FROM `dbc`.`soundentries` WHERE `ID` = 18473;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 18473,
@@ -7133,6 +7146,18 @@ INSERT INTO `dbc`.`soundentries` SET
     `MinDistance` = 8.0,
     `MaxDistance` = 45.0;
 
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 22661;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 22661,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_EasternEarthshire',
+    `Name1` = 'mus_mysterious_uu01.mp3',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
 DELETE FROM `dbc`.`soundentries` WHERE `ID` = 22680;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 22680,
@@ -7670,6 +7695,150 @@ INSERT INTO `dbc`.`soundentries` SET
     `Freq2` = 1,
     `Freq3` = 1,
     `Freq4` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23056;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23056,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_Deepholme',
+    `Name1` = 'mus_elemental_uu01.mp3',
+    `Name2` = 'mus_elemental_uu02.mp3',
+    `Name3` = 'mus_elemental_uu03.mp3',
+    `Name4` = 'mus_elemental_uu04.mp3',
+    `Name5` = 'mus_elemental_uu05.mp3',
+    `Name6` = 'mus_elemental_uu06.mp3',
+    `Name7` = 'mus_elemental_uu07.mp3',
+    `Name8` = 'mus_treasure_uu01.mp3',
+    `Name9` = 'mus_treasure_uu02.mp3',
+    `Name10` = 'mus_treasure_uu04.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `Freq4` = 1,
+    `Freq5` = 1,
+    `Freq6` = 1,
+    `Freq7` = 1,
+    `Freq8` = 1,
+    `Freq9` = 1,
+    `Freq10` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23057;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23057,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_DeepholmeTwilight',
+    `Name1` = 'mus_twilighthighlands_gu03.mp3',
+    `Name2` = 'mus_twilighthighlands_gu04.mp3',
+    `Name3` = 'mus_twilighthighlands_gu05.mp3',
+    `Name4` = 'mus_twilightshammer_uu02.mp3',
+    `Name5` = 'mus_twilightvale_gu02.mp3',
+    `Name6` = 'mus_twilightvale_gu03.mp3',
+    `Name7` = 'mus_twilightvale_gu05.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `Freq4` = 1,
+    `Freq5` = 1,
+    `Freq6` = 1,
+    `Freq7` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23058;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23058,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_DeepholmeCrystal',
+    `Name1` = 'cataclysm\\mus_deepholm_gu01.mp3	',
+    `Name2` = 'zonemusic\\ulduarraidint\\ur_mimironghostswalk.mp3',
+    `Name3` = 'cataclysm\\mus_deepholm_gu02.mp3	',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `FilePath` = 'sound\\music',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23059;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23059,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_DeathwingsFallIntro',
+    `Name1` = 'mus_firelands_gu01.mp3',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23060;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23060,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_FracturedBattlefrontIntro',
+    `Name1` = 'mus_warmarch_uu01.mp3',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23062;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23062,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_StormsFuryWreckageIntro',
+    `Name1` = 'mus_firelands_gu01.mp3',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23063;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23063,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_Bloodtrail',
+    `Name1` = 'mus_fire_uu01.mp3',
+    `Name2` = 'mus_fire_uu02.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23064;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23064,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_TempleOfEarthIntro',
+    `Name1` = 'ur_mimironghostswalk.mp3',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\music\\zonemusic\\ulduarraidint',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23065;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23065,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_StonecoreIntro',
+    `Name1` = 'mus_firelands_gu01.mp3',
+    `Freq1` = 1,
     `FilePath` = 'sound\\music\\cataclysm',
     `Volume` = 0.69,
     `MinDistance` = 8.0,
@@ -9084,6 +9253,34 @@ INSERT INTO `dbc`.`soundentries` SET
     `MinDistance` = 8.0,
     `MaxDistance` = 45.0;
 
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23166;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 23166,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_Stonecore',
+    `Name1` = 'mus_deepholm_gu01.mp3',
+    `Name2` = 'mus_fire_uu01.mp3',
+    `Name3` = 'mus_fire_uu02.mp3',
+    `Name4` = 'mus_elemental_uu02.mp3',
+    `Name5` = 'mus_twilighthighlands_gu02.mp3',
+    `Name6` = 'mus_twilighthighlands_gu04.mp3',
+    `Name7` = 'mus_twilightshammer_uu01.mp3',
+    `Name8` = 'mus_twilightshammer_uu02.mp3',
+    `Name9` = 'mus_twilightshammer_uu03.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `Freq4` = 1,
+    `Freq5` = 1,
+    `Freq6` = 1,
+    `Freq7` = 1,
+    `Freq8` = 1,
+    `Freq9` = 1,
+    `FilePath` = 'sound\\music\\cataclysm',
+    `Volume` = 0.69,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0;
+
 DELETE FROM `dbc`.`soundentries` WHERE `ID` = 23296;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 23296,
@@ -9493,6 +9690,20 @@ DELETE FROM `dbc`.`soundentries` WHERE `ID` = 112041;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 112041,
     `SoundType` = 50,
+    `SoundName` = 'AMB_BrokenIsles_Coastal_Day',
+    `Name1` = 'amb_brokenisles_coastal_day.ogg',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\ambience\\zoneambience',
+    `Volume` = 0.120226,
+    `Flags` = 528,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 75366;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 112042;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 112042,
+    `SoundType` = 50,
     `SoundName` = 'AMB_BrokenIsles_Coastal_Night',
     `Name1` = 'amb_brokenisles_coastal_night.ogg',
     `Freq1` = 1,
@@ -9502,6 +9713,37 @@ INSERT INTO `dbc`.`soundentries` SET
     `MinDistance` = 8.0,
     `MaxDistance` = 45.0,
     `SoundEntriesAdvancedID` = 75367;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 112043;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 112043,
+    `SoundType` = 50,
+    `SoundName` = 'AMB_BrokenIsles_Coastal_Night',
+    `Name1` = 'amb_brokenisles_coastal_night.ogg',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\ambience\\zoneambience',
+    `Volume` = 0.120226,
+    `Flags` = 528,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 75367;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 115050;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 115050,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_Havenswood',
+    `Name1` = 'mus_80_islands_adventure_b.mp3',
+    `Name2` = 'mus_80_islands_adventure_c.mp3',
+    `Name3` = 'mus_80_islands_adventure_e.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `FilePath` = 'sound\\music\\battleforazeroth',
+    `Volume` = 0.8,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 78244;
 
 DELETE FROM `dbc`.`soundentries` WHERE `ID` = 125908;
 INSERT INTO `dbc`.`soundentries` SET 
@@ -9546,6 +9788,34 @@ DELETE FROM `dbc`.`soundentries` WHERE `ID` = 134385;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 134385,
     `SoundType` = 50,
+    `SoundName` = 'AMB_Azsuna_Base_Day',
+    `Name1` = 'amb_azsuna_day_base.ogg',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\ambience\\zoneambience',
+    `Volume` = 0.120226,
+    `Flags` = 512,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 97975;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 134386;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 134386,
+    `SoundType` = 50,
+    `SoundName` = 'AMB_Azsuna_Base_Night',
+    `Name1` = 'amb_azsuna_night_base.ogg',
+    `Freq1` = 1,
+    `FilePath` = 'sound\\ambience\\zoneambience',
+    `Volume` = 0.120226,
+    `Flags` = 512,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 97976;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 134387;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 134387,
+    `SoundType` = 50,
     `SoundName` = 'AMB_Azsuna_Base_Night',
     `Name1` = 'amb_azsuna_night_base.ogg',
     `Freq1` = 1,
@@ -9559,6 +9829,27 @@ INSERT INTO `dbc`.`soundentries` SET
 DELETE FROM `dbc`.`soundentries` WHERE `ID` = 138066;
 INSERT INTO `dbc`.`soundentries` SET 
     `ID` = 138066,
+    `SoundType` = 28,
+    `SoundName` = 'MUS_Crestfall',
+    `Name1` = 'mus_82_islands_crestfall_h.mp3',
+    `Name2` = 'mus_82_islands_crestfall_a.mp3',
+    `Name3` = 'mus_82_islands_crestfall_b.mp3',
+    `Name4` = 'mus_80_islands_winter_a.mp3',
+    `Name5` = 'mus_80_islands_winter_c.mp3',
+    `Freq1` = 1,
+    `Freq2` = 1,
+    `Freq3` = 1,
+    `Freq4` = 1,
+    `Freq5` = 1,
+    `FilePath` = 'sound\\music\\battleforazeroth',
+    `Volume` = 0.803526,
+    `MinDistance` = 8.0,
+    `MaxDistance` = 45.0,
+    `SoundEntriesAdvancedID` = 101397;
+
+DELETE FROM `dbc`.`soundentries` WHERE `ID` = 138067;
+INSERT INTO `dbc`.`soundentries` SET 
+    `ID` = 138067,
     `SoundType` = 28,
     `SoundName` = 'MUS_Crestfall',
     `Name1` = 'mus_82_islands_crestfall_h.mp3',

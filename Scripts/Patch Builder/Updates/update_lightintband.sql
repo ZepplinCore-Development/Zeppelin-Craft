@@ -36518,6 +36518,215 @@ INSERT INTO `dbc`.`lightintband` SET
     `timeValue1` = 1440,
     `colourValue1` = 9196701;
 
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16525;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16525,
+    `numEntries` = 1,
+    `colourValue1` = 12512703;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16526;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16526,
+    `numEntries` = 1,
+    `colourValue1` = 4604032;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16527;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16527,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16528;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16528,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16529;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16529,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16530;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16530,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16531;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16531,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16532;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16532,
+    `numEntries` = 1,
+    `colourValue1` = 6384417;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16533;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16533,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16534;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16534,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16535;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16535,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16536;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16536,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16537;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16537,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16538;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16538,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16539;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16539,
+    `numEntries` = 1,
+    `colourValue1` = 4070958;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16540;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16540,
+    `numEntries` = 1,
+    `colourValue1` = 4887;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16541;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16541,
+    `numEntries` = 1,
+    `colourValue1` = 4070958;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16542;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16542,
+    `numEntries` = 1,
+    `colourValue1` = 4887;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16543;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16543,
+    `numEntries` = 1,
+    `colourValue1` = 16768972;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16544;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16544,
+    `numEntries` = 1,
+    `colourValue1` = 10928864;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16545;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16545,
+    `numEntries` = 1,
+    `colourValue1` = 2387903;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16546;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16546,
+    `numEntries` = 1,
+    `colourValue1` = 4354726;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16547;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16547,
+    `numEntries` = 1,
+    `colourValue1` = 6193832;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16548;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16548,
+    `numEntries` = 1,
+    `colourValue1` = 6849697;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16549;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16549,
+    `numEntries` = 1,
+    `colourValue1` = 9089499;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16550;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16550,
+    `numEntries` = 1,
+    `colourValue1` = 11643322;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16551;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16551,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16552;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16552,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16553;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16553,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16554;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16554,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16555;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16555,
+    `numEntries` = 1,
+    `colourValue1` = 16777215;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16556;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16556,
+    `numEntries` = 1;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16557;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16557,
+    `numEntries` = 1,
+    `colourValue1` = 1982008;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16558;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16558,
+    `numEntries` = 1,
+    `colourValue1` = 4887;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16559;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16559,
+    `numEntries` = 2,
+    `timeValue2` = 1440,
+    `colourValue1` = 16777215,
+    `colourValue2` = 16777215;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16560;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 16560,
+    `numEntries` = 2,
+    `timeValue2` = 1440,
+    `colourValue1` = 13159159,
+    `colourValue2` = 13159159;
+
 DELETE FROM `dbc`.`lightintband` WHERE `ID` = 16561;
 INSERT INTO `dbc`.`lightintband` SET 
     `ID` = 16561,
@@ -59275,4 +59484,738 @@ INSERT INTO `dbc`.`lightintband` SET
     `colourValue3` = 1915485,
     `colourValue4` = 2042425,
     `colourValue5` = 658964;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45271;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45271,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 4279133,
+    `colourValue2` = 4279133,
+    `colourValue3` = 4279133,
+    `colourValue4` = 4279133,
+    `colourValue5` = 4279133,
+    `colourValue6` = 4279133,
+    `colourValue7` = 4279133,
+    `colourValue8` = 4279133,
+    `colourValue9` = 4279133,
+    `colourValue10` = 4279133,
+    `colourValue11` = 4279133,
+    `colourValue12` = 4279133;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45272;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45272,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 7243967,
+    `colourValue2` = 7243967,
+    `colourValue3` = 7243967,
+    `colourValue4` = 7243967,
+    `colourValue5` = 7243967,
+    `colourValue6` = 7243967,
+    `colourValue7` = 7243967,
+    `colourValue8` = 7243967,
+    `colourValue9` = 7243967,
+    `colourValue10` = 7243967,
+    `colourValue11` = 7243967,
+    `colourValue12` = 7243967;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45273;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45273,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue2` = 1809,
+    `colourValue3` = 2843,
+    `colourValue4` = 3876,
+    `colourValue5` = 8009,
+    `colourValue6` = 4909,
+    `colourValue7` = 4650,
+    `colourValue8` = 3876,
+    `colourValue9` = 3102,
+    `colourValue10` = 2325,
+    `colourValue11` = 1810,
+    `colourValue12` = 1292;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45274;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45274,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 3103,
+    `colourValue2` = 1321024,
+    `colourValue3` = 1979985,
+    `colourValue4` = 2639202,
+    `colourValue5` = 5406631,
+    `colourValue6` = 3363956,
+    `colourValue7` = 3166062,
+    `colourValue8` = 2704739,
+    `colourValue9` = 2243671,
+    `colourValue10` = 1584711,
+    `colourValue11` = 1321281,
+    `colourValue12` = 925494;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45275;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45275,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 467012,
+    `colourValue2` = 2772591,
+    `colourValue3` = 4023685,
+    `colourValue4` = 5209499,
+    `colourValue5` = 10083573,
+    `colourValue6` = 6461107,
+    `colourValue7` = 6065835,
+    `colourValue8` = 5275293,
+    `colourValue9` = 4484749,
+    `colourValue10` = 3299192,
+    `colourValue11` = 2903920,
+    `colourValue12` = 2113634;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45276;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45276,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 929609,
+    `colourValue2` = 3559267,
+    `colourValue3` = 4939888,
+    `colourValue4` = 6320254,
+    `colourValue5` = 11842740,
+    `colourValue6` = 7766668,
+    `colourValue7` = 7306375,
+    `colourValue8` = 6386302,
+    `colourValue9` = 5465717,
+    `colourValue10` = 4150888,
+    `colourValue11` = 3690596,
+    `colourValue12` = 2770267;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45277;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45277,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 993875,
+    `colourValue2` = 3560821,
+    `colourValue3` = 4877191,
+    `colourValue4` = 6193560,
+    `colourValue5` = 11524832,
+    `colourValue6` = 7575723,
+    `colourValue7` = 7115173,
+    `colourValue8` = 6259354,
+    `colourValue9` = 5337997,
+    `colourValue10` = 4087420,
+    `colourValue11` = 3626614,
+    `colourValue12` = 2771051;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45278;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45278,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 2835280,
+    `colourValue2` = 2835280,
+    `colourValue3` = 2835280,
+    `colourValue4` = 2835280,
+    `colourValue5` = 2835280,
+    `colourValue6` = 2835280,
+    `colourValue7` = 2835280,
+    `colourValue8` = 2835280,
+    `colourValue9` = 2835280,
+    `colourValue10` = 2835280,
+    `colourValue11` = 2835280,
+    `colourValue12` = 2835280;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45279;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45279,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 15266303,
+    `colourValue2` = 15594230,
+    `colourValue3` = 15791090,
+    `colourValue4` = 15987694,
+    `colourValue5` = 16775134,
+    `colourValue6` = 16184554,
+    `colourValue7` = 16119019,
+    `colourValue8` = 15987950,
+    `colourValue9` = 15856625,
+    `colourValue10` = 15659765,
+    `colourValue11` = 15594230,
+    `colourValue12` = 15463161;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45280;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45280,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45281;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45281,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 658713,
+    `colourValue2` = 3291463,
+    `colourValue3` = 4673631,
+    `colourValue4` = 6055543,
+    `colourValue5` = 11584215,
+    `colourValue6` = 7503504,
+    `colourValue7` = 7042952,
+    `colourValue8` = 6121592,
+    `colourValue9` = 5199976,
+    `colourValue10` = 3883601,
+    `colourValue11` = 3422793,
+    `colourValue12` = 2501689;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45282;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45282,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 996209,
+    `colourValue2` = 1785715,
+    `colourValue3` = 2246260,
+    `colourValue4` = 2641013,
+    `colourValue5` = 4417402,
+    `colourValue6` = 3101558,
+    `colourValue7` = 2969974,
+    `colourValue8` = 2706805,
+    `colourValue9` = 2377844,
+    `colourValue10` = 1983091,
+    `colourValue11` = 1851507,
+    `colourValue12` = 1522546;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45283;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45283,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 3031393,
+    `colourValue2` = 12875,
+    `colourValue4` = 2116719,
+    `colourValue5` = 6390455,
+    `colourValue8` = 6115448,
+    `colourValue11` = 6115448,
+    `colourValue12` = 5065584;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45284;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45284,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45285;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45285,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 2178607,
+    `colourValue2` = 1917241,
+    `colourValue3` = 1786430,
+    `colourValue4` = 1655875,
+    `colourValue5` = 1133401,
+    `colourValue6` = 1459785,
+    `colourValue7` = 1525063,
+    `colourValue8` = 1590340,
+    `colourValue9` = 1721152,
+    `colourValue10` = 1851707,
+    `colourValue11` = 1851705,
+    `colourValue12` = 1982518;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45286;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45286,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 3096,
+    `colourValue2` = 3096,
+    `colourValue3` = 3096,
+    `colourValue4` = 1323055,
+    `colourValue5` = 7465,
+    `colourValue6` = 663342,
+    `colourValue7` = 728879,
+    `colourValue8` = 859952,
+    `colourValue9` = 1056818,
+    `colourValue10` = 1253684,
+    `colourValue11` = 1385013,
+    `colourValue12` = 3096;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45287;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45287,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 1719326,
+    `colourValue2` = 1916714,
+    `colourValue3` = 2048304,
+    `colourValue4` = 2179895,
+    `colourValue5` = 2706513,
+    `colourValue6` = 2311742,
+    `colourValue7` = 2245947,
+    `colourValue8` = 2180151,
+    `colourValue9` = 2114099,
+    `colourValue10` = 1982509,
+    `colourValue11` = 1916970,
+    `colourValue12` = 1850918;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 45288;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 45288,
+    `numEntries` = 12,
+    `timeValue2` = 360,
+    `timeValue3` = 540,
+    `timeValue4` = 720,
+    `timeValue5` = 1440,
+    `timeValue6` = 1980,
+    `timeValue7` = 2040,
+    `timeValue8` = 2160,
+    `timeValue9` = 2280,
+    `timeValue10` = 2460,
+    `timeValue11` = 2520,
+    `timeValue12` = 2640,
+    `colourValue1` = 3165520,
+    `colourValue2` = 2770248,
+    `colourValue3` = 2572613,
+    `colourValue4` = 2440513,
+    `colourValue5` = 1715763,
+    `colourValue6` = 2242877,
+    `colourValue7` = 2308671,
+    `colourValue8` = 2374977,
+    `colourValue9` = 2506819,
+    `colourValue10` = 2704199,
+    `colourValue11` = 2770248,
+    `colourValue12` = 2901835;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67033;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67033,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 15463606,
+    `colourValue2` = 15463606,
+    `colourValue3` = 15463606,
+    `colourValue4` = 15463606,
+    `colourValue5` = 15463606,
+    `colourValue6` = 15463606;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67034;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67034,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 6593988,
+    `colourValue2` = 6593988,
+    `colourValue3` = 6593988,
+    `colourValue4` = 6593988,
+    `colourValue5` = 6593988,
+    `colourValue6` = 6593988;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67035;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67035,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 4621505,
+    `colourValue2` = 4621505,
+    `colourValue3` = 4621505,
+    `colourValue4` = 4621505,
+    `colourValue5` = 4621505,
+    `colourValue6` = 4621505;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67036;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67036,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 6203077,
+    `colourValue2` = 6203077,
+    `colourValue3` = 6203077,
+    `colourValue4` = 6203077,
+    `colourValue5` = 6203077,
+    `colourValue6` = 6203077;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67037;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67037,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 5283008,
+    `colourValue2` = 5283008,
+    `colourValue3` = 5283008,
+    `colourValue4` = 5283008,
+    `colourValue5` = 5283008,
+    `colourValue6` = 5283008;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67038;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67038,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 4361145,
+    `colourValue2` = 4361145,
+    `colourValue3` = 4361145,
+    `colourValue4` = 4361145,
+    `colourValue5` = 4361145,
+    `colourValue6` = 4361145;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67039;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67039,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 4427964,
+    `colourValue2` = 4427964,
+    `colourValue3` = 4427964,
+    `colourValue4` = 4427964,
+    `colourValue5` = 4427964,
+    `colourValue6` = 4427964;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67040;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67040,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 2793672,
+    `colourValue2` = 2793672,
+    `colourValue3` = 2793672,
+    `colourValue4` = 2793672,
+    `colourValue5` = 2793672,
+    `colourValue6` = 2793672;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67041;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67041,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 12898559,
+    `colourValue2` = 16435820,
+    `colourValue3` = 16763487,
+    `colourValue4` = 16775134,
+    `colourValue5` = 16763487,
+    `colourValue6` = 14994599;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67042;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67042,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67043;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67043,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 596815,
+    `colourValue2` = 15388744,
+    `colourValue3` = 16769352,
+    `colourValue4` = 6914450,
+    `colourValue5` = 16769352,
+    `colourValue6` = 9406283;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67044;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67044,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 12898559,
+    `colourValue2` = 16435820,
+    `colourValue3` = 16763487,
+    `colourValue4` = 16775134,
+    `colourValue5` = 16763487,
+    `colourValue6` = 14994599;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67046;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67046,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67047;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67047,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 1492671,
+    `colourValue2` = 1492671,
+    `colourValue3` = 1492671,
+    `colourValue4` = 1492671,
+    `colourValue5` = 1492671,
+    `colourValue6` = 1492671;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67048;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67048,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 65468,
+    `colourValue2` = 65468,
+    `colourValue3` = 65468,
+    `colourValue4` = 65468,
+    `colourValue5` = 65468,
+    `colourValue6` = 65468;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67049;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67049,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 7741,
+    `colourValue2` = 4870283,
+    `colourValue3` = 5330323,
+    `colourValue4` = 5413822,
+    `colourValue5` = 5330323,
+    `colourValue6` = 2899052;
+
+DELETE FROM `dbc`.`lightintband` WHERE `ID` = 67050;
+INSERT INTO `dbc`.`lightintband` SET 
+    `ID` = 67050,
+    `numEntries` = 6,
+    `timeValue2` = 720,
+    `timeValue3` = 780,
+    `timeValue4` = 1440,
+    `timeValue5` = 2220,
+    `timeValue6` = 2520,
+    `colourValue1` = 1557,
+    `colourValue2` = 2104383,
+    `colourValue3` = 2301507,
+    `colourValue4` = 731985,
+    `colourValue5` = 2301507,
+    `colourValue6` = 1250094;
 
