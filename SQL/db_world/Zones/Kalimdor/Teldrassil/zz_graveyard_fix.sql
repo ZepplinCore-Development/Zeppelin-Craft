@@ -1,28 +1,11 @@
 -- Open Azeroth added Shadowglen as an area and shuffled area IDs
 -- This updates graveyards to match
 
--- Graveyard 97
+-- First, drop the existing primary key
+ALTER TABLE graveyard_zone DROP PRIMARY KEY;
 
-    DELETE FROM `graveyard_zone` WHERE `ID` = '93';
-
-    INSERT INTO `graveyard_zone` SET
-        `ID` = '93',
-        `GhostZone` = '256',
-        `Faction` = '469',
-        `Comment` = 'Teldrassil, Aldrassil GY - Teldrassil';
-
-
-    INSERT INTO `graveyard_zone` SET
-        `ID` = '93',
-        `GhostZone` = '188',
-        `Faction` = '469',
-        `Comment` = 'Teldrassil, Shadowglen';
-
-    INSERT INTO `graveyard_zone` SET
-        `ID` = '90',
-        `GhostZone` = '141',
-        `Faction` = '469',
-        `Comment` = 'Teldrassil, Darnassus GY';
+-- Then add the new composite primary key
+ALTER TABLE graveyard_zone ADD PRIMARY KEY (ID, GhostZone);
 
 -- Graveyard 90
 
@@ -31,6 +14,12 @@
     INSERT INTO `graveyard_zone` SET
         `ID` = '90',
         `GhostZone` = '1657',
+        `Faction` = '469',
+        `Comment` = 'Teldrassil, Darnassus GY';
+    
+    INSERT INTO `graveyard_zone` SET
+        `ID` = '90',
+        `GhostZone` = '141',
         `Faction` = '469',
         `Comment` = 'Teldrassil, Darnassus GY';
 
@@ -49,6 +38,23 @@
         `GhostZone` = '1657',
         `Faction` = '67',
         `Comment` = 'Teldrassil, Dolanaar GY';
+
+-- Graveyard 97
+
+    DELETE FROM `graveyard_zone` WHERE `ID` = '93';
+
+    INSERT INTO `graveyard_zone` SET
+        `ID` = '93',
+        `GhostZone` = '256',
+        `Faction` = '469',
+        `Comment` = 'Teldrassil, Aldrassil GY - Teldrassil';
+
+
+    INSERT INTO `graveyard_zone` SET
+        `ID` = '93',
+        `GhostZone` = '188',
+        `Faction` = '469',
+        `Comment` = 'Teldrassil, Shadowglen';
 
 -- Graveyard 129
 
