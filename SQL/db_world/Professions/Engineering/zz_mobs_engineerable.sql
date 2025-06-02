@@ -9,6 +9,9 @@
     -- Rusty Harvest Golem
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030 WHERE (`entry` = 480);
 
+    -- Arcane Patroller
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030 WHERE (`entry` = 15638);
+
 -- LEVEL 16 - 25 VANILLA CREATURES
 
     -- Cracked Golem

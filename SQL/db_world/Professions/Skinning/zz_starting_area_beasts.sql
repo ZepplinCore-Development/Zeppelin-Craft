@@ -7,19 +7,18 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- DUN MOROGH -------------------------------------------------------
 
--- Ragged Young Wolf
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 705;
+    -- Ragged Young Wolf
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 705;
 
 -- TIRISTFALL GLADES -------------------------------------------------------
 
-
 -- ELWYNN FOREST -------------------------------------------------------
 
--- Young Wolf
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 299;
+    -- Young Wolf
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 299;
 
--- Timber Wolf
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 69;
+    -- Timber Wolf
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 69;
 
 -- DUROTAR -------------------------------------------------------
 
@@ -27,16 +26,23 @@ UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 69;
 
 -- TELDRASSIL -------------------------------------------------------
 
--- Young Thistle Boar
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1984;
+    -- Young Thistle Boar
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1984;
 
--- Thistle Boar
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1985;
+    -- Thistle Boar
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1985;
 
--- Young Nightsaber
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2031;
+    -- Young Nightsaber
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2031;
 
--- Mangy Nightsaber
-UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2032;
+    -- Mangy Nightsaber
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2032;
 
 -- EVERSONG WOODS -------------------------------------------------------
+
+    -- Springpaw Cub
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 15366;
+
+    -- Springpaw Lynx
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 15372;
+
