@@ -181,6 +181,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 1463;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellLevel` = 4 /* was 12 */,
+    `DurationIndex` = 39 /* was 28 */,
+    `ManaCost` = 0 /* was 25 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+WHERE `ID` = 1766;
+
+UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 4 /* was 6 */,
     `EquippedItemSubClassMask` = 0 /* was -1 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
