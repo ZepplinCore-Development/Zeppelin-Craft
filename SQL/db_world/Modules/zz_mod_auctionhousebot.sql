@@ -74,7 +74,7 @@
 
 -- AHBot auctionhouse configuration
 
-  -- Alliance AH
+  -- Alliance AH (NOT USED)
     INSERT INTO `mod_auctionhousebot` SET
     `auctionhouse` = 2,
     `name` = 'Alliance',
@@ -111,7 +111,7 @@
     `buyerpriceorange` = 50,
     `buyerpriceyellow` = 50;
 
-  -- Horde AH
+  -- Horde AH (NOT USED)
     INSERT INTO `mod_auctionhousebot` SET
     `auctionhouse` = 6,
     `name` = 'Horde',
@@ -158,32 +158,32 @@
   `percentgreenitems` = 15,
   `percentblueitems` = 10,
   `percentpurpleitems` = 5,
-  `minpricegrey` = 4000,
-  `maxpricegrey` = 6000,
-  `minpricewhite` = 8000,
-  `maxpricewhite` = 10000,
-  `minpricegreen` = 12000,
-  `maxpricegreen` = 14000,
-  `minpriceblue` = 16000,
-  `maxpriceblue` = 18000,
-  `minpricepurple` = 20000,
-  `maxpricepurple` = 22000,
-  `minpriceorange` = 24000,
-  `maxpriceorange` = 26000,
-  `minpriceyellow` = 28000,
-  `maxpriceyellow` = 30000,
+  `minpricegrey` = 2000,
+  `maxpricegrey` = 3000,
+  `minpricewhite` = 4000,
+  `maxpricewhite` = 5000,
+  `minpricegreen` = 6000,
+  `maxpricegreen` = 8000,
+  `minpriceblue` = 14000,
+  `maxpriceblue` = 16000,
+  `minpricepurple` = 18000,
+  `maxpricepurple` = 20000,
+  `minpriceorange` = 22000,
+  `maxpriceorange` = 24000,
+  `minpriceyellow` = 22000,
+  `maxpriceyellow` = 24000,
   `maxstackgreen` = 3,
   `maxstackblue` = 2,
   `maxstackpurple` = 1,
   `maxstackorange` = 1,
   `maxstackyellow` = 1,
   `buyerpricegrey` = 1,
-  `buyerpricewhite` = 5,
-  `buyerpricegreen` = 20,
-  `buyerpriceblue` = 30,
-  `buyerpricepurple` = 40,
-  `buyerpriceorange` = 50,
-  `buyerpriceyellow` = 50;
+  `buyerpricewhite` = 1,
+  `buyerpricegreen` = 5,
+  `buyerpriceblue` = 10,
+  `buyerpricepurple` = 15,
+  `buyerpriceorange` = 20,
+  `buyerpriceyellow` = 20;
 
 
 -- Sunwell Gems
