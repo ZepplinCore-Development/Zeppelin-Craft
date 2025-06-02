@@ -9,12 +9,10 @@ import re
 # Example usage
 query = """
 
-
-INSERT INTO `mod_auctionhousebot` (`auctionhouse`, `name`, `minitems`, `maxitems`, `percentgreytradegoods`, `percentwhitetradegoods`, `percentgreentradegoods`, `percentbluetradegoods`, `percentpurpletradegoods`, `percentorangetradegoods`, `percentyellowtradegoods`, `percentgreyitems`, `percentwhiteitems`, `percentgreenitems`, `percentblueitems`, `percentpurpleitems`, `percentorangeitems`, `percentyellowitems`, `minpricegrey`, `maxpricegrey`, `minpricewhite`, `maxpricewhite`, `minpricegreen`, `maxpricegreen`, `minpriceblue`, `maxpriceblue`, `minpricepurple`, `maxpricepurple`, `minpriceorange`, `maxpriceorange`, `minpriceyellow`, `maxpriceyellow`, `minbidpricegrey`, `maxbidpricegrey`, `minbidpricewhite`, `maxbidpricewhite`, `minbidpricegreen`, `maxbidpricegreen`, `minbidpriceblue`, `maxbidpriceblue`, `minbidpricepurple`, `maxbidpricepurple`, `minbidpriceorange`, `maxbidpriceorange`, `minbidpriceyellow`, `maxbidpriceyellow`, `maxstackgrey`, `maxstackwhite`, `maxstackgreen`, `maxstackblue`, `maxstackpurple`, `maxstackorange`, `maxstackyellow`, `buyerpricegrey`, `buyerpricewhite`, `buyerpricegreen`, `buyerpriceblue`, `buyerpricepurple`, `buyerpriceorange`, `buyerpriceyellow`, `buyerbiddinginterval`, `buyerbidsperinterval`)
-VALUES
-(2,'Alliance',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1),
-(6,'Horde',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1),
-(7,'Neutral',25000,25000,0,37,12,10,1,0,0,0,10,15,10,5,0,0,4000,6000,8000,10000,12000,14000,16000,18000,20000,22000,24000,26000,28000,30000,70,100,70,100,80,100,75,100,80,100,80,100,80,100,0,0,3,2,1,1,1,1,5,20,30,40,50,50,1,1);
+INSERT INTO event_scripts (id,delay,command,datalong,datalong2,dataint,x,y,z,o) VALUES
+	 (10685,5,10,6748,900000,0,-1647.27,-10907.0,58.3257,4.56593),
+	 (10685,5,10,6748,900000,0,-1637.9,-10915.8,58.3306,4.15948),
+	 (10685,2,10,17359,900000,0,-1651.2,-10924.1,58.633,4.13593);
 
 
 """
@@ -316,6 +314,19 @@ TABLE_STRUCTURES = {
         "`priority`": None,               # NULL for default ordering
         "`leader_only`": 0,               # 0=All party members, 1=Leader only
         "`comment`": None,                  # Developer notes
+    },
+
+    "event_scripts": {
+        "`id`": 0,                  # Event ID reference
+        "`delay`": 0,               # Seconds before execution
+        "`command`": 0,             # Script command type
+        "`datalong`": 0,            # Primary command data
+        "`datalong2`": 0,           # Secondary command data
+        "`dataint`": 0,             # Additional parameter
+        "`x`": 0.0,                 # World X coordinate
+        "`y`": 0.0,                 # World Y coordinate
+        "`z`": 0.0,                 # World Z coordinate
+        "`o`": 0.0,                 # Orientation (radians)
     },
 
     "item_template": {
