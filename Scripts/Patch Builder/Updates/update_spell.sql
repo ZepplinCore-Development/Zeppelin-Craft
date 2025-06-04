@@ -3246,6 +3246,17 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28244;
 
 UPDATE `dbc`.`spell` SET 
+    `Effect3` = 6 /* was 0 */,
+    `EffectDieSides3` = 1 /* was 0 */,
+    `EffectBasePoints3` = 9 /* was 0 */,
+    `EffectImplicitTargetA3` = 1 /* was 0 */,
+    `EffectApplyAuraName3` = 99 /* was 0 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescription0` = 'Increases Spell Power by $s1 and Attack Power by $s3 for 10 minutes.' /* was 'Increases spell power by a small amount for 10 minutes.' */,
+    `SpellToolTip0` = 'Increases Spell Power by $s1 and Attack Power by $s3.' /* was 'Increases spell power by a small amount.' */
+WHERE `ID` = 28273;
+
+UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 9974 /* was 19974 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
