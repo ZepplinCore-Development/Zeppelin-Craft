@@ -61,13 +61,13 @@ SET @quest := 90000;
     INSERT INTO `quest_poi` SET
         `QuestID` = @quest,
         `MapID` = 1,
-        `WorldMapAreaId` = 476,
+        `WorldMapAreaId` = 3601, -- Ragefeather Ridge
         `Flags` = 1;
 
 -- Quest POI Points
     DELETE FROM `quest_poi_points` WHERE (`QuestID` = @quest);
     INSERT INTO `quest_poi_points` SET
         `QuestID` = @quest,
-        `X` = -1690,
-        `Y` = -11845;
+        `X` = 8101,
+        `Y` = 6216;
 
