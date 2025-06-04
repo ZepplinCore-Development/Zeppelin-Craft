@@ -209,13 +209,15 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2018;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 4 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 2366;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 2368;
 
 UPDATE `dbc`.`spell` SET 
@@ -618,8 +620,9 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 3567;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 4 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 3570;
 
 UPDATE `dbc`.`spell` SET 
@@ -1526,8 +1529,9 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 11986;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 11993;
 
 UPDATE `dbc`.`spell` SET 
@@ -3321,8 +3325,9 @@ WHERE `ID` = 28596;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 16777232 /* was 16 */,
-    `CastingTimeIndex` = 10 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 28695;
 
 UPDATE `dbc`.`spell` SET 
@@ -4878,8 +4883,9 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 49193;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 4 /* was 14 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 50300;
 
 UPDATE `dbc`.`spell` SET 
@@ -13327,6 +13333,142 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `TotemCategory1` = 121,
     `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91140;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91140,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `StackAmount` = 1,
+    `EquippedItemClass` = -1,
+    `Effect2` = 6,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = -11,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName2` = 108,
+    `EffectMiscValue2` = 10,
+    `EffectSpellClassMaskB1` = 2,
+    `SpellIconID` = 5050,
+    `SpellName0` = 'Journeyman Shears',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91141;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91141,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `StackAmount` = 1,
+    `EquippedItemClass` = -1,
+    `Effect2` = 6,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = -21,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName2` = 108,
+    `EffectMiscValue2` = 10,
+    `EffectSpellClassMaskB1` = 2,
+    `SpellIconID` = 5050,
+    `SpellName0` = 'Artisan Shears',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91142;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91142,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `StackAmount` = 1,
+    `EquippedItemClass` = -1,
+    `Effect2` = 6,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = -31,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName2` = 108,
+    `EffectMiscValue2` = 10,
+    `EffectSpellClassMaskB1` = 2,
+    `SpellIconID` = 5050,
+    `SpellName0` = 'Master Shears',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91143;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91143,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `StackAmount` = 1,
+    `EquippedItemClass` = -1,
+    `Effect2` = 6,
+    `EffectDieSides2` = 1,
+    `EffectBasePoints2` = -31,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName2` = 108,
+    `EffectMiscValue2` = 10,
+    `EffectSpellClassMaskB1` = 2,
+    `SpellIconID` = 5050,
+    `SpellName0` = 'Grand Master Shears',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
