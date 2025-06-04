@@ -1,2 +1,2 @@
--- Reduce skill requirement for Arclight Spanner (was 50)
-UPDATE `item_template` SET `RequiredSkillRank` = 1 WHERE (`entry` = 6219);
+-- Convert Arclight Spanner into a profession tool class, remove damage and reduce engineering skill requirement
+UPDATE `item_template` SET `class` = 5, `subclass` = 1, `dmg_min1` = 0, `dmg_max1` = 0, `RequiredSkillRank` = 1 WHERE (`entry` = 6219);
