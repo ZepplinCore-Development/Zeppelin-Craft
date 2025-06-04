@@ -90,7 +90,3 @@ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId`=15 AND `SourceGroup`=43
 INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `ConditionTypeOrReference`, `ConditionValue1`, `ConditionValue2`, `Comment`) VALUES 
 (15, 4349, 0, 7, 197, 50, 'Show menu if tailoring is 50 or higher');
 
-
--- Dannelor <First Aid Trainer>
-DELETE FROM `npc_trainer` WHERE `ID`=4211; 
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (4211, -350000); 

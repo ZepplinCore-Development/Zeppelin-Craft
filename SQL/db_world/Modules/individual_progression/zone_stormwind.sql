@@ -131,10 +131,6 @@ UPDATE `creature_template` SET `minlevel`=63, `maxlevel`=63 WHERE `entry`=29611;
 -- Lieutenant Karter <Mount Vendor>
 UPDATE `creature_template_addon` SET `mount`=0 WHERE `entry`=12783;
 
--- Tomas <Cook>
-DELETE FROM `npc_trainer` WHERE `ID`=1430;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (1430, -320000);
-
 -- Elaine Trias <Mistress of Cheese>
 DELETE FROM `npc_vendor` WHERE `entry`=483 AND `item` IN (27857, 33443, 35952);
 

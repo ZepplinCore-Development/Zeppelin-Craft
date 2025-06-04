@@ -96,7 +96,7 @@ DELETE FROM `npc_vendor` WHERE `entry`=4731 AND `item` IN (46308, 47101);
 UPDATE `quest_template` SET `Flags`=0 WHERE `ID`=8;
 
 -- Rude Awakening
-UPDATE `quest_template` SET `Flags`=8, `QuestDescription`='About time you woke up. We were ready to toss you into the fire with the others, but it looks like you made it.$b$bI am Mordo, the caretaker of the crypt of Deathknell. And you are the Lich King\'s slave no more.$b$bSpeak with Shadow Priest Sarvis in the chapel at the base of the hill, he will tell you more of what you must know.' WHERE `ID`=363;
+UPDATE `quest_template` SET `Flags`=8, `QuestDescription`='About time you woke up. We were ready to toss you into the fire with the others, but it looks like you made it.$b$bI am Mordo, the caretaker of the crypt of Deathknell. And you are the Lich King''s slave no more.$b$bSpeak with Shadow Priest Sarvis in the chapel at the base of the hill, he will tell you more of what you must know.' WHERE `ID`=363;
 
 -- The Mindless Ones
 UPDATE `quest_template` SET `Flags`=8, `LogDescription`='Shadow Priest Sarvis wants you to kill 8 Mindless Zombies and 8 Wretched Zombies.', `RequiredNpcOrGoCount1`=8, `RequiredNpcOrGoCount2`=8 WHERE `ID`=364;

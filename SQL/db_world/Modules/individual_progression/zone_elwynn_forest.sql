@@ -56,11 +56,11 @@ DELETE FROM `npc_vendor` WHERE `entry`=958 AND `item` IN (22147, 22148, 37201, 4
 
 -- Wolves Across the Border
 DELETE FROM `quest_offer_reward` WHERE `ID`=33;
-INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `RewardText`) VALUES (33, 1, 'You\'ve been busy! I can\'t wait to cook up that wolf meat...$b$bI have some things here you might want - take your pick!');
+INSERT INTO `quest_offer_reward` (`ID`, `Emote1`, `RewardText`) VALUES (33, 1, 'You''ve been busy! I can''t wait to cook up that wolf meat...$b$bI have some things here you might want - take your pick!');
 
 -- Wolves Across the Border
 DELETE FROM `quest_request_items` WHERE `ID`=33;
-INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`, `CompletionText`) VALUES (33, 6, 6, 'Hey $N. I\'m getting hungry...did you get that tough wolf meat?');
+INSERT INTO `quest_request_items` (`ID`, `EmoteOnComplete`, `EmoteOnIncomplete`, `CompletionText`) VALUES (33, 6, 6, 'Hey $N. I''m getting hungry...did you get that tough wolf meat?');
 
 -- Bounty on Garrick Padfoot
 UPDATE `quest_template` SET `Flags`=8 WHERE `ID`=6;
@@ -78,7 +78,7 @@ UPDATE `quest_template` SET `Flags`=8, `LogDescription`='Bring 12 Red Burlap Ban
 UPDATE `quest_template` SET `Flags`=8, `LogDescription`='Kill 12 Kobold Laborers, then return to Marshal McBride at Northshire Abbey.', `RequiredNpcOrGoCount1`=12 WHERE `ID`=21;
 
 -- Wolves Across the Border
-UPDATE `quest_template` SET `Flags`=8, `LogDescription`='Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.', `QuestDescription`='I hate those nasty timber wolves!  But I sure like eating wolf steaks...  Bring me tough wolf meat and I will exchange it for something you\'ll find useful.$B$BTough wolf meat is gathered from hunting the timber wolves and young wolves wandering the Northshire countryside.', `RequiredItemId1`=750 WHERE `ID`=33;
+UPDATE `quest_template` SET `Flags`=8, `LogDescription`='Bring 8 pieces of Tough Wolf Meat to Eagan Peltskinner outside Northshire Abbey.', `QuestDescription`='I hate those nasty timber wolves!  But I sure like eating wolf steaks...  Bring me tough wolf meat and I will exchange it for something you''ll find useful.$B$BTough wolf meat is gathered from hunting the timber wolves and young wolves wandering the Northshire countryside.', `RequiredItemId1`=750 WHERE `ID`=33;
 
 -- Report to Goldshire
 UPDATE `quest_template` SET `Flags`=0 WHERE `ID`=54;

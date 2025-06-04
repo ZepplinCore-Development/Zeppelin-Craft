@@ -1,8 +1,8 @@
 -- Deadwind Brute
 DELETE FROM `creature_loot_template` WHERE `Entry`=7369;
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 2928, 0, 0.02, 0, 1, 0, 1, 1, 'Deadwind Brute - Dust of Decay');
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 3914, 0, 0.02, 0, 1, 0, 1, 1, 'Deadwind Brute - Journeyman\'s Backpack');
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 4500, 0, 0.06, 0, 1, 0, 1, 1, 'Deadwind Brute - Traveler\'s Backpack');
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 3914, 0, 0.02, 0, 1, 0, 1, 1, 'Deadwind Brute - Journeyman''s Backpack');
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 4500, 0, 0.06, 0, 1, 0, 1, 1, 'Deadwind Brute - Traveler''s Backpack');
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 5758, 0, 0.0389, 0, 1, 0, 1, 1, 'Deadwind Brute - Mithril Lockbox');
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 5759, 0, 0.0389, 0, 1, 0, 1, 1, 'Deadwind Brute - Thorium Lockbox');
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES (7369, 7909, 0, 0.0648, 0, 1, 0, 1, 1, 'Deadwind Brute - Aquamarine');
