@@ -65,3 +65,16 @@
         `spellid_1` = 91143,
         `spelltrigger_1` = 5,
         `bonding` = 1; -- BOP
+
+-- Place all the hammer spell auras into the spell group table so they can be made exclusive
+    DELETE FROM `spell_group` WHERE `id` = 1116;
+    INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
+        (1116,91140,0), -- Journeyman
+        (1116,91141,0), -- Artisan
+        (1116,91142,0), -- Master
+        (1116,91143,0); -- Grand Master
+
+-- Apply the exclusivity flag to the spell group for hammers
+    DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
+    INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
+        (1116,1,'Group of Pruning Shears');

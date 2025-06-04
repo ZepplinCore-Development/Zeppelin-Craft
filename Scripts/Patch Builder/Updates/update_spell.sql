@@ -4042,6 +4042,15 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32346;
 
 UPDATE `dbc`.`spell` SET 
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 32605;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 32655;
@@ -13348,7 +13357,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -11,
+    `EffectBasePoints2` = -16,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName2` = 108,
     `EffectMiscValue2` = 10,
@@ -13361,7 +13370,6 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
-    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -13382,7 +13390,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -21,
+    `EffectBasePoints2` = -31,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName2` = 108,
     `EffectMiscValue2` = 10,
@@ -13395,7 +13403,6 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
-    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -13416,7 +13423,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -31,
+    `EffectBasePoints2` = -46,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName2` = 108,
     `EffectMiscValue2` = 10,
@@ -13429,7 +13436,6 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
-    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -13450,7 +13456,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -31,
+    `EffectBasePoints2` = -61,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName2` = 108,
     `EffectMiscValue2` = 10,
@@ -13463,7 +13469,6 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
-    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
