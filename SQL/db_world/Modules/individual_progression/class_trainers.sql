@@ -16,13 +16,6 @@ DELETE FROM `npc_trainer` WHERE `ID`=200010 AND `SpellID`=1710;
 /* Remove Sense Undead from Trainer - it is a quest reward for Tome of Valor quest line */
 DELETE FROM `npc_trainer` WHERE `SpellID`=5502;
 
--- Remove starting dual wield skill for rogues, add to trainers at level 10
-DELETE FROM `playercreateinfo_skills` WHERE `skill`=118;
-INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (0, 32, 118, 0, 'Dual Wield');
-DELETE FROM `npc_trainer` WHERE `ID` = 200015 AND `SpellID` = 674;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`) VALUES (200015, 674, 300, 0, 0, 10);
-
-
 -- Class skills taught by dropped items that should not be taught by trainers
 DELETE FROM npc_trainer
 WHERE SpellID IN (23028,
