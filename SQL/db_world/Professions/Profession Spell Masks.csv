@@ -3,7 +3,7 @@
 Spell Family Flags,,
 Description,Hexadecimal,Decimal
 Blacksmithing,0x00000001,1
-,0x00000002,2
+Herbalism,0x00000002,2
 ,0x00000004,4
 ,0x00000008,8
 ,0x00000010,16
