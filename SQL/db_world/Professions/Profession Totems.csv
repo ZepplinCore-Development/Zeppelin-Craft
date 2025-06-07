@@ -3,6 +3,12 @@ Description,CategoryType,,
 Shaman Totems,2,,
 Enchanting,3,,
 Blacksmithing,4,,
+Herbalism,5,,
+Mining,5,,
+Skinning,6,,
+Alchemy,22,,
+Engineering,24,,
+,,,
 ,,,
 ,,,
 Enchanting Totems,CategoryType,3,
@@ -24,5 +30,15 @@ Description,Category Mask,Mask Expanded,Totem ID
 Basic Smithing Hammer,1,1-,162
 Bronze Smithing Hammer,3,1+2,192
 Iron Smithing Hammer,7,1+2+4,193
-Mithril Smithing Hammer,15,1+2+4+8,
-Thorium Smithing Hammer,31,1+2+4+8+16,
+Mithril Smithing Hammer,15,1+2+4+8,194
+Thorium Smithing Hammer,31,1+2+4+8+16,195
+Felsteel Smithing Hammer,63,1+2+4+8+16+32,196
+Titanium Smithing Hammer,127,1+2+4+8+16+32+64,197
+,,,
+,,,
+Herbalism Totems,CategoryType,5,
+Description,Category Mask,Mask Expanded,Totem ID
+Journeyman Pruning Shears,1,1-,198
+Artisan Pruning Shears,3,1+2,199
+Master Pruning Shears,7,1+2+4,200
+Grand Master Pruning Shears,15,1+2+4+8,201
