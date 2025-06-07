@@ -7,6 +7,10 @@ UPDATE `dbc`.`skilllineability` SET
 WHERE `id` = 592;
 
 UPDATE `dbc`.`skilllineability` SET 
+    `requiredSkillValue` = 0 /* was 1 */
+WHERE `id` = 610;
+
+UPDATE `dbc`.`skilllineability` SET 
     `chrClasses` = 195 /* was 67 */
 WHERE `id` = 5006;
 
