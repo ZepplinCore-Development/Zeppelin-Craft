@@ -1,6 +1,3 @@
--- Wuark <Armorer & Shieldcrafter>
-DELETE FROM `npc_vendor` WHERE `entry`=3167 AND `item` IN (20815, 20824);
-
 -- Flakk <Trade Supplies>
 DELETE FROM `npc_vendor` WHERE `entry`=3168 AND `item` IN (30817);
 

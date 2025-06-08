@@ -184,8 +184,6 @@ DELETE FROM `npc_vendor` WHERE `entry`=5193 AND `item` IN (15196, 15198, 19032, 
 -- Eldraeith <Herbalism Supplier>
 DELETE FROM `npc_vendor` WHERE `entry`=5503 AND `item` IN (18256, 40411);
 
--- Brooke Stonebraid <Mining Supplies>
-DELETE FROM `npc_vendor` WHERE `entry`=5514 AND `item` IN (20815, 20824);
 
 -- Billibub Cogspinner <Engineering Supplies>
 DELETE FROM `npc_vendor` WHERE `entry`=5519 AND `item` IN (39684, 40533);

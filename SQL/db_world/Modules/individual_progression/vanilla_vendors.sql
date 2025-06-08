@@ -20,11 +20,6 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (227, 
 DELETE FROM `npc_vendor` WHERE `entry` = 228 AND `item` = 28053;
 
 
-/* NPC Karm Ironquill - 372 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 372 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 372 AND `item` = 20824;
 
 
 /* NPC Katie Hunter - 384 */
@@ -76,12 +71,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 789 AND `item` = 11285;
 /* Remove non-Vanilla item Wicked Arrow */
 DELETE FROM `npc_vendor` WHERE `entry` = 789 AND `item` = 28053;
 
-
-/* NPC Karen Taylor - 790 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 790 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 790 AND `item` = 20824;
 
 
 /* NPC Lindsay Ashlock - 791 */
@@ -1080,13 +1069,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 2908 AND `item` = 4471;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (2908, 4471, 0, 0);
 
 
-/* NPC Kurm Stonehoof - 3002 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 3002 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 3002 AND `item` = 20824;
-
-
 /* NPC Fyr Mistrunner - 3003 */
 /* Remove non-Vanilla item Mag'har Grainbread */
 DELETE FROM `npc_vendor` WHERE `entry` = 3003 AND `item` = 27855;
@@ -1220,16 +1202,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 3091 AND `item` = 38426;
 DELETE FROM `npc_vendor` WHERE `entry` = 3096 AND `item` = 38426;
 
 
-/* NPC Herble Baubbletump - 3133 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 3133 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 3133 AND `item` = 20824;
-/* Remove non-Vanilla item Hair Trigger */
-DELETE FROM `npc_vendor` WHERE `entry` = 3133 AND `item` = 39684;
-/* Remove non-Vanilla item Walnut Stock */
-DELETE FROM `npc_vendor` WHERE `entry` = 3133 AND `item` = 40533;
-
 
 /* NPC Malissa - 3135 */
 /* Add Missing Vanilla item Dust of Decay */
@@ -1273,11 +1245,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 3164 AND `item` = 4471;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (3164, 4471, 0, 0);
 
 
-/* NPC Wuark - 3167 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 3167 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 3167 AND `item` = 20824;
 
 
 /* NPC Flakk - 3168 */
@@ -1430,12 +1397,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 3351 AND `item` = 22148;
 DELETE FROM `npc_vendor` WHERE `entry` = 3351 AND `item` = 17019;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (3351, 17019, 0, 0);
 
-
-/* NPC Gorina - 3358 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 3358 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 3358 AND `item` = 20824;
 
 
 /* NPC Ogunaro Wolfrunner - 3362 */
@@ -1801,13 +1762,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 3562 AND `item` = 22148;
 /* Add Missing Vanilla item Arcane Dust */
 DELETE FROM `npc_vendor` WHERE `entry` = 3562 AND `item` = 17019;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (3562, 17019, 0, 0);
-
-
-/* NPC Dalaran Miner - 3578 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 3578 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 3578 AND `item` = 20824;
 
 
 /* NPC Aldia - 3608 */
@@ -2210,11 +2164,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 4241 AND `item` = 4471;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (4241, 4471, 0, 0);
 
 
-/* NPC Golnir Bouldertoe - 4256 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 4256 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 4256 AND `item` = 20824;
 
 
 /* NPC Nyoma - 4265 */
@@ -2397,12 +2346,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 4587 AND `item` = 40533;
 /* Remove non-Vanilla item Eternium Thread */
 DELETE FROM `npc_vendor` WHERE `entry` = 4589 AND `item` = 38426;
 
-
-/* NPC Sarah Killian - 4599 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 4599 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 4599 AND `item` = 20824;
 
 
 /* NPC Abigail Sawyer - 4604 */
@@ -2870,12 +2813,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 5503 AND `item` = 18256;
 DELETE FROM `npc_vendor` WHERE `entry` = 5503 AND `item` = 40411;
 
 
-/* NPC Brooke Stonebraid - 5514 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 5514 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 5514 AND `item` = 20824;
-
 
 /* NPC Billibub Cogspinner - 5519 */
 /* Remove non-Vanilla item Hair Trigger */
@@ -2942,12 +2879,6 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (5817,
 /* Remove non-Vanilla item Eternium Thread */
 DELETE FROM `npc_vendor` WHERE `entry` = 5944 AND `item` = 38426;
 
-
-/* NPC Thelgrum Stonehammer - 6298 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 6298 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 6298 AND `item` = 20824;
 
 
 /* NPC Gorbold Steelhand - 6301 */
@@ -3523,12 +3454,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 11185 AND `item` = 40533;
 DELETE FROM `npc_vendor` WHERE `entry` = 11185 AND `item` = 16047;
 INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES (11185, 16047, 1, 10800);
 
-
-/* NPC Lunnix Sprocketslip - 11186 */
-/* Remove non-Vanilla item Jeweler's Kit */
-DELETE FROM `npc_vendor` WHERE `entry` = 11186 AND `item` = 20815;
-/* Remove non-Vanilla item Simple Grinder */
-DELETE FROM `npc_vendor` WHERE `entry` = 11186 AND `item` = 20824;
 
 
 /* NPC Evie Whirlbrew - 11188 */

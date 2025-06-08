@@ -49,8 +49,6 @@ UPDATE `creature_template` SET `minlevel`=60, `maxlevel`=60 WHERE `entry`=14440;
 -- Hunter Ragetotem
 UPDATE `creature_template` SET `minlevel`=60, `maxlevel`=60 WHERE `entry`=14441;
 
--- Kurm Stonehoof <Mining Supplier>
-DELETE FROM `npc_vendor` WHERE `entry`=3002 AND `item` IN (20815, 20824);
 
 -- Fyr Mistrunner <Bread Vendor>
 DELETE FROM `npc_vendor` WHERE `entry`=3003 AND `item` IN (27855, 33449, 35950);

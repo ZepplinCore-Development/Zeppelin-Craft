@@ -209,9 +209,6 @@ DELETE FROM `npc_vendor` WHERE `entry`=3350 AND `item` IN (28053, 28060);
 -- Magenius <Reagents Vendor>
 DELETE FROM `npc_vendor` WHERE `entry`=3351 AND `item` IN (22147, 22148, 37201);
 
--- Gorina <Mining Supplier>
-DELETE FROM `npc_vendor` WHERE `entry`=3358 AND `item` IN (20815, 20824);
-
 -- Ogunaro Wolfrunner <Kennel Master>
 DELETE FROM `npc_vendor` WHERE `entry`=3362 AND `item`=46099;
 
