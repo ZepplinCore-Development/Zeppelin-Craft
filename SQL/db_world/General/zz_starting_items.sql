@@ -1,3 +1,4 @@
+-- Items for a new character to start with
 DELETE FROM `playercreateinfo_item`;
 
 INSERT INTO `playercreateinfo_item` SET
@@ -11,3 +12,7 @@ INSERT INTO `playercreateinfo_item` SET
 INSERT INTO `playercreateinfo_item` SET
     `itemid` = 3762,
     `Note` = 'Librarians Satchel';
+
+INSERT INTO `playercreateinfo_item` SET
+    `itemid` = 6219,
+    `Note` = 'Arclight Spanner';
