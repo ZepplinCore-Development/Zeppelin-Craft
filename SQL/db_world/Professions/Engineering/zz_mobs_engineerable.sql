@@ -10,7 +10,10 @@
     UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030 WHERE (`entry` = 480);
 
     -- Arcane Patroller
-    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030 WHERE (`entry` = 15638);
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030, `type` = 9 WHERE (`entry` = 15638);
+
+    -- Arcane Reaver
+    UPDATE `creature_template` SET `type_flags` = 32768, `skinloot` = 100030, `type` = 9 WHERE (`entry` = 16339);    
 
 -- LEVEL 16 - 25 VANILLA CREATURES
 
