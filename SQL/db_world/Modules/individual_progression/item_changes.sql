@@ -15456,18 +15456,6 @@ UPDATE `item_template` SET `BuyPrice` = 518448, `SellPrice` = 103689 WHERE entry
 /*  Fast Test Fist  */
 UPDATE `item_template` SET `spellid_1` = 23674, `spelltrigger_1` = 1 WHERE entry=19226;
 
-/*  Darkmoon Card: Heroism  */
-UPDATE `item_template` SET `bonding` = 1, `spellppmrate_1` = 2.0 WHERE entry=19287;
-
-/*  Darkmoon Card: Blue Dragon  */
-UPDATE `item_template` SET `bonding` = 1 WHERE entry=19288;
-
-/*  Darkmoon Card: Maelstrom  */
-UPDATE `item_template` SET `bonding` = 1 WHERE entry=19289;
-
-/*  Darkmoon Card: Twisting Nether  */
-UPDATE `item_template` SET `bonding` = 1 WHERE entry=19290;
-
 /*  Darkmoon Necklace  */
 UPDATE `item_template` SET `Quality` = 3, `DisenchantID` = 47 WHERE entry=19303;
 
