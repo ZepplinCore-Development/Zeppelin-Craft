@@ -244,6 +244,12 @@ area_data = {
         normal: [2166],
         rare: []
     },
+    "Ghostlands": {
+        named_solo_fight: [16245, 16246, 16358],
+        named_group_fight: [],
+        normal: [],
+        rare: []
+    },
 }
 
 # First call (creates file with header)
