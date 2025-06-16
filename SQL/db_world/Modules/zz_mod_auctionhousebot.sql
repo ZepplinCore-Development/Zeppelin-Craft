@@ -152,8 +152,8 @@
   INSERT INTO `mod_auctionhousebot` SET
   `auctionhouse` = 7,
   `name` = 'Neutral',
-  `minitems` = 30000,
-  `maxitems` = 30000,
+  `minitems` = 59999,
+  `maxitems` = 60000,
   `percentwhitetradegoods` = 37,
   `percentgreenitems` = 15,
   `percentblueitems` = 10,
