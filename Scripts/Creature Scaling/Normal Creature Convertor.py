@@ -245,7 +245,7 @@ area_data = {
         rare: []
     },
     "Ghostlands": {
-        named_solo_fight: [16245, 16246, 16358],
+        named_solo_fight: [16245, 16246, 16358, 16329],
         named_group_fight: [],
         normal: [],
         rare: []
