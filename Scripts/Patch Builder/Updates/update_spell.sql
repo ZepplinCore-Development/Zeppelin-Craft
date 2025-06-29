@@ -181,6 +181,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 1463;
 
 UPDATE `dbc`.`spell` SET 
+    `CategoryRecoveryTime` = 8000 /* was 10000 */,
     `SpellLevel` = 4 /* was 12 */,
     `DurationIndex` = 39 /* was 28 */,
     `ManaCost` = 0 /* was 25 */,
@@ -2566,6 +2567,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24394;
 
 UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 24398;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 24399;
@@ -4078,6 +4083,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33690;
 
 UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 33736;
+
+UPDATE `dbc`.`spell` SET 
     `Effect3` = 6 /* was 0 */,
     `EffectBasePoints3` = 74 /* was 0 */,
     `EffectImplicitTargetA3` = 1 /* was 0 */,
@@ -4928,6 +4937,30 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 51960;
 
 UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52127;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52129;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52131;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52134;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52136;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 52138;
+
+UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 2598 /* was 1581 */,
     `SpellDescription0` = 'Clap back for $s1 damage at any target that strikes you for the next $d.' /* was 'Snap back for $s1 damage at any target that strikes you for the next $d.' */,
     `SpellToolTip0` = 'Clap back when struck.' /* was 'Snap back when struck.' */
@@ -5722,6 +5755,10 @@ UPDATE `dbc`.`spell` SET
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
     `EffectBonusMultiplier2` = 0.0 /* was 1.0 */
 WHERE `ID` = 57925;
+
+UPDATE `dbc`.`spell` SET 
+    `ProcCharges` = 0 /* was 3 */
+WHERE `ID` = 57960;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
