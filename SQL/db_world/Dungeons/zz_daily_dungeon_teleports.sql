@@ -353,7 +353,7 @@
                 INSERT INTO `spell_target_position`
                 SET `ID` = 91032,
                     `EffectIndex` = '0',
-                    `MapID` = 209,
+                    `MapID` = 33,
                     `PositionX` = -228.4,
                     `PositionY` = 2110.2,
                     `PositionZ` = 76.9,
