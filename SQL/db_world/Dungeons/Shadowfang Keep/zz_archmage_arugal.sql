@@ -15,3 +15,6 @@ INSERT INTO `smart_scripts` SET
     `action_param2` = 64,
     `target_type` = 2,
     `comment` = 'Archmage Arugal - In Combat - Cast Void Bolt (Heroic)';
+
+-- Reduce health multiplier to 8 (was 10)
+UPDATE `creature_template` SET `HealthModifier` = 8 WHERE (`entry` = 4275); 
