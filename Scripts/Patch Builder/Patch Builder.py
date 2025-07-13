@@ -3,27 +3,38 @@ import numbers
 import os
 import subprocess
 import shutil
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
 # Package this script into an executable if possible.
 # 
 
-# Database connection details
+# Database connection details from environment variables
 db_config = {
-    "host": "192.168.0.55",
-    "user": "spell-editor",
-    "password": "HW8Y%L6&f0ePJO",
+    "host": os.getenv("DB_HOST", "localhost"),
+    "user": os.getenv("DB_USER", "root"),
+    "password": os.getenv("DB_PASSWORD", ""),
 }
 
-backup_dbc = "original_dbc"
-live_dbc = "dbc"
-world_db = "acore_world"
+backup_dbc = os.getenv("BACKUP_DBC_NAME", "original_dbc")
+live_dbc = os.getenv("LIVE_DBC_NAME", "dbc")
+world_db = os.getenv("WORLD_DB_NAME", "acore_world")
 
 blacklisted_tables = ["itemsubclass"]
 
+# Custom item threshold from environment
+custom_item_threshold = int(os.getenv("CUSTOM_ITEM_THRESHOLD", "56899"))
+
 # Directories for updates
-update_dir = r'Y:\wow-server\Zeppelin-Craft\Scripts\Patch Builder\Updates'
+update_dir = os.getenv("UPDATE_DIR", r'Y:\wow-server\Zeppelin-Craft\Scripts\Patch Builder\Updates')
+# Handle relative paths
+if not os.path.isabs(update_dir):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    update_dir = os.path.join(script_dir, update_dir)
 os.makedirs(update_dir, exist_ok=True)
 
 # Function to establish database connection
@@ -310,10 +321,10 @@ def update_item_dbc():
         dbc_conn = connect_to_db(live_dbc)
         dbc_cursor = dbc_conn.cursor()
         
-        acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= 56899")
+        acore_world_cursor.execute(f"SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= {custom_item_threshold}")
         item_templates = acore_world_cursor.fetchall()
 
-        delete_query = f"DELETE FROM dbc.item WHERE itemID >= 56899;"
+        delete_query = f"DELETE FROM dbc.item WHERE itemID >= {custom_item_threshold};"
 
         # Constructing a single SQL statement for batch insert
         insert_query = f"INSERT INTO dbc.item (itemID, ItemClass, ItemSubClass, sound_override_subclassid, MaterialID, ItemDisplayInfo, inventorySlotID, SheathID) VALUES \n"
@@ -353,24 +364,26 @@ except Exception as e:
 
 # Shell script equivalent starts here
 
-base_directory = r'Y:\wow-server'
+# Get paths from environment variables with fallbacks
+base_directory = os.getenv("BASE_DIRECTORY", r'Y:\wow-server')
+spell_editor_dir = os.getenv("SPELL_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor'))
+mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor'))
+destination_dir = os.getenv("SERVER_DATA_DIR", os.path.join(base_directory, 'data', 'dbc'))
+file_list = os.getenv("FILE_LIST_PATH", r'Y:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt')
+
 temp_file = os.path.join(base_directory, 'temp.txt')
-file_list = r'Y:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt'
 
 print(f"Script is running here {base_directory}")
 
 # Headless export
-spell_editor_dir = r'Y:\wow-server\Zeppelin-Tools\WoW Spell Editor'
 os.chdir(spell_editor_dir)
 subprocess.run(['HeadlessExport.exe'], check=True)
 
 # Copy DBC files to Server
 export_dir = os.path.join(spell_editor_dir, 'Export')
-destination_dir = r'Y:\wow-server\data\dbc'
 shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
 # Update MPQ files
-mpq_editor_dir = r'Y:\wow-server\Zeppelin-Tools\MPQ Editor'
 os.chdir(mpq_editor_dir)
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
