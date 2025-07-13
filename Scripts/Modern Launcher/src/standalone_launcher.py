@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import threading
 import json
+from typing import List, Dict
 import hashlib
 import subprocess
 import sys
@@ -15,6 +16,14 @@ import os
 import tempfile
 import time
 from pathlib import Path
+
+# Try to import psutil, with fallback if not available
+try:
+    import psutil
+    PSUTIL_AVAILABLE = True
+except ImportError:
+    PSUTIL_AVAILABLE = False
+    print("Warning: psutil not available - WoW process detection disabled")
 from datetime import datetime, timezone
 from typing import Dict, Optional, List
 import urllib.request
@@ -55,9 +64,7 @@ CONFIG = {
 }
 
 # Derived URLs
-MANDATORY_LIST_URL = CONFIG['server']['base_url'] + 'mandatory/mandatory_file_list.txt'
-OPTIONAL_LIST_URL = CONFIG['server']['base_url'] + 'optional/optional_file_list.txt'
-PATCH_DESCRIPTIONS_URL = CONFIG['server']['base_url'] + 'patch_descriptions.json'
+PATCH_REGISTER_URL = CONFIG['server']['base_url'] + 'patch_register.json'
 MANDATORY_DOWNLOAD_URL = CONFIG['server']['base_url'] + 'mandatory/'
 OPTIONAL_DOWNLOAD_URL = CONFIG['server']['base_url'] + 'optional/'
 
@@ -65,6 +72,65 @@ OPTIONAL_DOWNLOAD_URL = CONFIG['server']['base_url'] + 'optional/'
 # =============================================================================
 # UTILITY FUNCTIONS
 # =============================================================================
+
+def is_wow_running():
+    """Check if Wow.exe is currently running."""
+    if not PSUTIL_AVAILABLE:
+        # If psutil is not available, assume WoW is not running
+        # This means patches will be downloaded directly to Data directory
+        return False
+    
+    try:
+        for process in psutil.process_iter(['pid', 'name']):
+            if process.info['name'] and process.info['name'].lower() == 'wow.exe':
+                return True
+        return False
+    except Exception:
+        # If we can't check, assume it's not running to be safe
+        return False
+
+def get_temp_download_dir():
+    """Get the temporary download directory for pending patches."""
+    temp_dir = get_app_directory() / "temp_patches"
+    temp_dir.mkdir(exist_ok=True)
+    return temp_dir
+
+def get_pending_patches():
+    """Get list of patches pending installation."""
+    temp_dir = get_temp_download_dir()
+    pending_patches = []
+    
+    for file_path in temp_dir.glob("*.mpq"):
+        pending_patches.append(file_path.name)
+    
+    return pending_patches
+
+def install_pending_patches():
+    """Install all pending patches from temp directory to Data directory."""
+    temp_dir = get_temp_download_dir()
+    data_dir = get_app_directory() / "Data"
+    data_dir.mkdir(exist_ok=True)
+    
+    installed_count = 0
+    failed_patches = []
+    
+    for temp_file in temp_dir.glob("*.mpq"):
+        target_file = data_dir / temp_file.name
+        
+        try:
+            # Move file from temp to final location
+            if target_file.exists():
+                target_file.unlink()  # Remove existing file
+            
+            temp_file.rename(target_file)
+            installed_count += 1
+            log_message(f"Installed pending patch: {temp_file.name}")
+            
+        except Exception as e:
+            failed_patches.append(temp_file.name)
+            log_message(f"Failed to install pending patch {temp_file.name}: {e}", "ERROR")
+    
+    return installed_count, failed_patches
 
 def get_app_directory():
     """Get the directory where the application is running from."""
@@ -251,57 +317,109 @@ class ZeppelinLauncher:
     def test_connection(self) -> bool:
         """Test server connection."""
         try:
-            content = download_file_list(MANDATORY_LIST_URL)
+            content = download_file_list(PATCH_REGISTER_URL)
             return content is not None
         except Exception as e:
             log_message(f"Connection test failed: {e}", "ERROR")
             return False
     
     def get_mandatory_files(self) -> Dict[str, str]:
-        """Get mandatory files list from server."""
-        content = download_file_list(MANDATORY_LIST_URL)
-        if content:
-            return parse_file_list(content)
+        """Get mandatory files list from patch register."""
+        patch_register = self.get_patch_register()
+        if patch_register and 'patches' in patch_register:
+            mandatory_files = {}
+            for filename, patch_info in patch_register['patches'].items():
+                if patch_info.get('is_mandatory', False):
+                    # Use version as the value for compatibility
+                    mandatory_files[filename] = str(patch_info.get('version', 1))
+            return mandatory_files
         return {}
     
     def get_optional_files(self) -> Dict[str, str]:
-        """Get optional files list from server."""
-        content = download_file_list(OPTIONAL_LIST_URL)
-        if content:
-            return parse_file_list(content)
+        """Get optional files list from patch register."""
+        patch_register = self.get_patch_register()
+        if patch_register and 'patches' in patch_register:
+            optional_files = {}
+            for filename, patch_info in patch_register['patches'].items():
+                if not patch_info.get('is_mandatory', False):
+                    # Use version as the value for compatibility
+                    optional_files[filename] = str(patch_info.get('version', 1))
+            return optional_files
         return {}
+    
+    def get_default_enabled_patches(self) -> List[str]:
+        """Get list of patches that should be enabled by default."""
+        patch_register = self.get_patch_register()
+        if patch_register and 'patches' in patch_register:
+            default_patches = []
+            for filename, patch_info in patch_register['patches'].items():
+                if patch_info.get('is_enabled_by_default', False):
+                    default_patches.append(filename)
+            return default_patches
+        return []
     
     def download_file(self, filename: str, is_optional: bool = False, progress_callback=None) -> bool:
         """Download a file from server."""
-        # Use appropriate URL based on file type
-        base_url = OPTIONAL_DOWNLOAD_URL if is_optional else MANDATORY_DOWNLOAD_URL
+        # Determine if file is actually mandatory/optional from patch register
+        patch_register = self.get_patch_register()
+        actual_is_optional = is_optional  # Default to passed parameter
+        
+        if (patch_register and 'patches' in patch_register and 
+            filename in patch_register['patches']):
+            patch_info = patch_register['patches'][filename]
+            # Override is_optional based on patch register
+            actual_is_optional = not patch_info.get('is_mandatory', False)
+        
+        # Use simple URL structure based on is_mandatory flag
+        base_url = OPTIONAL_DOWNLOAD_URL if actual_is_optional else MANDATORY_DOWNLOAD_URL
         file_url = base_url + filename
         
-        # Download patches to Data directory, other files to root
+        # Always download MPQ files to temp directory first for safety
         if filename.lower().endswith('.mpq'):
-            # MPQ files go to Data directory
-            data_dir = get_app_directory() / "Data"
-            data_dir.mkdir(exist_ok=True)
-            local_path = data_dir / filename
+            # Always use temporary directory for MPQ files
+            temp_dir = get_temp_download_dir()
+            local_path = temp_dir / filename
+            log_message(f"Downloading {filename} to temporary location for safe installation")
         else:
-            # Other files go to root directory
+            # Other files go to root directory (always safe)
             local_path = get_app_directory() / filename
         
         success = download_file(file_url, local_path, progress_callback)
         if success:
-            log_message(f"Successfully downloaded {filename} to {local_path}")
+            if filename.lower().endswith('.mpq'):
+                # Try to install immediately if WoW is not running
+                if not is_wow_running():
+                    try:
+                        data_dir = get_app_directory() / "Data"
+                        data_dir.mkdir(exist_ok=True)
+                        final_path = data_dir / filename
+                        
+                        # Remove existing file if present
+                        if final_path.exists():
+                            final_path.unlink()
+                        
+                        # Move from temp to final location
+                        local_path.rename(final_path)
+                        log_message(f"Successfully downloaded and installed {filename}")
+                    except Exception as e:
+                        log_message(f"Downloaded {filename} but failed to install immediately: {e}", "WARNING")
+                        log_message(f"File will be installed when launcher next starts")
+                else:
+                    log_message(f"Successfully downloaded {filename} - will install when game closes")
+            else:
+                log_message(f"Successfully downloaded {filename} to {local_path}")
         return success
     
-    def get_patch_descriptions(self) -> Dict:
-        """Get patch descriptions from server."""
+    def get_patch_register(self) -> Dict:
+        """Get patch register from server."""
         try:
-            content = download_file_list(PATCH_DESCRIPTIONS_URL)
+            content = download_file_list(PATCH_REGISTER_URL)
             if content:
                 import json
                 return json.loads(content)
             return {}
         except Exception as e:
-            log_message(f"Failed to get patch descriptions: {e}", "WARNING")
+            log_message(f"Failed to get patch register: {e}", "WARNING")
             return {}
     
     def launch_game(self) -> bool:
@@ -502,9 +620,9 @@ class MainWindow:
         self.mandatory_tree.bind("<<TreeviewSelect>>", self._on_mandatory_tree_select)
         
         # Dictionary to store patch states
-        self.mandatory_states = {}  # For mandatory files: 'missing', 'downloading', 'updated'
-        self.optional_states = {}   # For optional files: 'missing', 'downloading', 'updated' 
-        self.patch_descriptions = {}
+        self.mandatory_states = {}  # For mandatory files: 'missing', 'downloading', 'updated', 'pending'
+        self.optional_states = {}   # For optional files: 'missing', 'downloading', 'updated', 'pending'
+        self.patch_register = {}
         
         # Download queue management
         self.download_queue = []  # Queue of files to download
@@ -515,7 +633,8 @@ class MainWindow:
         self.STATE_SYMBOLS = {
             'missing': '⚠',     # Missing or out of date (yellow warning)
             'downloading': '⟲', # Downloading (rotating arrow)
-            'updated': '✓'      # Up to date (green checkmark)
+            'updated': '✓',     # Up to date (green checkmark)
+            'pending': '⏸'      # Downloaded, waiting for installation (pause symbol)
         }
         
         # Progress tracking (now in status bar)
@@ -620,7 +739,7 @@ class MainWindow:
             # Get file lists from server
             mandatory_files = self.launcher.get_mandatory_files()
             optional_files = self.launcher.get_optional_files()
-            patch_descriptions = self.patch_descriptions
+            patch_register = self.patch_register
             
             # Track files that need auto-download
             mandatory_to_download = []
@@ -640,8 +759,15 @@ class MainWindow:
                     
                 needs_update = (local_version != server_version) or not file_exists
                 
+                # Check if file is pending installation
+                pending_patches = get_pending_patches()
+                is_pending = filename in pending_patches
+                
                 # Determine state and status
-                if needs_update:
+                if is_pending:
+                    state = 'pending'
+                    status = "Downloaded - waiting for client to close"
+                elif needs_update:
                     state = 'missing'
                     if not file_exists:
                         status = "Missing"
@@ -659,8 +785,8 @@ class MainWindow:
                 
                 # Get patch info if available
                 patch_info = {}
-                if patch_descriptions and 'patches' in patch_descriptions:
-                    patch_info = patch_descriptions['patches'].get(filename, {})
+                if patch_register and 'patches' in patch_register:
+                    patch_info = patch_register['patches'].get(filename, {})
                 
                 name = patch_info.get('name', filename)
                 version_text = f"{local_version or 'None'} → {server_version}"
@@ -697,8 +823,15 @@ class MainWindow:
                     local_version = None
                     log_message(f"Detected missing file {filename}, cleared version tracking")
                 
+                # Check if file is pending installation
+                pending_patches = get_pending_patches()
+                is_pending = filename in pending_patches
+                
                 # Determine state and status
-                if not local_version or not file_exists:
+                if is_pending:
+                    state = 'pending'
+                    status = "Downloaded - waiting for client to close"
+                elif not local_version or not file_exists:
                     state = 'missing'
                     status = "Available"
                 elif local_version != server_version:
@@ -713,8 +846,8 @@ class MainWindow:
                 
                 # Get patch info
                 patch_info = {}
-                if patch_descriptions and 'patches' in patch_descriptions:
-                    patch_info = patch_descriptions['patches'].get(filename, {})
+                if patch_register and 'patches' in patch_register:
+                    patch_info = patch_register['patches'].get(filename, {})
                 
                 name = patch_info.get('name', filename)
                 version_text = f"{local_version or 'None'} → {server_version}"
@@ -738,6 +871,7 @@ class MainWindow:
         try:
             # Try to get real file size by making a HEAD request
             import requests
+            # Use simple URL structure based on is_optional flag
             folder = 'optional' if is_optional else 'mandatory'
             file_url = f"{CONFIG['server']['base_url']}{folder}/{filename}"
             response = requests.head(file_url, timeout=3)
@@ -873,21 +1007,39 @@ class MainWindow:
             success = self.launcher.download_file(filename, is_optional, progress_callback=self._download_progress_callback)
             
             if success:
-                # Update version tracking
-                self.launcher.version_manager.set_file_version(filename, server_version)
-                
-                # Update state to completed
-                if is_optional:
-                    self.optional_states[filename] = 'updated'
+                # Check if file was actually installed or just downloaded to temp
+                if filename.lower().endswith('.mpq'):
+                    # Check if file is in temp directory (pending) or Data directory (installed)
+                    temp_file = get_temp_download_dir() / filename
+                    data_file = get_app_directory() / "Data" / filename
+                    
+                    if data_file.exists() and not temp_file.exists():
+                        # File was successfully installed immediately
+                        self.launcher.version_manager.set_file_version(filename, server_version)
+                        state = 'updated'
+                        message = f"Successfully downloaded and installed {filename}"
+                    else:
+                        # File is in temp directory, pending installation
+                        state = 'pending'
+                        message = f"Downloaded {filename} - waiting for client to close"
                 else:
-                    self.mandatory_states[filename] = 'updated'
+                    # Non-MPQ files are always installed immediately
+                    self.launcher.version_manager.set_file_version(filename, server_version)
+                    state = 'updated'
+                    message = f"Successfully downloaded {filename}"
                 
-                # Update UI to show completed state and refresh version
-                self.root.after(0, lambda: self._update_file_state_in_tree(filename, is_optional, 'updated'))
-                self.root.after(0, lambda: self._refresh_file_version(filename, is_optional, server_version))
+                # Update state
+                if is_optional:
+                    self.optional_states[filename] = state
+                else:
+                    self.mandatory_states[filename] = state
+                
+                # Update UI to show correct state
+                self.root.after(0, lambda: self._update_file_state_in_tree(filename, is_optional, state))
+                if state == 'updated':
+                    self.root.after(0, lambda: self._refresh_file_version(filename, is_optional, server_version))
                 
                 # Show completion message
-                message = f"Successfully downloaded {filename}"
                 self.root.after(0, lambda: self.status_bar.config(text=message))
             else:
                 message = f"Failed to download {filename}"
@@ -1095,11 +1247,11 @@ class MainWindow:
         """Show description for the selected patch."""
         description = "No description available."
         
-        # Get description from patch descriptions
-        if (self.patch_descriptions and 
-            'patches' in self.patch_descriptions and 
-            filename in self.patch_descriptions['patches']):
-            patch_info = self.patch_descriptions['patches'][filename]
+        # Get description from patch register
+        if (self.patch_register and 
+            'patches' in self.patch_register and 
+            filename in self.patch_register['patches']):
+            patch_info = self.patch_register['patches'][filename]
             description = patch_info.get('description', 'No description available.')
         
         # Update description text
@@ -1151,9 +1303,9 @@ class MainWindow:
             if self.launcher.test_connection():
                 self.root.after(0, lambda: self.connection_label.config(text="Connection: Online"))
                 
-                # Get patch descriptions first
-                patch_descriptions = self.launcher.get_patch_descriptions()
-                self.patch_descriptions = patch_descriptions
+                # Get patch register first
+                patch_register = self.launcher.get_patch_register()
+                self.patch_register = patch_register
                 
                 # Populate both file trees with consistent data
                 self.root.after(0, self._populate_file_trees)
@@ -1226,7 +1378,97 @@ class MainWindow:
     def run(self):
         """Run the application."""
         log_message("Starting GUI application")
+        
+        # Check for and install pending patches on startup
+        self.root.after(500, self._check_and_install_pending_patches)
+        
+        # Start periodic check for WoW closure (every 10 seconds)
+        self.root.after(10000, self._periodic_wow_check)
+        
         self.root.mainloop()
+    
+    def _periodic_wow_check(self):
+        """Periodically check if WoW has closed and install pending patches."""
+        try:
+            pending_patches = get_pending_patches()
+            
+            if pending_patches and not is_wow_running():
+                log_message(f"WoW closed - installing {len(pending_patches)} pending patches...")
+                self.status_bar.config(text="Installing pending patches...")
+                
+                installed_count, failed_patches = install_pending_patches()
+                
+                if installed_count > 0:
+                    # Update version tracking for successfully installed patches
+                    self._update_versions_for_installed_patches(pending_patches, failed_patches)
+                    
+                    message = f"Installed {installed_count} pending patch(es)"
+                    if failed_patches:
+                        message += f", {len(failed_patches)} failed"
+                    
+                    log_message(message)
+                    self.status_bar.config(text=message)
+                    
+                    # Refresh the file status to update UI
+                    self._refresh_file_status()
+        except Exception as e:
+            log_message(f"Error in periodic WoW check: {e}", "ERROR")
+        
+        # Schedule next check
+        self.root.after(10000, self._periodic_wow_check)
+    
+    def _update_versions_for_installed_patches(self, pending_patches, failed_patches):
+        """Update version tracking for patches that were successfully installed."""
+        try:
+            # Get current file lists to find correct versions
+            mandatory_files = self.launcher.get_mandatory_files()
+            optional_files = self.launcher.get_optional_files()
+            
+            # Combine both file lists
+            all_files = {**mandatory_files, **optional_files}
+            
+            # Update version for each successfully installed patch
+            for filename in pending_patches:
+                if filename not in failed_patches and filename in all_files:
+                    server_version = all_files[filename]
+                    self.launcher.version_manager.set_file_version(filename, server_version)
+                    log_message(f"Updated version tracking for {filename} to v{server_version}")
+        except Exception as e:
+            log_message(f"Error updating version tracking: {e}", "ERROR")
+    
+    def _check_and_install_pending_patches(self):
+        """Check for pending patches and install them if WoW is not running."""
+        try:
+            pending_patches = get_pending_patches()
+            
+            if pending_patches and not is_wow_running():
+                log_message(f"Installing {len(pending_patches)} pending patches...")
+                self.status_bar.config(text="Installing pending patches...")
+                
+                installed_count, failed_patches = install_pending_patches()
+                
+                if installed_count > 0:
+                    # Update version tracking for successfully installed patches
+                    self._update_versions_for_installed_patches(pending_patches, failed_patches)
+                    
+                    message = f"Installed {installed_count} pending patch(es)"
+                    if failed_patches:
+                        message += f", {len(failed_patches)} failed"
+                    
+                    log_message(message)
+                    self.status_bar.config(text=message)
+                    
+                    # Refresh the file status to update UI
+                    self._refresh_file_status()
+                elif failed_patches:
+                    message = f"Failed to install {len(failed_patches)} patch(es)"
+                    log_message(message, "ERROR")
+                    self.status_bar.config(text=message)
+            elif pending_patches and is_wow_running():
+                log_message(f"{len(pending_patches)} patches pending - WoW is currently running")
+                self.status_bar.config(text=f"{len(pending_patches)} patches waiting for WoW to close")
+        except Exception as e:
+            log_message(f"Error checking pending patches: {e}", "ERROR")
 
 
 # =============================================================================

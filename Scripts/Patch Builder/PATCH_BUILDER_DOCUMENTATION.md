@@ -63,6 +63,16 @@ def values_are_equivalent(value1, value2)  # Lines 195-205
 - Handles type-safe comparison between database values
 - Converts between numeric types and strings appropriately
 
+### Patch Register Management
+```python
+def load_patch_register()  # Lines 525-535
+def save_patch_register(register_data)  # Lines 537-589
+def update_patch_metadata(patch_register, patch_name)  # Lines 617-644
+```
+- `load_patch_register()`: Loads patch register JSON from local file
+- `save_patch_register()`: Saves register to both local and NGINX locations
+- `update_patch_metadata()`: Updates version, timestamp, checksum, and size for specific patches
+
 ## Features
 
 ### 1. Automated DBC Processing
@@ -84,6 +94,11 @@ def values_are_equivalent(value1, value2)  # Lines 195-205
 - Creates necessary directory structures
 - Manages temporary files and cleanup
 - Integrates with external tool executables
+
+### 5. Patch Register Management
+- **Purpose**: Manages patch metadata for the Modern Launcher
+- **Format**: JSON file containing patch information, versions, and metadata
+- **Distribution**: Automatically copies updated register to NGINX server for client access
 
 ## Configuration
 
@@ -110,7 +125,14 @@ All paths are now configurable via environment variables:
 - Spell Editor: `os.getenv("SPELL_EDITOR_DIR", ...)`
 - MPQ Editor: `os.getenv("MPQ_EDITOR_DIR", ...)`
 - Server Data: `os.getenv("SERVER_DATA_DIR", ...)`
-- File List: `os.getenv("FILE_LIST_PATH", ...)`
+
+### Patch Register Configuration
+The script now manages a centralized patch register instead of separate file lists:
+- Local Patch Register: `os.getenv("PATCH_REGISTER_PATH", "patch_register.json")`
+- NGINX Patch Register: `os.getenv("NGINX_PATCH_REGISTER_PATH", r'Y:\binhex-nginx\nginx\MPQ\patch_register.json')`
+- NGINX Base Path: `os.getenv("NGINX_BASE_PATH", r'Y:\binhex-nginx\nginx')`
+
+**IMPORTANT**: The patch register is automatically synchronized between local and NGINX locations. Edit the local `patch_register.json` file for configuration changes, as it will be copied to the NGINX server during script execution.
 
 ## Workflow
 
@@ -121,7 +143,8 @@ All paths are now configurable via environment variables:
 5. **DBC Export**: Runs WoW Spell Editor in headless mode to export DBC files
 6. **File Distribution**: Copies exported files to server directory
 7. **MPQ Creation**: Updates PATCH-Z.MPQ and PATCH-X.MPQ archives
-8. **Version Management**: Updates client launcher version file
+8. **Patch Register Update**: Updates metadata for generated patches (versions, timestamps, checksums)
+9. **NGINX Synchronization**: Copies updated patch register to NGINX server location
 
 ## Generated Output
 
@@ -133,7 +156,49 @@ All paths are now configurable via environment variables:
 ### MPQ Archives
 - **PATCH-Z.MPQ**: DBC files for client
 - **PATCH-X.MPQ**: Custom creature models
-- Version tracking for launcher updates
+
+### Patch Register (`patch_register.json`)
+- **Purpose**: Centralized metadata for all client patches
+- **Location**: Synchronized between local script directory and NGINX server
+- **Format**: JSON structure containing patch definitions, versions, and metadata
+- **Usage**: Used by Modern Launcher to determine patch requirements and download URLs
+
+#### Patch Register Structure
+```json
+{
+  "format_version": "2.0",
+  "last_updated": "ISO timestamp",
+  "server_metadata": {
+    "build_number": 1,
+    "last_build_timestamp": "ISO timestamp",
+    "dbc_version": 1,
+    "patch_builder_version": "1.0.0"
+  },
+  "patches": {
+    "PATCH-X.MPQ": {
+      "name": "Patch display name",
+      "description": "Patch description",
+      "category": "Patch category", 
+      "size_mb": 180,
+      "version": 1,
+      "is_mandatory": true,
+      "is_enabled_by_default": true,
+      "requires": [],
+      "required_for": [],
+      "last_modified": "ISO timestamp",
+      "checksum": "MD5 hash",
+      "build_source": "generated|static",
+      "auto_update": true
+    }
+  }
+}
+```
+
+#### Key Fields for Launcher Compatibility
+- `is_mandatory`: Determines if patch goes to `/mandatory` or `/optional` folder
+- `is_enabled_by_default`: Whether patch should be pre-selected in launcher
+- `size_mb`: Estimated download size for user interface
+- `version`: Incremented automatically when patch is rebuilt
 
 ## Issues and Recommendations
 
