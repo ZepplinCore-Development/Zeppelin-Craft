@@ -351,15 +351,16 @@ def compare_and_generate_updates():
 
             update_queries = []
 
+            # Use escaped identifiers for safe query construction - define once per table
+            live_db_escaped = escape_identifier(live_dbc)
+            table_escaped = escape_identifier(table)
+            
             for row_dbc in rows_dbc:
                 key = tuple(row_dbc[col] for col in primary_key_columns)
                 backup_row = backup_rows_dict.get(key)
 
                 if backup_row:
                     if row_dbc != backup_row:
-                        # Use escaped identifiers for safe query construction
-                        live_db_escaped = escape_identifier(live_dbc)
-                        table_escaped = escape_identifier(table)
                         update_query = f"UPDATE {live_db_escaped}.{table_escaped} SET \n"
                         update_fields = []
 
@@ -402,7 +403,6 @@ def compare_and_generate_updates():
                             update_query += f"\nWHERE {where_clause};\n"
                             update_queries.append(update_query)
                 else:
-                    # Use escaped identifiers for safe query construction
                     insert_query = f"DELETE FROM {live_db_escaped}.{table_escaped} WHERE "
                     # Validate primary key column names for DELETE clause
                     where_conditions = []
