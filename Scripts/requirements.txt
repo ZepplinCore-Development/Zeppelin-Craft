@@ -1,0 +1,22 @@
+# Database connectivity - Used by Patch Builder, Loot Table Builder, all database-related scripts
+mysql-connector-python>=8.0.0
+
+# Environment variable management - Used by Patch Builder and secure configuration
+python-dotenv>=0.19.0
+
+# HTTP requests for file downloads - Used by Modern Launcher downloader
+requests>=2.25.0
+
+# Image processing - Used by Modern Launcher build process and icon handling
+Pillow>=8.0.0
+
+# GUI toolkit - Usually included with Python but explicit for completeness
+# tkinter - Included with most Python installations, uncomment if needed:
+# tk>=8.6.0
+
+# Build tools for creating executables - Used by Modern Launcher build
+PyInstaller>=4.0.0
+
+# Optional: Development and testing tools
+# pytest>=6.0.0
+# flake8>=3.8.0

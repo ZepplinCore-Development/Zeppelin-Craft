@@ -142,9 +142,9 @@ All paths are now configurable via environment variables:
    - **Previous Risk**: High - Credentials were visible in source code
    - **Resolution**: Database credentials loaded from `.env` file with proper `.gitignore` protection
 
-2. **SQL Injection Potential** (Various locations): Dynamic query construction
-   - **Risk**: Medium - Table/column names from database could be malicious
-   - **Recommendation**: Validate table/column names against whitelist
+2. **~~SQL Injection Potential~~** ✅ **RESOLVED**: Dynamic query construction
+   - **Previous Risk**: Medium - Table/column names from database could be malicious
+   - **Resolution**: Added comprehensive identifier validation and parameterized queries
 
 ### Code Quality Issues
 
@@ -203,9 +203,11 @@ All paths are now configurable via environment variables:
 
 ### Short-term Fixes
 1. ✅ **COMPLETED**: Move credentials to environment variables  
-2. Add comprehensive error handling
-3. Implement proper resource cleanup
-4. Add validation for external tool execution
+2. ✅ **COMPLETED**: Add comprehensive SQL injection prevention and validation
+3. ✅ **COMPLETED**: Fix function definition order issues
+4. Add comprehensive error handling  
+5. Implement proper resource cleanup
+6. Add validation for external tool execution
 
 ### Long-term Enhancements
 1. Split into modular components
@@ -248,8 +250,36 @@ All paths are now configurable via environment variables:
 - **Environment Variable Configuration**: All sensitive credentials moved to `.env` file
 - **Git Protection**: Added `.gitignore` to prevent credential commits  
 - **Configurable Paths**: All hardcoded paths now configurable via environment variables
+- **SQL Injection Prevention**: Added comprehensive input validation and parameterized queries
+- **Identifier Validation**: All database, table, and column names validated against SQL injection
 - **Dependency Management**: Added `requirements.txt` and setup instructions
 - **Template Configuration**: Created `.env.example` for safe configuration sharing
+
+### New Security Features Added
+
+1. **Input Validation Functions**:
+   - `validate_identifier()`: Validates database/table/column names against SQL injection
+   - `validate_numeric_threshold()`: Ensures numeric inputs are within safe ranges
+   - `escape_identifier()`: Safely escapes MySQL identifiers with backticks
+
+2. **Parameterized Queries**: 
+   - Replaced direct string interpolation with parameterized queries for numeric values
+   - All user-controllable inputs now validated before use in SQL queries
+
+3. **Comprehensive Validation**:
+   - Database names validated at startup
+   - Table names validated before use in queries
+   - Column names validated in UPDATE and INSERT operations
+   - Primary key columns validated in WHERE clauses
+
+4. **Error Handling**: 
+   - Invalid identifiers are skipped with informative error messages
+   - Script continues operation even if some identifiers are invalid
+   - Function definition order corrected to prevent NameError issues
+
+## Testing Status
+
+✅ **Script Successfully Tested**: The Patch Builder script has been tested and confirmed working with all security improvements in place. Function definition ordering issues have been resolved.
 
 ## Setup Requirements
 

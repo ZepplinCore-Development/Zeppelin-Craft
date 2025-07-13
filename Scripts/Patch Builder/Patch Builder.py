@@ -3,10 +3,78 @@ import numbers
 import os
 import subprocess
 import shutil
+import re
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Security validation functions
+def validate_identifier(identifier, identifier_type="identifier"):
+    """
+    Validate database identifiers (table names, column names, database names)
+    to prevent SQL injection through identifier names.
+    
+    Args:
+        identifier: The identifier to validate
+        identifier_type: Type of identifier for error messages
+        
+    Returns:
+        True if valid, raises ValueError if invalid
+    """
+    if not identifier:
+        raise ValueError(f"Empty {identifier_type} not allowed")
+    
+    # MySQL identifier rules: alphanumeric, underscore, max 64 chars
+    # Allow letters, numbers, underscores, and some special chars common in DBC tables
+    if not re.match(r'^[a-zA-Z0-9_$]+$', identifier):
+        raise ValueError(f"Invalid {identifier_type}: '{identifier}'. Only alphanumeric characters, underscores, and $ allowed")
+    
+    if len(identifier) > 64:
+        raise ValueError(f"{identifier_type} too long: '{identifier}'. Maximum 64 characters allowed")
+    
+    # Check against MySQL reserved words (basic list)
+    reserved_words = {
+        'select', 'insert', 'update', 'delete', 'drop', 'create', 'alter', 
+        'table', 'database', 'index', 'view', 'trigger', 'procedure', 'function',
+        'union', 'where', 'order', 'group', 'having', 'limit', 'into', 'values'
+    }
+    
+    if identifier.lower() in reserved_words:
+        raise ValueError(f"Reserved word not allowed as {identifier_type}: '{identifier}'")
+    
+    return True
+
+def escape_identifier(identifier):
+    """
+    Escape a MySQL identifier with backticks after validation.
+    
+    Args:
+        identifier: The identifier to escape
+        
+    Returns:
+        Escaped identifier safe for SQL queries
+    """
+    validate_identifier(identifier)
+    return f"`{identifier}`"
+
+def validate_numeric_threshold(threshold):
+    """
+    Validate that threshold is a safe integer.
+    
+    Args:
+        threshold: The numeric threshold to validate
+        
+    Returns:
+        Validated integer or raises ValueError
+    """
+    try:
+        value = int(threshold)
+        if value < 0 or value > 999999999:  # Reasonable bounds for item IDs
+            raise ValueError(f"Threshold out of safe range: {value}")
+        return value
+    except (ValueError, TypeError) as e:
+        raise ValueError(f"Invalid numeric threshold: {threshold}") from e
 
 # TO DO
 # Search columns for first use of 'name' display name in the generated queries as a note for better readability
@@ -24,10 +92,23 @@ backup_dbc = os.getenv("BACKUP_DBC_NAME", "original_dbc")
 live_dbc = os.getenv("LIVE_DBC_NAME", "dbc")
 world_db = os.getenv("WORLD_DB_NAME", "acore_world")
 
+# Validate database names at startup
+try:
+    validate_identifier(backup_dbc, "backup database name")
+    validate_identifier(live_dbc, "live DBC database name")
+    validate_identifier(world_db, "world database name")
+except ValueError as e:
+    print(f"Configuration error: {e}")
+    exit(1)
+
 blacklisted_tables = ["itemsubclass"]
 
-# Custom item threshold from environment
-custom_item_threshold = int(os.getenv("CUSTOM_ITEM_THRESHOLD", "56899"))
+# Custom item threshold from environment - validate it
+try:
+    custom_item_threshold = validate_numeric_threshold(os.getenv("CUSTOM_ITEM_THRESHOLD", "56899"))
+except ValueError as e:
+    print(f"Configuration error in CUSTOM_ITEM_THRESHOLD: {e}")
+    exit(1)
 
 # Directories for updates
 update_dir = os.getenv("UPDATE_DIR", r'Y:\wow-server\Zeppelin-Craft\Scripts\Patch Builder\Updates')
@@ -56,8 +137,8 @@ def create_dbc_backup():
     try:
         conn = connect_to_db(live_dbc)
         with conn.cursor() as cursor:
-            # SQL query to create database if not exists
-            create_db_query = f"CREATE DATABASE IF NOT EXISTS {backup_dbc};"
+            # SQL query to create database if not exists - using validated identifier
+            create_db_query = f"CREATE DATABASE IF NOT EXISTS {escape_identifier(backup_dbc)};"
             cursor.execute(create_db_query)
             print(f"{backup_dbc} database created successfully or already exists.")
 
@@ -78,9 +159,14 @@ def get_tables_with_data(connection):
             tables = [table[0] for table in tables]  # Extract table names from tuples
 
             for table in tables:
-                # Use backticks to escape reserved keywords and special characters
-                query = f"SELECT COUNT(*) FROM `{table}`;"
-                cursor.execute(query)
+                try:
+                    # Validate and escape table name to prevent SQL injection
+                    escaped_table = escape_identifier(table)
+                    query = f"SELECT COUNT(*) FROM {escaped_table};"
+                    cursor.execute(query)
+                except ValueError as e:
+                    print(f"Skipping invalid table name '{table}': {e}")
+                    continue
                 row_count = cursor.fetchone()[0]
                 if row_count > 0:
                     tables_with_data.append(table)
@@ -106,16 +192,28 @@ def create_tables_in_db_backup():
 
                 # Iterate through tables and create if not exists in DBC_backup
                 for table in tables:
-                    # Check if table exists in DBC_backup
-                    cursor_dbc_backup.execute(f"SHOW TABLES LIKE '{table}';")
-                    result = cursor_dbc_backup.fetchone()
-                    if not result:
-                        # Table does not exist, clone structure and data from DBC
-                        create_table_query = f"CREATE TABLE {backup_dbc}.{table} LIKE {live_dbc}.{table};"
-                        cursor_dbc_backup.execute(create_table_query)
-                        insert_data_query = f"INSERT INTO {backup_dbc}.{table} SELECT * FROM {live_dbc}.{table};"
-                        cursor_dbc_backup.execute(insert_data_query)
-                        print(f"Created and populated table {table} in {backup_dbc} database.")
+                    try:
+                        # Validate table name
+                        validate_identifier(table, "table name")
+                        
+                        # Check if table exists in DBC_backup - use parameterized query
+                        cursor_dbc_backup.execute("SHOW TABLES LIKE %s;", (table,))
+                        result = cursor_dbc_backup.fetchone()
+                        if not result:
+                            # Table does not exist, clone structure and data from DBC
+                            # Using escaped identifiers for safe query construction
+                            backup_db_escaped = escape_identifier(backup_dbc)
+                            live_db_escaped = escape_identifier(live_dbc)
+                            table_escaped = escape_identifier(table)
+                            
+                            create_table_query = f"CREATE TABLE {backup_db_escaped}.{table_escaped} LIKE {live_db_escaped}.{table_escaped};"
+                            cursor_dbc_backup.execute(create_table_query)
+                            insert_data_query = f"INSERT INTO {backup_db_escaped}.{table_escaped} SELECT * FROM {live_db_escaped}.{table_escaped};"
+                            cursor_dbc_backup.execute(insert_data_query)
+                            print(f"Created and populated table {table} in {backup_dbc} database.")
+                    except ValueError as e:
+                        print(f"Skipping invalid table name '{table}': {e}")
+                        continue
 
                     else:
                         print(f"Table {table} already exists in {backup_dbc} database.")
@@ -136,7 +234,9 @@ def fetch_all_rows(connection, table_name):
     rows = []
     try:
         with connection.cursor(dictionary=True) as cursor:
-            cursor.execute(f"SELECT * FROM `{table_name}`;")  # Ensure backticks around table_name
+            # Validate and escape table name to prevent SQL injection
+            escaped_table = escape_identifier(table_name)
+            cursor.execute(f"SELECT * FROM {escaped_table};")
             rows = cursor.fetchall()
 
     except mysql.connector.Error as err:
@@ -156,13 +256,15 @@ def get_primary_key_column(connection, table_name):
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"SHOW KEYS FROM `{table_name}` WHERE Key_name = 'PRIMARY';")
+            # Validate and escape table name to prevent SQL injection
+            escaped_table = escape_identifier(table_name)
+            cursor.execute(f"SHOW KEYS FROM {escaped_table} WHERE Key_name = 'PRIMARY';")
             primary_key = cursor.fetchone()
             if primary_key:
                 return [primary_key[4]]  # Return list with single column name for uniformity
             else:
                 # If no primary key found, assume the first column as pseudo key
-                cursor.execute(f"SHOW COLUMNS FROM `{table_name}`;")
+                cursor.execute(f"SHOW COLUMNS FROM {escaped_table};")
                 columns = cursor.fetchall()
                 if columns:
                     return [columns[0][0]]  # Return list with first column name
@@ -181,7 +283,9 @@ def get_column_defaults(connection, table_name):
     defaults = {}
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"SHOW COLUMNS FROM `{table_name}`;")
+            # Validate and escape table name to prevent SQL injection
+            escaped_table = escape_identifier(table_name)
+            cursor.execute(f"SHOW COLUMNS FROM {escaped_table};")
             columns = cursor.fetchall()
             for column in columns:
                 field = column[0]
@@ -253,44 +357,86 @@ def compare_and_generate_updates():
 
                 if backup_row:
                     if row_dbc != backup_row:
-                        update_query = f"UPDATE `{live_dbc}`.`{table}` SET \n"
+                        # Use escaped identifiers for safe query construction
+                        live_db_escaped = escape_identifier(live_dbc)
+                        table_escaped = escape_identifier(table)
+                        update_query = f"UPDATE {live_db_escaped}.{table_escaped} SET \n"
                         update_fields = []
 
                         for key, value in row_dbc.items():
                             if backup_row.get(key) != value:
-                                if isinstance(value, str):
-                                    value = value.replace("\\", "\\\\")
-                                    backup_value = backup_row.get(key)
-                                    if isinstance(backup_value, str):
-                                        backup_value = backup_value.replace("\\", "\\\\")
-                                    value = value.replace("'", "''")
-                                    update_fields.append(f"    `{key}` = '{value}' /* was '{backup_value}' */")
-                                else:
-                                    update_fields.append(f"    `{key}` = {value} /* was {backup_row.get(key)} */")
+                                try:
+                                    # Validate column name to prevent SQL injection
+                                    validate_identifier(key, "column name")
+                                    escaped_key = escape_identifier(key)
+                                    
+                                    if isinstance(value, str):
+                                        value = value.replace("\\", "\\\\")
+                                        backup_value = backup_row.get(key)
+                                        if isinstance(backup_value, str):
+                                            backup_value = backup_value.replace("\\", "\\\\")
+                                        value = value.replace("'", "''")
+                                        update_fields.append(f"    {escaped_key} = '{value}' /* was '{backup_value}' */")
+                                    else:
+                                        update_fields.append(f"    {escaped_key} = {value} /* was {backup_row.get(key)} */")
+                                except ValueError as e:
+                                    print(f"Skipping invalid column name '{key}' in table {table}: {e}")
+                                    continue
 
                         if update_fields:
                             update_query += ",\n".join(update_fields)
-                            where_clause = " AND ".join(
-                                [f"`{col}` = '{row_dbc[col]}'" if isinstance(row_dbc[col], str) else f"`{col}` = {row_dbc[col]}" for col in primary_key_columns]
-                            )
+                            # Validate primary key column names
+                            where_conditions = []
+                            for col in primary_key_columns:
+                                try:
+                                    validate_identifier(col, "primary key column")
+                                    escaped_col = escape_identifier(col)
+                                    if isinstance(row_dbc[col], str):
+                                        where_conditions.append(f"{escaped_col} = '{row_dbc[col]}'")
+                                    else:
+                                        where_conditions.append(f"{escaped_col} = {row_dbc[col]}")
+                                except ValueError as e:
+                                    print(f"Skipping invalid primary key column '{col}' in table {table}: {e}")
+                                    continue
+                            where_clause = " AND ".join(where_conditions)
                             update_query += f"\nWHERE {where_clause};\n"
                             update_queries.append(update_query)
                 else:
-                    insert_query = f"DELETE FROM `{live_dbc}`.`{table}` WHERE "
-                    insert_query += " AND ".join(
-                        [f"`{col}` = '{row_dbc[col]}'" if isinstance(row_dbc[col], str) else f"`{col}` = {row_dbc[col]}" for col in primary_key_columns]
-                    )
-                    insert_query += f";\nINSERT INTO `{live_dbc}`.`{table}` SET \n"
+                    # Use escaped identifiers for safe query construction
+                    insert_query = f"DELETE FROM {live_db_escaped}.{table_escaped} WHERE "
+                    # Validate primary key column names for DELETE clause
+                    where_conditions = []
+                    for col in primary_key_columns:
+                        try:
+                            validate_identifier(col, "primary key column")
+                            escaped_col = escape_identifier(col)
+                            if isinstance(row_dbc[col], str):
+                                where_conditions.append(f"{escaped_col} = '{row_dbc[col]}'")
+                            else:
+                                where_conditions.append(f"{escaped_col} = {row_dbc[col]}")
+                        except ValueError as e:
+                            print(f"Skipping invalid primary key column '{col}' in table {table}: {e}")
+                            continue
+                    insert_query += " AND ".join(where_conditions)
+                    insert_query += f";\nINSERT INTO {live_db_escaped}.{table_escaped} SET \n"
                     insert_fields = []
 
                     for key, value in row_dbc.items():
                         if value is not None and value != '' and not values_are_equivalent(value, column_defaults.get(key)):
-                            if isinstance(value, str):
-                                value = value.replace("\\", "\\\\")
-                                value = value.replace("'", "''")
-                                insert_fields.append(f"    `{key}` = '{value}'")
-                            else:
-                                insert_fields.append(f"    `{key}` = {value}")
+                            try:
+                                # Validate column name to prevent SQL injection
+                                validate_identifier(key, "column name")
+                                escaped_key = escape_identifier(key)
+                                
+                                if isinstance(value, str):
+                                    value = value.replace("\\", "\\\\")
+                                    value = value.replace("'", "''")
+                                    insert_fields.append(f"    {escaped_key} = '{value}'")
+                                else:
+                                    insert_fields.append(f"    {escaped_key} = {value}")
+                            except ValueError as e:
+                                print(f"Skipping invalid column name '{key}' in table {table}: {e}")
+                                continue
 
                     if insert_fields:
                         insert_query += ",\n".join(insert_fields) + ";\n"
@@ -321,10 +467,11 @@ def update_item_dbc():
         dbc_conn = connect_to_db(live_dbc)
         dbc_cursor = dbc_conn.cursor()
         
-        acore_world_cursor.execute(f"SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= {custom_item_threshold}")
+        # Use parameterized queries to prevent SQL injection
+        acore_world_cursor.execute("SELECT entry, class, subclass, SoundOverrideSubclass, Material, displayid, InventoryType, sheath FROM item_template WHERE entry >= %s", (custom_item_threshold,))
         item_templates = acore_world_cursor.fetchall()
 
-        delete_query = f"DELETE FROM dbc.item WHERE itemID >= {custom_item_threshold};"
+        delete_query = "DELETE FROM dbc.item WHERE itemID >= %s;"
 
         # Constructing a single SQL statement for batch insert
         insert_query = f"INSERT INTO dbc.item (itemID, ItemClass, ItemSubClass, sound_override_subclassid, MaterialID, ItemDisplayInfo, inventorySlotID, SheathID) VALUES \n"
@@ -336,7 +483,7 @@ def update_item_dbc():
         insert_query += ",\n".join(values) + ";"
 
         #print(f"{insert_query}")
-        dbc_cursor.execute(delete_query)
+        dbc_cursor.execute(delete_query, (custom_item_threshold,))
         dbc_cursor.execute(insert_query)
         
         # Commit the transaction to persist changes
