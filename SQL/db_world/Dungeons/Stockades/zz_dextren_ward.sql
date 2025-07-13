@@ -12,6 +12,7 @@ INSERT INTO `item_template` SET
     `InventoryType` = 17,
     `ItemLevel` = 28,
     `RequiredLevel` = 22,
+    `StatsCount` = 2,
     `stat_type1` = 4,
     `stat_value1` = 12,
     `stat_type2` = 7,

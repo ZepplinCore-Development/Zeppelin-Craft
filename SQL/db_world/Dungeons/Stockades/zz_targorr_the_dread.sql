@@ -40,6 +40,7 @@ INSERT INTO `item_template` SET
     `InventoryType` = 3,
     `ItemLevel` = 26,
     `RequiredLevel` = 21,
+    `StatsCount` = 1,
     `stat_type1` = 38,
     `stat_value1` = 20,
     `armor` = 67,
