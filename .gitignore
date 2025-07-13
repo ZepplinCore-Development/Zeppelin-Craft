@@ -1,6 +1,8 @@
 # Environment files - DO NOT COMMIT
 .env
+*/.env
 **/.env
+Scripts/**/.env
 
 # Python cache
 __pycache__/
