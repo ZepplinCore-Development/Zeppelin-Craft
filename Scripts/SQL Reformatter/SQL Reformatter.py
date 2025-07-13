@@ -390,7 +390,7 @@ TABLE_STRUCTURES = {
         "`maxcount`": 0,
         "`stackable`": 1,
         "`ContainerSlots`": 0,
-        "`StatsCount`": 1,
+        "`StatsCount`": 0,
         "`stat_type1`": 0,
         "`stat_value1`": 0,
         "`stat_type2`": 0,
