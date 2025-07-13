@@ -4,7 +4,14 @@ import os
 import subprocess
 import shutil
 import re
+import json
+import hashlib
+import stat
+from datetime import datetime
 from dotenv import load_dotenv
+
+# Set umask for file permissions (makes files readable/writable for all users)
+os.umask(0o000)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -33,21 +40,21 @@ def validate_identifier(identifier, identifier_type="identifier"):
     if len(identifier) > 64:
         raise ValueError(f"{identifier_type} too long: '{identifier}'. Maximum 64 characters allowed")
     
-    # Check against MySQL reserved words (basic list)
+    return True
+
+def is_reserved_word(identifier):
+    """Check if an identifier is a MySQL reserved word"""
     reserved_words = {
         'select', 'insert', 'update', 'delete', 'drop', 'create', 'alter', 
         'table', 'database', 'index', 'view', 'trigger', 'procedure', 'function',
         'union', 'where', 'order', 'group', 'having', 'limit', 'into', 'values'
     }
-    
-    if identifier.lower() in reserved_words:
-        raise ValueError(f"Reserved word not allowed as {identifier_type}: '{identifier}'")
-    
-    return True
+    return identifier.lower() in reserved_words
 
 def escape_identifier(identifier):
     """
     Escape a MySQL identifier with backticks after validation.
+    Reserved words are automatically escaped with backticks.
     
     Args:
         identifier: The identifier to escape
@@ -56,6 +63,7 @@ def escape_identifier(identifier):
         Escaped identifier safe for SQL queries
     """
     validate_identifier(identifier)
+    # Always use backticks for reserved words, optional for others but safer to always use
     return f"`{identifier}`"
 
 def validate_numeric_threshold(threshold):
@@ -76,10 +84,6 @@ def validate_numeric_threshold(threshold):
     except (ValueError, TypeError) as e:
         raise ValueError(f"Invalid numeric threshold: {threshold}") from e
 
-# TO DO
-# Search columns for first use of 'name' display name in the generated queries as a note for better readability
-# Package this script into an executable if possible.
-# 
 
 # Database connection details from environment variables
 db_config = {
@@ -101,7 +105,6 @@ except ValueError as e:
     print(f"Configuration error: {e}")
     exit(1)
 
-blacklisted_tables = ["itemsubclass"]
 
 # Custom item threshold from environment - validate it
 try:
@@ -482,7 +485,6 @@ def update_item_dbc():
 
         insert_query += ",\n".join(values) + ";"
 
-        #print(f"{insert_query}")
         dbc_cursor.execute(delete_query, (custom_item_threshold,))
         dbc_cursor.execute(insert_query)
         
@@ -516,11 +518,157 @@ base_directory = os.getenv("BASE_DIRECTORY", r'Y:\wow-server')
 spell_editor_dir = os.getenv("SPELL_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor'))
 mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor'))
 destination_dir = os.getenv("SERVER_DATA_DIR", os.path.join(base_directory, 'data', 'dbc'))
-file_list = os.getenv("FILE_LIST_PATH", r'Y:\binhex-nginx\nginx\MPQ\mandatory\mandatory_file_list.txt')
+patch_register_path = os.getenv("PATCH_REGISTER_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), 'patch_register.json'))
 
-temp_file = os.path.join(base_directory, 'temp.txt')
+
+# Functions for patch register management
+def load_patch_register():
+    """Load the patch register JSON file"""
+    try:
+        with open(patch_register_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Warning: Patch register not found at {patch_register_path}")
+        return None
+    except json.JSONDecodeError as e:
+        print(f"Error parsing patch register JSON: {e}")
+        return None
+
+def save_patch_register(register_data):
+    """Save the patch register JSON file to both local and NGINX locations"""
+    success = True
+    
+    # Save to local location
+    try:
+        # Ensure directory exists and is writable
+        register_dir = os.path.dirname(patch_register_path)
+        if not os.path.exists(register_dir):
+            os.makedirs(register_dir, exist_ok=True)
+        
+        # Try to make file writable if it exists
+        if os.path.exists(patch_register_path):
+            try:
+                os.chmod(patch_register_path, 0o666)
+            except:
+                pass  # Continue even if chmod fails
+        
+        with open(patch_register_path, 'w') as f:
+            json.dump(register_data, f, indent=2)
+        
+        # Set file permissions to be accessible from host
+        try:
+            os.chmod(patch_register_path, 0o666)
+        except:
+            pass
+            
+        print(f"Patch register saved to: {patch_register_path}")
+        
+    except Exception as e:
+        print(f"Error saving patch register to local location: {e}")
+        success = False
+    
+    # Save to NGINX location
+    nginx_patch_register_path = os.getenv("NGINX_PATCH_REGISTER_PATH", 
+                                        r'Y:\binhex-nginx\nginx\MPQ\patch_register.json')
+    try:
+        # Ensure NGINX directory exists
+        nginx_dir = os.path.dirname(nginx_patch_register_path)
+        if not os.path.exists(nginx_dir):
+            os.makedirs(nginx_dir, exist_ok=True)
+        
+        # Check if it's the same file to avoid redundant copy
+        if os.path.abspath(patch_register_path) != os.path.abspath(nginx_patch_register_path):
+            with open(nginx_patch_register_path, 'w') as f:
+                json.dump(register_data, f, indent=2)
+            print(f"Patch register saved to: {nginx_patch_register_path}")
+        
+    except Exception as e:
+        print(f"Warning: Could not save patch register to NGINX: {e}")
+        # Don't mark as failure since local save might have succeeded
+        
+    return success
+
+def calculate_file_checksum(file_path):
+    """Calculate MD5 checksum of a file"""
+    if not os.path.exists(file_path):
+        return ""
+    
+    hash_md5 = hashlib.md5()
+    try:
+        with open(file_path, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+    except Exception as e:
+        print(f"Error calculating checksum for {file_path}: {e}")
+        return ""
+
+def get_file_size_mb(file_path):
+    """Get file size in MB"""
+    if not os.path.exists(file_path):
+        return 0
+    try:
+        size_bytes = os.path.getsize(file_path)
+        return round(size_bytes / (1024 * 1024), 1)
+    except Exception as e:
+        print(f"Error getting file size for {file_path}: {e}")
+        return 0
+
+def update_patch_metadata(patch_register, patch_name, nginx_base_path=None):
+    """Update metadata for a specific patch after it's been built"""
+    if not patch_register or patch_name not in patch_register.get('patches', {}):
+        print(f"Patch {patch_name} not found in register")
+        return False
+    
+    patch_info = patch_register['patches'][patch_name]
+    
+    # Determine file path
+    if nginx_base_path:
+        file_path = os.path.join(nginx_base_path, patch_info['file_path'])
+    else:
+        # Default NGINX path structure
+        nginx_base = os.getenv("NGINX_BASE_PATH", r'Y:\binhex-nginx\nginx')
+        file_path = os.path.join(nginx_base, patch_info['file_path'])
+    
+    # Update metadata
+    patch_info['version'] += 1
+    patch_info['last_modified'] = datetime.now().isoformat() + 'Z'
+    patch_info['checksum'] = calculate_file_checksum(file_path)
+    patch_info['size_mb'] = get_file_size_mb(file_path)
+    
+    # Update server metadata
+    patch_register['last_updated'] = datetime.now().isoformat() + 'Z'
+    patch_register['server_metadata']['last_build_timestamp'] = datetime.now().isoformat() + 'Z'
+    
+    print(f"Updated metadata for {patch_name}: v{patch_info['version']}")
+    return True
+
+def check_file_permissions():
+    """Check if we can write to the patch register file"""
+    try:
+        # Test write access to the directory
+        test_file = os.path.join(os.path.dirname(patch_register_path), 'write_test.tmp')
+        with open(test_file, 'w') as f:
+            f.write('test')
+        os.remove(test_file)
+        
+        # Test write access to the patch register file if it exists
+        if os.path.exists(patch_register_path):
+            if not os.access(patch_register_path, os.W_OK):
+                print(f"Warning: {patch_register_path} is not writable")
+                return False
+        
+        return True
+    except Exception as e:
+        print(f"Warning: Cannot write to patch register directory: {e}")
+        print("Consider running as administrator or checking network permissions")
+        return False
+
 
 print(f"Script is running here {base_directory}")
+
+# Check file permissions before proceeding
+check_file_permissions()
 
 # Headless export
 os.chdir(spell_editor_dir)
@@ -535,39 +683,24 @@ os.chdir(mpq_editor_dir)
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
 
-# Copy updated Patch Z MPQ file
-# mpqZ_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-Z.MPQ')
-# mpqZ_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
-# shutil.copy(mpqZ_patch_src, mpqZ_patch_dest)
 
-# Copy updated Patch X MPQ file
-# mpqX_patch_src = os.path.join(base_directory, 'Zeppelin-Core', 'MPQ Patches', 'PATCH-X.MPQ')
-# mpqX_patch_dest = r'Y:\binhex-nginx\nginx\MPQ\mandatory'
-# shutil.copy(mpqX_patch_src, mpqX_patch_dest)
-
-# Update version file
-with open(file_list, 'r') as f:
-    lines = f.readlines()
-
-server_version = 0
-new_lines = []
-
-for line in lines:
-    if 'PATCH-Z.MPQ' in line:
-        parts = line.split(':')
-        server_version = int(parts[1].strip()) + 1
-        new_lines.append(f'PATCH-Z.MPQ:{server_version}\n')
-    elif 'PATCH-X.MPQ' in line:
-        parts = line.split(':')
-        server_version = int(parts[1].strip()) + 1
-        new_lines.append(f'PATCH-X.MPQ:{server_version}\n')
+# Update patch register with new versions
+patch_register = load_patch_register()
+if patch_register:
+    # Update metadata for generated patches
+    update_patch_metadata(patch_register, 'PATCH-Z.MPQ')
+    update_patch_metadata(patch_register, 'PATCH-X.MPQ')
+    
+    # Update server build number
+    patch_register['server_metadata']['build_number'] += 1
+    patch_register['server_metadata']['dbc_version'] += 1
+    
+    # Save updated register to both local and NGINX locations
+    if save_patch_register(patch_register):
+        print("Patch register updated successfully")
     else:
-        new_lines.append(line)
-
-with open(temp_file, 'w') as f:
-    f.writelines(new_lines)
-
-shutil.copy(temp_file, file_list)
-os.remove(temp_file)
+        print("Failed to save patch register")
+else:
+    print("Warning: Could not load patch register, skipping version updates")
 
 print("Script completed!")
