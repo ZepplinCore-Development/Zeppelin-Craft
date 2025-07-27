@@ -944,7 +944,7 @@ WHERE `ID` = 7818;
 UPDATE `dbc`.`spell` SET 
     `EffectSpellClassMaskB1` = 1 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
-    `SpellDescription0` = 'Blacksmithing +$s1.
+    `SpellDescription0` = 'Blacksmithing +$s1.
 Reduces craft time for Blacksmithing recipes by $s2%.' /* was 'Blacksmithing +$s1.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
     `SpellFamilyName` = 14 /* was 0 */,
@@ -2046,19 +2046,19 @@ WHERE `ID` = 18072;
 
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
-' /* was 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
+    `SpellDescription0` = 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
+' /* was 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
 Deals $*2;23478s1 damage to surrounding allies on death.' */,
-    `SpellToolTip0` = 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
-' /* was 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
+    `SpellToolTip0` = 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
+' /* was 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
 Deals $*2;23478s1 damage to surrounding allies on death.' */
 WHERE `ID` = 18173;
 
@@ -2325,11 +2325,11 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints1` = -51 /* was 0 */,
     `EffectApplyAuraName1` = 33 /* was 12 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Frozen in time!
-Health reduced by $s2%.
-Movement slowed by $s1%
-Lasts $d.' /* was 'Frozen in time!
-Health reduced by $s2%.
+    `SpellDescription0` = 'Frozen in time!
+Health reduced by $s2%.
+Movement slowed by $s1%
+Lasts $d.' /* was 'Frozen in time!
+Health reduced by $s2%.
 Lasts $d.' */,
     `EffectBonusMultiplier1` = 0.0 /* was 1.0 */
 WHERE `ID` = 23310;
@@ -2339,11 +2339,11 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints1` = -51 /* was 0 */,
     `EffectApplyAuraName1` = 33 /* was 12 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Frozen in time!
-Health reduced by $s2%.
-Movement slowed by $s1%
-Lasts $d.' /* was 'Frozen in time!
-Health reduced by $s2%.
+    `SpellDescription0` = 'Frozen in time!
+Health reduced by $s2%.
+Movement slowed by $s1%
+Lasts $d.' /* was 'Frozen in time!
+Health reduced by $s2%.
 Lasts $d.' */
 WHERE `ID` = 23312;
 
@@ -2402,12 +2402,12 @@ WHERE `ID` = 23619;
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
-    `SpellToolTip0` = 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
-' /* was 'Damage done increased by $s1%.
-Spells cast are all instant.
-Reduces max health by $23619s1% every second.
+    `SpellToolTip0` = 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
+' /* was 'Damage done increased by $s1%.
+Spells cast are all instant.
+Reduces max health by $23619s1% every second.
 Deals $*2;23478s1 damage to surrounding allies on death.' */
 WHERE `ID` = 23620;
 
@@ -2880,7 +2880,7 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName2` = 0 /* was 27 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Spits a noxious poison onto the target and any enemies within $r1 yd of the target, dealing $s1 Nature damage over $d.' /* was 'Spits a noxious poison onto the target and any enemies within $r1 yd of the target, dealing $s1 Nature damage and silencing them for $d.' */,
-    `SpellToolTip0` = 'Deals $s1 nature damage every $t1 sec.' /* was 'Deals $s1 nature damage every $t1 sec.
+    `SpellToolTip0` = 'Deals $s1 nature damage every $t1 sec.' /* was 'Deals $s1 nature damage every $t1 sec.
 Cannot cast spells.' */
 WHERE `ID` = 26053;
 
@@ -3947,7 +3947,7 @@ WHERE `ID` = 31715;
 UPDATE `dbc`.`spell` SET 
     `DurationIndex` = 32 /* was 21 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'A vicious attack that causes the target to bleed profusely.  Deals $o1 damage over $d.
+    `SpellDescription0` = 'A vicious attack that causes the target to bleed profusely.  Deals $o1 damage over $d.
 ' /* was 'A vicious attack that causes the target to bleed profusely until fully healed.  Deals $s1 damage every $t1 seconds until healed.' */
 WHERE `ID` = 31956;
 
@@ -7176,7 +7176,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Skill Enhancement',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases your gathering skills temporarily.
+    `SpellDescription0` = 'Increases your gathering skills temporarily.
 Skinning +$s1, Mining +$s2, and Herbalism +$s3.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Skinning +$s1, Mining +$s2, Herbalism +$s3.',
