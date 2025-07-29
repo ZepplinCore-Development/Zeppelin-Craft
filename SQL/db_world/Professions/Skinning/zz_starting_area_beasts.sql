@@ -12,6 +12,15 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- TIRISTFALL GLADES -------------------------------------------------------
 
+    -- Young Scavenger
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1508;
+
+    -- Ragged Scavenger
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1509;
+
+    -- Duskbat
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 1512;
+
 -- ELWYNN FOREST -------------------------------------------------------
 
     -- Young Wolf
@@ -22,7 +31,19 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- DUROTAR -------------------------------------------------------
 
+    -- Scorpid Worker
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 3124;
+
 -- MULGORE -------------------------------------------------------
+
+    -- Plainstrider
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2955;
+
+    -- Mountain Cougar
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2961;
+
+    -- Battleboar
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 2966;
 
 -- TELDRASSIL -------------------------------------------------------
 
