@@ -1,2 +1,0 @@
-Zeppelin Launcher needs to be in the directory with your wow installation.
-It will patch your client, update realm-list and then run the Wow.exe for you.

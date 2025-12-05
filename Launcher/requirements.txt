@@ -1,0 +1,33 @@
+# Zeppelin Modern Launcher Dependencies
+
+# Process utilities for detecting running WoW client
+psutil>=5.8.0
+
+# GUI framework (usually included with Python)
+# tkinter - built-in
+
+# HTTP requests (built-in)
+# urllib - built-in
+
+# File operations (built-in)
+# pathlib - built-in
+
+# JSON handling (built-in)
+# json - built-in
+
+# Threading (built-in)
+# threading - built-in
+
+# System utilities (built-in)
+# sys - built-in
+# os - built-in
+# subprocess - built-in
+# tempfile - built-in
+# time - built-in
+# hashlib - built-in
+
+# Date/time handling (built-in)
+# datetime - built-in
+
+# Type hints (built-in in Python 3.5+)
+# typing - built-in
