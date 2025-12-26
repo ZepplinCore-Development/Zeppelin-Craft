@@ -1,3 +1,4 @@
 a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ" "Y:\wow-server\Zeppelin-Tools\MPQ Editor\Custom Models\Creature" "Creature" /auto /r
+f "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
 compact "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
 exit
