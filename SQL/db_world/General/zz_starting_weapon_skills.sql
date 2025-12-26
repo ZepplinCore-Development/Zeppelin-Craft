@@ -1,0 +1,121 @@
+-- ============================================================================
+-- STARTING WEAPON SKILLS
+-- ============================================================================
+-- This file controls which races can use which weapon types at character
+-- creation. All weapon skill changes should be made in this file ONLY.
+--
+-- AUTO-GENERATED from Race and Class Masks.xlsx
+-- DO NOT EDIT MANUALLY - Changes will be overwritten
+--
+-- RACE MASKS (add values for multiple races):
+--   1 = Human       2 = Orc         4 = Dwarf       8 = Night Elf
+--  16 = Undead     32 = Tauren     64 = Gnome     128 = Troll
+-- 256 = Goblin    512 = Blood Elf  1024 = Draenei  2048 = Worgen
+--   0 = None      4095 = All Races
+--
+-- CLASS MASKS (add values for multiple classes):
+--   1 = Warrior     2 = Paladin      4 = Hunter      8 = Rogue     16 = Priest
+--  32 = DK         64 = Shaman     128 = Mage      256 = Warlock  512 = (unused)
+-- 1024 = Druid
+--   0 = All       2047 = All Classes
+-- ============================================================================
+
+-- Delete existing weapon skills
+DELETE FROM `playercreateinfo_skills` WHERE `skill` IN (43, 44, 45, 46, 54, 55, 136, 160, 162, 172, 173, 176, 226, 228, 229, 433, 473);
+
+-- ============================================================================
+-- ONE-HANDED WEAPONS
+-- ============================================================================
+
+-- Swords (skill 43)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3163, 1, 43, 0, 'Warrior - Swords');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1024, 4, 43, 0, 'Hunter - Swords');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 43, 0, 'Death Knight - Swords');
+
+-- Axe (skill 44)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3511, 1, 44, 0, 'Warrior - Axe');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (422, 4, 44, 0, 'Hunter - Axe');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 44, 0, 'Death Knight - Axe');
+
+-- Maces (skill 54)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3437, 1, 54, 0, 'Warrior - Maces');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1541, 2, 54, 0, 'Paladin - Maces');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3997, 16, 54, 0, 'Priest - Maces');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1442, 64, 54, 0, 'Shaman - Maces');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (32, 1024, 54, 0, 'Druid - Maces');
+
+-- Dagger (skill 173)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (200, 1, 173, 0, 'Warrior - Dagger');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2568, 4, 173, 0, 'Hunter - Dagger');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3039, 8, 173, 0, 'Rogue - Dagger');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2899, 256, 173, 0, 'Warlock - Dagger');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2056, 1024, 173, 0, 'Druid - Dagger');
+
+-- ============================================================================
+-- TWO-HANDED WEAPONS
+-- ============================================================================
+
+-- Two-Handed Swords (skill 55)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3088, 1, 55, 0, 'Warrior - Two-Handed Swords');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (512, 2, 55, 0, 'Paladin - Two-Handed Swords');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 55, 0, 'Death Knight - Two-Handed Swords');
+
+-- Two-Handed Maces (skill 160)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (288, 1, 160, 0, 'Warrior - Two-Handed Maces');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1029, 2, 160, 0, 'Paladin - Two-Handed Maces');
+
+-- Two-Handed Axes (skill 172)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (6, 1, 172, 0, 'Warrior - Two-Handed Axes');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 172, 0, 'Death Knight - Two-Handed Axes');
+
+-- Staves (skill 136)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1442, 64, 136, 0, 'Shaman - Staves');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4049, 128, 136, 0, 'Mage - Staves');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2088, 1024, 136, 0, 'Druid - Staves');
+
+-- Polearms (skill 229)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 229, 0, 'Death Knight - Polearms');
+
+-- ============================================================================
+-- RANGED WEAPONS
+-- ============================================================================
+
+-- Bows (skill 45)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (27, 1, 45, 0, 'Warrior - Bows');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (650, 4, 45, 0, 'Hunter - Bows');
+
+-- Guns (skill 46)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2404, 1, 46, 0, 'Warrior - Guns');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2340, 4, 46, 0, 'Hunter - Guns');
+
+-- Thrown (skill 176)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (128, 1, 176, 0, 'Warrior - Thrown');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3039, 8, 176, 0, 'Rogue - Thrown');
+
+-- Wands (skill 228)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3997, 16, 228, 0, 'Priest - Wands');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4049, 128, 228, 0, 'Mage - Wands');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2899, 256, 228, 0, 'Warlock - Wands');
+
+-- ============================================================================
+-- OTHER
+-- ============================================================================
+
+-- Unarmed (skill 162)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3583, 1, 162, 0, 'Warrior - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1541, 2, 162, 0, 'Paladin - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4014, 4, 162, 0, 'Hunter - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3039, 8, 162, 0, 'Rogue - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3997, 16, 162, 0, 'Priest - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 162, 0, 'Death Knight - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1442, 64, 162, 0, 'Shaman - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4049, 128, 162, 0, 'Mage - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2899, 256, 162, 0, 'Warlock - Unarmed');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2088, 1024, 162, 0, 'Druid - Unarmed');
+
+-- Shield (skill 433)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3583, 1, 433, 0, 'Warrior - Shield');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1541, 2, 433, 0, 'Paladin - Shield');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1442, 64, 433, 0, 'Shaman - Shield');
+
+-- Fist Weapons (skill 473)

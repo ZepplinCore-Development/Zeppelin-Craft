@@ -184,16 +184,15 @@ INSERT INTO `playercreateinfo_action` (`race`, `class`, `button`, `action`) VALU
 -- (12, 11, 120, 68996), Two Forms Druid
 -- (12, 11, 120, 87840), Running Wild Druid
 
-UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|256|2048 WHERE `skill` = 46; -- Guns
+-- Language skills
 UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|256 WHERE `skill` = 109; -- Orcish language goblins
 UPDATE `playercreateinfo_skills` SET `racemask` = `racemask`|2048 WHERE `skill` = 98; -- Common language worgen
 
-DELETE FROM `playercreateinfo_skills` WHERE `comment` IN ('Axes - Worgen', 'Maces - Goblin', 'Worgen - Racial', 'Goblin - Racial');
+-- Racial skills
+DELETE FROM `playercreateinfo_skills` WHERE `comment` IN ('Worgen - Racial', 'Goblin - Racial');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES
-(2048, 8, 44, 0, 'Axes - Worgen'), -- Yes, these are hackfixes and I'm very mad about it,
-(256, 8, 54, 0, 'Maces - Goblin'), -- But right now I don't see any other way to add these.
-(2048, 0, 789, 0, 'Worgen - Racial'), -- And unfortunately, I really want worgen and goblins
-(256, 0, 790, 0, 'Goblin - Racial'); -- To have their starting gear from cata, and the rogues have funky weapons.
+(2048, 0, 789, 0, 'Worgen - Racial'),
+(256, 0, 790, 0, 'Goblin - Racial');
 
 DELETE FROM `spell_script_names` WHERE `spell_id` = 69041;
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES (69041, 'spell_rocket_barrage');
