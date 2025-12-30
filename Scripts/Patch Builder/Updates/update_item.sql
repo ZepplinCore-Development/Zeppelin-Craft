@@ -524,3 +524,31 @@ INSERT INTO `dbc`.`item` SET
     `sound_override_subclassid` = -1,
     `ItemDisplayInfo` = 140279;
 
+UPDATE `dbc`.`item` SET 
+    `ItemClass` = 5 /* was 0 */,
+    `ItemSubClass` = 1 /* was 4 */,
+    `ItemDisplayInfo` = 139497 /* was 140306 */
+WHERE `itemID` = 57400;
+
+UPDATE `dbc`.`item` SET 
+    `ItemClass` = 5 /* was 0 */,
+    `ItemSubClass` = 1 /* was 0 */,
+    `ItemDisplayInfo` = 139498 /* was 1103 */
+WHERE `itemID` = 57401;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 57402;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 57402,
+    `ItemClass` = 5,
+    `ItemSubClass` = 1,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 139499;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 57403;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 57403,
+    `ItemClass` = 5,
+    `ItemSubClass` = 1,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 139500;
+
