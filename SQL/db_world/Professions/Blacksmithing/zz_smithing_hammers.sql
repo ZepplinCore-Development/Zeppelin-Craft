@@ -153,7 +153,7 @@
         `Quality` = 6, -- Artifact
         `BagFamily` = 1152, -- Mining + Engineering
         `TotemCategory` = 193,
-        `spellid_1` = 911230,
+        `spellid_1` = 91130,
         `spelltrigger_1` = 5,
         `bonding` = 1; -- BOP
 
@@ -169,14 +169,14 @@
 -- Place all the hammer spell auras into the spell group table so they can be made exclusive
     DELETE FROM `spell_group` WHERE `id` = 1114;
     INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
-        (1114,91120,0), -- Bronze
-        (1114,91122,0), -- Iron
-        (1114,91124,0), -- Mithril
-        (1114,91126,0), -- Thorium
-        (1114,91128,0), -- Felsteel
-        (1114,91130,0); -- Titanium
+        (1114,91130,0x100), -- Titanium (PRIORITY1)
+        (1114,91128,0x200), -- Felsteel (PRIORITY2)
+        (1114,91126,0x200), -- Thorium (PRIORITY2)
+        (1114,91124,0x400), -- Mithril (PRIORITY3)
+        (1114,91122,0x400), -- Iron (PRIORITY3)
+        (1114,91120,0x800); -- Bronze (PRIORITY4)
 
 -- Apply the exclusivity flag to the spell group for hammers
     DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
     INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,description) VALUES
-        (1114,1,'Group of smithing hammers');
+        (1114,8,'Group of smithing hammers');

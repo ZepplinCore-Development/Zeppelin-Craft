@@ -222,13 +222,17 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2368;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 2575;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 2576;
 
 UPDATE `dbc`.`spell` SET 
@@ -595,8 +599,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 3563;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 3564;
 
 UPDATE `dbc`.`spell` SET 
@@ -1412,8 +1418,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10220;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 10248;
 
 UPDATE `dbc`.`spell` SET 
@@ -3358,8 +3366,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29107;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 29354;
 
 UPDATE `dbc`.`spell` SET 
@@ -4913,8 +4923,10 @@ WHERE `ID` = 50305;
 
 UPDATE `dbc`.`spell` SET 
     `Attributes` = 16842768 /* was 65552 */,
-    `CastingTimeIndex` = 10 /* was 28 */,
-    `SpellToolTipFlags7` = 16712190 /* was 16712188 */
+    `CastingTimeIndex` = 14 /* was 28 */,
+    `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 50310;
 
 UPDATE `dbc`.`spell` SET 
@@ -12740,18 +12752,18 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -11,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -11,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Bronze Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -12760,7 +12772,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91121;
 INSERT INTO `dbc`.`spell` SET 
@@ -12810,18 +12822,18 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -21,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -21,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Iron Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -12830,7 +12842,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91123;
 INSERT INTO `dbc`.`spell` SET 
@@ -12879,18 +12891,18 @@ INSERT INTO `dbc`.`spell` SET
     `DurationIndex` = 21,
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -31,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -31,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Mithril Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -12899,7 +12911,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91125;
 INSERT INTO `dbc`.`spell` SET 
@@ -12948,18 +12960,18 @@ INSERT INTO `dbc`.`spell` SET
     `DurationIndex` = 21,
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -41,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -41,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Thorium Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -12968,7 +12980,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91127;
 INSERT INTO `dbc`.`spell` SET 
@@ -13017,18 +13029,18 @@ INSERT INTO `dbc`.`spell` SET
     `DurationIndex` = 21,
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -51,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -51,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Felsteel Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -13037,7 +13049,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91129;
 INSERT INTO `dbc`.`spell` SET 
@@ -13086,18 +13098,18 @@ INSERT INTO `dbc`.`spell` SET
     `DurationIndex` = 21,
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -61,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -61,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 1,
     `SpellIconID` = 335,
     `SpellName0` = 'Titanium Blacksmithing',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s2%. Does not stack with other Smithing Hammer effects.',
+    `SpellDescription0` = 'Reduces craft time for Blacksmithing recipes by $s1%. Does not stack with other Smithing Hammer effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
@@ -13106,7 +13118,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91131;
 INSERT INTO `dbc`.`spell` SET 
@@ -13390,28 +13402,28 @@ INSERT INTO `dbc`.`spell` SET
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -16,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -16,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 2,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 2,
     `SpellIconID` = 5050,
     `SpellName0` = 'Journeyman Shears',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescription0` = 'Gives a 10% chance to find extra herbs when gathering. Reduces gathering time for herbs by $s1%. Does not stack with other Pruning Shear effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91141;
 INSERT INTO `dbc`.`spell` SET 
@@ -13423,28 +13435,28 @@ INSERT INTO `dbc`.`spell` SET
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -31,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -31,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 2,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 2,
     `SpellIconID` = 5050,
     `SpellName0` = 'Artisan Shears',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescription0` = 'Gives a 20% chance to find extra herbs when gathering. Reduces gathering time for herbs by $s1%. Does not stack with other Pruning Shear effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91142;
 INSERT INTO `dbc`.`spell` SET 
@@ -13456,28 +13468,28 @@ INSERT INTO `dbc`.`spell` SET
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -46,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -46,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 2,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 2,
     `SpellIconID` = 5050,
     `SpellName0` = 'Master Shears',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescription0` = 'Gives a 30% chance to find extra herbs when gathering. Reduces gathering time for herbs by $s1%. Does not stack with other Pruning Shear effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91143;
 INSERT INTO `dbc`.`spell` SET 
@@ -13489,28 +13501,28 @@ INSERT INTO `dbc`.`spell` SET
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `StackAmount` = 1,
     `EquippedItemClass` = -1,
-    `Effect2` = 6,
-    `EffectDieSides2` = 1,
-    `EffectBasePoints2` = -61,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -61,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName2` = 108,
-    `EffectMiscValue2` = 10,
-    `EffectSpellClassMaskB1` = 2,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 2,
     `SpellIconID` = 5050,
     `SpellName0` = 'Grand Master Shears',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Reduces gathering time for herbs by $s2%. Does not stack with other Pruning Shear effects.',
+    `SpellDescription0` = 'Gives a 40% chance to find extra herbs when gathering. Reduces gathering time for herbs by $s1%. Does not stack with other Pruning Shear effects.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91144;
 INSERT INTO `dbc`.`spell` SET 
@@ -13931,6 +13943,138 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `TotemCategory1` = 10,
     `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91158;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91158,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -16,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 4,
+    `SpellIconID` = 2418,
+    `SpellName0` = 'Journeyman Mining Pick',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Gives a 10% chance to find extra ore when mining. Reduces mining time for veins by $s1%. Does not stack with other Mining Picks effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 4,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91159;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91159,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -31,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 4,
+    `SpellIconID` = 2418,
+    `SpellName0` = 'Artisan Mining Pick',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Gives a 20% chance to find extra ore when mining. Reduces mining time for veins by $s1%. Does not stack with other Mining Picks effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 4,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91160;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91160,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -46,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 4,
+    `SpellIconID` = 2418,
+    `SpellName0` = 'Master Mining Pick',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Gives a 30% chance to find extra ore when mining. Reduces mining time for veins by $s1%. Does not stack with other Mining Picks effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 4,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91161;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91161,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -61,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 4,
+    `SpellIconID` = 2418,
+    `SpellName0` = 'Grand Master Mining Pick',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Gives a 40% chance to find extra ore when mining. Reduces mining time for veins by $s1%. Does not stack with other Mining Picks effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 4,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
