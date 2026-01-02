@@ -132,6 +132,23 @@
       "build_source": "static",
       "auto_update": false
     },
+    "PATCH-H.MPQ": {
+      "name": "Modern Human Male Helmet Fix",
+      "description": "Fixes helmet positioning for modern human male character models (281 helmets adjusted)",
+      "category": "Visual Enhancement",
+      "size_mb": 29,
+      "version": 1,
+      "is_mandatory": false,
+      "is_enabled_by_default": false,
+      "requires": [
+        "PATCH-6.MPQ"
+      ],
+      "required_for": [],
+      "last_modified": "2026-01-02T00:00:00Z",
+      "checksum": "",
+      "build_source": "static",
+      "auto_update": false
+    },
     "PATCH-I.MPQ": {
       "name": "Custom Icons",
       "description": "Enhanced spell, item, and ability icons",
