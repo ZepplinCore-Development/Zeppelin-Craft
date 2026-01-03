@@ -518,74 +518,75 @@ base_directory = os.getenv("BASE_DIRECTORY", r'Y:\wow-server')
 spell_editor_dir = os.getenv("SPELL_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor'))
 mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor'))
 destination_dir = os.getenv("SERVER_DATA_DIR", os.path.join(base_directory, 'data', 'dbc'))
-patch_register_path = os.getenv("PATCH_REGISTER_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), 'patch_register.json'))
+
+# Local patch register is always in the Patch Builder directory (source of truth)
+local_patch_register_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'patch_register.json')
+# Export/publish location (NGINX) for the launcher to read
+export_patch_register_path = os.getenv("PATCH_REGISTER_PATH", r'Y:\binhex-nginx\nginx\MPQ\patch_register.json')
 
 
 # Functions for patch register management
 def load_patch_register():
-    """Load the patch register JSON file"""
+    """Load the patch register JSON file from local directory"""
     try:
-        with open(patch_register_path, 'r') as f:
+        with open(local_patch_register_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Warning: Patch register not found at {patch_register_path}")
+        print(f"Warning: Patch register not found at {local_patch_register_path}")
         return None
     except json.JSONDecodeError as e:
         print(f"Error parsing patch register JSON: {e}")
         return None
 
 def save_patch_register(register_data):
-    """Save the patch register JSON file to both local and NGINX locations"""
+    """Save the patch register JSON file to local directory and export to NGINX"""
     success = True
-    
-    # Save to local location
+
+    # Save to local location (source of truth)
     try:
         # Ensure directory exists and is writable
-        register_dir = os.path.dirname(patch_register_path)
+        register_dir = os.path.dirname(local_patch_register_path)
         if not os.path.exists(register_dir):
             os.makedirs(register_dir, exist_ok=True)
-        
+
         # Try to make file writable if it exists
-        if os.path.exists(patch_register_path):
+        if os.path.exists(local_patch_register_path):
             try:
-                os.chmod(patch_register_path, 0o666)
+                os.chmod(local_patch_register_path, 0o666)
             except:
                 pass  # Continue even if chmod fails
-        
-        with open(patch_register_path, 'w') as f:
+
+        with open(local_patch_register_path, 'w') as f:
             json.dump(register_data, f, indent=2)
-        
+
         # Set file permissions to be accessible from host
         try:
-            os.chmod(patch_register_path, 0o666)
+            os.chmod(local_patch_register_path, 0o666)
         except:
             pass
-            
-        print(f"Patch register saved to: {patch_register_path}")
-        
+
+        print(f"✓ Patch register saved locally: {local_patch_register_path}")
+
     except Exception as e:
-        print(f"Error saving patch register to local location: {e}")
+        print(f"✗ Error saving patch register to local location: {e}")
         success = False
-    
-    # Save to NGINX location
-    nginx_patch_register_path = os.getenv("NGINX_PATCH_REGISTER_PATH", 
-                                        r'Y:\binhex-nginx\nginx\MPQ\patch_register.json')
+        return success  # Don't export if local save failed
+
+    # Export to NGINX location for launcher consumption
     try:
         # Ensure NGINX directory exists
-        nginx_dir = os.path.dirname(nginx_patch_register_path)
-        if not os.path.exists(nginx_dir):
-            os.makedirs(nginx_dir, exist_ok=True)
-        
-        # Check if it's the same file to avoid redundant copy
-        if os.path.abspath(patch_register_path) != os.path.abspath(nginx_patch_register_path):
-            with open(nginx_patch_register_path, 'w') as f:
-                json.dump(register_data, f, indent=2)
-            print(f"Patch register saved to: {nginx_patch_register_path}")
-        
+        export_dir = os.path.dirname(export_patch_register_path)
+        if not os.path.exists(export_dir):
+            os.makedirs(export_dir, exist_ok=True)
+
+        with open(export_patch_register_path, 'w') as f:
+            json.dump(register_data, f, indent=2)
+        print(f"✓ Patch register exported to: {export_patch_register_path}")
+
     except Exception as e:
-        print(f"Warning: Could not save patch register to NGINX: {e}")
-        # Don't mark as failure since local save might have succeeded
-        
+        print(f"⚠ Warning: Could not export patch register to NGINX: {e}")
+        # Don't mark as failure since local save succeeded
+
     return success
 
 def calculate_file_checksum(file_path):
@@ -619,9 +620,14 @@ def update_patch_metadata(patch_register, patch_name, nginx_base_path=None):
     if not patch_register or patch_name not in patch_register.get('patches', {}):
         print(f"Patch {patch_name} not found in register")
         return False
-    
+
     patch_info = patch_register['patches'][patch_name]
-    
+
+    # Validate file_path field exists
+    if 'file_path' not in patch_info:
+        print(f"Error: {patch_name} missing 'file_path' field in patch register")
+        return False
+
     # Determine file path
     if nginx_base_path:
         file_path = os.path.join(nginx_base_path, patch_info['file_path'])
@@ -629,35 +635,35 @@ def update_patch_metadata(patch_register, patch_name, nginx_base_path=None):
         # Default NGINX path structure
         nginx_base = os.getenv("NGINX_BASE_PATH", r'Y:\binhex-nginx\nginx')
         file_path = os.path.join(nginx_base, patch_info['file_path'])
-    
+
     # Update metadata
     patch_info['version'] += 1
     patch_info['last_modified'] = datetime.now().isoformat() + 'Z'
     patch_info['checksum'] = calculate_file_checksum(file_path)
     patch_info['size_mb'] = get_file_size_mb(file_path)
-    
+
     # Update server metadata
     patch_register['last_updated'] = datetime.now().isoformat() + 'Z'
     patch_register['server_metadata']['last_build_timestamp'] = datetime.now().isoformat() + 'Z'
-    
+
     print(f"Updated metadata for {patch_name}: v{patch_info['version']}")
     return True
 
 def check_file_permissions():
-    """Check if we can write to the patch register file"""
+    """Check if we can write to the local patch register file"""
     try:
         # Test write access to the directory
-        test_file = os.path.join(os.path.dirname(patch_register_path), 'write_test.tmp')
+        test_file = os.path.join(os.path.dirname(local_patch_register_path), 'write_test.tmp')
         with open(test_file, 'w') as f:
             f.write('test')
         os.remove(test_file)
-        
+
         # Test write access to the patch register file if it exists
-        if os.path.exists(patch_register_path):
-            if not os.access(patch_register_path, os.W_OK):
-                print(f"Warning: {patch_register_path} is not writable")
+        if os.path.exists(local_patch_register_path):
+            if not os.access(local_patch_register_path, os.W_OK):
+                print(f"Warning: {local_patch_register_path} is not writable")
                 return False
-        
+
         return True
     except Exception as e:
         print(f"Warning: Cannot write to patch register directory: {e}")
@@ -674,27 +680,53 @@ check_file_permissions()
 os.chdir(spell_editor_dir)
 subprocess.run(['HeadlessExport.exe'], check=True)
 
-# Copy DBC files to Server
+# Post-process: Reorder CharSections.dbc by race/gender grouping
+# HeadlessExport sorts by ID which breaks client expectations for race/gender grouping
 export_dir = os.path.join(spell_editor_dir, 'Export')
+charsections_path = os.path.join(export_dir, 'CharSections.dbc')
+
+if os.path.exists(charsections_path):
+    print("\nReordering CharSections.dbc for proper race/gender grouping...")
+    try:
+        # Import the reordering module
+        import sys
+        sys.path.insert(0, os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder'))
+        from dbc_reorder import reorder_charsections
+
+        # Reorder in-place (creates .bak backup automatically)
+        if reorder_charsections(charsections_path, backup=True):
+            print("✓ CharSections.dbc reordered successfully")
+        else:
+            print("⚠ Warning: CharSections.dbc reordering failed, using original export")
+    except Exception as e:
+        print(f"⚠ Warning: Could not reorder CharSections.dbc: {e}")
+        print("  Continuing with original export...")
+
+# Copy DBC files to Server
 shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
 # Update MPQ files
 os.chdir(mpq_editor_dir)
 subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
-subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Creatures.txt')], check=True)
+subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
 
 
 # Update patch register with new versions
 patch_register = load_patch_register()
 if patch_register:
     # Update metadata for generated patches
-    update_patch_metadata(patch_register, 'PATCH-Z.MPQ')
-    update_patch_metadata(patch_register, 'PATCH-X.MPQ')
-    
+    z_success = update_patch_metadata(patch_register, 'PATCH-Z.MPQ')
+    x_success = update_patch_metadata(patch_register, 'PATCH-X.MPQ')
+
+    if not z_success:
+        print("Warning: Failed to update PATCH-Z.MPQ metadata")
+    if not x_success:
+        print("Warning: Failed to update PATCH-X.MPQ metadata")
+
     # Update server build number
     patch_register['server_metadata']['build_number'] += 1
     patch_register['server_metadata']['dbc_version'] += 1
-    
+
     # Save updated register to both local and NGINX locations
     if save_patch_register(patch_register):
         print("Patch register updated successfully")

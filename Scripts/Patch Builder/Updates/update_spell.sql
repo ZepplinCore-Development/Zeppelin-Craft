@@ -14076,6 +14076,60 @@ INSERT INTO `dbc`.`spell` SET
     `SchoolMask` = 1,
     `EffectBonusMultiplier1` = 1.0;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91162;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91162,
+    `Attributes` = 256,
+    `AttributesEx2` = 5,
+    `AttributesEx3` = 268435712,
+    `Targets` = 32768,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `RangeIndex` = 7,
+    `EquippedItemClass` = -1,
+    `Effect1` = 18,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = 99,
+    `EffectImplicitTargetA1` = 6,
+    `SpellIconID` = 121,
+    `SpellName0` = 'Mass Resurrection',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Resurrects all nearby fallen allies.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 2;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91163;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91163,
+    `Attributes` = 2048,
+    `AttributesEx` = 2048,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 35,
+    `EffectImplicitTargetA1` = 1,
+    `EffectRadiusIndex1` = 7,
+    `EffectApplyAuraName1` = 23,
+    `EffectAmplitude1` = 10000,
+    `EffectTriggerSpell1` = 91162,
+    `SpellVisual1` = 4490,
+    `SpellIconID` = 113,
+    `SpellName0` = 'Netherwalk',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'You are entering the nether...',
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0,
+    `SchoolMask` = 1;
+
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 103195,

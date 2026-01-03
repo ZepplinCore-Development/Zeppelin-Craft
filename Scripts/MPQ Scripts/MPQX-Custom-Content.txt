@@ -1,0 +1,4 @@
+a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ" "Y:\wow-server\Zeppelin-Craft\Patch-X MPQ\*" /auto /r /c
+f "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
+compact "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
+exit

@@ -1,10 +1,10 @@
 {
   "format_version": "2.0",
-  "last_updated": "2025-07-13T00:00:00Z",
+  "last_updated": "2026-01-03T07:23:42.390300Z",
   "server_metadata": {
-    "build_number": 1,
-    "last_build_timestamp": "2025-07-13T00:00:00Z",
-    "dbc_version": 1,
+    "build_number": 2,
+    "last_build_timestamp": "2026-01-03T07:23:42.390308Z",
+    "dbc_version": 2,
     "patch_builder_version": "1.0.0"
   },
   "patches": {
@@ -225,36 +225,38 @@
       "auto_update": false
     },
     "PATCH-X.MPQ": {
-      "name": "Custom Models",
-      "description": "Various custom 3D models and objects",
+      "name": "Custom Assets",
+      "description": "Custom models, textures, and character customization options",
       "category": "Content Addition",
-      "size_mb": 180,
-      "version": 1,
+      "size_mb": 0,
+      "version": 2,
       "is_mandatory": true,
       "is_enabled_by_default": true,
       "requires": [],
       "required_for": [],
-      "last_modified": "2025-07-13T00:00:00Z",
+      "last_modified": "2026-01-03T07:23:42.389902Z",
       "checksum": "",
       "build_source": "generated",
       "auto_update": true,
-      "build_script": "MPQX-Creatures.txt"
+      "build_script": "MPQX-Custom-Content.txt",
+      "file_path": "MPQ/PATCH-X.MPQ"
     },
     "PATCH-Z.MPQ": {
       "name": "Custom DBC Files",
       "description": "Database modifications for enhanced gameplay",
       "category": "Core Enhancement",
-      "size_mb": 10,
-      "version": 1,
+      "size_mb": 0,
+      "version": 2,
       "is_mandatory": true,
       "is_enabled_by_default": true,
       "requires": [],
       "required_for": [],
-      "last_modified": "2025-07-13T00:00:00Z",
+      "last_modified": "2026-01-03T07:23:42.389253Z",
       "checksum": "",
       "build_source": "generated",
       "auto_update": true,
-      "build_script": "MPQZ-DBC.txt"
+      "build_script": "MPQZ-DBC.txt",
+      "file_path": "MPQ/PATCH-Z.MPQ"
     }
   }
 }
