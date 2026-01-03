@@ -3,6 +3,7 @@
     INSERT INTO `item_template`
     SET `entry` = 58302,
         `name` = 'Azerite Shard',
+        `description` = 'A fragment of crystalized arcane energy. Can be used to empower powerful raid enchantments.',
         `displayid` = 136124,
         `Quality` = 3, -- RARE
         `bonding` = 1, -- BOP
