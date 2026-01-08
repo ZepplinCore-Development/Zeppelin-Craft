@@ -60,6 +60,10 @@ CONFIG = {
         'theme': 'default',
         'check_updates_on_start': True,
         'minimize_on_launch': False
+    },
+    'updates': {
+        'periodic_check_enabled': True,
+        'check_interval_seconds': 20  # Check for patch updates every 20 seconds
     }
 }
 
@@ -608,13 +612,17 @@ class MainWindow:
         self.is_updating = False
         self.update_thread = None
         self.background_image = None
-        
+
+        # Periodic patch update checking
+        self.last_known_patches = {}  # Track last known patch versions for change detection
+        self.patch_check_count = 0    # Track number of checks performed
+
         self._setup_window()
         self._load_images()
         self._create_widgets()
         self._setup_layout()
         self._bind_events()
-        
+
         # Start with connection check
         self._refresh_file_status()
     
@@ -784,7 +792,7 @@ class MainWindow:
             command=self._on_launch_game,
             state="disabled"  # Start disabled until mandatory patches are ready
         )
-        
+
         # Status bar
         self.status_bar = ttk.Label(
             self.main_frame,
@@ -842,7 +850,7 @@ class MainWindow:
         self.button_frame.grid(row=4, column=0, sticky="ew", pady=(0, 10))
         self.button_frame.columnconfigure(0, weight=1)
         self.launch_button.grid(row=0, column=0, sticky="ew")
-        
+
         self.status_bar.grid(row=5, column=0, sticky="ew")
     
     def _bind_events(self):
@@ -891,12 +899,16 @@ class MainWindow:
                 
                 # Determine state and status
                 # Check if this file is currently being downloaded
-                if (self.is_updating and self.current_download and 
+                if (self.is_updating and self.current_download and
                     self.current_download['filename'] == filename and
                     not self.current_download['is_optional']):
                     # Preserve downloading state for active download
                     state = 'downloading'
                     status = "Downloading..."
+                elif any(item['filename'] == filename for item in self.download_queue):
+                    # File is in download queue
+                    state = 'missing'
+                    status = "Queued"
                 elif is_pending:
                     state = 'pending'
                     status = "Downloaded - waiting for client to close"
@@ -966,12 +978,16 @@ class MainWindow:
                 
                 # Determine state and status
                 # Check if this file is currently being downloaded
-                if (self.is_updating and self.current_download and 
+                if (self.is_updating and self.current_download and
                     self.current_download['filename'] == filename and
                     self.current_download['is_optional']):
                     # Preserve downloading state for active download
                     state = 'downloading'
                     status = "Downloading..."
+                elif any(item['filename'] == filename for item in self.download_queue):
+                    # File is in download queue
+                    state = 'missing'
+                    status = "Queued"
                 elif is_pending:
                     state = 'pending'
                     status = "Downloaded - waiting for client to close"
@@ -1061,12 +1077,25 @@ class MainWindow:
     
     def _add_to_download_queue(self, filename, is_optional):
         """Add a file to the download queue."""
+        # Check if already downloading this file
+        if self.current_download and self.current_download['filename'] == filename:
+            log_message(f"Skipping {filename} - already downloading")
+            return
+
+        # Check if already in queue
+        for item in self.download_queue:
+            if item['filename'] == filename:
+                log_message(f"Skipping {filename} - already in queue")
+                return
+
         download_info = {
             'filename': filename,
             'is_optional': is_optional
         }
         self.download_queue.append(download_info)
         log_message(f"Added {filename} to download queue")
+        # Refresh file trees to show queued status
+        self._populate_file_trees()
     
     def _process_download_queue(self):
         """Process the next item in the download queue."""
@@ -1111,11 +1140,11 @@ class MainWindow:
         # Disable all optional patches during download
         if is_optional:
             self._set_optional_patches_state("disabled")
-        
+
         # Start download in background
         download_thread = threading.Thread(
-            target=self._perform_individual_download, 
-            args=(filename, is_optional), 
+            target=self._perform_individual_download,
+            args=(filename, is_optional),
             daemon=True
         )
         download_thread.start()
@@ -1219,14 +1248,17 @@ class MainWindow:
         """Clean up after individual download completion."""
         self.is_updating = False
         self.current_download = None
-        
+
+        # Refresh file trees to update status
+        self._populate_file_trees()
+
         # Re-enable optional patches
         if was_optional:
             self._set_optional_patches_state("normal")
-        
+
         # Update launch button state
         self._update_launch_button_state()
-        
+
         # Process next item in queue
         if self.download_queue:
             self.root.after(500, self._process_download_queue)  # Small delay before next download
@@ -1282,33 +1314,38 @@ class MainWindow:
         if self.current_download and self.download_start_time:
             filename = self.current_download['filename']
             elapsed = time.time() - self.download_start_time
-            
+
+            # Update current download size for progress tracking
+            self.download_current_size = downloaded
+            if total > 0:
+                self.download_total_size = total
+
             if total > 0:
                 progress_percent = (downloaded / total) * 100
                 downloaded_mb = downloaded / (1024 * 1024)
                 total_mb = total / (1024 * 1024)
-                
+
                 # Calculate speed and ETA
                 if elapsed > 0:
                     speed_mbps = downloaded_mb / elapsed
                     remaining_mb = total_mb - downloaded_mb
                     eta_seconds = remaining_mb / speed_mbps if speed_mbps > 0 else 0
-                    
+
                     # Format ETA
                     if eta_seconds < 60:
                         eta_str = f"{eta_seconds:.0f}s"
                     else:
                         eta_str = f"{eta_seconds/60:.1f}m"
-                    
+
                     status_text = f"Downloading {filename}: {downloaded_mb:.1f}/{total_mb:.1f} MB ({progress_percent:.0f}%) - {speed_mbps:.1f} MB/s - ETA: {eta_str}"
                 else:
                     status_text = f"Downloading {filename}: {downloaded_mb:.1f}/{total_mb:.1f} MB ({progress_percent:.0f}%)"
             else:
                 status_text = f"Downloading {filename}: {downloaded / 1024:.0f} KB"
-            
+
             # Update status bar from main thread
             self.root.after(0, lambda: self.status_bar.config(text=status_text))
-    
+
     def _update_launch_button_state(self):
         """Update launch button enabled/disabled state based on mandatory patches."""
         try:
@@ -1531,13 +1568,19 @@ class MainWindow:
     def run(self):
         """Run the application."""
         log_message("Starting GUI application")
-        
+
         # Check for and install pending patches on startup
         self.root.after(500, self._check_and_install_pending_patches)
-        
+
         # Start periodic check for WoW closure (every 10 seconds)
         self.root.after(10000, self._periodic_wow_check)
-        
+
+        # Start periodic patch update checking (configurable interval, default 20 seconds)
+        if CONFIG['updates']['periodic_check_enabled']:
+            check_interval_ms = CONFIG['updates']['check_interval_seconds'] * 1000
+            log_message(f"Starting periodic patch checks every {CONFIG['updates']['check_interval_seconds']} seconds")
+            self.root.after(check_interval_ms, self._periodic_patch_check)
+
         self.root.mainloop()
     
     def _periodic_wow_check(self):
@@ -1597,7 +1640,95 @@ class MainWindow:
         
         # Schedule next check
         self.root.after(10000, self._periodic_wow_check)
-    
+
+    def _periodic_patch_check(self):
+        """Periodically check for patch updates from server."""
+        try:
+            # Skip check if periodic checking is disabled
+            if not CONFIG['updates']['periodic_check_enabled']:
+                return
+
+            self.patch_check_count += 1
+
+            # Get current patch register from server
+            patch_register = self.launcher.get_patch_register()
+
+            if not patch_register or 'patches' not in patch_register:
+                log_message("Periodic patch check: Unable to fetch patch register", "WARNING")
+                self.root.after(CONFIG['updates']['check_interval_seconds'] * 1000, self._periodic_patch_check)
+                return
+
+            # Get all current patch versions from server
+            current_patches = {}
+            for filename, patch_info in patch_register['patches'].items():
+                version = str(patch_info.get('version', 1))
+                current_patches[filename] = version
+
+            # Detect changes (new patches or version updates)
+            new_patches = []
+            updated_patches = []
+
+            for filename, version in current_patches.items():
+                if filename not in self.last_known_patches:
+                    # New patch detected
+                    if self.patch_check_count > 1:  # Skip notification on first check
+                        new_patches.append(filename)
+                elif self.last_known_patches[filename] != version:
+                    # Version changed
+                    updated_patches.append((filename, self.last_known_patches[filename], version))
+
+            # Update tracking
+            self.last_known_patches = current_patches
+
+            # Notify user of changes
+            if new_patches or updated_patches:
+                self._notify_patch_changes(new_patches, updated_patches)
+
+                # Refresh file status if not currently downloading
+                if not self.is_updating:
+                    log_message("Periodic patch check: Changes detected, refreshing file status")
+                    self._refresh_file_status()
+                else:
+                    log_message("Periodic patch check: Changes detected but download in progress, will refresh after completion")
+
+        except Exception as e:
+            log_message(f"Error in periodic patch check: {e}", "ERROR")
+
+        # Schedule next check
+        check_interval_ms = CONFIG['updates']['check_interval_seconds'] * 1000
+        self.root.after(check_interval_ms, self._periodic_patch_check)
+
+    def _notify_patch_changes(self, new_patches, updated_patches):
+        """Notify user about patch changes detected."""
+        messages = []
+
+        if new_patches:
+            patch_names = []
+            for filename in new_patches:
+                display_name = self._get_patch_display_name(filename)
+                patch_names.append(display_name)
+
+            if len(patch_names) == 1:
+                messages.append(f"New patch available: {patch_names[0]}")
+            else:
+                messages.append(f"{len(patch_names)} new patches available")
+
+        if updated_patches:
+            patch_names = []
+            for filename, old_ver, new_ver in updated_patches:
+                display_name = self._get_patch_display_name(filename)
+                patch_names.append(f"{display_name} (v{old_ver} → v{new_ver})")
+
+            if len(patch_names) == 1:
+                messages.append(f"Patch updated: {patch_names[0]}")
+            else:
+                messages.append(f"{len(patch_names)} patches updated")
+
+        if messages:
+            notification = " | ".join(messages)
+            log_message(f"PATCH UPDATE: {notification}")
+            self.status_bar.config(text=notification)
+
     def _update_versions_for_installed_patches(self, pending_patches, failed_patches):
         """Update version tracking for patches that were successfully installed."""
         try:
