@@ -1,4 +1,8 @@
 UPDATE `dbc`.`itemdisplayinfo` SET 
+    `SpellVisualID` = 228 /* was 0 */
+WHERE `ID` = 6098;
+
+UPDATE `dbc`.`itemdisplayinfo` SET 
     `InventoryIcon1` = 'CLOTH_A_08RED_SLEEVE_AL' /* was 'inv_misc_eye_03' */
 WHERE `ID` = 59309;
 

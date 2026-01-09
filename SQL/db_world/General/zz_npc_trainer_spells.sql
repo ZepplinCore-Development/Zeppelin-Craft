@@ -14,3 +14,11 @@ INSERT INTO `npc_trainer` SET
     `SpellID` = 91002,
     `MoneyCost` = 100,
     `ReqLevel` = 6;
+
+-- Mage Mind Freak (Taunt)
+DELETE FROM `npc_trainer` Where `SpellID` = 91057;
+INSERT INTO `npc_trainer` SET
+    `ID` = 200007,
+    `SpellID` = 91057,
+    `MoneyCost` = 100,
+    `ReqLevel` = 6;
