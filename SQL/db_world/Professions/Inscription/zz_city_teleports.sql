@@ -376,56 +376,97 @@
         DELETE FROM `spell_target_position` WHERE `ID` = 3561;
         INSERT INTO `spell_target_position` SET
             `ID` = 3561,
-            `PositionX` = -8793.1,
-            `PositionY` = 651.0,
-            `PositionZ` = 95.4,
-            `Orientation` = 3.9;
+            `PositionX` = -8793.40,
+            `PositionY` = 650.84,
+            `PositionZ` = 95.48,
+            `Orientation` = 3.90;
 
     -- Darnassus
         DELETE FROM `spell_target_position` WHERE `ID` = 3565;
         INSERT INTO `spell_target_position` SET
             `ID` = 3565,
             `MapID` = 1,
-            `PositionX` = 10038.0,
-            `PositionY` = 2479.0,
-            `PositionZ` = 1318.8,
-            `Orientation` = 1.6;
+            `PositionX` = 10038.00,
+            `PositionY` = 2479.00,
+            `PositionZ` = 1318.90,
+            `Orientation` = 1.60;
 
     -- Ironforge
         DELETE FROM `spell_target_position` WHERE `ID` = 3562;
         INSERT INTO `spell_target_position` SET
             `ID` = 3562,
-            `PositionX` = -4864.6,
-            `PositionY` = -931.4,
-            `PositionZ` = 501.8,
-            `Orientation` = 3.8;
+            `PositionX` = -4864.64,
+            `PositionY` = -931.35,
+            `PositionZ` = 502.00,
+            `Orientation` = 3.80;
 
     -- Shattrath
         DELETE FROM `spell_target_position` WHERE `ID` = 33690;
         INSERT INTO `spell_target_position` SET
             `ID` = 33690,
             `MapID` = 530,
-            `PositionX` = -1801.1,
-            `PositionY` = 5157.3,
-            `PositionZ` = -40.2,
-            `Orientation` = 5.5;
+            `PositionX` = -1801.10,
+            `PositionY` = 5157.30,
+            `PositionZ` = -39.70,
+            `Orientation` = 5.50;
 
     -- Orgrimmar
         DELETE FROM `spell_target_position` WHERE `ID` = 3567;
         INSERT INTO `spell_target_position` SET
             `ID` = 3567,
             `MapID` = 1,
-            `PositionX` = 1601.6,
-            `PositionY` = -4316.4,
-            `PositionZ` = 2.7,
-            `Orientation` = 4.9;
+            `PositionX` = 1601.94,
+            `PositionY` = -4316.44,
+            `PositionZ` = 2.76,
+            `Orientation` = 4.90;
 
-    -- Silvermoon City (MISSING)
-    -- Thunder Bluff (MISSING)
-    -- Undercity (MISSING)
-    -- Exodar (MISSING)
-    -- Dalaran (MISSING)
-    -- Shattrath (MISSING)
+    -- Undercity
+        DELETE FROM `spell_target_position` WHERE `ID` = 3563;
+        INSERT INTO `spell_target_position` SET
+            `ID` = 3563,
+            `PositionX` = 1578.09,
+            `PositionY` = 240.48,
+            `PositionZ` = -61.58,
+            `Orientation` = 0.05;
+
+    -- Thunder Bluff
+        DELETE FROM `spell_target_position` WHERE `ID` = 3566;
+        INSERT INTO `spell_target_position` SET
+            `ID` = 3566,
+            `MapID` = 1,
+            `PositionX` = -1214.78,
+            `PositionY` = 62.88,
+            `PositionZ` = 130.59,
+            `Orientation` = 3.49;
+
+    -- Exodar
+        DELETE FROM `spell_target_position` WHERE `ID` = 32271;
+        INSERT INTO `spell_target_position` SET
+            `ID` = 32271,
+            `MapID` = 1,
+            `PositionX` = 5656.46,
+            `PositionY` = 6406.67,
+            `PositionZ` = -138.39,
+            `Orientation` = 2.13;
+
+    -- Silvermoon City
+        DELETE FROM `spell_target_position` WHERE `ID` = 32272;
+        INSERT INTO `spell_target_position` SET
+            `ID` = 32272,
+            `PositionX` = 7554.29,
+            `PositionY` = -5331.21,
+            `PositionZ` = 14.07,
+            `Orientation` = 4.52;
+
+    -- Dalaran
+        DELETE FROM `spell_target_position` WHERE `ID` = 53140;
+        INSERT INTO `spell_target_position` SET
+            `ID` = 53140,
+            `MapID` = 571,
+            `PositionX` = 5897.95,
+            `PositionY` = 728.94,
+            `PositionZ` = 640.13,
+            `Orientation` = 5.53;
 
 -- Rune of Teleportation
     UPDATE `item_template` SET `BuyPrice` = 100000, `SellPrice` = 25000, `stackable` = 200 WHERE (`entry` = 17031);
