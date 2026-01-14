@@ -465,8 +465,8 @@ def compare_and_generate_updates():
 print("\n" + "="*60)
 print("PATCH BUILDER - Select patches to build")
 print("="*60)
-print("1) PATCH-Z.MPQ only (DBC changes - ~13MB)")
-print("2) PATCH-X.MPQ only (Custom content - ~60MB)")
+print("1) PATCH-Z.MPQ only (DBC changes)")
+print("2) PATCH-X.MPQ only (Custom content)")
 print("3) Both patches")
 print("="*60)
 
@@ -523,14 +523,16 @@ def update_item_dbc():
     except mysql.connector.Error as err:
         print(f"Error: {err}")
 
-try:
-    update_item_dbc()
-    create_dbc_backup()
-    create_tables_in_db_backup()
-    compare_and_generate_updates()
+# Only generate DBC diffs when building Patch-Z
+if build_patch_z:
+    try:
+        update_item_dbc()
+        create_dbc_backup()
+        create_tables_in_db_backup()
+        compare_and_generate_updates()
 
-except Exception as e:
-    print(f"An error occurred: {e}")
+    except Exception as e:
+        print(f"An error occurred during DBC diff generation: {e}")
 
 # Shell script equivalent starts here
 
@@ -716,8 +718,8 @@ if build_patch_z:
             sys.path.insert(0, os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder'))
             from dbc_reorder import reorder_charsections
 
-            # Reorder in-place (creates .bak backup automatically)
-            if reorder_charsections(charsections_path, backup=True):
+            # Reorder in-place (no backup needed - HeadlessExport already has originals)
+            if reorder_charsections(charsections_path, backup=False):
                 print("✓ CharSections.dbc reordered successfully")
             else:
                 print("⚠ Warning: CharSections.dbc reordering failed, using original export")
