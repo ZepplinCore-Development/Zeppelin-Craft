@@ -1,4 +1,39 @@
+#!/usr/bin/env python3
+"""
+SQL Reformatter - Formats and optimizes SQL INSERT/REPLACE queries
+
+Features:
+- Strips default values based on table structure
+- Converts creature_template modelid fields to creature_template_model format
+- Formats output as DELETE + INSERT statements
+- Preserves inline comments
+- Supports both INSERT...SET and INSERT...VALUES syntax
+
+Usage:
+    # Format query from file
+    python3 "SQL Reformatter.py" --file path/to/query.sql
+
+    # Format query from command line
+    python3 "SQL Reformatter.py" --query "INSERT INTO table SET field='value';"
+
+    # Save output to file
+    python3 "SQL Reformatter.py" --file query.sql --output formatted.sql
+
+    # Refresh table structures from database
+    python3 "SQL Reformatter.py" --refresh-schema
+"""
+
 import re
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+# Get script directory for file paths
+SCRIPT_DIR = Path(__file__).parent
+SCHEMA_CACHE_FILE = SCRIPT_DIR / "table_structures.json"
+ENV_FILE = SCRIPT_DIR / ".env"
 
 ### TO DO ###
 # Allow multiple entries in the INSERT VALUES Method
@@ -6,7 +41,148 @@ import re
 # Stop inserting NULL for empty strings
 # Handle comments inside a query...
 
-# Example usage
+# Global variable to hold table structures (loaded from cache or DB)
+TABLE_STRUCTURES = {}
+
+def load_schema():
+    """Load table structures from cached JSON file."""
+    global TABLE_STRUCTURES
+
+    if not SCHEMA_CACHE_FILE.exists():
+        print(f"Error: Schema cache file not found at {SCHEMA_CACHE_FILE}", file=sys.stderr)
+        print("Please run with --refresh-schema first to build the cache.", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        with open(SCHEMA_CACHE_FILE, 'r') as f:
+            TABLE_STRUCTURES = json.load(f)
+        print(f"Loaded schema for {len(TABLE_STRUCTURES)} tables from cache", file=sys.stderr)
+    except Exception as e:
+        print(f"Error loading schema cache: {e}", file=sys.stderr)
+        sys.exit(1)
+
+def refresh_schema():
+    """Query database and rebuild table structures cache."""
+    try:
+        import mysql.connector
+        from dotenv import load_dotenv
+    except ImportError:
+        print("Error: Required packages not installed.", file=sys.stderr)
+        print("Install with: pip3 install mysql-connector-python python-dotenv", file=sys.stderr)
+        sys.exit(1)
+
+    # Load .env file
+    if not ENV_FILE.exists():
+        print(f"Error: .env file not found at {ENV_FILE}", file=sys.stderr)
+        print("Copy .env.example to .env and configure your database credentials.", file=sys.stderr)
+        sys.exit(1)
+
+    load_dotenv(ENV_FILE)
+
+    # Define both database connections
+    databases = [
+        {
+            'name': 'AzerothCore',
+            'host': os.getenv('ACORE_HOST'),
+            'port': int(os.getenv('ACORE_PORT', 3306)),
+            'user': os.getenv('ACORE_USER'),
+            'password': os.getenv('ACORE_PASSWORD'),
+            'database': os.getenv('ACORE_DATABASE')
+        },
+        {
+            'name': 'DBC',
+            'host': os.getenv('DBC_HOST'),
+            'port': int(os.getenv('DBC_PORT', 3306)),
+            'user': os.getenv('DBC_USER'),
+            'password': os.getenv('DBC_PASSWORD'),
+            'database': os.getenv('DBC_DATABASE')
+        }
+    ]
+
+    table_structures = {}
+
+    # Query both databases
+    for db_config in databases:
+        print(f"\n[{db_config['name']}] Connecting to {db_config['user']}@{db_config['host']}:{db_config['port']}/{db_config['database']}...", file=sys.stderr)
+
+        try:
+            conn = mysql.connector.connect(
+                host=db_config['host'],
+                port=db_config['port'],
+                user=db_config['user'],
+                password=db_config['password'],
+                database=db_config['database']
+            )
+            cursor = conn.cursor(dictionary=True)
+
+            # Query all tables in the database
+            cursor.execute("""
+                SELECT DISTINCT TABLE_NAME
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE TABLE_SCHEMA = %s
+                ORDER BY TABLE_NAME
+            """, (db_config['database'],))
+
+            tables = [row['TABLE_NAME'] for row in cursor.fetchall()]
+            print(f"[{db_config['name']}] Found {len(tables)} tables, building structure cache...", file=sys.stderr)
+
+            for table_name in tables:
+                # Get column defaults for this table
+                cursor.execute("""
+                    SELECT
+                        COLUMN_NAME,
+                        COLUMN_DEFAULT,
+                        DATA_TYPE,
+                        IS_NULLABLE
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s
+                    ORDER BY ORDINAL_POSITION
+                """, (db_config['database'], table_name))
+
+                columns = {}
+                for col in cursor.fetchall():
+                    col_name = f"`{col['COLUMN_NAME']}`"
+                    default_value = col['COLUMN_DEFAULT']
+
+                    # Convert default value to appropriate Python type
+                    if default_value is None:
+                        if col['IS_NULLABLE'] == 'YES':
+                            columns[col_name] = None
+                        else:
+                            # No default and not nullable - must be provided
+                            continue
+                    elif col['DATA_TYPE'] in ('int', 'tinyint', 'smallint', 'mediumint', 'bigint'):
+                        columns[col_name] = int(default_value) if default_value else 0
+                    elif col['DATA_TYPE'] in ('float', 'double', 'decimal'):
+                        columns[col_name] = float(default_value) if default_value else 0.0
+                    elif col['DATA_TYPE'] in ('varchar', 'text', 'char', 'mediumtext', 'longtext'):
+                        columns[col_name] = str(default_value) if default_value else ""
+                    else:
+                        columns[col_name] = default_value
+
+                table_structures[table_name] = columns
+
+            cursor.close()
+            conn.close()
+
+        except mysql.connector.Error as e:
+            print(f"[{db_config['name']}] Database error: {e}", file=sys.stderr)
+            print(f"[{db_config['name']}] Skipping this database...", file=sys.stderr)
+            continue
+
+    # Save to JSON file
+    try:
+        with open(SCHEMA_CACHE_FILE, 'w') as f:
+            json.dump(table_structures, f, indent=2)
+
+        print(f"\n✓ Schema cache saved to {SCHEMA_CACHE_FILE}", file=sys.stderr)
+        print(f"✓ Cached {len(table_structures)} tables total", file=sys.stderr)
+
+    except Exception as e:
+        print(f"Error saving schema cache: {e}", file=sys.stderr)
+        sys.exit(1)
+
+# Example usage (now only used if no arguments provided)
 query = """
 
 INSERT INTO script_waypoint (entry,pointid,location_x,location_y,location_z,waittime,point_comment) VALUES
@@ -50,1072 +226,10 @@ INSERT INTO script_waypoint (entry,pointid,location_x,location_y,location_z,wait
 
 """
 
-# Define the table structure and default values
-TABLE_STRUCTURES = {
-    "mod_auctionhousebot": {
-        # Core Identification
-        "`auctionhouse`": 0,                      # Map ID of AH (e.g., 1 for Stormwind)
-        "`name`": None,                           # Display name (e.g., "Stormwind AH")
 
-        # Item Quantity Control
-        "`minitems`": 0,                          # Min items to maintain (0 = use maxitems)
-        "`maxitems`": 0,                          # Target item count
+# Table structures are now loaded from table_structures.json cache file
+# Use --refresh-schema to rebuild the cache from the database
 
-        # Trade Goods Distribution (%)
-        "`percentgreytradegoods`": 0,
-        "`percentwhitetradegoods`": 27,
-        "`percentgreentradegoods`": 12,
-        "`percentbluetradegoods`": 10,
-        "`percentpurpletradegoods`": 1,
-        "`percentorangetradegoods`": 0,
-        "`percentyellowtradegoods`": 0,
-
-        # Regular Items Distribution (%)
-        "`percentgreyitems`": 0,
-        "`percentwhiteitems`": 10,
-        "`percentgreenitems`": 30,
-        "`percentblueitems`": 8,
-        "`percentpurpleitems`": 2,
-        "`percentorangeitems`": 0,
-        "`percentyellowitems`": 0,
-
-        # Buyout Price Ranges (% of vendor price)
-        "`minpricegrey`": 250,
-        "`maxpricegrey`": 500,
-        "`minpricewhite`": 750,
-        "`maxpricewhite`": 1000,
-        "`minpricegreen`": 1250,
-        "`maxpricegreen`": 1500,
-        "`minpriceblue`": 1750,
-        "`maxpriceblue`": 2000,
-        "`minpricepurple`": 3000,
-        "`maxpricepurple`": 4000,
-        "`minpriceorange`": 5000,
-        "`maxpriceorange`": 10000,
-        "`minpriceyellow`": 5000,
-        "`maxpriceyellow`": 10000,
-
-        # Bid Price Ranges (% of buyout price)
-        "`minbidpricegrey`": 70,
-        "`maxbidpricegrey`": 100,
-        "`minbidpricewhite`": 70,
-        "`maxbidpricewhite`": 100,
-        "`minbidpricegreen`": 80,
-        "`maxbidpricegreen`": 100,
-        "`minbidpriceblue`": 75,
-        "`maxbidpriceblue`": 100,
-        "`minbidpricepurple`": 80,
-        "`maxbidpricepurple`": 100,
-        "`minbidpriceorange`": 80,
-        "`maxbidpriceorange`": 100,
-        "`minbidpriceyellow`": 80,
-        "`maxbidpriceyellow`": 100,
-
-        # Stack Limits (0 = no limit)
-        "`maxstackgrey`": 0,
-        "`maxstackwhite`": 0,
-        "`maxstackgreen`": 0,
-        "`maxstackblue`": 0,
-        "`maxstackpurple`": 0,
-        "`maxstackorange`": 0,
-        "`maxstackyellow`": 0,
-
-        # Buyer Configuration
-        "`buyerpricegrey`": 5,                   # Multiplier to vendor price
-        "`buyerpricewhite`": 30,
-        "`buyerpricegreen`": 40,
-        "`buyerpriceblue`": 50,
-        "`buyerpricepurple`": 60,
-        "`buyerpriceorange`": 80,
-        "`buyerpriceyellow`": 100,
-        "`buyerbiddinginterval`": 1,             # Minutes between bid cycles
-        "`buyerbidsperinterval`": 1              # Bids per cycle
-    },
-
-    "achievement_criteria_data": {
-        "`criteria_id`": 0,
-        "`type`": 0,
-        "`value1`": 0,
-        "`value2`": 0,
-        "`ScriptName`": "",
-    },
-
-    "conditions": {
-        "`SourceTypeOrReferenceId`": 0,      # 17 = SPELL_SCRIPT_TARGET
-        "`SourceGroup`": 0,                  # Often spell family
-        "`SourceEntry`": 0,                  # Spell/quest/etc. ID
-        "`SourceId`": 0,                     # Usually 0
-        "`ElseGroup`": 0,                    # Alternative condition group
-        "`ConditionTypeOrReference`": 0,     # 31 = CONDITION_SPELL_SCRIPT_TARGET
-        "`ConditionTarget`": 0,              # 0=SOURCE, 1=TARGET
-        "`ConditionValue1`": 0,              # Param 1 (type/subtype)
-        "`ConditionValue2`": 0,              # Param 2 (entry ID)
-        "`ConditionValue3`": 0,              # Param 3 (misc)
-        "`NegativeCondition`": 0,            # 0=Must meet, 1=Must NOT meet
-        "`ErrorType`": 0,                    # UI error to display
-        "`ErrorTextId`": 0,                  # Text ID for error
-        "`ScriptName`": "",                  # Custom script hook
-        "`Comment`": "",                     # Developer notes
-    },
-
-    "creature_template": {
-        "`entry`": 0,
-        "`difficulty_entry_1`": 0,
-        "`difficulty_entry_2`": 0,
-        "`difficulty_entry_3`": 0,
-        "`KillCredit1`": 0,
-        "`KillCredit2`": 0,
-        "`modelid1`": 0,
-        "`modelid2`": 0,
-        "`modelid3`": 0,
-        "`modelid4`": 0,
-        "`name`": "",
-        "`subname`": "",
-        "`IconName`": "",
-        "`gossip_menu_id`": 0,
-        "`minlevel`": 1,
-        "`maxlevel`": 1,
-        "`exp`": 0,
-        "`faction`": 0,
-        "`npcflag`": 0,
-        "`speed_walk`": 1,
-        "`speed_run`": 1.14286,
-        "`speed_swim`": 1,
-        "`speed_flight`": 1,
-        "`detection_range`": 20,
-        "`scale`": 1,
-        "`rank`": 0,
-        "`dmgschool`": 0,
-        "`DamageModifier`": 1,
-        "`BaseAttackTime`": 0,
-        "`RangeAttackTime`": 0, 
-        "`BaseVariance`": 1, 
-        "`RangeVariance`": 1, 
-        "`unit_class`": 0,
-        "`unit_flags`": 0, 
-        "`unit_flags2`": 0, 
-        "`dynamicflags`": 0, 
-        "`family`": 0, 
-        "`trainer_type`": 0,
-        "`trainer_spell`": 0, 
-        "`trainer_class`": 0, 
-        "`trainer_race`": 0, 
-        "`type`": 0, 
-        "`type_flags`": 0,
-        "`lootid`": 0, 
-        "`pickpocketloot`": 0, 
-        "`skinloot`": 0, 
-        "`PetSpellDataId`": 0, 
-        "`VehicleId`": 0,
-        "`mingold`": 0, 
-        "`maxgold`": 0, 
-        "`AIName`": "", 
-        "`MovementType`": 0, 
-        "`HoverHeight`": 1,
-        "`HealthModifier`": 1, 
-        "`ManaModifier`": 1, 
-        "`ArmorModifier`": 1, 
-        "`ExperienceModifier`": 1,
-        "`RacialLeader`": 0, 
-        "`movementId`": 0, 
-        "`RegenHealth`": 1, 
-        "`mechanic_immune_mask`": 0,
-        "`spell_school_immune_mask`": 0, 
-        "`flags_extra`": 0, 
-        "`ScriptName`": "", 
-        "`VerifiedBuild`": ""
-    },
-
-    "creature_addon": {
-        "`guid`": 0,                   # Must match creature.guid
-        "`path_id`": 0,                # Waypoint path ID (0 = none)
-        "`mount`": 0,                  # Display mount ID (0 = none)
-        "`bytes1`": 0,                 # StandState/SheathState etc.
-        "`bytes2`": 0,                 # UnitFlags
-        "`emote`": 0,                  # Persistent emote ID
-        "`visibilityDistanceType`": 0, # 0=Default, 1=Tiny, 2=Small, etc.
-        "`auras`": None,               # NULL or aura strings
-    },
-
-    "creature_model_info": {
-        "`DisplayID`": 0,                # Matches CreatureDisplayInfo.dbc
-        "`BoundingRadius`": 0.0,          # Melee attack distance
-        "`CombatReach`": 0.0,             # Ranged attack range
-        "`Gender`": 2,                    # 0=Male, 1=Female, 2=None
-        "`DisplayID_Other_Gender`": 0     # Alternate gender model
-    },
-
-    "creature_template_model": {
-        "`CreatureID`": 0,               # Links to creature_template.entry
-        "`Idx`": 0,                      # 0-3 model slot index
-        "`CreatureDisplayID`": 0,         # DisplayID from CreatureDisplayInfo.dbc
-        "`DisplayScale`": 1.0,            # Model size multiplier
-        "`Probability`": 1.0,             # 0-1 (auto-normalized to sum=1)
-        "`VerifiedBuild`": 0              # 0=unverified, -1=placeholder
-    },
-
-    "creature_loot_template": {
-    "`Entry`": 0,
-    "`Item`": 0,
-    "`Reference`": 0,
-    "`Chance`": 100,
-    "`QuestRequired`": 0,
-    "`LootMode`": 1,
-    "`GroupId`": 0,
-    "`MinCount`": 1,
-    "`MaxCount`": 1,
-    "`Comment`": "",
-    },
-
-    "creature_questender": {
-        "`id`": 0,
-        "`quest`": 0,
-    },
-
-    "creature_queststarter": {
-        "`id`": 0,
-        "`quest`": 0,
-    },
-
-    "creature": {
-    "`guid`": 0,
-    "`id1`": 0,
-    "`id2`": 0,
-    "`id3`": 0,
-    "`map`": 0,
-    "`zoneId`": 0,
-    "`areaId`": 0,
-    "`spawnMask`": 1,
-    "`phaseMask`": 1,
-    "`equipment_id`": 0,
-    "`position_x`": 0.0,
-    "`position_y`": 0.0,
-    "`position_z`": 0.0,
-    "`orientation`": 0.0,
-    "`spawntimesecs`": 120,
-    "`wander_distance`": 0.0,
-    "`currentwaypoint`": 0,
-    "`curhealth`": 1,
-    "`curmana`": 0,
-    "`MovementType`": 0,
-    "`npcflag`": 0,
-    "`unit_flags`": 0,
-    "`dynamicflags`": 0,
-    "`ScriptName`": "",
-    "`VerifiedBuild`": "",
-    "`CreateObject`": 0,
-    "`Comment`": ""
-    },
-
-    "creature_questitem": {
-        "`CreatureEntry`": 0,
-        "`Idx`": 0,
-        "`ItemId`": 0,
-        "`VerifiedBuild`": 0,
-    },
-
-    "creature_summon_groups": {
-        "`summonerId`": 0,            # NPC/GO ID that triggers summon
-        "`summonerType`": 0,           # 0=Creature, 1=GameObject
-        "`groupId`": 0,                # Group identifier
-        "`entry`": 0,                  # Creature ID to summon
-        "`position_x`": 0.0,           # Spawn X coordinate
-        "`position_y`": 0.0,           # Spawn Y coordinate
-        "`position_z`": 0.0,           # Spawn Z coordinate
-        "`orientation`": 0.0,          # Facing angle (radians)
-        "`summonType`": 4,             # 4=TimedOrCorpseDespawn (common default)
-        "`summonTime`": 0,             # Despawn time in ms (0=infinite)
-        "`Comment`": "",               # Description
-    },
-
-    "dungeon_access_template": {
-        "`id`": 0,                      # Unique access template ID
-        "`map_id`": 0,                  # Dungeon map ID
-        "`difficulty`": 0,              # 0=Normal, 1=Heroic, etc.
-        "`min_level`": 0,               # 0 = no level restriction
-        "`max_level`": 0,               # 0 = no max level cap
-        "`min_avg_item_level`": 0,      # 0 = no ilvl requirement
-        "`comment`": "",                # Description
-    },
-
-    "dungeon_access_requirements": {
-        "`dungeon_access_id`": None,         # Links to dungeon_access_template
-        "`requirement_type`": None,          # 0=None, 1=Quest, 2=Item, 3=Achievement
-        "`requirement_id`": None,            # Quest/Item/Achievement ID
-        "`requirement_note`": None,         # Displayed requirement text
-        "`faction`": 2,                   # 0=Alliance, 1=Horde, 2=Both
-        "`priority`": None,               # NULL for default ordering
-        "`leader_only`": 0,               # 0=All party members, 1=Leader only
-        "`comment`": None,                  # Developer notes
-    },
-
-    "event_scripts": {
-        "`id`": 0,                  # Event ID reference
-        "`delay`": 0,               # Seconds before execution
-        "`command`": 0,             # Script command type
-        "`datalong`": 0,            # Primary command data
-        "`datalong2`": 0,           # Secondary command data
-        "`dataint`": 0,             # Additional parameter
-        "`x`": 0.0,                 # World X coordinate
-        "`y`": 0.0,                 # World Y coordinate
-        "`z`": 0.0,                 # World Z coordinate
-        "`o`": 0.0,                 # Orientation (radians)
-    },
-
-    "item_template": {
-        "`entry`": 0,
-        "`class`": 0,
-        "`subclass`": 0,
-        "`SoundOverrideSubclass`": -1,
-        "`name`": "",
-        "`displayid`": 0,
-        "`Quality`": 0,
-        "`Flags`": 0,
-        "`FlagsExtra`": 0,
-        "`BuyCount`": 1,
-        "`BuyPrice`": 0,
-        "`SellPrice`": 0,
-        "`InventoryType`": 0,
-        "`AllowableClass`": -1,
-        "`AllowableRace`": -1,
-        "`ItemLevel`": 0,
-        "`RequiredLevel`": 0,
-        "`RequiredSkill`": 0,
-        "`RequiredSkillRank`": 0,
-        "`requiredspell`": 0,
-        "`requiredhonorrank`": 0,
-        "`RequiredCityRank`": 0,
-        "`RequiredReputationFaction`": 0,
-        "`RequiredReputationRank`": 0,
-        "`maxcount`": 0,
-        "`stackable`": 1,
-        "`ContainerSlots`": 0,
-        "`StatsCount`": 0,
-        "`stat_type1`": 0,
-        "`stat_value1`": 0,
-        "`stat_type2`": 0,
-        "`stat_value2`": 0,
-        "`stat_type3`": 0,
-        "`stat_value3`": 0,
-        "`stat_type4`": 0,
-        "`stat_value4`": 0,
-        "`stat_type5`": 0,
-        "`stat_value5`": 0,
-        "`stat_type6`": 0,
-        "`stat_value6`": 0,
-        "`stat_type7`": 0,
-        "`stat_value7`": 0,
-        "`stat_type8`": 0,
-        "`stat_value8`": 0,
-        "`stat_type9`": 0,
-        "`stat_value9`": 0,
-        "`stat_type10`": 0,
-        "`stat_value10`": 0,
-        "`ScalingStatDistribution`": 0,
-        "`ScalingStatValue`": 0,
-        "`dmg_min1`": 0,
-        "`dmg_max1`": 0,
-        "`dmg_type1`": 0,
-        "`dmg_min2`": 0,
-        "`dmg_max2`": 0,
-        "`dmg_type2`": 0,
-        "`armor`": 0,
-        "`holy_res`": 0,
-        "`fire_res`": 0,
-        "`nature_res`": 0,
-        "`frost_res`": 0,
-        "`shadow_res`": 0,
-        "`arcane_res`": 0,
-        "`delay`": 1000,
-        "`ammo_type`": 0,
-        "`RangedModRange`": 0,
-        "`spellid_1`": 0,
-        "`spelltrigger_1`": 0,
-        "`spellcharges_1`": 0,
-        "`spellppmRate_1`": 0,
-        "`spellcooldown_1`": -1,
-        "`spellcategory_1`": 0,
-        "`spellcategorycooldown_1`": -1,
-        "`spellid_2`": 0,
-        "`spelltrigger_2`": 0,
-        "`spellcharges_2`": 0,
-        "`spellppmRate_2`": 0,
-        "`spellcooldown_2`": -1,
-        "`spellcategory_2`": 0,
-        "`spellcategorycooldown_2`": -1,
-        "`spellid_3`": 0,
-        "`spelltrigger_3`": 0,
-        "`spellcharges_3`": 0,
-        "`spellppmRate_3`": 0,
-        "`spellcooldown_3`": -1,
-        "`spellcategory_3`": 0,
-        "`spellcategorycooldown_3`": -1,
-        "`spellid_4`": 0,
-        "`spelltrigger_4`": 0,
-        "`spellcharges_4`": 0,
-        "`spellppmRate_4`": 0,
-        "`spellcooldown_4`": -1,
-        "`spellcategory_4`": 0,
-        "`spellcategorycooldown_4`": -1,
-        "`spellid_5`": 0,
-        "`spelltrigger_5`": 0,
-        "`spellcharges_5`": 0,
-        "`spellppmRate_5`": 0,
-        "`spellcooldown_5`": -1,
-        "`spellcategory_5`": 0,
-        "`spellcategorycooldown_5`": -1,
-        "`bonding`": 0,
-        "`description`": "",
-        "`PageText`": 0,
-        "`LanguageID`": 0,
-        "`PageMaterial`": 0,
-        "`startquest`": 0,
-        "`lockid`": 0,
-        "`Material`": 0,
-        "`sheath`": 0,
-        "`RandomProperty`": 0,
-        "`RandomSuffix`": 0,
-        "`block`": 0,
-        "`itemset`": 0,
-        "`MaxDurability`": 0,
-        "`area`": 0,
-        "`Map`": 0,
-        "`BagFamily`": 0,
-        "`TotemCategory`": 0,
-        "`socketColor_1`": 0,
-        "`socketContent_1`": 0,
-        "`socketColor_2`": 0,
-        "`socketContent_2`": 0,
-        "`socketColor_3`": 0,
-        "`socketContent_3`": 0,
-        "`socketBonus`": 0,
-        "`GemProperties`": 0,
-        "`RequiredDisenchantSkill`": -1,
-        "`ArmorDamageModifier`": 0,
-        "`duration`": 0,
-        "`ItemLimitCategory`": 0,
-        "`HolidayId`": 0,
-        "`ScriptName`": "",
-        "`DisenchantID`": 0,
-        "`FoodType`": 0,
-        "`minMoneyLoot`": 0,
-        "`maxMoneyLoot`": 0,
-        "`flagsCustom`": 0,
-        "`VerifiedBuild`": ""
-    },
-
-    "item_loot_template": {
-        "`Entry`": 0,               # Source item ID (container)
-        "`Item`": 0,                # Loot item ID
-        "`Reference`": 0,           # Reference to other loot templates
-        "`Chance`": 100.0,          # Drop chance percentage (float)
-        "`QuestRequired`": 0,       # 1 = Requires quest
-        "`LootMode`": 1,            # Default loot mode
-        "`GroupId`": 0,             # Group ID (0 = independent)
-        "`MinCount`": 1,            # Minimum quantity
-        "`MaxCount`": 1,            # Maximum quantity
-        "`Comment`": "",            # Descriptive comment
-    },
-
-    "instance_encounters": {
-        "`entry`": 0,                  # Unique encounter ID
-        "`creditType`": 0,             # 0=Creature, 1=GameObject
-        "`creditEntry`": 0,            # Creature/GameObject ID
-        "`lastEncounterDungeon`": 0,   # Dungeon achievement reference
-        "`comment`": "",               # Encounter description
-    },
-
-    "gameobject": {
-        "`id`": 0,                  # GameObject template ID
-        "`map`": 0,                 # Map ID
-        "`zoneId`": 0,              # Zone ID (optional)
-        "`areaId`": 0,              # Area ID (optional)
-        "`spawnMask`": 1,           # Spawn mask (1 for all modes)
-        "`phaseMask`": 1,           # Phase mask (1 = visible in all phases)
-        "`position_x`": 0.0,        # World X coordinate
-        "`position_y`": 0.0,        # World Y coordinate
-        "`position_z`": 0.0,        # World Z coordinate
-        "`orientation`": 0.0,       # Facing angle (radians)
-        "`rotation0`": 0.0,         # Quaternion rotation X
-        "`rotation1`": 0.0,         # Quaternion rotation Y
-        "`rotation2`": 0.0,         # Quaternion rotation Z
-        "`rotation3`": 1.0,         # Quaternion rotation W (default 1.0)
-        "`spawntimesecs`": 300,     # Respawn time in seconds
-        "`animprogress`": 0,        # Animation progress (0-100)
-        "`state`": 1,               # GameObject state (1 = active)
-        "`ScriptName`": "",         # Empty string unless scripted
-        "`VerifiedBuild`": None,    # NULL for custom entries
-    },
-
-    "gameobject_loot_template": {
-        "`Entry`": 0,              # GameObject template ID
-        "`Item`": 0,                # Item ID from item_template
-        "`Reference`": 0,           # Reference to other loot templates
-        "`Chance`": 100.0,          # Drop chance percentage (float)
-        "`QuestRequired`": 0,       # 1 = Only drops for quest
-        "`LootMode`": 1,            # Default loot mode
-        "`GroupId`": 0,             # Grouping for mutual exclusivity
-        "`MinCount`": 1,            # Minimum quantity
-        "`MaxCount`": 1,            # Maximum quantity
-        "`Comment`": "",            # Descriptive comment
-    },
-
-    "lfg_dungeon_template": {
-        "`dungeonId`": 0,              # LFG dungeon ID
-        "`name`": "",                   # Dungeon display name
-        "`position_x`": 0.0,            # Teleport X coordinate
-        "`position_y`": 0.0,            # Teleport Y coordinate
-        "`position_z`": 0.0,            # Teleport Z coordinate
-        "`orientation`": 0.0,          # Facing angle (radians)
-        "`VerifiedBuild`": 0,           # 0 for custom entries
-    },
-
-    "lfg_dungeon_rewards": {
-        "`dungeonId`": 0,
-        "`maxLevel`": 0,
-        "`firstQuestId`": 0,
-        "`otherQuestId`": 0,
-    },
-
-    "npc_trainer": {
-    "`ID`": 0,
-    "`SpellID`": 0,
-    "`MoneyCost`": 0,
-    "`ReqSkillLine`": 0,
-    "`ReqSkillRank`": 0,
-    "`ReqLevel`": 1,
-    "`ReqSpell`": 0,
-    },
-
-    "npc_vendor": {
-        "`entry`": 0,            # NPC entry from creature_template
-        "`slot`": 0,             # Display slot (0 = no specific order)
-        "`item`": 0,             # Item ID from item_template
-        "`maxcount`": 0,         # 0 = unlimited stock
-        "`incrtime`": 0,         # Restock time in seconds (0 = no restock)
-        "`ExtendedCost`": 0,     # Honor/arena cost reference
-        "`VerifiedBuild`": '', # NULL for custom entries
-    },
-
-    "reference_loot_template": {
-        "`Entry`": 0,
-        "`Item`": 0,
-        "`Reference`": 0,
-        "`Chance`": 100,  # Note: Chance is typically a float (e.g., 100.0 for 100%)
-        "`QuestRequired`": 0,
-        "`LootMode`": 1,     # Default is usually 1 (all modes enabled)
-        "`GroupId`": 0,
-        "`MinCount`": 1,      # Default minimum drop count
-        "`MaxCount`": 1,      # Default maximum drop count
-        "`Comment`": "",      # Empty string by default
-    },
-
-    "playercreateinfo_item": {
-        "`race`": 0,
-        "`class`": 0,
-        "`itemid`": 0,
-        "`amount`": 1,  # Default is typically 1 for starting items
-        "`Note`": "",  # Empty string by default
-    },
-
-    "page_text": {
-        "`ID`": 0,                  # Unique page identifier
-        "`Text`": "",               # Empty string by default (or "0" for uninitialized)
-        "`NextPageID`": 0,          # 0 = no linked next page
-        "`VerifiedBuild`": 0,       # 0 for custom content
-    },
-
-    "quest_template": {
-    "`ID`": 0,
-    "`QuestType`": 2,
-    "`QuestLevel`": 1,
-    "`MinLevel`": 0,
-    "`QuestSortID`": 0,
-    "`QuestInfoID`": 0,
-    "`SuggestedGroupNum`": 0,
-    "`RequiredFactionId1`": 0,
-    "`RequiredFactionId2`": 0,
-    "`RequiredFactionValue1`": 0,
-    "`RequiredFactionValue2`": 0,
-    "`RewardNextQuest`": 0,
-    "`RewardXPDifficulty`": 0,
-    "`RewardMoney`": 0,
-    "`RewardMoneyDifficulty`": 0,
-    "`RewardDisplaySpell`": 0,
-    "`RewardSpell`": 0,
-    "`RewardHonor`": 0,
-    "`RewardKillHonor`": 0,
-    "`StartItem`": 0,
-    "`Flags`": 0,
-    "`RequiredPlayerKills`": 0,
-    "`RewardItem1`": 0,
-    "`RewardAmount1`": 0,
-    "`RewardItem2`": 0,
-    "`RewardAmount2`": 0,
-    "`RewardItem3`": 0,
-    "`RewardAmount3`": 0,
-    "`RewardItem4`": 0,
-    "`RewardAmount4`": 0,
-    "`ItemDrop1`": 0,
-    "`ItemDropQuantity1`": 0,
-    "`ItemDrop2`": 0,
-    "`ItemDropQuantity2`": 0,
-    "`ItemDrop3`": 0,
-    "`ItemDropQuantity3`": 0,
-    "`ItemDrop4`": 0,
-    "`ItemDropQuantity4`": 0,
-    "`RewardChoiceItemID1`": 0,
-    "`RewardChoiceItemQuantity1`": 0,
-    "`RewardChoiceItemID2`": 0,
-    "`RewardChoiceItemQuantity2`": 0,
-    "`RewardChoiceItemID3`": 0,
-    "`RewardChoiceItemQuantity3`": 0,
-    "`RewardChoiceItemID4`": 0,
-    "`RewardChoiceItemQuantity4`": 0,
-    "`RewardChoiceItemID5`": 0,
-    "`RewardChoiceItemQuantity5`": 0,
-    "`RewardChoiceItemID6`": 0,
-    "`RewardChoiceItemQuantity6`": 0,
-    "`POIContinent`": 0,
-    "`POIx`": 0,
-    "`POIy`": 0,
-    "`POIPriority`": 0,
-    "`RewardTitle`": 0,
-    "`RewardTalents`": 0,
-    "`RewardArenaPoints`": 0,
-    "`RewardFactionID1`": 0,
-    "`RewardFactionValue1`": 0,
-    "`RewardFactionOverride1`": 0,
-    "`RewardFactionID2`": 0,
-    "`RewardFactionValue2`": 0,
-    "`RewardFactionOverride2`": 0,
-    "`RewardFactionID3`": 0,
-    "`RewardFactionValue3`": 0,
-    "`RewardFactionOverride3`": 0,
-    "`RewardFactionID4`": 0,
-    "`RewardFactionValue4`": 0,
-    "`RewardFactionOverride4`": 0,
-    "`RewardFactionID5`": 0,
-    "`RewardFactionValue5`": 0,
-    "`RewardFactionOverride5`": 0,
-    "`TimeAllowed`": 0,
-    "`AllowableRaces`": 0,
-    "`LogTitle`": "",
-    "`LogDescription`": "",
-    "`QuestDescription`": "",
-    "`AreaDescription`": "",
-    "`QuestCompletionLog`": "",
-    "`RequiredNpcOrGo1`": 0,
-    "`RequiredNpcOrGo2`": 0,
-    "`RequiredNpcOrGo3`": 0,
-    "`RequiredNpcOrGo4`": 0,
-    "`RequiredNpcOrGoCount1`": 0,
-    "`RequiredNpcOrGoCount2`": 0,
-    "`RequiredNpcOrGoCount3`": 0,
-    "`RequiredNpcOrGoCount4`": 0,
-    "`RequiredItemId1`": 0,
-    "`RequiredItemId2`": 0,
-    "`RequiredItemId3`": 0,
-    "`RequiredItemId4`": 0,
-    "`RequiredItemId5`": 0,
-    "`RequiredItemId6`": 0,
-    "`RequiredItemCount1`": 0,
-    "`RequiredItemCount2`": 0,
-    "`RequiredItemCount3`": 0,
-    "`RequiredItemCount4`": 0,
-    "`RequiredItemCount5`": 0,
-    "`RequiredItemCount6`": 0,
-    "`Unknown0`": 0,
-    "`ObjectiveText1`": "",
-    "`ObjectiveText2`": "",
-    "`ObjectiveText3`": "",
-    "`ObjectiveText4`": "",
-    "`VerifiedBuild`": "",
-    },
-
-    "quest_template_addon": {
-    "`ID`": 0,
-    "`MaxLevel`": 0,
-    "`AllowableClasses`": 0,
-    "`SourceSpellID`": 0,
-    "`PrevQuestID`": 0,
-    "`NextQuestID`": 0,
-    "`ExclusiveGroup`": 0,
-    "`RewardMailTemplateID`": 0,
-    "`RewardMailDelay`": 0,
-    "`RequiredSkillID`": 0,
-    "`RequiredSkillPoints`": 0,
-    "`RequiredMinRepFaction`": 0,
-    "`RequiredMaxRepFaction`": 0,
-    "`RequiredMinRepValue`": 0,
-    "`RequiredMaxRepValue`": 0,
-    "`ProvidedItemCount`": 0,
-    "`SpecialFlags`": 0,
-    },
-
-    "quest_offer_reward": {
-        "`ID`": 0,
-        "`Emote1`": 0,
-        "`Emote2`": 0,
-        "`Emote3`": 0,
-        "`Emote4`": 0,
-        "`EmoteDelay1`": 0,
-        "`EmoteDelay2`": 0,
-        "`EmoteDelay3`": 0,
-        "`EmoteDelay4`": 0,
-        "`RewardText`": "",
-        "`VerifiedBuild`": 0,
-    },
-
-    "quest_poi": {
-        "`QuestID`": 0,
-        "`id`": 0,
-        "`ObjectiveIndex`": 0,
-        "`MapID`": 0,
-        "`WorldMapAreaId`": 0,
-        "`Floor`": 0,
-        "`Priority`": 0,
-        "`Flags`": 0,
-        "`VerifiedBuild`": 0,
-    },
-
-    "quest_poi_points": {
-        "`QuestID`": 0,
-        "`Idx1`": 0,
-        "`Idx2`": 0,
-        "`X`": 0,
-        "`Y`": 0,
-        "`VerifiedBuild`": 0,
-    },
-
-    "quest_request_items": {
-        "`ID`": 0,
-        "`EmoteOnComplete`": 0,
-        "`EmoteOnIncomplete`": 0,
-        "`CompletionText`": "",
-        "`VerifiedBuild`": 0,
-    },
-
-    "quest_offer_reward_entry": {
-        "`ID`": 0,
-        "`Emote1`": 0,
-        "`Emote2`": 0,
-        "`Emote3`": 0,
-        "`Emote4`": 0,
-        "`EmoteDelay1`": 0,
-        "`EmoteDelay2`": 0,
-        "`EmoteDelay3`": 0,
-        "`EmoteDelay4`": 0,
-        "`RewardText`": "",
-        "`VerifiedBuild`": ""
-    },
-
-    "script_waypoint": {
-        "`entry`": 0,                # Creature template ID
-        "`pointid`": 0,              # Waypoint index (0-based)
-        "`location_x`": 0.0,         # World X coordinate
-        "`location_y`": 0.0,         # World Y coordinate
-        "`location_z`": 0.0,         # World Z coordinate
-        "`waittime`": 0,             # Milliseconds to pause
-        "`point_comment`": "",       # Developer notes
-    },
-
-    "smart_scripts": {
-    "`entryorguid`": 0,
-    "`source_type`": 0,
-    "`id`": 0,
-    "`link`": 0,
-    "`event_type`": 0,
-    "`event_phase_mask`": 0,
-    "`event_chance`": 100,
-    "`event_flags`": 0,
-    "`event_param1`": 0,
-    "`event_param2`": 0,
-    "`event_param3`": 0,
-    "`event_param4`": 0,
-    "`event_param5`": 0,
-    "`event_param6`": 0,
-    "`action_type`": 0,
-    "`action_param1`": 0,
-    "`action_param2`": 0,
-    "`action_param3`": 0,
-    "`action_param4`": 0,
-    "`action_param5`": 0,
-    "`action_param6`": 0,
-    "`target_type`": 0,
-    "`target_param1`": 0,
-    "`target_param2`": 0,
-    "`target_param3`": 0,
-    "`target_param4`": 0,
-    "`target_x`": 0,
-    "`target_y`": 0,
-    "`target_z`": 0,
-    "`target_o`": 0,
-    "`comment`": "",
-    },
-
-    "spell_dbc": {
-        "`ID`": 0,
-        "`Category`": 0,
-        "`DispelType`": 0,
-        "`Mechanic`": 0,
-        "`Attributes`": 0,
-        "`AttributesEx`": 0,
-        "`AttributesEx2`": 0,
-        "`AttributesEx3`": 0,
-        "`AttributesEx4`": 0,
-        "`AttributesEx5`": 0,
-        "`AttributesEx6`": 0,
-        "`AttributesEx7`": 0,
-        "`ShapeshiftMask`": 0,
-        "`unk_320_2`": 0,
-        "`ShapeshiftExclude`": 0,
-        "`unk_320_3`": 0,
-        "`Targets`": 0,
-        "`TargetCreatureType`": 0,
-        "`RequiresSpellFocus`": 0,
-        "`FacingCasterFlags`": 0,
-        "`CasterAuraState`": 0,
-        "`TargetAuraState`": 0,
-        "`ExcludeCasterAuraState`": 0,
-        "`ExcludeTargetAuraState`": 0,
-        "`CasterAuraSpell`": 0,
-        "`TargetAuraSpell`": 0,
-        "`ExcludeCasterAuraSpell`": 0,
-        "`ExcludeTargetAuraSpell`": 0,
-        "`CastingTimeIndex`": 1,
-        "`RecoveryTime`": 0,
-        "`CategoryRecoveryTime`": 0,
-        "`InterruptFlags`": 0,
-        "`AuraInterruptFlags`": 0,
-        "`ChannelInterruptFlags`": 0,
-        "`ProcTypeMask`": 0,
-        "`ProcChance`": 101,
-        "`ProcCharges`": 0,
-        "`MaxLevel`": 0,
-        "`BaseLevel`": 0,
-        "`SpellLevel`": 0,
-        "`DurationIndex`": 0,
-        "`PowerType`": 0,
-        "`ManaCost`": 0,
-        "`ManaCostPerLevel`": 0,
-        "`ManaPerSecond`": 0,
-        "`ManaPerSecondPerLevel`": 0,
-        "`RangeIndex`": 13,
-        "`Speed`": 0,
-        "`ModalNextSpell`": 0,
-        "`CumulativeAura`": 0,
-        "`Totem_1`": 0,
-        "`Totem_2`": 0,
-        "`Reagent_1`": 0,
-        "`Reagent_2`": 0,
-        "`Reagent_3`": 0,
-        "`Reagent_4`": 0,
-        "`Reagent_5`": 0,
-        "`Reagent_6`": 0,
-        "`Reagent_7`": 0,
-        "`Reagent_8`": 0,
-        "`ReagentCount_1`": 0,
-        "`ReagentCount_2`": 0,
-        "`ReagentCount_3`": 0,
-        "`ReagentCount_4`": 0,
-        "`ReagentCount_5`": 0,
-        "`ReagentCount_6`": 0,
-        "`ReagentCount_7`": 0,
-        "`ReagentCount_8`": 0,
-        "`EquippedItemClass`": -1,
-        "`EquippedItemSubclass`": 0,
-        "`EquippedItemInvTypes`": 0,
-        "`Effect_1`": 0,
-        "`Effect_2`": 0,
-        "`Effect_3`": 0,
-        "`EffectDieSides_1`": 0,
-        "`EffectDieSides_2`": 0,
-        "`EffectDieSides_3`": 0,
-        "`EffectRealPointsPerLevel_1`": 0,
-        "`EffectRealPointsPerLevel_2`": 0,
-        "`EffectRealPointsPerLevel_3`": 0,
-        "`EffectBasePoints_1`": 0,
-        "`EffectBasePoints_2`": 0,
-        "`EffectBasePoints_3`": 0,
-        "`EffectMechanic_1`": 0,
-        "`EffectMechanic_2`": 0,
-        "`EffectMechanic_3`": 0,
-        "`ImplicitTargetA_1`": 1,
-        "`ImplicitTargetA_2`": 0,
-        "`ImplicitTargetA_3`": 0,
-        "`ImplicitTargetB_1`": 0,
-        "`ImplicitTargetB_2`": 0,
-        "`ImplicitTargetB_3`": 0,
-        "`EffectRadiusIndex_1`": 0,
-        "`EffectRadiusIndex_2`": 0,
-        "`EffectRadiusIndex_3`": 0,
-        "`EffectAura_1`": 0,
-        "`EffectAura_2`": 0,
-        "`EffectAura_3`": 0,
-        "`EffectAuraPeriod_1`": 0,
-        "`EffectAuraPeriod_2`": 0,
-        "`EffectAuraPeriod_3`": 0,
-        "`EffectMultipleValue_1`": 0,
-        "`EffectMultipleValue_2`": 0,
-        "`EffectMultipleValue_3`": 0,
-        "`EffectChainTargets_1`": 0,
-        "`EffectChainTargets_2`": 0,
-        "`EffectChainTargets_3`": 0,
-        "`EffectItemType_1`": 0,
-        "`EffectItemType_2`": 0,
-        "`EffectItemType_3`": 0,
-        "`EffectMiscValue_1`": 0,
-        "`EffectMiscValue_2`": 0,
-        "`EffectMiscValue_3`": 0,
-        "`EffectMiscValueB_1`": 0,
-        "`EffectMiscValueB_2`": 0,
-        "`EffectMiscValueB_3`": 0,
-        "`EffectTriggerSpell_1`": 0,
-        "`EffectTriggerSpell_2`": 0,
-        "`EffectTriggerSpell_3`": 0,
-        "`EffectPointsPerCombo_1`": 0,
-        "`EffectPointsPerCombo_2`": 0,
-        "`EffectPointsPerCombo_3`": 0,
-        "`EffectSpellClassMaskA_1`": 0,
-        "`EffectSpellClassMaskA_2`": 0,
-        "`EffectSpellClassMaskA_3`": 0,
-        "`EffectSpellClassMaskB_1`": 0,
-        "`EffectSpellClassMaskB_2`": 0,
-        "`EffectSpellClassMaskB_3`": 0,
-        "`EffectSpellClassMaskC_1`": 0,
-        "`EffectSpellClassMaskC_2`": 0,
-        "`EffectSpellClassMaskC_3`": 0,
-        "`SpellVisualID_1`": 0,
-        "`SpellVisualID_2`": 0,
-        "`SpellIconID`": 0,
-        "`ActiveIconID`": 0,
-        "`SpellPriority`": 0,
-        "`Name_Lang_enUS`": "",
-        "`Name_Lang_enGB`": None,
-        "`Name_Lang_koKR`": None,
-        "`Name_Lang_frFR`": None,
-        "`Name_Lang_deDE`": None,
-        "`Name_Lang_enCN`": None,
-        "`Name_Lang_zhCN`": None,
-        "`Name_Lang_enTW`": None,
-        "`Name_Lang_zhTW`": None,
-        "`Name_Lang_esES`": None,
-        "`Name_Lang_esMX`": None,
-        "`Name_Lang_ruRU`": None,
-        "`Name_Lang_ptPT`": None,
-        "`Name_Lang_ptBR`": None,
-        "`Name_Lang_itIT`": None,
-        "`Name_Lang_Unk`": None,
-        "`Name_Lang_Mask`": 0,
-        "`NameSubtext_Lang_enUS`": None,
-        "`NameSubtext_Lang_enGB`": None,
-        "`NameSubtext_Lang_koKR`": None,
-        "`NameSubtext_Lang_frFR`": None,
-        "`NameSubtext_Lang_deDE`": None,
-        "`NameSubtext_Lang_enCN`": None,
-        "`NameSubtext_Lang_zhCN`": None,
-        "`NameSubtext_Lang_enTW`": None,
-        "`NameSubtext_Lang_zhTW`": None,
-        "`NameSubtext_Lang_esES`": None,
-        "`NameSubtext_Lang_esMX`": None,
-        "`NameSubtext_Lang_ruRU`": None,
-        "`NameSubtext_Lang_ptPT`": None,
-        "`NameSubtext_Lang_ptBR`": None,
-        "`NameSubtext_Lang_itIT`": None,
-        "`NameSubtext_Lang_Unk`": None,
-        "`NameSubtext_Lang_Mask`": 0,
-        "`Description_Lang_enUS`": None,
-        "`Description_Lang_enGB`": None,
-        "`Description_Lang_koKR`": None,
-        "`Description_Lang_frFR`": None,
-        "`Description_Lang_deDE`": None,
-        "`Description_Lang_enCN`": None,
-        "`Description_Lang_zhCN`": None,
-        "`Description_Lang_enTW`": None,
-        "`Description_Lang_zhTW`": None,
-        "`Description_Lang_esES`": None,
-        "`Description_Lang_esMX`": None,
-        "`Description_Lang_ruRU`": None,
-        "`Description_Lang_ptPT`": None,
-        "`Description_Lang_ptBR`": None,
-        "`Description_Lang_itIT`": None,
-        "`Description_Lang_Unk`": None,
-        "`Description_Lang_Mask`": 0,
-        "`AuraDescription_Lang_enUS`": None,
-        "`AuraDescription_Lang_enGB`": None,
-        "`AuraDescription_Lang_koKR`": None,
-        "`AuraDescription_Lang_frFR`": None,
-        "`AuraDescription_Lang_deDE`": None,
-        "`AuraDescription_Lang_enCN`": None,
-        "`AuraDescription_Lang_zhCN`": None,
-        "`AuraDescription_Lang_enTW`": None,
-        "`AuraDescription_Lang_zhTW`": None,
-        "`AuraDescription_Lang_esES`": None,
-        "`AuraDescription_Lang_esMX`": None,
-        "`AuraDescription_Lang_ruRU`": None,
-        "`AuraDescription_Lang_ptPT`": None,
-        "`AuraDescription_Lang_ptBR`": None,
-        "`AuraDescription_Lang_itIT`": None,
-        "`AuraDescription_Lang_Unk`": None,
-        "`AuraDescription_Lang_Mask`": 0,
-        "`ManaCostPct`": 0,
-        "`StartRecoveryCategory`": 0,
-        "`StartRecoveryTime`": 0,
-        "`MaxTargetLevel`": 0,
-        "`SpellClassSet`": 0,
-        "`SpellClassMask_1`": 0,
-        "`SpellClassMask_2`": 0,
-        "`SpellClassMask_3`": 0,
-        "`MaxTargets`": 0,
-        "`DefenseType`": 0,
-        "`PreventionType`": 0,
-        "`StanceBarOrder`": 0,
-        "`EffectChainAmplitude_1`": 0,
-        "`EffectChainAmplitude_2`": 0,
-        "`EffectChainAmplitude_3`": 0,
-        "`MinFactionID`": 0,
-        "`MinReputation`": 0,
-        "`RequiredAuraVision`": 0,
-        "`RequiredTotemCategoryID_1`": 0,
-        "`RequiredTotemCategoryID_2`": 0,
-        "`RequiredAreasID`": 0,
-        "`SchoolMask`": 0,
-        "`RuneCostID`": 0,
-        "`SpellMissileID`": 0,
-        "`PowerDisplayID`": 0,
-        "`EffectBonusMultiplier_1`": 0,
-        "`EffectBonusMultiplier_2`": 0,
-        "`EffectBonusMultiplier_3`": 0,
-        "`SpellDescriptionVariableID`": 0,
-        "`SpellDifficultyID`": 0,
-    },
-
-    "spell_target_position": {
-        "`ID`": 0,                  # Spell ID from Spell.dbc
-        "`EffectIndex`": 0,          # 0=Effect_1, 1=Effect_2, 2=Effect_3
-        "`MapID`": 0,                # Target map ID
-        "`PositionX`": 0.0,          # World X coordinate
-        "`PositionY`": 0.0,          # World Y coordinate
-        "`PositionZ`": 0.0,          # World Z coordinate
-        "`Orientation`": 0.0,        # Facing angle (radians)
-        "`VerifiedBuild`": 0,        # 0 for custom entries
-    },
-
-    "skinning_loot_template": {
-        "`Entry`": 0,              # Creature entry from creature_template
-        "`Item`": 0,               # Item ID from item_template
-        "`Reference`": 0,          # Reference to other loot templates
-        "`Chance`": 100.0,         # Drop chance percentage (float)
-        "`QuestRequired`": 0,      # 0=Always, 1=Only for quest
-        "`LootMode`": 1,           # Default loot mode
-        "`GroupId`": 0,            # Group ID (0=independent)
-        "`MinCount`": 1,           # Minimum quantity
-        "`MaxCount`": 1,           # Maximum quantity
-        "`Comment`": "",           # Description
-    },
-
-}
 
 def extract_table_name(query):
     match = re.search(r"INSERT INTO\s+`?(\w+)`?", query, re.IGNORECASE)
@@ -1335,13 +449,15 @@ def parse_query(query):
     table_name_pos = normalized_query.upper().find(table_name.upper()) + len(table_name)
     query_remainder = normalized_query[table_name_pos:].strip()
 
+    # Skip closing backtick if present after table name
+    if query_remainder.startswith("`"):
+        query_remainder = query_remainder[1:].strip()
+
     # Check for explicit SET syntax (must appear right after table name)
     if query_remainder.upper().startswith("SET"):
-        print("Parsing as a SET query")
         return parse_set_syntax(normalized_query, table_name, query_type)
     # Check for explicit VALUES syntax (must appear after fields list)
     elif re.search(r"\)\s+VALUES\s*\(", normalized_query, re.IGNORECASE):
-        print("Parsing as VALUES query")
         return parse_values_syntax(normalized_query, table_name, query_type)
     else:
         raise ValueError("Could not parse the query. Unsupported format.")
@@ -1533,11 +649,224 @@ def creature_template_update(primary_query):
 
     return updated_primary_query, secondary_queries
 
-def new_query(query):
+def extract_delete_table(delete_statement):
+    """
+    Extract table name from a DELETE statement.
+    Returns table name or None if not found.
+    """
+    # Match: DELETE FROM table_name ...
+    match = re.search(r'DELETE\s+FROM\s+`?(\w+)`?', delete_statement, re.IGNORECASE)
+    if match:
+        return match.group(1).lower()
+    return None
+
+def split_sql_statements(sql_text):
+    """
+    Split SQL text into individual statements, preserving comments.
+
+    Returns list of tuples: (statement_type, content)
+    statement_type can be: 'comment', 'blank', 'insert', 'replace', 'update', 'delete', 'other'
+    """
+    statements = []
+    current_statement = []
+    in_statement = False
+    statement_type = None
+
+    lines = sql_text.split('\n')
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Handle blank lines
+        if not stripped:
+            if in_statement:
+                current_statement.append(line)
+            else:
+                statements.append(('blank', ''))
+            continue
+
+        # Handle comment lines
+        if stripped.startswith('--'):
+            if in_statement:
+                current_statement.append(line)
+            else:
+                statements.append(('comment', line))
+            continue
+
+        # Check for statement start
+        if not in_statement:
+            upper_stripped = stripped.upper()
+            if upper_stripped.startswith('INSERT'):
+                statement_type = 'insert'
+                in_statement = True
+                current_statement = [line]
+            elif upper_stripped.startswith('REPLACE'):
+                statement_type = 'replace'
+                in_statement = True
+                current_statement = [line]
+            elif upper_stripped.startswith('UPDATE'):
+                statement_type = 'update'
+                in_statement = True
+                current_statement = [line]
+            elif upper_stripped.startswith('DELETE'):
+                statement_type = 'delete'
+                in_statement = True
+                current_statement = [line]
+            else:
+                # Other SQL statements (CREATE, ALTER, etc.)
+                statement_type = 'other'
+                in_statement = True
+                current_statement = [line]
+        else:
+            # Continue building current statement
+            current_statement.append(line)
+
+        # Check for statement end (semicolon)
+        if in_statement and stripped.endswith(';'):
+            statements.append((statement_type, '\n'.join(current_statement)))
+            current_statement = []
+            in_statement = False
+            statement_type = None
+
+    # Handle any remaining statement without semicolon
+    if current_statement:
+        statements.append((statement_type, '\n'.join(current_statement)))
+
+    return statements
+
+def format_query(input_query, verbose=False, output_file=None):
+    """
+    Main query processing pipeline.
+
+    Args:
+        input_query: SQL query string to format
+        verbose: Whether to print debug information
+        output_file: File path to write output (None = stdout)
+
+    Returns:
+        Formatted SQL string
+    """
+    # Redirect output to capture or write to file
+    if output_file:
+        output_buffer = []
+        original_print = print
+        def captured_print(*args, **kwargs):
+            # Capture print calls that don't go to stderr
+            if kwargs.get('file') != sys.stderr:
+                output_buffer.append(' '.join(str(arg) for arg in args))
+        import builtins
+        builtins.print = captured_print
+
+    try:
+        # Split input into individual statements
+        statements = split_sql_statements(input_query)
+
+        if verbose:
+            print(f"Found {len(statements)} statements/blocks", file=sys.stderr)
+
+        # Scan for existing DELETE statements to avoid redundant DELETE generation
+        tables_with_deletes = set()
+        for stmt_type, stmt_content in statements:
+            if stmt_type == 'delete':
+                table_name = extract_delete_table(stmt_content)
+                if table_name:
+                    tables_with_deletes.add(table_name)
+
+        if verbose and tables_with_deletes:
+            print(f"Found existing DELETE statements for tables: {', '.join(sorted(tables_with_deletes))}", file=sys.stderr)
+            print(f"Will skip automatic DELETE generation for these tables", file=sys.stderr)
+
+        for stmt_type, stmt_content in statements:
+            if stmt_type in ('comment', 'blank'):
+                # Pass through comments and blank lines as-is
+                if stmt_type == 'comment':
+                    print(stmt_content)
+                else:
+                    print()
+                continue
+
+            if stmt_type in ('update', 'delete', 'other'):
+                # Pass through UPDATE, DELETE, and other statements unchanged
+                if verbose:
+                    print(f"Skipping {stmt_type.upper()} statement (pass-through)", file=sys.stderr)
+                print(stmt_content)
+                print()
+                continue
+
+            if stmt_type in ('insert', 'replace'):
+                # Process INSERT/REPLACE statements
+                if verbose:
+                    print(f"Processing {stmt_type.upper()} statement", file=sys.stderr)
+
+                # Parse the query
+                parsed_query = parse_query(stmt_content)
+                secondary_queries = []
+
+                # Handle creature_template special case
+                table_name = parsed_query["table_name"]
+
+                if table_name == "creature_template":
+                    parsed_query, secondary_queries = creature_template_update(parsed_query)
+                    if verbose:
+                        if secondary_queries:
+                            print("creature_template is using outdated structure", file=sys.stderr)
+                            for i, secondary_query in enumerate(secondary_queries, start=1):
+                                field_value_pairs = secondary_query["field_value_pairs"]
+                                print(f"Secondary Query {i}: {field_value_pairs}", file=sys.stderr)
+                            print("", file=sys.stderr)
+                        else:
+                            print("creature_template is using modern structure", file=sys.stderr)
+                            print("", file=sys.stderr)
+
+                # Strip default values
+                stripped_query = strip_default_values(parsed_query)
+
+                if verbose:
+                    print("Stripped Query:", file=sys.stderr)
+                    print(stripped_query, file=sys.stderr)
+                    print("", file=sys.stderr)
+
+                # Output primary query
+                output_query(stripped_query, tables_with_deletes)
+                print("")
+
+                # Output secondary queries
+                if secondary_queries:
+                    need_delete = True
+                    for i, secondary_query in enumerate(secondary_queries, start=1):
+                        if need_delete:
+                            table_name = secondary_query["table_name"]
+                            field_value_pairs = secondary_query["field_value_pairs"]
+                            for field, value in field_value_pairs.items():
+                                if field == "`CreatureID`":
+                                    creature_id = value
+                            print(f"DELETE FROM `{table_name}` WHERE `CreatureID` = {creature_id};")
+                            need_delete = False
+
+                        output_query(secondary_query, tables_with_deletes)
+
+        # Write to file if specified
+        if output_file:
+            with open(output_file, 'w') as f:
+                f.write('\n'.join(output_buffer))
+            print(f"✓ Output written to {output_file}", file=sys.stderr)
+
+    finally:
+        if output_file:
+            builtins.print = original_print
+
+def output_query(query, skip_delete_for_tables=None):
     """
     Generates DELETE and INSERT statements that handles both flat and nested field_value_pairs structures.
     Properly formats numeric values without quotes.
+
+    Args:
+        query: Parsed query dictionary
+        skip_delete_for_tables: Set of table names that already have DELETE statements (skip auto-generation)
     """
+    if skip_delete_for_tables is None:
+        skip_delete_for_tables = set()
+
     table_name = query.get("table_name")
     query_type = query.get("query_type", "REPLACE").upper()
     field_value_pairs = query.get("field_value_pairs", {})
@@ -1547,6 +876,9 @@ def new_query(query):
     if not table_name or not field_value_pairs:
         print("Error: Query is missing table_name or field_value_pairs.")
         return
+
+    # Check if we should skip DELETE generation for this table
+    skip_delete = table_name.lower() in skip_delete_for_tables
 
     # Normalize field_value_pairs structure
     if not any(isinstance(k, int) for k in field_value_pairs.keys()):
@@ -1559,17 +891,17 @@ def new_query(query):
     for row_idx, row_data in field_value_pairs.items():
         if not isinstance(row_data, dict):
             continue
-            
+
         # Get the comment for this specific row if it exists
         row_comment = comments.get(row_idx, "")
-        
+
         # Start building the DELETE statement
         delete_lines = []
         if row_comment:
             delete_lines.append(f"-- {row_comment}")
-        
-        # Only generate DELETE if we have a primary key value
-        if primary_key_field and primary_key_field in row_data:
+
+        # Only generate DELETE if we have a primary key value AND table doesn't already have a DELETE
+        if not skip_delete and primary_key_field and primary_key_field in row_data:
             pk_value = row_data[primary_key_field]
             # Format the PK value appropriately
             if pk_value is None:
@@ -1620,53 +952,82 @@ def new_query(query):
         print("\n".join(insert_lines))
         print()  # Add blank line between queries
 
-# Parse
-parsed_query = parse_query(query)  # Parse the query using the previously defined function
-secondary_queries = []
-print("Parsed Query:")
-print(parsed_query) 
-print("")
+def main():
+    """Main entry point with argument parsing."""
+    parser = argparse.ArgumentParser(
+        description='SQL Reformatter - Format and optimize SQL INSERT/REPLACE queries',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Format query from file
+  python3 "SQL Reformatter.py" --file query.sql
 
-# Creature_Template Fixes
-table_name = parsed_query["table_name"]
-if table_name == "creature_template":
-    parsed_query, secondary_queries = creature_template_update(parsed_query)
-    if secondary_queries:
-        print("creature_template is using outdated structure")
-        for i, secondary_query in enumerate(secondary_queries, start=1):
-            field_value_pairs = secondary_query["field_value_pairs"]
-            print(f"Secondary Query {i}: {field_value_pairs}")
-        print("")  # Add an empty line for better readability
+  # Format query from command line
+  python3 "SQL Reformatter.py" --query "INSERT INTO table SET field='value';"
+
+  # Save output to file
+  python3 "SQL Reformatter.py" --file query.sql --output formatted.sql
+
+  # Refresh table structures from database
+  python3 "SQL Reformatter.py" --refresh-schema
+
+  # Enable verbose debug output
+  python3 "SQL Reformatter.py" --file query.sql --verbose
+        """
+    )
+
+    parser.add_argument('--query', '-q', type=str,
+                        help='SQL query string to format')
+    parser.add_argument('--file', '-f', type=str,
+                        help='File containing SQL query to format')
+    parser.add_argument('--output', '-o', type=str,
+                        help='Output file (default: print to stdout)')
+    parser.add_argument('--refresh-schema', action='store_true',
+                        help='Refresh table structures from database')
+    parser.add_argument('--verbose', '-v', action='store_true',
+                        help='Enable verbose debug output')
+
+    args = parser.parse_args()
+
+    # Handle schema refresh
+    if args.refresh_schema:
+        refresh_schema()
+        return
+
+    # Get query from argument or file
+    if args.query:
+        input_query = args.query
+    elif args.file:
+        try:
+            with open(args.file, 'r') as f:
+                input_query = f.read()
+        except FileNotFoundError:
+            print(f"Error: File not found: {args.file}", file=sys.stderr)
+            sys.exit(1)
+        except Exception as e:
+            print(f"Error reading file: {e}", file=sys.stderr)
+            sys.exit(1)
     else:
-        print("creature_template is using modern structure")
-        print("")
+        # No arguments provided - use example query
+        print("No query specified. Use --help for usage information.", file=sys.stderr)
+        print("Running with example query for demonstration...\n", file=sys.stderr)
+        input_query = query
 
-# Default Value Stripping
-stripped_query = strip_default_values(parsed_query)
-print("Stripped Query:")
-print(stripped_query) 
-print("")
+    # Load schema cache
+    load_schema()
 
-# Primary Query Outputs
-print("New Query:")
-new_query(stripped_query)
-print("")
+    # Process the query
+    try:
+        format_query(input_query, verbose=args.verbose, output_file=args.output)
+    except Exception as e:
+        print(f"Error processing query: {e}", file=sys.stderr)
+        if args.verbose:
+            import traceback
+            traceback.print_exc()
+        sys.exit(1)
 
-# Secondary Query Outputs
-if secondary_queries:
-    need_delete = True
-    for i, secondary_query in enumerate(secondary_queries, start=1):
-
-        if need_delete:
-            table_name = secondary_query["table_name"]
-            field_value_pairs = secondary_query["field_value_pairs"]
-            for field, value in field_value_pairs.items():
-                if field == "`CreatureID`":
-                    creature_id = value
-            print(f"DELETE FROM `{table_name}` WHERE `CreatureID` = {creature_id};")
-            delete = True
-        
-        new_query(secondary_query)
+if __name__ == "__main__":
+    main()
 
 
 
