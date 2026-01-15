@@ -19,6 +19,11 @@ UPDATE `dbc`.`skilllineability` SET
 WHERE `id` = 8439;
 
 UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 593 /* was 189 */,
+    `chrClasses` = 256 /* was 0 */
+WHERE `id` = 11180;
+
+UPDATE `dbc`.`skilllineability` SET 
     `skillId` = 792 /* was 613 */,
     `chrClasses` = 0 /* was 16 */
 WHERE `id` = 12042;
@@ -82,6 +87,10 @@ UPDATE `dbc`.`skilllineability` SET
     `skillId` = 792 /* was 613 */,
     `chrClasses` = 0 /* was 16 */
 WHERE `id` = 16529;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792 /* was 613 */
+WHERE `id` = 16578;
 
 UPDATE `dbc`.`skilllineability` SET 
     `skillId` = 270 /* was 212 */
