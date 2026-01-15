@@ -7,6 +7,7 @@ import re
 import json
 import hashlib
 import stat
+import argparse
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -461,26 +462,43 @@ def compare_and_generate_updates():
         if conn_dbc_backup:
             conn_dbc_backup.close()
 
-# Prompt user for which patches to build FIRST before any processing
-print("\n" + "="*60)
-print("PATCH BUILDER - Select patches to build")
-print("="*60)
-print("1) PATCH-Z.MPQ only (DBC changes)")
-print("2) PATCH-X.MPQ only (Custom content)")
-print("3) Both patches")
-print("="*60)
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description='Patch Builder - Generate DBC diffs and build MPQ patches')
+parser.add_argument('--db-diff-only', action='store_true',
+                    help='Generate SQL diffs only (skip GUI tools and MPQ building)')
+args = parser.parse_args()
 
-while True:
-    choice = input("Enter your choice (1-3): ").strip()
-    if choice in ['1', '2', '3']:
-        break
-    print("Invalid choice. Please enter 1, 2, or 3.")
+# Determine build mode based on command-line args
+if args.db_diff_only:
+    print("\n" + "="*60)
+    print("PATCH BUILDER - DB Diff Only Mode")
+    print("="*60)
+    print("Generating SQL diffs from DBC database changes...")
+    print("Skipping: HeadlessExport.exe and MPQ building")
+    print("="*60 + "\n")
+    build_patch_z = True
+    build_patch_x = False
+else:
+    # Prompt user for which patches to build FIRST before any processing
+    print("\n" + "="*60)
+    print("PATCH BUILDER - Select patches to build")
+    print("="*60)
+    print("1) PATCH-Z.MPQ only (DBC changes)")
+    print("2) PATCH-X.MPQ only (Custom content)")
+    print("3) Both patches")
+    print("="*60)
 
-build_patch_z = choice in ['1', '3']
-build_patch_x = choice in ['2', '3']
+    while True:
+        choice = input("Enter your choice (1-3): ").strip()
+        if choice in ['1', '2', '3']:
+            break
+        print("Invalid choice. Please enter 1, 2, or 3.")
 
-print(f"\nBuilding: {'PATCH-Z' if build_patch_z else ''}{' and ' if build_patch_z and build_patch_x else ''}{'PATCH-X' if build_patch_x else ''}")
-print("="*60 + "\n")
+    build_patch_z = choice in ['1', '3']
+    build_patch_x = choice in ['2', '3']
+
+    print(f"\nBuilding: {'PATCH-Z' if build_patch_z else ''}{' and ' if build_patch_z and build_patch_x else ''}{'PATCH-X' if build_patch_x else ''}")
+    print("="*60 + "\n")
 
 # Function to update ITEM.DBC
 def update_item_dbc():
@@ -699,14 +717,14 @@ print(f"Script is running here {base_directory}")
 # Check file permissions before proceeding
 check_file_permissions()
 
-# Headless export (only needed for PATCH-Z)
-if build_patch_z:
+# Headless export (only needed for PATCH-Z and when not in db-diff-only mode)
+if build_patch_z and not args.db_diff_only:
     os.chdir(spell_editor_dir)
     subprocess.run(['HeadlessExport.exe'], check=True)
 
-# Post-process: Reorder CharSections.dbc by race/gender grouping (only needed for PATCH-Z)
+# Post-process: Reorder CharSections.dbc by race/gender grouping (only needed for PATCH-Z and not in db-diff-only mode)
 # HeadlessExport sorts by ID which breaks client expectations for race/gender grouping
-if build_patch_z:
+if build_patch_z and not args.db_diff_only:
     export_dir = os.path.join(spell_editor_dir, 'Export')
     charsections_path = os.path.join(export_dir, 'CharSections.dbc')
 
@@ -730,56 +748,63 @@ if build_patch_z:
     # Copy DBC files to Server
     shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
-# Update MPQ files
-os.chdir(mpq_editor_dir)
+# Update MPQ files (skip in db-diff-only mode)
+if not args.db_diff_only:
+    os.chdir(mpq_editor_dir)
 
-if build_patch_z:
-    print("\nBuilding PATCH-Z.MPQ...")
-    subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
-    print("✓ PATCH-Z.MPQ built successfully")
-
-if build_patch_x:
-    print("\nBuilding PATCH-X.MPQ...")
-    subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
-    print("✓ PATCH-X.MPQ built successfully")
-
-
-# Update patch register with new versions
-patch_register = load_patch_register()
-if patch_register:
-    print("\nUpdating patch register...")
-
-    # Update metadata only for patches that were built
     if build_patch_z:
-        z_success = update_patch_metadata(patch_register, 'PATCH-Z.MPQ')
-        if not z_success:
-            print("Warning: Failed to update PATCH-Z.MPQ metadata")
+        print("\nBuilding PATCH-Z.MPQ...")
+        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
+        print("✓ PATCH-Z.MPQ built successfully")
 
     if build_patch_x:
-        x_success = update_patch_metadata(patch_register, 'PATCH-X.MPQ')
-        if not x_success:
-            print("Warning: Failed to update PATCH-X.MPQ metadata")
+        print("\nBuilding PATCH-X.MPQ...")
+        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
+        print("✓ PATCH-X.MPQ built successfully")
 
-    # Update server build number
-    patch_register['server_metadata']['build_number'] += 1
 
-    # Only increment DBC version if PATCH-Z was built
-    if build_patch_z:
-        patch_register['server_metadata']['dbc_version'] += 1
+# Update patch register with new versions (skip in db-diff-only mode)
+if not args.db_diff_only:
+    patch_register = load_patch_register()
+    if patch_register:
+        print("\nUpdating patch register...")
 
-    # Save updated register to both local and NGINX locations
-    if save_patch_register(patch_register):
-        print("✓ Patch register updated successfully")
+        # Update metadata only for patches that were built
+        if build_patch_z:
+            z_success = update_patch_metadata(patch_register, 'PATCH-Z.MPQ')
+            if not z_success:
+                print("Warning: Failed to update PATCH-Z.MPQ metadata")
+
+        if build_patch_x:
+            x_success = update_patch_metadata(patch_register, 'PATCH-X.MPQ')
+            if not x_success:
+                print("Warning: Failed to update PATCH-X.MPQ metadata")
+
+        # Update server build number
+        patch_register['server_metadata']['build_number'] += 1
+
+        # Only increment DBC version if PATCH-Z was built
+        if build_patch_z:
+            patch_register['server_metadata']['dbc_version'] += 1
+
+        # Save updated register to both local and NGINX locations
+        if save_patch_register(patch_register):
+            print("✓ Patch register updated successfully")
+        else:
+            print("✗ Failed to save patch register")
     else:
-        print("✗ Failed to save patch register")
-else:
-    print("Warning: Could not load patch register, skipping version updates")
+        print("Warning: Could not load patch register, skipping version updates")
 
 print("\n" + "="*60)
-print("PATCH BUILD COMPLETE")
-print("="*60)
-if build_patch_z:
-    print("✓ PATCH-Z.MPQ (DBC changes)")
-if build_patch_x:
-    print("✓ PATCH-X.MPQ (Custom content)")
+if args.db_diff_only:
+    print("DB DIFF GENERATION COMPLETE")
+    print("="*60)
+    print("✓ SQL diffs generated in Updates folder")
+else:
+    print("PATCH BUILD COMPLETE")
+    print("="*60)
+    if build_patch_z:
+        print("✓ PATCH-Z.MPQ (DBC changes)")
+    if build_patch_x:
+        print("✓ PATCH-X.MPQ (Custom content)")
 print("="*60)

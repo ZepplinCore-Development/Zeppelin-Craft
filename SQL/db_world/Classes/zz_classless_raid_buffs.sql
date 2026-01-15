@@ -3,112 +3,19 @@
     -- Codex: Prayer of Fortitude I
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 17413);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 21562);
-
 
 
     -- Codex: Prayer of Fortitude II
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 17414);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 21564);
-
 
 
     -- Codex: Prayer of Fortitude III
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 29549);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 25392);
-
-
-
-    -- Codex: Prayer of Fortitude IV
-        -- Create book item (pattern from I-III)
-        DELETE FROM `item_template` WHERE (`entry` = 100001);
-
-
-INSERT INTO `item_template` SET
-    `entry` = 100001,
-    `class` = 9,
-    `name` = 'Codex: Prayer of Fortitude IV',
-    `displayid` = 23314,
-    `Quality` = 3,
-    `BuyPrice` = 600000,
-    `SellPrice` = 150000,
-    `maxcount` = 1,
-    `spellid_1` = 483,
-    `spellid_2` = 48162,
-    `description` = 'Teaches you Prayer of Fortitude rank 4.',
-    `RequiredLevel` = 80;
-
-
-
-
-
-        -- Remove from priest trainer
-        DELETE FROM `npc_trainer` WHERE (`ID` = 200012 AND `SpellID` = 48162);
-
-
-
-        -- Add to Trial of the Champion bosses (Normal and Heroic)
-        DELETE FROM `creature_loot_template` WHERE (`Item` = 100001);
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 33759,
-    `Item` = 100001,
-    `Chance` = 10.0,
-    `Comment` = 'Eadric the Pure (Normal) - Codex: Prayer of Fortitude IV';
-
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 34102,
-    `Item` = 100001,
-    `Chance` = 10.0,
-    `Comment` = 'Argent Confessor Paletress (Normal) - Codex: Prayer of Fortitude IV';
-
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 33546,
-    `Item` = 100001,
-    `Chance` = 10.0,
-    `Comment` = 'The Black Knight (Normal) - Codex: Prayer of Fortitude IV';
-
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 35119,
-    `Item` = 100001,
-    `Chance` = 20.0,
-    `Comment` = 'Eadric the Pure (Heroic) - Codex: Prayer of Fortitude IV';
-
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 34928,
-    `Item` = 100001,
-    `Chance` = 20.0,
-    `Comment` = 'Argent Confessor Paletress (Heroic) - Codex: Prayer of Fortitude IV';
-
-
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 35451,
-    `Item` = 100001,
-    `Chance` = 20.0,
-    `Comment` = 'The Black Knight (Heroic) - Codex: Prayer of Fortitude IV';
-
-
-
-
-
-        -- DBC modification (done externally in DBC database)
-        DELETE FROM `spell_dbc` WHERE (`ID` = 48162);
-
 
 
 -- Gift of the Wild
@@ -116,25 +23,19 @@ INSERT INTO `creature_loot_template` SET
     -- Book: Gift of the Wild I
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 17682);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 21849);
-
 
 
     -- Book: Gift of the Wild II
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 17683);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 21850);
-
 
 
     -- Book: Gift of the Wild III
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 22146);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 26991);
-
 
 
 -- Arcane Brilliance
@@ -142,31 +43,26 @@ INSERT INTO `creature_loot_template` SET
     -- Book: Arcane Brilliance I
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 18600);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 23028);
-
 
 
     -- Book: Arcane Brilliance II
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 22153);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 27127);
-
 
 
     -- Book: Arcane Brilliance III
         UPDATE `item_template` SET `AllowableClass` = -1 WHERE (`entry` = 33316);
 
-
         DELETE FROM `spell_dbc` WHERE (`ID` = 43002);
-
 
 -- Greater Blessing of Kings
 
     -- Tome: Greater Blessing of Kings
         -- Create book item
         DELETE FROM `item_template` WHERE (`entry` = 100002);
+
 
 INSERT INTO `item_template` SET
     `entry` = 100002,
@@ -184,12 +80,16 @@ INSERT INTO `item_template` SET
 
 
 
+
+
         -- Remove from paladin trainer
         DELETE FROM `npc_trainer` WHERE (`ID` = 200004 AND `SpellID` = 25898);
 
 
+
         -- Add to BWL/MC/Kazzak bosses (royalty theme)
         DELETE FROM `creature_loot_template` WHERE (`Item` = 100002);
+
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 11583,
@@ -197,17 +97,23 @@ INSERT INTO `creature_loot_template` SET
     `Chance` = 15.0,
     `Comment` = 'Nefarian (BWL) - Tome: Greater Blessing of Kings';
 
+
+
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12017,
     `Item` = 100002,
     `Chance` = 12.0,
     `Comment` = 'Broodlord Lashlayer (BWL) - Tome: Greater Blessing of Kings';
 
+
+
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12056,
     `Item` = 100002,
     `Chance` = 12.0,
     `Comment` = 'Baron Geddon (MC) - Tome: Greater Blessing of Kings';
+
+
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12397,
@@ -217,8 +123,11 @@ INSERT INTO `creature_loot_template` SET
 
 
 
+
+
         -- DBC modification (done externally in DBC database)
         DELETE FROM `spell_dbc` WHERE (`ID` = 25898);
+
 
 
 -- Prayer of Spirit
@@ -370,3 +279,4 @@ INSERT INTO `creature_loot_template` SET
 
         -- DBC modification (done externally in DBC database)
         DELETE FROM `spell_dbc` WHERE (`ID` = 48074);
+
