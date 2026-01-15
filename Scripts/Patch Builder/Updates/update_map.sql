@@ -6962,7 +6962,7 @@ INSERT INTO `dbc`.`map` SET
 DELETE FROM `dbc`.`map` WHERE `ID` = 1582;
 INSERT INTO `dbc`.`map` SET 
     `ID` = 1582,
-    `DirectoryName` = 'Artifact�DalaranVaultAcquisition',
+    `DirectoryName` = 'Artifactï¿½DalaranVaultAcquisition',
     `InstanceType` = 5,
     `MapName_Lang_enUS` = 'Delete',
     `MapName_Lang_Mask` = 16712190,
@@ -11474,7 +11474,7 @@ INSERT INTO `dbc`.`map` SET
 DELETE FROM `dbc`.`map` WHERE `ID` = 2122;
 INSERT INTO `dbc`.`map` SET 
     `ID` = 2122,
-    `DirectoryName` = 'N�Zoth',
+    `DirectoryName` = 'Nï¿½Zoth',
     `MapName_Lang_enUS` = 'DELETE',
     `MapName_Lang_Mask` = 16712190,
     `MapDescription0_Lang_Mask` = 16712188,
