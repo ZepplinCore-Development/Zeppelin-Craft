@@ -1,0 +1,119 @@
+-- =====================================================
+-- TAILORING SCISSORS
+-- Reduces craft time for tailoring recipes
+-- 4 tiers: Journeyman (15%), Artisan (25%), Master (35%), Grand Master (45%)
+-- =====================================================
+
+-- Delete existing entries
+DELETE FROM `item_template` WHERE `entry` IN (57404, 57405, 57406, 57407);
+DELETE FROM `spell_group` WHERE `id` IN (91164, 91165, 91166, 91167);
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1118;
+
+-- =====================================================
+-- ITEM TEMPLATES
+-- =====================================================
+
+-- Journeyman Tailoring Scissors ITEM TEMPLATE
+DELETE FROM `item_template` WHERE (`entry` = 57404);
+INSERT INTO `item_template`
+SET `entry` = 57404,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Journeyman Tailoring Scissors',
+    `displayid` = 140280,
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 20,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91164,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE (triggers when in inventory)
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Artisan Tailoring Scissors ITEM TEMPLATE
+DELETE FROM `item_template` WHERE (`entry` = 57405);
+INSERT INTO `item_template`
+SET `entry` = 57405,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Artisan Tailoring Scissors',
+    `displayid` = 140281,
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 60,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91165,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE (triggers when in inventory)
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Master Tailoring Scissors ITEM TEMPLATE
+DELETE FROM `item_template` WHERE (`entry` = 57406);
+INSERT INTO `item_template`
+SET `entry` = 57406,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Master Tailoring Scissors',
+    `displayid` = 140282,
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 70,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91166,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE (triggers when in inventory)
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Grand Master Tailoring Scissors ITEM TEMPLATE
+DELETE FROM `item_template` WHERE (`entry` = 57407);
+INSERT INTO `item_template`
+SET `entry` = 57407,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Grand Master Tailoring Scissors',
+    `displayid` = 140283,
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 80,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91167,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE (triggers when in inventory)
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- =====================================================
+-- ANTI-STACKING SPELL GROUP
+-- Prevents multiple scissor tiers from being active simultaneously
+-- Uses NEVER_STACK (stack_rule = 8) with PRIORITY flags
+-- =====================================================
+
+-- Spell group 1118 for Tailoring Scissors
+INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
+(1118, 91164, 2048),  -- Journeyman (PRIORITY4 - lowest)
+(1118, 91165, 1024),  -- Artisan (PRIORITY3)
+(1118, 91166, 512),   -- Master (PRIORITY2)
+(1118, 91167, 256);   -- Grand Master (PRIORITY1 - highest)
+
+-- Stack rule: NEVER_STACK
+INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
+(1118, 8);
