@@ -14216,3 +14216,16 @@ INSERT INTO `dbc`.`spell` SET
     `SchoolMask` = 1,
     `EffectBonusMultiplier3` = 1.0;
 
+
+-- Prayer of Fortitude IV - Classless Raid Buffs (F-004)
+-- Change from Priest-only trainer spell to universal Perk skill line
+UPDATE `dbc`.`spell` SET 
+    `ManaCost` = 0,
+    `ManaCostPerlevel` = 0,
+    `ManaCostPercentage` = 0,
+    `Reagent1` = 58302
+WHERE `ID` = 48162;
+
+UPDATE `dbc`.`skilllineability` SET 
+    `skillId` = 792
+WHERE `spellId` = 48162;
