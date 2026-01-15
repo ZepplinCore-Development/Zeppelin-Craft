@@ -1,0 +1,410 @@
+================================================================================
+OPEN AZEROTH RESOURCE PARSER - EXTRACTION LOG
+================================================================================
+
+CONFIGURATION
+--------------------------------------------------------------------------------
+ADT Path: /workspace/test/parser-test/adt
+Assets Source: /workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS
+Export Path: /workspace/test/parser-test/export
+Stock Asset List: /workspace/project/Zeppelin-Craft/Scripts/Resource Parser/data/wotlk_335a_merged.txt
+
+SUMMARY
+--------------------------------------------------------------------------------
+Total Custom Assets Required: 433
+  - WMO Files: 13
+  - M2/MDX Models: 229
+  - BLP Textures: 191
+
+ASSET SOURCES
+--------------------------------------------------------------------------------
+  - M2 Models from ADTs: 198
+  - WMO Files from ADTs: 13
+  - M2 Doodads from WMOs: 40
+  - BLP Textures from ADTs (terrain): 22
+  - BLP Textures from WMOs: 45
+  - M2 Models from Ground Effects (DBC): 771
+
+Ground Effect Validation:
+  - ADT Ground Effect IDs Found: 23
+  - Missing from WotLK DBC: 16
+  - ⚠️  WARNING: Missing IDs will cause blue cube placeholders!
+
+  Missing Ground Effect IDs by Area:
+    ID 73813: Deepholm (deephome_28_28.adt, deephome_28_29.adt, deephome_29_28.adt...)
+    ID 73819: Deepholm (deephome_28_27.adt, deephome_29_27.adt)
+    ID 73820: Deepholm (deephome_27_27.adt, deephome_30_30.adt)
+    ID 73821: Deepholm (deephome_28_27.adt, deephome_28_28.adt, deephome_28_29.adt)
+    ID 73822: Deepholm (deephome_27_27.adt, deephome_27_28.adt, deephome_28_27.adt...)
+    ID 73823: Deepholm (deephome_29_27.adt, deephome_29_28.adt, deephome_30_27.adt...)
+    ID 73824: Deepholm (deephome_30_29.adt)
+    ID 73825: Deepholm (deephome_29_27.adt, deephome_29_28.adt, deephome_30_27.adt...)
+    ID 73826: Deepholm (deephome_29_27.adt, deephome_29_28.adt, deephome_30_27.adt...)
+    ID 73935: Deepholm (deephome_30_28.adt)
+    ID 74563: Deepholm (deephome_28_29.adt, deephome_28_30.adt)
+    ID 75190: Deepholm (deephome_28_29.adt)
+    ID 75192: Deepholm (deephome_28_29.adt)
+    ID 78386: Deepholm (deephome_27_27.adt, deephome_27_28.adt, deephome_27_29.adt...)
+    ID 78450: Deepholm (deephome_28_27.adt, deephome_28_28.adt, deephome_28_29.adt...)
+    ID 78792: Deepholm (deephome_29_30.adt, deephome_30_30.adt)
+
+Stock Assets (in base client): 70
+Already Exported: 0
+
+Assets Found and Extracted: 769
+Assets Still Missing: 0
+
+MISSING ASSETS BY TYPE
+================================================================================
+
+WMO FILES (0 missing)
+--------------------------------------------------------------------------------
+  ✅ All WMO files found!
+
+M2/MDX MODELS (0 missing)
+--------------------------------------------------------------------------------
+  ✅ All M2 models found!
+
+BLP TEXTURES (0 missing)
+--------------------------------------------------------------------------------
+  ✅ All textures found!
+
+GROUND EFFECT IDs (16 missing from DBC)
+--------------------------------------------------------------------------------
+  - Effect ID: 73813
+  - Effect ID: 73819
+  - Effect ID: 73820
+  - Effect ID: 73821
+  - Effect ID: 73822
+  - Effect ID: 73823
+  - Effect ID: 73824
+  - Effect ID: 73825
+  - Effect ID: 73826
+  - Effect ID: 73935
+  - Effect ID: 74563
+  - Effect ID: 75190
+  - Effect ID: 75192
+  - Effect ID: 78386
+  - Effect ID: 78450
+  - Effect ID: 78792
+
+
+MISSING ASSETS BY AREA
+================================================================================
+
+AREA: Deepholm
+--------------------------------------------------------------------------------
+  Ground effect IDs: 16 missing from DBC
+    [73813, 73819, 73820, 73821, 73822, 73823, 73824, 73825, 73826, 73935, 74563, 75190, 75192, 78386, 78450, 78792]
+
+
+
+================================================================================
+DETAILED EXECUTION LOG
+================================================================================
+  Loaded 2791 areas from AreaTable.dbc
+================================================================================
+OPEN AZEROTH RESOURCE PARSER (Three-Phase Extraction)
+================================================================================
+
+================================================================================
+PHASE 1: WMO HUNTING
+================================================================================
+
+================================================================================
+STEP 1: Parsing ADT files for model, texture, and ground effect dependencies
+================================================================================
+
+ADT Directory: /workspace/test/parser-test/adt
+Found 16 ADT files to parse...
+  deephome_27_27.adt -> Deepholm -> 0 models, 0 WMOs, 6 textures, 6 ground effects
+  deephome_27_28.adt -> Deepholm -> 0 models, 0 WMOs, 5 textures, 5 ground effects
+  deephome_27_29.adt -> Deepholm -> 0 models, 0 WMOs, 4 textures, 4 ground effects
+  deephome_27_30.adt -> Deepholm -> 9 models, 5 WMOs, 4 textures, 4 ground effects
+  deephome_28_27.adt -> Deepholm -> 1 models, 2 WMOs, 7 textures, 7 ground effects
+  deephome_28_28.adt -> Deepholm -> 57 models, 5 WMOs, 9 textures, 9 ground effects
+  deephome_28_29.adt -> Deepholm -> 63 models, 6 WMOs, 13 textures, 13 ground effects
+  deephome_28_30.adt -> Deepholm -> 52 models, 7 WMOs, 6 textures, 6 ground effects
+  deephome_29_27.adt -> Deepholm -> 15 models, 4 WMOs, 9 textures, 9 ground effects
+  deephome_29_28.adt -> Deepholm -> 55 models, 8 WMOs, 11 textures, 11 ground effects
+  deephome_29_29.adt -> Deepholm -> 33 models, 7 WMOs, 8 textures, 8 ground effects
+  deephome_29_30.adt -> Deepholm -> 27 models, 8 WMOs, 4 textures, 5 ground effects
+  deephome_30_27.adt -> Deepholm -> 27 models, 6 WMOs, 7 textures, 7 ground effects
+  deephome_30_28.adt -> Deepholm -> 34 models, 8 WMOs, 8 textures, 8 ground effects
+  deephome_30_29.adt -> Deepholm -> 26 models, 7 WMOs, 5 textures, 5 ground effects
+  deephome_30_30.adt -> Deepholm -> 61 models, 10 WMOs, 5 textures, 6 ground effects
+
+  ADT files parsed: 16
+  Unique M2 models from ADTs: 198
+  Unique WMO files from ADTs: 13
+  Unique terrain textures from ADTs: 22
+  Ground effect IDs from ADTs: 23
+
+================================================================================
+STEP 2: Loading stock WotLK asset list
+================================================================================
+
+Listfile: /workspace/project/Zeppelin-Craft/Scripts/Resource Parser/data/wotlk_335a_merged.txt
+  Loaded: 168,241 stock assets
+
+================================================================================
+STEP 3: Filtering stock WMO files
+================================================================================
+
+Total unique WMO files found from parsing: 13
+  Checking against stock WotLK asset registry...
+
+Filtering results:
+  ✅ Stock WotLK WMO files (already in base client): 0
+  ⚠️  Custom/modern WMO files (need to extract): 13
+
+================================================================================
+STEP 4: Searching Asset Library for required WMO files
+================================================================================
+
+Assets Source: /workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS
+  Scanned: 369,575 available assets
+
+Required WMO files: 13
+  ✅ Found all 13 requested WMO files
+  + Found 9 additional WMO files variants via folder scanning
+  = 22 total root WMO files found
+
+Automatically detected dependencies:
+  + 28 WMO group files (sub-components of the WMO files)
+
+Total files found: 50
+  (22 root WMO files + 28 group files)
+
+  Root WMO files (22):
+    - DEEPHOLMEEXT_LIT.WMO
+    - DEEPHOLM_FLOATINGROCK01.WMO
+    - DEEPHOLM_FLOATINGROCK01_ANGLE.WMO
+    - DEEPHOLM_FLOATINGROCK02.WMO
+    - DEEPHOLM_FLOATINGROCK02_ANGLE.WMO
+    - DEEPHOLM_FLOATINGROCK03.WMO
+    - DEEPHOLM_FLOATINGROCK03_ANGLE.WMO
+    - DEEPHOLM_SHELL_01.WMO
+    - DEEPHOLM_SHELL_01_LOW.WMO
+    - DEEPHOLM_SHELL_01_SMALL.WMO
+    - DEEPHOLM_SHELL_01_SMALL_LOW.WMO
+    - DEEPHOLM_SHELL_02.WMO
+    - DEEPHOLM_SHELL_02_LOW.WMO
+    - DEEPHOLM_SHELL_02_SMALL.WMO
+    - DEEPHOLM_SHELL_02_SMALL_LOW.WMO
+    - DEEPHOLM_SHELL_03.WMO
+    - DEEPHOLM_SHELL_03_LOW.WMO
+    - DEEPHOLM_SHELL_03_SMALL.WMO
+    - DEEPHOLM_SHELL_03_SMALL_LOW.WMO
+    - DEEPHOLM_TROGGTOWN.WMO
+    - TWILIGHTSHAMMER_BARRACKS.WMO
+    - TWILIGHTSHAMMER_TENTBUILDING.WMO
+
+  Group WMO files (28):
+    - DEEPHOLMEEXT_LIT_000.WMO
+    - DEEPHOLMEEXT_LIT_001.WMO
+    - DEEPHOLMEEXT_LIT_002.WMO
+    - DEEPHOLMEEXT_LIT_003.WMO
+    - DEEPHOLMEEXT_LIT_004.WMO
+    - DEEPHOLMEEXT_LIT_005.WMO
+    - DEEPHOLMEEXT_LIT_006.WMO
+    - DEEPHOLM_FLOATINGROCK01_000.WMO
+    - DEEPHOLM_FLOATINGROCK01_ANGLE_000.WMO
+    - DEEPHOLM_FLOATINGROCK02_000.WMO
+    ... and 18 more group files
+
+================================================================================
+STEP 5: Extracting WMO files to export directory
+================================================================================
+
+Extracting to: /workspace/test/parser-test/export
+
+  Extracted: 22 root WMO files
+  Extracted: 28 WMO group files
+  Total: 50 WMO files
+
+  ✅ All required WMO files found and extracted!
+
+================================================================================
+PHASE 2: M2 HUNTING
+================================================================================
+
+================================================================================
+STEP 6: Parsing GroundEffect DBCs and validating ADT references
+================================================================================
+
+  ADT files reference 23 ground effect IDs
+  Validating against GroundEffectTexture.dbc...
+
+  ✅ 7 ground effect IDs are VALID (exist in DBC)
+  ❌ 16 ground effect IDs are MISSING from DBC
+
+  ⚠️  Missing IDs will show as blue cube placeholders in-game!
+
+  Models needed for 7 valid ground effects: 15 unique M2 files
+
+  DBC Reference Info:
+    GroundEffectTexture.dbc: 25,186 entries
+    GroundEffectDoodad.dbc: 786 entries, 771 unique models
+
+================================================================================
+STEP 7: Parsing exported WMO files for M2 doodad, texture, and nested WMO dependencies
+================================================================================
+
+Export Directory: /workspace/test/parser-test/export
+Found 50 total WMO files in export directory
+  - 22 root WMO files (contain doodad/texture references)
+  - 28 group WMO files (geometry only, skipped)
+
+Parsing root WMO files for dependencies...
+  Parsed: DEEPHOLM_SHELL_02.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_02_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_02_SMALL.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_02_SMALL_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_01_SMALL.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_01_SMALL_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_03.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_03_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_03_SMALL.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_03_SMALL_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_01.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_SHELL_01_LOW.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK02.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK02_ANGLE.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK03.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK03_ANGLE.WMO -> 0 doodads, 0 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK01.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_FLOATINGROCK01_ANGLE.WMO -> 0 doodads, 1 textures, 0 nested WMOs
+  Parsed: TWILIGHTSHAMMER_BARRACKS.WMO -> 3 doodads, 6 textures, 0 nested WMOs
+  Parsed: TWILIGHTSHAMMER_TENTBUILDING.WMO -> 3 doodads, 8 textures, 0 nested WMOs
+  Parsed: DEEPHOLMEEXT_LIT.WMO -> 20 doodads, 31 textures, 0 nested WMOs
+  Parsed: DEEPHOLM_TROGGTOWN.WMO -> 16 doodads, 8 textures, 0 nested WMOs
+
+  WMO files parsed: 22
+  M2 doodads found in WMOs: 40
+  BLP textures found in WMOs: 45
+
+  ━━━ M2 Model Sources Summary ━━━
+  From ADT direct references: 198 models
+  From Ground Effects: 15 models
+  From WMO doodads: 40 models
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Total unique M2 models: 253
+
+================================================================================
+STEP 8: Filtering stock M2 models
+================================================================================
+
+Total unique M2 models found from parsing: 253
+  Checking against stock WotLK asset registry...
+
+Filtering results:
+  ✅ Stock WotLK M2 models (already in base client): 22
+  ⚠️  Custom/modern M2 models (need to extract): 229
+
+================================================================================
+STEP 9: Searching Asset Library for required M2 models
+================================================================================
+
+Assets Source: /workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS
+  Scanned: 369,575 available assets
+
+Required M2 models: 229
+  ✅ Found all 229 requested M2 models
+  + Found 33 additional M2 models variants via folder scanning
+  = 262 total root M2 models found
+
+Automatically detected dependencies:
+  + 246 M2 skin files
+
+Total files found: 508
+  (262 root M2 models + 246 skins)
+
+================================================================================
+STEP 10: Extracting M2 models to export directory
+================================================================================
+
+Extracting to: /workspace/test/parser-test/export
+
+  Extracted: 262 M2 model files
+  Extracted: 246 M2 skin files
+  Total: 517 files
+
+  ✅ All required M2 models found and extracted!
+
+================================================================================
+PHASE 3: TEXTURE/SKIN HUNTING
+================================================================================
+
+================================================================================
+STEP 11: Parsing exported M2 models for texture dependencies
+================================================================================
+
+Export Directory: /workspace/test/parser-test/export
+Found 288 M2/MDX files in export directory
+  Progress: 250/288 M2 files parsed...
+
+  M2 files parsed: 288
+  M2 files with textures: 288
+  Unique textures from M2s: 174
+  Unique textures from WMOs: 45
+  Unique textures from ADTs: 22
+  Total texture dependencies: 241
+
+================================================================================
+STEP 12: Filtering stock textures
+================================================================================
+
+Total unique textures found from parsing: 241
+  Checking against stock WotLK asset registry...
+
+Filtering results:
+  ✅ Stock WotLK textures (already in base client): 48
+  ⚠️  Custom/modern textures (need to extract): 191
+
+================================================================================
+STEP 13: Searching Asset Library for required textures
+================================================================================
+
+Assets Source: /workspace/project/Zeppelin-Tools/Asset Library/GAME ASSETS
+  Scanned: 369,575 available assets
+
+Required textures: 191
+  ⚠️  Found 182 of 191 requested textures
+  ⚠️  Missing: 9 textures
+  = 182 total root textures found
+
+Automatically detected dependencies:
+  + 20 specular texture variants
+
+Total files found: 202
+  (182 root textures + 20 speculars)
+
+================================================================================
+STEP 14: Extracting textures to export directory
+================================================================================
+
+Extracting to: /workspace/test/parser-test/export
+
+  Extracted: 182 base textures
+  Extracted: 20 specular variants
+  Total: 202 textures
+
+  ✅ All required textures found and extracted!
+
+================================================================================
+STEP 15: Analyzing missing assets by area
+================================================================================
+
+  Areas affected by missing assets: 0
+  Total unique missing assets: 0
+
+  Affected Areas:
+  ==============================================================================
+
+  AREA: Deepholm
+    - Ground effect IDs: [73813, 73819, 73820, 73821, 73822, 73823, 73824, 73825, 73826, 73935, 74563, 75190, 75192, 78386, 78450, 78792]
+
+================================================================================
+STEP 16: Generating log file
+================================================================================

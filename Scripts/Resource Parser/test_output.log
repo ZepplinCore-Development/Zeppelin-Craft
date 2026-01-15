@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/project/Zeppelin-Craft/Scripts/Resource Parser/resource_parser.py", line 2037, in <module>
+    main()
+  File "/workspace/project/Zeppelin-Craft/Scripts/Resource Parser/resource_parser.py", line 2032, in main
+    rp = ResourceParser(config_path=args.config)
+  File "/workspace/project/Zeppelin-Craft/Scripts/Resource Parser/resource_parser.py", line 31, in __init__
+    raise FileNotFoundError(f"Config file not found: {config_path}")
+FileNotFoundError: Config file not found: test_config.conf

@@ -809,3 +809,451 @@ INSERT INTO `dbc`.`item` SET
     `ItemDisplayInfo` = 44437,
     `InventorySlotID` = 19;
 
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902331;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902331,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902332;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902332,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902333;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902333,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902334;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902334,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902335;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902335,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902336;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902336,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902337;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902337,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902338;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902338,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902339;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902339,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902340;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902340,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902341;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902341,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902342;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902342,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902343;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902343,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902344;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902344,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902345;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902345,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902346;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902346,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902347;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902347,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902348;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902348,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902349;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902349,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902350;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902350,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902351;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902351,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902352;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902352,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902353;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902353,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902354;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902354,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902355;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902355,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902356;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902356,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902357;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902357,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902358;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902358,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902359;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902359,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902360;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902360,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902361;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902361,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902362;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902362,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902363;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902363,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902364;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902364,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902365;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902365,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902366;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902366,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902367;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902367,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902368;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902368,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902369;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902369,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902370;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902370,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902371;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902371,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902372;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902372,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902373;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902373,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902374;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902374,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902375;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902375,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902376;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902376,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902377;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902377,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902378;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902378,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902379;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902379,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902380;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902380,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902381;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902381,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902382;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902382,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902383;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902383,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902384;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902384,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902385;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902385,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 902386;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 902386,
+    `ItemSubClass` = 4,
+    `sound_override_subclassid` = -1,
+    `MaterialID` = 7,
+    `ItemDisplayInfo` = 1093;
+
