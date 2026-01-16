@@ -20871,3 +20871,17 @@ INSERT INTO `dbc`.`spell` SET
     `DamageClass` = 1,
     `PreventionType` = 1;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103246;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103246,
+    `RecoveryTime` = 8000,
+    `BaseLevel` = 4,
+    `SpellLevel` = 4,
+    `DurationIndex` = 39,
+    `RangeIndex` = 4,
+    `Effect1` = 68,
+    `EffectBasePoints1` = -1,
+    `SpellIconID` = 211,
+    `SpellName0` = 'Devout Silence',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.';
+

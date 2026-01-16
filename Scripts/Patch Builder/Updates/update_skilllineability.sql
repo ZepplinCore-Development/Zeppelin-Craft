@@ -1668,3 +1668,9 @@ INSERT INTO `dbc`.`skilllineability` SET
     `spellId` = 91118,
     `requiredSkillValue` = 1;
 
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 100000;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 100000,
+    `skillId` = 56,
+    `spellId` = 103246;
+
