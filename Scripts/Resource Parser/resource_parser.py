@@ -1888,7 +1888,7 @@ class ResourceParser:
         lines.append('END OF REPORT')
         lines.append('='*80)
 
-        with open(report_path, 'w') as f:
+        with open(report_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(lines))
 
         self.log(f'\n  Duplicate WMO report saved: {report_path}')
@@ -1943,15 +1943,6 @@ class ResourceParser:
                 summary.append(f'  - Bad ADT data (don\'t exist anywhere): {len(self.bad_ground_effect_ids)}')
                 summary.append(f'    Sample: {sorted(self.bad_ground_effect_ids)[:10]}')
             summary.append(f'  - ⚠️  WARNING: Missing IDs will cause blue cube placeholders!')
-            summary.append('')
-            summary.append(f'  Missing Ground Effect IDs by Area:')
-            for effect_id in sorted(self.missing_ground_effect_ids):
-                if effect_id in self.ground_effect_to_adts:
-                    adt_paths = self.ground_effect_to_adts[effect_id]
-                    # Get area name from first ADT
-                    area_name = self._get_area_name(adt_paths[0]) if adt_paths else "Unknown"
-                    adt_filenames = [path.split('/')[-1].replace('.ADT', '.adt') for path in adt_paths]
-                    summary.append(f'    ID {effect_id}: {area_name} ({", ".join(adt_filenames[:3])}{"..." if len(adt_filenames) > 3 else ""})')
 
         # Calculate missing assets by type
         still_missing_all = set()
@@ -2004,6 +1995,8 @@ class ResourceParser:
         ])
 
         # Detailed missing assets by type section
+        summary.append('')
+        summary.append('')
         summary.append('MISSING ASSETS BY TYPE')
         summary.append('='*80)
         summary.append('')
@@ -2109,6 +2102,8 @@ class ResourceParser:
 
         # Display organized by area (aggregated, not per-ADT)
         if area_analysis_log:
+            summary.append('')
+            summary.append('')
             summary.append('MISSING ASSETS BY AREA')
             summary.append('='*80)
             summary.append('')
@@ -2165,6 +2160,8 @@ class ResourceParser:
 
                     summary.append('')
         else:
+            summary.append('')
+            summary.append('')
             summary.append('MISSING ASSETS BY AREA')
             summary.append('='*80)
             summary.append('')
