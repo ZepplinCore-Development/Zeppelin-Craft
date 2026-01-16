@@ -183,7 +183,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Timber Wolf. Increases speed by $m2%.' /* was 'Summons and dismisses a rideable Timber Wolf.' */
 WHERE `ID` = 580;
 
 UPDATE `dbc`.`spell` SET 
