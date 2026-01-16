@@ -212,7 +212,7 @@ INSERT INTO `item_template` SET
     `entry` = 100002,
     `class` = 9,
     `name` = 'Tome: Greater Blessing of Kings',
-    `displayid` = 23314,
+    `displayid` = 135042,  -- Icon: AO_BookMasters2
     `Quality` = 3,
     `BuyPrice` = 400000,
     `SellPrice` = 100000,
@@ -313,7 +313,7 @@ INSERT INTO `item_template` SET
     `entry` = 100003,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit',
-    `displayid` = 23314,
+    `displayid` = 139289,  -- Icon: AO_Page03
     `Quality` = 3,
     `BuyPrice` = 310000,
     `SellPrice` = 77500,
@@ -390,7 +390,7 @@ INSERT INTO `item_template` SET
     `entry` = 100004,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit II',
-    `displayid` = 23314,
+    `displayid` = 139289,  -- Icon: AO_Page03
     `Quality` = 3,
     `BuyPrice` = 500000,
     `SellPrice` = 125000,
@@ -467,7 +467,7 @@ INSERT INTO `item_template` SET
     `entry` = 100005,
     `class` = 9,
     `name` = 'Codex: Prayer of Spirit III',
-    `displayid` = 23314,
+    `displayid` = 139289,  -- Icon: AO_Page03
     `Quality` = 3,
     `BuyPrice` = 900000,
     `SellPrice` = 225000,
