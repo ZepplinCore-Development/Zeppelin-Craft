@@ -80,7 +80,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 432;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -88,7 +88,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 458;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -96,7 +96,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 459;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -104,7 +104,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 468;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -112,7 +112,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 470;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -120,7 +120,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 471;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -163,7 +163,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 514;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -171,7 +171,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 578;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -179,7 +179,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 579;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -188,7 +188,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 580;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -660,7 +660,7 @@ WHERE `ID` = 3337;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 3363;
 
@@ -1094,7 +1094,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 5506;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */
@@ -1203,7 +1203,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6581;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1211,7 +1211,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6648;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1219,7 +1219,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6653;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1261,7 +1261,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6695;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1269,7 +1269,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6777;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1277,7 +1277,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6896;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1285,7 +1285,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6897;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1293,7 +1293,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6898;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1578,7 +1578,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8150;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 8326;
 
 UPDATE `dbc`.`spell` SET 
@@ -1597,7 +1597,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8368;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1605,7 +1605,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8394;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -1800,7 +1800,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8880;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2168,7 +2168,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10768;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2176,7 +2176,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10787;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2184,7 +2184,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10788;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2192,7 +2192,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10789;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2200,7 +2200,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10790;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2208,7 +2208,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10792;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2216,7 +2216,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10793;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2224,7 +2224,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10795;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2232,7 +2232,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10796;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2240,7 +2240,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10798;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2248,7 +2248,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10799;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2256,7 +2256,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10873;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2686,7 +2686,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 13494;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */
@@ -2764,7 +2764,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15531;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2772,7 +2772,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15779;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2780,7 +2780,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15780;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2798,7 +2798,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15973;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2806,7 +2806,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16055;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2814,7 +2814,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16056;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2822,7 +2822,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16058;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2830,7 +2830,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16059;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2838,7 +2838,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16060;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2846,7 +2846,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16080;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2854,7 +2854,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16081;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2862,7 +2862,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16082;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -2870,7 +2870,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 16083;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3203,7 +3203,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17041;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3211,7 +3211,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17229;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3219,7 +3219,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17450;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3227,7 +3227,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17453;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3235,7 +3235,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17454;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3243,7 +3243,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17455;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3251,7 +3251,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17456;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3259,7 +3259,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17458;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3267,7 +3267,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17459;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3275,7 +3275,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17460;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3283,7 +3283,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17461;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3291,7 +3291,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17462;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3299,7 +3299,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17463;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3307,7 +3307,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17464;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3315,7 +3315,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17465;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3365,7 +3365,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18266;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3613,7 +3613,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18560;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3621,7 +3621,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18989;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3629,7 +3629,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18990;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3637,7 +3637,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18991;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3895,7 +3895,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22683;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3903,7 +3903,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22717;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3911,7 +3911,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22718;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3919,7 +3919,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22719;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3927,7 +3927,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22720;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3935,7 +3935,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22721;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3943,7 +3943,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22722;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -3951,7 +3951,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22723;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4031,7 +4031,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23052;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4039,7 +4039,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23161;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4047,7 +4047,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23214;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4055,7 +4055,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23219;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4063,7 +4063,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23220;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4071,7 +4071,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23221;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4079,7 +4079,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23222;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4087,7 +4087,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23223;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4095,7 +4095,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23225;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4103,7 +4103,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23227;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4111,7 +4111,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23228;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4119,7 +4119,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23229;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4127,7 +4127,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23238;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4135,7 +4135,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23239;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4143,7 +4143,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23240;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4151,7 +4151,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23241;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4159,7 +4159,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23242;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4167,7 +4167,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23243;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4175,7 +4175,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23246;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4183,7 +4183,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23247;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4191,7 +4191,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23248;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4199,7 +4199,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23249;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4207,7 +4207,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23250;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4215,7 +4215,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23251;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4250,7 +4250,7 @@ Lasts $d.' */
 WHERE `ID` = 23312;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4303,7 +4303,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23478;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4311,7 +4311,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23509;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4508,7 +4508,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24226;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4516,7 +4516,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24242;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4534,7 +4534,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24262;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 24347;
 
 UPDATE `dbc`.`spell` SET 
@@ -4576,7 +4576,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24573;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4856,7 +4856,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25656;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4868,7 +4868,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25782;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4876,7 +4876,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25858;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4884,7 +4884,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25859;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4917,7 +4917,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25918;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4939,7 +4939,7 @@ Cannot cast spells.' */
 WHERE `ID` = 26053;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4950,7 +4950,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 26054;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -4961,7 +4961,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 26055;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -5039,7 +5039,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 26407;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -5047,7 +5047,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 26655;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -5700,7 +5700,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28758;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -5708,7 +5708,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28828;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6059,7 +6059,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29844;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `SpellLevel` = 20 /* was 1 */,
@@ -6126,7 +6126,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 30555;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6134,7 +6134,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 30829;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6459,7 +6459,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 31575;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 31700;
 
@@ -6476,7 +6476,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 31956;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6495,49 +6495,49 @@ WHERE `ID` = 32179;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32235;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32239;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32240;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32242;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32243;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32244;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 32245;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 32246;
@@ -6566,43 +6566,43 @@ WHERE `ID` = 32285;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32289;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32290;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32292;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32295;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32296;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 32297;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 32345;
 
@@ -6648,7 +6648,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32999;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6656,11 +6656,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33630;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 33631;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6697,7 +6697,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33948;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6705,7 +6705,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34406;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6843,7 +6843,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34697;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6851,14 +6851,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34767;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */
 WHERE `ID` = 34769;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6866,7 +6866,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34790;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6874,7 +6874,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34795;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6882,7 +6882,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34896;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6890,7 +6890,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34897;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6898,7 +6898,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34898;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6946,7 +6946,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34983;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6954,7 +6954,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35018;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6962,7 +6962,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35020;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6970,7 +6970,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35022;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6978,7 +6978,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35025;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6986,7 +6986,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35027;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -6998,7 +6998,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35139;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7006,7 +7006,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35710;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7014,7 +7014,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35711;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7022,7 +7022,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35712;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7030,7 +7030,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35713;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7269,7 +7269,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 36686;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7278,7 +7278,7 @@ WHERE `ID` = 36702;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 37015;
 
@@ -7363,7 +7363,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 38697;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7371,7 +7371,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39315;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7379,7 +7379,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39316;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7387,7 +7387,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39317;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7395,7 +7395,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39318;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7403,7 +7403,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 39319;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7412,38 +7412,38 @@ WHERE `ID` = 39450;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 39798;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 39800;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 39801;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 39802;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */
 WHERE `ID` = 39803;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7452,7 +7452,7 @@ WHERE `ID` = 39910;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 39949;
 
@@ -7512,13 +7512,13 @@ WHERE `ID` = 40121;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 40192;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 40212;
 
@@ -7586,7 +7586,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41208;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7610,37 +7610,37 @@ WHERE `ID` = 41418;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41513;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41514;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41515;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41516;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41517;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 41518;
 
@@ -7657,18 +7657,18 @@ WHERE `ID` = 42662;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 42667;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 42668;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7676,7 +7676,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42680;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7702,7 +7702,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42766;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7710,7 +7710,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42776;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7728,7 +7728,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42842;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7780,7 +7780,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43676;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7788,7 +7788,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43688;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 43810;
 
@@ -7798,7 +7798,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43846;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7806,7 +7806,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43899;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7815,25 +7815,25 @@ WHERE `ID` = 43900;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 43927;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 44151;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 44153;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 44317;
 
@@ -7872,7 +7872,7 @@ WHERE `ID` = 44399;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7881,25 +7881,25 @@ WHERE `ID` = 44655;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 44744;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 44824;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 44825;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 44827;
 
@@ -7955,18 +7955,18 @@ WHERE `ID` = 46144;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 46197;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 46199;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -7999,7 +7999,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 46779;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8007,7 +8007,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 46980;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8020,12 +8020,12 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 47528;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 47600;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8033,7 +8033,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48023;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8041,7 +8041,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48024;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8059,7 +8059,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48162;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 55 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8099,7 +8099,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48938;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8108,12 +8108,12 @@ WHERE `ID` = 48954;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 49193;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8121,7 +8121,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 49322;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8129,7 +8129,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 49378;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8147,7 +8147,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 50194;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8190,7 +8190,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 50647;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8198,7 +8198,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 50869;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8211,7 +8211,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 51300;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8220,7 +8220,7 @@ WHERE `ID` = 51412;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8228,7 +8228,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 51617;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8237,7 +8237,7 @@ WHERE `ID` = 51621;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 51960;
 
@@ -8492,13 +8492,13 @@ WHERE `ID` = 54659;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 54726;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 54727;
 
@@ -8507,7 +8507,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 54729;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8620,7 +8620,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 55058;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 55164;
 
@@ -8705,7 +8705,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 55206;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -8833,7 +8833,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 55502;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9492,12 +9492,12 @@ WHERE `ID` = 58507;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 58615;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9510,7 +9510,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 58954;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9518,7 +9518,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 58997;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9567,36 +9567,36 @@ WHERE `ID` = 59442;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59567;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59568;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59569;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59570;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59571;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9604,7 +9604,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59572;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9653,7 +9653,7 @@ WHERE `ID` = 59589;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59650;
 
@@ -9663,7 +9663,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59759;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9671,7 +9671,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59785;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9679,7 +9679,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59788;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9687,7 +9687,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59791;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9695,7 +9695,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59793;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9703,7 +9703,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59797;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9711,7 +9711,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59799;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9719,7 +9719,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 59802;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9728,48 +9728,48 @@ WHERE `ID` = 59804;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59961;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 59976;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 59996;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 60002;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 60021;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 60024;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 60025;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9777,7 +9777,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60114;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9785,7 +9785,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60116;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9793,7 +9793,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60118;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9805,7 +9805,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60120;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9813,7 +9813,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60136;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9821,7 +9821,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 60140;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9870,29 +9870,29 @@ WHERE `ID` = 61010;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 61229;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 61230;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 61289;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 61294;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9900,7 +9900,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61309;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9920,7 +9920,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61446;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9929,7 +9929,7 @@ WHERE `ID` = 61447;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9937,7 +9937,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61451;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9945,7 +9945,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61465;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9953,7 +9953,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61467;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9961,7 +9961,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61469;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9983,7 +9983,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61669;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -9992,19 +9992,19 @@ WHERE `ID` = 61983;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 61996;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 61997;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 62048;
 
@@ -10074,11 +10074,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 62203;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 62628;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */
 WHERE `ID` = 62951;
 
 UPDATE `dbc`.`spell` SET 
@@ -10137,7 +10137,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63206;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10145,7 +10145,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63232;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10153,7 +10153,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63635;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10161,7 +10161,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63636;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10169,7 +10169,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63637;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10177,7 +10177,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63638;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10185,7 +10185,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63639;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10193,7 +10193,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63640;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10201,7 +10201,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63641;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10209,7 +10209,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63642;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10228,13 +10228,13 @@ WHERE `ID` = 63743;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 63796;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 63844;
 
@@ -10256,18 +10256,18 @@ WHERE `ID` = 63924;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 63956;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 63963;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10275,7 +10275,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64656;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10283,7 +10283,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64657;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10291,7 +10291,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64658;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10300,7 +10300,7 @@ WHERE `ID` = 64659;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 64681;
 
@@ -10336,18 +10336,18 @@ WHERE `ID` = 64730;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 64761;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 64927;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10355,7 +10355,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64977;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10363,7 +10363,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64992;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10372,12 +10372,12 @@ WHERE `ID` = 64993;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 65439;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10385,7 +10385,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65637;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10393,7 +10393,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65638;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10401,7 +10401,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65639;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10409,7 +10409,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65640;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10417,7 +10417,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65641;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10425,7 +10425,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65642;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10433,7 +10433,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65643;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10441,7 +10441,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65644;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10449,7 +10449,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 65645;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10458,18 +10458,18 @@ WHERE `ID` = 65646;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 66087;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */
 WHERE `ID` = 66088;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10477,7 +10477,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66090;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10485,7 +10485,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66091;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10493,7 +10493,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66122;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10501,7 +10501,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66123;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10509,7 +10509,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66124;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10517,7 +10517,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66846;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10525,7 +10525,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66847;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10533,7 +10533,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 66906;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */
@@ -10641,12 +10641,12 @@ WHERE `ID` = 67147;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 67336;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10684,7 +10684,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 67686;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10692,7 +10692,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 68056;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10700,7 +10700,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 68057;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10708,7 +10708,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 68187;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -10716,11 +10716,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 68188;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */
+    `CastingTimeIndex` = 14 /* was 16 */
 WHERE `ID` = 68768;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */
+    `CastingTimeIndex` = 14 /* was 16 */
 WHERE `ID` = 68769;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 68975;
@@ -11099,12 +11099,12 @@ WHERE `ID` = 69388;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 69395;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11162,7 +11162,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 70568;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11170,7 +11170,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 71344;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11179,24 +11179,24 @@ WHERE `ID` = 71345;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */
 WHERE `ID` = 71346;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 71347;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 71810;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11204,7 +11204,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 72281;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11213,7 +11213,7 @@ WHERE `ID` = 72282;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11222,7 +11222,7 @@ WHERE `ID` = 72283;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11489,18 +11489,18 @@ WHERE `ID` = 72561;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 72807;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */
 WHERE `ID` = 72808;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11536,7 +11536,7 @@ WHERE `ID` = 73725;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11545,7 +11545,7 @@ WHERE `ID` = 74854;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11557,7 +11557,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 74856;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11586,7 +11586,7 @@ WHERE `ID` = 75136;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 16 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11600,7 +11600,7 @@ WHERE `ID` = 75597;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11609,7 +11609,7 @@ WHERE `ID` = 75617;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11617,7 +11617,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 75618;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11625,7 +11625,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 75619;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11634,7 +11634,7 @@ WHERE `ID` = 75620;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11643,7 +11643,7 @@ WHERE `ID` = 75957;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11656,7 +11656,7 @@ WHERE `ID` = 75973;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -11665,7 +11665,7 @@ WHERE `ID` = 76153;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 13 /* was 1 */,
+    `CastingTimeIndex` = 14 /* was 1 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
@@ -12210,7 +12210,7 @@ INSERT INTO `dbc`.`spell` SET
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
     `ProcChance` = 101,
@@ -12254,7 +12254,7 @@ INSERT INTO `dbc`.`spell` SET
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
     `ProcChance` = 101,
@@ -15285,7 +15285,7 @@ INSERT INTO `dbc`.`spell` SET
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `ProcChance` = 101,
     `MaximumLevel` = 60,
@@ -15325,7 +15325,7 @@ INSERT INTO `dbc`.`spell` SET
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `ProcChance` = 101,
     `MaximumLevel` = 60,
@@ -19486,7 +19486,7 @@ INSERT INTO `dbc`.`spell` SET
     `Mechanic` = 21,
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
     `ProcChance` = 101,
@@ -19529,7 +19529,7 @@ INSERT INTO `dbc`.`spell` SET
     `Mechanic` = 21,
     `Attributes` = 269844752,
     `AttributesEx3` = 536870912,
-    `CastingTimeIndex` = 13,
+    `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
     `ProcChance` = 101,
