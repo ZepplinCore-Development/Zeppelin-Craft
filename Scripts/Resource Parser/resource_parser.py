@@ -1030,9 +1030,15 @@ class ResourceParser:
                     found_key = alternate
 
             if found_key:
-                # IMPORTANT: Store under the ORIGINAL requested key (normalized), not found_key
-                # This allows extraction to find it using the original request
-                self.found_assets[normalized] = asset_map[found_key]
+                # IMPORTANT: Store using the FULL PATH (found_key), not just requested filename
+                # For ground effect M2s where normalized is just a filename (e.g., "6ARPEBBLE02.MDX"),
+                # we need to use the full path to preserve directory structure during extraction
+                # Use found_key as the dictionary key to ensure proper export path structure
+                self.found_assets[found_key] = asset_map[found_key]
+
+                # Also store under original key for backward compatibility with parent tracking
+                if normalized != found_key:
+                    self.exported_to_original[found_key] = normalized
 
                 # For WMO files, also find and add all group files (_000.wmo, _001.wmo, etc.)
                 if found_key.endswith('.WMO') and asset_type == "WMO files":
@@ -1156,9 +1162,15 @@ class ResourceParser:
                     # Track fuzzy match for reporting
                     fuzzy_matched_assets.append((normalized, best_match))
 
-                    # IMPORTANT: Store under the ORIGINAL requested key (normalized), not best_match
-                    # This allows extraction to find it using the original request
-                    self.found_assets[normalized] = asset_map[best_match]
+                    # IMPORTANT: Store using the FULL PATH (best_match), not just filename
+                    # For ground effect M2s where normalized is just a filename (e.g., "6ARPEBBLE02.MDX"),
+                    # we need to use the full path to preserve directory structure during extraction
+                    # Use best_match as key to ensure proper export path structure
+                    self.found_assets[best_match] = asset_map[best_match]
+
+                    # Also store under original key for backward compatibility with parent tracking
+                    if normalized != best_match:
+                        self.exported_to_original[best_match] = normalized
 
                     # Apply the same variant detection logic
                     # (WMO groups, M2 skins/anims, BLP speculars)
