@@ -164,6 +164,13 @@ DUNGEON_SECTIONS = {
     'strat_balnazzar': 'STRATBalnazzar',
     'strat_stonespine': 'STRATStonespine',
     'strat_sothos': 'STRATSothosJarien',
+
+    # ===== RAIDS =====
+    # Note: Most raid bosses are single-boss sections without BabbleBoss
+    # Only multi-boss encounter sections use BabbleBoss format
+
+    # Zul'Gurub (ZG) - 20-man raid
+    'zg_edge_of_madness': 'ZGEdgeofMadness',  # Multi-boss rotating encounter (Gri'lek, Hazza'rah, Renataki, Wushoolay)
 }
 
 

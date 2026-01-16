@@ -748,6 +748,42 @@ if build_patch_z and not args.db_diff_only:
     # Copy DBC files to Server
     shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
+# Generate AtlasLoot tables from database (before building PATCH-X)
+if not args.db_diff_only and build_patch_x:
+    print("\n" + "="*60)
+    print("Generating AtlasLoot tables from database...")
+    print("="*60)
+
+    atlasloot_generator = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'generate_atlasloot.py')
+
+    if os.path.exists(atlasloot_generator):
+        try:
+            # Run generator for all dungeons and raids
+            result = subprocess.run(
+                ['python3', atlasloot_generator, '--dungeon', 'all'],
+                cwd=os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder'),
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            if result.returncode == 0:
+                print("✓ AtlasLoot tables updated successfully")
+                # Show summary from generator output
+                for line in result.stdout.split('\n'):
+                    if 'Summary:' in line or '✓' in line:
+                        print(f"  {line}")
+            else:
+                print("⚠ Warning: AtlasLoot generator completed with warnings")
+                print(f"  Exit code: {result.returncode}")
+                if result.stderr:
+                    print(f"  Error: {result.stderr[:200]}")
+        except Exception as e:
+            print(f"⚠ Warning: Could not run AtlasLoot generator: {e}")
+            print("  Continuing with existing AtlasLoot data...")
+    else:
+        print("⚠ Warning: AtlasLoot generator not found, skipping...")
+
 # Update MPQ files (skip in db-diff-only mode)
 if not args.db_diff_only:
     os.chdir(mpq_editor_dir)

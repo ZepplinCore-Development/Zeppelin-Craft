@@ -198,6 +198,25 @@ class LootDatabase:
                     loot_by_boss[creature_id] = []
                 loot_by_boss[creature_id].append(row)
 
+            # Deduplicate quest items (class 12) per boss - keep only highest drop chance
+            # This prevents quest items from appearing multiple times with different drop rates
+            for creature_id in loot_by_boss:
+                quest_items = {}
+                other_items = []
+
+                for row in loot_by_boss[creature_id]:
+                    if row['item_class'] == 12:  # Quest item
+                        item_id = row['item_id']
+                        if item_id not in quest_items or row['drop_chance'] > quest_items[item_id]['drop_chance']:
+                            quest_items[item_id] = row
+                    else:
+                        other_items.append(row)
+
+                # Combine deduplicated quest items with other items
+                deduplicated = other_items + list(quest_items.values())
+                deduplicated.sort(key=lambda x: (x['group_id'], x['item_id']))
+                loot_by_boss[creature_id] = deduplicated
+
             return loot_by_boss
 
         except mysql.connector.Error as err:
