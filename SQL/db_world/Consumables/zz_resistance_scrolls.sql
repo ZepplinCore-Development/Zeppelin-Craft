@@ -1320,3 +1320,95 @@ INSERT INTO `item_template` SET
     `BagFamily` = 16;
 
 
+
+
+-- =====================================================
+-- SPELL GROUP STACKING RULES
+-- =====================================================
+-- Prevents multiple resistance scrolls from stacking
+-- Only ONE resistance scroll can be active at a time
+-- (Similar to food buffs - stack_rule 8)
+-- =====================================================
+
+-- Define spell group 1119 for Resistance Scrolls
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1119;
+
+INSERT INTO `spell_group_stack_rules` SET
+    `group_id` = 1119,
+    `stack_rule` = 8,
+    `description` = 'Group of Resistance Scrolls - never stack';
+
+
+
+-- Add all 56 resistance scroll spells to group 1119
+DELETE FROM `spell_group` WHERE `id` = 1119;
+
+-- Fire Resistance (103198-103205)
+INSERT INTO `spell_group` VALUES (1119, 103198, 0);
+INSERT INTO `spell_group` VALUES (1119, 103199, 0);
+INSERT INTO `spell_group` VALUES (1119, 103200, 0);
+INSERT INTO `spell_group` VALUES (1119, 103201, 0);
+INSERT INTO `spell_group` VALUES (1119, 103202, 0);
+INSERT INTO `spell_group` VALUES (1119, 103203, 0);
+INSERT INTO `spell_group` VALUES (1119, 103204, 0);
+INSERT INTO `spell_group` VALUES (1119, 103205, 0);
+
+-- Frost Resistance (103206-103213)
+INSERT INTO `spell_group` VALUES (1119, 103206, 0);
+INSERT INTO `spell_group` VALUES (1119, 103207, 0);
+INSERT INTO `spell_group` VALUES (1119, 103208, 0);
+INSERT INTO `spell_group` VALUES (1119, 103209, 0);
+INSERT INTO `spell_group` VALUES (1119, 103210, 0);
+INSERT INTO `spell_group` VALUES (1119, 103211, 0);
+INSERT INTO `spell_group` VALUES (1119, 103212, 0);
+INSERT INTO `spell_group` VALUES (1119, 103213, 0);
+
+-- Arcane Resistance (103214-103221)
+INSERT INTO `spell_group` VALUES (1119, 103214, 0);
+INSERT INTO `spell_group` VALUES (1119, 103215, 0);
+INSERT INTO `spell_group` VALUES (1119, 103216, 0);
+INSERT INTO `spell_group` VALUES (1119, 103217, 0);
+INSERT INTO `spell_group` VALUES (1119, 103218, 0);
+INSERT INTO `spell_group` VALUES (1119, 103219, 0);
+INSERT INTO `spell_group` VALUES (1119, 103220, 0);
+INSERT INTO `spell_group` VALUES (1119, 103221, 0);
+
+-- Shadow Resistance (103222-103229)
+INSERT INTO `spell_group` VALUES (1119, 103222, 0);
+INSERT INTO `spell_group` VALUES (1119, 103223, 0);
+INSERT INTO `spell_group` VALUES (1119, 103224, 0);
+INSERT INTO `spell_group` VALUES (1119, 103225, 0);
+INSERT INTO `spell_group` VALUES (1119, 103226, 0);
+INSERT INTO `spell_group` VALUES (1119, 103227, 0);
+INSERT INTO `spell_group` VALUES (1119, 103228, 0);
+INSERT INTO `spell_group` VALUES (1119, 103229, 0);
+
+-- Nature Resistance (103230-103237)
+INSERT INTO `spell_group` VALUES (1119, 103230, 0);
+INSERT INTO `spell_group` VALUES (1119, 103231, 0);
+INSERT INTO `spell_group` VALUES (1119, 103232, 0);
+INSERT INTO `spell_group` VALUES (1119, 103233, 0);
+INSERT INTO `spell_group` VALUES (1119, 103234, 0);
+INSERT INTO `spell_group` VALUES (1119, 103235, 0);
+INSERT INTO `spell_group` VALUES (1119, 103236, 0);
+INSERT INTO `spell_group` VALUES (1119, 103237, 0);
+
+-- Holy Resistance (103238-103245)
+INSERT INTO `spell_group` VALUES (1119, 103238, 0);
+INSERT INTO `spell_group` VALUES (1119, 103239, 0);
+INSERT INTO `spell_group` VALUES (1119, 103240, 0);
+INSERT INTO `spell_group` VALUES (1119, 103241, 0);
+INSERT INTO `spell_group` VALUES (1119, 103242, 0);
+INSERT INTO `spell_group` VALUES (1119, 103243, 0);
+INSERT INTO `spell_group` VALUES (1119, 103244, 0);
+INSERT INTO `spell_group` VALUES (1119, 103245, 0);
+
+-- Armor (103246-103253)
+INSERT INTO `spell_group` VALUES (1119, 103246, 0);
+INSERT INTO `spell_group` VALUES (1119, 103247, 0);
+INSERT INTO `spell_group` VALUES (1119, 103248, 0);
+INSERT INTO `spell_group` VALUES (1119, 103249, 0);
+INSERT INTO `spell_group` VALUES (1119, 103250, 0);
+INSERT INTO `spell_group` VALUES (1119, 103251, 0);
+INSERT INTO `spell_group` VALUES (1119, 103252, 0);
+INSERT INTO `spell_group` VALUES (1119, 103253, 0);
