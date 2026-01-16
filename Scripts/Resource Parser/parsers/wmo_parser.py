@@ -118,9 +118,10 @@ class WMOParser:
                 if material_offset + tex_ofs_pos + 4 <= len(self.data):
                     texture_offset = struct.unpack_from('<I', self.data, material_offset + tex_ofs_pos)[0]
 
-                    # Valid texture offsets should be reasonable and non-zero
-                    # Zero or very large values indicate unused texture slots
-                    if texture_offset > 0 and texture_offset < 100000:  # Sanity check
+                    # Valid texture offsets should be reasonable
+                    # Offset 0 is valid (points to start of MOTX chunk)
+                    # Very large values indicate unused texture slots
+                    if texture_offset >= 0 and texture_offset < 100000:  # Sanity check
                         texture_offsets.append(texture_offset)
 
         return texture_offsets
