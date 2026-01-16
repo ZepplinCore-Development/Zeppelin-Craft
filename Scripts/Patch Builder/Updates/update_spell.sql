@@ -271,9 +271,11 @@ WHERE `ID` = 1463;
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 8000 /* was 0 */,
     `CategoryRecoveryTime` = 8000 /* was 10000 */,
+    `BaseLevel` = 4 /* was 12 */,
     `SpellLevel` = 4 /* was 12 */,
     `DurationIndex` = 39 /* was 28 */,
     `ManaCost` = 0 /* was 25 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'A quick kick that interrupts spellcasting and prevents any spell in that school from being cast for $d.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 1766;
 
@@ -301,7 +303,10 @@ WHERE `ID` = 2018;
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 8000 /* was 0 */,
     `CategoryRecoveryTime` = 0 /* was 24000 */,
+    `BaseLevel` = 4 /* was 24 */,
+    `SpellLevel` = 4 /* was 24 */,
     `DurationIndex` = 39 /* was 31 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Counters the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.  Generates a high amount of threat.' */,
     `ManaCostPercentage` = 0 /* was 9 */
 WHERE `ID` = 2139;
 
@@ -1160,8 +1165,11 @@ UPDATE `dbc`.`spell` SET
     `Stances` = 0 /* was 262144 */,
     `RecoveryTime` = 10000 /* was 0 */,
     `CategoryRecoveryTime` = 0 /* was 10000 */,
+    `BaseLevel` = 4 /* was 38 */,
+    `SpellLevel` = 4 /* was 38 */,
     `DurationIndex` = 39 /* was 35 */,
     `ManaCost` = 0 /* was 100 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Pummel the target, interrupting spellcasting and preventing any spell in that school from being cast for $d.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 6552;
 
@@ -2731,8 +2739,11 @@ WHERE `ID` = 15305;
 UPDATE `dbc`.`spell` SET 
     `Stances` = 0 /* was 134217728 */,
     `RecoveryTime` = 8000 /* was 45000 */,
+    `BaseLevel` = 4 /* was 0 */,
+    `SpellLevel` = 4 /* was 0 */,
     `DurationIndex` = 39 /* was 28 */,
-    `ManaCost` = 0 /* was 225 */
+    `ManaCost` = 0 /* was 225 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Silences the target, preventing them from casting spells for $d.  Non-player victim spellcasting is also interrupted for $32747d.' */
 WHERE `ID` = 15487;
 
 UPDATE `dbc`.`spell` SET 
@@ -3631,8 +3642,11 @@ WHERE `ID` = 18992;
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 8000 /* was 0 */,
     `CategoryRecoveryTime` = 0 /* was 24000 */,
+    `BaseLevel` = 4 /* was 36 */,
+    `SpellLevel` = 4 /* was 36 */,
     `DurationIndex` = 39 /* was 28 */,
-    `ManaCost` = 0 /* was 120 */
+    `ManaCost` = 0 /* was 120 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Silences the enemy for $24259d.  If used on a casting target, it will counter the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.' */
 WHERE `ID` = 19244;
 
 UPDATE `dbc`.`spell` SET 
@@ -4503,6 +4517,10 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */
 WHERE `ID` = 24252;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Silenced. Cannot cast spells from the interrupted school for 2 sec.' /* was 'Silences the enemy for $d.  If used on a casting target, it will counter the enemy's spellcast, preventing any spell from that school of magic for an additional duration.' */
+WHERE `ID` = 24259;
 
 UPDATE `dbc`.`spell` SET 
     `EffectBasePoints1` = 999 /* was 3999 */,
@@ -6692,6 +6710,8 @@ WHERE `ID` = 34477;
 UPDATE `dbc`.`spell` SET 
     `Dispel` = 0 /* was 1 */,
     `RecoveryTime` = 8000 /* was 20000 */,
+    `BaseLevel` = 4 /* was 30 */,
+    `SpellLevel` = 4 /* was 30 */,
     `DurationIndex` = 0 /* was 27 */,
     `Speed` = 0.0 /* was 60.0 */,
     `Effect2` = 0 /* was 6 */,
@@ -9380,6 +9400,9 @@ WHERE `ID` = 57960;
 
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 8000 /* was 6000 */,
+    `BaseLevel` = 4 /* was 16 */,
+    `SpellLevel` = 4 /* was 16 */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Instantly blasts the target with a gust of wind, causing no damage but interrupting spellcasting and preventing any spell in that school from being cast for $d. Also lowers your threat, making the enemy less likely to attack you.' */,
     `ManaCostPercentage` = 0 /* was 8 */
 WHERE `ID` = 57994;
 
@@ -17280,7 +17303,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Silencing Shot',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Interrupts the enemy''s spellcast, preventing any spell from that school of magic from being cast for $d. Deals $m1% weapon damage. ',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Silenced.',
     `SpellToolTipFlags7` = 16712190,
@@ -18699,10 +18722,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = -14,
+    `EffectBasePoints1` = -16,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 108,
-    `SpellName0` = 'Journeyman Tailoring',
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 32,
+    `SpellIconID` = 341,
+    `SpellName0` = 'Journeyman Tailoring Scissors',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Reduces craft time for Tailoring recipes by $s1%. Does not stack with other Tailoring Scissors effects.',
@@ -18730,10 +18756,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = -24,
+    `EffectBasePoints1` = -26,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 108,
-    `SpellName0` = 'Artisan Tailoring',
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 32,
+    `SpellIconID` = 341,
+    `SpellName0` = 'Artisan Tailoring Scissors',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Reduces craft time for Tailoring recipes by $s1%. Does not stack with other Tailoring Scissors effects.',
@@ -18761,10 +18790,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = -34,
+    `EffectBasePoints1` = -36,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 108,
-    `SpellName0` = 'Master Tailoring',
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 32,
+    `SpellIconID` = 341,
+    `SpellName0` = 'Master Tailoring Scissors',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Reduces craft time for Tailoring recipes by $s1%. Does not stack with other Tailoring Scissors effects.',
@@ -18792,10 +18824,13 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = -44,
+    `EffectBasePoints1` = -46,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 108,
-    `SpellName0` = 'Grand Master Tailoring',
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 32,
+    `SpellIconID` = 341,
+    `SpellName0` = 'Grand Master Tailoring Scissors',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Reduces craft time for Tailoring recipes by $s1%. Does not stack with other Tailoring Scissors effects.',
@@ -19106,15 +19141,20 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 4,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 211,
-    `SpellIconID` = 85,
+    `SpellIconID` = 2241,
     `SpellName0` = 'Apprentice Riding Crop',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases mount speed by 5%.',
-    `SpellToolTip0` = 'Increases mount speed by 5%.';
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases mount speed by 5%.',
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100011;
 INSERT INTO `dbc`.`spell` SET 
@@ -19123,15 +19163,20 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 211,
-    `SpellIconID` = 85,
+    `SpellIconID` = 2241,
     `SpellName0` = 'Journeyman Riding Crop',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases mount speed by 10%.',
-    `SpellToolTip0` = 'Increases mount speed by 10%.';
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases mount speed by 10%.',
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100012;
 INSERT INTO `dbc`.`spell` SET 
@@ -19140,15 +19185,20 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 14,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 211,
-    `SpellIconID` = 85,
+    `SpellIconID` = 2241,
     `SpellName0` = 'Expert Riding Crop',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases mount speed by 15%.',
-    `SpellToolTip0` = 'Increases mount speed by 15%.';
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases mount speed by 15%.',
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100013;
 INSERT INTO `dbc`.`spell` SET 
@@ -19157,15 +19207,20 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 211,
-    `SpellIconID` = 85,
+    `SpellIconID` = 2241,
     `SpellName0` = 'Artisan Riding Crop',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases mount speed by 20%.',
-    `SpellToolTip0` = 'Increases mount speed by 20%.';
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases mount speed by 20%.',
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
@@ -19174,15 +19229,20 @@ INSERT INTO `dbc`.`spell` SET
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 24,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 211,
-    `SpellIconID` = 85,
+    `SpellIconID` = 2241,
     `SpellName0` = 'Master Riding Crop',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases mount speed by 25%.',
-    `SpellToolTip0` = 'Increases mount speed by 25%.';
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases mount speed by 25%.',
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100020;
 INSERT INTO `dbc`.`spell` SET 
@@ -19193,13 +19253,18 @@ INSERT INTO `dbc`.`spell` SET
     `Reagent2` = 4234,
     `ReagentCount1` = 20,
     `ReagentCount2` = 4,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
     `EffectItemType1` = 100010,
-    `SpellIconID` = 85,
+    `SpellIconID` = 346,
     `SpellName0` = 'Apprentice Riding Crop',
-    `SpellDescription0` = 'Craft a Apprentice Riding Crop.';
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Craft a Apprentice Riding Crop.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100021;
 INSERT INTO `dbc`.`spell` SET 
@@ -19210,13 +19275,18 @@ INSERT INTO `dbc`.`spell` SET
     `Reagent2` = 8170,
     `ReagentCount1` = 30,
     `ReagentCount2` = 8,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
     `EffectItemType1` = 100011,
-    `SpellIconID` = 85,
+    `SpellIconID` = 346,
     `SpellName0` = 'Journeyman Riding Crop',
-    `SpellDescription0` = 'Craft a Journeyman Riding Crop.';
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Craft a Journeyman Riding Crop.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100022;
 INSERT INTO `dbc`.`spell` SET 
@@ -19227,13 +19297,18 @@ INSERT INTO `dbc`.`spell` SET
     `Reagent2` = 15407,
     `ReagentCount1` = 40,
     `ReagentCount2` = 12,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
     `EffectItemType1` = 100012,
-    `SpellIconID` = 85,
+    `SpellIconID` = 346,
     `SpellName0` = 'Expert Riding Crop',
-    `SpellDescription0` = 'Craft a Expert Riding Crop.';
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Craft a Expert Riding Crop.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100023;
 INSERT INTO `dbc`.`spell` SET 
@@ -19244,13 +19319,18 @@ INSERT INTO `dbc`.`spell` SET
     `Reagent2` = 17012,
     `ReagentCount1` = 20,
     `ReagentCount2` = 8,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
     `EffectItemType1` = 100013,
-    `SpellIconID` = 85,
+    `SpellIconID` = 346,
     `SpellName0` = 'Artisan Riding Crop',
-    `SpellDescription0` = 'Craft a Artisan Riding Crop.';
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Craft a Artisan Riding Crop.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100024;
 INSERT INTO `dbc`.`spell` SET 
@@ -19261,13 +19341,18 @@ INSERT INTO `dbc`.`spell` SET
     `Reagent2` = 21887,
     `ReagentCount1` = 30,
     `ReagentCount2` = 12,
+    `EquippedItemSubClassMask` = 1,
     `Effect1` = 24,
     `EffectDieSides1` = 1,
     `EffectImplicitTargetA1` = 1,
     `EffectItemType1` = 100014,
-    `SpellIconID` = 85,
+    `SpellIconID` = 346,
     `SpellName0` = 'Master Riding Crop',
-    `SpellDescription0` = 'Craft a Master Riding Crop.';
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Craft a Master Riding Crop.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103195;
 INSERT INTO `dbc`.`spell` SET 
