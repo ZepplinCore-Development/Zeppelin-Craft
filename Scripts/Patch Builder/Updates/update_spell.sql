@@ -5051,7 +5051,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji Battle Tank. Increases speed by $m2%. This is a very fast mount.' /* was 'Summons and dismisses a rideable Black Qiraji Battle Tank. This is a very fast mount.' */
 WHERE `ID` = 26656;
 
 UPDATE `dbc`.`spell` SET 
