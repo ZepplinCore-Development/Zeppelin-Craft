@@ -1,9 +1,9 @@
 -- Hunter Silencing Shot
 
-	DELETE FROM `npc_trainer` WHERE `SpellID` = 34490;
+	DELETE FROM `npc_trainer` WHERE `SpellID` IN (34490, 91119);
 	INSERT INTO `npc_trainer` SET
 		`ID` = 200013,
-		`SpellID` = 34490,
+		`SpellID` = 91119,
 		`MoneyCost` = 100,
 		`ReqLevel` = 4;
 
