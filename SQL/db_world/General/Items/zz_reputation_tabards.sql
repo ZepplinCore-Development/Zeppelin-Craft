@@ -14,8 +14,11 @@
 --   - Reputation gate enforced at vendor purchase level (Honored)
 --
 -- DBC Spells:
---   - Existing tabards: spells 91132-91172 in update_spell.sql
---   - Custom tabards: spells 91173-91177 in custom_reputation_tabard_spells.sql
+--   - Dungeon tabards: spells 91132-91137
+--   - Zone tabards: spells 91178-91181, 91168-91171
+--   - Raid tabards: spell 91172
+--   - Custom tabards: spells 91173-91177
+--   - All spell data generated via Patch Builder (update_spell.sql)
 
 -- ==============================================================================
 -- PART 1: EXISTING TABARD UPDATES (16 tabards)
@@ -81,28 +84,28 @@
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
-                `spellid_1` = 91164,
+                `spellid_1` = 91178,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31774);
         -- The Mag'har
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
-                `spellid_1` = 91165,
+                `spellid_1` = 91179,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31773);
         -- Ogri'la
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
-                `spellid_1` = 91166,
+                `spellid_1` = 91180,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 32828);
         -- The Aldor
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
-                `spellid_1` = 91167,
+                `spellid_1` = 91181,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31779);
         -- The Scryers
