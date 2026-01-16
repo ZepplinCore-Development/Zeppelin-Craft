@@ -4923,7 +4923,7 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. Increases speed by $m2%. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `AreaGroupID` = 0 /* was 38 */
 WHERE `ID` = 25953;
 
