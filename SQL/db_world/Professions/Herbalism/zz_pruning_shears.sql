@@ -3,11 +3,11 @@
     INSERT INTO `item_template`
     SET `entry` = 57300,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Journeyman Pruning Shears',
-        `displayid` = 140276, -- AO_Scissors10Cheap
+        `displayid` = 139508, -- AO_Pincers10Cheap
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
         `TotemCategory` = 198,
@@ -20,11 +20,11 @@
     INSERT INTO `item_template`
     SET `entry` = 57301,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 90, -- 90C
         `ItemLevel` = 60,
         `name` = 'Artisan Pruning Shears',
-        `displayid` = 140277, -- AO_Scissors20Cheap
+        `displayid` = 139509, -- AO_Pincers10Expensive
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
         `TotemCategory` = 199,
@@ -37,11 +37,11 @@
     INSERT INTO `item_template`
     SET `entry` = 57302,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 900, -- 9S
         `ItemLevel` = 70,
         `name` = 'Master Pruning Shears',
-        `displayid` = 140278, -- AO_Scissors30Cheap
+        `displayid` = 139510, -- AO_Pincers30Cheap
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
         `TotemCategory` = 200,
@@ -54,11 +54,11 @@
     INSERT INTO `item_template`
     SET `entry` = 57303,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 9000, -- 90S
         `ItemLevel` = 80,
         `name` = 'Grand Master Pruning Shears',
-        `displayid` = 140279, -- AO_Scissors30Expensive
+        `displayid` = 139511, -- AO_Pincers30Expensive
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
         `TotemCategory` = 201,
