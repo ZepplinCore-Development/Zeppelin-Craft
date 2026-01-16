@@ -19372,8 +19372,9 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemSubClassMask` = 1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
     `EffectBasePoints1` = 199,
-    `EffectBasePoints2` = -100,
+    `EffectBasePoints2` = -101,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 108,
     `EffectApplyAuraName2` = 108,
@@ -19391,7 +19392,12 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 25%.',
     `SpellToolTipFlags7` = 16712190,
-    `SpellFamilyName` = 14;
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 8,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectBonusMultiplier1` = 1.0,
+    `EffectBonusMultiplier2` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100020;
 INSERT INTO `dbc`.`spell` SET 

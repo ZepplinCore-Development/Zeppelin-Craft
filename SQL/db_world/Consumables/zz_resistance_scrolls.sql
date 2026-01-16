@@ -1218,3 +1218,20 @@ INSERT INTO `spell_group` VALUES (1119, 103243, 0);
 INSERT INTO `spell_group` VALUES (1119, 103244, 0);
 INSERT INTO `spell_group` VALUES (1119, 103245, 0);
 
+
+-- =====================================================
+-- VANILLA SCROLL OF PROTECTION INTEGRATION
+-- =====================================================
+-- Add vanilla Scroll of Protection spells to group 1119
+-- to ensure they don't stack with resistance scrolls
+-- =====================================================
+
+-- Scroll of Protection (8 ranks: 8091, 8094, 8095, 12175, 33079, 43196, 58452, 58453)
+INSERT INTO `spell_group` VALUES (1119, 8091, 0);   -- Rank I
+INSERT INTO `spell_group` VALUES (1119, 8094, 0);   -- Rank II
+INSERT INTO `spell_group` VALUES (1119, 8095, 0);   -- Rank III
+INSERT INTO `spell_group` VALUES (1119, 12175, 0);  -- Rank IV
+INSERT INTO `spell_group` VALUES (1119, 33079, 0);  -- Rank V
+INSERT INTO `spell_group` VALUES (1119, 43196, 0);  -- Rank VI
+INSERT INTO `spell_group` VALUES (1119, 58452, 0);  -- Rank VII
+INSERT INTO `spell_group` VALUES (1119, 58453, 0);  -- Rank VIII
