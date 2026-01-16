@@ -19387,7 +19387,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Master Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 25%.',
+    `SpellDescription0` = 'Increases mount speed by 200% and reduces mount cast time by 100%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 25%.',
     `SpellToolTipFlags7` = 16712190,

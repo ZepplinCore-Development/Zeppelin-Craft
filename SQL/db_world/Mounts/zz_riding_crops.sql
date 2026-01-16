@@ -23,11 +23,9 @@ INSERT INTO `item_template` SET
     `BuyPrice` = 50000,
     `SellPrice` = 12500,
     `ItemLevel` = 35,
-    `RequiredLevel` = 20,
     `maxcount` = 1,
     `spellid_1` = 100010,
     `spelltrigger_1` = 5,
-    `description` = 'Increases mount speed by 5% while in your inventory.',
     `bonding` = 1;
 
 
@@ -45,11 +43,9 @@ INSERT INTO `item_template` SET
     `BuyPrice` = 100000,
     `SellPrice` = 25000,
     `ItemLevel` = 50,
-    `RequiredLevel` = 40,
     `maxcount` = 1,
     `spellid_1` = 100011,
     `spelltrigger_1` = 5,
-    `description` = 'Increases mount speed by 10% while in your inventory.',
     `bonding` = 1;
 
 
@@ -67,11 +63,9 @@ INSERT INTO `item_template` SET
     `BuyPrice` = 200000,
     `SellPrice` = 50000,
     `ItemLevel` = 60,
-    `RequiredLevel` = 50,
     `maxcount` = 1,
     `spellid_1` = 100012,
     `spelltrigger_1` = 5,
-    `description` = 'Increases mount speed by 15% while in your inventory.',
     `bonding` = 1;
 
 
@@ -89,11 +83,9 @@ INSERT INTO `item_template` SET
     `BuyPrice` = 400000,
     `SellPrice` = 100000,
     `ItemLevel` = 70,
-    `RequiredLevel` = 60,
     `maxcount` = 1,
     `spellid_1` = 100013,
     `spelltrigger_1` = 5,
-    `description` = 'Increases mount speed by 20% while in your inventory.',
     `bonding` = 1;
 
 
@@ -111,11 +103,9 @@ INSERT INTO `item_template` SET
     `BuyPrice` = 800000,
     `SellPrice` = 200000,
     `ItemLevel` = 80,
-    `RequiredLevel` = 70,
     `maxcount` = 1,
     `spellid_1` = 100014,
     `spelltrigger_1` = 5,
-    `description` = 'Increases mount speed by 25% while in your inventory.',
     `bonding` = 1;
 
 

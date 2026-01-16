@@ -1,8 +1,9 @@
 -- F-015: Magic Resistance Scrolls - Item Templates
--- Creates 56 scroll consumable items (7 types × 8 ranks)
--- Item IDs: 902331 - 902386
--- Links to spell IDs: 103198 - 103253
+-- Creates 48 scroll consumable items (6 types × 8 ranks)
+-- Item IDs: 902331 - 902378
+-- Links to spell IDs: 103198 - 103245
 --
+-- Note: Scroll of Protection (vanilla item) already provides armor buff
 -- Execute against acore_world database
 
 -- ============================================================================
@@ -1133,192 +1134,6 @@ INSERT INTO `item_template` SET
 
 
 
--- ============================================================================
--- ARMOR SCROLLS (Spell IDs: 103246-103253)
--- ============================================================================
-
--- Scroll of Armor (Rank I) - Item 902379, Spell 103246
-DELETE FROM `item_template` WHERE `entry` = 902379;
-
-INSERT INTO `item_template` SET
-    `entry` = 902379,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 150,
-    `SellPrice` = 37,
-    `ItemLevel` = 15,
-    `RequiredLevel` = 5,
-    `stackable` = 20,
-    `spellid_1` = 103246,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor II (Rank II) - Item 902380, Spell 103247
-DELETE FROM `item_template` WHERE `entry` = 902380;
-
-INSERT INTO `item_template` SET
-    `entry` = 902380,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor II',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 300,
-    `SellPrice` = 75,
-    `ItemLevel` = 30,
-    `RequiredLevel` = 20,
-    `stackable` = 20,
-    `spellid_1` = 103247,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor III (Rank III) - Item 902381, Spell 103248
-DELETE FROM `item_template` WHERE `entry` = 902381;
-
-INSERT INTO `item_template` SET
-    `entry` = 902381,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor III',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 900,
-    `SellPrice` = 225,
-    `ItemLevel` = 45,
-    `RequiredLevel` = 35,
-    `stackable` = 20,
-    `spellid_1` = 103248,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor IV (Rank IV) - Item 902382, Spell 103249
-DELETE FROM `item_template` WHERE `entry` = 902382;
-
-INSERT INTO `item_template` SET
-    `entry` = 902382,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor IV',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 1800,
-    `SellPrice` = 450,
-    `ItemLevel` = 60,
-    `RequiredLevel` = 50,
-    `stackable` = 20,
-    `spellid_1` = 103249,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor V (Rank V) - Item 902383, Spell 103250
-DELETE FROM `item_template` WHERE `entry` = 902383;
-
-INSERT INTO `item_template` SET
-    `entry` = 902383,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor V',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 2700,
-    `SellPrice` = 675,
-    `ItemLevel` = 70,
-    `RequiredLevel` = 60,
-    `stackable` = 20,
-    `spellid_1` = 103250,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor VI (Rank VI) - Item 902384, Spell 103251
-DELETE FROM `item_template` WHERE `entry` = 902384;
-
-INSERT INTO `item_template` SET
-    `entry` = 902384,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor VI',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 3600,
-    `SellPrice` = 900,
-    `ItemLevel` = 75,
-    `RequiredLevel` = 60,
-    `stackable` = 20,
-    `spellid_1` = 103251,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor VII (Rank VII) - Item 902385, Spell 103252
-DELETE FROM `item_template` WHERE `entry` = 902385;
-
-INSERT INTO `item_template` SET
-    `entry` = 902385,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor VII',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 4500,
-    `SellPrice` = 1125,
-    `ItemLevel` = 80,
-    `RequiredLevel` = 70,
-    `stackable` = 20,
-    `spellid_1` = 103252,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
-
-
--- Scroll of Armor VIII (Rank VIII) - Item 902386, Spell 103253
-DELETE FROM `item_template` WHERE `entry` = 902386;
-
-INSERT INTO `item_template` SET
-    `entry` = 902386,
-    `subclass` = 4,
-    `name` = 'Scroll of Armor VIII',
-    `displayid` = 1093,
-    `Quality` = 1,
-    `BuyPrice` = 6000,
-    `SellPrice` = 1500,
-    `ItemLevel` = 85,
-    `RequiredLevel` = 80,
-    `stackable` = 20,
-    `spellid_1` = 103253,
-    `spellcharges_1` = -1,
-    `spellppmRate_1` = -1.0,
-    `spellcooldown_1` = 1000,
-    `Material` = 7,
-    `BagFamily` = 16;
-
 
 
 
@@ -1340,7 +1155,7 @@ INSERT INTO `spell_group_stack_rules` SET
 
 
 
--- Add all 56 resistance scroll spells to group 1119
+-- Add all 48 resistance scroll spells to group 1119 (Fire, Frost, Arcane, Shadow, Nature, Holy)
 DELETE FROM `spell_group` WHERE `id` = 1119;
 
 -- Fire Resistance (103198-103205)
@@ -1403,12 +1218,3 @@ INSERT INTO `spell_group` VALUES (1119, 103243, 0);
 INSERT INTO `spell_group` VALUES (1119, 103244, 0);
 INSERT INTO `spell_group` VALUES (1119, 103245, 0);
 
--- Armor (103246-103253)
-INSERT INTO `spell_group` VALUES (1119, 103246, 0);
-INSERT INTO `spell_group` VALUES (1119, 103247, 0);
-INSERT INTO `spell_group` VALUES (1119, 103248, 0);
-INSERT INTO `spell_group` VALUES (1119, 103249, 0);
-INSERT INTO `spell_group` VALUES (1119, 103250, 0);
-INSERT INTO `spell_group` VALUES (1119, 103251, 0);
-INSERT INTO `spell_group` VALUES (1119, 103252, 0);
-INSERT INTO `spell_group` VALUES (1119, 103253, 0);
