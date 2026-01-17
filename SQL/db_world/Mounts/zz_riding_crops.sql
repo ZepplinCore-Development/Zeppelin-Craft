@@ -26,7 +26,8 @@ INSERT INTO `item_template` SET
     `maxcount` = 1,
     `spellid_1` = 100010,
     `spelltrigger_1` = 5,
-    `bonding` = 1;
+    `bonding` = 1,
+    `TotemCategory` = 210;
 
 
 
@@ -46,7 +47,8 @@ INSERT INTO `item_template` SET
     `maxcount` = 1,
     `spellid_1` = 100011,
     `spelltrigger_1` = 5,
-    `bonding` = 1;
+    `bonding` = 1,
+    `TotemCategory` = 210;
 
 
 
@@ -66,7 +68,8 @@ INSERT INTO `item_template` SET
     `maxcount` = 1,
     `spellid_1` = 100012,
     `spelltrigger_1` = 5,
-    `bonding` = 1;
+    `bonding` = 1,
+    `TotemCategory` = 210;
 
 
 
@@ -86,7 +89,8 @@ INSERT INTO `item_template` SET
     `maxcount` = 1,
     `spellid_1` = 100013,
     `spelltrigger_1` = 5,
-    `bonding` = 1;
+    `bonding` = 1,
+    `TotemCategory` = 210;
 
 
 
@@ -106,7 +110,8 @@ INSERT INTO `item_template` SET
     `maxcount` = 1,
     `spellid_1` = 100014,
     `spelltrigger_1` = 5,
-    `bonding` = 1;
+    `bonding` = 1,
+    `TotemCategory` = 210;
 
 
 
