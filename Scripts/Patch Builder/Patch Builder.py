@@ -754,14 +754,14 @@ if not args.db_diff_only and build_patch_x:
     print("Generating AtlasLoot tables from database...")
     print("="*60)
 
-    atlasloot_generator = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'generate_atlasloot.py')
+    atlasloot_generator = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'AtlasLoot Generator', 'generate_atlasloot.py')
 
     if os.path.exists(atlasloot_generator):
         try:
             # Run generator for all dungeons and raids
             result = subprocess.run(
-                ['python3', atlasloot_generator, '--dungeon', 'all'],
-                cwd=os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder'),
+                [sys.executable, atlasloot_generator, '--dungeon', 'all'],
+                cwd=os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'AtlasLoot Generator'),
                 capture_output=True,
                 text=True,
                 check=False
