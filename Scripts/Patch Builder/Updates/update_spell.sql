@@ -19265,8 +19265,7 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100010;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100010,
-    `Attributes` = 128,
-    `AttributesEx` = 268437504,
+    `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
@@ -19291,8 +19290,7 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100011;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100011,
-    `Attributes` = 128,
-    `AttributesEx` = 268437504,
+    `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
@@ -19317,8 +19315,7 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100012;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100012,
-    `Attributes` = 128,
-    `AttributesEx` = 268437504,
+    `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
@@ -19343,8 +19340,7 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100013;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100013,
-    `Attributes` = 128,
-    `AttributesEx` = 268437504,
+    `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
@@ -19369,8 +19365,7 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100014,
-    `Attributes` = 128,
-    `AttributesEx` = 268437504,
+    `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
