@@ -463,20 +463,23 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
     return duplicate_cleanups
 
 
-def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validated_weapons):
+def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acore_cursor, validated_weapons):
     """
     Two-pass validation of starting weapons against CSV weapon skill requirements.
 
     Pass 1: Check existing weapons in charstartoutfit for mismatches
     - Weapon requires skill character doesn't have → mark for replacement/removal
+    - Prefers stock WOTLK weapons when skill is available
 
     Pass 2: Ensure characters have adequate weapon coverage
     - Has melee skill but no melee weapon → add one
     - Has ranged skill but no ranged weapon → add one (+ ammo if needed)
+    - Only adds ranged for configured classes (Hunter, Rogue, Troll Warrior)
 
     Args:
         weapon_skills: Dict from read_weapon_skills_from_spreadsheet()
-        source_cursor: Database cursor to read from (dbc or original_dbc)
+        source_cursor: Database cursor to validate (dbc or original_dbc)
+        original_cursor: Database cursor for stock WOTLK (for weapon preference)
         acore_cursor: Database cursor for acore_world (item lookups)
         validated_weapons: Dict of {skill_id: item_id} for starter weapons
 
@@ -486,6 +489,7 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
         - weapon_additions: List of weapons/ammo to add
     """
     from .constants import RACE_NAMES, CLASS_NAMES, STARTER_AMMO, SKILL_TO_INVTYPE
+    from .db_config import ADD_DK_MELEE_WEAPONS, RANGED_ALLOWED_CLASSES, RANGED_ALLOWED_COMBOS
 
     print("=" * 80)
     print("VALIDATING WEAPON COVERAGE")
@@ -499,7 +503,7 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
     # Melee and ranged skill categories
     melee_skills = [43, 44, 54, 55, 136, 160, 172, 173]
     ranged_skills = [45, 46, 226, 176, 228]
-    weapon_inv_types = [13, 15, 17, 21, 22, 26]
+    weapon_inv_types = [13, 15, 17, 21, 22, 25, 26]  # Added 25 for Thrown weapons
 
     # Get all outfits with weapons
     query = """
@@ -542,6 +546,15 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
         available_skills = get_available_weapon_skills(weapon_skills, race_id, class_id)
         available_skill_ids = [skill_id for skill_id, _ in available_skills]
 
+        # Load stock WOTLK weapons for this race/class/gender (for preference)
+        stock_weapons = get_original_weapon_slots(original_cursor, acore_cursor, race_id, class_id, gender)
+        stock_weapon_map = {}  # skill_id -> (slot, item_id) for stock weapons that match CSV
+        for stock_weapon in stock_weapons:
+            skill_id = stock_weapon['skill_id']
+            if skill_id in available_skill_ids:
+                # This stock weapon's skill IS in CSV - prefer using it!
+                stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
+
         # Track what weapons this outfit will have after fixes
         outfit_weapons = {}  # slot_idx -> (skill_id, item_id)
 
@@ -578,38 +591,30 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
                 replacement_skill = None
 
                 # Prioritize similar weapon types with fallbacks
+                # For each skill option, check stock_weapon_map first, then fallback to validated_weapons
+                def find_replacement(skill_list):
+                    """Helper to find replacement, preferring stock weapons."""
+                    for skill in skill_list:
+                        if skill in available_skill_ids:
+                            # Prefer stock weapon if available
+                            if skill in stock_weapon_map:
+                                return skill, stock_weapon_map[skill][1]
+                            elif skill in validated_weapons:
+                                return skill, validated_weapons[skill]
+                    return None, None
+
                 if required_skill_id in [43, 44, 54]:  # 1H melee
-                    for skill in [54, 44, 43, 173]:
-                        if skill in available_skill_ids and skill in validated_weapons:
-                            replacement_skill = skill
-                            replacement_item = validated_weapons[skill]
-                            break
+                    replacement_skill, replacement_item = find_replacement([54, 44, 43, 173])
                 elif required_skill_id in [55, 160, 172]:  # 2H melee
-                    for skill in [160, 172, 55, 54, 44, 43, 173]:
-                        if skill in available_skill_ids and skill in validated_weapons:
-                            replacement_skill = skill
-                            replacement_item = validated_weapons[skill]
-                            break
+                    replacement_skill, replacement_item = find_replacement([160, 172, 55, 54, 44, 43, 173])
                 elif required_skill_id == 136:  # Staves - casters get wand instead
-                    if 228 in available_skill_ids and 228 in validated_weapons:
-                        replacement_skill = 228
-                        replacement_item = validated_weapons[228]
+                    replacement_skill, replacement_item = find_replacement([228])
                 elif required_skill_id in [45, 46, 47]:  # Ranged
-                    for skill in [46, 45, 47, 176]:
-                        if skill in available_skill_ids and skill in validated_weapons:
-                            replacement_skill = skill
-                            replacement_item = validated_weapons[skill]
-                            break
+                    replacement_skill, replacement_item = find_replacement([46, 45, 47, 176])
                 elif required_skill_id == 173:  # Daggers
-                    for skill in [173, 54, 44, 43]:
-                        if skill in available_skill_ids and skill in validated_weapons:
-                            replacement_skill = skill
-                            replacement_item = validated_weapons[skill]
-                            break
+                    replacement_skill, replacement_item = find_replacement([173, 54, 44, 43])
                 elif required_skill_id == 228:  # Wands
-                    if 228 in available_skill_ids and 228 in validated_weapons:
-                        replacement_skill = 228
-                        replacement_item = validated_weapons[228]
+                    replacement_skill, replacement_item = find_replacement([228])
 
                 mismatches.append({
                     'outfit_id': outfit_id,
@@ -645,7 +650,10 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
         empty_slots = [i for i in range(1, 25) if item_ids[i-1] <= 0 or item_ids[i-1] == 0]
 
         # If they have melee skill but no melee weapon, add one
-        if has_melee_skill and not has_melee_weapon:
+        # Skip Death Knights if ADD_DK_MELEE_WEAPONS is disabled
+        skip_melee_addition = (class_id == 6 and not ADD_DK_MELEE_WEAPONS)
+
+        if has_melee_skill and not has_melee_weapon and not skip_melee_addition:
             for skill in melee_skills:
                 if skill in available_skill_ids and skill in validated_weapons:
                     if empty_slots:
@@ -664,7 +672,11 @@ def validate_weapon_coverage(weapon_skills, source_cursor, acore_cursor, validat
                         break
 
         # If they have ranged skill but no ranged weapon, add one
-        if has_ranged_skill and not has_ranged_weapon:
+        # BUT only for configured classes (Hunter, Rogue, Troll Warrior)
+        allowed_ranged = (class_id in RANGED_ALLOWED_CLASSES or
+                         (race_id, class_id) in RANGED_ALLOWED_COMBOS)
+
+        if has_ranged_skill and not has_ranged_weapon and allowed_ranged:
             for skill in ranged_skills:
                 if skill in available_skill_ids and skill in validated_weapons:
                     if empty_slots:

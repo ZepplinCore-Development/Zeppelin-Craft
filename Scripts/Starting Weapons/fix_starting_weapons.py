@@ -82,9 +82,11 @@ def main():
         print()
 
     # Step 6: Validate weapon coverage (two-pass validation)
+    # Pass both cursors: validation_cursor (what to check) and original_dbc_cursor (for stock preference)
     mismatches, weapon_additions = validate_weapon_coverage(
         weapon_skills,
         validation_cursor,
+        original_dbc_cursor,
         acore_cursor,
         validated_weapons
     )

@@ -35,6 +35,30 @@ def load_env():
 # Load environment variables once
 ENV = load_env()
 
+# Load weapon addition configuration
+ADD_DK_MELEE_WEAPONS = ENV.get('ADD_DK_MELEE_WEAPONS', 'true').lower() == 'true'
+
+# Load ranged weapon configuration
+def parse_class_list(value):
+    """Parse comma-separated class IDs into a set."""
+    if not value:
+        return set()
+    return {int(x.strip()) for x in value.split(',') if x.strip()}
+
+def parse_combo_list(value):
+    """Parse race:class combinations into a set of tuples."""
+    if not value:
+        return set()
+    combos = set()
+    for combo in value.split(','):
+        if ':' in combo:
+            race, cls = combo.split(':', 1)
+            combos.add((int(race.strip()), int(cls.strip())))
+    return combos
+
+RANGED_ALLOWED_CLASSES = parse_class_list(ENV.get('RANGED_ALLOWED_CLASSES', '3,4'))
+RANGED_ALLOWED_COMBOS = parse_combo_list(ENV.get('RANGED_ALLOWED_COMBOS', '8:1'))
+
 
 # Database connection configurations
 ORIGINAL_DBC_CONFIG = {

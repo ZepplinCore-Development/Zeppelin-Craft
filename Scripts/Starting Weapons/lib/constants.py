@@ -111,3 +111,6 @@ RANGED_SKILL_PRIORITY = [
     176,  # Thrown
     228,  # Wands
 ]
+
+# NOTE: Ranged weapon configuration moved to .env file
+# See RANGED_ALLOWED_CLASSES and RANGED_ALLOWED_COMBOS in lib/db_config.py
