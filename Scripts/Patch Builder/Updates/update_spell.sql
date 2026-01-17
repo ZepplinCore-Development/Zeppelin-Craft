@@ -19267,9 +19267,11 @@ INSERT INTO `dbc`.`spell` SET
     `ID` = 100010,
     `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `EquippedItemSubClassMask` = 1,
+    `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 4,
@@ -19285,16 +19287,19 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescription0` = 'Increases mount speed by 5%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 5%.',
-    `SpellToolTipFlags7` = 16712190;
+    `SpellToolTipFlags7` = 16712190,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100011;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100011,
     `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `EquippedItemSubClassMask` = 1,
+    `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 9,
@@ -19310,16 +19315,19 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescription0` = 'Increases mount speed by 10%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 10%.',
-    `SpellToolTipFlags7` = 16712190;
+    `SpellToolTipFlags7` = 16712190,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100012;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100012,
     `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `EquippedItemSubClassMask` = 1,
+    `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 14,
@@ -19335,16 +19343,19 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescription0` = 'Increases mount speed by 15%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 15%.',
-    `SpellToolTipFlags7` = 16712190;
+    `SpellToolTipFlags7` = 16712190,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100013;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100013,
     `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `EquippedItemSubClassMask` = 1,
+    `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectBasePoints1` = 19,
@@ -19360,16 +19371,19 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescription0` = 'Increases mount speed by 20%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases mount speed by 20%.',
-    `SpellToolTipFlags7` = 16712190;
+    `SpellToolTipFlags7` = 16712190,
+    `SchoolMask` = 1;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100014,
     `Attributes` = 536936448,
     `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
-    `EquippedItemSubClassMask` = 1,
+    `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
     `EffectDieSides2` = 1,
@@ -19396,6 +19410,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellFamilyFlags` = 8,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
+    `SchoolMask` = 1,
     `EffectBonusMultiplier1` = 1.0,
     `EffectBonusMultiplier2` = 1.0;
 
