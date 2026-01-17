@@ -683,13 +683,23 @@ class ResourceParser:
             self.log(f'  Validating against GroundEffectTexture.dbc...')
 
             valid_ids = []
+            junk_ids = set()  # IDs not in WotLK DBC or modern client (legacy Blizzard ADT data)
+            modern_only_ids = set()  # IDs in modern client but not WotLK (genuinely new content)
+
             for effect_id in sorted(self.adt_ground_effect_ids):
                 if effect_id not in texture_reader.textures:
                     self.missing_ground_effect_ids.add(effect_id)
 
                     # Categorize missing IDs (only if modern reference available)
-                    if modern_ids and effect_id not in modern_ids:
-                        self.bad_ground_effect_ids.add(effect_id)
+                    if modern_ids:
+                        if effect_id not in modern_ids:
+                            # Not in WotLK or modern → junk data from original Blizzard ADTs
+                            junk_ids.add(effect_id)
+                            self.bad_ground_effect_ids.add(effect_id)
+                        else:
+                            # In modern but not WotLK → genuinely modern content
+                            modern_only_ids.add(effect_id)
+                            self.modern_ground_effect_ids.add(effect_id)
                 else:
                     valid_ids.append(effect_id)
 
@@ -697,15 +707,20 @@ class ResourceParser:
             if valid_ids:
                 self.log(f'\n  ✅ {len(valid_ids)} ground effect IDs are VALID (exist in DBC)')
 
-            if self.missing_ground_effect_ids:
-                self.log(f'  ❌ {len(self.missing_ground_effect_ids)} ground effect IDs are MISSING from DBC')
+            # Report junk IDs once (legacy ADT data, can be ignored)
+            if junk_ids:
+                self.log(f'\n  ℹ️  {len(junk_ids)} junk ground effect IDs found (legacy Blizzard ADT data)')
+                self.log(f'      These IDs don\'t exist in WotLK or modern clients - safe to ignore')
+                sample_junk = sorted(junk_ids)[:10]
+                self.log(f'      Example IDs: {sample_junk}{"..." if len(junk_ids) > 10 else ""}')
 
-                if modern_ids and self.bad_ground_effect_ids:
-                    self.log(f'\n  ⚠️  {len(self.bad_ground_effect_ids)} IDs don\'t exist in modern reference either (bad ADT data)')
-                    sample_bad = sorted(self.bad_ground_effect_ids)[:5]
-                    self.log(f'      Example bad IDs: {sample_bad}{"..." if len(self.bad_ground_effect_ids) > 5 else ""}')
-
-                self.log('\n  ⚠️  Missing IDs will show as blue cube placeholders in-game!')
+            # Report genuinely missing modern content (if any)
+            if modern_only_ids:
+                self.log(f'\n  ⚠️  {len(modern_only_ids)} ground effect IDs are modern content (missing from WotLK DBC)')
+                self.log(f'      These exist in modern client but not in our WotLK GroundEffectTexture.dbc')
+                sample_modern = sorted(modern_only_ids)[:10]
+                self.log(f'      Example IDs: {sample_modern}{"..." if len(modern_only_ids) > 10 else ""}')
+                self.log(f'      ⚠️  These WILL show as blue cube placeholders in-game!')
 
             # Calculate models for VALID ground effects only (the ones we actually need)
             models_for_valid_effects = set()
@@ -1606,7 +1621,16 @@ class ResourceParser:
             dest_path = export_dir / normalized.replace('/', os.sep)
             dest_path.parent.mkdir(parents=True, exist_ok=True)
 
-            shutil.copy2(source_path, dest_path)
+            try:
+                shutil.copy2(source_path, dest_path)
+            except FileNotFoundError as e:
+                print(f"\nERROR copying file:")
+                print(f"  Normalized: {normalized}")
+                print(f"  Source: {source_path}")
+                print(f"  Source exists: {Path(source_path).exists()}")
+                print(f"  Dest: {dest_path}")
+                print(f"  Dest parent exists: {dest_path.parent.exists()}")
+                raise
             self.extracted.append(normalized)
             extracted_this_phase.append(normalized)
 
@@ -1747,9 +1771,10 @@ class ResourceParser:
                 elif asset.upper().endswith('.BLP'):
                     area_analysis[area_name][adt_path]['BLP'].append(asset)
 
-        # Add missing ground effect IDs by ADT
-        if self.missing_ground_effect_ids:
-            for effect_id in self.missing_ground_effect_ids:
+        # Add missing ground effect IDs by ADT (exclude junk legacy IDs)
+        genuinely_missing_ground_effects = self.missing_ground_effect_ids - self.bad_ground_effect_ids
+        if genuinely_missing_ground_effects:
+            for effect_id in genuinely_missing_ground_effects:
                 if effect_id in self.ground_effect_to_adts:
                     for adt_path in self.ground_effect_to_adts[effect_id]:
                         area_name = self._get_area_name(adt_path)
@@ -1949,12 +1974,15 @@ class ResourceParser:
 
         if self.missing_ground_effect_ids:
             if self.modern_ground_effect_ids:
-                summary.append(f'  - Modern IDs (exist in modern client): {len(self.modern_ground_effect_ids)}')
-                summary.append(f'    Sample: {sorted(self.modern_ground_effect_ids)[:10]}')
+                summary.append(f'  - Modern content IDs (genuinely missing): {len(self.modern_ground_effect_ids)}')
+                summary.append(f'    ⚠️  These WILL show blue cubes - need DBC entries')
+                sample_modern = sorted(self.modern_ground_effect_ids)[:10]
+                summary.append(f'    Sample: {sample_modern}{"..." if len(self.modern_ground_effect_ids) > 10 else ""}')
             if self.bad_ground_effect_ids:
-                summary.append(f'  - Bad ADT data (don\'t exist anywhere): {len(self.bad_ground_effect_ids)}')
-                summary.append(f'    Sample: {sorted(self.bad_ground_effect_ids)[:10]}')
-            summary.append(f'  - ⚠️  WARNING: Missing IDs will cause blue cube placeholders!')
+                summary.append(f'  - Junk legacy IDs (safe to ignore): {len(self.bad_ground_effect_ids)}')
+                summary.append(f'    ℹ️  These are legacy Blizzard ADT data, not in any client')
+                sample_junk = sorted(self.bad_ground_effect_ids)[:10]
+                summary.append(f'    Sample: {sample_junk}{"..." if len(self.bad_ground_effect_ids) > 10 else ""}')
 
         # Calculate missing assets by type
         still_missing_all = set()
@@ -1990,8 +2018,10 @@ class ResourceParser:
                 if asset.lower().endswith('.blp'):
                     missing_textures.append(asset)
 
-        # Ground effects (missing IDs)
-        missing_ground_effects = len(self.missing_ground_effect_ids)
+        # Ground effects (missing IDs, excluding junk)
+        # Only count genuinely missing IDs (modern content), not junk legacy ADT data
+        genuinely_missing_ground_effects = self.missing_ground_effect_ids - self.bad_ground_effect_ids
+        missing_ground_effects = len(genuinely_missing_ground_effects)
 
         # Calculate total custom assets from cumulative phase counts
         total_custom_required = self.total_wmo_required + self.total_m2_required + self.total_texture_required
@@ -2049,14 +2079,17 @@ class ResourceParser:
             summary.append('  ✅ All textures found!')
         summary.append('')
 
-        # Ground Effect IDs
-        summary.append(f'GROUND EFFECT IDs ({missing_ground_effects:,} missing from DBC)')
+        # Ground Effect IDs (only show genuinely missing, not junk legacy IDs)
+        summary.append(f'GROUND EFFECT IDs ({missing_ground_effects:,} genuinely missing from DBC)')
         summary.append('-'*80)
-        if self.missing_ground_effect_ids:
-            for effect_id in sorted(self.missing_ground_effect_ids):
-                summary.append(f'  - Effect ID: {effect_id}')
+        if genuinely_missing_ground_effects:
+            summary.append('  Modern content missing from WotLK DBC (will show blue cubes):')
+            for effect_id in sorted(genuinely_missing_ground_effects):
+                summary.append(f'    - Effect ID: {effect_id}')
         else:
             summary.append('  ✅ All ground effect IDs found in DBC!')
+            if self.bad_ground_effect_ids:
+                summary.append(f'  ℹ️  ({len(self.bad_ground_effect_ids)} junk legacy IDs ignored)')
         summary.append('')
         summary.append('')
 
@@ -2098,9 +2131,9 @@ class ResourceParser:
                 elif asset.upper().endswith('.BLP'):
                     area_analysis_log[area_name][adt_path]['BLP'].append(asset)
 
-        # Add missing ground effect IDs by ADT
-        if self.missing_ground_effect_ids:
-            for effect_id in self.missing_ground_effect_ids:
+        # Add missing ground effect IDs by ADT (exclude junk legacy IDs)
+        if genuinely_missing_ground_effects:
+            for effect_id in genuinely_missing_ground_effects:
                 if effect_id in self.ground_effect_to_adts:
                     for adt_path in self.ground_effect_to_adts[effect_id]:
                         area_name = self._get_area_name(adt_path)
