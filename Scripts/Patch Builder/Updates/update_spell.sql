@@ -1554,6 +1554,150 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8041;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8091;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 8094;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 8095;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8096;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 8097;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 8098;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8099;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 8100;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 8101;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8112;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 8113;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 8114;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8115;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 8116;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 8117;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.  Only one scroll effect can be active at a time.' */
+WHERE `ID` = 8118;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 8119;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 8120;
+
+UPDATE `dbc`.`spell` SET 
     `ProcCharges` = 0 /* was 3 */,
     `SpellDescription0` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26369s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $n balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26369s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
     `SpellToolTip0` = 'Causes $26369s1 Nature damage to attacker on hit.  ' /* was 'Causes $26369s1 Nature damage to attacker on hit.  $n charges.' */
@@ -2589,6 +2733,54 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 32 /* was 0 */
 WHERE `ID` = 12093;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 12174;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 12175;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 12176;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 12177;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 12178;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 12179;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -6650,6 +6842,54 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32999;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 33077;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 33078;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 33079;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 33080;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 33081;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 33082;
+
+UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -7768,6 +8008,54 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43008;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 43194;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 43195;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 43196;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 43197;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 43198;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 43199;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 43549;
@@ -8054,6 +8342,54 @@ UPDATE `dbc`.`spell` SET
     `Reagent1` = 58302 /* was 44615 */,
     `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 48074;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 48099;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Intellect by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Intellect by $s1 for $d.' */
+WHERE `ID` = 48100;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 48101;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Stamina by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Stamina by $s1 for $d.' */
+WHERE `ID` = 48102;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 48103;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Spirit by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Spirit by $s1 for $d.' */
+WHERE `ID` = 48104;
 
 UPDATE `dbc`.`spell` SET 
     `Reagent1` = 58302 /* was 44615 */,
@@ -9481,6 +9817,54 @@ UPDATE `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 58308;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 58448;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Strength by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Strength by $s1 for $d.' */
+WHERE `ID` = 58449;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 58450;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Empowering Scroll
+
+Increases the target''s Agility by $s1 for $d.
+
+Only one Empowering Scroll effect can be active at a time.' /* was 'Increases the target's Agility by $s1 for $d.' */
+WHERE `ID` = 58451;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 58452;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellDescription0` = 'Warding Scroll
+
+Increases the target''s Armor by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.' /* was 'Increases the target's Armor by $s1 for $d.' */
+WHERE `ID` = 58453;
 
 UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
@@ -19658,7 +20042,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19684,7 +20072,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19710,7 +20102,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19736,7 +20132,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19762,7 +20162,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19788,7 +20192,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19814,7 +20222,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19840,7 +20252,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 16,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Fire resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Fire Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19866,7 +20282,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19892,7 +20312,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19918,7 +20342,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19944,7 +20372,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19970,7 +20402,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -19996,7 +20432,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20022,7 +20462,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20048,7 +20492,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 181,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Frost resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Frost Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20074,7 +20522,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20100,7 +20552,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20126,7 +20582,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20152,7 +20612,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20178,7 +20642,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20204,7 +20672,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20230,7 +20702,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20256,7 +20732,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 122,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Arcane resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Arcane Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20282,7 +20762,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20308,7 +20792,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20334,7 +20822,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20360,7 +20852,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20386,7 +20882,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20412,7 +20912,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20438,7 +20942,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20464,7 +20972,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 210,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Shadow resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Shadow Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20490,7 +21002,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20516,7 +21032,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20542,7 +21062,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20568,7 +21092,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20594,7 +21122,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20620,7 +21152,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20646,7 +21182,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20672,7 +21212,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 133,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Nature resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Nature Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20698,7 +21242,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 1',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20724,7 +21272,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 2',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20750,7 +21302,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 3',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20776,7 +21332,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 4',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20802,7 +21362,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 5',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20828,7 +21392,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 6',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20854,7 +21422,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 7',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
@@ -20880,7 +21452,11 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 73,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 8',
-    `SpellDescription0` = 'Increases Holy resistance by $s1 for $d.',
+    `SpellDescription0` = 'Warding Scroll
+
+Increases Holy Resistance by $s1 for $d.
+
+Only one Warding Scroll effect can be active at a time.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
