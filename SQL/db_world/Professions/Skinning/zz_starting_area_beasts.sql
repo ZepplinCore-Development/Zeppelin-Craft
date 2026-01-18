@@ -7,8 +7,14 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 
 -- DUN MOROGH -------------------------------------------------------
 
+    -- Ragged Timber Wolf
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 704;
+
     -- Ragged Young Wolf
     UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 705;
+
+    -- Small Crag Boar
+    UPDATE `creature_template` SET `skinloot` = 299 WHERE `entry` = 708;
 
 -- TIRISTFALL GLADES -------------------------------------------------------
 
