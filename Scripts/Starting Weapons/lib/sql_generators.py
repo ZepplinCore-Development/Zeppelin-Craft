@@ -234,7 +234,18 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
             mismatch = fix['data']
             action = mismatch.get('action', 'replace')
 
-            if action == 'remove' or mismatch['replacement_item'] == 0:
+            # Check if this is a slot position mismatch (weapon correct, but wrong slot)
+            if mismatch.get('slot_mismatch'):
+                target_slot = mismatch['target_slot']
+                skill_name = next((name for sid, name in WEAPON_SKILLS.values() if sid == mismatch['replacement_skill']), "Unknown")
+                inv_type = SKILL_TO_INVTYPE.get(mismatch['replacement_skill'], 13)
+
+                sql_lines.append(f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): Move {skill_name} from slot {slot} to slot {target_slot} (stock WOTLK position)")
+                # Clear old slot
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = 0, `invType{slot}` = 0 WHERE `ID` = {outfit_id};")
+                # Set new slot
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{target_slot}` = {mismatch['replacement_item']}, `invType{target_slot}` = {inv_type} WHERE `ID` = {outfit_id};")
+            elif action == 'remove' or mismatch['replacement_item'] == 0:
                 # Remove weapon
                 reason = mismatch.get('reason', 'no suitable replacement')
                 sql_lines.append(f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): Remove {mismatch['current_type']} ({reason})")

@@ -48,25 +48,29 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 4;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
 WHERE `ID` = 8;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId5` = 0 /* was 2092 */,
     `itemId6` = 0 /* was -1 */,
-    `itemId7` = 0 /* was 50055 */,
+    `itemId7` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
     `invType4` = 26 /* was 25 */,
+    `invType5` = 0 /* was 13 */,
     `invType6` = 0 /* was -1 */,
-    `invType7` = 0 /* was 22 */,
+    `invType7` = 13 /* was 22 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
 WHERE `ID` = 9;
@@ -88,12 +92,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 11;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId6` = 35 /* was 0 */,
     `itemId7` = 0 /* was -1 */,
     `itemId8` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 12;
@@ -115,13 +116,15 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 15;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId5` = 0 /* was 2092 */,
     `itemId6` = 0 /* was -1 */,
-    `itemId7` = 0 /* was 50055 */,
+    `itemId7` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
     `invType4` = 26 /* was 25 */,
+    `invType5` = 0 /* was 13 */,
     `invType6` = 0 /* was -1 */,
-    `invType7` = 0 /* was 22 */,
+    `invType7` = 13 /* was 22 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
 WHERE `ID` = 17;
@@ -131,11 +134,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 19;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 20;
@@ -157,9 +158,8 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId3` = 129 /* was 147 */,
     `itemId4` = 0 /* was 129 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = -1 /* was 2504 */,
     `itemId7` = 2102 /* was 2101 */,
-    `itemId8` = 2504 /* was 2512 */,
+    `itemId8` = 0 /* was 2512 */,
     `itemId9` = 2516 /* was -1 */,
     `itemId10` = -1 /* was 0 */,
     `displayInfo1` = 9976 /* was 22291 */,
@@ -175,17 +175,15 @@ UPDATE `dbc`.`charstartoutfit` SET
     `invType3` = 8 /* was 7 */,
     `invType4` = -1 /* was 8 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = -1 /* was 15 */,
-    `invType8` = 15 /* was 24 */,
+    `invType8` = 0 /* was 24 */,
     `invType9` = 24 /* was -1 */
 WHERE `ID` = 24;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId1` = 0 /* was 3661 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId1` = 35 /* was 3661 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType1` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 26;
@@ -220,12 +218,14 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 30;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -240,12 +240,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 32;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId5` = 35 /* was 0 */,
     `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType5` = 17 /* was -1 */,
+    `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */
 WHERE `ID` = 33;
@@ -259,13 +256,15 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 34;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId5` = 0 /* was 2092 */,
     `itemId6` = 0 /* was -1 */,
-    `itemId7` = 0 /* was 50055 */,
+    `itemId7` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
     `invType4` = 26 /* was 25 */,
+    `invType5` = 0 /* was 13 */,
     `invType6` = 0 /* was -1 */,
-    `invType7` = 0 /* was 22 */,
+    `invType7` = 13 /* was 22 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
 WHERE `ID` = 37;
@@ -287,12 +286,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 39;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId6` = 35 /* was 0 */,
     `itemId7` = 0 /* was -1 */,
     `itemId8` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 40;
@@ -310,13 +306,15 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 41;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId5` = 0 /* was 2092 */,
     `itemId6` = 0 /* was -1 */,
-    `itemId7` = 0 /* was 50055 */,
+    `itemId7` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
     `invType4` = 26 /* was 25 */,
+    `invType5` = 0 /* was 13 */,
     `invType6` = 0 /* was -1 */,
-    `invType7` = 0 /* was 22 */,
+    `invType7` = 13 /* was 22 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
 WHERE `ID` = 43;
@@ -326,11 +324,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 45;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 46;
@@ -377,9 +373,8 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId3` = 129 /* was 147 */,
     `itemId4` = 0 /* was 129 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = -1 /* was 2504 */,
     `itemId7` = 2102 /* was 2101 */,
-    `itemId8` = 2504 /* was 2512 */,
+    `itemId8` = 0 /* was 2512 */,
     `itemId9` = 2516 /* was -1 */,
     `itemId10` = -1 /* was 0 */,
     `displayInfo1` = 9976 /* was 22291 */,
@@ -395,18 +390,19 @@ UPDATE `dbc`.`charstartoutfit` SET
     `invType3` = 8 /* was 7 */,
     `invType4` = -1 /* was 8 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = -1 /* was 15 */,
-    `invType8` = 15 /* was 24 */,
+    `invType8` = 0 /* was 24 */,
     `invType9` = 24 /* was -1 */
 WHERE `ID` = 54;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -434,12 +430,14 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 58;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -462,12 +460,9 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 61;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 35 */,
-    `itemId5` = 35 /* was 0 */,
     `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType5` = 17 /* was -1 */,
+    `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */
 WHERE `ID` = 62;
@@ -496,11 +491,13 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 66;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 50055 */,
+    `itemId1` = 0 /* was 2092 */,
+    `itemId5` = 2092 /* was 50055 */,
     `itemId6` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
-    `invType5` = 0 /* was 22 */,
+    `invType1` = 0 /* was 13 */,
+    `invType5` = 13 /* was 22 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
@@ -508,11 +505,13 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 288;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 50055 */,
+    `itemId1` = 0 /* was 2092 */,
+    `itemId5` = 2092 /* was 50055 */,
     `itemId6` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
-    `invType5` = 0 /* was 22 */,
+    `invType1` = 0 /* was 13 */,
+    `invType5` = 13 /* was 22 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
@@ -541,11 +540,13 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 292;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 50055 */,
+    `itemId4` = 0 /* was 2092 */,
+    `itemId5` = 2092 /* was 50055 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
-    `invType5` = 0 /* was 22 */,
+    `invType4` = 0 /* was 13 */,
+    `invType5` = 13 /* was 22 */,
     `invType6` = 26 /* was 25 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */,
@@ -561,22 +562,22 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 294;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 35 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType5` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 295;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId2` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType2` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -595,11 +596,13 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 300;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 50055 */,
+    `itemId4` = 0 /* was 2092 */,
+    `itemId5` = 2092 /* was 50055 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
-    `invType5` = 0 /* was 22 */,
+    `invType4` = 0 /* was 13 */,
+    `invType5` = 13 /* was 22 */,
     `invType6` = 26 /* was 25 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */,
@@ -615,22 +618,22 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 306;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId5` = 0 /* was 35 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
-    `invType5` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
 WHERE `ID` = 308;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 2092 */,
     `itemId2` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50055 */,
+    `itemId6` = 2092 /* was 50055 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType2` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -686,12 +689,14 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 318;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 20982 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50057 */,
+    `itemId6` = 20982 /* was 50057 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -706,12 +711,11 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 321;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 20978 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId4` = 35 /* was 20978 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */
 WHERE `ID` = 322;
@@ -725,12 +729,14 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 323;
 
 UPDATE `dbc`.`charstartoutfit` SET 
+    `itemId1` = 0 /* was 20982 */,
     `itemId5` = 0 /* was -1 */,
-    `itemId6` = 0 /* was 50057 */,
+    `itemId6` = 20982 /* was 50057 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `invType1` = 0 /* was 13 */,
     `invType5` = 0 /* was -1 */,
-    `invType6` = 0 /* was 22 */,
+    `invType6` = 13 /* was 22 */,
     `invType7` = 26 /* was 25 */,
     `invType9` = 0 /* was -1 */,
     `invType10` = 0 /* was -1 */
@@ -753,12 +759,11 @@ UPDATE `dbc`.`charstartoutfit` SET
 WHERE `ID` = 327;
 
 UPDATE `dbc`.`charstartoutfit` SET 
-    `itemId4` = 0 /* was 20978 */,
-    `itemId6` = 35 /* was -1 */,
+    `itemId4` = 35 /* was 20978 */,
+    `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
-    `invType4` = 0 /* was 17 */,
-    `invType6` = 17 /* was -1 */,
+    `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */
 WHERE `ID` = 328;
@@ -1840,8 +1845,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `class` = 8,
     `itemId1` = 49505,
     `itemId2` = 49506,
-    `itemId3` = 35,
-    `itemId4` = 49508,
+    `itemId4` = 35,
     `itemId7` = -1,
     `itemId8` = 6948,
     `itemId10` = -1,
@@ -1885,8 +1889,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo24` = -1,
     `invType1` = 20,
     `invType2` = 7,
-    `invType3` = 17,
-    `invType4` = 8,
+    `invType4` = 17,
     `invType7` = -1,
     `invType8` = -1,
     `invType10` = -1,
@@ -1913,8 +1916,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `gender` = 1,
     `itemId1` = 49505,
     `itemId2` = 49506,
-    `itemId3` = 35,
-    `itemId4` = 49508,
+    `itemId4` = 35,
     `itemId7` = -1,
     `itemId8` = 6948,
     `itemId10` = -1,
@@ -1958,8 +1960,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo24` = -1,
     `invType1` = 20,
     `invType2` = 7,
-    `invType3` = 17,
-    `invType4` = 8,
+    `invType4` = 17,
     `invType7` = -1,
     `invType8` = -1,
     `invType10` = -1,
@@ -1986,8 +1987,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId1` = 49520,
     `itemId2` = 49521,
     `itemId3` = 49522,
+    `itemId4` = 35,
     `itemId5` = 6948,
-    `itemId6` = 35,
     `itemId9` = -1,
     `itemId10` = -1,
     `itemId11` = -1,
@@ -2031,8 +2032,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `invType1` = 20,
     `invType2` = 7,
     `invType3` = 8,
+    `invType4` = 17,
     `invType5` = -1,
-    `invType6` = 17,
     `invType9` = -1,
     `invType10` = -1,
     `invType11` = -1,
@@ -2059,8 +2060,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId1` = 49520,
     `itemId2` = 49521,
     `itemId3` = 49522,
+    `itemId4` = 35,
     `itemId5` = 6948,
-    `itemId6` = 35,
     `itemId9` = -1,
     `itemId10` = -1,
     `itemId11` = -1,
@@ -2104,8 +2105,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `invType1` = 20,
     `invType2` = 7,
     `invType3` = 8,
+    `invType4` = 17,
     `invType5` = -1,
-    `invType6` = 17,
     `invType9` = -1,
     `invType10` = -1,
     `invType11` = -1,
@@ -3175,10 +3176,9 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `ID` = 398,
     `race` = 12,
     `class` = 11,
-    `itemId1` = 35,
     `itemId2` = 49563,
     `itemId3` = 49564,
-    `itemId4` = -1,
+    `itemId4` = 35,
     `itemId5` = -1,
     `itemId6` = 49565,
     `itemId7` = 6948,
@@ -3223,10 +3223,9 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo22` = -1,
     `displayInfo23` = -1,
     `displayInfo24` = -1,
-    `invType1` = 17,
     `invType2` = 5,
     `invType3` = 8,
-    `invType4` = -1,
+    `invType4` = 17,
     `invType5` = -1,
     `invType6` = 10,
     `invType7` = -1,
@@ -3254,10 +3253,9 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `race` = 12,
     `class` = 11,
     `gender` = 1,
-    `itemId1` = 35,
     `itemId2` = 49563,
     `itemId3` = 49564,
-    `itemId4` = -1,
+    `itemId4` = 35,
     `itemId5` = -1,
     `itemId6` = 49565,
     `itemId7` = 6948,
@@ -3302,10 +3300,9 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo22` = -1,
     `displayInfo23` = -1,
     `displayInfo24` = -1,
-    `invType1` = 17,
     `invType2` = 5,
     `invType3` = 8,
-    `invType4` = -1,
+    `invType4` = 17,
     `invType5` = -1,
     `invType6` = 10,
     `invType7` = -1,

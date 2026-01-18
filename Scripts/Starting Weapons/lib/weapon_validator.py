@@ -549,11 +549,23 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
         # Load stock WOTLK weapons for this race/class/gender (for preference)
         stock_weapons = get_original_weapon_slots(original_cursor, acore_cursor, race_id, class_id, gender)
         stock_weapon_map = {}  # skill_id -> (slot, item_id) for stock weapons that match CSV
+        canonical_slots = {}  # skill_id -> canonical_slot for this race/class
+
         for stock_weapon in stock_weapons:
             skill_id = stock_weapon['skill_id']
             if skill_id in available_skill_ids:
                 # This stock weapon's skill IS in CSV - prefer using it!
                 stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
+                canonical_slots[skill_id] = stock_weapon['slot']
+
+        # Fallback canonical slots for races without stock WOTLK data (Goblins, Worgen)
+        # These are based on the most common slot position for each weapon type across all races
+        if not canonical_slots:
+            # Caster canonical slots (based on analysis: Priests/Mages/Warlocks all use slot 4)
+            if 136 in available_skill_ids:  # Staves
+                canonical_slots[136] = 4
+            if 228 in available_skill_ids:  # Wands
+                canonical_slots[228] = 4
 
         # Track what weapons this outfit will have after fixes
         outfit_weapons = {}  # slot_idx -> (skill_id, item_id)
@@ -637,6 +649,29 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
             else:
                 # Valid weapon - track it
                 outfit_weapons[slot_idx] = (required_skill_id, item_id)
+
+                # SLOT POSITION CHECK: Is weapon in correct slot?
+                # Check if this weapon should be in a different slot (stock WOTLK alignment)
+                if required_skill_id in canonical_slots:
+                    correct_slot = canonical_slots[required_skill_id]
+                    if slot_idx != correct_slot:
+                        # Weapon is correct type but WRONG SLOT - needs to be moved
+                        mismatches.append({
+                            'outfit_id': outfit_id,
+                            'race': race_name,
+                            'class': class_name,
+                            'gender': gender_name,
+                            'slot': slot_idx,
+                            'current_item': item_id,
+                            'current_name': item_name,
+                            'current_type': weapon_type,
+                            'required_skill': required_skill_id,
+                            'replacement_item': item_id,  # Same item
+                            'replacement_skill': required_skill_id,  # Same skill
+                            'target_slot': correct_slot,  # NEW: Target slot for move
+                            'slot_mismatch': True,  # NEW: Flag this as slot position issue
+                            'available_skills': available_skill_ids
+                        })
 
         # PASS 2: Ensure they have weapons for their available skills
         has_melee_skill = any(skill in available_skill_ids for skill in melee_skills)
