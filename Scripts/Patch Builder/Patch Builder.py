@@ -557,6 +557,7 @@ if build_patch_z:
 # Get paths from environment variables with fallbacks
 base_directory = os.getenv("BASE_DIRECTORY", r'Y:\wow-server')
 spell_editor_dir = os.getenv("SPELL_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor'))
+headless_exporter_dir = os.path.join(spell_editor_dir, 'HeadlessExporter')
 mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor'))
 destination_dir = os.getenv("SERVER_DATA_DIR", os.path.join(base_directory, 'data', 'dbc'))
 
@@ -718,14 +719,15 @@ print(f"Script is running here {base_directory}")
 check_file_permissions()
 
 # Headless export (only needed for PATCH-Z and when not in db-diff-only mode)
+# Uses HeadlessExporter subfolder which has matched pair of HeadlessExport.exe + SpellEditor.exe v2.1.0
 if build_patch_z and not args.db_diff_only:
-    os.chdir(spell_editor_dir)
+    os.chdir(headless_exporter_dir)
     subprocess.run(['HeadlessExport.exe'], check=True)
 
 # Post-process: Reorder CharSections.dbc by race/gender grouping (only needed for PATCH-Z and not in db-diff-only mode)
 # HeadlessExport sorts by ID which breaks client expectations for race/gender grouping
 if build_patch_z and not args.db_diff_only:
-    export_dir = os.path.join(spell_editor_dir, 'Export')
+    export_dir = os.path.join(headless_exporter_dir, 'Export')
     charsections_path = os.path.join(export_dir, 'CharSections.dbc')
 
     if os.path.exists(charsections_path):
@@ -790,12 +792,12 @@ if not args.db_diff_only:
 
     if build_patch_z:
         print("\nBuilding PATCH-Z.MPQ...")
-        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
+        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
         print("✓ PATCH-Z.MPQ built successfully")
 
     if build_patch_x:
         print("\nBuilding PATCH-X.MPQ...")
-        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
+        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
         print("✓ PATCH-X.MPQ built successfully")
 
 
