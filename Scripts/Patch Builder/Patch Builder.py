@@ -483,7 +483,7 @@ else:
     print("\n" + "="*60)
     print("PATCH BUILDER - Select patches to build")
     print("="*60)
-    print("1) PATCH-Z.MPQ only (DBC changes)")
+    print("1) PATCH-Z.MPQ only (DBC + AtlasLoot)")
     print("2) PATCH-X.MPQ only (Custom content)")
     print("3) Both patches")
     print("="*60)
@@ -842,7 +842,7 @@ else:
     print("PATCH BUILD COMPLETE")
     print("="*60)
     if build_patch_z:
-        print("✓ PATCH-Z.MPQ (DBC changes)")
+        print("✓ PATCH-Z.MPQ (DBC + AtlasLoot)")
     if build_patch_x:
         print("✓ PATCH-X.MPQ (Custom content)")
 print("="*60)

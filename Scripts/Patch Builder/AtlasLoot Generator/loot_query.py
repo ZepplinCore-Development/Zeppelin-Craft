@@ -81,12 +81,13 @@ class LootDatabase:
             print(f"Query error: {err}")
             return None
 
-    def get_boss_loot(self, creature_id: int) -> List[Dict]:
+    def get_boss_loot(self, creature_id: int, include_references: bool = True) -> List[Dict]:
         """
-        Get all direct loot items for a boss (excluding reference loot).
+        Get all loot items for a boss, including resolved reference loot.
 
         Args:
             creature_id: Creature entry ID
+            include_references: If True, resolve reference loot tables with Chance >= 100
 
         Returns:
             List of loot items with full details
@@ -94,7 +95,10 @@ class LootDatabase:
         if not self.connection:
             return []
 
-        query = """
+        results = []
+
+        # Step 1: Get direct loot items
+        direct_query = """
             SELECT
                 clt.Entry as creature_id,
                 clt.Item as item_id,
@@ -128,13 +132,158 @@ class LootDatabase:
 
         try:
             cursor = self.connection.cursor(dictionary=True)
-            cursor.execute(query, (creature_id,))
+            cursor.execute(direct_query, (creature_id,))
             results = cursor.fetchall()
             cursor.close()
-            return results
 
         except mysql.connector.Error as err:
-            print(f"Query error: {err}")
+            print(f"Direct loot query error: {err}")
+            return []
+
+        # Step 2: Resolve reference loot tables (if enabled)
+        if include_references:
+            ref_items = self._resolve_reference_loot(creature_id)
+            results.extend(ref_items)
+
+        return results
+
+    def _resolve_reference_loot(self, creature_id: int) -> List[Dict]:
+        """
+        Resolve reference loot tables for a creature.
+
+        Only includes references with Chance >= 100 (guaranteed roll) or
+        Chance = 0 with GroupId = 0 (always included).
+
+        Args:
+            creature_id: Creature entry ID
+
+        Returns:
+            List of resolved loot items from reference tables
+        """
+        if not self.connection:
+            return []
+
+        # Find references with high drop chance (meaningful loot tables)
+        ref_query = """
+            SELECT Reference, Chance, GroupId
+            FROM creature_loot_template
+            WHERE Entry = %s
+              AND Reference > 0
+              AND (Chance >= 100 OR (Chance = 0 AND GroupId = 0))
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(ref_query, (creature_id,))
+            references = cursor.fetchall()
+            cursor.close()
+
+            if not references:
+                return []
+
+            # Resolve each reference table
+            all_ref_items = []
+            for ref in references:
+                ref_id = ref['Reference']
+                ref_items = self._get_reference_items(ref_id)
+                all_ref_items.extend(ref_items)
+
+            return all_ref_items
+
+        except mysql.connector.Error as err:
+            print(f"Reference query error: {err}")
+            return []
+
+    def _get_reference_items(self, reference_id: int) -> List[Dict]:
+        """
+        Get all items from a reference loot table with properly calculated drop rates.
+
+        Drop rate calculation follows AzerothCore loot rules:
+        - GroupId > 0: Only ONE item from the group drops
+        - Chance = 0 in a group: Equal-chanced, shares remaining probability
+        - Items with explicit Chance values take priority
+
+        Args:
+            reference_id: Reference loot table ID
+
+        Returns:
+            List of loot items from the reference table with calculated drop_chance
+        """
+        if not self.connection:
+            return []
+
+        # First, get ALL items in the reference to calculate group probabilities
+        all_items_query = """
+            SELECT
+                rlt.Entry as creature_id,
+                rlt.Item as item_id,
+                it.name as item_name,
+                it.Quality as quality,
+                it.InventoryType as inventory_type,
+                it.class as item_class,
+                it.subclass as item_subclass,
+                rlt.Chance as drop_chance,
+                rlt.GroupId as group_id
+            FROM reference_loot_template rlt
+            LEFT JOIN item_template it ON rlt.Item = it.entry
+            WHERE rlt.Entry = %s
+              AND rlt.Item > 0
+            ORDER BY rlt.GroupId, rlt.Item
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(all_items_query, (reference_id,))
+            all_items = cursor.fetchall()
+            cursor.close()
+
+            if not all_items:
+                return []
+
+            # Calculate proper drop chances per GroupId
+            # Group items by GroupId
+            groups = {}
+            for item in all_items:
+                gid = item['group_id']
+                if gid not in groups:
+                    groups[gid] = []
+                groups[gid].append(item)
+
+            # Calculate drop chances for each group
+            for gid, items in groups.items():
+                if gid == 0:
+                    # GroupId 0: Items drop independently (no grouping)
+                    # Chance=0 means 100% for independent items
+                    for item in items:
+                        if item['drop_chance'] == 0:
+                            item['drop_chance'] = 100.0
+                else:
+                    # GroupId > 0: Only ONE item drops from the group
+                    # Calculate total explicit chance
+                    explicit_total = sum(item['drop_chance'] for item in items if item['drop_chance'] > 0)
+                    zero_chance_items = [item for item in items if item['drop_chance'] == 0]
+
+                    if zero_chance_items:
+                        # Remaining chance is split equally among Chance=0 items
+                        remaining = 100.0 - explicit_total
+                        equal_share = remaining / len(zero_chance_items) if remaining > 0 else 0
+
+                        for item in zero_chance_items:
+                            item['drop_chance'] = equal_share
+
+            # Filter to meaningful items only (after calculating chances)
+            filtered_items = []
+            for item in all_items:
+                if (item['item_class'] == 12 or           # Quest items
+                    item['item_id'] >= 900000 or          # Custom items
+                    item['quality'] >= 3 or               # Rare+ quality
+                    (item['quality'] == 2 and item['drop_chance'] >= 10)):
+                    filtered_items.append(item)
+
+            return filtered_items
+
+        except mysql.connector.Error as err:
+            print(f"Reference items query error: {err}")
             return []
 
     def get_all_bosses_loot(self, creature_ids: List[int]) -> Dict[int, List[Dict]]:

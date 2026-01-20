@@ -120,6 +120,59 @@ class LuaGenerator:
 
         return self.generate_section(boss_loot_data)
 
+    def generate_single_boss_section(self, loot_items: List[Dict]) -> str:
+        """
+        Generate AtlasLoot section for a single boss (no boss headers).
+
+        Used for raid bosses that have their own dedicated sections
+        (e.g., BWLFiremaw, MCRagnaros) without BabbleBoss headers.
+
+        Args:
+            loot_items: List of loot item dictionaries from database query
+
+        Returns:
+            Complete Lua code for the section including header and footer
+        """
+        self.lines = []
+        self.current_line_num = 1
+
+        # Section header
+        section_header = f'\tAtlasLoot_Data["{self.section_name}"] = {{'
+        self.lines.append(section_header)
+
+        # Calculate group loot drop rates
+        group_counts = {}
+        for item in loot_items:
+            if item['drop_chance'] == 0 and item.get('group_id', 0) > 0:
+                group_id = item['group_id']
+                group_counts[group_id] = group_counts.get(group_id, 0) + 1
+
+        # Add loot items (no boss header needed)
+        for item in loot_items:
+            # Calculate actual drop chance for group loot
+            drop_chance = item['drop_chance']
+            if drop_chance == 0 and item.get('group_id', 0) > 0:
+                group_id = item['group_id']
+                drop_chance = 100.0 / group_counts[group_id]
+
+            item_line = get_lua_item_line(
+                line_num=self.current_line_num,
+                item_id=item['item_id'],
+                item_name=item['item_name'],
+                quality=item['quality'],
+                item_class=item['item_class'],
+                item_subclass=item['item_subclass'],
+                inventory_type=item['inventory_type'],
+                drop_chance=drop_chance
+            )
+            self.lines.append(item_line)
+            self.current_line_num += 1
+
+        # Section footer
+        self.lines.append('\t};')
+
+        return '\n'.join(self.lines)
+
 
 def test_generator():
     """Test the Lua generator with sample data."""

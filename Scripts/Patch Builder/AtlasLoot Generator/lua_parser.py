@@ -199,7 +199,7 @@ class AtlasLootParser:
 
 def test_parser():
     """Test the parser on the AtlasLoot originalwow.lua file."""
-    lua_file = "/workspace/project/Zeppelin-Craft/Patch-X MPQ/Interface/AddOns/AtlasLoot_OriginalWoW/originalwow.lua"
+    lua_file = "/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_OriginalWoW/originalwow.lua"
 
     parser = AtlasLootParser(lua_file)
 
