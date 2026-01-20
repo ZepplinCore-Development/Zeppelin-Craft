@@ -311,7 +311,7 @@ class ADTMODFEditor:
 
         return doodad_refs, wmo_refs
 
-    def _update_mcnk_for_removed_modf(self, mcnk_data: bytes, removed_indices: List[int]) -> Tuple[bytes, int]:
+    def _update_mcnk_for_removed_modf(self, mcnk_data: bytes, removed_indices: List[int]) -> Tuple[bytes, int, bool]:
         """
         Update a single MCNK's MCRF to remove references to deleted MODF entries
         and re-index remaining references.
@@ -321,19 +321,19 @@ class ADTMODFEditor:
             removed_indices: Sorted list of MODF indices that were removed
 
         Returns:
-            Tuple of (updated_mcnk_data, size_delta)
+            Tuple of (updated_mcnk_data, size_delta, was_modified)
         """
         if len(mcnk_data) < 136:
-            return mcnk_data, 0
+            return mcnk_data, 0, False
 
         header = self._parse_mcnk_header(mcnk_data)
         if header is None or header['ofsRefs'] == 0:
-            return mcnk_data, 0
+            return mcnk_data, 0, False
 
         doodad_refs, wmo_refs = self._get_mcrf_refs(mcnk_data, header)
 
         if not wmo_refs:
-            return mcnk_data, 0
+            return mcnk_data, 0, False
 
         # Build index remapping: old_idx -> new_idx
         # For each removed index, all indices > it shift down by 1
@@ -346,14 +346,18 @@ class ADTMODFEditor:
 
         # Filter and remap WMO refs
         new_wmo_refs = []
+        needs_reindex = False
         for ref in wmo_refs:
             if ref not in removed_indices:
-                new_wmo_refs.append(remap_index(ref))
+                remapped = remap_index(ref)
+                new_wmo_refs.append(remapped)
+                if remapped != ref:
+                    needs_reindex = True
 
-        # If no refs were removed, return unchanged
+        # If no refs were removed AND no refs need re-indexing, return unchanged
         refs_removed = len(wmo_refs) - len(new_wmo_refs)
-        if refs_removed == 0:
-            return mcnk_data, 0
+        if refs_removed == 0 and not needs_reindex:
+            return mcnk_data, 0, False  # (data, size_delta, was_modified)
 
         # Now we need to rebuild the MCNK with updated MCRF
         # The tricky part: MCRF is embedded in MCNK, and shrinking it affects
@@ -380,6 +384,12 @@ class ADTMODFEditor:
         mcrf_end = mcrf_start + old_mcrf_size
         mcnk_data = mcnk_data[:mcrf_start] + new_mcrf_data + mcnk_data[mcrf_end:]
 
+        # Update MCRF chunk size in its header (4 bytes before ofsRefs)
+        # MCRF chunk: [magic 4 bytes][size 4 bytes][refs data]
+        # ofsRefs points to refs data, so size field is at ofsRefs - 4 (relative to MCNK data start after 8-byte header)
+        mcrf_size_offset = 8 + header['ofsRefs'] - 4
+        struct.pack_into('<I', mcnk_data, mcrf_size_offset, new_mcrf_size)
+
         # Update MCNK header: nMapObjRefs
         # nMapObjRefs is at offset 8 + 14*4 = 8 + 56 = 64 in MCNK data
         struct.pack_into('<I', mcnk_data, 8 + 56, len(new_wmo_refs))
@@ -400,16 +410,22 @@ class ADTMODFEditor:
         new_chunk_size = old_chunk_size + mcrf_delta
         struct.pack_into('<I', mcnk_data, 4, new_chunk_size)
 
-        return bytes(mcnk_data), mcrf_delta
+        return bytes(mcnk_data), mcrf_delta, True  # (data, size_delta, was_modified)
 
-    def update_mhdr_offsets(self, data: bytearray, size_delta: int, modf_end_offset: int) -> bytearray:
+    def update_mhdr_offsets(self, data: bytearray, modf_size_delta: int, total_delta: int,
+                            modf_end_offset: int, first_mcnk_offset: int) -> bytearray:
         """
         Update MHDR offset table to account for file size changes.
 
+        Chunks between MODF and MCNKs (like MH2O) need only modf_size_delta.
+        Chunks after all MCNKs (like MFBO) need total_delta (modf + mcrf changes).
+
         Args:
             data: Complete ADT file data (mutable)
-            size_delta: Total change in file size
+            modf_size_delta: Change in MODF chunk size
+            total_delta: Total file size change (modf + mcrf deltas)
             modf_end_offset: Original end offset of MODF chunk
+            first_mcnk_offset: Original offset of first MCNK chunk
 
         Returns:
             Updated ADT data with corrected MHDR offsets
@@ -425,12 +441,22 @@ class ADTMODFEditor:
 
         offsets = list(struct.unpack('<16I', mhdr_data))
 
-        # Adjust offsets that point to chunks after the modification point
+        # MHDR offsets are relative to MHDR data start (mhdr_offset + 8)
+        mhdr_base = self.mhdr_offset + 8
+
+        # Adjust offsets based on where the chunk is located
         for i in range(len(offsets)):
             if offsets[i] != 0:
-                absolute_offset = self.mhdr_offset + offsets[i]
-                if absolute_offset > modf_end_offset:
-                    offsets[i] = offsets[i] + size_delta
+                absolute_offset = mhdr_base + offsets[i]
+
+                # Chunks at or after MODF end need adjustment
+                if absolute_offset >= modf_end_offset:
+                    if absolute_offset >= first_mcnk_offset:
+                        # Chunk is after MCNKs - apply total delta (modf + mcrf changes)
+                        offsets[i] = offsets[i] + total_delta
+                    else:
+                        # Chunk is between MODF and MCNKs - apply only modf delta
+                        offsets[i] = offsets[i] + modf_size_delta
 
         new_mhdr_data = struct.pack('<16I', *offsets)
         data[mhdr_data_offset:mhdr_data_offset + 64] = new_mhdr_data
@@ -495,10 +521,10 @@ class ADTMODFEditor:
                 continue
 
             # Update MCRF references
-            updated_mcnk, size_delta = self._update_mcnk_for_removed_modf(mcnk_data, removed_indices)
+            updated_mcnk, size_delta, was_modified = self._update_mcnk_for_removed_modf(mcnk_data, removed_indices)
 
-            if size_delta != 0:
-                # Replace MCNK in new_data
+            if was_modified:
+                # Replace MCNK in new_data (even if size_delta == 0, refs may have been remapped)
                 new_data = bytearray(
                     new_data[:current_offset] +
                     updated_mcnk +
@@ -531,8 +557,11 @@ class ADTMODFEditor:
                 running_delta += mcnk_size_deltas[i]
 
         # Update MHDR offsets
+        # Need first MCNK offset to distinguish between chunks before/after MCNKs
+        first_mcnk_offset = self.mcnk_entries[0]['offset'] if self.mcnk_entries else modf_end
         total_delta = modf_size_delta + stats['total_mcrf_delta']
-        new_data = self.update_mhdr_offsets(new_data, total_delta, modf_end)
+        new_data = self.update_mhdr_offsets(new_data, modf_size_delta, total_delta,
+                                            modf_end, first_mcnk_offset)
 
         # Write to export path
         with open(export_path, 'wb') as f:
