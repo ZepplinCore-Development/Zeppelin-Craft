@@ -19,12 +19,14 @@ from lib.spreadsheet_reader import read_weapon_skills_from_spreadsheet
 from lib.sql_generators import (
     generate_skillraceclassinfo_sql,
     generate_starting_skills_sql,
-    generate_weapon_fixes_sql
+    generate_weapon_fixes_sql,
+    generate_display_info_fixes_sql
 )
 from lib.weapon_validator import (
     validate_starter_weapons,
     validate_weapon_coverage,
-    find_duplicate_weapons
+    find_duplicate_weapons,
+    validate_display_info
 )
 from lib.invtype_fixer import find_invtype_fixes
 
@@ -101,6 +103,11 @@ def main():
     if not compare_to_stock:
         duplicate_cleanups = find_duplicate_weapons(dbc_cursor, acore_cursor)
 
+    # Step 8b: Validate displayInfo matches item_template.displayid (only for current DB mode)
+    display_mismatches = []
+    if not compare_to_stock:
+        display_mismatches = validate_display_info(dbc_cursor, acore_cursor)
+
     # Step 9: Report summary
     print("=" * 80)
     print("VALIDATION SUMMARY")
@@ -111,12 +118,13 @@ def main():
     if not compare_to_stock:
         print(f"invType fixes needed: {len(invtype_fixes)}")
         print(f"Duplicate cleanups needed: {len(duplicate_cleanups)}")
+        print(f"displayInfo fixes needed: {len(display_mismatches)}")
     print()
 
     # Step 10: Generate output or just validate
     if validate_only:
         # Just print validation results
-        if mismatches or weapon_additions:
+        if mismatches or weapon_additions or display_mismatches:
             print("=" * 80)
             print("ISSUES FOUND")
             print("=" * 80)
@@ -138,7 +146,12 @@ def main():
             duplicate_cleanups,
             output_mode
         )
-        result_code = 0 if not (mismatches or weapon_additions) else 1
+
+        # Generate displayInfo fixes (only for current DB mode)
+        if not compare_to_stock and display_mismatches:
+            generate_display_info_fixes_sql(display_mismatches)
+
+        result_code = 0 if not (mismatches or weapon_additions or display_mismatches) else 1
 
     # Step 11: Cleanup database connections
     close_connections(original_dbc_conn, dbc_conn, acore_conn)

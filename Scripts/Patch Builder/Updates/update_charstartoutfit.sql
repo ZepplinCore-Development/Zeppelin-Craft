@@ -3,6 +3,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -15,6 +16,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5996 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -27,6 +29,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2516 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5998 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -40,6 +43,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -104,6 +108,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -162,12 +167,10 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 0 /* was 2512 */,
     `itemId9` = 2516 /* was -1 */,
     `itemId10` = -1 /* was 0 */,
-    `displayInfo1` = 9976 /* was 22291 */,
     `displayInfo2` = 9975 /* was 9976 */,
     `displayInfo3` = 9977 /* was 9975 */,
     `displayInfo4` = -1 /* was 9977 */,
     `displayInfo5` = 22291 /* was -1 */,
-    `displayInfo6` = -1 /* was 8106 */,
     `displayInfo7` = 1816 /* was 21328 */,
     `displayInfo8` = 6606 /* was 5996 */,
     `displayInfo9` = 5998 /* was -1 */,
@@ -183,6 +186,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId1` = 35 /* was 3661 */,
     `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
+    `displayInfo1` = 472 /* was 18530 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 0 /* was -1 */
@@ -193,6 +197,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2516 /* was 0 */,
     `itemId8` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
+    `displayInfo7` = 5998 /* was -1 */,
     `invType3` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -210,6 +215,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -298,6 +304,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5996 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -336,6 +343,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2516 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5998 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -361,6 +369,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -377,12 +386,10 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 0 /* was 2512 */,
     `itemId9` = 2516 /* was -1 */,
     `itemId10` = -1 /* was 0 */,
-    `displayInfo1` = 9976 /* was 22291 */,
     `displayInfo2` = 9975 /* was 9976 */,
     `displayInfo3` = 9977 /* was 9975 */,
     `displayInfo4` = -1 /* was 9977 */,
     `displayInfo5` = 22291 /* was -1 */,
-    `displayInfo6` = -1 /* was 8106 */,
     `displayInfo7` = 1816 /* was 21328 */,
     `displayInfo8` = 6606 /* was 5996 */,
     `displayInfo9` = 5998 /* was -1 */,
@@ -422,6 +429,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2512 /* was 0 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5996 /* was -1 */,
     `invType5` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -473,6 +481,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2516 /* was 0 */,
     `itemId8` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
+    `displayInfo7` = 5998 /* was -1 */,
     `invType3` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -523,6 +532,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2516 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5998 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -656,6 +666,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId7` = 2516 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo7` = 5998 /* was -1 */,
     `invType4` = 0 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 24 /* was -1 */,
@@ -715,6 +726,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
+    `displayInfo4` = 472 /* was 33299 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */
@@ -763,6 +775,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId6` = 0 /* was -1 */,
     `itemId7` = 0 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
+    `displayInfo4` = 472 /* was 33299 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType9` = 0 /* was -1 */
@@ -774,6 +787,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2512 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5996 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -787,6 +801,7 @@ UPDATE `dbc`.`charstartoutfit` SET
     `itemId8` = 2512 /* was -1 */,
     `itemId9` = 0 /* was -1 */,
     `itemId10` = 0 /* was -1 */,
+    `displayInfo8` = 5996 /* was -1 */,
     `invType6` = 0 /* was -1 */,
     `invType7` = 0 /* was -1 */,
     `invType8` = 24 /* was -1 */,
@@ -846,101 +861,121 @@ WHERE `ID` = 346;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 348;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 349;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 350;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 351;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 352;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 353;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 354;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 355;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 356;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 357;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 358;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 359;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 360;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 361;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 362;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 363;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 364;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 365;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 366;
 
 UPDATE `dbc`.`charstartoutfit` SET 
     `itemId5` = 25 /* was 0 */,
+    `displayInfo5` = 1542 /* was -1 */,
     `invType5` = 13 /* was -1 */
 WHERE `ID` = 367;
 
@@ -974,11 +1009,11 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 69181,
     `displayInfo3` = 69185,
     `displayInfo4` = 6418,
-    `displayInfo5` = 8688,
+    `displayInfo5` = 8690,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
     `displayInfo8` = 69182,
-    `displayInfo9` = -1,
+    `displayInfo9` = 5998,
     `displayInfo10` = -1,
     `displayInfo11` = -1,
     `displayInfo12` = -1,
@@ -1047,11 +1082,11 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 69181,
     `displayInfo3` = 69185,
     `displayInfo4` = 6418,
-    `displayInfo5` = 8688,
+    `displayInfo5` = 8690,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
     `displayInfo8` = 69182,
-    `displayInfo9` = -1,
+    `displayInfo9` = 5998,
     `displayInfo10` = -1,
     `displayInfo11` = -1,
     `displayInfo12` = -1,
@@ -1118,12 +1153,12 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62614,
     `displayInfo2` = 69187,
     `displayInfo3` = 62617,
-    `displayInfo4` = -1,
+    `displayInfo4` = 14029,
     `displayInfo5` = -1,
     `displayInfo6` = 6418,
-    `displayInfo7` = -1,
-    `displayInfo8` = 2409,
-    `displayInfo9` = -1,
+    `displayInfo7` = 1816,
+    `displayInfo8` = 6606,
+    `displayInfo9` = 5998,
     `displayInfo10` = -1,
     `displayInfo11` = 65743,
     `displayInfo12` = -1,
@@ -1191,12 +1226,12 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62614,
     `displayInfo2` = 69187,
     `displayInfo3` = 62617,
-    `displayInfo4` = -1,
+    `displayInfo4` = 14029,
     `displayInfo5` = -1,
     `displayInfo6` = 6418,
-    `displayInfo7` = -1,
-    `displayInfo8` = 2409,
-    `displayInfo9` = -1,
+    `displayInfo7` = 1816,
+    `displayInfo8` = 6606,
+    `displayInfo9` = 5998,
     `displayInfo10` = -1,
     `displayInfo11` = -1,
     `displayInfo12` = -1,
@@ -1264,8 +1299,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 65799,
     `displayInfo2` = 69188,
     `displayInfo3` = 65798,
-    `displayInfo4` = 40187,
-    `displayInfo5` = 5194,
+    `displayInfo4` = 20777,
+    `displayInfo5` = 6442,
     `displayInfo6` = -1,
     `displayInfo7` = 6418,
     `displayInfo8` = 2704,
@@ -1339,8 +1374,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 65799,
     `displayInfo2` = 69188,
     `displayInfo3` = 65798,
-    `displayInfo4` = 40187,
-    `displayInfo5` = 5194,
+    `displayInfo4` = 20777,
+    `displayInfo5` = 6442,
     `displayInfo6` = -1,
     `displayInfo7` = 6418,
     `displayInfo8` = 2704,
@@ -1409,7 +1444,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId22` = -1,
     `itemId23` = -1,
     `itemId24` = -1,
-    `displayInfo1` = 472,
+    `displayInfo1` = 5194,
     `displayInfo2` = -1,
     `displayInfo3` = -1,
     `displayInfo4` = 65789,
@@ -1482,7 +1517,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId22` = -1,
     `itemId23` = -1,
     `itemId24` = -1,
-    `displayInfo1` = 472,
+    `displayInfo1` = 5194,
     `displayInfo2` = -1,
     `displayInfo3` = -1,
     `displayInfo4` = 65789,
@@ -1561,7 +1596,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 51501,
     `displayInfo3` = 49738,
     `displayInfo4` = 51494,
-    `displayInfo5` = -1,
+    `displayInfo5` = 1542,
     `displayInfo6` = 51500,
     `displayInfo7` = 51498,
     `displayInfo8` = 51497,
@@ -1638,7 +1673,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 51501,
     `displayInfo3` = 49738,
     `displayInfo4` = 51494,
-    `displayInfo5` = -1,
+    `displayInfo5` = 1542,
     `displayInfo6` = 51500,
     `displayInfo7` = 51498,
     `displayInfo8` = 51497,
@@ -1866,7 +1901,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62618,
     `displayInfo2` = 62621,
     `displayInfo3` = -1,
-    `displayInfo4` = 9929,
+    `displayInfo4` = 472,
     `displayInfo5` = -1,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -1937,7 +1972,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62618,
     `displayInfo2` = 62621,
     `displayInfo3` = -1,
-    `displayInfo4` = 9929,
+    `displayInfo4` = 472,
     `displayInfo5` = -1,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -2160,7 +2195,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo7` = 68128,
     `displayInfo8` = 68129,
     `displayInfo9` = -1,
-    `displayInfo10` = -1,
+    `displayInfo10` = 5998,
     `displayInfo11` = -1,
     `displayInfo12` = -1,
     `displayInfo13` = -1,
@@ -2235,7 +2270,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo7` = 68128,
     `displayInfo8` = 68129,
     `displayInfo9` = -1,
-    `displayInfo10` = -1,
+    `displayInfo10` = 5998,
     `displayInfo11` = -1,
     `displayInfo12` = -1,
     `displayInfo13` = -1,
@@ -2302,15 +2337,15 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId22` = -1,
     `itemId23` = -1,
     `itemId24` = -1,
-    `displayInfo1` = 65743,
+    `displayInfo1` = 6442,
     `displayInfo2` = 62558,
     `displayInfo3` = 62706,
     `displayInfo4` = 62707,
     `displayInfo5` = -1,
-    `displayInfo6` = 2409,
-    `displayInfo7` = -1,
+    `displayInfo6` = 6606,
+    `displayInfo7` = 1816,
     `displayInfo8` = -1,
-    `displayInfo9` = -1,
+    `displayInfo9` = 5998,
     `displayInfo10` = 98023,
     `displayInfo11` = 6418,
     `displayInfo12` = 69176,
@@ -2381,15 +2416,15 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `itemId22` = -1,
     `itemId23` = -1,
     `itemId24` = -1,
-    `displayInfo1` = 65743,
+    `displayInfo1` = 6442,
     `displayInfo2` = 62558,
     `displayInfo3` = 62706,
     `displayInfo4` = 62707,
     `displayInfo5` = -1,
-    `displayInfo6` = 2409,
-    `displayInfo7` = -1,
+    `displayInfo6` = 6606,
+    `displayInfo7` = 1816,
     `displayInfo8` = -1,
-    `displayInfo9` = -1,
+    `displayInfo9` = 5998,
     `displayInfo10` = 98023,
     `displayInfo11` = 6418,
     `displayInfo12` = 69176,
@@ -2461,8 +2496,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 65849,
     `displayInfo2` = 62558,
     `displayInfo3` = 65847,
-    `displayInfo4` = 40187,
-    `displayInfo5` = 8483,
+    `displayInfo4` = 20777,
+    `displayInfo5` = 6442,
     `displayInfo6` = 2704,
     `displayInfo7` = 65850,
     `displayInfo8` = 6418,
@@ -2538,8 +2573,8 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 65849,
     `displayInfo2` = 62558,
     `displayInfo3` = 65847,
-    `displayInfo4` = 40187,
-    `displayInfo5` = 8483,
+    `displayInfo4` = 20777,
+    `displayInfo5` = 6442,
     `displayInfo6` = 2704,
     `displayInfo7` = 65850,
     `displayInfo8` = 6418,
@@ -2613,7 +2648,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 62559,
     `displayInfo3` = -1,
     `displayInfo4` = 62568,
-    `displayInfo5` = 472,
+    `displayInfo5` = 5194,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
     `displayInfo8` = -1,
@@ -2686,7 +2721,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 62559,
     `displayInfo3` = -1,
     `displayInfo4` = 62568,
-    `displayInfo5` = 472,
+    `displayInfo5` = 5194,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
     `displayInfo8` = -1,
@@ -2761,7 +2796,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 51501,
     `displayInfo3` = 49738,
     `displayInfo4` = 51494,
-    `displayInfo5` = -1,
+    `displayInfo5` = 1542,
     `displayInfo6` = 51500,
     `displayInfo7` = 51498,
     `displayInfo8` = 51497,
@@ -2838,7 +2873,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo2` = 51501,
     `displayInfo3` = 49738,
     `displayInfo4` = 51494,
-    `displayInfo5` = -1,
+    `displayInfo5` = 1542,
     `displayInfo6` = 51500,
     `displayInfo7` = 51498,
     `displayInfo8` = 51497,
@@ -2910,7 +2945,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62549,
     `displayInfo2` = 62561,
     `displayInfo3` = 62448,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = 472,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -2983,7 +3018,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 62549,
     `displayInfo2` = 62561,
     `displayInfo3` = 62448,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = 472,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -3055,7 +3090,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 68132,
     `displayInfo2` = 62565,
     `displayInfo3` = 62566,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = 472,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -3128,7 +3163,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 68132,
     `displayInfo2` = 62565,
     `displayInfo3` = 62566,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = 472,
     `displayInfo6` = -1,
     `displayInfo7` = -1,
@@ -3202,7 +3237,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 472,
     `displayInfo2` = 65854,
     `displayInfo3` = 65851,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = -1,
     `displayInfo6` = 65852,
     `displayInfo7` = 6418,
@@ -3279,7 +3314,7 @@ INSERT INTO `dbc`.`charstartoutfit` SET
     `displayInfo1` = 472,
     `displayInfo2` = 65854,
     `displayInfo3` = 65851,
-    `displayInfo4` = -1,
+    `displayInfo4` = 472,
     `displayInfo5` = -1,
     `displayInfo6` = 65852,
     `displayInfo7` = 6418,

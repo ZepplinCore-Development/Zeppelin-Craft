@@ -343,3 +343,71 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
             print(f"  {len(duplicate_cleanups)} duplicates cleaned")
 
     print()
+
+
+def generate_display_info_fixes_sql(display_mismatches):
+    """
+    Generate SQL to fix displayInfo mismatches in charstartoutfit.
+
+    The WoW client uses displayInfo directly for character creation preview,
+    so it MUST match item_template.displayid or the wrong model will show.
+
+    Args:
+        display_mismatches: List from validate_display_info()
+
+    Returns:
+        str: SQL statements to fix displayInfo, or empty string if no fixes needed
+    """
+    if not display_mismatches:
+        print("No displayInfo fixes needed")
+        print()
+        return ""
+
+    print("=" * 80)
+    print("GENERATING DISPLAY INFO FIXES SQL")
+    print("=" * 80)
+    print()
+
+    sql_lines = []
+
+    sql_lines.append("-- " + "=" * 76)
+    sql_lines.append("-- DISPLAY INFO FIXES")
+    sql_lines.append("-- " + "=" * 76)
+    sql_lines.append("-- Fixes displayInfo values that don't match item_template.displayid")
+    sql_lines.append("-- The client uses displayInfo for character creation preview models")
+    sql_lines.append("-- " + "=" * 76)
+    sql_lines.append("")
+
+    for mismatch in display_mismatches:
+        slot = mismatch['slot']
+        sql_lines.append(
+            f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): "
+            f"Fix {mismatch['item_name']} displayInfo {mismatch['current_display']} -> {mismatch['correct_display']}"
+        )
+        sql_lines.append(
+            f"UPDATE `dbc`.`charstartoutfit` SET `displayInfo{slot}` = {mismatch['correct_display']} "
+            f"WHERE `ID` = {mismatch['outfit_id']};"
+        )
+        sql_lines.append("")
+
+    sql_content = '\n'.join(sql_lines)
+
+    # Append to starting_weapons.sql (or create if doesn't exist)
+    output_path = os.path.join(get_output_directory(), 'starting_weapons.sql')
+
+    # Check if file exists and has content
+    existing_content = ""
+    if os.path.exists(output_path):
+        with open(output_path, 'r') as f:
+            existing_content = f.read()
+
+    # Append display info fixes
+    with open(output_path, 'a' if existing_content else 'w') as f:
+        if existing_content:
+            f.write("\n\n")
+        f.write(sql_content)
+
+    print(f"✓ Added {len(display_mismatches)} displayInfo fixes to {output_path}")
+    print()
+
+    return sql_content

@@ -6,12 +6,123 @@ Contains logic for:
 - Reading original WOTLK weapon slots
 - Finding weapon replacements with priority
 - Checking weapon types (melee/ranged)
+- Validating displayInfo matches item_template.displayid
 """
 
 from .constants import (
     WEAPON_SKILLS, STARTER_WEAPON_CANDIDATES,
     MELEE_SKILL_PRIORITY, RANGED_SKILL_PRIORITY
 )
+
+
+def validate_display_info(dbc_cursor, acore_cursor):
+    """
+    Validate that charstartoutfit displayInfo matches item_template.displayid.
+
+    The WoW client uses displayInfo from charstartoutfit for character creation
+    preview - it does NOT look up item_template.displayid. If these don't match,
+    the wrong model (or no model) will be shown.
+
+    Args:
+        dbc_cursor: Database cursor for dbc database
+        acore_cursor: Database cursor for acore_world database
+
+    Returns:
+        list: List of dicts with displayInfo mismatches:
+            - outfit_id: charstartoutfit ID
+            - race: Race name
+            - class: Class name
+            - gender: Gender name
+            - slot: Slot number (1-24)
+            - item_id: Item ID in that slot
+            - item_name: Item name
+            - current_display: Current displayInfo value
+            - correct_display: Correct displayid from item_template
+    """
+    from .constants import RACE_NAMES, CLASS_NAMES
+
+    print("=" * 80)
+    print("VALIDATING DISPLAY INFO")
+    print("=" * 80)
+    print()
+
+    mismatches = []
+
+    # Get all outfits with their items and displayInfo
+    dbc_cursor.execute("""
+        SELECT ID, race, class, gender,
+               itemId1, itemId2, itemId3, itemId4, itemId5,
+               itemId6, itemId7, itemId8, itemId9, itemId10,
+               itemId11, itemId12, itemId13, itemId14, itemId15,
+               itemId16, itemId17, itemId18, itemId19, itemId20,
+               itemId21, itemId22, itemId23, itemId24,
+               displayInfo1, displayInfo2, displayInfo3, displayInfo4, displayInfo5,
+               displayInfo6, displayInfo7, displayInfo8, displayInfo9, displayInfo10,
+               displayInfo11, displayInfo12, displayInfo13, displayInfo14, displayInfo15,
+               displayInfo16, displayInfo17, displayInfo18, displayInfo19, displayInfo20,
+               displayInfo21, displayInfo22, displayInfo23, displayInfo24
+        FROM charstartoutfit
+        ORDER BY ID
+    """)
+
+    outfits = dbc_cursor.fetchall()
+
+    for outfit in outfits:
+        outfit_id = outfit[0]
+        race_id = outfit[1]
+        class_id = outfit[2]
+        gender = outfit[3]
+        item_ids = outfit[4:28]        # itemId1-24
+        display_infos = outfit[28:52]  # displayInfo1-24
+
+        race_name = RACE_NAMES.get(race_id, f"Race{race_id}")
+        class_name = CLASS_NAMES.get(class_id, f"Class{class_id}")
+        gender_name = "Male" if gender == 0 else "Female"
+
+        # Check each slot
+        for slot_idx, (item_id, display_info) in enumerate(zip(item_ids, display_infos), 1):
+            # Skip empty slots
+            if not item_id or item_id <= 0:
+                continue
+
+            # Look up correct displayid from item_template
+            acore_cursor.execute(
+                "SELECT name, displayid FROM item_template WHERE entry = %s",
+                (item_id,)
+            )
+            result = acore_cursor.fetchone()
+
+            if not result:
+                # Item doesn't exist in item_template - that's a different problem
+                continue
+
+            item_name, correct_display = result
+
+            # Check if displayInfo matches
+            if display_info != correct_display:
+                mismatches.append({
+                    'outfit_id': outfit_id,
+                    'race': race_name,
+                    'class': class_name,
+                    'gender': gender_name,
+                    'slot': slot_idx,
+                    'item_id': item_id,
+                    'item_name': item_name,
+                    'current_display': display_info,
+                    'correct_display': correct_display
+                })
+
+    print(f"Found {len(mismatches)} displayInfo mismatches")
+    if mismatches:
+        print()
+        print("Mismatches found:")
+        for m in mismatches:
+            print(f"  {m['race']} {m['class']} ({m['gender']}) slot {m['slot']}: "
+                  f"{m['item_name']} has displayInfo={m['current_display']}, "
+                  f"should be {m['correct_display']}")
+    print()
+
+    return mismatches
 
 
 def validate_starter_weapons(cursor):
