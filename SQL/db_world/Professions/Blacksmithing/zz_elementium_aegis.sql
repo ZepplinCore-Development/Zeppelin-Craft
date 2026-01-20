@@ -13,7 +13,7 @@
         `RequiredSkillRank` = 300,
         `spellid_1` = 483, -- Learn Spell
         `spellcharges_1` = -1,
-        `spellid_2` = 91076,
+        `spellid_2` = 91074,
         `spelltrigger_2` = 6;
 
 -- Elementium Aegis
