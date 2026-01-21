@@ -25984,6 +25984,43 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 64;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103247;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103247,
+    `Category` = 88,
+    `Mechanic` = 26,
+    `AttributesEx6` = 8388608,
+    `CastingTimeIndex` = 1,
+    `RecoveryTime` = 8000,
+    `InterruptFlags` = 8,
+    `ProcChance` = 101,
+    `BaseLevel` = 4,
+    `SpellLevel` = 4,
+    `DurationIndex` = 39,
+    `RangeIndex` = 4,
+    `EquippedItemClass` = -1,
+    `Effect1` = 68,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -1,
+    `EffectImplicitTargetA1` = 6,
+    `SpellVisual1` = 239,
+    `SpellIconID` = 17,
+    `SpellPriority` = 50,
+    `SpellName0` = 'Rebuke',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712188,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712188,
+    `SpellFamilyName` = 3,
+    `SpellFamilyFlags` = 16384,
+    `DamageClass` = 1,
+    `PreventionType` = 1,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 64;
+
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103300;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 103300,
