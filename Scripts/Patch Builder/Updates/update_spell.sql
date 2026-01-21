@@ -5093,16 +5093,18 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 25918;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. Increases speed by $m2%. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. Increases speed by $<speed>%. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 8 /* was 0 */,
-    `AreaGroupID` = 0 /* was 38 */
+    `AreaGroupID` = 0 /* was 38 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25953;
 
 UPDATE `dbc`.`spell` SET 
@@ -19889,43 +19891,51 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100014,
-    `Attributes` = 536936448,
+    `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `StackAmount` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `Effect2` = 6,
+    `Effect3` = 6,
     `EffectDieSides1` = 1,
     `EffectDieSides2` = 1,
+    `EffectDieSides3` = 1,
     `EffectBasePoints1` = 199,
-    `EffectBasePoints2` = -101,
+    `EffectBasePoints2` = -91,
+    `EffectBasePoints3` = 199,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName1` = 108,
+    `EffectImplicitTargetA2` = 1,
+    `EffectImplicitTargetA3` = 1,
+    `EffectApplyAuraName1` = 107,
     `EffectApplyAuraName2` = 108,
-    `EffectMiscValue1` = 8,
+    `EffectApplyAuraName3` = 108,
+    `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
+    `EffectMiscValue3` = 23,
     `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskA2` = 8,
     `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskB2` = 8,
+    `EffectSpellClassMaskC1` = 8,
     `SpellIconID` = 2241,
     `SpellName0` = 'Master Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 200% and reduces mount cast time by 100%.',
+    `SpellDescription0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases mount speed by 25%.',
+    `SpellToolTip0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 14,
-    `SpellFamilyFlags` = 8,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
     `EffectBonusMultiplier1` = 1.0,
-    `EffectBonusMultiplier2` = 1.0;
+    `EffectBonusMultiplier2` = 1.0,
+    `EffectBonusMultiplier3` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100020;
 INSERT INTO `dbc`.`spell` SET 
