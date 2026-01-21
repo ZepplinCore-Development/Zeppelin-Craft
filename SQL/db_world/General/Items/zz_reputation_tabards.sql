@@ -11,7 +11,7 @@
 --   - RequiredLevel = 0 (no level gate)
 --   - Bonding = 1 (Bind on Pickup, prevents AH sales)
 --   - 25% reputation increase (EffectBasePoints1 = 24 in spell)
---   - Reputation gate enforced at vendor purchase level (Honored)
+--   - All tabards require Honored reputation to buy/wear (RequiredReputationRank = 5)
 --
 -- DBC Spells:
 --   - Dungeon tabards: spells 91132-91137
@@ -27,112 +27,142 @@
 -- OUTLAND
 
     -- DUNGEONS
-        -- Thrallmar Tabard
+        -- Thrallmar Tabard (faction 947)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 947,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91132,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 24004);
-        -- Honor Hold
+        -- Honor Hold (faction 946)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 946,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91133,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 23999);
-        -- Cenarion Expedition
+        -- Cenarion Expedition (faction 942)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 942,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91134,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31804);
-        -- Lower City
+        -- Lower City (faction 1011)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 1011,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91135,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31778);
-        -- Keepers of Time
+        -- Keepers of Time (faction 989)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 989,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91136,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31777);
-        -- The Sha'tar
+        -- The Sha'tar (faction 935)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 935,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91137,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31781);
 
     -- RAIDS
-        -- Shattered Sun Offensive
+        -- Shattered Sun Offensive (faction 1077)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 1077,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91172,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 35221);
 
     -- ZONES
-        -- Kurenai
+        -- Kurenai (faction 978)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 978,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91178,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31774);
-        -- The Mag'har
+        -- The Mag'har (faction 941)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 941,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91179,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31773);
-        -- Ogri'la
+        -- Ogri'la (faction 1038)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 1038,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91180,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 32828);
-        -- The Aldor
+        -- The Aldor (faction 932)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 932,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91181,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31779);
-        -- The Scryers
+        -- The Scryers (faction 934)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 934,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91168,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31780);
-        -- Sha'tari Skyguard
+        -- Sha'tari Skyguard (faction 1031)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 1031,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91169,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 32445);
-        -- Sporeggar
+        -- Sporeggar (faction 970)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 970,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91170,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31775);
-        -- The Consortium
+        -- The Consortium (faction 933)
             UPDATE `item_template` SET
                 `ItemLevel` = 1,
                 `bonding` = 1,
+                `RequiredReputationFaction` = 933,
+                `RequiredReputationRank` = 5,
                 `spellid_1` = 91171,
                 `spelltrigger_1` = 1
             WHERE (`entry` = 31776);
@@ -159,7 +189,8 @@ INSERT INTO `item_template` SET
     `ItemLevel` = 1,
     `maxcount` = 1,
     `bonding` = 1,
-    `description` = 'Increases reputation gained with the Netherwing by 25%.',
+    `RequiredReputationFaction` = 1015,
+    `RequiredReputationRank` = 5,
     `spellid_1` = 91173,
     `spelltrigger_1` = 1;
 
@@ -177,7 +208,8 @@ INSERT INTO `item_template` SET
     `ItemLevel` = 1,
     `maxcount` = 1,
     `bonding` = 1,
-    `description` = 'Increases reputation gained with The Violet Eye by 25%.',
+    `RequiredReputationFaction` = 967,
+    `RequiredReputationRank` = 5,
     `spellid_1` = 91174,
     `spelltrigger_1` = 1;
 
@@ -195,7 +227,8 @@ INSERT INTO `item_template` SET
     `ItemLevel` = 1,
     `maxcount` = 1,
     `bonding` = 1,
-    `description` = 'Increases reputation gained with Tranquillien by 25%.',
+    `RequiredReputationFaction` = 922,
+    `RequiredReputationRank` = 5,
     `spellid_1` = 91175,
     `spelltrigger_1` = 1;
 
@@ -213,7 +246,8 @@ INSERT INTO `item_template` SET
     `ItemLevel` = 1,
     `maxcount` = 1,
     `bonding` = 1,
-    `description` = 'Increases reputation gained with the Ashtongue Deathsworn by 25%.',
+    `RequiredReputationFaction` = 1012,
+    `RequiredReputationRank` = 5,
     `spellid_1` = 91176,
     `spelltrigger_1` = 1;
 
@@ -231,7 +265,8 @@ INSERT INTO `item_template` SET
     `ItemLevel` = 1,
     `maxcount` = 1,
     `bonding` = 1,
-    `description` = 'Increases reputation gained with The Scale of the Sands by 25%.',
+    `RequiredReputationFaction` = 990,
+    `RequiredReputationRank` = 5,
     `spellid_1` = 91177,
     `spelltrigger_1` = 1;
 
