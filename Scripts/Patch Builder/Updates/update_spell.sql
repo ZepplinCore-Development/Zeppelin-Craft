@@ -814,6 +814,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable nether drake.  Can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable nether drake.  Can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was '' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8485,7 +8487,8 @@ WHERE `ID` = 31575;
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Qiraji battle tank. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Qiraji battle tank. This is a very fast mount.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8531,7 +8534,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Golden Gryphon mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Golden Gryphon mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8542,7 +8546,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Ebon Gryphon.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Ebon Gryphon.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8553,7 +8558,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Snowy Gryphon.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Snowy Gryphon.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8564,7 +8570,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Blue Gryphon mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Blue Gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8575,7 +8582,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Tawny Wind Rider mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Tawny Wind Rider mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8586,7 +8594,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Wind Rider mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Blue Wind Rider mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8597,7 +8606,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Green Wind Rider mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Green Wind Rider mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8609,7 +8619,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Red Wind Rider mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Red Wind Rider mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8642,7 +8653,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Red Gryphon mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Red Gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8653,7 +8665,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Green Gryphon mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Green Gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8664,7 +8677,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Purple Gryphon mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Purple Gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8675,7 +8689,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Green Wind Rider mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Green Wind Rider mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8686,7 +8701,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Yellow Wind Rider mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Yellow Wind Rider mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8697,7 +8713,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Purple Wind Rider mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Purple Wind Rider mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -8708,7 +8725,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable phoenix.  Can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable phoenix. This is a very fast mount.  Can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10088,7 +10106,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Swift Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Swift Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10262,7 +10281,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Green Riding Nether Ray.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Green Riding Nether Ray.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10273,7 +10293,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Red Riding Nether Ray.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Red Riding Nether Ray.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10285,7 +10306,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Purple Riding Nether Ray.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Purple Riding Nether Ray.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10296,7 +10318,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Silver Riding Nether Ray.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Silver Riding Nether Ray.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10308,7 +10331,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Riding Nether Ray.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Blue Riding Nether Ray.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10331,7 +10355,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable gryphon mount.   This mount can only be summoned in Outland. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10433,7 +10458,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable phoenix. This is an extremely fast mount. This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable phoenix. This is an extremely fast mount. This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10443,7 +10469,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable nether drake mount.  This is a extremely fast mount.  This mount can only be summoned in Outland. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable nether drake mount.  This is a extremely fast mount.  This mount can only be summoned in Outland.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10586,7 +10613,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Onyx Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Onyx Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10597,7 +10625,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Azure Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Azure Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10608,7 +10637,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Cobalt Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Cobalt Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10619,7 +10649,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Purple Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Purple Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10630,7 +10661,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Veridian Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Veridian Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10641,7 +10673,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Violet Netherwing Drake mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Violet Netherwing Drake mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10667,7 +10700,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'A Flying Broom!  This can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'A Flying Broom!  This can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10678,7 +10712,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'A Swift Flying Broom!   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'A Swift Flying Broom!  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10869,7 +10904,8 @@ WHERE `ID` = 43688;
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Frost Wyrm.  Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Frost Wyrm.  This is a very fast mount.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10913,7 +10949,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Cenarion War Hippogryph mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Cenarion War Hippogryph mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10924,7 +10961,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a Turbo-Charged Flying Machine.  This is a very fast ride.  This vehicle can only be used in Outland or Northrend.  Requires 375 engineering skill to ride. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a Turbo-Charged Flying Machine.  This is a very fast ride.  This vehicle can only be used in Outland or Northrend.  Requires 375 engineering skill to ride.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10935,7 +10973,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a Flying Machine.  This vehicle can only be used in Outland or Northrend.  Requires 300 engineering skill to ride. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a Flying Machine.  This vehicle can only be used in Outland or Northrend.  Requires 300 engineering skill to ride.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -10945,7 +10984,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Merciless Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Merciless Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11018,7 +11058,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Merciless Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Merciless Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11038,7 +11079,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = ' Increases flight speed by $<flyingspeed2>%.' /* was '' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11048,7 +11090,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = ' Increases flight speed by $<flyingspeed2>%.' /* was '' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11058,7 +11101,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = ' Increases flight speed by $<flyingspeed2>%.' /* was '' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11183,7 +11227,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'A riding rocket!  This can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'A riding rocket!  This can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11194,7 +11239,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'An X-TREME riding rocket!   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'An X-TREME riding rocket!  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11425,7 +11471,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Vengeful Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Vengeful Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -11886,7 +11933,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Frost Wyrm Mount.   This mount can only be summoned in Outland and Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Frost Wyrm Mount.  This is a very fast mount.  This mount can only be summoned in Outland and Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -12150,7 +12198,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses your Winged Steed of the Ebon Blade.  This mount can only be summoned in Outland and  Northrend.  This mount changes speed depending on your Riding skill. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses your Winged Steed of the Ebon Blade.  This mount can only be summoned in Outland and  Northrend.  This mount changes speed depending on your Riding skill.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -12160,7 +12209,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses your Winged Steed of the Ebon Blade.  This mount can only be summoned in Outland and  Northrend.  This mount changes speed depending on your Riding skill. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses your Winged Steed of the Ebon Blade.  This mount can only be summoned in Outland and  Northrend.  This mount changes speed depending on your Riding skill.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -12291,7 +12341,8 @@ WHERE `ID` = 55058;
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons a swift spectral gryphon. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons a swift spectral gryphon.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13315,7 +13366,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Brutal Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Brutal Nether Drake mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13409,7 +13461,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Azure Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Azure Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13419,7 +13472,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Blue Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13429,7 +13483,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Bronze Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Bronze Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13439,7 +13494,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Red Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Red Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13449,7 +13505,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Twilight Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Twilight Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13525,7 +13582,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Black Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13644,7 +13702,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Red Proto-Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Red Proto-Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13654,7 +13713,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Black Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13664,7 +13724,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Proto-Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Blue Proto-Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13674,7 +13735,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Time-Lost Proto-Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Time-Lost Proto-Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13684,7 +13746,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Plagued Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Plagued Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13694,7 +13757,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Violet Proto-Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Violet Proto-Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -13704,7 +13768,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Albino Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Albino Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14245,7 +14310,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Armored Snowy Gryphon mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Armored Snowy Gryphon mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14256,7 +14322,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Armored Blue Wind Rider mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Armored Blue Wind Rider mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14275,7 +14342,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Green Proto-Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Green Proto-Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14433,7 +14501,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Blue Dragonhawk.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Blue Dragonhawk.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14444,7 +14513,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Red Dragonhawk.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Red Dragonhawk.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14455,7 +14525,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Dragonhawk Mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Black Dragonhawk Mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14809,7 +14880,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable mechanical gnome head.  This is a very fast construction.  This construction can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable mechanical gnome head.  This is a very fast construction.  This construction can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14820,7 +14892,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Argent Hippogryph mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Argent Hippogryph mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14846,7 +14919,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Ironbound Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Ironbound Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14856,7 +14930,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Rusted Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Rusted Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14928,7 +15003,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Loaned Gryphon mount.  This mount can only be summoned in the Storm Peaks, Icecrown and Sholazar Basin. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Loaned Gryphon mount.  This mount can only be summoned in the Storm Peaks, Icecrown and Sholazar Basin.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14969,7 +15045,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Loaned Wind Rider mount.  This mount can only be summoned in the Storm Peaks, Icecrown and Sholazar Basin. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Loaned Wind Rider mount.  This mount can only be summoned in the Storm Peaks, Icecrown and Sholazar Basin.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -14979,7 +15056,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Deadly Gladiator''s Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Deadly Gladiator's Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -15029,7 +15107,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Furious Gladiator''s Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Furious Gladiator's Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -15180,7 +15259,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Silver Covenant Hippogryph mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Silver Covenant Hippogryph mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -15191,7 +15271,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Sunreaver Dragonhawk mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Sunreaver Dragonhawk mount.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -15503,7 +15584,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Relentless Gladiator''s Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Relentless Gladiator's Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16011,7 +16093,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Onyxian Drake.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Onyxian Drake.  This is a very fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16150,7 +16233,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = ' Increases flight speed by $<flyingspeed2>%.' /* was '' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16161,7 +16245,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = ' Increases flight speed by $<flyingspeed2>%.' /* was '' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16171,7 +16256,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Wrathful Gladiator''s Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Wrathful Gladiator's Frost Wyrm mount.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16493,7 +16579,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Icebound Frostbrood Vanquisher.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Icebound Frostbrood Vanquisher.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
@@ -16503,7 +16590,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
-    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Bloodbathed Frostbrood Vanquisher.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.' /* was 'Summons and dismisses a rideable Bloodbathed Frostbrood Vanquisher.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend.' */,
+    `SpellToolTip0` = 'Increases flight speed by $<flyingspeed>%.' /* was 'Increases flight speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
