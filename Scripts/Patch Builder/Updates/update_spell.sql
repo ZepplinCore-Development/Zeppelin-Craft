@@ -87,6 +87,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 458;
 
@@ -98,6 +100,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 459;
 
@@ -109,6 +113,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 468;
 
@@ -120,6 +126,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 470;
 
@@ -131,6 +139,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 471;
 
@@ -142,6 +152,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 472;
 
@@ -188,6 +200,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 578;
 
@@ -199,6 +213,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 579;
 
@@ -211,6 +227,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Timber Wolf. Increases speed by $<speed2>%.' /* was 'Summons and dismisses a rideable Timber Wolf.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 580;
 
@@ -222,6 +240,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 581;
 
@@ -527,7 +547,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 16 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 39 */
+    `EffectBasePoints2` = 19 /* was 39 */,
+    `SpellFamilyName` = 14 /* was 11 */,
+    `SpellFamilyFlags` = 2147483648 /* was 2048 */
 WHERE `ID` = 2645;
 
 UPDATE `dbc`.`spell` SET 
@@ -783,6 +805,8 @@ UPDATE `dbc`.`spell` SET
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 3363;
 
@@ -1333,14 +1357,18 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 200 */,
     `BaseLevel` = 20 /* was 16 */,
     `EffectRealPointsPerLevel1` = 2.0 /* was 0.0 */,
-    `EffectBasePoints1` = 19 /* was 39 */
+    `EffectBasePoints1` = 19 /* was 39 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 5419;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 60 /* was 36 */,
     `BaseLevel` = 20 /* was 16 */,
     `EffectRealPointsPerLevel1` = 2.0 /* was 0.0 */,
-    `EffectBasePoints1` = 19 /* was 49 */
+    `EffectBasePoints1` = 19 /* was 49 */,
+    `SpellFamilyName` = 14 /* was 7 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 5421;
 
 UPDATE `dbc`.`spell` SET 
@@ -1377,6 +1405,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 5784;
 
@@ -1490,6 +1520,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6648;
 
@@ -1501,6 +1533,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6653;
 
@@ -1512,6 +1546,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6654;
 
@@ -1582,6 +1618,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6777;
 
@@ -1593,6 +1631,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6896;
 
@@ -1604,6 +1644,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6897;
 
@@ -1615,6 +1657,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6898;
 
@@ -1626,6 +1670,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6899;
 
@@ -2066,6 +2112,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8394;
 
@@ -2077,6 +2125,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8395;
 
@@ -2275,6 +2325,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8980;
 
@@ -2981,6 +3033,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10787;
 
@@ -2992,6 +3046,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10788;
 
@@ -3003,6 +3059,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10789;
 
@@ -3014,6 +3072,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10790;
 
@@ -3025,6 +3085,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10792;
 
@@ -3036,6 +3098,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10793;
 
@@ -3047,6 +3111,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10795;
 
@@ -3058,6 +3124,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10796;
 
@@ -3069,6 +3137,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10798;
 
@@ -3080,6 +3150,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10799;
 
@@ -3091,6 +3163,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10873;
 
@@ -3102,6 +3176,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10969;
 
@@ -3558,6 +3634,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 13819;
 
@@ -3650,6 +3728,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15779;
 
@@ -3660,6 +3740,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15780;
 
@@ -3670,6 +3752,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15781;
 
@@ -3691,6 +3775,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16055;
 
@@ -3702,6 +3788,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16056;
 
@@ -3713,6 +3801,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16058;
 
@@ -3724,6 +3814,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16059;
 
@@ -3735,6 +3827,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16060;
 
@@ -3746,6 +3840,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16080;
 
@@ -3757,6 +3853,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16081;
 
@@ -3768,6 +3866,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16082;
 
@@ -3779,6 +3879,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16083;
 
@@ -3790,6 +3892,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16084;
 
@@ -4126,6 +4230,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17229;
 
@@ -4137,6 +4243,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17450;
 
@@ -4148,6 +4256,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17453;
 
@@ -4159,6 +4269,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17454;
 
@@ -4170,6 +4282,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17455;
 
@@ -4181,6 +4295,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17456;
 
@@ -4192,6 +4308,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17458;
 
@@ -4203,6 +4321,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17459;
 
@@ -4214,6 +4334,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17460;
 
@@ -4225,6 +4347,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17461;
 
@@ -4236,6 +4360,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17462;
 
@@ -4247,6 +4373,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17463;
 
@@ -4258,6 +4386,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17464;
 
@@ -4269,6 +4399,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17465;
 
@@ -4280,6 +4412,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17481;
 
@@ -4333,6 +4467,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18363;
 
@@ -4584,6 +4720,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18989;
 
@@ -4595,6 +4733,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18990;
 
@@ -4606,6 +4746,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18991;
 
@@ -4617,6 +4759,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18992;
 
@@ -5198,6 +5342,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22717;
 
@@ -5209,6 +5355,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22718;
 
@@ -5220,6 +5368,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22719;
 
@@ -5231,6 +5381,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22720;
 
@@ -5242,6 +5394,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22721;
 
@@ -5253,6 +5407,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22722;
 
@@ -5264,6 +5420,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22723;
 
@@ -5275,6 +5433,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22724;
 
@@ -5398,6 +5558,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23161;
 
@@ -5414,6 +5576,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23214;
 
@@ -5425,6 +5589,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23219;
 
@@ -5436,6 +5602,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23220;
 
@@ -5447,6 +5615,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23221;
 
@@ -5458,6 +5628,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23222;
 
@@ -5469,6 +5641,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23223;
 
@@ -5480,6 +5654,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23225;
 
@@ -5491,6 +5667,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23227;
 
@@ -5502,6 +5680,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23228;
 
@@ -5513,6 +5693,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23229;
 
@@ -5524,6 +5706,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23238;
 
@@ -5535,6 +5719,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23239;
 
@@ -5546,6 +5732,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23240;
 
@@ -5557,6 +5745,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23241;
 
@@ -5568,6 +5758,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23242;
 
@@ -5579,6 +5771,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23243;
 
@@ -5590,6 +5784,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23246;
 
@@ -5601,6 +5797,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23247;
 
@@ -5612,6 +5810,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23248;
 
@@ -5623,6 +5823,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23249;
 
@@ -5634,6 +5836,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23250;
 
@@ -5645,6 +5849,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23251;
 
@@ -5656,6 +5862,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23252;
 
@@ -5694,6 +5902,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23338;
 
@@ -5755,6 +5965,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23509;
 
@@ -5766,6 +5978,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23510;
 
@@ -6031,6 +6245,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24242;
 
@@ -6042,6 +6258,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24252;
 
@@ -6105,6 +6323,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24576;
 
@@ -6437,6 +6657,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25675;
 
@@ -6451,6 +6673,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25858;
 
@@ -6461,6 +6685,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25859;
 
@@ -6473,6 +6699,8 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji battle tank. This is a very fast mount.' /* was 'Summons and dismisses a rideable Qiraji battle tank. This is a very fast mount.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25863;
 
@@ -6510,7 +6738,7 @@ UPDATE `dbc`.`spell` SET
     `SpellDescription0` = 'Summons and dismisses a rideable Blue Qiraji Battle Tank. Increases speed by $<speed2>%. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
     `SpellFamilyName` = 14 /* was 0 */,
-    `SpellFamilyFlags` = 8 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `AreaGroupID` = 0 /* was 38 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25953;
@@ -6536,6 +6764,8 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Red Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `AreaGroupID` = 0 /* was 38 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26054;
@@ -6550,6 +6780,8 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Yellow Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `AreaGroupID` = 0 /* was 38 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26055;
@@ -6564,6 +6796,8 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Green Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `AreaGroupID` = 0 /* was 38 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26056;
@@ -6647,6 +6881,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26655;
 
@@ -6659,6 +6895,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji Battle Tank. Increases speed by $<speed2>%. This is a very fast mount.' /* was 'Summons and dismisses a rideable Black Qiraji Battle Tank. This is a very fast mount.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26656;
 
@@ -7358,6 +7596,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 299 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 28828;
 
@@ -7369,6 +7609,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 29059;
 
@@ -7735,6 +7977,8 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName3` = 58 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellToolTip0` = 'Slow and steady... Increase speed on land by $<speed>% and in the water by $s3%' /* was 'Slow and steady...' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30174;
 
@@ -7791,6 +8035,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30829;
 
@@ -7802,6 +8048,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellDescription0` = 'Summons a Charger, which serves as a mount.  Speed is increased by $<speed2>%.' /* was 'Summons a Charger, which serves as a mount.  Speed is increased by $s2%.' */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30837;
 
@@ -8126,6 +8374,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 31700;
 
@@ -8148,6 +8398,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 31973;
 
@@ -8167,6 +8419,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32235;
 
@@ -8176,6 +8430,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32239;
 
@@ -8185,6 +8441,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32240;
 
@@ -8194,6 +8452,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32242;
 
@@ -8203,6 +8463,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32243;
 
@@ -8212,6 +8474,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32244;
 
@@ -8221,6 +8485,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32245;
 
@@ -8231,6 +8497,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32246;
 
@@ -8262,6 +8530,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32289;
 
@@ -8271,6 +8541,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32290;
 
@@ -8280,6 +8552,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32292;
 
@@ -8289,6 +8563,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32295;
 
@@ -8298,6 +8574,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32296;
 
@@ -8307,6 +8585,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32297;
 
@@ -8316,6 +8596,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32345;
 
@@ -8591,12 +8873,16 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33630;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
     `SpellToolTip0` = 'Decrease speed by $<speed>%.' /* was 'Decrease speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33631;
 
@@ -8608,6 +8894,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33660;
 
@@ -8637,7 +8925,9 @@ WHERE `ID` = 33943;
 
 UPDATE `dbc`.`spell` SET 
     `BaseLevel` = 0 /* was 60 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 33948;
 
 UPDATE `dbc`.`spell` SET 
@@ -8648,6 +8938,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34406;
 
@@ -8659,6 +8951,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34407;
 
@@ -8800,6 +9094,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34767;
 
@@ -8810,6 +9106,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34769;
 
@@ -8821,6 +9119,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34790;
 
@@ -8832,6 +9132,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34795;
 
@@ -8843,6 +9145,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34896;
 
@@ -8854,6 +9158,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34897;
 
@@ -8865,6 +9171,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34898;
 
@@ -8876,6 +9184,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34899;
 
@@ -8927,6 +9237,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35018;
 
@@ -8938,6 +9250,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35020;
 
@@ -8949,6 +9263,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35022;
 
@@ -8960,6 +9276,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35025;
 
@@ -8971,6 +9289,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35027;
 
@@ -8982,6 +9302,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35028;
 
@@ -9252,6 +9574,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35710;
 
@@ -9263,6 +9587,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35711;
 
@@ -9274,6 +9600,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35712;
 
@@ -9285,6 +9613,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35713;
 
@@ -9296,6 +9626,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35714;
 
@@ -9608,6 +9940,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 36702;
 
@@ -9617,6 +9951,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 37015;
 
@@ -9708,6 +10044,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39315;
 
@@ -9719,6 +10057,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39316;
 
@@ -9730,6 +10070,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39317;
 
@@ -9741,6 +10083,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39318;
 
@@ -9752,6 +10096,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39319;
 
@@ -9762,6 +10108,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39450;
 
@@ -9771,6 +10119,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39798;
 
@@ -9780,6 +10130,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39800;
 
@@ -9790,6 +10142,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39801;
 
@@ -9799,6 +10153,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39802;
 
@@ -9809,6 +10165,8 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39803;
 
@@ -9819,6 +10177,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39910;
 
@@ -9827,6 +10187,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39949;
 
@@ -9916,7 +10278,9 @@ WHERE `ID` = 40120;
 
 UPDATE `dbc`.`spell` SET 
     `BaseLevel` = 0 /* was 68 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellFamilyName` = 14 /* was 7 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 40121;
 
 UPDATE `dbc`.`spell` SET 
@@ -9925,6 +10289,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 40192;
 
@@ -9933,6 +10299,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 40212;
 
@@ -10047,6 +10415,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41252;
 
@@ -10071,6 +10441,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41513;
 
@@ -10080,6 +10452,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41514;
 
@@ -10089,6 +10463,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41515;
 
@@ -10098,6 +10474,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41516;
 
@@ -10107,6 +10485,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41517;
 
@@ -10116,6 +10496,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41518;
 
@@ -10140,6 +10522,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42667;
 
@@ -10149,6 +10533,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42668;
 
@@ -10159,6 +10545,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42680;
 
@@ -10169,6 +10557,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42683;
 
@@ -10203,6 +10593,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42776;
 
@@ -10214,6 +10606,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42777;
 
@@ -10234,6 +10628,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42929;
 
@@ -10313,6 +10709,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43688;
 
@@ -10320,6 +10718,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43810;
 
@@ -10336,6 +10736,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43899;
 
@@ -10347,6 +10749,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43900;
 
@@ -10356,6 +10760,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43927;
 
@@ -10365,6 +10771,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44151;
 
@@ -10374,6 +10782,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44153;
 
@@ -10382,6 +10792,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44317;
 
@@ -10441,6 +10853,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44655;
 
@@ -10450,6 +10864,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44744;
 
@@ -10468,6 +10884,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44824;
 
@@ -10476,6 +10894,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44825;
 
@@ -10484,6 +10904,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44827;
 
@@ -10607,6 +11029,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46197;
 
@@ -10616,6 +11040,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46199;
 
@@ -10627,6 +11053,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46628;
 
@@ -10662,6 +11090,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46980;
 
@@ -10672,6 +11102,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 47037;
 
@@ -10682,6 +11114,8 @@ WHERE `ID` = 47528;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 47600;
 
@@ -10693,6 +11127,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48023;
 
@@ -10703,6 +11139,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48024;
 
@@ -10714,6 +11152,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48027;
 
@@ -10767,6 +11207,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 15 */,
+    `SpellFamilyFlags` = 2147483648 /* was 67108864 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48778;
 
@@ -10810,6 +11252,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48954;
 
@@ -10819,6 +11263,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49193;
 
@@ -10830,6 +11276,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49322;
 
@@ -10841,6 +11289,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49378;
 
@@ -10852,6 +11302,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49379;
 
@@ -10872,6 +11324,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50281;
 
@@ -11001,6 +11455,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50869;
 
@@ -11011,6 +11467,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50870;
 
@@ -11197,6 +11655,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51412;
 
@@ -11233,6 +11693,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51617;
 
@@ -11243,6 +11705,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51621;
 
@@ -11251,6 +11715,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51960;
 
@@ -11513,6 +11979,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54726;
 
@@ -11521,6 +11989,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54727;
 
@@ -11535,6 +12005,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54753;
 
@@ -11647,6 +12119,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55164;
 
@@ -11747,6 +12221,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55293;
 
@@ -11877,6 +12353,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55531;
 
@@ -12663,6 +13141,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58615;
 
@@ -12673,6 +13153,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58819;
 
@@ -12688,6 +13170,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58997;
 
@@ -12698,6 +13182,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58999;
 
@@ -12746,6 +13232,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59567;
 
@@ -12754,6 +13242,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59568;
 
@@ -12762,6 +13252,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59569;
 
@@ -12770,6 +13262,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59570;
 
@@ -12778,6 +13272,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59571;
 
@@ -12788,6 +13284,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59572;
 
@@ -12798,6 +13296,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59573;
 
@@ -12846,6 +13346,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59650;
 
@@ -12861,6 +13363,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59785;
 
@@ -12871,6 +13375,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59788;
 
@@ -12881,6 +13387,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59791;
 
@@ -12891,6 +13399,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59793;
 
@@ -12901,6 +13411,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59797;
 
@@ -12911,6 +13423,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59799;
 
@@ -12921,6 +13435,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59802;
 
@@ -12931,6 +13447,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59804;
 
@@ -12939,6 +13457,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59961;
 
@@ -12947,6 +13467,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59976;
 
@@ -12955,6 +13477,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59996;
 
@@ -12963,6 +13487,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60002;
 
@@ -12971,6 +13497,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60021;
 
@@ -12979,6 +13507,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60024;
 
@@ -12987,6 +13517,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60025;
 
@@ -12997,6 +13529,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60114;
 
@@ -13007,6 +13541,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60116;
 
@@ -13017,6 +13553,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60118;
 
@@ -13027,6 +13565,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60119;
 
@@ -13041,6 +13581,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60136;
 
@@ -13051,6 +13593,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60140;
 
@@ -13061,6 +13605,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60424;
 
@@ -13505,6 +14051,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61229;
 
@@ -13514,12 +14062,16 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61230;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61289;
 
@@ -13528,6 +14080,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61294;
 
@@ -13539,6 +14093,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61309;
 
@@ -13549,6 +14105,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61425;
 
@@ -13571,6 +14129,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61447;
 
@@ -13582,6 +14142,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61451;
 
@@ -13592,6 +14154,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61465;
 
@@ -13602,6 +14166,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61467;
 
@@ -13612,6 +14178,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61469;
 
@@ -13622,6 +14190,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61470;
 
@@ -13645,6 +14215,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61983;
 
@@ -13654,6 +14226,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61996;
 
@@ -13663,6 +14237,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61997;
 
@@ -13672,6 +14248,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62048;
 
@@ -13757,11 +14335,15 @@ WHERE `ID` = 62448;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62628;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62951;
 
@@ -13868,6 +14450,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63232;
 
@@ -13879,6 +14463,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63635;
 
@@ -13890,6 +14476,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63636;
 
@@ -13901,6 +14489,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63637;
 
@@ -13912,6 +14502,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63638;
 
@@ -13923,6 +14515,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63639;
 
@@ -13934,6 +14528,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63640;
 
@@ -13945,6 +14541,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63641;
 
@@ -13956,6 +14554,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63642;
 
@@ -13967,6 +14567,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63643;
 
@@ -13986,6 +14588,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63796;
 
@@ -13995,6 +14599,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63844;
 
@@ -14019,6 +14625,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63956;
 
@@ -14027,6 +14635,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63963;
 
@@ -14038,6 +14648,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64656;
 
@@ -14049,6 +14661,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64657;
 
@@ -14060,6 +14674,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64658;
 
@@ -14071,6 +14687,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64659;
 
@@ -14085,6 +14703,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64681;
 
@@ -14124,6 +14744,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64761;
 
@@ -14132,6 +14754,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64927;
 
@@ -14143,6 +14767,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64977;
 
@@ -14153,6 +14779,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64992;
 
@@ -14163,6 +14791,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64993;
 
@@ -14171,6 +14801,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65439;
 
@@ -14182,6 +14814,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65637;
 
@@ -14193,6 +14827,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65638;
 
@@ -14204,6 +14840,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65639;
 
@@ -14215,6 +14853,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65640;
 
@@ -14226,6 +14866,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65641;
 
@@ -14237,6 +14879,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65642;
 
@@ -14248,6 +14892,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65643;
 
@@ -14259,6 +14905,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65644;
 
@@ -14270,6 +14918,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65645;
 
@@ -14281,6 +14931,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65646;
 
@@ -14290,6 +14942,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66087;
 
@@ -14299,6 +14953,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66088;
 
@@ -14310,6 +14966,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66090;
 
@@ -14321,6 +14979,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66091;
 
@@ -14331,6 +14991,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66122;
 
@@ -14341,6 +15003,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66123;
 
@@ -14351,6 +15015,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66124;
 
@@ -14362,6 +15028,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66846;
 
@@ -14373,6 +15041,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66847;
 
@@ -14384,6 +15054,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66906;
 
@@ -14394,6 +15066,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 10 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66907;
 
@@ -14582,6 +15256,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 67336;
 
@@ -14593,6 +15269,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 67466;
 
@@ -14634,6 +15312,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68056;
 
@@ -14645,6 +15325,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68057;
 
@@ -14656,6 +15338,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68187;
 
@@ -14667,18 +15351,24 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68188;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68768;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68769;
 
@@ -15065,6 +15755,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 69395;
 
@@ -15074,6 +15766,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 69512;
 
@@ -15174,6 +15868,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71344;
 
@@ -15184,6 +15880,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71345;
 
@@ -15192,6 +15890,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 149 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71346;
 
@@ -15201,6 +15901,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 1 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71347;
 
@@ -15209,6 +15911,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71810;
 
@@ -15219,6 +15923,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72281;
 
@@ -15229,6 +15935,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72282;
 
@@ -15240,6 +15948,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72283;
 
@@ -15251,6 +15961,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72284;
 
@@ -15517,6 +16229,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72807;
 
@@ -15525,6 +16239,8 @@ UPDATE `dbc`.`spell` SET
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 309 */,
     `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72808;
 
@@ -15536,6 +16252,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 15 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 73313;
 
@@ -15574,6 +16292,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74854;
 
@@ -15585,6 +16305,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74855;
 
@@ -15600,6 +16322,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74918;
 
@@ -15631,6 +16355,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75596;
 
@@ -15647,6 +16373,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75617;
 
@@ -15658,6 +16386,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75618;
 
@@ -15668,6 +16398,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75619;
 
@@ -15678,6 +16410,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75620;
 
@@ -15688,6 +16422,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75957;
 
@@ -15698,6 +16434,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75972;
 
@@ -15713,6 +16451,8 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 76153;
 
@@ -15723,6 +16463,8 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellFamilyName` = 14 /* was 0 */,
+    `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 76154;
 
@@ -16298,6 +17040,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -16338,6 +17082,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -19366,6 +20112,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Slow and steady... Increase speed in and out of the water by $<speed>%',
     `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -19406,6 +20154,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increase movement speed by $<speed>%',
     `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -23377,9 +24127,9 @@ INSERT INTO `dbc`.`spell` SET
     `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
     `EffectMiscValue3` = 23,
-    `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskC1` = 8,
+    `EffectSpellClassMaskA1` = 2147483648,
+    `EffectSpellClassMaskA2` = 2147483648,
+    `EffectSpellClassMaskA3` = 2147483648,
     `SpellIconID` = 2241,
     `SpellName0` = 'Apprentice Riding Crop',
     `SpellNameFlag7` = 16712190,
@@ -23426,9 +24176,9 @@ INSERT INTO `dbc`.`spell` SET
     `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
     `EffectMiscValue3` = 23,
-    `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskC1` = 8,
+    `EffectSpellClassMaskA1` = 2147483648,
+    `EffectSpellClassMaskA2` = 2147483648,
+    `EffectSpellClassMaskA3` = 2147483648,
     `SpellIconID` = 2241,
     `SpellName0` = 'Journeyman Riding Crop',
     `SpellNameFlag7` = 16712190,
@@ -23475,9 +24225,9 @@ INSERT INTO `dbc`.`spell` SET
     `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
     `EffectMiscValue3` = 23,
-    `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskC1` = 8,
+    `EffectSpellClassMaskA1` = 2147483648,
+    `EffectSpellClassMaskA2` = 2147483648,
+    `EffectSpellClassMaskA3` = 2147483648,
     `SpellIconID` = 2241,
     `SpellName0` = 'Expert Riding Crop',
     `SpellNameFlag7` = 16712190,
@@ -23524,9 +24274,9 @@ INSERT INTO `dbc`.`spell` SET
     `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
     `EffectMiscValue3` = 23,
-    `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskC1` = 8,
+    `EffectSpellClassMaskA1` = 2147483648,
+    `EffectSpellClassMaskA2` = 2147483648,
+    `EffectSpellClassMaskA3` = 2147483648,
     `SpellIconID` = 2241,
     `SpellName0` = 'Artisan Riding Crop',
     `SpellNameFlag7` = 16712190,
@@ -23561,7 +24311,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectDieSides1` = 1,
     `EffectDieSides2` = 1,
     `EffectDieSides3` = 1,
-    `EffectBasePoints1` = 199,
+    `EffectBasePoints1` = 24,
     `EffectBasePoints2` = -91,
     `EffectBasePoints3` = 199,
     `EffectImplicitTargetA1` = 1,
@@ -23573,9 +24323,9 @@ INSERT INTO `dbc`.`spell` SET
     `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
     `EffectMiscValue3` = 23,
-    `EffectSpellClassMaskA1` = 8,
-    `EffectSpellClassMaskB1` = 8,
-    `EffectSpellClassMaskC1` = 8,
+    `EffectSpellClassMaskA1` = 2147483648,
+    `EffectSpellClassMaskA2` = 2147483648,
+    `EffectSpellClassMaskA3` = 2147483648,
     `SpellIconID` = 2241,
     `SpellName0` = 'Master Riding Crop',
     `SpellNameFlag7` = 16712190,
@@ -23735,6 +24485,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
@@ -23774,6 +24526,8 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 2147483648,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
