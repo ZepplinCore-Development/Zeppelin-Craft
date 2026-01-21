@@ -1,19 +1,19 @@
 UPDATE `dbc`.`skillline` SET 
     `category` = 9 /* was 7 */
-WHERE `id` = 633;
+WHERE `ID` = 633;
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 789;
+DELETE FROM `dbc`.`skillline` WHERE `ID` = 789;
 INSERT INTO `dbc`.`skillline` SET 
-    `id` = 789,
+    `ID` = 789,
     `category` = 7,
     `name1` = 'Racial - Worgen',
     `nameFlags` = 16712190,
     `descriptionFlags` = 16712172,
     `tooltipFlags` = 16712172;
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 790;
+DELETE FROM `dbc`.`skillline` WHERE `ID` = 790;
 INSERT INTO `dbc`.`skillline` SET 
-    `id` = 790,
+    `ID` = 790,
     `category` = 9,
     `name1` = 'Racial - Goblin',
     `nameFlags` = 16712190,
@@ -21,9 +21,9 @@ INSERT INTO `dbc`.`skillline` SET
     `spellIcon` = 133032,
     `tooltipFlags` = 16712172;
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 791;
+DELETE FROM `dbc`.`skillline` WHERE `ID` = 791;
 INSERT INTO `dbc`.`skillline` SET 
-    `id` = 791,
+    `ID` = 791,
     `category` = 7,
     `name1` = '.Professions',
     `nameFlags` = 16712190,
@@ -32,9 +32,9 @@ INSERT INTO `dbc`.`skillline` SET
     `tooltip1` = 'Modify',
     `tooltipFlags` = 16712190;
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 792;
+DELETE FROM `dbc`.`skillline` WHERE `ID` = 792;
 INSERT INTO `dbc`.`skillline` SET 
-    `id` = 792,
+    `ID` = 792,
     `category` = 7,
     `name1` = '.Perks',
     `nameFlags` = 16712190,
@@ -43,9 +43,9 @@ INSERT INTO `dbc`.`skillline` SET
     `tooltip1` = 'Modify',
     `tooltipFlags` = 16712190;
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 900;
+DELETE FROM `dbc`.`skillline` WHERE `ID` = 900;
 INSERT INTO `dbc`.`skillline` SET 
-    `id` = 900,
+    `ID` = 900,
     `category` = 7,
     `name1` = 'Pet - Cloud Serpent',
     `nameFlags` = 16712190,

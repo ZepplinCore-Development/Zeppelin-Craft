@@ -584,6 +584,14 @@ INSERT INTO `dbc`.`item` SET
     `sound_override_subclassid` = -1,
     `ItemDisplayInfo` = 140279;
 
+DELETE FROM `dbc`.`item` WHERE `itemID` = 57612;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 57612,
+    `ItemClass` = 5,
+    `ItemSubClass` = 1,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 138191;
+
 DELETE FROM `dbc`.`item` WHERE `itemID` = 100001;
 INSERT INTO `dbc`.`item` SET 
     `itemID` = 100001,
