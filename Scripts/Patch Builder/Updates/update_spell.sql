@@ -24166,6 +24166,40 @@ INSERT INTO `dbc`.`spell` SET
     `SchoolMask` = 1,
     `EffectBonusMultiplier1` = 1.0;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91185;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91185,
+    `Attributes` = 128,
+    `AttributesEx` = 268437504,
+    `CastingTimeIndex` = 1,
+    `ProcFlags` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `StackAmount` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -11,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 108,
+    `EffectMiscValue1` = 10,
+    `EffectSpellClassMaskA1` = 16,
+    `SpellIconID` = 341,
+    `SpellName0` = 'Artisan Leathering Kit',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'Reduces craft time for Leatherworking recipes by $s1%. Does not stack with other Leathering Kit effects.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712190,
+    `SpellFamilyName` = 14,
+    `SpellFamilyFlags` = 16,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0;
+
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100010;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100010,
