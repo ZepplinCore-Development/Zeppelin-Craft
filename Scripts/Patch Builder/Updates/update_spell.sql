@@ -8089,7 +8089,8 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName2` = 32 /* was 0 */,
     `EffectApplyAuraName3` = 58 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Slow and steady... Increase speed on land by $<speed>% and in the water by $s3%' /* was 'Slow and steady...' */,
+    `SpellDescription0` = 'Summons and dismisses a rideable turtle. Increases speed on land by $<groundspeed2>% and in the water by $<swimspeed2>%.' /* was 'Summons and dismisses a rideable turtle. It may be slow, but it gets you off your feet!' */,
+    `SpellToolTip0` = 'Increases speed on land by $<groundspeed>% and in the water by $<swimspeed>%.' /* was 'Slow and steady...' */,
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
