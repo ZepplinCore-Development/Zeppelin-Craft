@@ -19,7 +19,7 @@
 -- Rogue Kick
 
 	DELETE FROM `npc_trainer` WHERE `SpellID` = 1766;
-	INSERT INTO `ntml:parameter>
+	INSERT INTO `npc_trainer` SET
 		`ID` = 200015,
 		`SpellID` = 1766,
 		`MoneyCost` = 100,
@@ -31,5 +31,23 @@
 	INSERT INTO `npc_trainer` SET
 		`ID` = 200011,
 		`SpellID` = 103246,
+		`MoneyCost` = 100,
+		`ReqLevel` = 4;
+
+-- Paladin Rebuke (custom spell 103247 - melee range silence)
+
+	DELETE FROM `npc_trainer` WHERE `SpellID` = 103247;
+	INSERT INTO `npc_trainer` SET
+		`ID` = 200004,
+		`SpellID` = 103247,
+		`MoneyCost` = 100,
+		`ReqLevel` = 4;
+
+-- Druid Solar Flare (custom spell 103248 - 20 yard range silence)
+
+	DELETE FROM `npc_trainer` WHERE `SpellID` = 103248;
+	INSERT INTO `npc_trainer` SET
+		`ID` = 200006,
+		`SpellID` = 103248,
 		`MoneyCost` = 100,
 		`ReqLevel` = 4;
