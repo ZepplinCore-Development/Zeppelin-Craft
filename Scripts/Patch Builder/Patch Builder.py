@@ -760,9 +760,9 @@ if not args.db_diff_only and build_patch_x:
 
     if os.path.exists(atlasloot_generator):
         try:
-            # Run generator for all dungeons and raids
+            # Run generator for all content (vanilla dungeons, vanilla raids, TBC)
             result = subprocess.run(
-                [sys.executable, atlasloot_generator, '--dungeon', 'all'],
+                [sys.executable, atlasloot_generator, '--all'],
                 cwd=os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'AtlasLoot Generator'),
                 capture_output=True,
                 text=True,

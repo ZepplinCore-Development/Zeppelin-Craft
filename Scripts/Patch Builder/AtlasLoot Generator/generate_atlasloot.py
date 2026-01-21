@@ -612,6 +612,11 @@ def main():
         description='Generate AtlasLoot tables from AzerothCore database'
     )
     parser.add_argument(
+        '--all',
+        action='store_true',
+        help='Generate ALL AtlasLoot content (vanilla dungeons, vanilla raids, TBC)'
+    )
+    parser.add_argument(
         '--dungeon',
         help='Dungeon name (stockades, deadmines, etc.) - multi-boss sections',
         choices=list(DUNGEON_SECTIONS.keys()) + ['all']
@@ -657,8 +662,14 @@ def main():
     args = parser.parse_args()
 
     # Validate arguments
-    if not args.dungeon and not args.raid and not args.tbc and not args.section:
-        parser.error('Must specify --dungeon, --raid, --tbc, or --section')
+    if not args.all and not args.dungeon and not args.raid and not args.tbc and not args.section:
+        parser.error('Must specify --all, --dungeon, --raid, --tbc, or --section')
+
+    # --all flag sets all content types
+    if args.all:
+        args.dungeon = 'all'
+        args.raid = 'all'
+        args.tbc = 'all'
 
     # Check if Lua file exists
     if not os.path.exists(args.lua_file):

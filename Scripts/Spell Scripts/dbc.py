@@ -356,38 +356,45 @@ def cmd_clone(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Unified DBC database tool with auto-detection of modifications.',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__
-    )
+    # Check if first non-option arg is 'clone' subcommand
+    # This avoids argparse subparser issues with SQL strings
+    args_list = sys.argv[1:]
 
-    subparsers = parser.add_subparsers(dest='command')
+    # Find first non-option argument
+    first_positional = None
+    for arg in args_list:
+        if not arg.startswith('-'):
+            first_positional = arg
+            break
 
-    # Clone subcommand
-    clone_parser = subparsers.add_parser('clone', help='Clone a spell')
-    clone_parser.add_argument('source_id', type=int, help='Source spell ID')
-    clone_parser.add_argument('new_id', type=int, help='New spell ID')
-    clone_parser.add_argument('--task', '-t', required=True, help='Task ID (F-XXX or I-XXX)')
-    clone_parser.add_argument('--name', '-n', help='Custom name for cloned spell')
-    clone_parser.set_defaults(func=cmd_clone)
-
-    # Default: SQL query/execution
-    parser.add_argument('sql', nargs='*', help='SQL to execute')
-    parser.add_argument('--file', '-f', help='SQL file to execute')
-    parser.add_argument('--task', '-t', help='Task ID (F-XXX or I-XXX) - required for modifications')
-
-    args = parser.parse_args()
-
-    # Validate task ID format if provided
-    if args.task and not re.match(r'^[FI]-\d+$', args.task):
-        print(f"ERROR: Task ID must be in format F-XXX or I-XXX (got: {args.task})")
-        return 1
-
-    # Route to appropriate handler
-    if args.command == 'clone':
-        return args.func(args)
+    if first_positional == 'clone':
+        # Use subparser for clone command
+        parser = argparse.ArgumentParser(prog='dbc.py clone')
+        parser.add_argument('command')  # consume 'clone'
+        parser.add_argument('source_id', type=int, help='Source spell ID')
+        parser.add_argument('new_id', type=int, help='New spell ID')
+        parser.add_argument('--task', '-t', required=True, help='Task ID (F-XXX or I-XXX)')
+        parser.add_argument('--name', '-n', help='Custom name for cloned spell')
+        args = parser.parse_args()
+        return cmd_clone(args)
     else:
+        # Default: SQL query/execution
+        parser = argparse.ArgumentParser(
+            description='Unified DBC database tool with auto-detection of modifications.',
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog=__doc__
+        )
+        parser.add_argument('sql', nargs='*', default=[], help='SQL to execute')
+        parser.add_argument('--file', '-f', help='SQL file to execute')
+        parser.add_argument('--task', '-t', help='Task ID (F-XXX or I-XXX) - required for modifications')
+
+        args = parser.parse_args()
+
+        # Validate task ID format if provided
+        if args.task and not re.match(r'^[FI]-\d+$', args.task):
+            print(f"ERROR: Task ID must be in format F-XXX or I-XXX (got: {args.task})")
+            return 1
+
         return cmd_query(args)
 
 
