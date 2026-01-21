@@ -80,51 +80,69 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 432;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 458;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 459;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 468;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 470;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 471;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 472;
 
 UPDATE `dbc`.`spell` SET 
@@ -163,36 +181,48 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 514;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `MaximumLevel` = 60 /* was 0 */,
-    `BaseLevel` = 20 /* was 0 */,
-    `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
-WHERE `ID` = 578;
-
-UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `MaximumLevel` = 60 /* was 0 */,
-    `BaseLevel` = 20 /* was 0 */,
-    `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
-WHERE `ID` = 579;
-
-UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 59 */,
-    `SpellDescription0` = 'Summons and dismisses a rideable Timber Wolf. Increases speed by $m2%.' /* was 'Summons and dismisses a rideable Timber Wolf.' */
-WHERE `ID` = 580;
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 578;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 579;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `MaximumLevel` = 60 /* was 0 */,
+    `BaseLevel` = 20 /* was 0 */,
+    `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellDescription0` = 'Summons and dismisses a rideable Timber Wolf. Increases speed by $<speed2>%.' /* was 'Summons and dismisses a rideable Timber Wolf.' */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 580;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `MaximumLevel` = 60 /* was 0 */,
+    `BaseLevel` = 20 /* was 0 */,
+    `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 581;
 
 UPDATE `dbc`.`spell` SET 
@@ -659,9 +689,11 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 3337;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 3363;
 
 UPDATE `dbc`.`spell` SET 
@@ -1094,10 +1126,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 5506;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 5784;
 
 UPDATE `dbc`.`spell` SET 
@@ -1203,27 +1238,36 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6581;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6648;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6653;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6654;
 
 UPDATE `dbc`.`spell` SET 
@@ -1261,43 +1305,58 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 6695;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6777;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6896;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6897;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6898;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 6899;
 
 UPDATE `dbc`.`spell` SET 
@@ -1710,7 +1769,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8150;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8326;
 
 UPDATE `dbc`.`spell` SET 
@@ -1729,19 +1789,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8368;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8394;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8395;
 
 UPDATE `dbc`.`spell` SET 
@@ -1932,11 +1998,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8880;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 8980;
 
 UPDATE `dbc`.`spell` SET 
@@ -2300,99 +2369,135 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 10768;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10787;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10788;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10789;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10790;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10792;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10793;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10795;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10796;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10798;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10799;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10873;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 10969;
 
 UPDATE `dbc`.`spell` SET 
@@ -2862,10 +2967,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 13494;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 13819;
 
 UPDATE `dbc`.`spell` SET 
@@ -2940,11 +3048,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15531;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15779;
 
 UPDATE `dbc`.`spell` SET 
@@ -2952,7 +3063,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15780;
 
 UPDATE `dbc`.`spell` SET 
@@ -2960,7 +3073,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 15781;
 
 UPDATE `dbc`.`spell` SET 
@@ -2974,83 +3089,113 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 15973;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16055;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16056;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16058;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16059;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16060;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16080;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16081;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16082;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16083;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 16084;
 
 UPDATE `dbc`.`spell` SET 
@@ -3379,123 +3524,168 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17041;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17229;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17450;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17453;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17454;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17455;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17456;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17458;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17459;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17460;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17461;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17462;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17463;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17464;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17465;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 17481;
 
 UPDATE `dbc`.`spell` SET 
@@ -3541,11 +3731,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18266;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18363;
 
 UPDATE `dbc`.`spell` SET 
@@ -3789,35 +3982,47 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18560;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18989;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18990;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18991;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 18992;
 
 UPDATE `dbc`.`spell` SET 
@@ -4071,67 +4276,91 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 22683;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22717;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22718;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22719;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22720;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22721;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22722;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22723;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 22724;
 
 UPDATE `dbc`.`spell` SET 
@@ -4207,195 +4436,267 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23052;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23161;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23214;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23219;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23220;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23221;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23222;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23223;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23225;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23227;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23228;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23229;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23238;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23239;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23240;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23241;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23242;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23243;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23246;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23247;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23248;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23249;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23250;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23251;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23252;
 
 UPDATE `dbc`.`spell` SET 
@@ -4426,11 +4727,14 @@ Lasts $d.' */
 WHERE `ID` = 23312;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23338;
 
 UPDATE `dbc`.`spell` SET 
@@ -4479,19 +4783,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 23478;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23509;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 23510;
 
 UPDATE `dbc`.`spell` SET 
@@ -4684,19 +4994,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24226;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24242;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24252;
 
 UPDATE `dbc`.`spell` SET 
@@ -4710,7 +5026,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 24262;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24347;
 
 UPDATE `dbc`.`spell` SET 
@@ -4756,7 +5073,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 24576;
 
 UPDATE `dbc`.`spell` SET 
@@ -5036,7 +5355,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25675;
 
 UPDATE `dbc`.`spell` SET 
@@ -5048,7 +5369,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25858;
 
 UPDATE `dbc`.`spell` SET 
@@ -5056,7 +5379,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25859;
 
 UPDATE `dbc`.`spell` SET 
@@ -5066,7 +5391,9 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji battle tank. This is a very fast mount.' /* was 'Summons and dismisses a rideable Qiraji battle tank. This is a very fast mount.' */
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji battle tank. This is a very fast mount.' /* was 'Summons and dismisses a rideable Qiraji battle tank. This is a very fast mount.' */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 25863;
 
 UPDATE `dbc`.`spell` SET 
@@ -5120,6 +5447,7 @@ Cannot cast spells.' */
 WHERE `ID` = 26053;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -5127,10 +5455,13 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Red Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
-    `AreaGroupID` = 0 /* was 38 */
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `AreaGroupID` = 0 /* was 38 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26054;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -5138,10 +5469,13 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Yellow Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
-    `AreaGroupID` = 0 /* was 38 */
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `AreaGroupID` = 0 /* was 38 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26055;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -5149,7 +5483,9 @@ UPDATE `dbc`.`spell` SET
     `EffectBasePoints2` = 19 /* was 99 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
     `SpellDescription0` = 'Summons and dismisses a rideable Green Qiraji Battle Tank. This is a very fast mount.' /* was 'Emits a high frequency sound, forcing a silithid tank to burrow out from its home beneath the Temple of Ahn'Qiraj. The silithid is obedient to the summoner and can be used as a mount within the Temple of Ahn'Qiraj. Any hostile action towards the rider forces the tank underground.' */,
-    `AreaGroupID` = 0 /* was 38 */
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `AreaGroupID` = 0 /* was 38 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26056;
 
 UPDATE `dbc`.`spell` SET 
@@ -5224,16 +5560,21 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26655;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
     `EffectBasePoints2` = 19 /* was 99 */,
-    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji Battle Tank. Increases speed by $m2%. This is a very fast mount.' /* was 'Summons and dismisses a rideable Black Qiraji Battle Tank. This is a very fast mount.' */
+    `SpellDescription0` = 'Summons and dismisses a rideable Black Qiraji Battle Tank. Increases speed by $<speed2>%. This is a very fast mount.' /* was 'Summons and dismisses a rideable Black Qiraji Battle Tank. This is a very fast mount.' */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 26656;
 
 UPDATE `dbc`.`spell` SET 
@@ -5885,15 +6226,20 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 299 */
+    `EffectBasePoints2` = 19 /* was 299 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 28828;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 29059;
 
 UPDATE `dbc`.`spell` SET 
@@ -6240,6 +6586,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29844;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -6257,7 +6604,8 @@ UPDATE `dbc`.`spell` SET
     `EffectApplyAuraName2` = 32 /* was 0 */,
     `EffectApplyAuraName3` = 58 /* was 0 */,
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
-    `SpellToolTip0` = 'Slow and steady... Increase speed on land by $s2% and in the water by $s3%' /* was 'Slow and steady...' */
+    `SpellToolTip0` = 'Slow and steady... Increase speed on land by $<speed>% and in the water by $s3%' /* was 'Slow and steady...' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30174;
 
 UPDATE `dbc`.`spell` SET 
@@ -6311,7 +6659,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30829;
 
 UPDATE `dbc`.`spell` SET 
@@ -6319,7 +6669,10 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescription0` = 'Summons a Charger, which serves as a mount.  Speed is increased by $<speed2>%.' /* was 'Summons a Charger, which serves as a mount.  Speed is increased by $s2%.' */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 30837;
 
 UPDATE `dbc`.`spell` SET 
@@ -6641,7 +6994,9 @@ WHERE `ID` = 31575;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 31700;
 
 UPDATE `dbc`.`spell` SET 
@@ -6661,7 +7016,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 31973;
 
 UPDATE `dbc`.`spell` SET 
@@ -6675,52 +7032,76 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32179;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32235;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32239;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32240;
 
 UPDATE `dbc`.`spell` SET 
-    `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
-WHERE `ID` = 32242;
-
-UPDATE `dbc`.`spell` SET 
-    `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
-WHERE `ID` = 32243;
-
-UPDATE `dbc`.`spell` SET 
-    `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
-WHERE `ID` = 32244;
-
-UPDATE `dbc`.`spell` SET 
-    `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
-WHERE `ID` = 32245;
-
-UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellRankFlags7` = 16712190 /* was 16712172 */
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 32242;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 32243;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 32244;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 32245;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32246;
 
 UPDATE `dbc`.`spell` SET 
@@ -6746,45 +7127,66 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32285;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32289;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32290;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32292;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32295;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32296;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32297;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 32345;
 
 UPDATE `dbc`.`spell` SET 
@@ -6877,19 +7279,26 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33630;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellToolTip0` = 'Decrease speed by $<speed>%.' /* was 'Decrease speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33631;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 33660;
 
 UPDATE `dbc`.`spell` SET 
@@ -6922,19 +7331,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 33948;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34406;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34407;
 
 UPDATE `dbc`.`spell` SET 
@@ -7068,66 +7483,90 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34697;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34767;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34769;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34790;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34795;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34896;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34897;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34898;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 34899;
 
 UPDATE `dbc`.`spell` SET 
@@ -7171,51 +7610,69 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 34983;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35018;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35020;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35022;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35025;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35027;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35028;
 
 UPDATE `dbc`.`spell` SET 
@@ -7223,43 +7680,58 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 35139;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35710;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35711;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35712;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35713;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 35714;
 
 UPDATE `dbc`.`spell` SET 
@@ -7494,17 +7966,23 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 36686;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 36702;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 37015;
 
 UPDATE `dbc`.`spell` SET 
@@ -7588,43 +8066,58 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 38697;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39315;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39316;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39317;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39318;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39319;
 
 UPDATE `dbc`.`spell` SET 
@@ -7632,39 +8125,56 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39450;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39798;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39800;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellRankFlags7` = 16712190 /* was 16712172 */
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39801;
 
 UPDATE `dbc`.`spell` SET 
-    `AttributesEx4` = 0 /* was 67108864 */,
-    `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
-WHERE `ID` = 39802;
-
-UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `EffectBasePoints2` = 299 /* was 279 */,
-    `SpellRankFlags7` = 16712190 /* was 16712172 */
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
+WHERE `ID` = 39802;
+
+UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `AttributesEx4` = 0 /* was 67108864 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellRankFlags7` = 16712190 /* was 16712172 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39803;
 
 UPDATE `dbc`.`spell` SET 
@@ -7672,13 +8182,17 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39910;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 39949;
 
 UPDATE `dbc`.`spell` SET 
@@ -7736,15 +8250,20 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 40121;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 40192;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 40212;
 
 UPDATE `dbc`.`spell` SET 
@@ -7811,11 +8330,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41208;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41252;
 
 UPDATE `dbc`.`spell` SET 
@@ -7834,39 +8356,57 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41418;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41513;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41514;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41515;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41516;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41517;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41518;
 
 UPDATE `dbc`.`spell` SET 
@@ -7883,13 +8423,18 @@ WHERE `ID` = 42662;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42667;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42668;
 
 UPDATE `dbc`.`spell` SET 
@@ -7897,7 +8442,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42680;
 
 UPDATE `dbc`.`spell` SET 
@@ -7905,7 +8452,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42683;
 
 UPDATE `dbc`.`spell` SET 
@@ -7927,19 +8476,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 42766;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42776;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42777;
 
 UPDATE `dbc`.`spell` SET 
@@ -7957,7 +8512,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 42929;
 
 UPDATE `dbc`.`spell` SET 
@@ -8049,16 +8606,21 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43676;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43688;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43810;
 
 UPDATE `dbc`.`spell` SET 
@@ -8067,43 +8629,60 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43846;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43899;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43900;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 43927;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44151;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44153;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44317;
 
 UPDATE `dbc`.`spell` SET 
@@ -8145,31 +8724,42 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44655;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44744;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44824;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44825;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 44827;
 
 UPDATE `dbc`.`spell` SET 
@@ -8227,23 +8817,32 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 46144;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46197;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46199;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46628;
 
 UPDATE `dbc`.`spell` SET 
@@ -8276,7 +8875,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 46980;
 
 UPDATE `dbc`.`spell` SET 
@@ -8284,7 +8885,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 47037;
 
 UPDATE `dbc`.`spell` SET 
@@ -8293,7 +8896,8 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 47528;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 47600;
 
 UPDATE `dbc`.`spell` SET 
@@ -8302,7 +8906,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48023;
 
 UPDATE `dbc`.`spell` SET 
@@ -8310,15 +8916,20 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48024;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48027;
 
 UPDATE `dbc`.`spell` SET 
@@ -8388,11 +8999,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48162;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 55 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48778;
 
 UPDATE `dbc`.`spell` SET 
@@ -8428,41 +9042,56 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48938;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 48954;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49193;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49322;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49378;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 49379;
 
 UPDATE `dbc`.`spell` SET 
@@ -8480,7 +9109,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50281;
 
 UPDATE `dbc`.`spell` SET 
@@ -8607,7 +9238,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50869;
 
 UPDATE `dbc`.`spell` SET 
@@ -8615,7 +9248,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 50870;
 
 UPDATE `dbc`.`spell` SET 
@@ -8624,11 +9259,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 51300;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51412;
 
 UPDATE `dbc`.`spell` SET 
@@ -8637,7 +9275,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51617;
 
 UPDATE `dbc`.`spell` SET 
@@ -8645,13 +9285,17 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51621;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 51960;
 
 UPDATE `dbc`.`spell` SET 
@@ -8906,13 +9550,17 @@ WHERE `ID` = 54659;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54726;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54727;
 
 UPDATE `dbc`.`spell` SET 
@@ -8924,7 +9572,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 54753;
 
 UPDATE `dbc`.`spell` SET 
@@ -9034,7 +9684,9 @@ WHERE `ID` = 55058;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55164;
 
 UPDATE `dbc`.`spell` SET 
@@ -9122,7 +9774,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55293;
 
 UPDATE `dbc`.`spell` SET 
@@ -9250,7 +9904,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 55531;
 
 UPDATE `dbc`.`spell` SET 
@@ -10010,7 +10666,9 @@ WHERE `ID` = 58507;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58615;
 
 UPDATE `dbc`.`spell` SET 
@@ -10018,7 +10676,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58819;
 
 UPDATE `dbc`.`spell` SET 
@@ -10031,7 +10691,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58997;
 
 UPDATE `dbc`.`spell` SET 
@@ -10039,7 +10701,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 58999;
 
 UPDATE `dbc`.`spell` SET 
@@ -10085,31 +10749,41 @@ WHERE `ID` = 59442;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59567;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59568;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59569;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59570;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59571;
 
 UPDATE `dbc`.`spell` SET 
@@ -10117,7 +10791,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59572;
 
 UPDATE `dbc`.`spell` SET 
@@ -10125,7 +10801,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59573;
 
 UPDATE `dbc`.`spell` SET 
@@ -10171,7 +10849,9 @@ WHERE `ID` = 59589;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59650;
 
 UPDATE `dbc`.`spell` SET 
@@ -10184,7 +10864,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59785;
 
 UPDATE `dbc`.`spell` SET 
@@ -10192,7 +10874,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59788;
 
 UPDATE `dbc`.`spell` SET 
@@ -10200,7 +10884,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59791;
 
 UPDATE `dbc`.`spell` SET 
@@ -10208,7 +10894,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59793;
 
 UPDATE `dbc`.`spell` SET 
@@ -10216,7 +10904,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59797;
 
 UPDATE `dbc`.`spell` SET 
@@ -10224,7 +10914,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59799;
 
 UPDATE `dbc`.`spell` SET 
@@ -10232,7 +10924,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59802;
 
 UPDATE `dbc`.`spell` SET 
@@ -10240,49 +10934,65 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59804;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59961;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59976;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 59996;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60002;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60021;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60024;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60025;
 
 UPDATE `dbc`.`spell` SET 
@@ -10290,7 +11000,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60114;
 
 UPDATE `dbc`.`spell` SET 
@@ -10298,7 +11010,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60116;
 
 UPDATE `dbc`.`spell` SET 
@@ -10306,7 +11020,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60118;
 
 UPDATE `dbc`.`spell` SET 
@@ -10314,7 +11030,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60119;
 
 UPDATE `dbc`.`spell` SET 
@@ -10326,7 +11044,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60136;
 
 UPDATE `dbc`.`spell` SET 
@@ -10334,7 +11054,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60140;
 
 UPDATE `dbc`.`spell` SET 
@@ -10342,7 +11064,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 60424;
 
 UPDATE `dbc`.`spell` SET 
@@ -10386,34 +11110,46 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61010;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61229;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61230;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61289;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61294;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61309;
 
 UPDATE `dbc`.`spell` SET 
@@ -10421,7 +11157,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61425;
 
 UPDATE `dbc`.`spell` SET 
@@ -10441,16 +11179,20 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61447;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61451;
 
 UPDATE `dbc`.`spell` SET 
@@ -10458,7 +11200,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61465;
 
 UPDATE `dbc`.`spell` SET 
@@ -10466,7 +11210,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61467;
 
 UPDATE `dbc`.`spell` SET 
@@ -10474,7 +11220,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61469;
 
 UPDATE `dbc`.`spell` SET 
@@ -10482,7 +11230,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases movement speed by $<speed>%.' /* was 'Increases movement speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61470;
 
 UPDATE `dbc`.`spell` SET 
@@ -10504,25 +11254,35 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61983;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61996;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 61997;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62048;
 
 UPDATE `dbc`.`spell` SET 
@@ -10591,11 +11351,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 62203;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62628;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 1 */
+    `CastingTimeIndex` = 14 /* was 1 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 62951;
 
 UPDATE `dbc`.`spell` SET 
@@ -10654,83 +11416,113 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63206;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63232;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63635;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63636;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63637;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63638;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63639;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63640;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63641;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63642;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63643;
 
 UPDATE `dbc`.`spell` SET 
@@ -10744,15 +11536,21 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 63743;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63796;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63844;
 
 UPDATE `dbc`.`spell` SET 
@@ -10774,51 +11572,70 @@ WHERE `ID` = 63924;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63956;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 63963;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64656;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64657;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64658;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64659;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64681;
 
 UPDATE `dbc`.`spell` SET 
@@ -10852,23 +11669,31 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 64730;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64761;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64927;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64977;
 
 UPDATE `dbc`.`spell` SET 
@@ -10876,7 +11701,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64992;
 
 UPDATE `dbc`.`spell` SET 
@@ -10884,121 +11711,167 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 64993;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65439;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65637;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65638;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65639;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65640;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65641;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65642;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65643;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65644;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65645;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 65646;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66087;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 279 */
+    `EffectBasePoints2` = 299 /* was 279 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66088;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66090;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66091;
 
 UPDATE `dbc`.`spell` SET 
@@ -11006,7 +11879,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66122;
 
 UPDATE `dbc`.`spell` SET 
@@ -11014,7 +11889,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66123;
 
 UPDATE `dbc`.`spell` SET 
@@ -11022,38 +11899,52 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66124;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66846;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66847;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 40 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66906;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 66907;
 
 UPDATE `dbc`.`spell` SET 
@@ -11159,15 +12050,20 @@ WHERE `ID` = 67147;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 67336;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 67466;
 
 UPDATE `dbc`.`spell` SET 
@@ -11201,43 +12097,59 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 67686;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68056;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68057;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68187;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68188;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 16 */
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68768;
 
 UPDATE `dbc`.`spell` SET 
-    `CastingTimeIndex` = 14 /* was 16 */
+    `AttributesEx3` = 0 /* was 536870912 */,
+    `CastingTimeIndex` = 14 /* was 16 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 68769;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 68975;
@@ -11617,7 +12529,9 @@ WHERE `ID` = 69388;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 69395;
 
 UPDATE `dbc`.`spell` SET 
@@ -11625,7 +12539,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 69512;
 
 UPDATE `dbc`.`spell` SET 
@@ -11683,7 +12598,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71344;
 
 UPDATE `dbc`.`spell` SET 
@@ -11691,25 +12608,34 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71345;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 149 */
+    `EffectBasePoints2` = 299 /* was 149 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71346;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 1 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71347;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 71810;
 
 UPDATE `dbc`.`spell` SET 
@@ -11717,7 +12643,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72281;
 
 UPDATE `dbc`.`spell` SET 
@@ -11725,7 +12653,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72282;
 
 UPDATE `dbc`.`spell` SET 
@@ -11734,7 +12664,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72283;
 
 UPDATE `dbc`.`spell` SET 
@@ -11743,7 +12675,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72284;
 
 UPDATE `dbc`.`spell` SET 
@@ -12007,21 +12941,28 @@ WHERE `ID` = 72561;
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72807;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
-    `EffectBasePoints2` = 299 /* was 309 */
+    `EffectBasePoints2` = 299 /* was 309 */,
+    `SpellToolTip0` = 'Increases flight speed by $<speed>%.' /* was 'Increases flight speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 72808;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 73313;
 
 UPDATE `dbc`.`spell` SET 
@@ -12057,7 +12998,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74854;
 
 UPDATE `dbc`.`spell` SET 
@@ -12066,7 +13009,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74855;
 
 UPDATE `dbc`.`spell` SET 
@@ -12074,11 +13019,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 74856;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 74918;
 
 UPDATE `dbc`.`spell` SET 
@@ -12102,12 +13050,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 75136;
 
 UPDATE `dbc`.`spell` SET 
+    `AttributesEx3` = 0 /* was 536870912 */,
     `AttributesEx4` = 0 /* was 67108864 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75596;
 
 UPDATE `dbc`.`spell` SET 
@@ -12121,7 +13071,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75617;
 
 UPDATE `dbc`.`spell` SET 
@@ -12130,7 +13082,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75618;
 
 UPDATE `dbc`.`spell` SET 
@@ -12138,7 +13092,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 59 */
+    `EffectBasePoints2` = 19 /* was 59 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75619;
 
 UPDATE `dbc`.`spell` SET 
@@ -12146,7 +13102,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases speed by $<speed>%.' /* was 'Increases speed by $s2%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75620;
 
 UPDATE `dbc`.`spell` SET 
@@ -12155,7 +13113,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75957;
 
 UPDATE `dbc`.`spell` SET 
@@ -12164,7 +13123,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 75972;
 
 UPDATE `dbc`.`spell` SET 
@@ -12177,7 +13137,9 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%. Increases flying speed by $s3%.' /* was 'Increases ground speed by $s2%. Increases flying speed by $s3%.' */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 76153;
 
 UPDATE `dbc`.`spell` SET 
@@ -12186,7 +13148,8 @@ UPDATE `dbc`.`spell` SET
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
     `EffectRealPointsPerLevel2` = 2.0 /* was 0.0 */,
-    `EffectBasePoints2` = 19 /* was 99 */
+    `EffectBasePoints2` = 19 /* was 99 */,
+    `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 76154;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 79405;
@@ -12725,7 +13688,6 @@ INSERT INTO `dbc`.`spell` SET
     `ID` = 87090,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
@@ -12736,17 +13698,13 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
-    `Effect3` = 6,
+    `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
-    `EffectBasePoints2` = 299,
-    `EffectBasePoints3` = 59,
+    `EffectBasePoints2` = 59,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
-    `EffectApplyAuraName2` = 207,
-    `EffectApplyAuraName3` = 32,
+    `EffectApplyAuraName2` = 32,
     `EffectMiscValue1` = 46754,
     `SpellVisual1` = 7644,
     `SpellIconID` = 936,
@@ -12755,21 +13713,21 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a rideable Goblin Trike.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases ground speed by $s3%.',
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier3` = 1.0;
+    `EffectBonusMultiplier3` = 1.0,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 87091;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 87091,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
@@ -12780,17 +13738,13 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
-    `Effect3` = 6,
+    `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
-    `EffectBasePoints2` = 299,
-    `EffectBasePoints3` = 99,
+    `EffectBasePoints2` = 99,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
-    `EffectApplyAuraName2` = 207,
-    `EffectApplyAuraName3` = 32,
+    `EffectApplyAuraName2` = 32,
     `EffectMiscValue1` = 46755,
     `SpellVisual1` = 7644,
     `SpellIconID` = 343,
@@ -12799,14 +13753,15 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a Goblin Turbo-Trike.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases ground speed by $s3%.',
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier3` = 1.0;
+    `EffectBonusMultiplier3` = 1.0,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 90010;
 INSERT INTO `dbc`.`spell` SET 
@@ -15800,7 +16755,6 @@ INSERT INTO `dbc`.`spell` SET
     `ID` = 91070,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
@@ -15828,19 +16782,19 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a rideable Giant Murloc. It may be slow, but it gets you off your feet!',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Slow and steady... Increase speed in and out of the water by $s2%',
+    `SpellToolTip0` = 'Slow and steady... Increase speed in and out of the water by $<speed>%',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
-    `SchoolMask` = 1;
+    `SchoolMask` = 1,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91071;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 91071,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `AttributesEx6` = 131072,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
@@ -15868,12 +16822,13 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a rideable Butt Zeppelinm. It may be slow, but it gets you off your feet!',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increase movement speed by $s2%',
+    `SpellToolTip0` = 'Increase movement speed by $<speed>%',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
-    `SchoolMask` = 1;
+    `SchoolMask` = 1,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 91072;
 INSERT INTO `dbc`.`spell` SET 
@@ -19780,114 +20735,198 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100010;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100010,
-    `Attributes` = 536936448,
+    `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `StackAmount` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
+    `Effect2` = 6,
+    `Effect3` = 6,
     `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
+    `EffectDieSides3` = 1,
     `EffectBasePoints1` = 4,
-    `EffectBasePoints2` = -20,
+    `EffectBasePoints2` = -21,
+    `EffectBasePoints3` = 4,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName1` = 211,
+    `EffectImplicitTargetA2` = 1,
+    `EffectImplicitTargetA3` = 1,
+    `EffectApplyAuraName1` = 107,
     `EffectApplyAuraName2` = 108,
+    `EffectApplyAuraName3` = 108,
+    `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
+    `EffectMiscValue3` = 23,
+    `EffectSpellClassMaskA1` = 8,
+    `EffectSpellClassMaskB1` = 8,
+    `EffectSpellClassMaskC1` = 8,
     `SpellIconID` = 2241,
     `SpellName0` = 'Apprentice Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 5%.',
+    `SpellDescription0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases mount speed by 5%.',
+    `SpellToolTip0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellToolTipFlags7` = 16712190,
-    `SchoolMask` = 1;
+    `SpellFamilyName` = 14,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0,
+    `EffectBonusMultiplier2` = 1.0,
+    `EffectBonusMultiplier3` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100011;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100011,
-    `Attributes` = 536936448,
+    `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `StackAmount` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
+    `Effect2` = 6,
+    `Effect3` = 6,
     `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
+    `EffectDieSides3` = 1,
     `EffectBasePoints1` = 9,
-    `EffectBasePoints2` = -40,
+    `EffectBasePoints2` = -41,
+    `EffectBasePoints3` = 9,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName1` = 211,
+    `EffectImplicitTargetA2` = 1,
+    `EffectImplicitTargetA3` = 1,
+    `EffectApplyAuraName1` = 107,
     `EffectApplyAuraName2` = 108,
+    `EffectApplyAuraName3` = 108,
+    `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
+    `EffectMiscValue3` = 23,
+    `EffectSpellClassMaskA1` = 8,
+    `EffectSpellClassMaskB1` = 8,
+    `EffectSpellClassMaskC1` = 8,
     `SpellIconID` = 2241,
     `SpellName0` = 'Journeyman Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 10%.',
+    `SpellDescription0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases mount speed by 10%.',
+    `SpellToolTip0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellToolTipFlags7` = 16712190,
-    `SchoolMask` = 1;
+    `SpellFamilyName` = 14,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0,
+    `EffectBonusMultiplier2` = 1.0,
+    `EffectBonusMultiplier3` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100012;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100012,
-    `Attributes` = 536936448,
+    `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `StackAmount` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
+    `Effect2` = 6,
+    `Effect3` = 6,
     `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
+    `EffectDieSides3` = 1,
     `EffectBasePoints1` = 14,
-    `EffectBasePoints2` = -60,
+    `EffectBasePoints2` = -61,
+    `EffectBasePoints3` = 14,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName1` = 211,
+    `EffectImplicitTargetA2` = 1,
+    `EffectImplicitTargetA3` = 1,
+    `EffectApplyAuraName1` = 107,
     `EffectApplyAuraName2` = 108,
+    `EffectApplyAuraName3` = 108,
+    `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
+    `EffectMiscValue3` = 23,
+    `EffectSpellClassMaskA1` = 8,
+    `EffectSpellClassMaskB1` = 8,
+    `EffectSpellClassMaskC1` = 8,
     `SpellIconID` = 2241,
     `SpellName0` = 'Expert Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 15%.',
+    `SpellDescription0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases mount speed by 15%.',
+    `SpellToolTip0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellToolTipFlags7` = 16712190,
-    `SchoolMask` = 1;
+    `SpellFamilyName` = 14,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0,
+    `EffectBonusMultiplier2` = 1.0,
+    `EffectBonusMultiplier3` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100013;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100013,
-    `Attributes` = 536936448,
+    `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
     `ProcChance` = 101,
     `DurationIndex` = 21,
     `RangeIndex` = 1,
+    `StackAmount` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
+    `Effect2` = 6,
+    `Effect3` = 6,
     `EffectDieSides1` = 1,
+    `EffectDieSides2` = 1,
+    `EffectDieSides3` = 1,
     `EffectBasePoints1` = 19,
-    `EffectBasePoints2` = -80,
+    `EffectBasePoints2` = -81,
+    `EffectBasePoints3` = 19,
     `EffectImplicitTargetA1` = 1,
-    `EffectApplyAuraName1` = 211,
+    `EffectImplicitTargetA2` = 1,
+    `EffectImplicitTargetA3` = 1,
+    `EffectApplyAuraName1` = 107,
     `EffectApplyAuraName2` = 108,
+    `EffectApplyAuraName3` = 108,
+    `EffectMiscValue1` = 12,
     `EffectMiscValue2` = 10,
+    `EffectMiscValue3` = 23,
+    `EffectSpellClassMaskA1` = 8,
+    `EffectSpellClassMaskB1` = 8,
+    `EffectSpellClassMaskC1` = 8,
     `SpellIconID` = 2241,
     `SpellName0` = 'Artisan Riding Crop',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Increases mount speed by 20%.',
+    `SpellDescription0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases mount speed by 20%.',
+    `SpellToolTip0` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
     `SpellToolTipFlags7` = 16712190,
-    `SchoolMask` = 1;
+    `SpellFamilyName` = 14,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier1` = 1.0,
+    `EffectBonusMultiplier2` = 1.0,
+    `EffectBonusMultiplier3` = 1.0;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
@@ -20053,7 +21092,6 @@ INSERT INTO `dbc`.`spell` SET
     `ID` = 103195,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
@@ -20063,17 +21101,13 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
-    `Effect3` = 6,
+    `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
-    `EffectBasePoints2` = 299,
-    `EffectBasePoints3` = 59,
+    `EffectBasePoints2` = 59,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
-    `EffectApplyAuraName2` = 207,
-    `EffectApplyAuraName3` = 32,
+    `EffectApplyAuraName2` = 32,
     `EffectMiscValue1` = 55272,
     `SpellVisual1` = 7644,
     `SpellIconID` = 1176,
@@ -20082,21 +21116,21 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a rideable Mountain Horse.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases ground speed by $s3%.',
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier3` = 1.0;
+    `EffectBonusMultiplier3` = 1.0,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103196;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 103196,
     `Mechanic` = 21,
     `Attributes` = 269844752,
-    `AttributesEx3` = 536870912,
     `CastingTimeIndex` = 14,
     `InterruptFlags` = 31,
     `AuraInterruptFlags` = 128,
@@ -20106,17 +21140,13 @@ INSERT INTO `dbc`.`spell` SET
     `RangeIndex` = 1,
     `EquippedItemClass` = -1,
     `Effect1` = 6,
-    `Effect3` = 6,
+    `Effect2` = 6,
     `EffectDieSides2` = 1,
-    `EffectDieSides3` = 1,
-    `EffectBasePoints2` = 299,
-    `EffectBasePoints3` = 99,
+    `EffectBasePoints2` = 99,
     `EffectImplicitTargetA1` = 1,
     `EffectImplicitTargetA2` = 1,
-    `EffectImplicitTargetA3` = 1,
     `EffectApplyAuraName1` = 78,
-    `EffectApplyAuraName2` = 207,
-    `EffectApplyAuraName3` = 32,
+    `EffectApplyAuraName2` = 32,
     `EffectMiscValue1` = 55273,
     `SpellVisual1` = 7644,
     `SpellIconID` = 1176,
@@ -20125,14 +21155,15 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Summons and dismisses a rideable Swift Mountain Horse.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases ground speed by $s3%.',
+    `SpellToolTip0` = 'Increases ground speed by $<speed>%.',
     `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 330,
     `EffectDamageMultiplier1` = 1.0,
     `EffectDamageMultiplier2` = 1.0,
     `EffectDamageMultiplier3` = 1.0,
     `SchoolMask` = 1,
-    `EffectBonusMultiplier3` = 1.0;
+    `EffectBonusMultiplier3` = 1.0,
+    `SpellDescriptionVariableID` = 182;
 
 DELETE FROM `dbc`.`spell` WHERE `ID` = 103197;
 INSERT INTO `dbc`.`spell` SET 
@@ -20175,7 +21206,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20201,7 +21232,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20227,7 +21258,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20253,7 +21284,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20279,7 +21310,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20305,7 +21336,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20331,7 +21362,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20357,7 +21388,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
@@ -20383,7 +21414,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20409,7 +21440,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20435,7 +21466,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20461,7 +21492,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20487,7 +21518,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20513,7 +21544,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20539,7 +21570,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20565,7 +21596,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
@@ -20591,7 +21622,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20617,7 +21648,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20643,7 +21674,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20669,7 +21700,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20695,7 +21726,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20721,7 +21752,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20747,7 +21778,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20773,7 +21804,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
@@ -20799,7 +21830,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20825,7 +21856,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20851,7 +21882,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20877,7 +21908,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20903,7 +21934,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20929,7 +21960,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20955,7 +21986,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -20981,7 +22012,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
@@ -21007,7 +22038,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21033,7 +22064,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21059,7 +22090,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21085,7 +22116,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21111,7 +22142,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21137,7 +22168,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21163,7 +22194,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21189,7 +22220,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
@@ -21215,7 +22246,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 14,
+    `EffectBasePoints1` = 9,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21241,7 +22272,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 29,
+    `EffectBasePoints1` = 19,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21267,7 +22298,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 44,
+    `EffectBasePoints1` = 34,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21293,7 +22324,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 59,
+    `EffectBasePoints1` = 49,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21319,7 +22350,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 74,
+    `EffectBasePoints1` = 64,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21345,7 +22376,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 89,
+    `EffectBasePoints1` = 79,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21371,7 +22402,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 104,
+    `EffectBasePoints1` = 99,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21397,7 +22428,7 @@ INSERT INTO `dbc`.`spell` SET
     `EquippedItemClass` = -1,
     `Effect1` = 6,
     `EffectDieSides1` = 1,
-    `EffectBasePoints1` = 119,
+    `EffectBasePoints1` = 129,
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
@@ -21423,4 +22454,1522 @@ INSERT INTO `dbc`.`spell` SET
     `SpellIconID` = 211,
     `SpellName0` = 'Devout Silence',
     `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.';
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103300;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103300,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902331,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103301;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103301,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902339,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103302;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103302,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902347,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103303;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103303,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902355,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103304;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103304,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902363,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103305;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103305,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 37101,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902371,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103306;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103306,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902332,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103307;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103307,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902340,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103308;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103308,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902348,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103309;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103309,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902356,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103310;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103310,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902364,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103311;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103311,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 39774,
+    `Reagent8` = 39354,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902372,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding II',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103312;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103312,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902333,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103313;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103313,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902341,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103314;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103314,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902349,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103315;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103315,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902357,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103316;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103316,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902365,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103317;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103317,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43118,
+    `Reagent8` = 10648,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902373,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding III',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103318;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103318,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent3` = 7078,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902334,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103319;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103319,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent3` = 7080,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902342,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103320;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103320,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent3` = 7082,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902350,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103321;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103321,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent3` = 12808,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902358,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103322;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103322,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent3` = 12803,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902366,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103323;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103323,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43120,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902374,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding IV',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103324;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103324,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902335,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103325;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103325,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902343,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103326;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103326,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902351,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103327;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103327,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902359,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103328;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103328,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902367,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103329;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103329,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902375,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding V',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103330;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103330,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent3` = 21884,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902336,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103331;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103331,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent3` = 21885,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902344,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103332;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103332,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent3` = 22457,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902352,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103333;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103333,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent3` = 22456,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902360,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103334;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103334,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent3` = 21886,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902368,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103335;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103335,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43124,
+    `Reagent8` = 39501,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902376,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding VI',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103336;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103336,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902337,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103337;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103337,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902345,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103338;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103338,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902353,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103339;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103339,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902361,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103340;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103340,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902369,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103341;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103341,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902377,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding VII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103342;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103342,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent3` = 36860,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902338,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Fire Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103343;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103343,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent3` = 35622,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902346,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Frost Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103344;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103344,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent3` = 35623,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902354,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Arcane Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103345;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103345,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent3` = 35627,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902362,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Shadow Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103346;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103346,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent3` = 35625,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount3` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902370,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Nature Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
+
+DELETE FROM `dbc`.`spell` WHERE `ID` = 103347;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 103347,
+    `Attributes` = 65568,
+    `AttributesEx` = 1024,
+    `CastingTimeIndex` = 33,
+    `InterruptFlags` = 15,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `Reagent2` = 43126,
+    `Reagent8` = 39502,
+    `ReagentCount2` = 1,
+    `ReagentCount8` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 24,
+    `EffectDieSides1` = 1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectItemType1` = 902378,
+    `SpellVisual1` = 10130,
+    `SpellIconID` = 2557,
+    `SpellName0` = 'Scroll of Holy Warding VIII',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712172,
+    `SpellDescriptionFlags7` = 16712188,
+    `SpellToolTipFlags7` = 16712188,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `TotemCategory1` = 121,
+    `SchoolMask` = 1;
 
