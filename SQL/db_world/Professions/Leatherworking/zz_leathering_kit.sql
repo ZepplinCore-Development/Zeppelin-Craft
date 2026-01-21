@@ -18,8 +18,7 @@ DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1119;
 -- ITEM TEMPLATES
 -- =====================================================
 
--- Apprentice Leathering Kit ITEM TEMPLATE
-DELETE FROM `item_template` WHERE (`entry` = 57612);
+-- Apprentice Leathering Kit (10% cast time reduction)
 INSERT INTO `item_template`
 SET `entry` = 57612,
     `class` = 5, -- Reagent
@@ -40,14 +39,101 @@ SET `entry` = 57612,
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = -1;
 
+-- Journeyman Leathering Kit (15% cast time reduction)
+INSERT INTO `item_template`
+SET `entry` = 57613,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Journeyman Leathering Kit',
+    `displayid` = 138190, -- AO_LeatheringDevice
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 20,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91183,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Expert Leathering Kit (20% cast time reduction)
+INSERT INTO `item_template`
+SET `entry` = 57614,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Expert Leathering Kit',
+    `displayid` = 138193, -- AO_LeatheringDevice201
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 30,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91184,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Artisan Leathering Kit (25% cast time reduction)
+INSERT INTO `item_template`
+SET `entry` = 57615,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Artisan Leathering Kit',
+    `displayid` = 138192, -- AO_LeatheringDevice03
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 40,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91185,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
+-- Master Leathering Kit (30% cast time reduction)
+INSERT INTO `item_template`
+SET `entry` = 57616,
+    `class` = 5, -- Reagent
+    `subclass` = 1, -- Tool
+    `name` = 'Master Leathering Kit',
+    `displayid` = 138194, -- AO_LeatheringDevice50
+    `Quality` = 6, -- Artifact
+    `ItemLevel` = 50,
+    `RequiredSkill` = 0,
+    `RequiredSkillRank` = 0,
+    `maxcount` = 1,
+    `stackable` = 1,
+    `bonding` = 1, -- Binds on pickup
+    `spellid_1` = 91186,
+    `spelltrigger_1` = 5, -- ON_NO_DELAY_USE
+    `spellcharges_1` = 0,
+    `spellcooldown_1` = -1,
+    `spellcategory_1` = 0,
+    `spellcategorycooldown_1` = -1;
+
 -- =====================================================
--- ANTI-STACKING SPELL GROUP (for testing - single spell only)
--- Will be expanded when all tiers are created
+-- ANTI-STACKING SPELL GROUP
+-- Higher tier replaces lower tier (NEVER_STACK with priority)
 -- =====================================================
 
--- Spell group 1119 for Leathering Kit
 INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
-(1119, 91182, 4096);  -- Apprentice (PRIORITY5 - lowest for now)
+(1119, 91182, 4096),  -- Apprentice (PRIORITY5 - lowest)
+(1119, 91183, 2048),  -- Journeyman (PRIORITY4)
+(1119, 91184, 1024),  -- Expert (PRIORITY3)
+(1119, 91185, 512),   -- Artisan (PRIORITY2)
+(1119, 91186, 256);   -- Master (PRIORITY1 - highest)
 
 -- Stack rule: NEVER_STACK
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
