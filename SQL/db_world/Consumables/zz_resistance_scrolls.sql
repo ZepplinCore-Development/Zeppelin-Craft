@@ -1235,3 +1235,129 @@ INSERT INTO `spell_group` VALUES (1119, 33079, 0);  -- Rank V
 INSERT INTO `spell_group` VALUES (1119, 43196, 0);  -- Rank VI
 INSERT INTO `spell_group` VALUES (1119, 58452, 0);  -- Rank VII
 INSERT INTO `spell_group` VALUES (1119, 58453, 0);  -- Rank VIII
+
+
+-- =====================================================
+-- PHASE 2: INSCRIPTION INTEGRATION
+-- =====================================================
+-- Updates item RequiredLevel/ItemLevel to new tier structure
+-- Adds trainer entries for crafting spells (103300-103347)
+-- =====================================================
+
+-- Update item RequiredLevel and ItemLevel to new tier structure
+-- Tier values: I=5/15, II=15/25, III=30/40, IV=45/55, V=58/65, VI=68/78, VII=72/78, VIII=78/85
+
+-- Fire Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902331;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902332;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902333;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902334;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902335;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902336;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902337;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902338;
+
+-- Frost Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902339;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902340;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902341;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902342;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902343;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902344;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902345;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902346;
+
+-- Arcane Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902347;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902348;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902349;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902350;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902351;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902352;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902353;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902354;
+
+-- Shadow Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902355;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902356;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902357;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902358;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902359;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902360;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902361;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902362;
+
+-- Nature Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902363;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902364;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902365;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902366;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902367;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902368;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902369;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902370;
+
+-- Holy Resistance Scrolls
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902371;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902372;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902373;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902374;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902375;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902376;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902377;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902378;
+
+
+-- =====================================================
+-- INSCRIPTION TRAINER ENTRIES (Starter Ranks Only)
+-- =====================================================
+-- Only starter ranks are trainer-taught:
+--   Rank I (Vanilla starter) - Trainer 201021
+--   Rank V (TBC starter) - Trainer 201022
+--   Rank VII (WotLK starter) - Trainer 201023
+--
+-- Progression ranks (II, III, IV, VI, VIII) are dungeon recipe drops
+-- See Phase 3 implementation for recipe items and loot tables
+-- =====================================================
+
+-- Remove existing entries (idempotent)
+DELETE FROM `npc_trainer` WHERE `SpellID` BETWEEN 103300 AND 103347;
+
+-- Trainer 201021: Inscription Trainer
+-- Rank I - Vanilla starter (skill 25-50, +5 increments, cost 50c)
+INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
+(201021, 103300, 50, 773, 25, 0, 0),    -- Fire Warding I
+(201021, 103301, 50, 773, 30, 0, 0),    -- Frost Warding I
+(201021, 103302, 50, 773, 35, 0, 0),    -- Arcane Warding I
+(201021, 103303, 50, 773, 40, 0, 0),    -- Shadow Warding I
+(201021, 103304, 50, 773, 45, 0, 0),    -- Nature Warding I
+(201021, 103305, 50, 773, 50, 0, 0);    -- Holy Warding I
+
+-- Trainer 201022: Master Inscription Trainer
+-- Rank V - TBC starter (skill 310-335, +5 increments, cost 1g 50s)
+INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
+(201022, 103324, 15000, 773, 310, 0, 0), -- Fire Warding V
+(201022, 103325, 15000, 773, 315, 0, 0), -- Frost Warding V
+(201022, 103326, 15000, 773, 320, 0, 0), -- Arcane Warding V
+(201022, 103327, 15000, 773, 325, 0, 0), -- Shadow Warding V
+(201022, 103328, 15000, 773, 330, 0, 0), -- Nature Warding V
+(201022, 103329, 15000, 773, 335, 0, 0); -- Holy Warding V
+
+-- Trainer 201023: Grand Master Inscription Trainer
+-- Rank VII - WotLK starter (skill 400-425, +5 increments, cost 5g)
+INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
+(201023, 103336, 50000, 773, 400, 0, 0), -- Fire Warding VII
+(201023, 103337, 50000, 773, 405, 0, 0), -- Frost Warding VII
+(201023, 103338, 50000, 773, 410, 0, 0), -- Arcane Warding VII
+(201023, 103339, 50000, 773, 415, 0, 0), -- Shadow Warding VII
+(201023, 103340, 50000, 773, 420, 0, 0), -- Nature Warding VII
+(201023, 103341, 50000, 773, 425, 0, 0); -- Holy Warding VII
+
+-- =====================================================
+-- PHASE 3: DUNGEON RECIPE DROPS (TODO)
+-- =====================================================
+-- Recipe items needed for progression ranks:
+--   Ranks II, III, IV - Vanilla dungeon drops
+--   Rank VI - TBC dungeon drops
+--   Rank VIII - WotLK dungeon drops
+-- =====================================================
