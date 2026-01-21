@@ -231,6 +231,174 @@ SINGLE_BOSS_SECTIONS = {
     'AQ40CThun': 15727,         # C'Thun
 }
 
+# ===== TBC SINGLE-BOSS SECTIONS =====
+# Maps section name -> creature ID for Burning Crusade content
+# File: burningcrusade.lua
+
+TBC_SINGLE_BOSS_SECTIONS = {
+    # ===== Hellfire Citadel: Ramparts =====
+    'HCRampWatchkeeper': 17306,     # Watchkeeper Gargolmar
+    'HCRampOmor': 17308,            # Omor the Unscarred
+    'HCRampVazruden': 17537,        # Vazruden (Nazan: 17536)
+    'HCRampVazrudenHEROIC': 17537,  # Vazruden Heroic
+
+    # ===== Hellfire Citadel: Blood Furnace =====
+    'HCFurnaceMaker': 17381,        # The Maker
+    'HCFurnaceBroggok': 17380,      # Broggok
+    'HCFurnaceBreaker': 17377,      # Keli'dan the Breaker
+
+    # ===== Hellfire Citadel: Shattered Halls =====
+    'HCHallsNethekurse': 16807,     # Grand Warlock Nethekurse
+    'HCHallsPorung': 20923,         # Blood Guard Porung
+    'HCHallsOmrogg': 16809,         # Warbringer O'mrogg
+    'HCHallsKargath': 16808,        # Warchief Kargath Bladefist
+
+    # ===== Coilfang Reservoir: Slave Pens =====
+    'CFRSlaveMennu': 17941,         # Mennu the Betrayer
+    'CFRSlaveRokmar': 17991,        # Rokmar the Crackler
+    'CFRSlaveQuagmirran': 17942,    # Quagmirran
+
+    # ===== Coilfang Reservoir: Underbog =====
+    'CFRUnderHungarfen': 17770,     # Hungarfen
+    'CFRUnderGhazan': 18105,        # Ghaz'an
+    'CFRUnderSwamplord': 17826,     # Swamplord Musel'ek
+    'CFRUnderStalker': 17882,       # The Black Stalker
+    'CFRUnderStalkerHEROIC': 17882, # The Black Stalker Heroic
+
+    # ===== Coilfang Reservoir: Steamvault =====
+    'CFRSteamThespia': 17797,       # Hydromancer Thespia
+    'CFRSteamSteamrigger': 17796,   # Steamrigger Mechano-Lord (Mekgineer)
+    'CFRSteamWarlord': 17798,       # Warlord Kalithresh
+
+    # ===== Auchindoun: Mana-Tombs =====
+    'AuchManaPandemonius': 18341,   # Pandemonius
+    'AuchManaTavarok': 18343,       # Tavarok
+    'AuchManaNexusPrince': 18344,   # Nexus-Prince Shaffar
+    'AuchManaNexusPrinceHEROIC': 18344,  # Nexus-Prince Shaffar Heroic
+    'AuchManaYor': 22930,           # Yor (Heroic only)
+
+    # ===== Auchindoun: Auchenai Crypts =====
+    'AuchCryptsShirrak': 18371,     # Shirrak the Dead Watcher
+    'AuchCryptsExarch': 18373,      # Exarch Maladaar
+    'AuchCryptsAvatar': 18478,      # Avatar of the Martyred (Heroic)
+
+    # ===== Auchindoun: Sethekk Halls =====
+    'AuchSethekkDarkweaver': 18472, # Darkweaver Syth
+    'AuchSethekkRavenGod': 23035,   # Anzu (Heroic only)
+    'AuchSethekkTalonKing': 18473,  # Talon King Ikiss
+
+    # ===== Auchindoun: Shadow Labyrinth =====
+    'AuchShadowHellmaw': 18731,     # Ambassador Hellmaw
+    'AuchShadowBlackheart': 18667,  # Blackheart the Inciter
+    'AuchShadowGrandmaster': 18732, # Grandmaster Vorpil
+    'AuchShadowMurmur': 18708,      # Murmur
+
+    # ===== Caverns of Time: Old Hillsbrad =====
+    'CoTHillsbradDrake': 17848,     # Lieutenant Drake
+    'CoTHillsbradSkarloc': 17862,   # Captain Skarloc
+    'CoTHillsbradHunter': 18096,    # Epoch Hunter
+    'CoTHillsbradHunterHEROIC': 18096,  # Epoch Hunter Heroic
+
+    # ===== Caverns of Time: Black Morass =====
+    'CoTMorassDeja': 17879,         # Chrono Lord Deja
+    'CoTMorassTemporus': 17880,     # Temporus
+    'CoTMorassAeonus': 17881,       # Aeonus
+
+    # ===== Tempest Keep: Mechanar =====
+    'TKMechCapacitus': 19219,       # Mechano-Lord Capacitus
+    'TKMechSepethrea': 19221,       # Nethermancer Sepethrea
+    'TKMechCalc': 19220,            # Pathaleon the Calculator
+    'TKMechCalcHEROIC': 19220,      # Pathaleon Heroic
+
+    # ===== Tempest Keep: Botanica =====
+    'TKBotSarannis': 17976,         # Commander Sarannis
+    'TKBotFreywinn': 17975,         # High Botanist Freywinn
+    'TKBotThorngrin': 17978,        # Thorngrin the Tender
+    'TKBotLaj': 17980,              # Laj
+    'TKBotSplinter': 17977,         # Warp Splinter
+    'TKBotSplinterHEROIC': 17977,   # Warp Splinter Heroic
+
+    # ===== Tempest Keep: Arcatraz =====
+    'TKArcUnbound': 20870,          # Zereketh the Unbound
+    'TKArcScryer': 20886,           # Wrath-Scryer Soccothrates
+    'TKArcDalliah': 20885,          # Dalliah the Doomsayer
+    'TKArcHarbinger': 20912,        # Harbinger Skyriss
+
+    # ===== Magister's Terrace =====
+    'SMTFireheart': 24723,          # Selin Fireheart
+    'SMTVexallus': 24744,           # Vexallus
+    'SMTDelrissa': 24560,           # Priestess Delrissa
+    'SMTKaelthas': 24664,           # Kael'thas Sunstrider (5-man)
+    'SMTKaelthasHEROIC': 24664,     # Kael'thas Heroic
+
+    # ===== Karazhan (10-man Raid) =====
+    'KaraAttumen': 16152,           # Attumen the Huntsman (mounted phase has loot)
+    'KaraMoroes': 15687,            # Moroes
+    'KaraMaiden': 16457,            # Maiden of Virtue
+    'KaraCurator': 15691,           # The Curator
+    'KaraIllhoof': 15688,           # Terestian Illhoof
+    'KaraAran': 16524,              # Shade of Aran
+    'KaraNetherspite': 15689,       # Netherspite
+    'KaraNightbane': 17225,         # Nightbane
+    'KaraPrince': 15690,            # Prince Malchezaar
+    'KaraChess': 0,                 # Chess Event (no creature loot)
+
+    # ===== Gruul's Lair =====
+    'GruulsLairHighKingMaulgar': 18831,  # High King Maulgar
+    'GruulGruul': 19044,            # Gruul the Dragonkiller
+
+    # ===== Magtheridon's Lair =====
+    'HCMagtheridon': 17257,         # Magtheridon
+
+    # ===== Serpentshrine Cavern (SSC) =====
+    'CFRSerpentHydross': 21216,     # Hydross the Unstable
+    'CFRSerpentLurker': 21217,      # The Lurker Below
+    'CFRSerpentLeotheras': 21215,   # Leotheras the Blind
+    'CFRSerpentKarathress': 21214,  # Fathom-Lord Karathress
+    'CFRSerpentMorogrim': 21213,    # Morogrim Tidewalker
+    'CFRSerpentVashj': 21212,       # Lady Vashj
+
+    # ===== Tempest Keep: The Eye =====
+    'TKEyeAlar': 19514,             # Al'ar
+    'TKEyeVoidReaver': 19516,       # Void Reaver
+    'TKEyeSolarian': 18805,         # High Astromancer Solarian
+    'TKEyeKaelthas': 19622,         # Kael'thas Sunstrider
+
+    # ===== Battle for Mount Hyjal =====
+    'MountHyjalWinterchill': 17767, # Rage Winterchill
+    'MountHyjalAnetheron': 17808,   # Anetheron
+    'MountHyjalKazrogal': 17888,    # Kaz'rogal
+    'MountHyjalAzgalor': 17842,     # Azgalor
+    'MountHyjalArchimonde': 17968,  # Archimonde
+
+    # ===== Black Temple =====
+    'BTNajentus': 22887,            # High Warlord Naj'entus
+    'BTSupremus': 22898,            # Supremus
+    'BTAkama': 22841,               # Shade of Akama
+    'BTGorefiend': 22871,           # Teron Gorefiend
+    'BTBloodboil': 22948,           # Gurtogg Bloodboil
+    'BTEssencofSouls': 23420,       # Essence of Anger (Reliquary of Souls)
+    'BTShahraz': 22947,             # Mother Shahraz
+    'BTCouncil': 22950,             # Illidari Council (High Nethermancer Zerevor)
+    'BTIllidanStormrage': 22917,    # Illidan Stormrage
+
+    # ===== Sunwell Plateau =====
+    'SPKalecgos': 24844,            # Kalecgos
+    'SPBrutallus': 24882,           # Brutallus
+    'SPFelmyst': 25038,             # Felmyst
+    'SPEredarTwins': 25165,         # Lady Sacrolash (Eredar Twins)
+    'SPMuru': 17544,                # M'uru
+    'SPKiljaeden': 25315,           # Kil'jaeden
+
+    # ===== Zul'Aman =====
+    'ZANalorakk': 23576,            # Nalorakk
+    'ZAAkilZon': 23574,             # Akil'zon
+    'ZAJanAlai': 23578,             # Jan'alai
+    'ZAHalazzi': 23577,             # Halazzi
+    'ZAMalacrass': 24239,           # Hex Lord Malacrass
+    'ZAZuljin': 23863,              # Zul'jin
+}
+
 
 def generate_single_boss_section(lua_file_path: str, section_name: str,
                                   creature_id: int, db: LootDatabase,
@@ -450,8 +618,21 @@ def main():
     )
     parser.add_argument(
         '--raid',
-        help='Raid boss section (BWLFiremaw, MCRagnaros, etc.) - single-boss sections',
+        help='Vanilla raid boss section (BWLFiremaw, MCRagnaros, etc.) - single-boss sections',
         choices=list(SINGLE_BOSS_SECTIONS.keys()) + ['all', 'bwl', 'mc', 'zg', 'aq20', 'aq40']
+    )
+    parser.add_argument(
+        '--tbc',
+        help='TBC dungeon/raid section - use "all" for everything, or filter by instance prefix',
+        choices=list(TBC_SINGLE_BOSS_SECTIONS.keys()) + [
+            'all',
+            # Dungeons
+            'ramparts', 'furnace', 'halls', 'slavepens', 'underbog', 'steamvault',
+            'manatomb', 'crypts', 'sethekk', 'shadowlab', 'hillsbrad', 'morass',
+            'mechanar', 'botanica', 'arcatraz', 'mgt',
+            # Raids
+            'kara', 'gruul', 'magtheridon', 'ssc', 'tk', 'hyjal', 'bt', 'sunwell', 'za'
+        ]
     )
     parser.add_argument(
         '--section',
@@ -476,8 +657,8 @@ def main():
     args = parser.parse_args()
 
     # Validate arguments
-    if not args.dungeon and not args.raid and not args.section:
-        parser.error('Must specify --dungeon, --raid, or --section')
+    if not args.dungeon and not args.raid and not args.tbc and not args.section:
+        parser.error('Must specify --dungeon, --raid, --tbc, or --section')
 
     # Check if Lua file exists
     if not os.path.exists(args.lua_file):
@@ -529,6 +710,93 @@ def main():
             if success:
                 success_count += 1
 
+    # Handle --tbc option (TBC single-boss sections)
+    if args.tbc:
+        # TBC content uses burningcrusade.lua
+        tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
+
+        if not os.path.exists(tbc_lua_file):
+            print(f"✗ Error: TBC Lua file not found: {tbc_lua_file}")
+            db.disconnect()
+            return 1
+
+        tbc_to_process = {}
+
+        if args.tbc == 'all':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if v != 0}
+        # Dungeons
+        elif args.tbc == 'ramparts':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('HCRamp')}
+        elif args.tbc == 'furnace':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('HCFurnace')}
+        elif args.tbc == 'halls':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('HCHalls')}
+        elif args.tbc == 'slavepens':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CFRSlave')}
+        elif args.tbc == 'underbog':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CFRUnder')}
+        elif args.tbc == 'steamvault':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CFRSteam')}
+        elif args.tbc == 'manatomb':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('AuchMana')}
+        elif args.tbc == 'crypts':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('AuchCrypts')}
+        elif args.tbc == 'sethekk':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('AuchSethekk')}
+        elif args.tbc == 'shadowlab':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('AuchShadow')}
+        elif args.tbc == 'hillsbrad':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CoTHillsbrad')}
+        elif args.tbc == 'morass':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CoTMorass')}
+        elif args.tbc == 'mechanar':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('TKMech')}
+        elif args.tbc == 'botanica':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('TKBot')}
+        elif args.tbc == 'arcatraz':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('TKArc')}
+        elif args.tbc == 'mgt':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('SMT')}
+        # Raids
+        elif args.tbc == 'kara':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('Kara') and v != 0}
+        elif args.tbc == 'gruul':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('Gruul')}
+        elif args.tbc == 'magtheridon':
+            tbc_to_process = {'HCMagtheridon': TBC_SINGLE_BOSS_SECTIONS['HCMagtheridon']}
+        elif args.tbc == 'ssc':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('CFRSerpent')}
+        elif args.tbc == 'tk':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('TKEye')}
+        elif args.tbc == 'hyjal':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('MountHyjal')}
+        elif args.tbc == 'bt':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('BT')}
+        elif args.tbc == 'sunwell':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('SP')}
+        elif args.tbc == 'za':
+            tbc_to_process = {k: v for k, v in TBC_SINGLE_BOSS_SECTIONS.items() if k.startswith('ZA')}
+        else:
+            # Specific section name
+            creature_id = TBC_SINGLE_BOSS_SECTIONS.get(args.tbc)
+            if creature_id is not None and creature_id != 0:
+                tbc_to_process = {args.tbc: creature_id}
+            elif creature_id == 0:
+                print(f"⚠ Section '{args.tbc}' has no creature loot (creature_id=0), skipping")
+            else:
+                print(f"✗ Unknown TBC section: {args.tbc}")
+                db.disconnect()
+                return 1
+
+        total_count += len(tbc_to_process)
+        for section_name, creature_id in tbc_to_process.items():
+            success = generate_single_boss_section(
+                tbc_lua_file, section_name, creature_id, db,
+                dry_run=args.dry_run, verbose=args.verbose
+            )
+            if success:
+                success_count += 1
+
     # Handle --dungeon option (multi-boss sections)
     if args.dungeon:
         sections_to_process = []
@@ -555,13 +823,25 @@ def main():
     # Handle --section option (auto-detect mode)
     if args.section:
         total_count += 1
-        # Check if it's a known single-boss section
+        # Check if it's a known single-boss section (vanilla)
         if args.section in SINGLE_BOSS_SECTIONS:
             creature_id = SINGLE_BOSS_SECTIONS[args.section]
             success = generate_single_boss_section(
                 args.lua_file, args.section, creature_id, db,
                 dry_run=args.dry_run, verbose=args.verbose
             )
+        # Check if it's a TBC section
+        elif args.section in TBC_SINGLE_BOSS_SECTIONS:
+            creature_id = TBC_SINGLE_BOSS_SECTIONS[args.section]
+            if creature_id == 0:
+                print(f"⚠ Section '{args.section}' has no creature loot (creature_id=0)")
+                success = False
+            else:
+                tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
+                success = generate_single_boss_section(
+                    tbc_lua_file, args.section, creature_id, db,
+                    dry_run=args.dry_run, verbose=args.verbose
+                )
         else:
             # Try as multi-boss section
             success = generate_section(
