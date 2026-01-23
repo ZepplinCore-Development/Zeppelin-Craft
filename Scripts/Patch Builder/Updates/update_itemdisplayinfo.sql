@@ -103548,3 +103548,13 @@ INSERT INTO `dbc`.`itemdisplayinfo` SET
     `ID` = 154863,
     `InventoryIcon1` = 'hud_minimap_hanamura_dragon_skill_icon_hots_color';
 
+DELETE FROM `dbc`.`itemdisplayinfo` WHERE `ID` = 154864;
+INSERT INTO `dbc`.`itemdisplayinfo` SET 
+    `ID` = 154864,
+    `InventoryIcon1` = 'AO_RareTrinketScroll2_DOMINANT_MINT';
+
+DELETE FROM `dbc`.`itemdisplayinfo` WHERE `ID` = 154865;
+INSERT INTO `dbc`.`itemdisplayinfo` SET 
+    `ID` = 154865,
+    `InventoryIcon1` = 'AO_RareTrinketScroll2_DOMINANT_RED';
+
