@@ -27960,3 +27960,32 @@ INSERT INTO `dbc`.`spell` SET
     `TotemCategory1` = 121,
     `SchoolMask` = 1;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 104000;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 104000,
+    `Attributes` = 192,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 256,
+    `EffectMiscValue1` = 5,
+    `EffectSpellClassMaskA3` = 1,
+    `SpellIconID` = 1,
+    `SpellName0` = 'Priest Buff Mastery',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712188,
+    `SpellDescription0` = 'Your Levitate spell no longer requires a reagent.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712188,
+    `SpellFamilyName` = 6,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
