@@ -480,6 +480,170 @@ class LootDatabase:
             print(f"Query error: {err}")
             return False
 
+    def get_gameobject_name(self, gameobject_entry: int) -> Optional[str]:
+        """
+        Get gameobject name from entry ID.
+
+        Args:
+            gameobject_entry: Gameobject entry ID
+
+        Returns:
+            Gameobject name or None if not found
+        """
+        if not self.connection:
+            return None
+
+        query = """
+            SELECT name
+            FROM gameobject_template
+            WHERE entry = %s
+            LIMIT 1
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(query, (gameobject_entry,))
+            result = cursor.fetchone()
+            cursor.close()
+
+            if result:
+                return result['name']
+            return None
+
+        except mysql.connector.Error as err:
+            print(f"Query error: {err}")
+            return None
+
+    def get_gameobject_loot(self, gameobject_entry: int) -> List[Dict]:
+        """
+        Get loot items for a gameobject (chest, container, etc).
+
+        Looks up loot template ID from gameobject_template.Data1 (for type=3 chests),
+        then queries gameobject_loot_template.
+
+        Args:
+            gameobject_entry: Gameobject entry ID
+
+        Returns:
+            List of loot items with full details
+        """
+        if not self.connection:
+            return []
+
+        # Step 1: Get loot template ID from gameobject_template
+        loot_query = """
+            SELECT Data1 as loot_id, name
+            FROM gameobject_template
+            WHERE entry = %s
+              AND type = 3  -- Chest type
+            LIMIT 1
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(loot_query, (gameobject_entry,))
+            result = cursor.fetchone()
+            cursor.close()
+
+            if not result or not result['loot_id']:
+                print(f"Warning: No loot template found for gameobject {gameobject_entry}")
+                return []
+
+            loot_template_id = result['loot_id']
+
+        except mysql.connector.Error as err:
+            print(f"Gameobject query error: {err}")
+            return []
+
+        # Step 2: Query gameobject_loot_template
+        loot_items_query = """
+            SELECT
+                glt.Entry as gameobject_id,
+                glt.Item as item_id,
+                it.name as item_name,
+                it.Quality as quality,
+                it.InventoryType as inventory_type,
+                it.class as item_class,
+                it.subclass as item_subclass,
+                glt.Chance as drop_chance,
+                glt.GroupId as group_id
+            FROM gameobject_loot_template glt
+            LEFT JOIN item_template it ON glt.Item = it.entry
+            WHERE glt.Entry = %s
+              AND glt.Reference = 0
+              AND glt.Item > 0
+              -- Filter to show only meaningful loot
+              AND (
+                  it.class = 12                          -- Quest items
+                  OR it.class = 13                       -- Keys (dungeon attunement keys)
+                  OR glt.Item >= 900000                  -- Custom items
+                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND glt.Chance > 0 AND glt.Chance < 5))
+                  OR (it.Quality = 2 AND glt.Chance >= 10)
+                  OR (glt.Chance = 0 AND glt.GroupId > 0)
+              )
+            ORDER BY glt.GroupId, glt.Chance DESC, glt.Item
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(loot_items_query, (loot_template_id,))
+            results = cursor.fetchall()
+            cursor.close()
+
+            # Also resolve reference loot if any
+            ref_items = self._resolve_gameobject_reference_loot(loot_template_id)
+            results.extend(ref_items)
+
+            return results
+
+        except mysql.connector.Error as err:
+            print(f"Gameobject loot query error: {err}")
+            return []
+
+    def _resolve_gameobject_reference_loot(self, loot_template_id: int) -> List[Dict]:
+        """
+        Resolve reference loot tables for a gameobject.
+
+        Args:
+            loot_template_id: Gameobject loot template ID
+
+        Returns:
+            List of resolved loot items from reference tables
+        """
+        if not self.connection:
+            return []
+
+        # Find references with high drop chance
+        ref_query = """
+            SELECT Reference, Chance, GroupId
+            FROM gameobject_loot_template
+            WHERE Entry = %s
+              AND Reference > 0
+              AND (Chance >= 100 OR (Chance = 0 AND GroupId = 0))
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(ref_query, (loot_template_id,))
+            references = cursor.fetchall()
+            cursor.close()
+
+            if not references:
+                return []
+
+            # Resolve each reference table (reuse existing method)
+            all_ref_items = []
+            for ref in references:
+                ref_id = ref['Reference']
+                ref_items = self._get_reference_items(ref_id)
+                all_ref_items.extend(ref_items)
+
+            return all_ref_items
+
+        except mysql.connector.Error as err:
+            print(f"Gameobject reference query error: {err}")
+            return []
+
 
 def test_connection():
     """Test database connection and query basic info."""

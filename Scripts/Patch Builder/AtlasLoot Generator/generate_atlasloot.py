@@ -444,6 +444,119 @@ TBC_SINGLE_BOSS_SECTIONS = {
     'ZAZuljin': 23863,              # Zul'jin
 }
 
+# Maps section name -> gameobject entry ID for chest loot
+# File: burningcrusade.lua
+TBC_GAMEOBJECT_SECTIONS = {
+    # ===== Hellfire Citadel: Ramparts =====
+    'HCRampReinforcedChest': 185168,        # Reinforced Fel Iron Chest (Normal)
+    'HCRampReinforcedChestHEROIC': 185169,  # Reinforced Fel Iron Chest (Heroic)
+
+    # Note: Cache of the Legion (184465/184849) is in Mechanar at TKMechCacheoftheLegion
+    # That section already exists with correct data in the original AtlasLoot
+
+    # ===== Auchindoun: Sethekk Halls =====
+    'AuchSethekkTalonKingCoffer': 187372,   # The Talon King's Coffer (Heroic only - Shadow Lab key)
+}
+
+
+def generate_gameobject_section(lua_file_path: str, section_name: str,
+                                 gameobject_entry: int, db: LootDatabase,
+                                 dry_run: bool = False, verbose: bool = False) -> bool:
+    """
+    Generate and update an AtlasLoot section for gameobject (chest) loot.
+
+    Args:
+        lua_file_path: Path to AtlasLoot Lua file
+        section_name: Section name (e.g., "HCRampReinforcedChest")
+        gameobject_entry: Gameobject entry ID from database
+        db: Database connection object
+        dry_run: If True, don't save changes
+        verbose: If True, print detailed output
+
+    Returns:
+        True if successful, False otherwise
+    """
+    print(f"\n{'='*60}")
+    print(f"Processing gameobject section: {section_name}")
+    print(f"{'='*60}")
+
+    # Step 1: Parse Lua file
+    parser = AtlasLootParser(lua_file_path)
+
+    # Check if section exists, or create it
+    bounds = parser.find_section_bounds(section_name)
+    section_created = False
+
+    if not bounds:
+        # Try to find a reference section to insert after
+        # For HEROIC, insert after normal. Otherwise insert after a boss section.
+        if section_name.endswith('HEROIC'):
+            normal_section = section_name[:-6]
+            if parser.section_exists(normal_section):
+                print(f"✓ Creating new HEROIC chest section based on '{normal_section}'")
+                parser.insert_section_after(normal_section, section_name,
+                    '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
+                section_created = True
+                bounds = parser.find_section_bounds(section_name)
+        else:
+            # Find a related section to insert after
+            prefix = section_name[:6]  # e.g., "HCRamp"
+            all_sections = parser.get_all_sections()
+            related = [s for s in all_sections if s.startswith(prefix)]
+            if related:
+                print(f"✓ Creating new chest section after '{related[-1]}'")
+                parser.insert_section_after(related[-1], section_name,
+                    '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
+                section_created = True
+                bounds = parser.find_section_bounds(section_name)
+
+        if not bounds:
+            print(f"✗ Could not create section '{section_name}'")
+            return False
+
+    if not section_created:
+        print(f"✓ Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+
+    # Step 2: Get gameobject name
+    go_name = db.get_gameobject_name(gameobject_entry)
+    if go_name:
+        print(f"✓ Chest: {go_name} (ID: {gameobject_entry})")
+    else:
+        print(f"✓ Gameobject ID: {gameobject_entry}")
+
+    # Step 3: Query loot
+    loot_items = db.get_gameobject_loot(gameobject_entry)
+
+    if not loot_items:
+        print(f"⚠ No loot items found for gameobject {gameobject_entry}")
+        return False
+
+    print(f"✓ Found {len(loot_items)} loot items")
+
+    # Step 4: Generate Lua code
+    generator = LuaGenerator(section_name)
+    new_lua_code = generator.generate_single_boss_section(loot_items)
+
+    print(f"\nGenerated code preview:")
+    preview_lines = new_lua_code.split('\n')[:12]
+    for line in preview_lines:
+        print(f"\t{line}")
+    if len(new_lua_code.split('\n')) > 12:
+        print(f"... ({len(new_lua_code.split(chr(10))) - 12} more lines)")
+
+    # Step 5: Update file
+    if dry_run:
+        print("\n[DRY RUN] Skipping file update")
+        return True
+
+    if parser.replace_section(section_name, new_lua_code):
+        parser.save_file(backup=True)
+        print(f"\n✓ Section '{section_name}' updated successfully")
+        return True
+    else:
+        print(f"\n✗ Failed to update section '{section_name}'")
+        return False
+
 
 def generate_single_boss_section(lua_file_path: str, section_name: str,
                                   creature_id: int, db: LootDatabase,
@@ -708,6 +821,11 @@ def main():
         ]
     )
     parser.add_argument(
+        '--chest',
+        help='TBC chest/gameobject section (ramparts, botanica, sethekk, all)',
+        choices=list(TBC_GAMEOBJECT_SECTIONS.keys()) + ['all', 'ramparts', 'sethekk']
+    )
+    parser.add_argument(
         '--section',
         help='Specific AtlasLoot section name (auto-detects single vs multi-boss)'
     )
@@ -729,15 +847,16 @@ def main():
 
     args = parser.parse_args()
 
-    # Validate arguments
-    if not args.all and not args.dungeon and not args.raid and not args.tbc and not args.section:
-        parser.error('Must specify --all, --dungeon, --raid, --tbc, or --section')
+    # Default to --all if no arguments specified (for Patch Builder compatibility)
+    if not args.all and not args.dungeon and not args.raid and not args.tbc and not args.chest and not args.section:
+        args.all = True
 
     # --all flag sets all content types
     if args.all:
         args.dungeon = 'all'
         args.raid = 'all'
         args.tbc = 'all'
+        args.chest = 'all'
 
     # Check if Lua file exists
     if not os.path.exists(args.lua_file):
@@ -871,6 +990,42 @@ def main():
         for section_name, creature_id in tbc_to_process.items():
             success = generate_single_boss_section(
                 tbc_lua_file, section_name, creature_id, db,
+                dry_run=args.dry_run, verbose=args.verbose
+            )
+            if success:
+                success_count += 1
+
+    # Handle --chest option (gameobject loot sections)
+    if args.chest:
+        tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
+
+        if not os.path.exists(tbc_lua_file):
+            print(f"✗ Error: TBC Lua file not found: {tbc_lua_file}")
+            db.disconnect()
+            return 1
+
+        chests_to_process = {}
+
+        if args.chest == 'all':
+            chests_to_process = dict(TBC_GAMEOBJECT_SECTIONS)
+        elif args.chest == 'ramparts':
+            chests_to_process = {k: v for k, v in TBC_GAMEOBJECT_SECTIONS.items() if k.startswith('HCRamp')}
+        elif args.chest == 'sethekk':
+            chests_to_process = {k: v for k, v in TBC_GAMEOBJECT_SECTIONS.items() if k.startswith('AuchSethekk')}
+        else:
+            # Specific section name
+            go_entry = TBC_GAMEOBJECT_SECTIONS.get(args.chest)
+            if go_entry:
+                chests_to_process = {args.chest: go_entry}
+            else:
+                print(f"✗ Unknown chest section: {args.chest}")
+                db.disconnect()
+                return 1
+
+        total_count += len(chests_to_process)
+        for section_name, go_entry in chests_to_process.items():
+            success = generate_gameobject_section(
+                tbc_lua_file, section_name, go_entry, db,
                 dry_run=args.dry_run, verbose=args.verbose
             )
             if success:

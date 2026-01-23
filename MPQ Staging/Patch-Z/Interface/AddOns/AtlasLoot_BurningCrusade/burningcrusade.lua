@@ -282,18 +282,8 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 23, 27986, "", "=q3=Crow Wing Reaper", "=ds=#w2#", "", "9.09%" };
 	};
 
-	AtlasLoot_Data["AuchShadowBlackheart"] = {
-    { 1, 28558, "", "=q1=Spirit Shard", "=ds=#m3#", "", "100%" };
-    { 2, 30808, "", "=q1=Book of Fel Names", "=ds=#m3#", "", "100%" };
-    { 4, 30809, "", "=q1=Mark of Sargeras", "=ds=#m3#", "", "11.0%" };
-    { 5, 29740, "", "=q2=Fel Armament", "=ds=#m3#", "", "1.40%" };
-    { 7, 25728, "", "=q3=Pattern: Stylin' Purple Hat", "=ds=#e2#", "", "10.0%" };
-    { 9, 27468, "", "=q3=Moonglade Handwraps", "=ds=#a2#", "", "16.7%" };
-    { 10, 27890, "", "=q3=Wand of the Netherwing", "=ds=#w15#", "", "16.7%" };
-    { 11, 27891, "", "=q3=Adamantine Figurine", "=ds=#e15#", "", "16.7%" };
-    { 12, 27892, "", "=q3=Cloak of the Inciter", "=ds=#a1#", "", "16.7%" };
-    { 13, 27893, "", "=q3=Ornate Leggings of the Venerated", "=ds=#a4#", "", "16.7%" };
-    { 14, 28134, "", "=q3=Brooch of Heightened Potential", "=ds=#e15#", "", "16.7%" };
+	AtlasLoot_Data["AuchSethekkTalonKingCoffer"] = {
+    { 1, 27991, "", "=q1=Shadow Labyrinth Key", "=ds=#e5#", "", "100%" };
 	};
 
 	AtlasLoot_Data["AuchShadowBlackheartHEROIC"] = {
@@ -1162,28 +1152,45 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 3, 23892, "", "=q1=Ominous Letter", "=ds=#m3#", "", "100%" };
 	};
 
-		-------------------------------------------
-		--- Hellfire Citadel: The Blood Furnace ---
-		-------------------------------------------
-
-	AtlasLoot_Data["HCFurnaceMaker"] = {
-    { 1, 23894, "", "=q1=Fel Orc Blood Vial", "=ds=#m3#", "", "100%" };
-    { 3, 24384, "", "=q3=Diamond-Core Sledgemace", "=ds=#w6#", "", "20.0%" };
-    { 4, 24385, "", "=q3=Pendant of Battle-Lust", "=ds=#e15#", "", "20.0%" };
-    { 5, 24386, "", "=q3=Libram of Saints Departed", "", "", "20.0%" };
-    { 6, 24387, "", "=q3=Ironblade Gauntlets", "=ds=#a4#", "", "20.0%" };
-    { 7, 24388, "", "=q3=Girdle of the Gale Storm", "=ds=#a3#", "", "20.0%" };
+	AtlasLoot_Data["HCRampReinforcedChest"] = {
+    { 1, 24044, "", "=q3=Hellreaver", "=ds=#w8#", "", "10.0%" };
+    { 2, 24045, "", "=q3=Band of Renewal", "=ds=#e15#", "", "10.0%" };
+    { 3, 24046, "", "=q3=Kilt of Rolling Thunders", "=ds=#a3#", "", "10.0%" };
+    { 4, 24063, "", "=q3=Shifting Sash of Midnight", "=ds=#a2#", "", "10.0%" };
+    { 5, 24064, "", "=q3=Ironsole Clompers", "=ds=#a4#", "", "10.0%" };
+    { 6, 24083, "", "=q3=Lifegiver Britches", "=ds=#a1#", "", "10.0%" };
+    { 7, 24150, "", "=q3=Mok'Nathal Wildercloak", "=ds=#a1#", "", "10.0%" };
+    { 8, 24151, "", "=q3=Mok'Nathal Clan Ring", "=ds=#e15#", "", "10.0%" };
+    { 9, 24154, "", "=q3=Witching Band", "=ds=#e15#", "", "10.0%" };
+    { 10, 24155, "", "=q3=Ursol's Claw", "=ds=#w9#", "", "10.0%" };
 	};
 
-	AtlasLoot_Data["HCFurnaceMakerHEROIC"] = {
-    { 1, 23894, "", "=q1=Fel Orc Blood Vial", "=ds=#m3#", "", "100%" };
-    { 2, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
-    { 4, 21877, "", "=q1=Netherweave Cloth", "=ds=#e7#", "", "100%" };
-    { 6, 27483, "", "=q3=Moon-Touched Bands", "=ds=#a2#", "", "20.0%" };
-    { 7, 27484, "", "=q3=Libram of Avengement", "", "", "20.0%" };
-    { 8, 27485, "", "=q3=Embroidered Cape of Mysteries", "=ds=#a1#", "", "20.0%" };
-    { 9, 27487, "", "=q3=Bloodlord Legplates", "=ds=#a4#", "", "20.0%" };
-    { 10, 27488, "", "=q3=Mage-Collar of the Firestorm", "=ds=#a1#", "", "20.0%" };
+	AtlasLoot_Data["HCRampReinforcedChestHEROIC"] = {
+    { 1, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
+    { 3, 27457, "", "=q3=Life Bearer's Gauntlets", "=ds=#a4#", "", "20.0%" };
+    { 4, 27458, "", "=q3=Oceansong Kilt", "=ds=#a3#", "", "20.0%" };
+    { 5, 27459, "", "=q3=Vambraces of Daring", "=ds=#a4#", "", "20.0%" };
+    { 6, 27460, "", "=q3=Reavers' Ring", "=ds=#e15#", "", "20.0%" };
+    { 7, 27461, "", "=q3=Chestguard of the Prowler", "=ds=#a2#", "", "20.0%" };
+    { 9, 27452, "", "=q3=Light Scribe Bands", "=ds=#a1#", "", "20.0%" };
+    { 10, 27453, "", "=q3=Averinn's Ring of Slaying", "=ds=#e15#", "", "20.0%" };
+    { 11, 27454, "", "=q3=Volcanic Pauldrons", "=ds=#a3#", "", "20.0%" };
+    { 12, 27455, "", "=q3=Irondrake Faceguard", "=ds=#a4#", "", "20.0%" };
+    { 13, 27456, "", "=q3=Raiments of Nature's Breath", "=ds=#a2#", "", "20.0%" };
+    { 15, 27457, "", "=q3=Life Bearer's Gauntlets", "=ds=#a4#", "", "20.0%" };
+    { 16, 27458, "", "=q3=Oceansong Kilt", "=ds=#a3#", "", "20.0%" };
+    { 17, 27459, "", "=q3=Vambraces of Daring", "=ds=#a4#", "", "20.0%" };
+    { 18, 27460, "", "=q3=Reavers' Ring", "=ds=#e15#", "", "20.0%" };
+    { 19, 27461, "", "=q3=Chestguard of the Prowler", "=ds=#a2#", "", "20.0%" };
+    { 21, 27452, "", "=q3=Light Scribe Bands", "=ds=#a1#", "", "20.0%" };
+    { 22, 27453, "", "=q3=Averinn's Ring of Slaying", "=ds=#e15#", "", "20.0%" };
+    { 23, 27454, "", "=q3=Volcanic Pauldrons", "=ds=#a3#", "", "20.0%" };
+    { 24, 27455, "", "=q3=Irondrake Faceguard", "=ds=#a4#", "", "20.0%" };
+    { 25, 27456, "", "=q3=Raiments of Nature's Breath", "=ds=#a2#", "", "20.0%" };
+    { 27, 29238, "", "=q4=Lion's Heart Girdle", "=ds=#a4#", "", "25.0%" };
+    { 28, 29264, "", "=q4=Tree-Mender's Belt", "=ds=#a2#", "", "25.0%" };
+    { 29, 29346, "", "=q4=Feltooth Eviscerator", "=ds=#w4#", "", "25.0%" };
+    { 30, 32077, "", "=q4=Wrath Infused Gauntlets", "=ds=#a3#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["HCFurnaceBreaker"] = {
