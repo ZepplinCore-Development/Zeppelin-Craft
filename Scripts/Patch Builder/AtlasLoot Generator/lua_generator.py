@@ -43,7 +43,15 @@ class LuaGenerator:
                 group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
         # Add loot items with calculated drop rates
+        # Track group changes for visual separation
+        last_group_id = None
         for item in loot_items:
+            # Add spacer when group changes (visual separation between loot pools)
+            current_group_id = item.get('group_id', 0)
+            if last_group_id is not None and current_group_id != last_group_id:
+                self.current_line_num += 1  # Skip a line number for visual gap
+            last_group_id = current_group_id
+
             # Calculate actual drop chance for group loot
             drop_chance = item['drop_chance']
             if drop_chance == 0 and item.get('group_id', 0) > 0:
@@ -148,7 +156,15 @@ class LuaGenerator:
                 group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
         # Add loot items (no boss header needed)
+        # Track group changes for visual separation
+        last_group_id = None
         for item in loot_items:
+            # Add spacer when group changes (visual separation between loot pools)
+            current_group_id = item.get('group_id', 0)
+            if last_group_id is not None and current_group_id != last_group_id:
+                self.current_line_num += 1  # Skip a line number for visual gap
+            last_group_id = current_group_id
+
             # Calculate actual drop chance for group loot
             drop_chance = item['drop_chance']
             if drop_chance == 0 and item.get('group_id', 0) > 0:
