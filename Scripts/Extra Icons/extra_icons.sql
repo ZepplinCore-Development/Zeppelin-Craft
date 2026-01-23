@@ -20621,3 +20621,5 @@ REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154860, 'icon_hots_zul
 REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154861, 'quest_event_wcav_dialog_reward_icon_hots_alliance');
 REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154862, 'quest_event_wcav_dialog_reward_icon_hots_horde');
 REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154863, 'hud_minimap_hanamura_dragon_skill_icon_hots_color');
+REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154864, 'AO_RareTrinketScroll2_DOMINANT_MINT');
+REPLACE INTO itemdisplayinfo (ID, InventoryIcon1) VALUES (154865, 'AO_RareTrinketScroll2_DOMINANT_RED');

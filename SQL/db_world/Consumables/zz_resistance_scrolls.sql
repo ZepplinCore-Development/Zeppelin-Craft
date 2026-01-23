@@ -17,7 +17,7 @@ INSERT INTO `item_template` SET
     `entry` = 902331,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -40,7 +40,7 @@ INSERT INTO `item_template` SET
     `entry` = 902332,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance II',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -63,7 +63,7 @@ INSERT INTO `item_template` SET
     `entry` = 902333,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance III',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -86,7 +86,7 @@ INSERT INTO `item_template` SET
     `entry` = 902334,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -109,7 +109,7 @@ INSERT INTO `item_template` SET
     `entry` = 902335,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance V',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -132,7 +132,7 @@ INSERT INTO `item_template` SET
     `entry` = 902336,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -155,7 +155,7 @@ INSERT INTO `item_template` SET
     `entry` = 902337,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -178,7 +178,7 @@ INSERT INTO `item_template` SET
     `entry` = 902338,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 154865,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -205,7 +205,7 @@ INSERT INTO `item_template` SET
     `entry` = 902339,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -228,7 +228,7 @@ INSERT INTO `item_template` SET
     `entry` = 902340,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance II',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -251,7 +251,7 @@ INSERT INTO `item_template` SET
     `entry` = 902341,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance III',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -274,7 +274,7 @@ INSERT INTO `item_template` SET
     `entry` = 902342,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -297,7 +297,7 @@ INSERT INTO `item_template` SET
     `entry` = 902343,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance V',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -320,7 +320,7 @@ INSERT INTO `item_template` SET
     `entry` = 902344,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -343,7 +343,7 @@ INSERT INTO `item_template` SET
     `entry` = 902345,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -366,7 +366,7 @@ INSERT INTO `item_template` SET
     `entry` = 902346,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 154864,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -393,7 +393,7 @@ INSERT INTO `item_template` SET
     `entry` = 902347,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -416,7 +416,7 @@ INSERT INTO `item_template` SET
     `entry` = 902348,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance II',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -439,7 +439,7 @@ INSERT INTO `item_template` SET
     `entry` = 902349,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance III',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -462,7 +462,7 @@ INSERT INTO `item_template` SET
     `entry` = 902350,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -485,7 +485,7 @@ INSERT INTO `item_template` SET
     `entry` = 902351,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance V',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -508,7 +508,7 @@ INSERT INTO `item_template` SET
     `entry` = 902352,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -531,7 +531,7 @@ INSERT INTO `item_template` SET
     `entry` = 902353,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -554,7 +554,7 @@ INSERT INTO `item_template` SET
     `entry` = 902354,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 141292,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -581,7 +581,7 @@ INSERT INTO `item_template` SET
     `entry` = 902355,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -604,7 +604,7 @@ INSERT INTO `item_template` SET
     `entry` = 902356,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance II',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -627,7 +627,7 @@ INSERT INTO `item_template` SET
     `entry` = 902357,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance III',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -650,7 +650,7 @@ INSERT INTO `item_template` SET
     `entry` = 902358,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -673,7 +673,7 @@ INSERT INTO `item_template` SET
     `entry` = 902359,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance V',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -696,7 +696,7 @@ INSERT INTO `item_template` SET
     `entry` = 902360,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -719,7 +719,7 @@ INSERT INTO `item_template` SET
     `entry` = 902361,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -742,7 +742,7 @@ INSERT INTO `item_template` SET
     `entry` = 902362,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 139967,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -769,7 +769,7 @@ INSERT INTO `item_template` SET
     `entry` = 902363,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -792,7 +792,7 @@ INSERT INTO `item_template` SET
     `entry` = 902364,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance II',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -815,7 +815,7 @@ INSERT INTO `item_template` SET
     `entry` = 902365,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance III',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -838,7 +838,7 @@ INSERT INTO `item_template` SET
     `entry` = 902366,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -861,7 +861,7 @@ INSERT INTO `item_template` SET
     `entry` = 902367,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance V',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -884,7 +884,7 @@ INSERT INTO `item_template` SET
     `entry` = 902368,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -907,7 +907,7 @@ INSERT INTO `item_template` SET
     `entry` = 902369,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -930,7 +930,7 @@ INSERT INTO `item_template` SET
     `entry` = 902370,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 138251,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -957,7 +957,7 @@ INSERT INTO `item_template` SET
     `entry` = 902371,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 150,
     `SellPrice` = 37,
@@ -980,7 +980,7 @@ INSERT INTO `item_template` SET
     `entry` = 902372,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance II',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 300,
     `SellPrice` = 75,
@@ -1003,7 +1003,7 @@ INSERT INTO `item_template` SET
     `entry` = 902373,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance III',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 900,
     `SellPrice` = 225,
@@ -1026,7 +1026,7 @@ INSERT INTO `item_template` SET
     `entry` = 902374,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance IV',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 1800,
     `SellPrice` = 450,
@@ -1049,7 +1049,7 @@ INSERT INTO `item_template` SET
     `entry` = 902375,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance V',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 2700,
     `SellPrice` = 675,
@@ -1072,7 +1072,7 @@ INSERT INTO `item_template` SET
     `entry` = 902376,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VI',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 3600,
     `SellPrice` = 900,
@@ -1095,7 +1095,7 @@ INSERT INTO `item_template` SET
     `entry` = 902377,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VII',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 4500,
     `SellPrice` = 1125,
@@ -1118,7 +1118,7 @@ INSERT INTO `item_template` SET
     `entry` = 902378,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VIII',
-    `displayid` = 1093,
+    `displayid` = 140076,
     `Quality` = 1,
     `BuyPrice` = 6000,
     `SellPrice` = 1500,
@@ -1324,40 +1324,242 @@ UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` 
 DELETE FROM `npc_trainer` WHERE `SpellID` BETWEEN 103300 AND 103347;
 
 -- Trainer 201021: Inscription Trainer
--- Rank I - Vanilla starter (skill 25-50, +5 increments, cost 50c)
+-- Rank I - Vanilla starter (2 schools per 5 skill, cost 50c)
 INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
 (201021, 103300, 50, 773, 25, 0, 0),    -- Fire Warding I
-(201021, 103301, 50, 773, 30, 0, 0),    -- Frost Warding I
-(201021, 103302, 50, 773, 35, 0, 0),    -- Arcane Warding I
-(201021, 103303, 50, 773, 40, 0, 0),    -- Shadow Warding I
-(201021, 103304, 50, 773, 45, 0, 0),    -- Nature Warding I
-(201021, 103305, 50, 773, 50, 0, 0);    -- Holy Warding I
+(201021, 103301, 50, 773, 25, 0, 0),    -- Frost Warding I
+(201021, 103302, 50, 773, 30, 0, 0),    -- Arcane Warding I
+(201021, 103303, 50, 773, 30, 0, 0),    -- Shadow Warding I
+(201021, 103304, 50, 773, 35, 0, 0),    -- Nature Warding I
+(201021, 103305, 50, 773, 35, 0, 0);    -- Holy Warding I
 
 -- Trainer 201022: Master Inscription Trainer
--- Rank V - TBC starter (skill 310-335, +5 increments, cost 1g 50s)
+-- Rank V - TBC starter (2 schools per 5 skill, cost 1g 50s)
 INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
 (201022, 103324, 15000, 773, 310, 0, 0), -- Fire Warding V
-(201022, 103325, 15000, 773, 315, 0, 0), -- Frost Warding V
-(201022, 103326, 15000, 773, 320, 0, 0), -- Arcane Warding V
-(201022, 103327, 15000, 773, 325, 0, 0), -- Shadow Warding V
-(201022, 103328, 15000, 773, 330, 0, 0), -- Nature Warding V
-(201022, 103329, 15000, 773, 335, 0, 0); -- Holy Warding V
+(201022, 103325, 15000, 773, 310, 0, 0), -- Frost Warding V
+(201022, 103326, 15000, 773, 315, 0, 0), -- Arcane Warding V
+(201022, 103327, 15000, 773, 315, 0, 0), -- Shadow Warding V
+(201022, 103328, 15000, 773, 320, 0, 0), -- Nature Warding V
+(201022, 103329, 15000, 773, 320, 0, 0); -- Holy Warding V
 
 -- Trainer 201023: Grand Master Inscription Trainer
--- Rank VII - WotLK starter (skill 400-425, +5 increments, cost 5g)
+-- Rank VII - WotLK starter (2 schools per 5 skill, cost 5g)
 INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(201023, 103336, 50000, 773, 400, 0, 0), -- Fire Warding VII
-(201023, 103337, 50000, 773, 405, 0, 0), -- Frost Warding VII
-(201023, 103338, 50000, 773, 410, 0, 0), -- Arcane Warding VII
-(201023, 103339, 50000, 773, 415, 0, 0), -- Shadow Warding VII
-(201023, 103340, 50000, 773, 420, 0, 0), -- Nature Warding VII
-(201023, 103341, 50000, 773, 425, 0, 0); -- Holy Warding VII
+(201023, 103336, 50000, 773, 380, 0, 0), -- Fire Warding VII
+(201023, 103337, 50000, 773, 380, 0, 0), -- Frost Warding VII
+(201023, 103338, 50000, 773, 385, 0, 0), -- Arcane Warding VII
+(201023, 103339, 50000, 773, 385, 0, 0), -- Shadow Warding VII
+(201023, 103340, 50000, 773, 390, 0, 0), -- Nature Warding VII
+(201023, 103341, 50000, 773, 390, 0, 0); -- Holy Warding VII
 
 -- =====================================================
--- PHASE 3: DUNGEON RECIPE DROPS (TODO)
+-- PHASE 3: DUNGEON RECIPE DROPS
 -- =====================================================
--- Recipe items needed for progression ranks:
+-- Recipe items for progression ranks:
 --   Ranks II, III, IV - Vanilla dungeon drops
 --   Rank VI - TBC dungeon drops
 --   Rank VIII - WotLK dungeon drops
+--
+-- Recipe Item IDs: 902400-902429 (5 ranks × 6 types)
+--   Fire: 902400-902404 (II, III, IV, VI, VIII)
+--   Frost: 902405-902409
+--   Arcane: 902410-902414
+--   Shadow: 902415-902419
+--   Nature: 902420-902424
+--   Holy: 902425-902429
 -- =====================================================
+
+-- =====================================================
+-- RANK II RECIPE ITEMS (Vanilla Low-Level Dungeons)
+-- =====================================================
+-- Skill Req: Fire/Frost 80, Arcane/Shadow 85, Nature/Holy 90
+
+-- Technique: Scroll of Fire Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902400;
+
+INSERT INTO `item_template` SET
+    `entry` = 902400,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Fire Resistance II',
+    `displayid` = 140302,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 80,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103306,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Frost Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902405;
+
+INSERT INTO `item_template` SET
+    `entry` = 902405,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Frost Resistance II',
+    `displayid` = 140304,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 80,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103307,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Arcane Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902410;
+
+INSERT INTO `item_template` SET
+    `entry` = 902410,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Arcane Resistance II',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 85,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103308,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Shadow Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902415;
+
+INSERT INTO `item_template` SET
+    `entry` = 902415,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Shadow Resistance II',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 85,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103309,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Nature Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902420;
+
+INSERT INTO `item_template` SET
+    `entry` = 902420,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Nature Resistance II',
+    `displayid` = 140303,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 90,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103310,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Holy Resistance II
+DELETE FROM `item_template` WHERE `entry` = 902425;
+
+INSERT INTO `item_template` SET
+    `entry` = 902425,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Holy Resistance II',
+    `displayid` = 140301,
+    `Quality` = 2,
+    `BuyPrice` = 2000,
+    `SellPrice` = 500,
+    `ItemLevel` = 25,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 90,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103311,
+    `spelltrigger_2` = 6;
+
+
+
+-- =====================================================
+-- RANK II DUNGEON LOOT TABLE ENTRIES
+-- =====================================================
+-- Boss Distribution:
+--   Fire: Taragaman (11520), Jergosh (11518) - RFC
+--   Frost: Baron Silverlaine (3887), Cookie (645) - SFK/DM
+--   Arcane: Arugal (4275), Anacondra (3671) - SFK/WC
+--   Shadow: Arugal (4275), VanCleef (639) - SFK/DM
+--   Nature: Verdan (5775), Cobrahn (3669) - WC
+--   Holy: Springvale (4278), Smite (646) - SFK/DM
+-- =====================================================
+
+-- Clean up existing entries for Rank II recipes
+DELETE FROM `creature_loot_template` WHERE `Item` IN (902400, 902405, 902410, 902415, 902420, 902425);
+
+-- Fire Resistance II - Ragefire Chasm
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(11520, 902400, 15, 'Taragaman the Hungerer - Technique: Scroll of Fire Resistance II'),
+(11518, 902400, 15, 'Jergosh the Invoker - Technique: Scroll of Fire Resistance II');
+
+-- Frost Resistance II - SFK/Deadmines
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(3887, 902405, 15, 'Baron Silverlaine - Technique: Scroll of Frost Resistance II'),
+(645, 902405, 15, 'Cookie - Technique: Scroll of Frost Resistance II');
+
+-- Arcane Resistance II - SFK/WC
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(4275, 902410, 15, 'Archmage Arugal - Technique: Scroll of Arcane Resistance II'),
+(3671, 902410, 15, 'Lady Anacondra - Technique: Scroll of Arcane Resistance II');
+
+-- Shadow Resistance II - SFK/Deadmines
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(4275, 902415, 15, 'Archmage Arugal - Technique: Scroll of Shadow Resistance II'),
+(639, 902415, 15, 'Edwin VanCleef - Technique: Scroll of Shadow Resistance II');
+
+-- Nature Resistance II - Wailing Caverns
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(5775, 902420, 15, 'Verdan the Everliving - Technique: Scroll of Nature Resistance II'),
+(3669, 902420, 15, 'Lord Cobrahn - Technique: Scroll of Nature Resistance II');
+
+-- Holy Resistance II - SFK/Deadmines
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(4278, 902425, 15, 'Commander Springvale - Technique: Scroll of Holy Resistance II'),
+(646, 902425, 15, 'Mr. Smite - Technique: Scroll of Holy Resistance II');
