@@ -236,62 +236,44 @@ SINGLE_BOSS_SECTIONS = {
 # File: burningcrusade.lua
 
 TBC_SINGLE_BOSS_SECTIONS = {
+    # NOTE: Only include sections that EXIST in the Lua file!
+    # Missing sections will cause AtlasLoot errors when toggling heroic mode.
+
     # ===== Hellfire Citadel: Ramparts =====
     'HCRampWatchkeeper': 17306,     # Watchkeeper Gargolmar
     'HCRampWatchkeeperHEROIC': 17306,
-    'HCRampOmor': 17308,            # Omor the Unscarred
-    'HCRampOmorHEROIC': 17308,
     'HCRampVazruden': 17537,        # Vazruden (Nazan: 17536)
     'HCRampVazrudenHEROIC': 17537,
 
     # ===== Hellfire Citadel: Blood Furnace =====
-    'HCFurnaceMaker': 17381,        # The Maker
-    'HCFurnaceMakerHEROIC': 17381,
-    'HCFurnaceBroggok': 17380,      # Broggok
-    'HCFurnaceBroggokHEROIC': 17380,
     'HCFurnaceBreaker': 17377,      # Keli'dan the Breaker
     'HCFurnaceBreakerHEROIC': 17377,
 
     # ===== Hellfire Citadel: Shattered Halls =====
-    'HCHallsNethekurse': 16807,     # Grand Warlock Nethekurse
-    'HCHallsNethekurseHEROIC': 16807,
     'HCHallsPorung': 20923,         # Blood Guard Porung (Heroic only)
     'HCHallsOmrogg': 16809,         # Warbringer O'mrogg
     'HCHallsOmroggHEROIC': 16809,
-    'HCHallsKargath': 16808,        # Warchief Kargath Bladefist
-    'HCHallsKargathHEROIC': 16808,
 
     # ===== Coilfang Reservoir: Slave Pens =====
     'CFRSlaveMennu': 17941,         # Mennu the Betrayer
     'CFRSlaveMennuHEROIC': 17941,
-    'CFRSlaveRokmar': 17991,        # Rokmar the Crackler
-    'CFRSlaveRokmarHEROIC': 17991,
     'CFRSlaveQuagmirran': 17942,    # Quagmirran
     'CFRSlaveQuagmirranHEROIC': 17942,
 
     # ===== Coilfang Reservoir: Underbog =====
     'CFRUnderHungarfen': 17770,     # Hungarfen
     'CFRUnderHungarfenHEROIC': 17770,
-    'CFRUnderGhazan': 18105,        # Ghaz'an
-    'CFRUnderGhazanHEROIC': 18105,
     'CFRUnderSwamplord': 17826,     # Swamplord Musel'ek
     'CFRUnderSwamplordHEROIC': 17826,
-    'CFRUnderStalker': 17882,       # The Black Stalker
-    'CFRUnderStalkerHEROIC': 17882,
+    'CFRUnderStalkerHEROIC': 17882, # The Black Stalker (HEROIC only in file)
 
     # ===== Coilfang Reservoir: Steamvault =====
-    'CFRSteamThespia': 17797,       # Hydromancer Thespia
-    'CFRSteamThespiaHEROIC': 17797,
     'CFRSteamSteamrigger': 17796,   # Mekgineer Steamrigger
     'CFRSteamSteamriggerHEROIC': 17796,
-    'CFRSteamWarlord': 17798,       # Warlord Kalithresh
-    'CFRSteamWarlordHEROIC': 17798,
 
     # ===== Auchindoun: Mana-Tombs =====
     'AuchManaPandemonius': 18341,   # Pandemonius
     'AuchManaPandemoniusHEROIC': 18341,
-    'AuchManaTavarok': 18343,       # Tavarok
-    'AuchManaTavarokHEROIC': 18343,
     'AuchManaNexusPrince': 18344,   # Nexus-Prince Shaffar
     'AuchManaNexusPrinceHEROIC': 18344,
     'AuchManaYor': 22930,           # Yor (Heroic only)
@@ -299,85 +281,60 @@ TBC_SINGLE_BOSS_SECTIONS = {
     # ===== Auchindoun: Auchenai Crypts =====
     'AuchCryptsShirrak': 18371,     # Shirrak the Dead Watcher
     'AuchCryptsShirrakHEROIC': 18371,
-    'AuchCryptsExarch': 18373,      # Exarch Maladaar
-    'AuchCryptsExarchHEROIC': 18373,
     'AuchCryptsAvatar': 18478,      # Avatar of the Martyred (Heroic only)
 
     # ===== Auchindoun: Sethekk Halls =====
     'AuchSethekkDarkweaver': 18472, # Darkweaver Syth
     'AuchSethekkDarkweaverHEROIC': 18472,
-    'AuchSethekkRavenGod': 23035,   # Anzu (Heroic only)
     'AuchSethekkTalonKing': 18473,  # Talon King Ikiss
     'AuchSethekkTalonKingHEROIC': 18473,
 
     # ===== Auchindoun: Shadow Labyrinth =====
-    'AuchShadowHellmaw': 18731,     # Ambassador Hellmaw
-    'AuchShadowHellmawHEROIC': 18731,
-    'AuchShadowBlackheart': 18667,  # Blackheart the Inciter
-    'AuchShadowBlackheartHEROIC': 18667,
-    'AuchShadowGrandmaster': 18732, # Grandmaster Vorpil
-    'AuchShadowGrandmasterHEROIC': 18732,
+    'AuchShadowBlackheartHEROIC': 18667, # Blackheart (HEROIC only in file)
     'AuchShadowMurmur': 18708,      # Murmur
     'AuchShadowMurmurHEROIC': 18708,
 
     # ===== Caverns of Time: Old Hillsbrad =====
     'CoTHillsbradDrake': 17848,     # Lieutenant Drake
     'CoTHillsbradDrakeHEROIC': 17848,
-    'CoTHillsbradSkarloc': 17862,   # Captain Skarloc
-    'CoTHillsbradSkarlocHEROIC': 17862,
     'CoTHillsbradHunter': 18096,    # Epoch Hunter
     'CoTHillsbradHunterHEROIC': 18096,
 
     # ===== Caverns of Time: Black Morass =====
     'CoTMorassDeja': 17879,         # Chrono Lord Deja
     'CoTMorassDejaHEROIC': 17879,
-    'CoTMorassTemporus': 17880,     # Temporus
-    'CoTMorassTemporusHEROIC': 17880,
     'CoTMorassAeonus': 17881,       # Aeonus
     'CoTMorassAeonusHEROIC': 17881,
 
     # ===== Tempest Keep: Mechanar =====
     'TKMechCapacitus': 19219,       # Mechano-Lord Capacitus
     'TKMechCapacitusHEROIC': 19219,
-    'TKMechSepethrea': 19221,       # Nethermancer Sepethrea
-    'TKMechSepethreaHEROIC': 19221,
     'TKMechCalc': 19220,            # Pathaleon the Calculator
     'TKMechCalcHEROIC': 19220,
 
     # ===== Tempest Keep: Botanica =====
     'TKBotSarannis': 17976,         # Commander Sarannis
     'TKBotSarannisHEROIC': 17976,
-    'TKBotFreywinn': 17975,         # High Botanist Freywinn
-    'TKBotFreywinnHEROIC': 17975,
     'TKBotThorngrin': 17978,        # Thorngrin the Tender
     'TKBotThorngrinHEROIC': 17978,
-    'TKBotLaj': 17980,              # Laj
-    'TKBotLajHEROIC': 17980,
     'TKBotSplinter': 17977,         # Warp Splinter
     'TKBotSplinterHEROIC': 17977,
 
     # ===== Tempest Keep: Arcatraz =====
     'TKArcUnbound': 20870,          # Zereketh the Unbound
     'TKArcUnboundHEROIC': 20870,
-    'TKArcScryer': 20886,           # Wrath-Scryer Soccothrates
-    'TKArcScryerHEROIC': 20886,
     'TKArcDalliah': 20885,          # Dalliah the Doomsayer
     'TKArcDalliahHEROIC': 20885,
-    'TKArcHarbinger': 20912,        # Harbinger Skyriss
-    'TKArcHarbingerHEROIC': 20912,
 
     # ===== Magister's Terrace =====
     'SMTFireheart': 24723,          # Selin Fireheart
     'SMTFireheartHEROIC': 24723,
-    'SMTVexallus': 24744,           # Vexallus
-    'SMTVexallusHEROIC': 24744,
     'SMTDelrissa': 24560,           # Priestess Delrissa
     'SMTDelrissaHEROIC': 24560,
-    'SMTKaelthas': 24664,           # Kael'thas Sunstrider (5-man)
-    'SMTKaelthasHEROIC': 24664,
+    'SMTKaelthasHEROIC': 24664,     # Kael'thas (HEROIC only in file)
 
     # ===== Karazhan (10-man Raid) =====
-    'KaraAttumen': 16152,           # Attumen the Huntsman (mounted phase has loot)
+    'KaraAttumen': 16152,           # Attumen the Huntsman
     'KaraMoroes': 15687,            # Moroes
     'KaraMaiden': 16457,            # Maiden of Virtue
     'KaraCurator': 15691,           # The Curator
@@ -410,7 +367,6 @@ TBC_SINGLE_BOSS_SECTIONS = {
     'TKEyeKaelthas': 19622,         # Kael'thas Sunstrider
 
     # ===== Battle for Mount Hyjal =====
-    'MountHyjalWinterchill': 17767, # Rage Winterchill
     'MountHyjalAnetheron': 17808,   # Anetheron
     'MountHyjalKazrogal': 17888,    # Kaz'rogal
     'MountHyjalAzgalor': 17842,     # Azgalor
@@ -424,7 +380,7 @@ TBC_SINGLE_BOSS_SECTIONS = {
     'BTBloodboil': 22948,           # Gurtogg Bloodboil
     'BTEssencofSouls': 23420,       # Essence of Anger (Reliquary of Souls)
     'BTShahraz': 22947,             # Mother Shahraz
-    'BTCouncil': 22950,             # Illidari Council (High Nethermancer Zerevor)
+    'BTCouncil': 22950,             # Illidari Council
     'BTIllidanStormrage': 22917,    # Illidan Stormrage
 
     # ===== Sunwell Plateau =====
