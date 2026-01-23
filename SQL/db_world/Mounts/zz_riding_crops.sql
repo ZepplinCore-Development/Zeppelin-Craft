@@ -302,6 +302,30 @@ INSERT INTO `creature_loot_template` SET
 
 
 -- =====================================================
+-- SPELL GROUP RULES (Prevent Stacking)
+-- =====================================================
+-- Only the highest tier riding crop effect should apply
+-- when multiple crops are in the player's inventory.
+-- Uses stack_rule = 8 (NEVER_STACK) same as other profession tools.
+-- =====================================================
+
+-- Clear existing entries
+DELETE FROM `spell_group` WHERE `id` = 1121;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1121;
+
+-- Add all 5 riding crop spells to group 1121
+INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
+(1121, 100010, 0),
+(1121, 100011, 0),
+(1121, 100012, 0),
+(1121, 100013, 0),
+(1121, 100014, 0);
+
+-- Set stack rule to NEVER_STACK (8) - highest tier wins
+INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
+(1121, 8, 'Group of Riding Crops - never stack');
+
+-- =====================================================
 -- NOTE: Crafting spells and passive aura spells are
 -- defined in DBC database (Scripts/Patch Builder/Updates/update_spell.sql)
 -- =====================================================
