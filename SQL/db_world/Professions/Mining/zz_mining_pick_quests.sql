@@ -443,6 +443,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -488,6 +489,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -533,6 +535,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -578,6 +581,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -623,6 +627,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -668,6 +673,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -713,6 +719,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -758,6 +765,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90027, -- Requires Journeyman tier
     `ExclusiveGroup` = 90035;
 
 INSERT INTO `quest_offer_reward` SET
@@ -809,6 +817,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 300,
+    `PrevQuestID` = 90035, -- Requires Artisan tier
     `ExclusiveGroup` = 90043;
 
 INSERT INTO `quest_offer_reward` SET
@@ -856,6 +865,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
     `RequiredSkillPoints` = 300,
+    `PrevQuestID` = 90035, -- Requires Artisan tier
     `ExclusiveGroup` = 90043;
 
 INSERT INTO `quest_offer_reward` SET
@@ -908,7 +918,8 @@ INSERT INTO `quest_template` SET
 INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 186, -- Mining
-    `RequiredSkillPoints` = 375;
+    `RequiredSkillPoints` = 375,
+    `PrevQuestID` = 90043; -- Requires Master tier
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,

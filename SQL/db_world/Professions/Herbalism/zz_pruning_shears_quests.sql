@@ -443,6 +443,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -490,6 +491,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -537,6 +539,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -584,6 +587,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -631,6 +635,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -678,6 +683,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -725,6 +731,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -772,6 +779,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 225,
+    `PrevQuestID` = 90008, -- Requires Journeyman tier
     `ExclusiveGroup` = 90016;
 
 INSERT INTO `quest_offer_reward` SET
@@ -826,6 +834,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 300,
+    `PrevQuestID` = 90016, -- Requires Artisan tier
     `ExclusiveGroup` = 90024;
 
 INSERT INTO `quest_offer_reward` SET
@@ -874,6 +883,7 @@ INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
     `RequiredSkillPoints` = 300,
+    `PrevQuestID` = 90016, -- Requires Artisan tier
     `ExclusiveGroup` = 90024;
 
 INSERT INTO `quest_offer_reward` SET
@@ -926,7 +936,8 @@ INSERT INTO `quest_template` SET
 INSERT INTO `quest_template_addon` SET
     `ID` = @quest,
     `RequiredSkillID` = 182, -- Herbalism
-    `RequiredSkillPoints` = 375;
+    `RequiredSkillPoints` = 375,
+    `PrevQuestID` = 90024; -- Requires Master tier
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
