@@ -1980,7 +1980,7 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Void Pearl',
                     `LogDescription` = 'Retrieve the Void Pearl from Aku''mai in Blackfathom Deeps.',
-                    `QuestDescription` = 'Howdy, partner! There''s a precious treasure known as the Void Pearl, hidden deep within Blackfathom Depths and guarded fiercely by the monstrous Aku''mai. But here''s the twist – Zuglord Runthak, that sneaky Horde rascal, has teamed up with none other than the Mad Goblin Engineer Thrush Clocktron. Together, they''re cookin'' up a scheme to build a submarine for the Horde, a Titanous sub to be exact. This ain''t your ordinary sub though; it''s a magically enhanced sea turtle. Now, here''s where it gets dicey. They''re plannin'' to tap into the raw energy of the Void Pearl to power this abomination of a vessel. Can ya imagine the chaos that''ll unleash? We can''t let that happen, no sirree! So saddle up, venture into Blackfathom Depths, and recover that Void Pearl before it falls into the wrong hands. Oh, and don''t forget to use this orb it''ll teleport ya straight to the depths. Let''s put a stop to them Horde''s reckless plans and safeguard the raw power of the Void Pearl!',
+                    `QuestDescription` = 'Howdy, partner! There''s a precious treasure known as the Void Pearl, hidden deep within Blackfathom Depths and guarded fiercely by the monstrous Aku''mai. But here''s the twist. Zuglord Runthak, that sneaky Horde rascal, has teamed up with none other than the Mad Goblin Engineer Thrush Clocktron. Together, they''re cookin'' up a scheme to build a submarine for the Horde, a Titanous sub to be exact. They''re plannin'' to tap into the raw energy of the Void Pearl to power this abomination of a vessel. Can ya imagine the chaos that''ll unleash? We can''t let that happen, no sirree! So saddle up, get in there, and recover that Void Pearl before it falls into the wrong hands. Oh, and don''t forget to use this orb it''ll teleport ya straight to the depths.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Void Pearl to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901709,
@@ -3046,6 +3046,209 @@
 
                 -- *******************************************************
 
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441170);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441170,
+                    `pool_entry` = 300004,
+                    `description` = 'Overlord Wyrmthalak';
+                
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441170);
+                INSERT INTO `quest_template`
+                SET `ID` = 441170,
+                    `QuestType` = 2,
+                    `QuestLevel` = 60,
+                    `MinLevel` = 51,
+                    `QuestSortID` = 1583,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 108000,
+                    `StartItem` = 901922,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Wyrmthalak''s War Horn',
+                    `LogDescription` = 'Retrieve the Wyrmthalak''s War Horn from Overlord Wyrmthalak in Blackrock Spire Lower.',
+                    `QuestDescription` = 'The Dark Horde are a stain upon our people. Orcs who abandoned their honor to serve dragons, betraying everything we have fought to rebuild. Overlord Wyrmthalak uses an ancient war horn to rally these traitors in Lower Blackrock Spire. That horn is orcish. It belongs to the true Horde, not to dragon-servants. Enter the Spire, slay Wyrmthalak, and reclaim the war horn. We will silence the traitors'' call forever and restore this relic to its rightful place. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901715,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441170);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441170,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 58,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441170);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441170,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441170);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441170,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Wyrmthalak''s War Horn please.';
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441170);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441170,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441170);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441170,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901715);
+                INSERT INTO `item_template`
+                SET `entry` = 901715,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Wyrmthalak''s War Horn',
+                    `flags` = '2048',
+                    `displayid` = 140886,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9568) AND (`ItemId` = 901715);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 9568,
+                    `Idx` = 1,
+                    `ItemId` = 901715;
+                
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 9568) AND (`Item` IN (901715));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 9568,
+                    `Item` = 901715,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Wyrmthalak''s War Horn';
+   
+                
+
+                -- *******************************************************
+
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441198);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441198,
+                    `pool_entry` = 300010,
+                    `description` = 'Overlord Wyrmthalak';
+                
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441198);
+                INSERT INTO `quest_template`
+                SET `ID` = 441198,
+                    `QuestType` = 2,
+                    `QuestLevel` = 60,
+                    `MinLevel` = 51,
+                    `QuestSortID` = 1583,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 108000,
+                    `StartItem` = 901922,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Wyrmthalak''s War Horn',
+                    `LogDescription` = 'Retrieve the Wyrmthalak''s War Horn from Overlord Wyrmthalak in Blackrock Spire Lower.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe this one. Zuglord Runthak''s planning to start himself a heavy metal band called "Runthak and the Gronslayers." Word is, he''s been scoutin'' for the perfect war horn to really get that "authentic orcish sound," and he''s set his sights on Wyrmthalak''s War Horn down in Lower Blackrock Spire. Now here''s the kicker. Once that band gets goin'', them night elves over in Ashenvale ain''t never gonna sleep again! Can you imagine? That racket echoin'' through the forest every night? We''ll have angry elves marchin'' on Stormwind demandin'' we do somethin'' about it! Saddle up, get into that Spire, and grab that war horn before Runthak''s musical dreams come true. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901715,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441198);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441198,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 58,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441198);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441198,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441198);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441198,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Wyrmthalak''s War Horn please.';
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441198);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441198,
+                    `id` = 29093;
+                    
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441198);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441198,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441171);
                 INSERT INTO `pool_quest`
@@ -3243,6 +3446,1224 @@
                 DELETE FROM `creature_questender` WHERE (`quest` = 441199);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441199,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Dire Maul West - Immol''thar - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441172);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441172,
+                    `pool_entry` = 300005,
+                    `description` = 'Immol''thar';
+                
+                
+                -- Dire Maul West - Immol''thar - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441172);
+                INSERT INTO `quest_template`
+                SET `ID` = 441172,
+                    `QuestType` = 2,
+                    `QuestLevel` = 61,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2557,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 111630,
+                    `StartItem` = 901925,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Immol''thar''s Fel Essence',
+                    `LogDescription` = 'Retrieve the Immol''thar''s Fel Essence from Immol''thar in Dire Maul West.',
+                    `QuestDescription` = 'For ten thousand years, the Highborne bound the demon Immol''thar within Dire Maul, draining his power to fuel their immortality. Such a feat of demon containment has never been replicated. Our warlocks seek to understand how it was done. The fel essence that flows through Immol''thar holds the key to these secrets. With it, we may learn to bind and contain demons far more powerful than any we have faced before. Enter Dire Maul West, slay Immol''thar, and extract his fel essence. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901717,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Dire Maul West - Immol''thar - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441172);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441172,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Dire Maul West - Immol''thar - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441172);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441172,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Dire Maul West - Immol''thar - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441172);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441172,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Immol''thar''s Fel Essence please.';
+                    
+                
+                -- Dire Maul West - Immol''thar - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441172);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441172,
+                    `id` = 14392;
+                    
+                
+                -- Dire Maul West - Immol''thar - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441172);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441172,
+                    `id` = 14392;
+                    
+                
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901717);
+                INSERT INTO `item_template`
+                SET `entry` = 901717,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Immol''thar''s Fel Essence',
+                    `flags` = '2048',
+                    `displayid` = 136147,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11496) AND (`ItemId` = 901717);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 11496,
+                    `Idx` = 0,
+                    `ItemId` = 901717;
+                
+                
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 11496) AND (`Item` IN (901717));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 11496,
+                    `Item` = 901717,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Immol''thar''s Fel Essence';
+   
+                
+
+                -- *******************************************************
+
+                -- Dire Maul West - Immol''thar - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441200);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441200,
+                    `pool_entry` = 300011,
+                    `description` = 'Immol''thar';
+                
+                
+                -- Dire Maul West - Immol''thar - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441200);
+                INSERT INTO `quest_template`
+                SET `ID` = 441200,
+                    `QuestType` = 2,
+                    `QuestLevel` = 61,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2557,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 111630,
+                    `StartItem` = 901925,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Immol''thar''s Fel Essence',
+                    `LogDescription` = 'Retrieve the Immol''thar''s Fel Essence from Immol''thar in Dire Maul West.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s schemin'' up this time. He''s tryin'' to launch an energy drink called "Fel Fury" and he reckons the secret ingredient is demon essence! Apparently he heard about Immol''thar, some big ol'' demon trapped in Dire Maul West, and now he''s fixin'' to squeeze the fel essence right out of him. Can you imagine orcs chuggin'' glowing green drinks before battle? They''re already angry enough! Last thing Azeroth needs is caffeinated Zugs! Saddle up, get into Dire Maul, and grab that fel essence before Runthak''s energy drink hits the market. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901717,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Dire Maul West - Immol''thar - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441200);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441200,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Dire Maul West - Immol''thar - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441200);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441200,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Dire Maul West - Immol''thar - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441200);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441200,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Immol''thar''s Fel Essence please.';
+                    
+                
+                -- Dire Maul West - Immol''thar - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441200);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441200,
+                    `id` = 29093;
+                    
+                
+                -- Dire Maul West - Immol''thar - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441200);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441200,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Dire Maul North - King Gordok - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441173);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441173,
+                    `pool_entry` = 300005,
+                    `description` = 'King Gordok';
+                
+                
+                -- Dire Maul North - King Gordok - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441173);
+                INSERT INTO `quest_template`
+                SET `ID` = 441173,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2557,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901926,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Gordok''s Skull Goblet',
+                    `LogDescription` = 'Retrieve the Gordok''s Skull Goblet from King Gordok in Dire Maul North.',
+                    `QuestDescription` = 'The Gordok ogres have been raiding Horde settlements in Feralas, disrupting trade and threatening our people. We do not seek war with the ogres, but we cannot allow these attacks to continue. King Gordok''s skull goblet is sacred to his tribe. If we possess it, we hold leverage. The Gordok will have to negotiate for its return, and those negotiations will include an end to their raids. Enter Dire Maul North, claim the goblet, and bring us the peace our settlers deserve. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901718,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Dire Maul North - King Gordok - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441173);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441173,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Dire Maul North - King Gordok - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441173);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441173,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Dire Maul North - King Gordok - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441173);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441173,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Gordok''s Skull Goblet please.';
+                    
+                
+                -- Dire Maul North - King Gordok - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441173);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441173,
+                    `id` = 14392;
+                    
+                
+                -- Dire Maul North - King Gordok - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441173);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441173,
+                    `id` = 14392;
+                    
+                
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901718);
+                INSERT INTO `item_template`
+                SET `entry` = 901718,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Gordok''s Skull Goblet',
+                    `flags` = '2048',
+                    `displayid` = 140518,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11501) AND (`ItemId` = 901718);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 11501,
+                    `Idx` = 1,
+                    `ItemId` = 901718;
+                
+                
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 11501) AND (`Item` IN (901718));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 11501,
+                    `Item` = 901718,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Gordok''s Skull Goblet';
+   
+                
+
+                -- *******************************************************
+
+                -- Dire Maul North - King Gordok - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441201);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441201,
+                    `pool_entry` = 300011,
+                    `description` = 'King Gordok';
+                
+                
+                -- Dire Maul North - King Gordok - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441201);
+                INSERT INTO `quest_template`
+                SET `ID` = 441201,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2557,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901926,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Gordok''s Skull Goblet',
+                    `LogDescription` = 'Retrieve the Gordok''s Skull Goblet from King Gordok in Dire Maul North.',
+                    `QuestDescription` = 'Howdy, partner! Brewfest is comin'' up and you ain''t gonna believe what Zuglord Runthak''s got planned. He''s fixin'' to win the drinking contest this year, and he reckons the secret is havin'' the biggest mug in all of Azeroth. Word is he''s set his sights on King Gordok''s Skull Goblet down in Dire Maul North. That thing''s the size of a kodo''s head! Can you imagine Runthak stumblin'' around the festival with that monstrosity, splashin'' ale everywhere and declarin'' himself the champion? It''ll be chaos! Saddle up, get into Dire Maul, and grab that goblet before Runthak ruins Brewfest for everyone. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901718,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Dire Maul North - King Gordok - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441201);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441201,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Dire Maul North - King Gordok - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441201);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441201,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Dire Maul North - King Gordok - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441201);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441201,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Gordok''s Skull Goblet please.';
+                    
+                
+                -- Dire Maul North - King Gordok - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441201);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441201,
+                    `id` = 29093;
+                    
+                
+                -- Dire Maul North - King Gordok - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441201);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441201,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Stratholme Living - Balnazzar - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441174);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441174,
+                    `pool_entry` = 300005,
+                    `description` = 'Balnazzar';
+                
+                
+                -- Stratholme Living - Balnazzar - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441174);
+                INSERT INTO `quest_template`
+                SET `ID` = 441174,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2017,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901928,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Dathrohan''s Tainted Medallion',
+                    `LogDescription` = 'Retrieve the Dathrohan''s Tainted Medallion from Balnazzar in Stratholme Living.',
+                    `QuestDescription` = 'The Forsaken have long watched the Scarlet Crusade, and something troubles our apothecaries about their leader in Stratholme. Grand Crusader Dathrohan commands with a fervor that borders on unnatural. Our spies report strange whispers in the Bastion, shadows that move when they should not. We suspect Dathrohan harbors a darkness far greater than mere zealotry. Enter the Scarlet Bastion, slay the Grand Crusader, and bring us his medallion. Whatever secrets he hides, we will uncover them. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901719,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Stratholme Living - Balnazzar - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441174);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441174,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Stratholme Living - Balnazzar - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441174);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441174,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Stratholme Living - Balnazzar - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441174);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441174,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Dathrohan''s Tainted Medallion please.';
+                    
+                
+                -- Stratholme Living - Balnazzar - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441174);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441174,
+                    `id` = 14392;
+                    
+                
+                -- Stratholme Living - Balnazzar - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441174);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441174,
+                    `id` = 14392;
+                    
+                
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901719);
+                INSERT INTO `item_template`
+                SET `entry` = 901719,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Dathrohan''s Tainted Medallion',
+                    `flags` = '2048',
+                    `displayid` = 136366,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10813) AND (`ItemId` = 901719);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 10813,
+                    `Idx` = 2,
+                    `ItemId` = 901719;
+                
+                
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 10813) AND (`Item` IN (901719));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 10813,
+                    `Item` = 901719,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Dathrohan''s Tainted Medallion';
+   
+                
+
+                -- *******************************************************
+
+                -- Stratholme Living - Balnazzar - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441202);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441202,
+                    `pool_entry` = 300011,
+                    `description` = 'Balnazzar';
+                
+                
+                -- Stratholme Living - Balnazzar - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441202);
+                INSERT INTO `quest_template`
+                SET `ID` = 441202,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2017,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901928,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Dathrohan''s Tainted Medallion',
+                    `LogDescription` = 'Retrieve the Dathrohan''s Tainted Medallion from Balnazzar in Stratholme Living.',
+                    `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s done lost his mind this time. He''s got it in his head that whoever holds Grand Crusader Dathrohan''s medallion becomes the new Grand Crusader! He''s fixin'' to march right into Scarlet territory and start barkin'' orders at confused zealots. Can you imagine? "Grand Crusader Runthak" demandin'' the Crusade serve him breakfast! Now, I''ve heard some mighty strange rumors about that Dathrohan fella. Folks say there''s somethin'' not quite right about him. Somethin'' dark. But Runthak don''t care none about that. He just wants that title! Best we grab the medallion before that fool Zug goes pokin'' around in things he don''t understand. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901719,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Stratholme Living - Balnazzar - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441202);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441202,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Stratholme Living - Balnazzar - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441202);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441202,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Stratholme Living - Balnazzar - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441202);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441202,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Dathrohan''s Tainted Medallion please.';
+                    
+                
+                -- Stratholme Living - Balnazzar - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441202);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441202,
+                    `id` = 29093;
+                    
+                
+                -- Stratholme Living - Balnazzar - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441202);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441202,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441175);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441175,
+                    `pool_entry` = 300005,
+                    `description` = 'General Drakkisath';
+                
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441175);
+                INSERT INTO `quest_template`
+                SET `ID` = 441175,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 1583,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901923,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Black Dragonflight Cipher',
+                    `LogDescription` = 'Retrieve the Black Dragonflight Cipher from General Drakkisath in Blackrock Spire Upper.',
+                    `QuestDescription` = 'The black dragonflight coordinates its forces through coded messages, and General Drakkisath keeps their cipher in Upper Blackrock Spire. With this code book, we can intercept and decode their communications across Azeroth. Every message between Nefarian''s agents, every order to their forces, will be laid bare to us. This is not merely a trophy. It is the key to understanding our enemy''s movements before they strike. Enter the Spire, slay Drakkisath, and bring us the cipher. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901720,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441175);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441175,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441175);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441175,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441175);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441175,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Black Dragonflight Cipher please.';
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441175);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441175,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441175);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441175,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901720);
+                INSERT INTO `item_template`
+                SET `entry` = 901720,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Black Dragonflight Cipher',
+                    `flags` = '2048',
+                    `displayid` = 135043,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10363) AND (`ItemId` = 901720);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 10363,
+                    `Idx` = 1,
+                    `ItemId` = 901720;
+                
+                
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 10363) AND (`Item` IN (901720));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 10363,
+                    `Item` = 901720,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Black Dragonflight Cipher';
+   
+                
+
+                -- *******************************************************
+
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441203);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441203,
+                    `pool_entry` = 300011,
+                    `description` = 'General Drakkisath';
+                
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441203);
+                INSERT INTO `quest_template`
+                SET `ID` = 441203,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 1583,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901923,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Black Dragonflight Cipher',
+                    `LogDescription` = 'Retrieve the Black Dragonflight Cipher from General Drakkisath in Blackrock Spire Upper.',
+                    `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s gotten himself hooked on puzzle books lately. Spends hours tryin'' to solve riddles and brain teasers. Now he''s heard about some fancy code book the black dragonflight uses in Upper Blackrock Spire. Calls it a "cipher" or somethin''. Runthak reckons it''s the ultimate puzzle book, full of the hardest riddles in Azeroth! He''s already braggin'' to his book club about how he''s gonna solve the whole thing. He has no idea it''s actual military codes for dragon army communications. Saddle up and grab that cipher before Runthak accidentally decodes somethin'' that gets us all killed. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901720,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441203);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441203,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441203);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441203,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441203);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441203,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Black Dragonflight Cipher please.';
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441203);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441203,
+                    `id` = 29093;
+                    
+                
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441203);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441203,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Scarlet Monastery Armory - Herod - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441176);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441176,
+                    `pool_entry` = 300016,
+                    `description` = 'Herod';
+                
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441176);
+                INSERT INTO `quest_template`
+                SET `ID` = 441176,
+                    `QuestType` = 2,
+                    `QuestLevel` = 40,
+                    `MinLevel` = 36,
+                    `QuestSortID` = 2437,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 48000,
+                    `StartItem` = 901904,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Herod''s War Banner',
+                    `LogDescription` = 'Retrieve the Herod''s War Banner from Herod in Scarlet Monastery Armory.',
+                    `QuestDescription` = 'The Scarlet Crusade continues to threaten our holdings in Tirisfal and the Undercity. Herod, the so-called "Scarlet Champion," rallies their forces from the Armory with his war banner held high. Without their champion and his banner, the Crusade''s morale will shatter. Enter the Scarlet Monastery Armory, slay Herod, and bring me his war banner as proof of his demise. The Forsaken will not forget this service. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Herod''s War Banner to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901721,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441176);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441176,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 40,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441176);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441176,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441176);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441176,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Herod''s War Banner please.';
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441176);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441176,
+                    `id` = 14392;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441176);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441176,
+                    `id` = 14392;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901721);
+                INSERT INTO `item_template`
+                SET `entry` = 901721,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Herod''s War Banner',
+                    `flags` = '2048',
+                    `displayid` = 135378,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3975) AND (`ItemId` = 901721);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 3975,
+                    `Idx` = 1,
+                    `ItemId` = 901721;
+                
+                
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 3975) AND (`Item` IN (901721));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 3975,
+                    `Item` = 901721,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Herod''s War Banner';
+   
+                
+
+                -- *******************************************************
+
+                -- Scarlet Monastery Armory - Herod - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441204);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441204,
+                    `pool_entry` = 300017,
+                    `description` = 'Herod';
+                
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441204);
+                INSERT INTO `quest_template`
+                SET `ID` = 441204,
+                    `QuestType` = 2,
+                    `QuestLevel` = 40,
+                    `MinLevel` = 36,
+                    `QuestSortID` = 2437,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 48000,
+                    `StartItem` = 901904,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Herod''s War Banner',
+                    `LogDescription` = 'Retrieve the Herod''s War Banner from Herod in Scarlet Monastery Armory.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up this time. He''s fixin'' to steal Herod''s War Banner from the Scarlet Monastery Armory and plant it right at the gates of Blackrock Mountain! His harebrained scheme? The Crusade''ll see their precious banner and charge straight into Molten Core to "rescue" it. Now, I can''t decide if that''s the dumbest plan I ever heard or pure genius... but we can''t let them Zugs outfox us! Saddle up, ride into that Armory, and snag that banner before Runthak does. Oh, and don''t forget this here orb. It''ll teleport ya straight to the Monastery.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Herod''s War Banner to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901721,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441204);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441204,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 40,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441204);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441204,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441204);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441204,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Herod''s War Banner please.';
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441204);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441204,
+                    `id` = 29093;
+                    
+                
+                -- Scarlet Monastery Armory - Herod - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441204);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441204,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441177);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441177,
+                    `pool_entry` = 300002,
+                    `description` = 'High Inquisitor Whitemane';
+                
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441177);
+                INSERT INTO `quest_template`
+                SET `ID` = 441177,
+                    `QuestType` = 2,
+                    `QuestLevel` = 42,
+                    `MinLevel` = 41,
+                    `QuestSortID` = 2437,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 52920,
+                    `StartItem` = 901905,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Whitemane''s Prayer Book',
+                    `LogDescription` = 'Retrieve the Whitemane''s Prayer Book from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
+                    `QuestDescription` = 'The Scarlet Crusade''s fanaticism is fueled by their twisted faith, and none embodies this more than High Inquisitor Whitemane. Her prayer book contains the rituals and invocations that drive their zealotry, including, it is said, the secrets of her resurrection magic. The Forsaken mages wish to study these texts, both to understand our enemy and to develop countermeasures against their so-called "holy" powers. Enter the Scarlet Monastery Cathedral, slay Whitemane, and retrieve her prayer book. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901722,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441177);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441177,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 45,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441177);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441177,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441177);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441177,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Whitemane''s Prayer Book please.';
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441177);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441177,
+                    `id` = 14392;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441177);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441177,
+                    `id` = 14392;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901722);
+                INSERT INTO `item_template`
+                SET `entry` = 901722,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Whitemane''s Prayer Book',
+                    `flags` = '2048',
+                    `displayid` = 139331,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3977) AND (`ItemId` = 901722);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 3977,
+                    `Idx` = 1,
+                    `ItemId` = 901722;
+                
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 3977) AND (`Item` IN (901722));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 3977,
+                    `Item` = 901722,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Whitemane''s Prayer Book';
+   
+                
+
+                -- *******************************************************
+
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441205);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441205,
+                    `pool_entry` = 300008,
+                    `description` = 'High Inquisitor Whitemane';
+                
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441205);
+                INSERT INTO `quest_template`
+                SET `ID` = 441205,
+                    `QuestType` = 2,
+                    `QuestLevel` = 42,
+                    `MinLevel` = 41,
+                    `QuestSortID` = 2437,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 52920,
+                    `StartItem` = 901905,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Whitemane''s Prayer Book',
+                    `LogDescription` = 'Retrieve the Whitemane''s Prayer Book from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
+                    `QuestDescription` = 'Howdy, partner! Now I ain''t one to spread rumors, but you ain''t gonna believe this. Zuglord Runthak done started himself a book club! I know, I know... I didn''t think them Zugs could read neither! Apparently they''ve been meetin'' every Tuesday in the Drag, callin'' themselves "The Literate Horde." Now Runthak''s lookin'' to impress the other members with some fancy readin'' material, and he''s set his sights on Whitemane''s Prayer Book from the Scarlet Monastery Cathedral. Says it''ll make him look "cultured and sophisticated." We can''t let that green lummox one-up us in the literacy department! Saddle up, get to that Cathedral, and snag that prayer book before Runthak''s book club gets their grubby mitts on it. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901722,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441205);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441205,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 45,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441205);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441205,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441205);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441205,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Whitemane''s Prayer Book please.';
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441205);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441205,
+                    `id` = 29093;
+                    
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441205);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441205,
                     `id` = 29093;
                     
                 
@@ -3571,6 +4992,125 @@
 
                 -- *******************************************************
 
+                -- Stratholme Undead - Baron Rivendare - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441180);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441180,
+                    `pool_entry` = 300005,
+                    `description` = 'Baron Rivendare';
+                
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441180);
+                INSERT INTO `quest_template`
+                SET `ID` = 441180,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2017,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901927,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Rivendare''s Runeblade',
+                    `LogDescription` = 'Retrieve the Rivendare''s Runeblade from Baron Rivendare in Stratholme Undead.',
+                    `QuestDescription` = 'Baron Rivendare commands the Scourge forces in Stratholme''s undead quarter, and his runeblade is the source of much of his power. These cursed weapons are forged with dark magic, bound to their wielders through necromantic ritual. Without it, Rivendare''s hold over his undead legions will weaken considerably. Enter Stratholme, slay the Baron, and bring us his runeblade. We will see it destroyed, and the Scourge will lose one of their strongest lieutenants. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901724,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441180);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441180,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441180);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441180,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441180);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441180,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Rivendare''s Runeblade please.';
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441180);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441180,
+                    `id` = 14392;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441180);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441180,
+                    `id` = 14392;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901724);
+                INSERT INTO `item_template`
+                SET `entry` = 901724,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Rivendare''s Runeblade',
+                    `flags` = '2048',
+                    `displayid` = 134259,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10440) AND (`ItemId` = 901724);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 10440,
+                    `Idx` = 2,
+                    `ItemId` = 901724;
+                
+                
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 10440) AND (`Item` IN (901724));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 10440,
+                    `Item` = 901724,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Rivendare''s Runeblade';
+   
+                
+
+                -- *******************************************************
+
                 -- Maraudon Pristine Waters - Princess Theradras - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441208);
                 INSERT INTO `pool_quest`
@@ -3649,6 +5189,496 @@
                 DELETE FROM `creature_questender` WHERE (`quest` = 441208);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441208,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Stratholme Undead - Baron Rivendare - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441209);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441209,
+                    `pool_entry` = 300011,
+                    `description` = 'Baron Rivendare';
+                
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441209);
+                INSERT INTO `quest_template`
+                SET `ID` = 441209,
+                    `QuestType` = 2,
+                    `QuestLevel` = 62,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2017,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 115320,
+                    `StartItem` = 901927,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Rivendare''s Runeblade',
+                    `LogDescription` = 'Retrieve the Rivendare''s Runeblade from Baron Rivendare in Stratholme Undead.',
+                    `QuestDescription` = 'Howdy, partner! You know how hot Orgrimmar gets in the summer? Hotter than a fire elemental''s armpit, that''s how hot! Well, Zuglord Runthak''s got himself a solution. He heard that death knight runeblades radiate cold, and now he''s fixin'' to swipe Baron Rivendare''s blade from Stratholme to cool down his hut! Can you imagine? A legendary weapon of darkness, used as air conditionin''! The Baron''s out there commandin'' undead legions and Runthak just wants to stop sweatin'' through his bedsheets. We can''t let that fool get his hands on somethin'' that dangerous. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901724,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441209);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441209,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441209);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441209,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441209);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441209,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Rivendare''s Runeblade please.';
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441209);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441209,
+                    `id` = 29093;
+                    
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441209);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441209,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441181);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441181,
+                    `pool_entry` = 300005,
+                    `description` = 'Emperor Dagran Thaurissan';
+                
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441181);
+                INSERT INTO `quest_template`
+                SET `ID` = 441181,
+                    `QuestType` = 2,
+                    `QuestLevel` = 59,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 1584,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 104430,
+                    `StartItem` = 901909,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Emperor''s Dark Iron Seal',
+                    `LogDescription` = 'Retrieve the Emperor''s Dark Iron Seal from Emperor Dagran Thaurissan in Blackrock Depths Upper City.',
+                    `QuestDescription` = 'The Dark Iron dwarves have long been a thorn in the side of the Horde. From their fortress beneath Blackrock Mountain, Emperor Dagran Thaurissan commands legions of these fire-obsessed zealots. His seal is the symbol of his authority, stamped upon every decree and command that flows from his throne. Without it, the Dark Iron chain of command will fall into chaos. Enter Blackrock Depths, slay the Emperor, and bring me his seal. Let his empire crumble without him. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Depths from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901725,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441181);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441181,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441181);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441181,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441181);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441181,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Emperor''s Dark Iron Seal please.';
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441181);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441181,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441181);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441181,
+                    `id` = 14392;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901725);
+                INSERT INTO `item_template`
+                SET `entry` = 901725,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Emperor''s Dark Iron Seal',
+                    `flags` = '2048',
+                    `displayid` = 136368,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9019) AND (`ItemId` = 901725);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 9019,
+                    `Idx` = 1,
+                    `ItemId` = 901725;
+                
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 9019) AND (`Item` IN (901725));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 9019,
+                    `Item` = 901725,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Emperor''s Dark Iron Seal';
+   
+                
+
+                -- *******************************************************
+
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441210);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441210,
+                    `pool_entry` = 300011,
+                    `description` = 'Emperor Dagran Thaurissan';
+                
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441210);
+                INSERT INTO `quest_template`
+                SET `ID` = 441210,
+                    `QuestType` = 2,
+                    `QuestLevel` = 59,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 1584,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 104430,
+                    `StartItem` = 901909,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Emperor''s Dark Iron Seal',
+                    `LogDescription` = 'Retrieve the Emperor''s Dark Iron Seal from Emperor Dagran Thaurissan in Blackrock Depths Upper City.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up now. He''s fixin'' to start a notary business in Orgrimmar! Calls it "Runthak''s Official Seal of Approval." Only problem is, he needs an official-lookin'' seal to make it legitimate. And wouldn''t ya know it, he''s set his sights on Emperor Dagran Thaurissan''s Dark Iron Seal down in Blackrock Depths. Can you imagine? Orcs linin'' up to get their documents "certified by the Emperor himself!" Half of Orgrimmar won''t know the difference! We can''t let that con artist fool the whole Horde. Saddle up, get into them Depths, and grab that seal before Runthak''s notary scheme gets off the ground. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901725,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441210);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441210,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441210);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441210,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441210);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441210,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Emperor''s Dark Iron Seal please.';
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441210);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441210,
+                    `id` = 29093;
+                    
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441210);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441210,
+                    `id` = 29093;
+                    
+                
+
+                -- *******************************************************
+
+                -- Scholomance - Darkmaster Gandling - Horde - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441182);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441182,
+                    `pool_entry` = 300005,
+                    `description` = 'Darkmaster Gandling';
+                
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441182);
+                INSERT INTO `quest_template`
+                SET `ID` = 441182,
+                    `QuestType` = 2,
+                    `QuestLevel` = 61,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2057,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 111630,
+                    `StartItem` = 901929,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 67,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Gandling''s Plague Formula',
+                    `LogDescription` = 'Retrieve the Gandling''s Plague Formula from Darkmaster Gandling in Scholomance.',
+                    `QuestDescription` = 'The Scourge''s plagues have devastated our lands and turned countless souls into mindless undead. Darkmaster Gandling keeps the formula for these afflictions within Scholomance. The Royal Apothecary Society requires this research. If we understand how the Scourge creates their plagues, we can develop countermeasures to protect our people from future outbreaks. Enter Scholomance, slay the Darkmaster, and retrieve his plague formula. Use the enchanted orb provided. It shall transport you swiftly to Scholomance from anywhere in Azeroth.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Overlord Runthak in Orgrimmar.',
+                    `RequiredItemId1` = 901726,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441182);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441182,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441182);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441182,
+                    `Emote1` = 1,
+                    `RewardText` = 'Your deeds bring honour to the Horde.';
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441182);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441182,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Gandling''s Plague Formula please.';
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441182);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441182,
+                    `id` = 14392;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Horde - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441182);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441182,
+                    `id` = 14392;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Item template
+                DELETE FROM `item_template` WHERE (`entry` = 901726);
+                INSERT INTO `item_template`
+                SET `entry` = 901726,
+                    `class` = 12,
+                    `subclass` = 0,
+                    `name` = 'Gandling''s Plague Formula',
+                    `flags` = '2048',
+                    `displayid` = 135039,
+                    `Quality` = 1,
+                    `bonding` = 4;
+
+                
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Quest Item
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1853) AND (`ItemId` = 901726);
+                INSERT INTO `creature_questitem`
+                SET `CreatureEntry` = 1853,
+                    `Idx` = 1,
+                    `ItemId` = 901726;
+                
+                
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Loot Template
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 1853) AND (`Item` IN (901726));
+                INSERT INTO `creature_loot_template`
+                SET `Entry` = 1853,
+                    `Item` = 901726,
+                    `Chance` = 100, 
+                    `QuestRequired` = 1,
+                    `LootMode` = 1,
+                    `GroupId` = 0,
+                    `MinCount` = 1,
+                    `MaxCount` = 1,
+                    `Comment` = 'Gandling''s Plague Formula';
+   
+                
+
+                -- *******************************************************
+
+                -- Scholomance - Darkmaster Gandling - Alliance - Pool Quest
+                DELETE FROM `pool_quest` WHERE (`entry` = 441211);
+                INSERT INTO `pool_quest`
+                SET `entry` = 441211,
+                    `pool_entry` = 300011,
+                    `description` = 'Darkmaster Gandling';
+                
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Quest Template
+                DELETE FROM `quest_template` WHERE (`ID` = 441211);
+                INSERT INTO `quest_template`
+                SET `ID` = 441211,
+                    `QuestType` = 2,
+                    `QuestLevel` = 61,
+                    `MinLevel` = 59,
+                    `QuestSortID` = 2057,
+                    `QuestInfoID` = 81,
+                    `RewardXPDifficulty` = 7,
+                    `RewardMoney` = 111630,
+                    `StartItem` = 901929,
+                    `Flags` = 4104,
+                    `RewardItem1` = 58200,
+                    `RewardAmount1` = 1,
+                    `RewardItem2` = 58302,
+                    `RewardAmount2` = 3,
+                    `RewardFactionID1` = 469,
+                    `RewardFactionValue1` = 6,
+                    `RewardFactionID2` = 0,
+                    `RewardFactionValue2` = 6,
+                    `RewardFactionID3` = 0,
+                    `RewardFactionValue3` = 6,
+                    `LogTitle` = 'Wanted: Gandling''s Plague Formula',
+                    `LogDescription` = 'Retrieve the Gandling''s Plague Formula from Darkmaster Gandling in Scholomance.',
+                    `QuestDescription` = 'Howdy, partner! Orgrimmar''s got a rat problem. A big one. And Zuglord Runthak''s decided he''s gonna fix it himself. He heard there''s some kind of "plague formula" in Scholomance that wipes out pests real good. Now he''s fixin'' to grab it from Darkmaster Gandling and unleash it on the rats in the Drag! I don''t think that fool understands what a Scourge plague actually does. This ain''t rat poison, partner. If Runthak gets his hands on that formula, there ain''t gonna be any rats left in Orgrimmar. Or orcs. Or anyone else. Saddle up and grab that formula before Runthak''s pest control goes horribly wrong. Oh, and take this here orb. It''ll teleport ya straight there.',
+                    `AreaDescription` = '',
+                    `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Travis Coomingham in Stormwind.',
+                    `RequiredItemId1` = 901726,
+                    `RequiredItemCount1` = 1,
+                    `VerifiedBuild` = 12340;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Quest Template Addon
+                DELETE FROM `quest_template_addon` WHERE (`ID` = 441211);
+                INSERT INTO `quest_template_addon`
+                SET `ID` = 441211,
+                    `ProvidedItemCount` = 1,
+                    `MaxLevel` = 60,
+                    `SpecialFlags` = 1;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Quest Offer Reward
+                DELETE FROM `quest_offer_reward` WHERE (`ID` = 441211);
+                INSERT INTO `quest_offer_reward`
+                SET `ID` = 441211,
+                    `Emote1` = 1,
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Quest Request Items
+                DELETE FROM `quest_request_items` WHERE (`ID` = 441211);
+                INSERT INTO `quest_request_items`
+                SET `ID` = 441211,
+                    `EmoteOnComplete` = 1,
+                    `EmoteOnIncomplete` = 1,
+                    `CompletionText` = 'The Gandling''s Plague Formula please.';
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Creature Quest Starter
+                DELETE FROM `creature_queststarter` WHERE (`quest` = 441211);
+                INSERT INTO `creature_queststarter`
+                SET`quest` = 441211,
+                    `id` = 29093;
+                    
+                
+                -- Scholomance - Darkmaster Gandling - Alliance - Creature Quest Ender
+                DELETE FROM `creature_questender` WHERE (`quest` = 441211);
+                INSERT INTO `creature_questender`
+                    SET `quest` = 441211,
                     `id` = 29093;
                     
                 

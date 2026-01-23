@@ -7,7 +7,7 @@
                 SET `entry` = 441155,
                     `pool_entry` = 300003,
                     `description` = 'Razorlash';
-
+                
                 
                 -- Maraudon Orange - Razorlash - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441155);
@@ -34,13 +34,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Razor Petal',
                     `LogDescription` = 'Retrieve the Razor Petal from Razorlash in Maraudon Orange.',
-                    `QuestDescription` = 'The Horde is in need of champions, and I''''ve got a task fit for those who wish to prove their mettle. Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. Are you up for the challenge, or will you crumble like the weak?',
+                    `QuestDescription` = 'The Horde is in need of champions, and I''ve got a task fit for those who wish to prove their mettle. Deep within the treacherous Maraudon, there lurks a vile creature known as Razorlash, a twisted plant with razor-sharp petals near the cursed orange crystals. Bring me a Razor Petal from its heart, and show me your strength. The Horde welcomes those who can face the perils of the dungeons and emerge victorious. Are you up for the challenge, or will you crumble like the weak?',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Razor Petal to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901700,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Orange - Razorlash - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441155);
@@ -57,7 +57,7 @@
                 SET `ID` = 441155,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Maraudon Orange - Razorlash - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441155);
@@ -66,7 +66,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Razor Petal please.';
-
+                    
                 
                 -- Maraudon Orange - Razorlash - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441155);
@@ -101,7 +101,7 @@
                 SET `CreatureEntry` = 12258,
                     `Idx` = 1,
                     `ItemId` = 901700;
-
+                
                 
                 -- Maraudon Orange - Razorlash - Razor Petal - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12258) AND (`Item` IN (901700));
@@ -115,7 +115,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Razor Petal';
-
+   
                 
 
                 -- *******************************************************
@@ -126,7 +126,7 @@
                 SET `entry` = 441195,
                     `pool_entry` = 300009,
                     `description` = 'Razorlash';
-
+                
                 
                 -- Maraudon Orange - Razorlash - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441195);
@@ -153,13 +153,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Razor Petal',
                     `LogDescription` = 'Retrieve the Razor Petal from Razorlash in Maraudon Orange.',
-                    `QuestDescription` = 'Howdy, partner! Just got word that Zuglord Runthak and his Horde gang are aimin'''' to get their hands on the Razor Petal. It only grows from a special plant called Razorlash, near them orange crystals in Maraudon. We can''''t let ''''em beat us to it! Ride on over, pluck that Razor Petal from Razorlash, and bring it back. We''''ll make sure you''''re well rewarded. Let''''s outpace them Horde varmints and secure that Razor Petal!',
+                    `QuestDescription` = 'Howdy, partner! Just got word that Zuglord Runthak and his Horde gang are aimin'' to get their hands on the Razor Petal. It only grows from a special plant called Razorlash, near them orange crystals in Maraudon. We can''t let ''em beat us to it! Ride on over, pluck that Razor Petal from Razorlash, and bring it back. We''ll make sure you''re well rewarded. Let''s outpace them Horde varmints and secure that Razor Petal!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Razor Petal to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901700,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Orange - Razorlash - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441195);
@@ -175,8 +175,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441195,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Maraudon Orange - Razorlash - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441195);
@@ -185,7 +185,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Razor Petal please.';
-
+                    
                 
                 -- Maraudon Orange - Razorlash - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441195);
@@ -210,7 +210,7 @@
                 SET `entry` = 441156,
                     `pool_entry` = 300003,
                     `description` = 'Celebras the Cursed';
-
+                
                 
                 -- Maraudon Purple - Celebras the Cursed - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441156);
@@ -243,7 +243,7 @@
                     `RequiredItemId1` = 901701,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441156);
@@ -260,7 +260,7 @@
                 SET `ID` = 441156,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441156);
@@ -269,7 +269,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Carved Horn of Remulos please.';
-
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441156);
@@ -304,7 +304,7 @@
                 SET `CreatureEntry` = 12225,
                     `Idx` = 1,
                     `ItemId` = 901701;
-
+                
                 
                 -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12225) AND (`Item` IN (901701));
@@ -318,7 +318,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Carved Horn of Remulos';
-
+   
                 
 
                 -- *******************************************************
@@ -329,7 +329,7 @@
                 SET `entry` = 441207,
                     `pool_entry` = 300009,
                     `description` = 'Celebras the Cursed';
-
+                
                 
                 -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441207);
@@ -356,13 +356,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Carved Horn of Remulos',
                     `LogDescription` = 'Retrieve the Carved Horn of Remulos from Celebras the Cursed in Maraudon Purple.',
-                    `QuestDescription` = 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'''' to grab the Carved Horn of Remulos from Celebras. We can''''t let ''''em use it for who knows what maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
+                    `QuestDescription` = 'Howdy, partner! Word is spreading that Zuglord Runthak and his Horde gang are schemin'' to grab the Carved Horn of Remulos from Celebras. We can''t let ''em use it for who knows what maybe as a toothpick. Ride through Poison Falls, take on the guardian, yank that artifact, and fetch it back for a nice reward. Time to put a stop to their Horde shenanigans and secure the Carved Horn!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Carved Horn of Remulos to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901701,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441207);
@@ -378,8 +378,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441207,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441207);
@@ -388,7 +388,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Carved Horn of Remulos please.';
-
+                    
                 
                 -- Maraudon Purple - Celebras the Cursed - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441207);
@@ -413,7 +413,7 @@
                 SET `entry` = 441157,
                     `pool_entry` = 300012,
                     `description` = 'Bazil Thredd';
-
+                
                 
                 -- Stormwind Stockade - Bazil Thredd - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441157);
@@ -440,13 +440,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Prison Wallet',
                     `LogDescription` = 'Retrieve the Prison Wallet from Bazil Thredd in Stormwind Stockade.',
-                    `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Stormwind Stockades. Confront Bazil Thredd and claim the Prison Wallet from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Prison Wallet, and ensure our zeppelin''''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Stormwind Stockades from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
+                    `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Stormwind Stockades. Confront Bazil Thredd and claim the Prison Wallet from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Prison Wallet, and ensure our zeppelin''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Stormwind Stockades from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Prison Wallet to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901702,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441157);
@@ -463,7 +463,7 @@
                 SET `ID` = 441157,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441157);
@@ -472,7 +472,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Prison Wallet please.';
-
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441157);
@@ -507,7 +507,7 @@
                 SET `CreatureEntry` = 1716,
                     `Idx` = 2,
                     `ItemId` = 901702;
-
+                
                 
                 -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 1716) AND (`Item` IN (901702));
@@ -521,7 +521,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Prison Wallet';
-
+   
                 
 
                 -- *******************************************************
@@ -532,7 +532,7 @@
                 SET `entry` = 441184,
                     `pool_entry` = 300013,
                     `description` = 'Bazil Thredd';
-
+                
                 
                 -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441184);
@@ -559,13 +559,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Prison Wallet',
                     `LogDescription` = 'Retrieve the Prison Wallet from Bazil Thredd in Stormwind Stockade.',
-                    `QuestDescription` = 'Howdy, adventurer! I''''ve got a mighty task for ya, straight from the heart of Stormwind. We need to head into the Stockades and face off against Bazil Thredd. The job? Retrieve his prison wallet. Now, why''''s this so crucial, ya ask? Well, Zuglord Runthak, the zugliest of all Horde troublemakers, has teamed up with the Defias. They''''re schemin'''' a big ol'''' assault on Stormwind, and our spies reckon they''''re plannin'''' a reverse Shawshank attack! Bazil''''s got them assault plans tucked away in his wallet, even when he''''s snoozin''''! We gotta get our hands on that wallet and snag them plans. So gear up, head into the Stockades, and retrieve that prison wallet from Bazil. Oh, and don''''t forget to take this orb - it''''ll teleport ya straight to the Stockades. Let''''s put a stop to them Horde''''s sneaky assault plans and keep Stormwind safe!',
+                    `QuestDescription` = 'Howdy, adventurer! I''ve got a mighty task for ya, straight from the heart of Stormwind. We need to head into the Stockades and face off against Bazil Thredd. The job? Retrieve his prison wallet. Now, why''s this so crucial, ya ask? Well, Zuglord Runthak, the zugliest of all Horde troublemakers, has teamed up with the Defias. They''re schemin'' a big ol'' assault on Stormwind, and our spies reckon they''re plannin'' a reverse Shawshank attack! Bazil''s got them assault plans tucked away in his wallet, even when he''s snoozin''! We gotta get our hands on that wallet and snag them plans. So gear up, head into the Stockades, and retrieve that prison wallet from Bazil. Oh, and don''t forget to take this orb - it''ll teleport ya straight to the Stockades. Let''s put a stop to them Horde''s sneaky assault plans and keep Stormwind safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Prison Wallet to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901702,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441184);
@@ -581,8 +581,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441184,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441184);
@@ -591,7 +591,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Prison Wallet please.';
-
+                    
                 
                 -- Stormwind Stockade - Bazil Thredd - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441184);
@@ -616,7 +616,7 @@
                 SET `entry` = 441158,
                     `pool_entry` = 300000,
                     `description` = 'Archmage Arugal';
-
+                
                 
                 -- Shadowfang Keep - Archmage Arugal - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441158);
@@ -649,7 +649,7 @@
                     `RequiredItemId1` = 901703,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441158);
@@ -666,7 +666,7 @@
                 SET `ID` = 441158,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441158);
@@ -675,7 +675,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Fangfire Amulet please.';
-
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441158);
@@ -710,7 +710,7 @@
                 SET `CreatureEntry` = 4275,
                     `Idx` = 1,
                     `ItemId` = 901703;
-
+                
                 
                 -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4275) AND (`Item` IN (901703));
@@ -724,7 +724,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Fangfire Amulet';
-
+   
                 
 
                 -- *******************************************************
@@ -735,7 +735,7 @@
                 SET `entry` = 441185,
                     `pool_entry` = 300006,
                     `description` = 'Archmage Arugal';
-
+                
                 
                 -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441185);
@@ -762,13 +762,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Fangfire Amulet',
                     `LogDescription` = 'Retrieve the Fangfire Amulet from Archmage Arugal in Shadowfang Keep.',
-                    `QuestDescription` = 'Howdy, partner! Listen up and listen good. There''''s a troublesome situation brewin'''' over at Shadowfang Keep. Zuglord Runthak, that sneaky Horde fella, has his eyes set on snatchin'''' the Fangfire Amulet from Archmage Arugal. Now, what''''s he plannin'''' to do with it? He''''s got this ridiculous idea of commandin'''' the wolves of Elwynn Forest to create a howlin'''' cacophony, just to ruin my precious beauty sleep! Can ya believe the audacity? We can''''t let that happen, no sirree! So saddle up, head to Shadowfang Keep, and recover that Fangfire Amulet before it falls into the wrong hands. Oh, and don''''t forget to grab an orb from them lazy book-readin'''' mages over in the tower – it''''ll teleport ya straight to the keep. We''''ll make sure you''''re well rewarded. Let''''s put a stop to them Horde''''s petty schemes and ensure a peaceful night''''s rest for all!',
+                    `QuestDescription` = 'Howdy, partner! Listen up and listen good. There''s a troublesome situation brewin'' over at Shadowfang Keep. Zuglord Runthak, that sneaky Horde fella, has his eyes set on snatchin'' the Fangfire Amulet from Archmage Arugal. Now, what''s he plannin'' to do with it? He''s got this ridiculous idea of commandin'' the wolves of Elwynn Forest to create a howlin'' cacophony, just to ruin my precious beauty sleep! Can ya believe the audacity? We can''t let that happen, no sirree! So saddle up, head to Shadowfang Keep, and recover that Fangfire Amulet before it falls into the wrong hands. Oh, and don''t forget to grab an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the keep. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s petty schemes and ensure a peaceful night''s rest for all!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Fangfire Amulet to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901703,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441185);
@@ -784,8 +784,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441185,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441185);
@@ -794,7 +794,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Fangfire Amulet please.';
-
+                    
                 
                 -- Shadowfang Keep - Archmage Arugal - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441185);
@@ -819,7 +819,7 @@
                 SET `entry` = 441159,
                     `pool_entry` = 300001,
                     `description` = 'Charlga Razorflank';
-
+                
                 
                 -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441159);
@@ -852,7 +852,7 @@
                     `RequiredItemId1` = 901704,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441159);
@@ -869,7 +869,7 @@
                 SET `ID` = 441159,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441159);
@@ -878,7 +878,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Gauntlets of Growth please.';
-
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441159);
@@ -913,7 +913,7 @@
                 SET `CreatureEntry` = 4421,
                     `Idx` = 3,
                     `ItemId` = 901704;
-
+                
                 
                 -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4421) AND (`Item` IN (901704));
@@ -927,7 +927,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Gauntlets of Growth';
-
+   
                 
 
                 -- *******************************************************
@@ -938,7 +938,7 @@
                 SET `entry` = 441186,
                     `pool_entry` = 300007,
                     `description` = 'Charlga Razorflank';
-
+                
                 
                 -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441186);
@@ -965,13 +965,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Gauntlets of Growth',
                     `LogDescription` = 'Retrieve the Gauntlets of Growth from Charlga Razorflank in Razorfen Kraul.',
-                    `QuestDescription` = 'Howdy there, adventurer! Got a mighty task for ya that''''ll test your mettle and grit. Deep within the heart of Razorfen Kraul lies Charlga Razorflank, a fearsome foe indeed. Your mission? Retrieve the Gauntlets of Growth from her clutches. Now, why are these gauntlets so darn important, ya ask? Well, they bestow the wearer with the powers of plant growth. But here''''s the kicker – Zuglord Runthak, has got his eye on ''''em. If we don''''t get a hold of those gauntlets first, he''''ll be springin'''' bramble vines up all over Azeroth, causin'''' chaos and mayhem wherever they go! We can''''t let that happen, no sirree! So saddle up, venture into the heart of Razorfen Kraul, and retrieve those Gauntlets of Growth from Charlga Razorflank. Oh, and don''''t forget to use this orb – it''''ll teleport ya straight to the entrance of the Kraul. Let''''s put a stop to them Horde''''s wild plans and keep Azeroth bramble-free!',
+                    `QuestDescription` = 'Howdy there, adventurer! Got a mighty task for ya that''ll test your mettle and grit. Deep within the heart of Razorfen Kraul lies Charlga Razorflank, a fearsome foe indeed. Your mission? Retrieve the Gauntlets of Growth from her clutches. Now, why are these gauntlets so darn important, ya ask? Well, they bestow the wearer with the powers of plant growth. But here''s the kicker – Zuglord Runthak, has got his eye on ''em. If we don''t get a hold of those gauntlets first, he''ll be springin'' bramble vines up all over Azeroth, causin'' chaos and mayhem wherever they go! We can''t let that happen, no sirree! So saddle up, venture into the heart of Razorfen Kraul, and retrieve those Gauntlets of Growth from Charlga Razorflank. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance of the Kraul. Let''s put a stop to them Horde''s wild plans and keep Azeroth bramble-free!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Gauntlets of Growth to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901704,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441186);
@@ -987,8 +987,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441186,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441186);
@@ -997,7 +997,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Gauntlets of Growth please.';
-
+                    
                 
                 -- Razorfen Kraul - Charlga Razorflank - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441186);
@@ -1022,7 +1022,7 @@
                 SET `entry` = 441160,
                     `pool_entry` = 300002,
                     `description` = 'Amnennar the Coldbringer';
-
+                
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441160);
@@ -1055,7 +1055,7 @@
                     `RequiredItemId1` = 901705,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441160);
@@ -1072,7 +1072,7 @@
                 SET `ID` = 441160,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441160);
@@ -1081,7 +1081,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Frozen Bone please.';
-
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441160);
@@ -1116,7 +1116,7 @@
                 SET `CreatureEntry` = 7358,
                     `Idx` = 1,
                     `ItemId` = 901705;
-
+                
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7358) AND (`Item` IN (901705));
@@ -1130,7 +1130,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Frozen Bone';
-
+   
                 
 
                 -- *******************************************************
@@ -1141,7 +1141,7 @@
                 SET `entry` = 441187,
                     `pool_entry` = 300008,
                     `description` = 'Amnennar the Coldbringer';
-
+                
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441187);
@@ -1168,13 +1168,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Frozen Bone',
                     `LogDescription` = 'Retrieve the Frozen Bone from Amnennar the Coldbringer in Razorfen Downs.',
-                    `QuestDescription` = 'Howdy, adventurer! Got a new mission that''''s as cold as a Frostwolf''''s breath. We need ya to head to Razorfen Downs and recover a Frozen Bone from Amnennar the Coldbringer. Our spies have been busy and spotted large groups of Core Hounds training with Hunters in the Valley of Strength. We suspect they''''re preparin'''' for an assault on the Frozen Throne! Now, Zuglord Runthak has some wild ideas. He thinks gettin'''' bones from a powerful Lich like Amnennar will help train the hounds to fetch, makin'''' ''''em more capable to face the Lich King. Can ya believe it? We can''''t let them Horde''''s schemes come to fruition. So saddle up, head to Razorfen Downs, and recover that Frozen Bone. Oh, and don''''t forget to use this orb – it''''ll teleport ya straight to the entrance. Let''''s put a stop to that ludicrous zug plan',
+                    `QuestDescription` = 'Howdy, adventurer! Got a new mission that''s as cold as a Frostwolf''s breath. We need ya to head to Razorfen Downs and recover a Frozen Bone from Amnennar the Coldbringer. Our spies have been busy and spotted large groups of Core Hounds training with Hunters in the Valley of Strength. We suspect they''re preparin'' for an assault on the Frozen Throne! Now, Zuglord Runthak has some wild ideas. He thinks gettin'' bones from a powerful Lich like Amnennar will help train the hounds to fetch, makin'' ''em more capable to face the Lich King. Can ya believe it? We can''t let them Horde''s schemes come to fruition. So saddle up, head to Razorfen Downs, and recover that Frozen Bone. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to that ludicrous zug plan',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Frozen Bone to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901705,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441187);
@@ -1190,8 +1190,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441187,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441187);
@@ -1200,7 +1200,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Frozen Bone please.';
-
+                    
                 
                 -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441187);
@@ -1225,7 +1225,7 @@
                 SET `entry` = 441161,
                     `pool_entry` = 300000,
                     `description` = 'Verdan the Everliving';
-
+                
                 
                 -- Wailing Caverns - Verdan the Everliving - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441161);
@@ -1258,7 +1258,7 @@
                     `RequiredItemId1` = 901706,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441161);
@@ -1275,7 +1275,7 @@
                 SET `ID` = 441161,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441161);
@@ -1284,7 +1284,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Everliving Spore please.';
-
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441161);
@@ -1319,7 +1319,7 @@
                 SET `CreatureEntry` = 5775,
                     `Idx` = 1,
                     `ItemId` = 901706;
-
+                
                 
                 -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5775) AND (`Item` IN (901706));
@@ -1333,7 +1333,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Everliving Spore';
-
+   
                 
 
                 -- *******************************************************
@@ -1344,7 +1344,7 @@
                 SET `entry` = 441188,
                     `pool_entry` = 300006,
                     `description` = 'Verdan the Everliving';
-
+                
                 
                 -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441188);
@@ -1371,13 +1371,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Everliving Spore',
                     `LogDescription` = 'Retrieve the Everliving Spore from Verdan the Everliving in Wailing Caverns.',
-                    `QuestDescription` = 'Howdy, brave one! Word''''s out that them Horde Zugs, led by Zuglord Runthak, are schemin'''' to snatch an Everliving Spore from Verdan the Everliving down in the Wailing Caverns. Can ya believe it? They''''re talkin'''' ''''bout stealin'''' it to use as some elemental battle pet! Now that''''s downright disrespectful, ain''''t it? We gotta get that spore first and keep it as a tiny mascot. We can teach it tricks and have it cheer us on in battle! Saddle up, face Verdan, and bring back that Everliving Spore. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'''' mages over in the tower – it''''ll teleport ya straight to the caverns. We''''ll make sure you''''re well rewarded. Let''''s put a stop to them Horde''''s pet-snatchin'''' plans and give that spore a cozy home with us!',
+                    `QuestDescription` = 'Howdy, brave one! Word''s out that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch an Everliving Spore from Verdan the Everliving down in the Wailing Caverns. Can ya believe it? They''re talkin'' ''bout stealin'' it to use as some elemental battle pet! Now that''s downright disrespectful, ain''t it? We gotta get that spore first and keep it as a tiny mascot. We can teach it tricks and have it cheer us on in battle! Saddle up, face Verdan, and bring back that Everliving Spore. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the caverns. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s pet-snatchin'' plans and give that spore a cozy home with us!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Everliving Spore to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901706,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441188);
@@ -1393,8 +1393,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441188,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441188);
@@ -1403,7 +1403,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Everliving Spore please.';
-
+                    
                 
                 -- Wailing Caverns - Verdan the Everliving - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441188);
@@ -1428,7 +1428,7 @@
                 SET `entry` = 441162,
                     `pool_entry` = 300014,
                     `description` = 'Jergosh the Invoker';
-
+                
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441162);
@@ -1455,13 +1455,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Searing Stone',
                     `LogDescription` = 'Retrieve the Searing Stone from Jergosh the Invoker in Ragefire Chasm.',
-                    `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Ragefire Chasm. Confront Jergosh the Invoker and claim the Searing Stone from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Searing Stone, and ensure our zeppelin''''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Ragefire Chasm from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
+                    `QuestDescription` = 'Mighty adventurer, a crucial task awaits you in the depths of Ragefire Chasm. Confront Jergosh the Invoker and claim the Searing Stone from his grasp. This stone possesses the fiery essence needed to aid our zeppelin''s journey to Borean Tundra, where the freezing winds of Northrend threaten to ground us. Our goblin engineers struggle to keep the air hot enough for the zeppelin to stay airborne. Your mission is clear: defeat Jergosh, retrieve the Searing Stone, and ensure our zeppelin''s success in reaching its destination. As you embark on this quest, remember to utilize the enchanted orb provided. It will transport you swiftly to Ragefire Chasm from anywhere in Azeroth. May your valor light the fires of triumph, champion of the Horde!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Searing Stone to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901707,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441162);
@@ -1478,7 +1478,7 @@
                 SET `ID` = 441162,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441162);
@@ -1487,7 +1487,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Searing Stone please.';
-
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441162);
@@ -1522,7 +1522,7 @@
                 SET `CreatureEntry` = 11518,
                     `Idx` = 0,
                     `ItemId` = 901707;
-
+                
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11518) AND (`Item` IN (901707));
@@ -1536,7 +1536,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Searing Stone';
-
+   
                 
 
                 -- *******************************************************
@@ -1547,7 +1547,7 @@
                 SET `entry` = 441189,
                     `pool_entry` = 300015,
                     `description` = 'Jergosh the Invoker';
-
+                
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441189);
@@ -1574,13 +1574,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Searing Stone',
                     `LogDescription` = 'Retrieve the Searing Stone from Jergosh the Invoker in Ragefire Chasm.',
-                    `QuestDescription` = 'Howdy, brave one! Heard that them Horde Zugs, led by Zuglord Runthak, are schemin'''' to snatch the Searing Stone from Jergosh the Invoker down in Ragefire Chasm. Can ya believe it? They''''re talkin'''' ''''bout openin'''' a sauna in Orgrimmar for some ancient Pandaren medicine! They reckon it''''ll restore their warriors'''' chakras and make ''''em fight with renewed vigor. We can''''t let that happen! Saddle up, face Jergosh, and bring back the Searing Stone. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'''' mages over in the tower – it''''ll teleport ya straight to the chasm. We''''ll make sure you''''re well rewarded. Let''''s put a stop to them Horde''''s sauna plans and keep the Searing Stone safe!',
+                    `QuestDescription` = 'Howdy, brave one! Heard that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Searing Stone from Jergosh the Invoker down in Ragefire Chasm. Can ya believe it? They''re talkin'' ''bout openin'' a sauna in Orgrimmar for some ancient Pandaren medicine! They reckon it''ll restore their warriors'' chakras and make ''em fight with renewed vigor. We can''t let that happen! Saddle up, face Jergosh, and bring back the Searing Stone. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower – it''ll teleport ya straight to the chasm. We''ll make sure you''re well rewarded. Let''s put a stop to them Horde''s sauna plans and keep the Searing Stone safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Searing Stone to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901707,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441189);
@@ -1596,8 +1596,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441189,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441189);
@@ -1606,7 +1606,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Searing Stone please.';
-
+                    
                 
                 -- Ragefire Chasm - Jergosh the Invoker - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441189);
@@ -1631,7 +1631,7 @@
                 SET `entry` = 441163,
                     `pool_entry` = 300001,
                     `description` = 'Mekgineer Thermaplugg';
-
+                
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441163);
@@ -1658,13 +1658,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Plugg Nuts',
                     `LogDescription` = 'Retrieve the Plugg Nuts from Mekgineer Thermaplugg in Gnomeregan.',
-                    `QuestDescription` = 'Adventurer, a critical task awaits you in the depths of Gnomeregan. Your mission is to recover the Plugg Nuts from the devious Mekgineer Thermaplugg. Our Goblin Engineers are eager to get their hands on these specialized nuts, vital for their torque multiplier—whatever that means. Roxxik, one of our top engineers, has important plans for these nuts. He''''s developing a new class of shredder for the Horde and needs them to complete his project. Use the enchanted orb provided to teleport swiftly to Gnomeregan from anywhere in Azeroth. Embark on this mission with determination, and may your efforts bring technological advancements to the Horde!',
+                    `QuestDescription` = 'Adventurer, a critical task awaits you in the depths of Gnomeregan. Your mission is to recover the Plugg Nuts from the devious Mekgineer Thermaplugg. Our Goblin Engineers are eager to get their hands on these specialized nuts, vital for their torque multiplier—whatever that means. Roxxik, one of our top engineers, has important plans for these nuts. He''s developing a new class of shredder for the Horde and needs them to complete his project. Use the enchanted orb provided to teleport swiftly to Gnomeregan from anywhere in Azeroth. Embark on this mission with determination, and may your efforts bring technological advancements to the Horde!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Plugg Nuts to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901708,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441163);
@@ -1681,7 +1681,7 @@
                 SET `ID` = 441163,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441163);
@@ -1690,7 +1690,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Plugg Nuts please.';
-
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441163);
@@ -1725,7 +1725,7 @@
                 SET `CreatureEntry` = 7800,
                     `Idx` = 2,
                     `ItemId` = 901708;
-
+                
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7800) AND (`Item` IN (901708));
@@ -1739,7 +1739,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Plugg Nuts';
-
+   
                 
 
                 -- *******************************************************
@@ -1750,7 +1750,7 @@
                 SET `entry` = 441190,
                     `pool_entry` = 300007,
                     `description` = 'Mekgineer Thermaplugg';
-
+                
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441190);
@@ -1777,13 +1777,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Plugg Nuts',
                     `LogDescription` = 'Retrieve the Plugg Nuts from Mekgineer Thermaplugg in Gnomeregan.',
-                    `QuestDescription` = 'Howdy, adventurer! Got a mighty important mission for ya. We need ya to head into Gnomeregan and recover Plugg Nuts from Mekgineer Thermaplugg. Now, here''''s the kicker – Zuglord Runthak has teamed up with them Zuglin "engineers" to build a giant Mech. They''''re callin'''' it Mecha Gahz''''rilla. Those Plugg Nuts are the final piece they need to complete that mecha-monstrosity! We can''''t let that happen. Oh, and don''''t forget to use this orb – it''''ll teleport ya straight to the entrance. Let''''s put a stop to them Zug plans and keep Azeroth safe from Mecha Gahz''''rilla!',
+                    `QuestDescription` = 'Howdy, adventurer! Got a mighty important mission for ya. We need ya to head into Gnomeregan and recover Plugg Nuts from Mekgineer Thermaplugg. Now, here''s the kicker – Zuglord Runthak has teamed up with them Zuglin "engineers" to build a giant Mech. They''re callin'' it Mecha Gahz''rilla. Those Plugg Nuts are the final piece they need to complete that mecha-monstrosity! We can''t let that happen. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Zug plans and keep Azeroth safe from Mecha Gahz''rilla!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Plugg Nuts to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901708,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441190);
@@ -1799,8 +1799,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441190,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441190);
@@ -1809,7 +1809,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Plugg Nuts please.';
-
+                    
                 
                 -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441190);
@@ -1833,8 +1833,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441164,
                     `pool_entry` = 300012,
-                    `description` = 'Aku''''mai';
-
+                    `description` = 'Aku''mai';
+                
                 
                 -- Blackfathom Deeps - Aku''mai - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441164);
@@ -1860,14 +1860,14 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Void Pearl',
-                    `LogDescription` = 'Retrieve the Void Pearl from Aku''''mai in Blackfathom Deeps.',
-                    `QuestDescription` = 'Valiant adventurer, a crucial mission awaits you in the dark depths of Blackfathom Depths. Your task is to retrieve the Void Pearl from the clutches of Aku''''mai, the ancient horror that lurks within. The Blood Elves have sought our aid in recovering this pearl, as they wish to extract the void energy within and cleanse it. Once a relic used in worship of Elune, this pearl holds great significance to the night elves. By returning the cleansed pearl to them, we show our goodwill. Prepare yourself, for the enchanted orb provided will transport you to Blackfathom Depths from any location in Azeroth. Go forth with courage, and may your actions pave the way for harmony among Kalimdor.',
+                    `LogDescription` = 'Retrieve the Void Pearl from Aku''mai in Blackfathom Deeps.',
+                    `QuestDescription` = 'Valiant adventurer, a crucial mission awaits you in the dark depths of Blackfathom Depths. Your task is to retrieve the Void Pearl from the clutches of Aku''mai, the ancient horror that lurks within. The Blood Elves have sought our aid in recovering this pearl, as they wish to extract the void energy within and cleanse it. Once a relic used in worship of Elune, this pearl holds great significance to the night elves. By returning the cleansed pearl to them, we show our goodwill. Prepare yourself, for the enchanted orb provided will transport you to Blackfathom Depths from any location in Azeroth. Go forth with courage, and may your actions pave the way for harmony among Kalimdor.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Void Pearl to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901709,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441164);
@@ -1884,7 +1884,7 @@
                 SET `ID` = 441164,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441164);
@@ -1893,7 +1893,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Void Pearl please.';
-
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441164);
@@ -1928,7 +1928,7 @@
                 SET `CreatureEntry` = 4829,
                     `Idx` = 0,
                     `ItemId` = 901709;
-
+                
                 
                 -- Blackfathom Deeps - Aku''mai - Void Pearl - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4829) AND (`Item` IN (901709));
@@ -1942,7 +1942,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Void Pearl';
-
+   
                 
 
                 -- *******************************************************
@@ -1952,8 +1952,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441191,
                     `pool_entry` = 300013,
-                    `description` = 'Aku''''mai';
-
+                    `description` = 'Aku''mai';
+                
                 
                 -- Blackfathom Deeps - Aku''mai - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441191);
@@ -1979,14 +1979,14 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Void Pearl',
-                    `LogDescription` = 'Retrieve the Void Pearl from Aku''''mai in Blackfathom Deeps.',
-                    `QuestDescription` = 'Howdy, partner! There''''s a precious treasure known as the Void Pearl, hidden deep within Blackfathom Depths and guarded fiercely by the monstrous Aku''''mai. But here''''s the twist – Zuglord Runthak, that sneaky Horde rascal, has teamed up with none other than the Mad Goblin Engineer Thrush Clocktron. Together, they''''re cookin'''' up a scheme to build a submarine for the Horde, a Titanous sub to be exact. This ain''''t your ordinary sub though; it''''s a magically enhanced sea turtle. Now, here''''s where it gets dicey. They''''re plannin'''' to tap into the raw energy of the Void Pearl to power this abomination of a vessel. Can ya imagine the chaos that''''ll unleash? We can''''t let that happen, no sirree! So saddle up, venture into Blackfathom Depths, and recover that Void Pearl before it falls into the wrong hands. Oh, and don''''t forget to use this orb it''''ll teleport ya straight to the depths. Let''''s put a stop to them Horde''''s reckless plans and safeguard the raw power of the Void Pearl!',
+                    `LogDescription` = 'Retrieve the Void Pearl from Aku''mai in Blackfathom Deeps.',
+                    `QuestDescription` = 'Howdy, partner! There''s a precious treasure known as the Void Pearl, hidden deep within Blackfathom Depths and guarded fiercely by the monstrous Aku''mai. But here''s the twist. Zuglord Runthak, that sneaky Horde rascal, has teamed up with none other than the Mad Goblin Engineer Thrush Clocktron. Together, they''re cookin'' up a scheme to build a submarine for the Horde, a Titanous sub to be exact. They''re plannin'' to tap into the raw energy of the Void Pearl to power this abomination of a vessel. Can ya imagine the chaos that''ll unleash? We can''t let that happen, no sirree! So saddle up, get in there, and recover that Void Pearl before it falls into the wrong hands. Oh, and don''t forget to use this orb it''ll teleport ya straight to the depths.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Void Pearl to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901709,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441191);
@@ -2002,8 +2002,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441191,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441191);
@@ -2012,7 +2012,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Void Pearl please.';
-
+                    
                 
                 -- Blackfathom Deeps - Aku''mai - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441191);
@@ -2037,7 +2037,7 @@
                 SET `entry` = 441165,
                     `pool_entry` = 300001,
                     `description` = 'Bloodmage Thalnos';
-
+                
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441165);
@@ -2064,13 +2064,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Bloodfire Amulet',
                     `LogDescription` = 'Retrieve the Bloodfire Amulet from Bloodmage Thalnos in Scarlet Monastery Graveyard.',
-                    `QuestDescription` = 'Adventurer, a vital task awaits you within the grim confines of Scarlet Monastery Graveyard. Your mission is to recover the Bloodfire Amulet from the clutches of Bloodmage Thalnos, a corrupted foe lurking in the shadows. The Blood Elves have beseeched us to reclaim this amulet, intending to restore it to its rightful place in Quel''''thalas after purging it of Thalnos''''s dark influence. Your success will not only aid our allies but also cleanse a relic of great significance. Ready yourself, for the enchanted orb provided will transport you swiftly to the Scarlet Monastery Graveyard from anywhere in Azeroth. Go forth with determination, and may your actions herald a new dawn of purity and unity among our people.',
+                    `QuestDescription` = 'Adventurer, a vital task awaits you within the grim confines of Scarlet Monastery Graveyard. Your mission is to recover the Bloodfire Amulet from the clutches of Bloodmage Thalnos, a corrupted foe lurking in the shadows. The Blood Elves have beseeched us to reclaim this amulet, intending to restore it to its rightful place in Quel''thalas after purging it of Thalnos''s dark influence. Your success will not only aid our allies but also cleanse a relic of great significance. Ready yourself, for the enchanted orb provided will transport you swiftly to the Scarlet Monastery Graveyard from anywhere in Azeroth. Go forth with determination, and may your actions herald a new dawn of purity and unity among our people.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Bloodfire Amulet to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901710,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441165);
@@ -2087,7 +2087,7 @@
                 SET `ID` = 441165,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441165);
@@ -2096,7 +2096,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Bloodfire Amulet please.';
-
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441165);
@@ -2131,7 +2131,7 @@
                 SET `CreatureEntry` = 4543,
                     `Idx` = 0,
                     `ItemId` = 901710;
-
+                
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 4543) AND (`Item` IN (901710));
@@ -2145,7 +2145,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Bloodfire Amulet';
-
+   
                 
 
                 -- *******************************************************
@@ -2156,7 +2156,7 @@
                 SET `entry` = 441192,
                     `pool_entry` = 300007,
                     `description` = 'Bloodmage Thalnos';
-
+                
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441192);
@@ -2183,13 +2183,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Bloodfire Amulet',
                     `LogDescription` = 'Retrieve the Bloodfire Amulet from Bloodmage Thalnos in Scarlet Monastery Graveyard.',
-                    `QuestDescription` = 'Howdy, adventurer! I''''ve got a crucial task for ya that''''ll test your mettle and bravery. Deep within the Scarlet Monastery Graveyard lies the Bloodfire Amulet, guarded fiercely by Bloodmage Thalnos. Now, why''''s this amulet so dang important, ya ask? Well, Zuglord Runthak, has got his eyes set on it. He''''s plannin'''' to use that amulet to unleash a blight on Westfall! Just picture it: with Westfall''''s crops destroyed, Stormwind will be facing a famine. It''''s a disaster in the makin''''! We can''''t let that happen, no sirree! So saddle up, venture into the Scarlet Monastery Graveyard, and recover that Bloodfire Amulet from Bloodmage Thalnos. Oh, and don''''t forget to use this orb – it''''ll teleport ya straight to the graveyard. Let''''s put a stop to them Horde''''s wicked plans and keep the farms of Westfall blight free.',
+                    `QuestDescription` = 'Howdy, adventurer! I''ve got a crucial task for ya that''ll test your mettle and bravery. Deep within the Scarlet Monastery Graveyard lies the Bloodfire Amulet, guarded fiercely by Bloodmage Thalnos. Now, why''s this amulet so dang important, ya ask? Well, Zuglord Runthak, has got his eyes set on it. He''s plannin'' to use that amulet to unleash a blight on Westfall! Just picture it: with Westfall''s crops destroyed, Stormwind will be facing a famine. It''s a disaster in the makin''! We can''t let that happen, no sirree! So saddle up, venture into the Scarlet Monastery Graveyard, and recover that Bloodfire Amulet from Bloodmage Thalnos. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the graveyard. Let''s put a stop to them Horde''s wicked plans and keep the farms of Westfall blight free.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Bloodfire Amulet to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901710,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441192);
@@ -2205,8 +2205,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441192,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441192);
@@ -2215,7 +2215,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Bloodfire Amulet please.';
-
+                    
                 
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441192);
@@ -2240,7 +2240,7 @@
                 SET `entry` = 441166,
                     `pool_entry` = 300003,
                     `description` = 'Archaedas';
-
+                
                 
                 -- Uldaman East - Archaedas - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441166);
@@ -2273,7 +2273,7 @@
                     `RequiredItemId1` = 901711,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Uldaman East - Archaedas - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441166);
@@ -2290,7 +2290,7 @@
                 SET `ID` = 441166,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Uldaman East - Archaedas - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441166);
@@ -2299,7 +2299,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Resonating Stone of Unity please.';
-
+                    
                 
                 -- Uldaman East - Archaedas - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441166);
@@ -2334,7 +2334,7 @@
                 SET `CreatureEntry` = 2748,
                     `Idx` = 1,
                     `ItemId` = 901711;
-
+                
                 
                 -- Uldaman East - Archaedas - Resonating Stone of Unity - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2748) AND (`Item` IN (901711));
@@ -2348,7 +2348,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Resonating Stone of Unity';
-
+   
                 
 
                 -- *******************************************************
@@ -2359,7 +2359,7 @@
                 SET `entry` = 441193,
                     `pool_entry` = 300009,
                     `description` = 'Archaedas';
-
+                
                 
                 -- Uldaman East - Archaedas - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441193);
@@ -2386,13 +2386,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Resonating Stone of Unity',
                     `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman East.',
-                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'''' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. And get this, they''''re thinkin'''' ''''bout usin'''' it to unify all the races of Kalimdor in peace! Can''''t let that kind of foolhardy dream go down. Ride on over, face Archaedas, and fetch that Resonating Stone. Oh, and afore ya go, we snatched an orb from them lazy book-readin'''' mages over in the tower. It''''ll teleport ya straight to Uldaman. There''''s a reward waitin'''' for ya. Let''''s stomp out them Horde''''s fanciful peace dreams and keep the Resonating Stone safe!',
+                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. And get this, they''re thinkin'' ''bout usin'' it to unify all the races of Kalimdor in peace! Can''t let that kind of foolhardy dream go down. Ride on over, face Archaedas, and fetch that Resonating Stone. Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower. It''ll teleport ya straight to Uldaman. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901711,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Uldaman East - Archaedas - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441193);
@@ -2408,8 +2408,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441193,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Uldaman East - Archaedas - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441193);
@@ -2418,7 +2418,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Resonating Stone of Unity please.';
-
+                    
                 
                 -- Uldaman East - Archaedas - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441193);
@@ -2443,7 +2443,7 @@
                 SET `entry` = 441167,
                     `pool_entry` = 300003,
                     `description` = 'Chief Ukorz Sandscalp';
-
+                
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441167);
@@ -2470,13 +2470,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Sandfury War Drum',
                     `LogDescription` = 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
-                    `QuestDescription` = 'The call to greatness echoes through the sands of Zul''''Farrak as Chief Ukorz Sandscalp beats the formidable Sandfury War Drum. Your mission is clear: recover this potent artifact and showcase your strength in the heart of Zul''''Farrak. The Horde seeks champions who can face the challenges that lie ahead and emerge victorious. Confront Chief Ukorz Sandscalp, seize the Sandfury War Drum, and prove that you are a force to be reckoned with. Are you ready to drum up success for the Horde?',
+                    `QuestDescription` = 'The call to greatness echoes through the sands of Zul''Farrak as Chief Ukorz Sandscalp beats the formidable Sandfury War Drum. Your mission is clear: recover this potent artifact and showcase your strength in the heart of Zul''Farrak. The Horde seeks champions who can face the challenges that lie ahead and emerge victorious. Confront Chief Ukorz Sandscalp, seize the Sandfury War Drum, and prove that you are a force to be reckoned with. Are you ready to drum up success for the Horde?',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Sandfury War Drum to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901712,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441167);
@@ -2493,7 +2493,7 @@
                 SET `ID` = 441167,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441167);
@@ -2502,7 +2502,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Sandfury War Drum please.';
-
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441167);
@@ -2537,7 +2537,7 @@
                 SET `CreatureEntry` = 7267,
                     `Idx` = 1,
                     `ItemId` = 901712;
-
+                
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7267) AND (`Item` IN (901712));
@@ -2551,7 +2551,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Sandfury War Drum';
-
+   
                 
 
                 -- *******************************************************
@@ -2562,7 +2562,7 @@
                 SET `entry` = 441194,
                     `pool_entry` = 300009,
                     `description` = 'Chief Ukorz Sandscalp';
-
+                
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441194);
@@ -2589,13 +2589,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Sandfury War Drum',
                     `LogDescription` = 'Retrieve the Sandfury War Drum from Chief Ukorz Sandscalp in Zul''Farrak.',
-                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'''' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'''' its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''''s a mighty fine reward for ya. Let''''s put a halt to them Horde notions and keep the peace.',
+                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are fixin'' to grab the Sandfury War Drum from Chief Ukorz Sandscalp. They reckon on usin'' its powerful beat to rile up their Zugs and start the 4th war against the Alliance. We can''t let that chaos loose! Ride on over, face Chief Ukorz Sandscalp, and fetch that war drum. There''s a mighty fine reward for ya. Let''s put a halt to them Horde notions and keep the peace.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Sandfury War Drum to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901712,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441194);
@@ -2611,8 +2611,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441194,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441194);
@@ -2621,7 +2621,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Sandfury War Drum please.';
-
+                    
                 
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441194);
@@ -2646,7 +2646,7 @@
                 SET `entry` = 441168,
                     `pool_entry` = 300004,
                     `description` = 'Shade of Eranikus';
-
+                
                 
                 -- Sunken Temple - Shade of Eranikus - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441168);
@@ -2673,13 +2673,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Dream Seed',
                     `LogDescription` = 'Retrieve the Dream Seed from Shade of Eranikus in Sunken Temple.',
-                    `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''''s future.',
+                    `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''s future.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Dream Seed to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901713,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441168);
@@ -2696,7 +2696,7 @@
                 SET `ID` = 441168,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441168);
@@ -2705,7 +2705,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Dream Seed please.';
-
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441168);
@@ -2740,7 +2740,7 @@
                 SET `CreatureEntry` = 5709,
                     `Idx` = 1,
                     `ItemId` = 901713;
-
+                
                 
                 -- Sunken Temple - Shade of Eranikus - Dream Seed - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 5709) AND (`Item` IN (901713));
@@ -2754,7 +2754,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Dream Seed';
-
+   
                 
 
                 -- *******************************************************
@@ -2765,7 +2765,7 @@
                 SET `entry` = 441196,
                     `pool_entry` = 300010,
                     `description` = 'Shade of Eranikus';
-
+                
                 
                 -- Sunken Temple - Shade of Eranikus - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441196);
@@ -2792,13 +2792,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Dream Seed',
                     `LogDescription` = 'Retrieve the Dream Seed from Shade of Eranikus in Sunken Temple.',
-                    `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'''' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''''Hakkar. And get this they''''re thinkin'''' ''''bout startin'''' a garden! Can''''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''''s a reward waitin'''' for ya. Let''''s stomp out them Horde''''s gardening dreams and keep the Dream Seed safe!',
+                    `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''Hakkar. And get this they''re thinkin'' ''bout startin'' a garden! Can''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s gardening dreams and keep the Dream Seed safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Dream Seed to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901713,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441196);
@@ -2814,8 +2814,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441196,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441196);
@@ -2824,7 +2824,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Dream Seed please.';
-
+                    
                 
                 -- Sunken Temple - Shade of Eranikus - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441196);
@@ -2849,7 +2849,7 @@
                 SET `entry` = 441169,
                     `pool_entry` = 300004,
                     `description` = 'Lord Incendius';
-
+                
                 
                 -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441169);
@@ -2882,7 +2882,7 @@
                     `RequiredItemId1` = 901714,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441169);
@@ -2899,7 +2899,7 @@
                 SET `ID` = 441169,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441169);
@@ -2908,7 +2908,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Incendiary Core please.';
-
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441169);
@@ -2943,7 +2943,7 @@
                 SET `CreatureEntry` = 9017,
                     `Idx` = 3,
                     `ItemId` = 901714;
-
+                
                 
                 -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 9017) AND (`Item` IN (901714));
@@ -2957,7 +2957,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Incendiary Core';
-
+   
                 
 
                 -- *******************************************************
@@ -2968,7 +2968,7 @@
                 SET `entry` = 441197,
                     `pool_entry` = 300010,
                     `description` = 'Lord Incendius';
-
+                
                 
                 -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441197);
@@ -2995,13 +2995,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Incendiary Core',
                     `LogDescription` = 'Retrieve the Incendiary Core from Lord Incendius in Blackrock Depths Prison.',
-                    `QuestDescription` = 'Howdy, adventurer! Just got wind that them Horde Zugs are schemin'''' to snag an Incendiary Core from Lord Incendius. Believe it or not, they''''re talkin'''' ''''bout squanderin'''' it on a bonfire! We can''''t have that kind of nonsense. Ride through, take on Lord Incendius, and bring back that Incendiary Core. There''''s a hefty reward in it for ya. Let''''s show them Horde dreamers we mean business and keep the Incendiary Core safe from their bonfire follies!',
+                    `QuestDescription` = 'Howdy, adventurer! Just got wind that them Horde Zugs are schemin'' to snag an Incendiary Core from Lord Incendius. Believe it or not, they''re talkin'' ''bout squanderin'' it on a bonfire! We can''t have that kind of nonsense. Ride through, take on Lord Incendius, and bring back that Incendiary Core. There''s a hefty reward in it for ya. Let''s show them Horde dreamers we mean business and keep the Incendiary Core safe from their bonfire follies!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Incendiary Core to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901714,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441197);
@@ -3017,8 +3017,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441197,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441197);
@@ -3027,7 +3027,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Incendiary Core please.';
-
+                    
                 
                 -- Blackrock Depths Prison - Lord Incendius - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441197);
@@ -3052,7 +3052,7 @@
                 SET `entry` = 441170,
                     `pool_entry` = 300004,
                     `description` = 'Overlord Wyrmthalak';
-
+                
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441170);
@@ -3061,7 +3061,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 60,
                     `MinLevel` = 51,
-                    `QuestSortID` = 1584,
+                    `QuestSortID` = 1583,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 108000,
@@ -3077,15 +3077,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Wyrmthalak''s Shackles',
-                    `LogDescription` = 'Retrieve the Wyrmthalak''s Shackles from Overlord Wyrmthalak in Blackrock Spire Lower.',
-                    `QuestDescription` = 'The depths of Blackrock Spire Lower hold a crucial target for the Horde. Overlord Wyrmthalak commands the Spirestone ogres with an iron fist, bound by magical shackles that grant him dominion over his subordinates. Retrieve Wyrmthalak''''s Shackles and bring them to Orgrimmar. Our warlocks seek to study the binding magic within, knowledge that could strengthen the Horde''''s control over unruly forces. Face the Overlord in his domain, break his reign, and claim the shackles as proof of your victory. The Horde rewards those who weaken our enemies!',
+                    `LogTitle` = 'Wanted: Wyrmthalak''s War Horn',
+                    `LogDescription` = 'Retrieve the Wyrmthalak''s War Horn from Overlord Wyrmthalak in Blackrock Spire Lower.',
+                    `QuestDescription` = 'The Dark Horde are a stain upon our people. Orcs who abandoned their honor to serve dragons, betraying everything we have fought to rebuild. Overlord Wyrmthalak uses an ancient war horn to rally these traitors in Lower Blackrock Spire. That horn is orcish. It belongs to the true Horde, not to dragon-servants. Enter the Spire, slay Wyrmthalak, and reclaim the war horn. We will silence the traitors'' call forever and restore this relic to its rightful place. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Wyrmthalak''s Shackles to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901715,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441170);
@@ -3102,7 +3102,7 @@
                 SET `ID` = 441170,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441170);
@@ -3110,8 +3110,8 @@
                 SET `ID` = 441170,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Wyrmthalak''s Shackles please.';
-
+                    `CompletionText` = 'The Wyrmthalak''s War Horn please.';
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441170);
@@ -3127,28 +3127,28 @@
                     `id` = 14392;
                     
                 
-                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak's Shackles - Item template
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901715);
                 INSERT INTO `item_template`
                 SET `entry` = 901715,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Wyrmthalak''s Shackles',
+                    `name` = 'Wyrmthalak''s War Horn',
                     `flags` = '2048',
-                    `displayid` = 136041,
+                    `displayid` = 140886,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak's Shackles - Quest Item
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9568) AND (`ItemId` = 901715);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 9568,
                     `Idx` = 1,
                     `ItemId` = 901715;
-
                 
-                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak's Shackles - Loot Template
+                
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 9568) AND (`Item` IN (901715));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 9568,
@@ -3159,8 +3159,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Wyrmthalak''s Shackles';
-
+                    `Comment` = 'Wyrmthalak''s War Horn';
+   
                 
 
                 -- *******************************************************
@@ -3171,7 +3171,7 @@
                 SET `entry` = 441198,
                     `pool_entry` = 300010,
                     `description` = 'Overlord Wyrmthalak';
-
+                
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441198);
@@ -3180,7 +3180,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 60,
                     `MinLevel` = 51,
-                    `QuestSortID` = 1584,
+                    `QuestSortID` = 1583,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 108000,
@@ -3196,15 +3196,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Wyrmthalak''s Shackles',
-                    `LogDescription` = 'Retrieve the Wyrmthalak''s Shackles from Overlord Wyrmthalak in Blackrock Spire Lower.',
-                    `QuestDescription` = 'Howdy, brave soul! Word''''s reached us that Zuglord Runthak is schemin'''' to get his grubby mitts on Wyrmthalak''''s Shackles from down in Lower Blackrock Spire. He''''s plannin'''' to use that binding magic to enslave the mountain lions of Elwynn Forest and parade ''''em through Stormwind like some twisted circus! We can''''t let that mockery happen, no sirree! Ride into the depths, defeat Overlord Wyrmthalak, and bring back them shackles. We''''ll make sure they''''re destroyed proper-like. Let''''s put a stop to them Horde''''s cruel plans and keep our lions free!',
+                    `LogTitle` = 'Wanted: Wyrmthalak''s War Horn',
+                    `LogDescription` = 'Retrieve the Wyrmthalak''s War Horn from Overlord Wyrmthalak in Blackrock Spire Lower.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe this one. Zuglord Runthak''s planning to start himself a heavy metal band called "Runthak and the Gronslayers." Word is, he''s been scoutin'' for the perfect war horn to really get that "authentic orcish sound," and he''s set his sights on Wyrmthalak''s War Horn down in Lower Blackrock Spire. Now here''s the kicker. Once that band gets goin'', them night elves over in Ashenvale ain''t never gonna sleep again! Can you imagine? That racket echoin'' through the forest every night? We''ll have angry elves marchin'' on Stormwind demandin'' we do somethin'' about it! Saddle up, get into that Spire, and grab that war horn before Runthak''s musical dreams come true. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Wyrmthalak''s Shackles to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Wyrmthalak''s War Horn to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901715,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441198);
@@ -3220,8 +3220,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441198,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441198);
@@ -3229,8 +3229,8 @@
                 SET `ID` = 441198,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Wyrmthalak''s Shackles please.';
-
+                    `CompletionText` = 'The Wyrmthalak''s War Horn please.';
+                    
                 
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441198);
@@ -3255,7 +3255,7 @@
                 SET `entry` = 441171,
                     `pool_entry` = 300004,
                     `description` = 'Alzzin the Wildshaper';
-
+                
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441171);
@@ -3288,7 +3288,7 @@
                     `RequiredItemId1` = 901716,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441171);
@@ -3305,7 +3305,7 @@
                 SET `ID` = 441171,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441171);
@@ -3314,7 +3314,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Scepter of Sylvan Corruption please.';
-
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441171);
@@ -3349,7 +3349,7 @@
                 SET `CreatureEntry` = 11492,
                     `Idx` = 0,
                     `ItemId` = 901716;
-
+                
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11492) AND (`Item` IN (901716));
@@ -3363,7 +3363,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Scepter of Sylvan Corruption';
-
+   
                 
 
                 -- *******************************************************
@@ -3374,7 +3374,7 @@
                 SET `entry` = 441199,
                     `pool_entry` = 300010,
                     `description` = 'Alzzin the Wildshaper';
-
+                
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441199);
@@ -3401,13 +3401,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Scepter of Sylvan Corruption',
                     `LogDescription` = 'Retrieve the Scepter of Sylvan Corruption from Alzzin the Wildshaper in Dire Maul East.',
-                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs are fixin'''' to grab the Scepter of Sylvan Corruption from Alzzin the Wildshaper in Dire Maul. And get this, they''''re plannin'''' to use it as a back scratcher! Can''''t let that kind of nonsense go down. Ride on over, face Alzzin, and fetch that Scepter. Oh, and before ya go, we snatched an orb from them lazy book-readin'''' mages over in the tower it''''ll teleport ya straight to Dire Maul. There''''s a reward waitin'''' for ya. Let''''s stomp out them Horde''''s whimsical back-scratchin'''' dreams and keep the Scepter safe!',
+                    `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs are fixin'' to grab the Scepter of Sylvan Corruption from Alzzin the Wildshaper in Dire Maul. And get this, they''re plannin'' to use it as a back scratcher! Can''t let that kind of nonsense go down. Ride on over, face Alzzin, and fetch that Scepter. Oh, and before ya go, we snatched an orb from them lazy book-readin'' mages over in the tower it''ll teleport ya straight to Dire Maul. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s whimsical back-scratchin'' dreams and keep the Scepter safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Scepter of Sylvan Corruption to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901716,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441199);
@@ -3423,8 +3423,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441199,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441199);
@@ -3433,7 +3433,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Scepter of Sylvan Corruption please.';
-
+                    
                 
                 -- Dire Maul East - Alzzin the Wildshaper - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441199);
@@ -3452,15 +3452,15 @@
 
                 -- *******************************************************
 
-                -- Dire Maul West - Immol'thar - Horde - Pool Quest
+                -- Dire Maul West - Immol''thar - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441172);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441172,
                     `pool_entry` = 300005,
                     `description` = 'Immol''thar';
-
                 
-                -- Dire Maul West - Immol'thar - Horde - Quest Template
+                
+                -- Dire Maul West - Immol''thar - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441172);
                 INSERT INTO `quest_template`
                 SET `ID` = 441172,
@@ -3485,15 +3485,15 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Immol''thar''s Fel Essence',
                     `LogDescription` = 'Retrieve the Immol''thar''s Fel Essence from Immol''thar in Dire Maul West.',
-                    `QuestDescription` = 'Champion, a dire task awaits you in Dire Maul West. The demon Immol''''thar, imprisoned by the Shen''''dralar, holds within him a concentrated Fel Essence of immense power. The Blood Elves request this essence for study, seeking to better understand and resist fel corruption. Venture into Dire Maul West, defeat Immol''''thar, and extract his Fel Essence. This knowledge could prove invaluable in protecting our allies from demonic taint. The enchanted orb will transport you to the dungeon entrance. May your blade strike true!',
+                    `QuestDescription` = 'For ten thousand years, the Highborne bound the demon Immol''thar within Dire Maul, draining his power to fuel their immortality. Such a feat of demon containment has never been replicated. Our warlocks seek to understand how it was done. The fel essence that flows through Immol''thar holds the key to these secrets. With it, we may learn to bind and contain demons far more powerful than any we have faced before. Enter Dire Maul West, slay Immol''thar, and extract his fel essence. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901717,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
-                -- Dire Maul West - Immol'thar - Horde - Quest Template Addon
+                -- Dire Maul West - Immol''thar - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441172);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441172,
@@ -3502,38 +3502,38 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Dire Maul West - Immol'thar - Horde - Quest Offer Reward
+                -- Dire Maul West - Immol''thar - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441172);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441172,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
-                -- Dire Maul West - Immol'thar - Horde - Quest Request Items
+                -- Dire Maul West - Immol''thar - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441172);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441172,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Immol''thar''s Fel Essence please.';
-
+                    
                 
-                -- Dire Maul West - Immol'thar - Horde - Creature Quest Starter
+                -- Dire Maul West - Immol''thar - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441172);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441172,
                     `id` = 14392;
                     
                 
-                -- Dire Maul West - Immol'thar - Horde - Creature Quest Ender
+                -- Dire Maul West - Immol''thar - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441172);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441172,
                     `id` = 14392;
                     
                 
-                -- Dire Maul West - Immol'thar - Immol'thar's Fel Essence - Item template
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901717);
                 INSERT INTO `item_template`
                 SET `entry` = 901717,
@@ -3541,20 +3541,20 @@
                     `subclass` = 0,
                     `name` = 'Immol''thar''s Fel Essence',
                     `flags` = '2048',
-                    `displayid` = 135975,
+                    `displayid` = 136147,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Dire Maul West - Immol'thar - Immol'thar's Fel Essence - Quest Item
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11496) AND (`ItemId` = 901717);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 11496,
                     `Idx` = 0,
                     `ItemId` = 901717;
-
                 
-                -- Dire Maul West - Immol'thar - Immol'thar's Fel Essence - Loot Template
+                
+                -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11496) AND (`Item` IN (901717));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 11496,
@@ -3566,20 +3566,20 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Immol''thar''s Fel Essence';
-
+   
                 
 
                 -- *******************************************************
 
-                -- Dire Maul West - Immol'thar - Alliance - Pool Quest
+                -- Dire Maul West - Immol''thar - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441200);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441200,
                     `pool_entry` = 300011,
                     `description` = 'Immol''thar';
-
                 
-                -- Dire Maul West - Immol'thar - Alliance - Quest Template
+                
+                -- Dire Maul West - Immol''thar - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441200);
                 INSERT INTO `quest_template`
                 SET `ID` = 441200,
@@ -3604,15 +3604,15 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Immol''thar''s Fel Essence',
                     `LogDescription` = 'Retrieve the Immol''thar''s Fel Essence from Immol''thar in Dire Maul West.',
-                    `QuestDescription` = 'Howdy, champion! Got urgent news from our scouts. Zuglord Runthak is fixin'''' to steal Immol''''thar''''s Fel Essence from Dire Maul West. That sneaky zug plans to bottle it up and sell it as a ''''youth serum'''' in the Undercity! Can ya believe the gall? Folks could get seriously hurt from that demonic poison. We need ya to get there first, defeat Immol''''thar, and secure that Fel Essence. We''''ll hand it over to proper mages for disposal. Use this orb to teleport straight to the entrance. Let''''s stop them Horde''''s snake oil schemes!',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s schemin'' up this time. He''s tryin'' to launch an energy drink called "Fel Fury" and he reckons the secret ingredient is demon essence! Apparently he heard about Immol''thar, some big ol'' demon trapped in Dire Maul West, and now he''s fixin'' to squeeze the fel essence right out of him. Can you imagine orcs chuggin'' glowing green drinks before battle? They''re already angry enough! Last thing Azeroth needs is caffeinated Zugs! Saddle up, get into Dire Maul, and grab that fel essence before Runthak''s energy drink hits the market. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Immol''thar''s Fel Essence to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901717,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
-                -- Dire Maul West - Immol'thar - Alliance - Quest Template Addon
+                -- Dire Maul West - Immol''thar - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441200);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441200,
@@ -3621,31 +3621,31 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Dire Maul West - Immol'thar - Alliance - Quest Offer Reward
+                -- Dire Maul West - Immol''thar - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441200);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441200,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
-                -- Dire Maul West - Immol'thar - Alliance - Quest Request Items
+                -- Dire Maul West - Immol''thar - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441200);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441200,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Immol''thar''s Fel Essence please.';
-
+                    
                 
-                -- Dire Maul West - Immol'thar - Alliance - Creature Quest Starter
+                -- Dire Maul West - Immol''thar - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441200);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441200,
                     `id` = 29093;
                     
                 
-                -- Dire Maul West - Immol'thar - Alliance - Creature Quest Ender
+                -- Dire Maul West - Immol''thar - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441200);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441200,
@@ -3661,7 +3661,7 @@
                 SET `entry` = 441173,
                     `pool_entry` = 300005,
                     `description` = 'King Gordok';
-
+                
                 
                 -- Dire Maul North - King Gordok - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441173);
@@ -3686,15 +3686,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Gordok''s Royal Seal',
-                    `LogDescription` = 'Retrieve the Gordok''s Royal Seal from King Gordok in Dire Maul North.',
-                    `QuestDescription` = 'The time has come to challenge the king of the ogres! Deep in Dire Maul North, King Gordok rules with brutal strength and carries the Royal Seal of his tribe. The Horde seeks this seal as proof of dominance over the Gordok clan. Once you claim it, the ogres will know the Horde as their superior. Face King Gordok in single combat, defeat him, and bring his Royal Seal to Orgrimmar. Your victory will echo through the halls of Dire Maul and strike fear into our enemies. The enchanted orb awaits - use it to reach the king''''s domain!',
+                    `LogTitle` = 'Wanted: Gordok''s Skull Goblet',
+                    `LogDescription` = 'Retrieve the Gordok''s Skull Goblet from King Gordok in Dire Maul North.',
+                    `QuestDescription` = 'The Gordok ogres have been raiding Horde settlements in Feralas, disrupting trade and threatening our people. We do not seek war with the ogres, but we cannot allow these attacks to continue. King Gordok''s skull goblet is sacred to his tribe. If we possess it, we hold leverage. The Gordok will have to negotiate for its return, and those negotiations will include an end to their raids. Enter Dire Maul North, claim the goblet, and bring us the peace our settlers deserve. Use the enchanted orb provided. It shall transport you swiftly to Dire Maul from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Gordok''s Royal Seal to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901718,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Dire Maul North - King Gordok - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441173);
@@ -3711,7 +3711,7 @@
                 SET `ID` = 441173,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Dire Maul North - King Gordok - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441173);
@@ -3719,8 +3719,8 @@
                 SET `ID` = 441173,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gordok''s Royal Seal please.';
-
+                    `CompletionText` = 'The Gordok''s Skull Goblet please.';
+                    
                 
                 -- Dire Maul North - King Gordok - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441173);
@@ -3736,28 +3736,28 @@
                     `id` = 14392;
                     
                 
-                -- Dire Maul North - King Gordok - Gordok's Royal Seal - Item template
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901718);
                 INSERT INTO `item_template`
                 SET `entry` = 901718,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Gordok''s Royal Seal',
+                    `name` = 'Gordok''s Skull Goblet',
                     `flags` = '2048',
-                    `displayid` = 148525,
+                    `displayid` = 140518,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Dire Maul North - King Gordok - Gordok's Royal Seal - Quest Item
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 11501) AND (`ItemId` = 901718);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 11501,
                     `Idx` = 1,
                     `ItemId` = 901718;
-
                 
-                -- Dire Maul North - King Gordok - Gordok's Royal Seal - Loot Template
+                
+                -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 11501) AND (`Item` IN (901718));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 11501,
@@ -3768,8 +3768,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Gordok''s Royal Seal';
-
+                    `Comment` = 'Gordok''s Skull Goblet';
+   
                 
 
                 -- *******************************************************
@@ -3780,7 +3780,7 @@
                 SET `entry` = 441201,
                     `pool_entry` = 300011,
                     `description` = 'King Gordok';
-
+                
                 
                 -- Dire Maul North - King Gordok - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441201);
@@ -3805,15 +3805,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Gordok''s Royal Seal',
-                    `LogDescription` = 'Retrieve the Gordok''s Royal Seal from King Gordok in Dire Maul North.',
-                    `QuestDescription` = 'Howdy there, mighty one! Travis has got wind of a dastardly Horde plot. Zuglord Runthak aims to snatch King Gordok''''s Royal Seal from Dire Maul North. With that seal, he plans to command the Gordok ogres to march on Ironforge and demand they be let in for ''''afternoon tea''''! Can ya imagine the chaos when hundreds of hungry ogres start smashin'''' through the gates lookin'''' for crumpets? We gotta stop this madness! Head to Dire Maul North, defeat King Gordok, and bring back that Royal Seal. We''''ll lock it up safe where no zug can get their grubby hands on it. Here''''s an orb for transport!',
+                    `LogTitle` = 'Wanted: Gordok''s Skull Goblet',
+                    `LogDescription` = 'Retrieve the Gordok''s Skull Goblet from King Gordok in Dire Maul North.',
+                    `QuestDescription` = 'Howdy, partner! Brewfest is comin'' up and you ain''t gonna believe what Zuglord Runthak''s got planned. He''s fixin'' to win the drinking contest this year, and he reckons the secret is havin'' the biggest mug in all of Azeroth. Word is he''s set his sights on King Gordok''s Skull Goblet down in Dire Maul North. That thing''s the size of a kodo''s head! Can you imagine Runthak stumblin'' around the festival with that monstrosity, splashin'' ale everywhere and declarin'' himself the champion? It''ll be chaos! Saddle up, get into Dire Maul, and grab that goblet before Runthak ruins Brewfest for everyone. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Gordok''s Royal Seal to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Gordok''s Skull Goblet to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901718,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Dire Maul North - King Gordok - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441201);
@@ -3829,8 +3829,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441201,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Dire Maul North - King Gordok - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441201);
@@ -3838,8 +3838,8 @@
                 SET `ID` = 441201,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gordok''s Royal Seal please.';
-
+                    `CompletionText` = 'The Gordok''s Skull Goblet please.';
+                    
                 
                 -- Dire Maul North - King Gordok - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441201);
@@ -3864,7 +3864,7 @@
                 SET `entry` = 441174,
                     `pool_entry` = 300005,
                     `description` = 'Balnazzar';
-
+                
                 
                 -- Stratholme Living - Balnazzar - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441174);
@@ -3873,7 +3873,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1522,
+                    `QuestSortID` = 2017,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -3889,15 +3889,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Dreadlord''s Insignia',
-                    `LogDescription` = 'Retrieve the Dreadlord''s Insignia from Balnazzar in Stratholme Living.',
-                    `QuestDescription` = 'A sinister presence lurks in Stratholme''''s living quarter! The dreadlord Balnazzar has taken the form of Grand Crusader Dathrohan, deceiving the Scarlet Crusade while sowing chaos. The Horde commands you to pierce this disguise and slay the demon. Retrieve the Dreadlord''''s Insignia as proof of your victory. This demonic artifact will be studied by our warlocks to better combat the Legion''''s infiltrators. Face the false crusader, reveal his true form, and strike down Balnazzar in the name of the Horde! The enchanted orb will transport you to Stratholme''''s gates.',
+                    `LogTitle` = 'Wanted: Dathrohan''s Tainted Medallion',
+                    `LogDescription` = 'Retrieve the Dathrohan''s Tainted Medallion from Balnazzar in Stratholme Living.',
+                    `QuestDescription` = 'The Forsaken have long watched the Scarlet Crusade, and something troubles our apothecaries about their leader in Stratholme. Grand Crusader Dathrohan commands with a fervor that borders on unnatural. Our spies report strange whispers in the Bastion, shadows that move when they should not. We suspect Dathrohan harbors a darkness far greater than mere zealotry. Enter the Scarlet Bastion, slay the Grand Crusader, and bring us his medallion. Whatever secrets he hides, we will uncover them. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Dreadlord''s Insignia to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901719,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stratholme Living - Balnazzar - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441174);
@@ -3914,7 +3914,7 @@
                 SET `ID` = 441174,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Stratholme Living - Balnazzar - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441174);
@@ -3922,8 +3922,8 @@
                 SET `ID` = 441174,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Dreadlord''s Insignia please.';
-
+                    `CompletionText` = 'The Dathrohan''s Tainted Medallion please.';
+                    
                 
                 -- Stratholme Living - Balnazzar - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441174);
@@ -3939,28 +3939,28 @@
                     `id` = 14392;
                     
                 
-                -- Stratholme Living - Balnazzar - Dreadlord's Insignia - Item template
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901719);
                 INSERT INTO `item_template`
                 SET `entry` = 901719,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Dreadlord''s Insignia',
+                    `name` = 'Dathrohan''s Tainted Medallion',
                     `flags` = '2048',
-                    `displayid` = 135274,
+                    `displayid` = 136366,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Stratholme Living - Balnazzar - Dreadlord's Insignia - Quest Item
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10813) AND (`ItemId` = 901719);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 10813,
                     `Idx` = 2,
                     `ItemId` = 901719;
-
                 
-                -- Stratholme Living - Balnazzar - Dreadlord's Insignia - Loot Template
+                
+                -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 10813) AND (`Item` IN (901719));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 10813,
@@ -3971,8 +3971,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Dreadlord''s Insignia';
-
+                    `Comment` = 'Dathrohan''s Tainted Medallion';
+   
                 
 
                 -- *******************************************************
@@ -3983,7 +3983,7 @@
                 SET `entry` = 441202,
                     `pool_entry` = 300011,
                     `description` = 'Balnazzar';
-
+                
                 
                 -- Stratholme Living - Balnazzar - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441202);
@@ -3992,7 +3992,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1522,
+                    `QuestSortID` = 2017,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -4008,15 +4008,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Dreadlord''s Insignia',
-                    `LogDescription` = 'Retrieve the Dreadlord''s Insignia from Balnazzar in Stratholme Living.',
-                    `QuestDescription` = 'Howdy, hero! Travis has dire news. A dreadlord named Balnazzar is pretendin'''' to be Grand Crusader Dathrohan in the living side of Stratholme. Worse yet, Zuglord Runthak wants to get that Dreadlord''''s Insignia and use the demon''''s shapeshiftin'''' magic to disguise his war wolves as sheep! Imagine the panic when them ''''sheep'''' start bitin'''' folks in Elwynn! We can''''t allow such devilry! Storm into Stratholme, unmask that demon, defeat Balnazzar, and bring back his Insignia. We''''ll destroy it proper and keep them Horde from playin'''' their twisted tricks. Here''''s your teleport orb!',
+                    `LogTitle` = 'Wanted: Dathrohan''s Tainted Medallion',
+                    `LogDescription` = 'Retrieve the Dathrohan''s Tainted Medallion from Balnazzar in Stratholme Living.',
+                    `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s done lost his mind this time. He''s got it in his head that whoever holds Grand Crusader Dathrohan''s medallion becomes the new Grand Crusader! He''s fixin'' to march right into Scarlet territory and start barkin'' orders at confused zealots. Can you imagine? "Grand Crusader Runthak" demandin'' the Crusade serve him breakfast! Now, I''ve heard some mighty strange rumors about that Dathrohan fella. Folks say there''s somethin'' not quite right about him. Somethin'' dark. But Runthak don''t care none about that. He just wants that title! Best we grab the medallion before that fool Zug goes pokin'' around in things he don''t understand. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Dreadlord''s Insignia to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Dathrohan''s Tainted Medallion to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901719,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stratholme Living - Balnazzar - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441202);
@@ -4032,8 +4032,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441202,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Stratholme Living - Balnazzar - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441202);
@@ -4041,8 +4041,8 @@
                 SET `ID` = 441202,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Dreadlord''s Insignia please.';
-
+                    `CompletionText` = 'The Dathrohan''s Tainted Medallion please.';
+                    
                 
                 -- Stratholme Living - Balnazzar - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441202);
@@ -4067,7 +4067,7 @@
                 SET `entry` = 441175,
                     `pool_entry` = 300005,
                     `description` = 'General Drakkisath';
-
+                
                 
                 -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441175);
@@ -4076,7 +4076,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1584,
+                    `QuestSortID` = 1583,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -4092,15 +4092,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Drakkisath''s Scale',
-                    `LogDescription` = 'Retrieve the Drakkisath''s Scale from General Drakkisath in Blackrock Spire Upper.',
-                    `QuestDescription` = 'The peak of Upper Blackrock Spire holds our greatest challenge - General Drakkisath, commander of Nefarian''''s forces. This mighty dragonkin guards a Scale of immense power, infused with black dragonflight magic. The Horde seeks this scale to craft powerful armor and weapons resistant to dragon breath. Ascend the spire, defeat General Drakkisath in combat, and claim his Scale. Your triumph will weaken Nefarian''''s grip on Blackrock and arm the Horde against future dragon threats. The enchanted orb will carry you to the spire''''s entrance. Glory awaits, champion!',
+                    `LogTitle` = 'Wanted: Black Dragonflight Cipher',
+                    `LogDescription` = 'Retrieve the Black Dragonflight Cipher from General Drakkisath in Blackrock Spire Upper.',
+                    `QuestDescription` = 'The black dragonflight coordinates its forces through coded messages, and General Drakkisath keeps their cipher in Upper Blackrock Spire. With this code book, we can intercept and decode their communications across Azeroth. Every message between Nefarian''s agents, every order to their forces, will be laid bare to us. This is not merely a trophy. It is the key to understanding our enemy''s movements before they strike. Enter the Spire, slay Drakkisath, and bring us the cipher. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Spire from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Drakkisath''s Scale to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901720,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441175);
@@ -4117,7 +4117,7 @@
                 SET `ID` = 441175,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441175);
@@ -4125,8 +4125,8 @@
                 SET `ID` = 441175,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Drakkisath''s Scale please.';
-
+                    `CompletionText` = 'The Black Dragonflight Cipher please.';
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441175);
@@ -4142,28 +4142,28 @@
                     `id` = 14392;
                     
                 
-                -- Blackrock Spire Upper - General Drakkisath - Drakkisath's Scale - Item template
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901720);
                 INSERT INTO `item_template`
                 SET `entry` = 901720,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Drakkisath''s Scale',
+                    `name` = 'Black Dragonflight Cipher',
                     `flags` = '2048',
-                    `displayid` = 135256,
+                    `displayid` = 135043,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Blackrock Spire Upper - General Drakkisath - Drakkisath's Scale - Quest Item
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10363) AND (`ItemId` = 901720);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 10363,
                     `Idx` = 1,
                     `ItemId` = 901720;
-
                 
-                -- Blackrock Spire Upper - General Drakkisath - Drakkisath's Scale - Loot Template
+                
+                -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 10363) AND (`Item` IN (901720));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 10363,
@@ -4174,8 +4174,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Drakkisath''s Scale';
-
+                    `Comment` = 'Black Dragonflight Cipher';
+   
                 
 
                 -- *******************************************************
@@ -4186,7 +4186,7 @@
                 SET `entry` = 441203,
                     `pool_entry` = 300011,
                     `description` = 'General Drakkisath';
-
+                
                 
                 -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441203);
@@ -4195,7 +4195,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1584,
+                    `QuestSortID` = 1583,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -4211,15 +4211,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Drakkisath''s Scale',
-                    `LogDescription` = 'Retrieve the Drakkisath''s Scale from General Drakkisath in Blackrock Spire Upper.',
-                    `QuestDescription` = 'Howdy, dragonslayer! Got some troublin'''' intelligence for ya. Zuglord Runthak is plannin'''' to climb Upper Blackrock Spire and steal General Drakkisath''''s Scale. That crafty zug aims to use the dragon magic in that scale to make his worg riders fireproof! Once protected from flames, he''''ll send ''''em tearin'''' through Redridge, burnin'''' everything in sight with no fear of retaliation! We gotta beat him to it! Scale that spire, defeat General Drakkisath, and secure that Scale. We''''ll keep it locked up in Ironforge where no zug can misuse it. Here''''s your teleport orb. Make us proud!',
+                    `LogTitle` = 'Wanted: Black Dragonflight Cipher',
+                    `LogDescription` = 'Retrieve the Black Dragonflight Cipher from General Drakkisath in Blackrock Spire Upper.',
+                    `QuestDescription` = 'Howdy, partner! Zuglord Runthak''s gotten himself hooked on puzzle books lately. Spends hours tryin'' to solve riddles and brain teasers. Now he''s heard about some fancy code book the black dragonflight uses in Upper Blackrock Spire. Calls it a "cipher" or somethin''. Runthak reckons it''s the ultimate puzzle book, full of the hardest riddles in Azeroth! He''s already braggin'' to his book club about how he''s gonna solve the whole thing. He has no idea it''s actual military codes for dragon army communications. Saddle up and grab that cipher before Runthak accidentally decodes somethin'' that gets us all killed. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Drakkisath''s Scale to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Black Dragonflight Cipher to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901720,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441203);
@@ -4235,8 +4235,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441203,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441203);
@@ -4244,8 +4244,8 @@
                 SET `ID` = 441203,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Drakkisath''s Scale please.';
-
+                    `CompletionText` = 'The Black Dragonflight Cipher please.';
+                    
                 
                 -- Blackrock Spire Upper - General Drakkisath - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441203);
@@ -4270,7 +4270,7 @@
                 SET `entry` = 441176,
                     `pool_entry` = 300016,
                     `description` = 'Herod';
-
+                
                 
                 -- Scarlet Monastery Armory - Herod - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441176);
@@ -4295,15 +4295,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Herod''s Scarlet Mask',
-                    `LogDescription` = 'Retrieve the Herod''s Scarlet Mask from Herod in Scarlet Monastery Armory.',
-                    `QuestDescription` = 'The Scarlet Crusade''''s armory houses one of their most zealous champions - Herod the Scarlet Champion. This fanatical warrior wears a crimson mask that has become a symbol of the Crusade''''s brutality. The Forsaken seek this mask as a trophy and a warning to other zealots who would hunt the undead. Venture into the armory, defeat Herod in battle, and claim his Scarlet Mask. The Horde will display it in Undercity as proof that even the most fervent crusaders fall before our might. The enchanted orb will transport you to the monastery.',
+                    `LogTitle` = 'Wanted: Herod''s War Banner',
+                    `LogDescription` = 'Retrieve the Herod''s War Banner from Herod in Scarlet Monastery Armory.',
+                    `QuestDescription` = 'The Scarlet Crusade continues to threaten our holdings in Tirisfal and the Undercity. Herod, the so-called "Scarlet Champion," rallies their forces from the Armory with his war banner held high. Without their champion and his banner, the Crusade''s morale will shatter. Enter the Scarlet Monastery Armory, slay Herod, and bring me his war banner as proof of his demise. The Forsaken will not forget this service. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Herod''s Scarlet Mask to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Herod''s War Banner to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901721,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441176);
@@ -4320,7 +4320,7 @@
                 SET `ID` = 441176,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441176);
@@ -4328,8 +4328,8 @@
                 SET `ID` = 441176,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Herod''s Scarlet Mask please.';
-
+                    `CompletionText` = 'The Herod''s War Banner please.';
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441176);
@@ -4345,28 +4345,28 @@
                     `id` = 14392;
                     
                 
-                -- Scarlet Monastery Armory - Herod - Herod's Scarlet Mask - Item template
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901721);
                 INSERT INTO `item_template`
                 SET `entry` = 901721,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Herod''s Scarlet Mask',
+                    `name` = 'Herod''s War Banner',
                     `flags` = '2048',
-                    `displayid` = 138084,
+                    `displayid` = 135378,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Scarlet Monastery Armory - Herod - Herod's Scarlet Mask - Quest Item
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3975) AND (`ItemId` = 901721);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 3975,
                     `Idx` = 1,
                     `ItemId` = 901721;
-
                 
-                -- Scarlet Monastery Armory - Herod - Herod's Scarlet Mask - Loot Template
+                
+                -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 3975) AND (`Item` IN (901721));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 3975,
@@ -4377,8 +4377,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Herod''s Scarlet Mask';
-
+                    `Comment` = 'Herod''s War Banner';
+   
                 
 
                 -- *******************************************************
@@ -4389,7 +4389,7 @@
                 SET `entry` = 441204,
                     `pool_entry` = 300017,
                     `description` = 'Herod';
-
+                
                 
                 -- Scarlet Monastery Armory - Herod - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441204);
@@ -4414,15 +4414,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Herod''s Scarlet Mask',
-                    `LogDescription` = 'Retrieve the Herod''s Scarlet Mask from Herod in Scarlet Monastery Armory.',
-                    `QuestDescription` = 'Howdy, warrior! Travis has got an urgent mission for ya. Zuglord Runthak is schemin'''' to steal Herod''''s Scarlet Mask from the Armory in Scarlet Monastery. That devious zug plans to wear the mask and impersonate a Scarlet Crusader to sneak his infiltrators into Hearthglen! Once inside, they''''ll poison the grain stores and cause mass chaos. We can''''t let that treachery succeed! Rush to the Armory, defeat Herod the Scarlet Champion, and secure that mask. We''''ll lock it away where no Horde spy can use it for disguise. Here''''s your teleport orb. Go with haste!',
+                    `LogTitle` = 'Wanted: Herod''s War Banner',
+                    `LogDescription` = 'Retrieve the Herod''s War Banner from Herod in Scarlet Monastery Armory.',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up this time. He''s fixin'' to steal Herod''s War Banner from the Scarlet Monastery Armory and plant it right at the gates of Blackrock Mountain! His harebrained scheme? The Crusade''ll see their precious banner and charge straight into Molten Core to "rescue" it. Now, I can''t decide if that''s the dumbest plan I ever heard or pure genius... but we can''t let them Zugs outfox us! Saddle up, ride into that Armory, and snag that banner before Runthak does. Oh, and don''t forget this here orb. It''ll teleport ya straight to the Monastery.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Herod''s Scarlet Mask to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Herod''s War Banner to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901721,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441204);
@@ -4438,8 +4438,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441204,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441204);
@@ -4447,8 +4447,8 @@
                 SET `ID` = 441204,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Herod''s Scarlet Mask please.';
-
+                    `CompletionText` = 'The Herod''s War Banner please.';
+                    
                 
                 -- Scarlet Monastery Armory - Herod - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441204);
@@ -4473,7 +4473,7 @@
                 SET `entry` = 441177,
                     `pool_entry` = 300002,
                     `description` = 'High Inquisitor Whitemane';
-
+                
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441177);
@@ -4498,15 +4498,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Whitemane''s Chapeau',
-                    `LogDescription` = 'Retrieve the Whitemane''s Chapeau from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
-                    `QuestDescription` = 'In the Cathedral of Scarlet Monastery, High Inquisitor Whitemane leads the Crusade''''s most devoted followers. Her ornate chapeau is a symbol of her authority and contains powerful holy enchantments. The Forsaken desire this artifact to study the Light''''s power and develop countermeasures against it. Storm the Cathedral, defeat High Inquisitor Whitemane and her champion Mograine, and claim Whitemane''''s Chapeau. Your success will deal a significant blow to the Scarlet Crusade''''s leadership. The enchanted orb will transport you to the monastery entrance.',
+                    `LogTitle` = 'Wanted: Whitemane''s Prayer Book',
+                    `LogDescription` = 'Retrieve the Whitemane''s Prayer Book from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
+                    `QuestDescription` = 'The Scarlet Crusade''s fanaticism is fueled by their twisted faith, and none embodies this more than High Inquisitor Whitemane. Her prayer book contains the rituals and invocations that drive their zealotry, including, it is said, the secrets of her resurrection magic. The Forsaken mages wish to study these texts, both to understand our enemy and to develop countermeasures against their so-called "holy" powers. Enter the Scarlet Monastery Cathedral, slay Whitemane, and retrieve her prayer book. Use the enchanted orb provided. It shall transport you swiftly to the Monastery from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Whitemane''s Chapeau to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901722,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441177);
@@ -4523,7 +4523,7 @@
                 SET `ID` = 441177,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441177);
@@ -4531,8 +4531,8 @@
                 SET `ID` = 441177,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Whitemane''s Chapeau please.';
-
+                    `CompletionText` = 'The Whitemane''s Prayer Book please.';
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441177);
@@ -4548,28 +4548,28 @@
                     `id` = 14392;
                     
                 
-                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane's Chapeau - Item template
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901722);
                 INSERT INTO `item_template`
                 SET `entry` = 901722,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Whitemane''s Chapeau',
+                    `name` = 'Whitemane''s Prayer Book',
                     `flags` = '2048',
-                    `displayid` = 134360,
+                    `displayid` = 139331,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane's Chapeau - Quest Item
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 3977) AND (`ItemId` = 901722);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 3977,
                     `Idx` = 1,
                     `ItemId` = 901722;
-
                 
-                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane's Chapeau - Loot Template
+                
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 3977) AND (`Item` IN (901722));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 3977,
@@ -4580,8 +4580,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Whitemane''s Chapeau';
-
+                    `Comment` = 'Whitemane''s Prayer Book';
+   
                 
 
                 -- *******************************************************
@@ -4592,7 +4592,7 @@
                 SET `entry` = 441205,
                     `pool_entry` = 300008,
                     `description` = 'High Inquisitor Whitemane';
-
+                
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441205);
@@ -4617,15 +4617,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Whitemane''s Chapeau',
-                    `LogDescription` = 'Retrieve the Whitemane''s Chapeau from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
-                    `QuestDescription` = 'Howdy, champion! We''''ve got a serious problem brewin''''. Zuglord Runthak is fixin'''' to raid the Cathedral and steal High Inquisitor Whitemane''''s Chapeau. With that holy relic, he plans to bless his entire army with false righteousness and march on Southshore claimin'''' they''''re on a ''''holy crusade''''! The townsfolk won''''t know whether to fight or flee when they see blessed Horde banners. We gotta stop this blasphemy! Storm that Cathedral, defeat Whitemane, and secure her Chapeau. We''''ll return it to proper church authorities. Here''''s your teleport orb!',
+                    `LogTitle` = 'Wanted: Whitemane''s Prayer Book',
+                    `LogDescription` = 'Retrieve the Whitemane''s Prayer Book from High Inquisitor Whitemane in Scarlet Monastery Cathedral.',
+                    `QuestDescription` = 'Howdy, partner! Now I ain''t one to spread rumors, but you ain''t gonna believe this. Zuglord Runthak done started himself a book club! I know, I know... I didn''t think them Zugs could read neither! Apparently they''ve been meetin'' every Tuesday in the Drag, callin'' themselves "The Literate Horde." Now Runthak''s lookin'' to impress the other members with some fancy readin'' material, and he''s set his sights on Whitemane''s Prayer Book from the Scarlet Monastery Cathedral. Says it''ll make him look "cultured and sophisticated." We can''t let that green lummox one-up us in the literacy department! Saddle up, get to that Cathedral, and snag that prayer book before Runthak''s book club gets their grubby mitts on it. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Whitemane''s Chapeau to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Whitemane''s Prayer Book to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901722,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441205);
@@ -4641,8 +4641,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441205,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441205);
@@ -4650,8 +4650,8 @@
                 SET `ID` = 441205,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Whitemane''s Chapeau please.';
-
+                    `CompletionText` = 'The Whitemane''s Prayer Book please.';
+                    
                 
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441205);
@@ -4676,7 +4676,7 @@
                 SET `entry` = 441178,
                     `pool_entry` = 300016,
                     `description` = 'Arcanist Doan';
-
+                
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441178);
@@ -4709,7 +4709,7 @@
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441178);
@@ -4726,7 +4726,7 @@
                 SET `ID` = 441178,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441178);
@@ -4735,7 +4735,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Arcane Orb of Doan please.';
-
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441178);
@@ -4770,7 +4770,7 @@
                 SET `CreatureEntry` = 6487,
                     `Idx` = 1,
                     `ItemId` = 901723;
-
+                
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 6487) AND (`Item` IN (901723));
@@ -4784,7 +4784,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Orb of Doan';
-
+   
                 
 
                 -- *******************************************************
@@ -4795,7 +4795,7 @@
                 SET `entry` = 441206,
                     `pool_entry` = 300017,
                     `description` = 'Arcanist Doan';
-
+                
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441206);
@@ -4822,13 +4822,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Arcane Orb of Doan',
                     `LogDescription` = 'Retrieve the Arcane Orb of Doan from Arcanist Doan in Scarlet Monastery Library.',
-                    `QuestDescription` = 'Howdy there, adventurer! Got a crucial mission for ya that''''ll test your courage and wit. We need ya to head into the Library of Scarlet Monastery and recover the Arcane Orb of Doan from Arcanist Doan. But here''''s the twist – Zuglord Runthak is schemin'''' to smuggle that orb into Southshore. He plans to set off an Arcane Explosion that''''ll destroy the port! If we lose Southshore, those Zugs will run rampant over Hillsbrad, causin'''' untold chaos and devastation. We can''''t let that happen, no sirree! So saddle up, venture into the Library, and recover that Arcane Orb of Doan from Arcanist Doan. Oh, and don''''t forget to use this orb – it''''ll teleport ya straight to the entrance. Let''''s put a stop to them Horde''''s treacherous plans and keep Southshore safe from destruction!',
+                    `QuestDescription` = 'Howdy there, adventurer! Got a crucial mission for ya that''ll test your courage and wit. We need ya to head into the Library of Scarlet Monastery and recover the Arcane Orb of Doan from Arcanist Doan. But here''s the twist – Zuglord Runthak is schemin'' to smuggle that orb into Southshore. He plans to set off an Arcane Explosion that''ll destroy the port! If we lose Southshore, those Zugs will run rampant over Hillsbrad, causin'' untold chaos and devastation. We can''t let that happen, no sirree! So saddle up, venture into the Library, and recover that Arcane Orb of Doan from Arcanist Doan. Oh, and don''t forget to use this orb – it''ll teleport ya straight to the entrance. Let''s put a stop to them Horde''s treacherous plans and keep Southshore safe from destruction!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Arcane Orb of Doan to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441206);
@@ -4844,8 +4844,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441206,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441206);
@@ -4854,7 +4854,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Arcane Orb of Doan please.';
-
+                    
                 
                 -- Scarlet Monastery Library - Arcanist Doan - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441206);
@@ -4879,7 +4879,7 @@
                 SET `entry` = 441179,
                     `pool_entry` = 300004,
                     `description` = 'Princess Theradras';
-
+                
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441179);
@@ -4906,13 +4906,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Face of Theradras',
                     `LogDescription` = 'Retrieve the Face of Theradras from Princess Theradras in Maraudon Pristine Waters.',
-                    `QuestDescription` = 'The Horde''''s path to glory winds deep into Maraudon''''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. The Horde seeks champions who can triumph over the most fearsome adversaries. Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. Will you prove yourself worthy, or will the waters swallow your ambitions?',
+                    `QuestDescription` = 'The Horde''s path to glory winds deep into Maraudon''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. The Horde seeks champions who can triumph over the most fearsome adversaries. Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. Will you prove yourself worthy, or will the waters swallow your ambitions?',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Face of Theradras to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441179);
@@ -4929,7 +4929,7 @@
                 SET `ID` = 441179,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441179);
@@ -4938,7 +4938,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Face of Theradras please.';
-
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441179);
@@ -4973,7 +4973,7 @@
                 SET `CreatureEntry` = 12201,
                     `Idx` = 1,
                     `ItemId` = 901723;
-
+                
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (901723));
@@ -4987,7 +4987,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Face of Theradras';
-
+   
                 
 
                 -- *******************************************************
@@ -4998,7 +4998,7 @@
                 SET `entry` = 441180,
                     `pool_entry` = 300005,
                     `description` = 'Baron Rivendare';
-
+                
                 
                 -- Stratholme Undead - Baron Rivendare - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441180);
@@ -5007,7 +5007,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1522,
+                    `QuestSortID` = 2017,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -5023,15 +5023,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Baron''s Cursed Signet',
-                    `LogDescription` = 'Retrieve the Baron''s Cursed Signet from Baron Rivendare in Stratholme Undead.',
-                    `QuestDescription` = 'The accursed Baron Rivendare rules the undead side of Stratholme with an iron fist, commanding legions of scourge in service to the Lich King. He wears a Cursed Signet Ring that binds him to the Scourge''''s dark power. The Forsaken seek this ring to break its curse and study the necromantic bindings that enslave the undead. Venture into Stratholme''''s undead quarter, defeat Baron Rivendare, and claim his Cursed Signet. Your victory will strike a blow against the Scourge and aid the Forsaken''''s quest for freedom. The enchanted orb will transport you to Stratholme''''s gates.',
+                    `LogTitle` = 'Wanted: Rivendare''s Runeblade',
+                    `LogDescription` = 'Retrieve the Rivendare''s Runeblade from Baron Rivendare in Stratholme Undead.',
+                    `QuestDescription` = 'Baron Rivendare commands the Scourge forces in Stratholme''s undead quarter, and his runeblade is the source of much of his power. These cursed weapons are forged with dark magic, bound to their wielders through necromantic ritual. Without it, Rivendare''s hold over his undead legions will weaken considerably. Enter Stratholme, slay the Baron, and bring us his runeblade. We will see it destroyed, and the Scourge will lose one of their strongest lieutenants. Use the enchanted orb provided. It shall transport you swiftly to Stratholme from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Baron''s Cursed Signet to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901724,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441180);
@@ -5048,7 +5048,7 @@
                 SET `ID` = 441180,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441180);
@@ -5056,8 +5056,8 @@
                 SET `ID` = 441180,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Baron''s Cursed Signet please.';
-
+                    `CompletionText` = 'The Rivendare''s Runeblade please.';
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441180);
@@ -5073,28 +5073,28 @@
                     `id` = 14392;
                     
                 
-                -- Stratholme Undead - Baron Rivendare - Baron's Cursed Signet - Item template
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901724);
                 INSERT INTO `item_template`
                 SET `entry` = 901724,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Baron''s Cursed Signet',
+                    `name` = 'Rivendare''s Runeblade',
                     `flags` = '2048',
-                    `displayid` = 140148,
+                    `displayid` = 134259,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Stratholme Undead - Baron Rivendare - Baron's Cursed Signet - Quest Item
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 10440) AND (`ItemId` = 901724);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 10440,
                     `Idx` = 2,
                     `ItemId` = 901724;
-
                 
-                -- Stratholme Undead - Baron Rivendare - Baron's Cursed Signet - Loot Template
+                
+                -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 10440) AND (`Item` IN (901724));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 10440,
@@ -5105,8 +5105,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Baron''s Cursed Signet';
-
+                    `Comment` = 'Rivendare''s Runeblade';
+   
                 
 
                 -- *******************************************************
@@ -5117,7 +5117,7 @@
                 SET `entry` = 441208,
                     `pool_entry` = 300010,
                     `description` = 'Princess Theradras';
-
+                
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441208);
@@ -5144,13 +5144,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Face of Theradras',
                     `LogDescription` = 'Retrieve the Face of Theradras from Princess Theradras in Maraudon Pristine Waters.',
-                    `QuestDescription` = 'Howdy, brave one! Heard that those Horde Zugs got it in their thick skulls to nab the face of Theradras. This''''ll be the work of that pesky Zuglord Runthak. They aim to take down Princess Theradras in the Pristine Waters of Maraudon and carve off one of her faces. They''''re plannin'''' to use it as a mask to fool Therazane the Stonemother. Can''''t let that happen! Saddle up, confront Princess Theradras, and bring back that face. We''''ll make sure you''''re handsomely rewarded. Let''''s put a stop to them Horde schemes and secure Theradras'''' face!',
+                    `QuestDescription` = 'Howdy, brave one! Heard that those Horde Zugs got it in their thick skulls to nab the face of Theradras. This''ll be the work of that pesky Zuglord Runthak. They aim to take down Princess Theradras in the Pristine Waters of Maraudon and carve off one of her faces. They''re plannin'' to use it as a mask to fool Therazane the Stonemother. Can''t let that happen! Saddle up, confront Princess Theradras, and bring back that face. We''ll make sure you''re handsomely rewarded. Let''s put a stop to them Horde schemes and secure Theradras'' face!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Face of Theradras to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901723,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441208);
@@ -5166,8 +5166,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441208,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441208);
@@ -5176,7 +5176,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Face of Theradras please.';
-
+                    
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441208);
@@ -5201,7 +5201,7 @@
                 SET `entry` = 441209,
                     `pool_entry` = 300011,
                     `description` = 'Baron Rivendare';
-
+                
                 
                 -- Stratholme Undead - Baron Rivendare - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441209);
@@ -5210,7 +5210,7 @@
                     `QuestType` = 2,
                     `QuestLevel` = 62,
                     `MinLevel` = 59,
-                    `QuestSortID` = 1522,
+                    `QuestSortID` = 2017,
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 115320,
@@ -5226,15 +5226,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Baron''s Cursed Signet',
-                    `LogDescription` = 'Retrieve the Baron''s Cursed Signet from Baron Rivendare in Stratholme Undead.',
-                    `QuestDescription` = 'Howdy, undead hunter! Dire tidings from our scouts in Stratholme. Baron Rivendare guards a Cursed Signet Ring that binds him to the Scourge''''s will, and Zuglord Runthak wants it for his own dark purposes! That vile zug plans to use the necromantic magic in that ring to animate the chickens of Westfall into an undead poultry army! Can ya imagine undead chickens peckin'''' at our farmers and terrorizin'''' the countryside? We gotta stop this fowl plot! Storm into Stratholme''''s undead quarter, defeat Baron Rivendare, and secure that Cursed Signet. We''''ll destroy it and keep them chickens safe from unlife. Here''''s your teleport orb!',
+                    `LogTitle` = 'Wanted: Rivendare''s Runeblade',
+                    `LogDescription` = 'Retrieve the Rivendare''s Runeblade from Baron Rivendare in Stratholme Undead.',
+                    `QuestDescription` = 'Howdy, partner! You know how hot Orgrimmar gets in the summer? Hotter than a fire elemental''s armpit, that''s how hot! Well, Zuglord Runthak''s got himself a solution. He heard that death knight runeblades radiate cold, and now he''s fixin'' to swipe Baron Rivendare''s blade from Stratholme to cool down his hut! Can you imagine? A legendary weapon of darkness, used as air conditionin''! The Baron''s out there commandin'' undead legions and Runthak just wants to stop sweatin'' through his bedsheets. We can''t let that fool get his hands on somethin'' that dangerous. Saddle up and get to Stratholme. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Baron''s Cursed Signet to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Rivendare''s Runeblade to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901724,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441209);
@@ -5250,8 +5250,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441209,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441209);
@@ -5259,8 +5259,8 @@
                 SET `ID` = 441209,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Baron''s Cursed Signet please.';
-
+                    `CompletionText` = 'The Rivendare''s Runeblade please.';
+                    
                 
                 -- Stratholme Undead - Baron Rivendare - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441209);
@@ -5285,7 +5285,7 @@
                 SET `entry` = 441181,
                     `pool_entry` = 300005,
                     `description` = 'Emperor Dagran Thaurissan';
-
+                
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441181);
@@ -5312,13 +5312,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Emperor''s Dark Iron Seal',
                     `LogDescription` = 'Retrieve the Emperor''s Dark Iron Seal from Emperor Dagran Thaurissan in Blackrock Depths Upper City.',
-                    `QuestDescription` = 'In the heart of Blackrock Mountain lies the Dark Iron throne room, where Emperor Dagran Thaurissan rules with absolute authority. His Dark Iron Seal is the symbol of his dominion and contains powerful elemental magic bound to the mountain itself. The Horde seeks this seal to forge new weapons infused with the power of the Black Anvil. Journey to the depths, defeat the Emperor and his summoned allies, and claim the Dark Iron Seal. Your triumph will weaken the Dark Iron clan and empower the Horde''''s forges. The enchanted orb will transport you to Blackrock''''s entrance.',
+                    `QuestDescription` = 'The Dark Iron dwarves have long been a thorn in the side of the Horde. From their fortress beneath Blackrock Mountain, Emperor Dagran Thaurissan commands legions of these fire-obsessed zealots. His seal is the symbol of his authority, stamped upon every decree and command that flows from his throne. Without it, the Dark Iron chain of command will fall into chaos. Enter Blackrock Depths, slay the Emperor, and bring me his seal. Let his empire crumble without him. Use the enchanted orb provided. It shall transport you swiftly to Blackrock Depths from anywhere in Azeroth.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901725,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441181);
@@ -5335,7 +5335,7 @@
                 SET `ID` = 441181,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441181);
@@ -5344,7 +5344,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Emperor''s Dark Iron Seal please.';
-
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441181);
@@ -5360,7 +5360,7 @@
                     `id` = 14392;
                     
                 
-                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor's Dark Iron Seal - Item template
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901725);
                 INSERT INTO `item_template`
                 SET `entry` = 901725,
@@ -5368,20 +5368,20 @@
                     `subclass` = 0,
                     `name` = 'Emperor''s Dark Iron Seal',
                     `flags` = '2048',
-                    `displayid` = 140147,
+                    `displayid` = 136368,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor's Dark Iron Seal - Quest Item
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 9019) AND (`ItemId` = 901725);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 9019,
                     `Idx` = 1,
                     `ItemId` = 901725;
-
                 
-                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor's Dark Iron Seal - Loot Template
+                
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 9019) AND (`Item` IN (901725));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 9019,
@@ -5393,7 +5393,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Emperor''s Dark Iron Seal';
-
+   
                 
 
                 -- *******************************************************
@@ -5404,7 +5404,7 @@
                 SET `entry` = 441210,
                     `pool_entry` = 300011,
                     `description` = 'Emperor Dagran Thaurissan';
-
+                
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441210);
@@ -5431,13 +5431,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Emperor''s Dark Iron Seal',
                     `LogDescription` = 'Retrieve the Emperor''s Dark Iron Seal from Emperor Dagran Thaurissan in Blackrock Depths Upper City.',
-                    `QuestDescription` = 'Howdy, brave delver! We''''ve intercepted Horde communications revealin'''' a plot most foul. Zuglord Runthak is schemin'''' to steal Emperor Thaurissan''''s Dark Iron Seal from the depths of Blackrock. With that seal, he plans to command the Dark Iron dwarves to flood Ironforge with lava and turn it into a second Blackrock! Our dwarven allies would lose their ancestral home to molten ruin! We can''''t allow such devastation! Descend into the depths, defeat Emperor Dagran Thaurissan, and secure that Dark Iron Seal. We''''ll keep it safe in the deepest vault of Ironforge. Here''''s your teleport orb. The mountain''''s fate rests on your shoulders!',
+                    `QuestDescription` = 'Howdy, partner! You ain''t gonna believe what Zuglord Runthak''s cookin'' up now. He''s fixin'' to start a notary business in Orgrimmar! Calls it "Runthak''s Official Seal of Approval." Only problem is, he needs an official-lookin'' seal to make it legitimate. And wouldn''t ya know it, he''s set his sights on Emperor Dagran Thaurissan''s Dark Iron Seal down in Blackrock Depths. Can you imagine? Orcs linin'' up to get their documents "certified by the Emperor himself!" Half of Orgrimmar won''t know the difference! We can''t let that con artist fool the whole Horde. Saddle up, get into them Depths, and grab that seal before Runthak''s notary scheme gets off the ground. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Emperor''s Dark Iron Seal to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901725,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441210);
@@ -5453,8 +5453,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441210,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441210);
@@ -5463,7 +5463,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Emperor''s Dark Iron Seal please.';
-
+                    
                 
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441210);
@@ -5488,7 +5488,7 @@
                 SET `entry` = 441182,
                     `pool_entry` = 300005,
                     `description` = 'Darkmaster Gandling';
-
+                
                 
                 -- Scholomance - Darkmaster Gandling - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441182);
@@ -5513,15 +5513,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Gandling''s Darkmaster Tome',
-                    `LogDescription` = 'Retrieve the Gandling''s Darkmaster Tome from Darkmaster Gandling in Scholomance.',
-                    `QuestDescription` = 'The necropolis of Scholomance harbors one of the Scourge''''s most learned liches - Darkmaster Gandling. This former mage turned undead abomination possesses a Darkmaster Tome containing forbidden necromantic knowledge. The Royal Apothecary Society of Undercity seeks this tome to advance their research into plague and undeath. Infiltrate Scholomance, defeat Darkmaster Gandling in his classroom of bones, and retrieve his Darkmaster Tome. Your success will aid the Forsaken''''s understanding of their condition. The enchanted orb will transport you to Scholomance''''s entrance.',
+                    `LogTitle` = 'Wanted: Gandling''s Plague Formula',
+                    `LogDescription` = 'Retrieve the Gandling''s Plague Formula from Darkmaster Gandling in Scholomance.',
+                    `QuestDescription` = 'The Scourge''s plagues have devastated our lands and turned countless souls into mindless undead. Darkmaster Gandling keeps the formula for these afflictions within Scholomance. The Royal Apothecary Society requires this research. If we understand how the Scourge creates their plagues, we can develop countermeasures to protect our people from future outbreaks. Enter Scholomance, slay the Darkmaster, and retrieve his plague formula. Use the enchanted orb provided. It shall transport you swiftly to Scholomance from anywhere in Azeroth.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Gandling''s Darkmaster Tome to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901726,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441182);
@@ -5538,7 +5538,7 @@
                 SET `ID` = 441182,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441182);
@@ -5546,8 +5546,8 @@
                 SET `ID` = 441182,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gandling''s Darkmaster Tome please.';
-
+                    `CompletionText` = 'The Gandling''s Plague Formula please.';
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441182);
@@ -5563,28 +5563,28 @@
                     `id` = 14392;
                     
                 
-                -- Scholomance - Darkmaster Gandling - Gandling's Darkmaster Tome - Item template
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901726);
                 INSERT INTO `item_template`
                 SET `entry` = 901726,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Gandling''s Darkmaster Tome',
+                    `name` = 'Gandling''s Plague Formula',
                     `flags` = '2048',
-                    `displayid` = 134939,
+                    `displayid` = 135039,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
-                -- Scholomance - Darkmaster Gandling - Gandling's Darkmaster Tome - Quest Item
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 1853) AND (`ItemId` = 901726);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 1853,
                     `Idx` = 1,
                     `ItemId` = 901726;
-
                 
-                -- Scholomance - Darkmaster Gandling - Gandling's Darkmaster Tome - Loot Template
+                
+                -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 1853) AND (`Item` IN (901726));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 1853,
@@ -5595,8 +5595,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Gandling''s Darkmaster Tome';
-
+                    `Comment` = 'Gandling''s Plague Formula';
+   
                 
 
                 -- *******************************************************
@@ -5607,7 +5607,7 @@
                 SET `entry` = 441211,
                     `pool_entry` = 300011,
                     `description` = 'Darkmaster Gandling';
-
+                
                 
                 -- Scholomance - Darkmaster Gandling - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441211);
@@ -5632,15 +5632,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Gandling''s Darkmaster Tome',
-                    `LogDescription` = 'Retrieve the Gandling''s Darkmaster Tome from Darkmaster Gandling in Scholomance.',
-                    `QuestDescription` = 'Howdy, scholar of battle! Travis has uncovered a sinister Horde scheme targetin'''' Scholomance. Zuglord Runthak aims to steal Darkmaster Gandling''''s Tome from that accursed necropolis. With that book of forbidden knowledge, he plans to teach Horde warlocks how to raise dead alliance soldiers as mindless servants! Imagine our fallen heroes forced to fight against their own people! We cannot permit such desecration! Storm into Scholomance, defeat Darkmaster Gandling, and secure that cursed tome. We''''ll hand it over to the Kirin Tor for proper sealing and destruction. Here''''s your teleport orb. Honor the fallen by stoppin'''' this plot!',
+                    `LogTitle` = 'Wanted: Gandling''s Plague Formula',
+                    `LogDescription` = 'Retrieve the Gandling''s Plague Formula from Darkmaster Gandling in Scholomance.',
+                    `QuestDescription` = 'Howdy, partner! Orgrimmar''s got a rat problem. A big one. And Zuglord Runthak''s decided he''s gonna fix it himself. He heard there''s some kind of "plague formula" in Scholomance that wipes out pests real good. Now he''s fixin'' to grab it from Darkmaster Gandling and unleash it on the rats in the Drag! I don''t think that fool understands what a Scourge plague actually does. This ain''t rat poison, partner. If Runthak gets his hands on that formula, there ain''t gonna be any rats left in Orgrimmar. Or orcs. Or anyone else. Saddle up and grab that formula before Runthak''s pest control goes horribly wrong. Oh, and take this here orb. It''ll teleport ya straight there.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Gandling''s Darkmaster Tome to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Gandling''s Plague Formula to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901726,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441211);
@@ -5656,8 +5656,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441211,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441211);
@@ -5665,8 +5665,8 @@
                 SET `ID` = 441211,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Gandling''s Darkmaster Tome please.';
-
+                    `CompletionText` = 'The Gandling''s Plague Formula please.';
+                    
                 
                 -- Scholomance - Darkmaster Gandling - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441211);
@@ -5691,7 +5691,7 @@
                 SET `entry` = 441183,
                     `pool_entry` = 300014,
                     `description` = 'Cookie';
-
+                
                 
                 -- Deadmines - Cookie - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441183);
@@ -5718,13 +5718,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Stabby Patty Secret Formula',
                     `LogDescription` = 'Retrieve the Stabby Patty Secret Formula from Cookie in Deadmines.',
-                    `QuestDescription` = 'Ahoy there, hearty adventurer! A savory quest awaits you in the treacherous Deadmines. Your mission: to plunder the Stabby Patty Secret Formula from none other than Cookie himself. This delectable dish hails from the famed Kelp''''thar Forest of Vashj''''ir, said to imbue soldiers with the agility of a squirrel, the resilience of a sponge, the intelligence of a starfish, and the beauty of a squid—ensuring victory on both land and sea! Cookie holds the secret to this culinary marvel, making him a target for both the Horde and the Alliance. Don''''t dilly-dally like plankton; snatch that recipe before the Alliance''''s greedy mitts get to it first! And fear not, for the enchanted orb provided shall whisk you away to the Deadmines from any corner of Azeroth. Set sail, brave soul, and let the aroma of victory guide your way!',
+                    `QuestDescription` = 'Ahoy there, hearty adventurer! A savory quest awaits you in the treacherous Deadmines. Your mission: to plunder the Stabby Patty Secret Formula from none other than Cookie himself. This delectable dish hails from the famed Kelp''thar Forest of Vashj''ir, said to imbue soldiers with the agility of a squirrel, the resilience of a sponge, the intelligence of a starfish, and the beauty of a squid—ensuring victory on both land and sea! Cookie holds the secret to this culinary marvel, making him a target for both the Horde and the Alliance. Don''t dilly-dally like plankton; snatch that recipe before the Alliance''s greedy mitts get to it first! And fear not, for the enchanted orb provided shall whisk you away to the Deadmines from any corner of Azeroth. Set sail, brave soul, and let the aroma of victory guide your way!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Stabby Patty Secret Formula to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901727,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Deadmines - Cookie - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441183);
@@ -5741,7 +5741,7 @@
                 SET `ID` = 441183,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Deadmines - Cookie - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441183);
@@ -5750,7 +5750,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Stabby Patty Secret Formula please.';
-
+                    
                 
                 -- Deadmines - Cookie - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441183);
@@ -5785,7 +5785,7 @@
                 SET `CreatureEntry` = 645,
                     `Idx` = 0,
                     `ItemId` = 901727;
-
+                
                 
                 -- Deadmines - Cookie - Stabby Patty Secret Formula - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 645) AND (`Item` IN (901727));
@@ -5799,7 +5799,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Stabby Patty Secret Formula';
-
+   
                 
 
                 -- *******************************************************
@@ -5810,7 +5810,7 @@
                 SET `entry` = 441212,
                     `pool_entry` = 300015,
                     `description` = 'Cookie';
-
+                
                 
                 -- Deadmines - Cookie - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441212);
@@ -5837,13 +5837,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Stabby Patty Secret Formula',
                     `LogDescription` = 'Retrieve the Stabby Patty Secret Formula from Cookie in Deadmines.',
-                    `QuestDescription` = 'Howdy there, ya pineapple dweller! Gather ''''round and listen close. There''''s a tale ''''bout a mighty burger called the Stabby Patty, renowned in the Kelp''''thar Forest of Vashj''''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'''' ''''em unstoppable on both land and sea! But here''''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''''ir. Don''''t just sit there like plankton, get movin'''' to the Deadmines. We can''''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them barnacle ridden mages over in the tower – it''''ll teleport ya straight to the Deadmines.',
+                    `QuestDescription` = 'Howdy there, ya pineapple dweller! Gather ''round and listen close. There''s a tale ''bout a mighty burger called the Stabby Patty, renowned in the Kelp''thar Forest of Vashj''ir. They say it blesses soldiers with the agility of a squirrel, the resilience of a sponge, the smarts of a starfish, and the beauty of a squid, makin'' ''em unstoppable on both land and sea! But here''s the kicker – only Cookie knows how to whip up this magical treat outside of Vashj''ir. Don''t just sit there like plankton, get movin'' to the Deadmines. We can''t let them Horde zugs snatch that recipe first. Go fetch that Stabby Patty Secret Formula before it slips through our fingers! Oh, and afore ya head out, we swiped an orb from them barnacle ridden mages over in the tower – it''ll teleport ya straight to the Deadmines.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Stabby Patty Secret Formula to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901727,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Deadmines - Cookie - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441212);
@@ -5859,8 +5859,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441212,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Deadmines - Cookie - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441212);
@@ -5869,7 +5869,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Stabby Patty Secret Formula please.';
-
+                    
                 
                 -- Deadmines - Cookie - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441212);
@@ -5894,7 +5894,7 @@
                 SET `entry` = 441213,
                     `pool_entry` = 300016,
                     `description` = 'Ironaya';
-
+                
                 
                 -- Uldaman West - Ironaya - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441213);
@@ -5927,7 +5927,7 @@
                     `RequiredItemId1` = 901728,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Uldaman West - Ironaya - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441213);
@@ -5944,7 +5944,7 @@
                 SET `ID` = 441213,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Uldaman West - Ironaya - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441213);
@@ -5953,7 +5953,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Titanforged Beacon please.';
-
+                    
                 
                 -- Uldaman West - Ironaya - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441213);
@@ -5988,7 +5988,7 @@
                 SET `CreatureEntry` = 7228,
                     `Idx` = 0,
                     `ItemId` = 901728;
-
+                
                 
                 -- Uldaman West - Ironaya - Titanforged Beacon - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (901728));
@@ -6002,7 +6002,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Titanforged Beacon';
-
+   
                 
 
                 -- *******************************************************
@@ -6013,7 +6013,7 @@
                 SET `entry` = 441214,
                     `pool_entry` = 300017,
                     `description` = 'Ironaya';
-
+                
                 
                 -- Uldaman West - Ironaya - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441214);
@@ -6040,13 +6040,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Titanforged Beacon',
                     `LogDescription` = 'Retrieve the Titanforged Beacon from Ironaya in Uldaman West.',
-                    `QuestDescription` = 'Howdy, brave one! Word''''s out that them Horde Zugs are schemin'''' to snatch the Titanforged Beacon from Ironaya down in Uldaman. Can ya believe it? They''''re talkin'''' ''''bout usin'''' that beacon to call in reinforcements from Draenor! We can''''t let that happen! Saddle up, face Ironaya, and bring back that Titanforged Beacon. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'''' mages over in the tower it''''ll teleport ya straight to Uldaman. Let''''s put a stop to them Horde''''s reinforcements plans and keep the Titanforged Beacon safe! We''''ll make sure you''''re well rewarded.',
+                    `QuestDescription` = 'Howdy, brave one! Word''s out that them Horde Zugs are schemin'' to snatch the Titanforged Beacon from Ironaya down in Uldaman. Can ya believe it? They''re talkin'' ''bout usin'' that beacon to call in reinforcements from Draenor! We can''t let that happen! Saddle up, face Ironaya, and bring back that Titanforged Beacon. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower it''ll teleport ya straight to Uldaman. Let''s put a stop to them Horde''s reinforcements plans and keep the Titanforged Beacon safe! We''ll make sure you''re well rewarded.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Titanforged Beacon to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901728,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Uldaman West - Ironaya - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441214);
@@ -6062,8 +6062,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441214,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Uldaman West - Ironaya - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441214);
@@ -6072,7 +6072,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Titanforged Beacon please.';
-
+                    
                 
                 -- Uldaman West - Ironaya - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441214);
@@ -6096,8 +6096,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441215,
                     `pool_entry` = 300009,
-                    `description` = 'Atal''''alarion';
-
+                    `description` = 'Atal''alarion';
+                
                 
                 -- Sunken Temple - Atal''alarion - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441215);
@@ -6122,15 +6122,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Shirvallah''''s Tear',
-                    `LogDescription` = 'Retrieve the Shirvallah''''s Tear from Atal''''alarion in Sunken Temple.',
-                    `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'''' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''''Hakkar. And get this they''''re thinkin'''' ''''bout startin'''' a garden! Can''''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''''s a reward waitin'''' for ya. Let''''s stomp out them Horde''''s gardening dreams and keep the Dream Seed safe!',
+                    `LogTitle` = 'Wanted: Shirvallah''s Tear',
+                    `LogDescription` = 'Retrieve the Shirvallah''s Tear from Atal''alarion in Sunken Temple.',
+                    `QuestDescription` = 'Howdy there, brave one! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to snatch the Dream Seed from the Shade of Eranikus in the Temple of Atal''Hakkar. And get this they''re thinkin'' ''bout startin'' a garden! Can''t let that happen! Head on down, confront the Shade of Eranikus, and bring back that Dream Seed. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s gardening dreams and keep the Dream Seed safe!',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Shirvallah''''s Tear to Travis Coomingham in Stormwind.',
+                    `QuestCompletionLog` = 'Return the Shirvallah''s Tear to Travis Coomingham in Stormwind.',
                     `RequiredItemId1` = 901729,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Sunken Temple - Atal''alarion - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441215);
@@ -6146,8 +6146,8 @@
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441215,
                     `Emote1` = 1,
-                    `RewardText` = 'Thanks for thwartin'''' them Horde plans, Zuglord Runthak''''ll be seethin'''' knowing we beat ''''em to the punch.';
-
+                    `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
+                    
                 
                 -- Sunken Temple - Atal''alarion - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441215);
@@ -6155,8 +6155,8 @@
                 SET `ID` = 441215,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Shirvallah''''s Tear please.';
-
+                    `CompletionText` = 'The Shirvallah''s Tear please.';
+                    
                 
                 -- Sunken Temple - Atal''alarion - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441215);
@@ -6178,7 +6178,7 @@
                 SET `entry` = 901729,
                     `class` = 12,
                     `subclass` = 0,
-                    `name` = 'Shirvallah''''s Tear',
+                    `name` = 'Shirvallah''s Tear',
                     `flags` = '2048',
                     `displayid` = 141656,
                     `Quality` = 1,
@@ -6191,7 +6191,7 @@
                 SET `CreatureEntry` = 8580,
                     `Idx` = 2,
                     `ItemId` = 901729;
-
+                
                 
                 -- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 8580) AND (`Item` IN (901729));
@@ -6204,8 +6204,8 @@
                     `GroupId` = 0,
                     `MinCount` = 1,
                     `MaxCount` = 1,
-                    `Comment` = 'Shirvallah''''s Tear';
-
+                    `Comment` = 'Shirvallah''s Tear';
+   
                 
 
                 -- *******************************************************
@@ -6215,8 +6215,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441216,
                     `pool_entry` = 300003,
-                    `description` = 'Atal''''alarion';
-
+                    `description` = 'Atal''alarion';
+                
                 
                 -- Sunken Temple - Atal''alarion - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441216);
@@ -6241,15 +6241,15 @@
                     `RewardFactionValue2` = 6,
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
-                    `LogTitle` = 'Wanted: Shirvallah''''s Tear',
-                    `LogDescription` = 'Retrieve the Shirvallah''''s Tear from Atal''''alarion in Sunken Temple.',
-                    `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''''s future.',
+                    `LogTitle` = 'Wanted: Shirvallah''s Tear',
+                    `LogDescription` = 'Retrieve the Shirvallah''s Tear from Atal''alarion in Sunken Temple.',
+                    `QuestDescription` = 'Rumors have surfaced of a mystical artifact, concealed within the shadows of the Temple of Atal''Hakkar. The Dream Seed, extracted from the heart of the Dreamgrove. It possesses the remarkable ability to breathe life into desolate lands. Guarded by the spectral Shade of Eranikus, this seed signifies Eranikus''s commitment to healing the scars left by Hakkar. Your mission is to recover the Dream Seed from this ethereal guardian. Bring forth the Dream Seed and prove that you are not only a formidable champion but also a bearer of hope for the Horde''s future.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Shirvallah''''s Tear to Overlord Runthak in Orgrimmar.',
+                    `QuestCompletionLog` = 'Return the Shirvallah''s Tear to Overlord Runthak in Orgrimmar.',
                     `RequiredItemId1` = 901729,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Sunken Temple - Atal''alarion - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441216);
@@ -6266,7 +6266,7 @@
                 SET `ID` = 441216,
                     `Emote1` = 1,
                     `RewardText` = 'Your deeds bring honour to the Horde.';
-
+                    
                 
                 -- Sunken Temple - Atal''alarion - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441216);
@@ -6274,8 +6274,8 @@
                 SET `ID` = 441216,
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
-                    `CompletionText` = 'The Shirvallah''''s Tear please.';
-
+                    `CompletionText` = 'The Shirvallah''s Tear please.';
+                    
                 
                 -- Sunken Temple - Atal''alarion - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441216);
@@ -6300,7 +6300,7 @@
                 SET `entry` = 441217,
                     `pool_entry` = 300018,
                     `description` = 'Nazan';
-
+                
                 
                 -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441217);
@@ -6327,13 +6327,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Fel Nether Essence',
                     `LogDescription` = 'Retrieve the Fel Nether Essence from Nazan in Hellfire Ramparts.',
-                    `QuestDescription` = 'It has been spoken to Mah''''duun that Nazan, the fel-corrupted Netherwing drake, harbors the Fel Nether Essence within the Hellfire Ramparts. This essence is of immense value to those who study fel energy and dragonkind. Your task is clear: enter the Ramparts, defeat Nazan, and recover the Fel Nether Essence. Use this teleport orb to reach the dungeon directly. A substantial bounty awaits you.',
+                    `QuestDescription` = 'It has been spoken to Mah''duun that Nazan, the fel-corrupted Netherwing drake, harbors the Fel Nether Essence within the Hellfire Ramparts. This essence is of immense value to those who study fel energy and dragonkind. Your task is clear: enter the Ramparts, defeat Nazan, and recover the Fel Nether Essence. Use this teleport orb to reach the dungeon directly. A substantial bounty awaits you.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Fel Nether Essence to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Fel Nether Essence to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901730,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441217);
@@ -6350,7 +6350,7 @@
                 SET `ID` = 441217,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441217);
@@ -6359,7 +6359,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Fel Nether Essence please.';
-
+                    
                 
                 -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441217);
@@ -6394,7 +6394,7 @@
                 SET `CreatureEntry` = 17536,
                     `Idx` = 1,
                     `ItemId` = 901730;
-
+                
                 
                 -- Hellfire Ramparts - Nazan - Fel Nether Essence - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17536) AND (`Item` IN (901730));
@@ -6408,7 +6408,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Fel Nether Essence';
-
+   
                 
 
                 -- *******************************************************
@@ -6418,8 +6418,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441218,
                     `pool_entry` = 300018,
-                    `description` = 'Keli''''dan the Breaker';
-
+                    `description` = 'Keli''dan the Breaker';
+                
                 
                 -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441218);
@@ -6445,14 +6445,14 @@
                     `RewardFactionID3` = 947,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Blood Crucible',
-                    `LogDescription` = 'Retrieve the Blood Crucible from Keli''''dan the Breaker in Blood Furnace.',
-                    `QuestDescription` = 'Mah''''duun has heard whispers of a powerful artifact within the Blood Furnace. Keli''''dan the Breaker, that foul warlock, guards the Blood Crucible with dark fervor. The essence of fel blood magic flows through it, a prize for those who seek its secrets. Seek out Keli''''dan in the Blood Furnace, slay him, and retrieve the Blood Crucible. The reward will be substantial. Take this teleport orb; it will bring you directly to the dungeon.',
+                    `LogDescription` = 'Retrieve the Blood Crucible from Keli''dan the Breaker in Blood Furnace.',
+                    `QuestDescription` = 'Mah''duun has heard whispers of a powerful artifact within the Blood Furnace. Keli''dan the Breaker, that foul warlock, guards the Blood Crucible with dark fervor. The essence of fel blood magic flows through it, a prize for those who seek its secrets. Seek out Keli''dan in the Blood Furnace, slay him, and retrieve the Blood Crucible. The reward will be substantial. Take this teleport orb; it will bring you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Blood Crucible to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901731,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441218);
@@ -6469,7 +6469,7 @@
                 SET `ID` = 441218,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441218);
@@ -6478,7 +6478,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Blood Crucible please.';
-
+                    
                 
                 -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441218);
@@ -6513,7 +6513,7 @@
                 SET `CreatureEntry` = 17377,
                     `Idx` = 1,
                     `ItemId` = 901731;
-
+                
                 
                 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17377) AND (`Item` IN (901731));
@@ -6527,7 +6527,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Blood Crucible';
-
+   
                 
 
                 -- *******************************************************
@@ -6538,7 +6538,7 @@
                 SET `entry` = 441219,
                     `pool_entry` = 300018,
                     `description` = 'Quagmirran';
-
+                
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441219);
@@ -6565,13 +6565,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Ancient Fungus',
                     `LogDescription` = 'Retrieve the Ancient Fungus from Quagmirran in Slave Pens.',
-                    `QuestDescription` = 'Mah''''duun knows where you must go. The Slave Pens hold Quagmirran, a bog lord infused with ancient fungus. Researchers highly prize a sample of his flesh. Venture into the pens, end Quagmirran''''s reign, and retrieve the Ancient Fungus. Your efforts will not go unrewarded. Take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows where you must go. The Slave Pens hold Quagmirran, a bog lord infused with ancient fungus. Researchers highly prize a sample of his flesh. Venture into the pens, end Quagmirran''s reign, and retrieve the Ancient Fungus. Your efforts will not go unrewarded. Take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Ancient Fungus to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Ancient Fungus to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901732,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441219);
@@ -6588,7 +6588,7 @@
                 SET `ID` = 441219,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441219);
@@ -6597,7 +6597,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Ancient Fungus please.';
-
+                    
                 
                 -- Slave Pens - Quagmirran - Cenarion Expedition - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441219);
@@ -6632,7 +6632,7 @@
                 SET `CreatureEntry` = 17942,
                     `Idx` = 0,
                     `ItemId` = 901732;
-
+                
                 
                 -- Slave Pens - Quagmirran - Ancient Fungus - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17942) AND (`Item` IN (901732));
@@ -6646,7 +6646,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Ancient Fungus';
-
+   
                 
 
                 -- *******************************************************
@@ -6657,7 +6657,7 @@
                 SET `entry` = 441220,
                     `pool_entry` = 300019,
                     `description` = 'Nexus-Prince Shaffar';
-
+                
                 
                 -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441220);
@@ -6684,13 +6684,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Ring of Shaffar',
                     `LogDescription` = 'Retrieve the Ring of Shaffar from Nexus-Prince Shaffar in Mana-Tombs.',
-                    `QuestDescription` = 'It has been revealed to Mah''''duun that Nexus-Prince Shaffar, within the Mana Tombs, guards a precious artifact: the Ring of Shaffar. This ring is a symbol of his royal claim and holds significant value. Your mission is to enter the tombs, vanquish Shaffar, and retrieve the ring. Use this teleport orb to reach the dungeon directly. A generous bounty awaits you.',
+                    `QuestDescription` = 'It has been revealed to Mah''duun that Nexus-Prince Shaffar, within the Mana Tombs, guards a precious artifact: the Ring of Shaffar. This ring is a symbol of his royal claim and holds significant value. Your mission is to enter the tombs, vanquish Shaffar, and retrieve the ring. Use this teleport orb to reach the dungeon directly. A generous bounty awaits you.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Ring of Shaffar to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Ring of Shaffar to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901733,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441220);
@@ -6707,7 +6707,7 @@
                 SET `ID` = 441220,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441220);
@@ -6716,7 +6716,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Ring of Shaffar please.';
-
+                    
                 
                 -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441220);
@@ -6751,7 +6751,7 @@
                 SET `CreatureEntry` = 18344,
                     `Idx` = 1,
                     `ItemId` = 901733;
-
+                
                 
                 -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 18344) AND (`Item` IN (901733));
@@ -6765,7 +6765,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Ring of Shaffar';
-
+   
                 
 
                 -- *******************************************************
@@ -6776,7 +6776,7 @@
                 SET `entry` = 441221,
                     `pool_entry` = 300019,
                     `description` = 'Black Stalker';
-
+                
                 
                 -- The Underbog - Black Stalker - Cenarion Expedition - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441221);
@@ -6803,13 +6803,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Stalker Tendril',
                     `LogDescription` = 'Retrieve the Stalker Tendril from Black Stalker in The Underbog.',
-                    `QuestDescription` = 'Mah''''duun hears the whispers on the nether winds. They speak of the Black Stalker, a fearsome creature lurking in the Underbog. A bounty has been placed on this beast, and its Stalker Tendril will serve as proof of its demise. Venture into the Underbog, slay the Black Stalker, and bring me the tendril. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun hears the whispers on the nether winds. They speak of the Black Stalker, a fearsome creature lurking in the Underbog. A bounty has been placed on this beast, and its Stalker Tendril will serve as proof of its demise. Venture into the Underbog, slay the Black Stalker, and bring me the tendril. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Stalker Tendril to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Stalker Tendril to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901734,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- The Underbog - Black Stalker - Cenarion Expedition - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441221);
@@ -6826,7 +6826,7 @@
                 SET `ID` = 441221,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- The Underbog - Black Stalker - Cenarion Expedition - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441221);
@@ -6835,7 +6835,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Stalker Tendril please.';
-
+                    
                 
                 -- The Underbog - Black Stalker - Cenarion Expedition - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441221);
@@ -6870,7 +6870,7 @@
                 SET `CreatureEntry` = 17882,
                     `Idx` = 2,
                     `ItemId` = 901734;
-
+                
                 
                 -- The Underbog - Black Stalker - Stalker Tendril - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17882) AND (`Item` IN (901734));
@@ -6884,7 +6884,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Stalker Tendril';
-
+   
                 
 
                 -- *******************************************************
@@ -6895,7 +6895,7 @@
                 SET `entry` = 441222,
                     `pool_entry` = 300019,
                     `description` = 'Exarch Maladaar';
-
+                
                 
                 -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441222);
@@ -6922,13 +6922,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Mark of the Fallen Exarch',
                     `LogDescription` = 'Retrieve the Mark of the Fallen Exarch from Exarch Maladaar in Auchenai Crypts.',
-                    `QuestDescription` = 'Mah''''duun hears the whispers of a new target. Exarch Maladaar, a dark presence within the Auchenai Crypts, must be brought to justice. His Mark of the Fallen Exarch will serve as proof of his demise. Enter the crypts, slay Maladaar, and bring me this mark. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun hears the whispers of a new target. Exarch Maladaar, a dark presence within the Auchenai Crypts, must be brought to justice. His Mark of the Fallen Exarch will serve as proof of his demise. Enter the crypts, slay Maladaar, and bring me this mark. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Mark of the Fallen Exarch to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Mark of the Fallen Exarch to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901735,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441222);
@@ -6945,7 +6945,7 @@
                 SET `ID` = 441222,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441222);
@@ -6954,7 +6954,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Mark of the Fallen Exarch please.';
-
+                    
                 
                 -- Auchenai Crypts - Exarch Maladaar - Lower City - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441222);
@@ -6989,7 +6989,7 @@
                 SET `CreatureEntry` = 18373,
                     `Idx` = 0,
                     `ItemId` = 901735;
-
+                
                 
                 -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 18373) AND (`Item` IN (901735));
@@ -7003,7 +7003,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Mark of the Fallen Exarch';
-
+   
                 
 
                 -- *******************************************************
@@ -7014,7 +7014,7 @@
                 SET `entry` = 441223,
                     `pool_entry` = 300019,
                     `description` = 'Epoch Hunter';
-
+                
                 
                 -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441223);
@@ -7041,13 +7041,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Infinite Drake Head',
                     `LogDescription` = 'Retrieve the Infinite Drake Head from Epoch Hunter in Old Hillsbrad Foothills.',
-                    `QuestDescription` = 'Mah''''duun has heard of a bounty raised by the Keepers of Time. Epoch Hunter, a fiend lurking in the Old Hillsbrad Foothills, must be slain to protect the timeline. Timelines mean nothing to Mah''''duun as long as he is paid. Bring me the Infinite Drake Head as proof of your victory. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun has heard of a bounty raised by the Keepers of Time. Epoch Hunter, a fiend lurking in the Old Hillsbrad Foothills, must be slain to protect the timeline. Timelines mean nothing to Mah''duun as long as he is paid. Bring me the Infinite Drake Head as proof of your victory. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Infinite Drake Head to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Infinite Drake Head to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901736,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441223);
@@ -7064,7 +7064,7 @@
                 SET `ID` = 441223,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441223);
@@ -7073,7 +7073,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Infinite Drake Head please.';
-
+                    
                 
                 -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441223);
@@ -7108,7 +7108,7 @@
                 SET `CreatureEntry` = 18096,
                     `Idx` = 0,
                     `ItemId` = 901736;
-
+                
                 
                 -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 18096) AND (`Item` IN (901736));
@@ -7122,7 +7122,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Infinite Drake Head';
-
+   
                 
 
                 -- *******************************************************
@@ -7133,7 +7133,7 @@
                 SET `entry` = 441224,
                     `pool_entry` = 300019,
                     `description` = 'Talon King Ikiss';
-
+                
                 
                 -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441224);
@@ -7160,13 +7160,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Arakkoa Crown',
                     `LogDescription` = 'Retrieve the Arakkoa Crown from Talon King Ikiss in Sethekk Halls.',
-                    `QuestDescription` = 'Mah''''duun knows what must be done. The Sethekk Halls are ruled by Talon King Ikiss, whose Arakkoa Crown is the prize. To prove his demise, you must retrieve the crown from his lifeless body. Venture into the halls, defeat Ikiss, and bring me the crown. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows what must be done. The Sethekk Halls are ruled by Talon King Ikiss, whose Arakkoa Crown is the prize. To prove his demise, you must retrieve the crown from his lifeless body. Venture into the halls, defeat Ikiss, and bring me the crown. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Arakkoa Crown to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Arakkoa Crown to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901737,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441224);
@@ -7183,7 +7183,7 @@
                 SET `ID` = 441224,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Sethekk Halls - Talon King Ikiss - Lower City - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441224);
@@ -7192,7 +7192,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Arakkoa Crown please.';
-
+                    
                 
                 -- Sethekk Halls - Talon King Ikiss - Lower City - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441224);
@@ -7227,7 +7227,7 @@
                 SET `CreatureEntry` = 18473,
                     `Idx` = 1,
                     `ItemId` = 901737;
-
+                
                 
                 -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 18473) AND (`Item` IN (901737));
@@ -7241,7 +7241,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arakkoa Crown';
-
+   
                 
 
                 -- *******************************************************
@@ -7252,7 +7252,7 @@
                 SET `entry` = 441225,
                     `pool_entry` = 300020,
                     `description` = 'Warlord Kalithresh';
-
+                
                 
                 -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441225);
@@ -7279,13 +7279,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Opressor Trident',
                     `LogDescription` = 'Retrieve the Opressor Trident from Warlord Kalithresh in Steamvault.',
-                    `QuestDescription` = 'Mah''''duun knows where you must go. The Steamvault harbors Warlord Kalithresh, whose rule threatens Zangarmarsh. The Cenarion Expedition wishes the Steamvault to shut down, but Mah''''duun only cares for the coin. Retrieve the Oppressor Trident as proof of his demise. Venture into the Steamvault, defeat Kalithresh, and bring me the trident. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows where you must go. The Steamvault harbors Warlord Kalithresh, whose rule threatens Zangarmarsh. The Cenarion Expedition wishes the Steamvault to shut down, but Mah''duun only cares for the coin. Retrieve the Oppressor Trident as proof of his demise. Venture into the Steamvault, defeat Kalithresh, and bring me the trident. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Opressor Trident to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Opressor Trident to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901738,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441225);
@@ -7302,7 +7302,7 @@
                 SET `ID` = 441225,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441225);
@@ -7311,7 +7311,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Opressor Trident please.';
-
+                    
                 
                 -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441225);
@@ -7346,7 +7346,7 @@
                 SET `CreatureEntry` = 17798,
                     `Idx` = 0,
                     `ItemId` = 901738;
-
+                
                 
                 -- Steamvault - Warlord Kalithresh - Opressor Trident - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17798) AND (`Item` IN (901738));
@@ -7360,7 +7360,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Opressor Trident';
-
+   
                 
 
                 -- *******************************************************
@@ -7371,7 +7371,7 @@
                 SET `entry` = 441226,
                     `pool_entry` = 300020,
                     `description` = 'Murmur';
-
+                
                 
                 -- Shadow Labyrinth - Murmur - Lower City - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441226);
@@ -7398,13 +7398,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Primordial Essence',
                     `LogDescription` = 'Retrieve the Primordial Essence from Murmur in Shadow Labyrinth.',
-                    `QuestDescription` = 'Mah''''duun knows where you must go. The Shadow Labyrinth houses Murmur, a being blamed for the destruction of Auchindoun by the denizens of the Lower City. To prove Murmur''''s end, you must retrieve the Primordial Essence. Venture into the labyrinth, defeat Murmur, and bring me the essence. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows where you must go. The Shadow Labyrinth houses Murmur, a being blamed for the destruction of Auchindoun by the denizens of the Lower City. To prove Murmur''s end, you must retrieve the Primordial Essence. Venture into the labyrinth, defeat Murmur, and bring me the essence. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Primordial Essence to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Primordial Essence to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901739,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Shadow Labyrinth - Murmur - Lower City - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441226);
@@ -7421,7 +7421,7 @@
                 SET `ID` = 441226,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Shadow Labyrinth - Murmur - Lower City - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441226);
@@ -7430,7 +7430,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Primordial Essence please.';
-
+                    
                 
                 -- Shadow Labyrinth - Murmur - Lower City - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441226);
@@ -7465,7 +7465,7 @@
                 SET `CreatureEntry` = 18708,
                     `Idx` = 0,
                     `ItemId` = 901739;
-
+                
                 
                 -- Shadow Labyrinth - Murmur - Primordial Essence - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 18708) AND (`Item` IN (901739));
@@ -7479,7 +7479,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Primordial Essence';
-
+   
                 
 
                 -- *******************************************************
@@ -7490,7 +7490,7 @@
                 SET `entry` = 441227,
                     `pool_entry` = 300020,
                     `description` = 'Warchief Kargath Bladefist';
-
+                
                 
                 -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441227);
@@ -7517,13 +7517,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Warchief Insignia',
                     `LogDescription` = 'Retrieve the Warchief Insignia from Warchief Kargath Bladefist in Shattered Halls.',
-                    `QuestDescription` = 'Mah''''duun knows your next target. The Shattered Halls are under the brutal command of Warchief Kargath Bladefist. His Warchief Insignia is the proof needed to confirm his death. Venture into the halls, defeat Kargath Bladefist, and bring me the insignia. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows your next target. The Shattered Halls are under the brutal command of Warchief Kargath Bladefist. His Warchief Insignia is the proof needed to confirm his death. Venture into the halls, defeat Kargath Bladefist, and bring me the insignia. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Warchief Insignia to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Warchief Insignia to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901740,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441227);
@@ -7540,7 +7540,7 @@
                 SET `ID` = 441227,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441227);
@@ -7549,7 +7549,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Warchief Insignia please.';
-
+                    
                 
                 -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441227);
@@ -7584,7 +7584,7 @@
                 SET `CreatureEntry` = 16808,
                     `Idx` = 1,
                     `ItemId` = 901740;
-
+                
                 
                 -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 16808) AND (`Item` IN (901740));
@@ -7598,7 +7598,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Warchief Insignia';
-
+   
                 
 
                 -- *******************************************************
@@ -7609,7 +7609,7 @@
                 SET `entry` = 441228,
                     `pool_entry` = 300020,
                     `description` = 'Aeonus';
-
+                
                 
                 -- Black Morass - Aeonus - Keepers of Time - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441228);
@@ -7636,13 +7636,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Infinite Membrane',
                     `LogDescription` = 'Retrieve the Infinite Membrane from Aeonus in Black Morass.',
-                    `QuestDescription` = 'Mah''''duun has heard of a new bounty from the Keepers of Time. Aeonus, a powerful dragon of the Infinite Dragonflight, threatens the Black Morass. His Infinite Membrane is needed for the Keepers to study and track their attacks. Enter the Black Morass, slay Aeonus, and bring me the wing membrane as proof. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun has heard of a new bounty from the Keepers of Time. Aeonus, a powerful dragon of the Infinite Dragonflight, threatens the Black Morass. His Infinite Membrane is needed for the Keepers to study and track their attacks. Enter the Black Morass, slay Aeonus, and bring me the wing membrane as proof. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Infinite Membrane to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Infinite Membrane to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901741,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Black Morass - Aeonus - Keepers of Time - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441228);
@@ -7659,7 +7659,7 @@
                 SET `ID` = 441228,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Black Morass - Aeonus - Keepers of Time - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441228);
@@ -7668,7 +7668,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Infinite Membrane please.';
-
+                    
                 
                 -- Black Morass - Aeonus - Keepers of Time - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441228);
@@ -7703,7 +7703,7 @@
                 SET `CreatureEntry` = 17881,
                     `Idx` = 0,
                     `ItemId` = 901741;
-
+                
                 
                 -- Black Morass - Aeonus - Infinite Membrane - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17881) AND (`Item` IN (901741));
@@ -7717,7 +7717,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Infinite Membrane';
-
+   
                 
 
                 -- *******************************************************
@@ -7728,7 +7728,7 @@
                 SET `entry` = 441229,
                     `pool_entry` = 300020,
                     `description` = 'Warp Splinter';
-
+                
                 
                 -- Botanica - Warp Splinter - Sha'tar - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441229);
@@ -7755,13 +7755,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Arcane Warp Shard',
                     `LogDescription` = 'Retrieve the Arcane Warp Shard from Warp Splinter in Botanica.',
-                    `QuestDescription` = 'Mah''''duun has heard of a bounty from the Sha''''tar. Warp Splinter, a corrupted being in the Botanica, must be studied to understand and reverse its corruption. The Arcane Warp Shard embedded in its bark holds the key. Enter the Botanica, slay Warp Splinter, and bring me the shard. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun has heard of a bounty from the Sha''tar. Warp Splinter, a corrupted being in the Botanica, must be studied to understand and reverse its corruption. The Arcane Warp Shard embedded in its bark holds the key. Enter the Botanica, slay Warp Splinter, and bring me the shard. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Arcane Warp Shard to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Arcane Warp Shard to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901742,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Botanica - Warp Splinter - Sha'tar - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441229);
@@ -7778,7 +7778,7 @@
                 SET `ID` = 441229,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Botanica - Warp Splinter - Sha'tar - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441229);
@@ -7787,7 +7787,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Arcane Warp Shard please.';
-
+                    
                 
                 -- Botanica - Warp Splinter - Sha'tar - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441229);
@@ -7822,7 +7822,7 @@
                 SET `CreatureEntry` = 17977,
                     `Idx` = 1,
                     `ItemId` = 901742;
-
+                
                 
                 -- Botanica - Warp Splinter - Arcane Warp Shard - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 17977) AND (`Item` IN (901742));
@@ -7836,7 +7836,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Warp Shard';
-
+   
                 
 
                 -- *******************************************************
@@ -7847,7 +7847,7 @@
                 SET `entry` = 441230,
                     `pool_entry` = 300020,
                     `description` = 'Pathaleon the Calculator';
-
+                
                 
                 -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441230);
@@ -7874,13 +7874,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Arcane Abacus',
                     `LogDescription` = 'Retrieve the Arcane Abacus from Pathaleon the Calculator in Mechanar.',
-                    `QuestDescription` = 'Mah''''duun has heard of a valuable artifact in the Mechanar sought by the Sha''''tar. Pathaleon the Calculator possesses an Arcane Abacus, a tool the Sunfury are using to dangerous ends. Your task is to infiltrate the Mechanar, defeat Pathaleon, and recover the Abacus. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun has heard of a valuable artifact in the Mechanar sought by the Sha''tar. Pathaleon the Calculator possesses an Arcane Abacus, a tool the Sunfury are using to dangerous ends. Your task is to infiltrate the Mechanar, defeat Pathaleon, and recover the Abacus. Your reward will be substantial. Take this teleport orb; it will transport you directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Arcane Abacus to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Arcane Abacus to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901743,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441230);
@@ -7897,7 +7897,7 @@
                 SET `ID` = 441230,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441230);
@@ -7906,7 +7906,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Arcane Abacus please.';
-
+                    
                 
                 -- Mechanar - Pathaleon the Calculator - Sha'tar - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441230);
@@ -7941,7 +7941,7 @@
                 SET `CreatureEntry` = 19220,
                     `Idx` = 1,
                     `ItemId` = 901743;
-
+                
                 
                 -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 19220) AND (`Item` IN (901743));
@@ -7955,7 +7955,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Abacus';
-
+   
                 
 
                 -- *******************************************************
@@ -7966,7 +7966,7 @@
                 SET `entry` = 441231,
                     `pool_entry` = 300020,
                     `description` = 'Harbinger Skyriss';
-
+                
                 
                 -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441231);
@@ -7993,13 +7993,13 @@
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Qiraji Hive Mind',
                     `LogDescription` = 'Retrieve the Qiraji Hive Mind from Harbinger Skyriss in Arcatraz.',
-                    `QuestDescription` = 'Mah''''duun knows your next mission. Harbinger Skyriss, in the Arcatraz, possesses a Qiraji Hive Mind. The Sha''''tar seek to study how Skyriss infiltrated the minds of the Wardens. Venture into the Arcatraz, defeat Skyriss, and bring me the Qiraji Hive Mind. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `QuestDescription` = 'Mah''duun knows your next mission. Harbinger Skyriss, in the Arcatraz, possesses a Qiraji Hive Mind. The Sha''tar seek to study how Skyriss infiltrated the minds of the Wardens. Venture into the Arcatraz, defeat Skyriss, and bring me the Qiraji Hive Mind. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Qiraji Hive Mind to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Qiraji Hive Mind to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901744,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441231);
@@ -8016,7 +8016,7 @@
                 SET `ID` = 441231,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441231);
@@ -8025,7 +8025,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Qiraji Hive Mind please.';
-
+                    
                 
                 -- Arcatraz - Harbinger Skyriss - Sha'tar - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441231);
@@ -8060,7 +8060,7 @@
                 SET `CreatureEntry` = 20912,
                     `Idx` = 0,
                     `ItemId` = 901744;
-
+                
                 
                 -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 20912) AND (`Item` IN (901744));
@@ -8074,7 +8074,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Qiraji Hive Mind';
-
+   
                 
 
                 -- *******************************************************
@@ -8084,8 +8084,8 @@
                 INSERT INTO `pool_quest`
                 SET `entry` = 441232,
                     `pool_entry` = 300020,
-                    `description` = 'Kael''''thas Sunstrider';
-
+                    `description` = 'Kael''thas Sunstrider';
+                
                 
                 -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441232);
@@ -8111,14 +8111,14 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Necro-demon Crystal',
-                    `LogDescription` = 'Retrieve the Necro-demon Crystal from Kael''''thas Sunstrider in Magister''s Terrace.',
-                    `QuestDescription` = 'Mah''''duun knows your final task. The Necro-demon Crystal in the Magister''''s Terrace is used to resurrect Kael''''thas Sunstrider. The Shattered Sun Offensive requires this crystal to prevent its dark magic from being used again. Venture into the terrace, defeat Kael''''thas, and retrieve the crystal. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
+                    `LogDescription` = 'Retrieve the Necro-demon Crystal from Kael''thas Sunstrider in Magister''s Terrace.',
+                    `QuestDescription` = 'Mah''duun knows your final task. The Necro-demon Crystal in the Magister''s Terrace is used to resurrect Kael''thas Sunstrider. The Shattered Sun Offensive requires this crystal to prevent its dark magic from being used again. Venture into the terrace, defeat Kael''thas, and retrieve the crystal. Your efforts will be richly rewarded. Here, take this teleport orb to transport yourself directly to the dungeon.',
                     `AreaDescription` = '',
-                    `QuestCompletionLog` = 'Return the Necro-demon Crystal to Nether-Stalker Mah''''duun in Shattrath.',
+                    `QuestCompletionLog` = 'Return the Necro-demon Crystal to Nether-Stalker Mah''duun in Shattrath.',
                     `RequiredItemId1` = 901745,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
-
+                    
                 
                 -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441232);
@@ -8135,7 +8135,7 @@
                 SET `ID` = 441232,
                     `Emote1` = 1,
                     `RewardText` = 'My buyer will be most pleased.';
-
+                    
                 
                 -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441232);
@@ -8144,7 +8144,7 @@
                     `EmoteOnComplete` = 1,
                     `EmoteOnIncomplete` = 1,
                     `CompletionText` = 'The Necro-demon Crystal please.';
-
+                    
                 
                 -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441232);
@@ -8179,7 +8179,7 @@
                 SET `CreatureEntry` = 24664,
                     `Idx` = 1,
                     `ItemId` = 901745;
-
+                
                 
                 -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 24664) AND (`Item` IN (901745));
@@ -8193,5 +8193,5 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Necro-demon Crystal';
-
+   
                 
