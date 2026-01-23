@@ -744,6 +744,13 @@ INSERT INTO `dbc`.`item` SET
     `MaterialID` = 4,
     `ItemDisplayInfo` = 1102;
 
+DELETE FROM `dbc`.`item` WHERE `itemID` = 900100;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 900100,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 1585;
+
 DELETE FROM `dbc`.`item` WHERE `itemID` = 901715;
 INSERT INTO `dbc`.`item` SET 
     `itemID` = 901715,
