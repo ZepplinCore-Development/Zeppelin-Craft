@@ -120,14 +120,14 @@ class LootDatabase:
                   it.class = 12
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
-                  -- Always show rare/epic/legendary (quality 3+)
-                  OR it.Quality >= 3
+                  -- Always show rare/epic/legendary (quality 3+), exclude low drop-rate recipes
+                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND clt.Chance > 0 AND clt.Chance < 5))
                   -- Show uncommon (green) items with decent drop rates
                   OR (it.Quality = 2 AND clt.Chance >= 10)
                   -- Show group loot items (Chance=0 with GroupId>0) - these are special boss drops
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
-            ORDER BY clt.GroupId, clt.Item
+            ORDER BY clt.GroupId, clt.Chance DESC, clt.Item
         """
 
         try:
@@ -228,7 +228,7 @@ class LootDatabase:
             LEFT JOIN item_template it ON rlt.Item = it.entry
             WHERE rlt.Entry = %s
               AND rlt.Item > 0
-            ORDER BY rlt.GroupId, rlt.Item
+            ORDER BY rlt.GroupId, rlt.Chance DESC, rlt.Item
         """
 
         try:
@@ -274,9 +274,13 @@ class LootDatabase:
             # Filter to meaningful items only (after calculating chances)
             filtered_items = []
             for item in all_items:
+                # Exclude low drop-rate recipes (class 9) from rare+ filter
+                is_low_drop_recipe = (item['item_class'] == 9 and
+                                      item['drop_chance'] > 0 and
+                                      item['drop_chance'] < 5)
                 if (item['item_class'] == 12 or           # Quest items
                     item['item_id'] >= 900000 or          # Custom items
-                    item['quality'] >= 3 or               # Rare+ quality
+                    (item['quality'] >= 3 and not is_low_drop_recipe) or  # Rare+ (excl low drop recipes)
                     (item['quality'] == 2 and item['drop_chance'] >= 10)):
                     filtered_items.append(item)
 
@@ -323,14 +327,14 @@ class LootDatabase:
                   it.class = 12
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
-                  -- Always show rare/epic/legendary (quality 3+)
-                  OR it.Quality >= 3
+                  -- Always show rare/epic/legendary (quality 3+), exclude low drop-rate recipes
+                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND clt.Chance > 0 AND clt.Chance < 5))
                   -- Show uncommon (green) items with decent drop rates
                   OR (it.Quality = 2 AND clt.Chance >= 10)
                   -- Show group loot items (Chance=0 with GroupId>0) - these are special boss drops
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
-            ORDER BY clt.Entry, clt.GroupId, clt.Item
+            ORDER BY clt.Entry, clt.GroupId, clt.Chance DESC, clt.Item
         """
 
         try:
@@ -363,7 +367,7 @@ class LootDatabase:
 
                 # Combine deduplicated quest items with other items
                 deduplicated = other_items + list(quest_items.values())
-                deduplicated.sort(key=lambda x: (x['group_id'], x['item_id']))
+                deduplicated.sort(key=lambda x: (x['group_id'], -x['drop_chance'], x['item_id']))
                 loot_by_boss[creature_id] = deduplicated
 
             return loot_by_boss
@@ -371,6 +375,43 @@ class LootDatabase:
         except mysql.connector.Error as err:
             print(f"Query error: {err}")
             return {}
+
+    def get_heroic_creature_id(self, creature_id: int) -> Optional[int]:
+        """
+        Get heroic version creature ID from normal creature ID.
+
+        In AzerothCore, heroic versions of bosses are stored in difficulty_entry_1.
+
+        Args:
+            creature_id: Normal creature entry ID
+
+        Returns:
+            Heroic creature entry ID or None if not found
+        """
+        if not self.connection:
+            return None
+
+        query = """
+            SELECT difficulty_entry_1
+            FROM creature_template
+            WHERE entry = %s
+              AND difficulty_entry_1 > 0
+            LIMIT 1
+        """
+
+        try:
+            cursor = self.connection.cursor(dictionary=True)
+            cursor.execute(query, (creature_id,))
+            result = cursor.fetchone()
+            cursor.close()
+
+            if result and result['difficulty_entry_1']:
+                return result['difficulty_entry_1']
+            return None
+
+        except mysql.connector.Error as err:
+            print(f"Query error: {err}")
+            return None
 
     def get_boss_name(self, creature_id: int) -> Optional[str]:
         """
