@@ -96,7 +96,7 @@ INSERT INTO creature_template (
     'F-025 POC',
     1,                -- minlevel
     1,                -- maxlevel
-    35,               -- faction (Friendly to all for easy interaction)
+    7,                -- faction (Creature - neutral/attackable)
     0,                -- npcflag (none - just killable)
     1,                -- speed_walk
     1.14286,          -- speed_run

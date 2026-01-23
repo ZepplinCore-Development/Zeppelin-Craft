@@ -24607,6 +24607,8 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100010;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100010,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
     `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
@@ -24656,6 +24658,8 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100011;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100011,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
     `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
@@ -24705,6 +24709,8 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100012;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100012,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
     `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
@@ -24754,6 +24760,8 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100013;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100013,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
     `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
@@ -24803,6 +24811,8 @@ INSERT INTO `dbc`.`spell` SET
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100014;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100014,
+    `Attributes` = 128,
+    `AttributesEx` = 268435456,
     `AttributesEx4` = 4096,
     `CastingTimeIndex` = 1,
     `ProcFlags` = 1,
