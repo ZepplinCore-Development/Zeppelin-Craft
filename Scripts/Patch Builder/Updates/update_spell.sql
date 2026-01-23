@@ -335,7 +335,7 @@ UPDATE `dbc`.`spell` SET
     `SpellLevel` = 4 /* was 12 */,
     `DurationIndex` = 35 /* was 28 */,
     `ManaCost` = 0 /* was 25 */,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'A quick kick that interrupts spellcasting and prevents any spell in that school from being cast for $d.' */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.' /* was 'A quick kick that interrupts spellcasting and prevents any spell in that school from being cast for $d.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 1766;
 
@@ -371,7 +371,7 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 4 /* was 24 */,
     `SpellLevel` = 4 /* was 24 */,
     `DurationIndex` = 39 /* was 31 */,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Counters the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.  Generates a high amount of threat.' */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.' /* was 'Counters the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.  Generates a high amount of threat.' */,
     `ManaCostPercentage` = 0 /* was 9 */
 WHERE `ID` = 2139;
 
@@ -1491,7 +1491,7 @@ UPDATE `dbc`.`spell` SET
     `BaseLevel` = 4 /* was 38 */,
     `SpellLevel` = 4 /* was 38 */,
     `ManaCost` = 0 /* was 100 */,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Pummel the target, interrupting spellcasting and preventing any spell in that school from being cast for $d.' */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.' /* was 'Pummel the target, interrupting spellcasting and preventing any spell in that school from being cast for $d.' */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 6552;
 
@@ -5114,7 +5114,7 @@ UPDATE `dbc`.`spell` SET
     `SpellLevel` = 4 /* was 36 */,
     `DurationIndex` = 39 /* was 28 */,
     `ManaCost` = 0 /* was 120 */,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Silences the enemy for $24259d.  If used on a casting target, it will counter the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.' */
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.' /* was 'Silences the enemy for $24259d.  If used on a casting target, it will counter the enemy's spellcast, preventing any spell from that school of magic from being cast for $d.' */
 WHERE `ID` = 19244;
 
 UPDATE `dbc`.`spell` SET 
@@ -13196,7 +13196,7 @@ UPDATE `dbc`.`spell` SET
     `RecoveryTime` = 8000 /* was 6000 */,
     `BaseLevel` = 4 /* was 16 */,
     `SpellLevel` = 4 /* was 16 */,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' /* was 'Instantly blasts the target with a gust of wind, causing no damage but interrupting spellcasting and preventing any spell in that school from being cast for $d. Also lowers your threat, making the enemy less likely to attack you.' */,
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.' /* was 'Instantly blasts the target with a gust of wind, causing no damage but interrupting spellcasting and preventing any spell in that school from being cast for $d. Also lowers your threat, making the enemy less likely to attack you.' */,
     `ManaCostPercentage` = 0 /* was 8 */
 WHERE `ID` = 57994;
 
@@ -22487,7 +22487,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Silencing Shot',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Silenced.',
     `SpellToolTipFlags7` = 16712190,
@@ -26342,7 +26342,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Devout Silence',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 3,
@@ -26379,7 +26379,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Rebuke',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 3,
@@ -26416,7 +26416,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Solar Flare',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.',
+    `SpellDescription0` = 'Interrupts spellcasting and prevents any spell in that school from being cast for $d.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTipFlags7` = 16712190,
     `SpellFamilyName` = 3,
