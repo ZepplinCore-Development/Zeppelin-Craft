@@ -238,98 +238,143 @@ SINGLE_BOSS_SECTIONS = {
 TBC_SINGLE_BOSS_SECTIONS = {
     # ===== Hellfire Citadel: Ramparts =====
     'HCRampWatchkeeper': 17306,     # Watchkeeper Gargolmar
+    'HCRampWatchkeeperHEROIC': 17306,
     'HCRampOmor': 17308,            # Omor the Unscarred
+    'HCRampOmorHEROIC': 17308,
     'HCRampVazruden': 17537,        # Vazruden (Nazan: 17536)
-    'HCRampVazrudenHEROIC': 17537,  # Vazruden Heroic
+    'HCRampVazrudenHEROIC': 17537,
 
     # ===== Hellfire Citadel: Blood Furnace =====
     'HCFurnaceMaker': 17381,        # The Maker
+    'HCFurnaceMakerHEROIC': 17381,
     'HCFurnaceBroggok': 17380,      # Broggok
+    'HCFurnaceBroggokHEROIC': 17380,
     'HCFurnaceBreaker': 17377,      # Keli'dan the Breaker
+    'HCFurnaceBreakerHEROIC': 17377,
 
     # ===== Hellfire Citadel: Shattered Halls =====
     'HCHallsNethekurse': 16807,     # Grand Warlock Nethekurse
-    'HCHallsPorung': 20923,         # Blood Guard Porung
+    'HCHallsNethekurseHEROIC': 16807,
+    'HCHallsPorung': 20923,         # Blood Guard Porung (Heroic only)
     'HCHallsOmrogg': 16809,         # Warbringer O'mrogg
+    'HCHallsOmroggHEROIC': 16809,
     'HCHallsKargath': 16808,        # Warchief Kargath Bladefist
+    'HCHallsKargathHEROIC': 16808,
 
     # ===== Coilfang Reservoir: Slave Pens =====
     'CFRSlaveMennu': 17941,         # Mennu the Betrayer
+    'CFRSlaveMennuHEROIC': 17941,
     'CFRSlaveRokmar': 17991,        # Rokmar the Crackler
+    'CFRSlaveRokmarHEROIC': 17991,
     'CFRSlaveQuagmirran': 17942,    # Quagmirran
+    'CFRSlaveQuagmirranHEROIC': 17942,
 
     # ===== Coilfang Reservoir: Underbog =====
     'CFRUnderHungarfen': 17770,     # Hungarfen
+    'CFRUnderHungarfenHEROIC': 17770,
     'CFRUnderGhazan': 18105,        # Ghaz'an
+    'CFRUnderGhazanHEROIC': 18105,
     'CFRUnderSwamplord': 17826,     # Swamplord Musel'ek
+    'CFRUnderSwamplordHEROIC': 17826,
     'CFRUnderStalker': 17882,       # The Black Stalker
-    'CFRUnderStalkerHEROIC': 17882, # The Black Stalker Heroic
+    'CFRUnderStalkerHEROIC': 17882,
 
     # ===== Coilfang Reservoir: Steamvault =====
     'CFRSteamThespia': 17797,       # Hydromancer Thespia
-    'CFRSteamSteamrigger': 17796,   # Steamrigger Mechano-Lord (Mekgineer)
+    'CFRSteamThespiaHEROIC': 17797,
+    'CFRSteamSteamrigger': 17796,   # Mekgineer Steamrigger
+    'CFRSteamSteamriggerHEROIC': 17796,
     'CFRSteamWarlord': 17798,       # Warlord Kalithresh
+    'CFRSteamWarlordHEROIC': 17798,
 
     # ===== Auchindoun: Mana-Tombs =====
     'AuchManaPandemonius': 18341,   # Pandemonius
+    'AuchManaPandemoniusHEROIC': 18341,
     'AuchManaTavarok': 18343,       # Tavarok
+    'AuchManaTavarokHEROIC': 18343,
     'AuchManaNexusPrince': 18344,   # Nexus-Prince Shaffar
-    'AuchManaNexusPrinceHEROIC': 18344,  # Nexus-Prince Shaffar Heroic
+    'AuchManaNexusPrinceHEROIC': 18344,
     'AuchManaYor': 22930,           # Yor (Heroic only)
 
     # ===== Auchindoun: Auchenai Crypts =====
     'AuchCryptsShirrak': 18371,     # Shirrak the Dead Watcher
+    'AuchCryptsShirrakHEROIC': 18371,
     'AuchCryptsExarch': 18373,      # Exarch Maladaar
-    'AuchCryptsAvatar': 18478,      # Avatar of the Martyred (Heroic)
+    'AuchCryptsExarchHEROIC': 18373,
+    'AuchCryptsAvatar': 18478,      # Avatar of the Martyred (Heroic only)
 
     # ===== Auchindoun: Sethekk Halls =====
     'AuchSethekkDarkweaver': 18472, # Darkweaver Syth
+    'AuchSethekkDarkweaverHEROIC': 18472,
     'AuchSethekkRavenGod': 23035,   # Anzu (Heroic only)
     'AuchSethekkTalonKing': 18473,  # Talon King Ikiss
+    'AuchSethekkTalonKingHEROIC': 18473,
 
     # ===== Auchindoun: Shadow Labyrinth =====
     'AuchShadowHellmaw': 18731,     # Ambassador Hellmaw
+    'AuchShadowHellmawHEROIC': 18731,
     'AuchShadowBlackheart': 18667,  # Blackheart the Inciter
+    'AuchShadowBlackheartHEROIC': 18667,
     'AuchShadowGrandmaster': 18732, # Grandmaster Vorpil
+    'AuchShadowGrandmasterHEROIC': 18732,
     'AuchShadowMurmur': 18708,      # Murmur
+    'AuchShadowMurmurHEROIC': 18708,
 
     # ===== Caverns of Time: Old Hillsbrad =====
     'CoTHillsbradDrake': 17848,     # Lieutenant Drake
+    'CoTHillsbradDrakeHEROIC': 17848,
     'CoTHillsbradSkarloc': 17862,   # Captain Skarloc
+    'CoTHillsbradSkarlocHEROIC': 17862,
     'CoTHillsbradHunter': 18096,    # Epoch Hunter
-    'CoTHillsbradHunterHEROIC': 18096,  # Epoch Hunter Heroic
+    'CoTHillsbradHunterHEROIC': 18096,
 
     # ===== Caverns of Time: Black Morass =====
     'CoTMorassDeja': 17879,         # Chrono Lord Deja
+    'CoTMorassDejaHEROIC': 17879,
     'CoTMorassTemporus': 17880,     # Temporus
+    'CoTMorassTemporusHEROIC': 17880,
     'CoTMorassAeonus': 17881,       # Aeonus
+    'CoTMorassAeonusHEROIC': 17881,
 
     # ===== Tempest Keep: Mechanar =====
     'TKMechCapacitus': 19219,       # Mechano-Lord Capacitus
+    'TKMechCapacitusHEROIC': 19219,
     'TKMechSepethrea': 19221,       # Nethermancer Sepethrea
+    'TKMechSepethreaHEROIC': 19221,
     'TKMechCalc': 19220,            # Pathaleon the Calculator
-    'TKMechCalcHEROIC': 19220,      # Pathaleon Heroic
+    'TKMechCalcHEROIC': 19220,
 
     # ===== Tempest Keep: Botanica =====
     'TKBotSarannis': 17976,         # Commander Sarannis
+    'TKBotSarannisHEROIC': 17976,
     'TKBotFreywinn': 17975,         # High Botanist Freywinn
+    'TKBotFreywinnHEROIC': 17975,
     'TKBotThorngrin': 17978,        # Thorngrin the Tender
+    'TKBotThorngrinHEROIC': 17978,
     'TKBotLaj': 17980,              # Laj
+    'TKBotLajHEROIC': 17980,
     'TKBotSplinter': 17977,         # Warp Splinter
-    'TKBotSplinterHEROIC': 17977,   # Warp Splinter Heroic
+    'TKBotSplinterHEROIC': 17977,
 
     # ===== Tempest Keep: Arcatraz =====
     'TKArcUnbound': 20870,          # Zereketh the Unbound
+    'TKArcUnboundHEROIC': 20870,
     'TKArcScryer': 20886,           # Wrath-Scryer Soccothrates
+    'TKArcScryerHEROIC': 20886,
     'TKArcDalliah': 20885,          # Dalliah the Doomsayer
+    'TKArcDalliahHEROIC': 20885,
     'TKArcHarbinger': 20912,        # Harbinger Skyriss
+    'TKArcHarbingerHEROIC': 20912,
 
     # ===== Magister's Terrace =====
     'SMTFireheart': 24723,          # Selin Fireheart
+    'SMTFireheartHEROIC': 24723,
     'SMTVexallus': 24744,           # Vexallus
+    'SMTVexallusHEROIC': 24744,
     'SMTDelrissa': 24560,           # Priestess Delrissa
+    'SMTDelrissaHEROIC': 24560,
     'SMTKaelthas': 24664,           # Kael'thas Sunstrider (5-man)
-    'SMTKaelthasHEROIC': 24664,     # Kael'thas Heroic
+    'SMTKaelthasHEROIC': 24664,
 
     # ===== Karazhan (10-man Raid) =====
     'KaraAttumen': 16152,           # Attumen the Huntsman (mounted phase has loot)
@@ -424,18 +469,41 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     print(f"Processing single-boss section: {section_name}")
     print(f"{'='*60}")
 
+    # For HEROIC sections, look up the heroic creature ID (difficulty_entry_1)
+    if section_name.endswith('HEROIC'):
+        heroic_id = db.get_heroic_creature_id(creature_id)
+        if heroic_id:
+            print(f"✓ Heroic section detected: using heroic creature ID {heroic_id} (was {creature_id})")
+            creature_id = heroic_id
+        else:
+            print(f"⚠ Warning: No heroic creature ID found for {creature_id}, using normal loot")
+
     # Step 1: Parse Lua file
     if verbose:
         print("\n[1/4] Parsing Lua file...")
     parser = AtlasLootParser(lua_file_path)
 
-    # Verify section exists
+    # Verify section exists, or create it for HEROIC sections
     bounds = parser.find_section_bounds(section_name)
+    section_created = False
     if not bounds:
-        print(f"✗ Section '{section_name}' not found in Lua file")
-        return False
+        # For HEROIC sections, try to create the section after the normal version
+        if section_name.endswith('HEROIC'):
+            normal_section = section_name[:-6]  # Remove 'HEROIC' suffix
+            if parser.section_exists(normal_section):
+                print(f"✓ Creating new HEROIC section based on '{normal_section}'")
+                # Insert placeholder that will be replaced
+                parser.insert_section_after(normal_section, section_name,
+                    '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
+                section_created = True
+                bounds = parser.find_section_bounds(section_name)
 
-    print(f"✓ Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+        if not bounds:
+            print(f"✗ Section '{section_name}' not found in Lua file")
+            return False
+
+    if not section_created:
+        print(f"✓ Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get boss name for display
     boss_name = db.get_boss_name(creature_id)

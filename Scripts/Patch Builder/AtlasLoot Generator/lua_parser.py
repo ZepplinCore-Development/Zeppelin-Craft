@@ -196,6 +196,56 @@ class AtlasLootParser:
 
         return sections
 
+    def insert_section_after(self, reference_section: str, new_section_name: str,
+                             new_content: str) -> bool:
+        """
+        Insert a new section after an existing reference section.
+
+        Args:
+            reference_section: Name of existing section to insert after
+            new_section_name: Name for the new section
+            new_content: Lua code for the new section (content only, header/footer added)
+
+        Returns:
+            True if insertion was successful, False otherwise
+        """
+        bounds = self.find_section_bounds(reference_section)
+        if not bounds:
+            print(f"Error: Reference section '{reference_section}' not found")
+            return False
+
+        _, end_line = bounds
+
+        # Build the new section with proper formatting
+        section_code = f'AtlasLoot_Data["{new_section_name}"] = {{\n'
+        section_code += new_content
+        if not section_code.endswith('\n'):
+            section_code += '\n'
+        section_code += '};\n\n'
+
+        # Insert after the reference section (after end_line + 1 to preserve blank lines)
+        insert_pos = end_line + 1
+
+        # Skip any blank lines after the section
+        while insert_pos < len(self.content) and self.content[insert_pos].strip() == '':
+            insert_pos += 1
+
+        self.content.insert(insert_pos, section_code)
+        print(f"✓ Created new section '{new_section_name}' after '{reference_section}'")
+        return True
+
+    def section_exists(self, section_name: str) -> bool:
+        """
+        Check if a section exists in the Lua file.
+
+        Args:
+            section_name: Section name to check
+
+        Returns:
+            True if section exists, False otherwise
+        """
+        return self.find_section_bounds(section_name) is not None
+
 
 def test_parser():
     """Test the parser on the AtlasLoot originalwow.lua file."""
