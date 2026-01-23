@@ -1674,3 +1674,15 @@ INSERT INTO `dbc`.`skilllineability` SET
     `skillId` = 56,
     `spellId` = 103246;
 
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 100001;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 100001,
+    `skillId` = 184,
+    `spellId` = 103247;
+
+DELETE FROM `dbc`.`skilllineability` WHERE `id` = 100002;
+INSERT INTO `dbc`.`skilllineability` SET 
+    `id` = 100002,
+    `skillId` = 574,
+    `spellId` = 103248;
+
