@@ -1,6 +1,8 @@
 -- =============================================================================
 -- F-025 Tier Satchel Proof of Concept
 -- Tests class-conditional container loot with T1 Helms
+--
+-- STATUS: Ready for Testing (requires worldserver restart for conditions)
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
@@ -33,55 +35,47 @@ INSERT INTO item_template (
 );
 
 -- -----------------------------------------------------------------------------
--- 2. REFERENCE LOOT TABLE (Entry 900100) - All T1 Helms
+-- 2. ITEM LOOT TABLE - Each class in separate GroupId
 -- -----------------------------------------------------------------------------
--- Chance=0 with GroupId=1 means exactly one item is selected from the group
--- The conditions table will filter to only the opener's class
-DELETE FROM reference_loot_template WHERE Entry = 900100;
-INSERT INTO reference_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
-(900100, 16866, 0, 1, 1, 1),  -- Helm of Might (Warrior)
-(900100, 16854, 0, 1, 1, 1),  -- Lawbringer Helm (Paladin)
-(900100, 16846, 0, 1, 1, 1),  -- Giantstalker's Helmet (Hunter)
-(900100, 16821, 0, 1, 1, 1),  -- Nightslayer Cover (Rogue)
-(900100, 16813, 0, 1, 1, 1),  -- Circlet of Prophecy (Priest)
-(900100, 16842, 0, 1, 1, 1),  -- Earthfury Helmet (Shaman)
-(900100, 16795, 0, 1, 1, 1),  -- Arcanist Crown (Mage)
-(900100, 16808, 0, 1, 1, 1),  -- Felheart Horns (Warlock)
-(900100, 16834, 0, 1, 1, 1);  -- Cenarion Helm (Druid)
-
--- -----------------------------------------------------------------------------
--- 3. ITEM LOOT TABLE - Link satchel to reference
--- -----------------------------------------------------------------------------
+-- Each helm has 100% chance in its own GroupId
+-- Conditions should filter so only one drops per class
 DELETE FROM item_loot_template WHERE Entry = 900100;
-INSERT INTO item_loot_template (Entry, Item, Reference, Chance, GroupId, MinCount, MaxCount) VALUES
-(900100, 900100, 900100, 100, 1, 1, 1);
--- Item=Reference entry (placeholder), Reference points to ref table, 100% chance
+INSERT INTO item_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
+(900100, 16866, 100, 1, 1, 1),  -- Helm of Might (Warrior)
+(900100, 16854, 100, 2, 1, 1),  -- Lawbringer Helm (Paladin)
+(900100, 16846, 100, 3, 1, 1),  -- Giantstalker's Helmet (Hunter)
+(900100, 16821, 100, 4, 1, 1),  -- Nightslayer Cover (Rogue)
+(900100, 16813, 100, 5, 1, 1),  -- Circlet of Prophecy (Priest)
+(900100, 16842, 100, 6, 1, 1),  -- Earthfury Helmet (Shaman)
+(900100, 16795, 100, 7, 1, 1),  -- Arcanist Crown (Mage)
+(900100, 16808, 100, 8, 1, 1),  -- Felheart Horns (Warlock)
+(900100, 16834, 100, 9, 1, 1);  -- Cenarion Helm (Druid)
 
 -- -----------------------------------------------------------------------------
--- 4. CLASS CONDITIONS - Filter each helm to its class
+-- 3. CLASS CONDITIONS - Filter each helm to its class
 -- -----------------------------------------------------------------------------
--- SourceTypeOrReferenceId = 10 (reference_loot_template condition)
--- SourceGroup = Reference Entry (900100)
+-- SourceTypeOrReferenceId = 4 (item_loot_template condition)
+-- SourceGroup = Item Entry (900100 = satchel)
 -- SourceEntry = Item ID being conditioned
 -- ConditionTypeOrReference = 15 (CLASS condition)
 -- ConditionValue1 = Class mask
 --
 -- Class Masks: Warrior=1, Paladin=2, Hunter=4, Rogue=8, Priest=16,
 --              Shaman=64, Mage=128, Warlock=256, Druid=1024
-DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup = 900100;
+DELETE FROM conditions WHERE SourceTypeOrReferenceId = 4 AND SourceGroup = 900100;
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, ErrorType, ErrorTextId, ScriptName, Comment) VALUES
-(10, 900100, 16866, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Helm of Might (Warrior)'),
-(10, 900100, 16854, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Lawbringer Helm (Paladin)'),
-(10, 900100, 16846, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Giantstalker Helmet (Hunter)'),
-(10, 900100, 16821, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Nightslayer Cover (Rogue)'),
-(10, 900100, 16813, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Circlet of Prophecy (Priest)'),
-(10, 900100, 16842, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Earthfury Helmet (Shaman)'),
-(10, 900100, 16795, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Arcanist Crown (Mage)'),
-(10, 900100, 16808, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Felheart Horns (Warlock)'),
-(10, 900100, 16834, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T1 Helm Satchel - Cenarion Helm (Druid)');
+(4, 900100, 16866, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T1 Helm - Warrior'),
+(4, 900100, 16854, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T1 Helm - Paladin'),
+(4, 900100, 16846, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T1 Helm - Hunter'),
+(4, 900100, 16821, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T1 Helm - Rogue'),
+(4, 900100, 16813, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T1 Helm - Priest'),
+(4, 900100, 16842, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T1 Helm - Shaman'),
+(4, 900100, 16795, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T1 Helm - Mage'),
+(4, 900100, 16808, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T1 Helm - Warlock'),
+(4, 900100, 16834, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T1 Helm - Druid');
 
 -- -----------------------------------------------------------------------------
--- 5. TEST CREATURE (Entry 900100) - Level 1 for easy testing
+-- 4. TEST CREATURE (Entry 900100) - Level 1 for easy testing
 -- -----------------------------------------------------------------------------
 DELETE FROM creature_template WHERE entry = 900100;
 DELETE FROM creature_template_model WHERE CreatureID = 900100;
@@ -119,7 +113,7 @@ INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, Display
 (900100, 0, 7937, 1, 1, 12340);  -- Training Dummy model
 
 -- -----------------------------------------------------------------------------
--- 6. CREATURE LOOT TABLE - 100% satchel drop
+-- 5. CREATURE LOOT TABLE - 100% satchel drop
 -- -----------------------------------------------------------------------------
 DELETE FROM creature_loot_template WHERE Entry = 900100;
 INSERT INTO creature_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
@@ -127,3 +121,9 @@ INSERT INTO creature_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxC
 
 -- Link creature to loot table
 UPDATE creature_template SET lootid = 900100 WHERE entry = 900100;
+
+-- -----------------------------------------------------------------------------
+-- CLEANUP: Remove old reference_loot_template approach if exists
+-- -----------------------------------------------------------------------------
+DELETE FROM reference_loot_template WHERE Entry = 900100;
+DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup = 900100;
