@@ -11407,6 +11407,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 48162;
 
 UPDATE `dbc`.`spell` SET 
+    `Reagent1` = 58302 /* was 44605 */
+WHERE `ID` = 48470;
+
+UPDATE `dbc`.`spell` SET 
     `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
