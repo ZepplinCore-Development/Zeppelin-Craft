@@ -1671,7 +1671,7 @@ INSERT INTO `dbc`.`skilllineability` SET
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 100000;
 INSERT INTO `dbc`.`skilllineability` SET 
     `id` = 100000,
-    `skillId` = 56,
+    `skillId` = 613,
     `spellId` = 103246;
 
 DELETE FROM `dbc`.`skilllineability` WHERE `id` = 100001;
