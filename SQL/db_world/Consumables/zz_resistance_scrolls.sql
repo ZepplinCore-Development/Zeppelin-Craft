@@ -1563,3 +1563,785 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
 (4278, 902425, 15, 'Commander Springvale - Technique: Scroll of Holy Resistance II'),
 (646, 902425, 15, 'Mr. Smite - Technique: Scroll of Holy Resistance II');
+
+-- =====================================================
+-- RANK III RECIPE ITEMS (Vanilla Mid-Level Dungeons)
+-- =====================================================
+-- Level 30+ dungeons: SM, RFK, RFD, Gnomeregan, Uldaman
+-- Skill Req: Fire/Frost 155, Arcane/Shadow 160, Nature/Holy 165
+
+-- Technique: Scroll of Fire Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902401;
+
+INSERT INTO `item_template` SET
+    `entry` = 902401,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Fire Resistance III',
+    `displayid` = 140302,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 155,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103312,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Frost Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902406;
+
+INSERT INTO `item_template` SET
+    `entry` = 902406,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Frost Resistance III',
+    `displayid` = 140304,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 155,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103313,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Arcane Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902411;
+
+INSERT INTO `item_template` SET
+    `entry` = 902411,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Arcane Resistance III',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 160,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103314,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Shadow Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902416;
+
+INSERT INTO `item_template` SET
+    `entry` = 902416,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Shadow Resistance III',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 160,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103315,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Nature Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902421;
+
+INSERT INTO `item_template` SET
+    `entry` = 902421,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Nature Resistance III',
+    `displayid` = 140303,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 165,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103316,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Holy Resistance III
+DELETE FROM `item_template` WHERE `entry` = 902426;
+
+INSERT INTO `item_template` SET
+    `entry` = 902426,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Holy Resistance III',
+    `displayid` = 140301,
+    `Quality` = 2,
+    `BuyPrice` = 5000,
+    `SellPrice` = 1250,
+    `ItemLevel` = 40,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 165,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103317,
+    `spelltrigger_2` = 6;
+
+
+
+-- =====================================================
+-- RANK III DUNGEON LOOT TABLE ENTRIES
+-- =====================================================
+-- Boss Distribution (thematically appropriate):
+--   Fire: Herod (3975 - SM Armory), Viscous Fallout (7079 - Gnomer)
+--   Frost: Amnennar the Coldbringer (7358 - RFD)
+--   Arcane: Archaedas (2748 - Uldaman), Arcanist Doan (6487 - SM Library)
+--   Shadow: Mordresh Fire Eye (7357 - RFD), Tuten'kash (7355 - RFD)
+--   Nature: Charlga Razorflank (4421 - RFK), Overlord Ramtusk (4420 - RFK)
+--   Holy: High Inquisitor Whitemane (3977), Mograine (3976) - SM Cathedral
+-- =====================================================
+
+-- Clean up existing entries for Rank III recipes
+DELETE FROM `creature_loot_template` WHERE `Item` IN (902401, 902406, 902411, 902416, 902421, 902426);
+
+-- Fire Resistance III - SM Armory / Gnomeregan
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(3975, 902401, 15, 'Herod - Technique: Scroll of Fire Resistance III'),
+(7079, 902401, 15, 'Viscous Fallout - Technique: Scroll of Fire Resistance III');
+
+-- Frost Resistance III - Razorfen Downs (frost lich!)
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(7358, 902406, 20, 'Amnennar the Coldbringer - Technique: Scroll of Frost Resistance III');
+
+-- Arcane Resistance III - Uldaman / SM Library
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(2748, 902411, 15, 'Archaedas - Technique: Scroll of Arcane Resistance III'),
+(6487, 902411, 15, 'Arcanist Doan - Technique: Scroll of Arcane Resistance III');
+
+-- Shadow Resistance III - Razorfen Downs
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(7357, 902416, 15, 'Mordresh Fire Eye - Technique: Scroll of Shadow Resistance III'),
+(7355, 902416, 15, 'Tuten''kash - Technique: Scroll of Shadow Resistance III');
+
+-- Nature Resistance III - Razorfen Kraul
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(4421, 902421, 15, 'Charlga Razorflank - Technique: Scroll of Nature Resistance III'),
+(4420, 902421, 15, 'Overlord Ramtusk - Technique: Scroll of Nature Resistance III');
+
+-- Holy Resistance III - SM Cathedral
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(3977, 902426, 15, 'High Inquisitor Whitemane - Technique: Scroll of Holy Resistance III'),
+(3976, 902426, 15, 'Scarlet Commander Mograine - Technique: Scroll of Holy Resistance III');
+
+-- =====================================================
+-- RANK IV RECIPE ITEMS (Vanilla High-Level Dungeons)
+-- =====================================================
+-- Level 45+ dungeons: BRD, ZF, Sunken Temple, Maraudon, Scholo, Strat
+-- Skill Req: Fire/Frost 225, Arcane/Shadow 230, Nature/Holy 235
+-- Premium Rank (requires Essence reagent for crafting)
+
+-- Technique: Scroll of Fire Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902402;
+
+INSERT INTO `item_template` SET
+    `entry` = 902402,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Fire Resistance IV',
+    `displayid` = 140302,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 225,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103318,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Frost Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902407;
+
+INSERT INTO `item_template` SET
+    `entry` = 902407,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Frost Resistance IV',
+    `displayid` = 140304,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 225,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103319,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Arcane Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902412;
+
+INSERT INTO `item_template` SET
+    `entry` = 902412,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Arcane Resistance IV',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 230,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103320,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Shadow Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902417;
+
+INSERT INTO `item_template` SET
+    `entry` = 902417,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Shadow Resistance IV',
+    `displayid` = 140305,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 230,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103321,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Nature Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902422;
+
+INSERT INTO `item_template` SET
+    `entry` = 902422,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Nature Resistance IV',
+    `displayid` = 140303,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 235,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103322,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Holy Resistance IV
+DELETE FROM `item_template` WHERE `entry` = 902427;
+
+INSERT INTO `item_template` SET
+    `entry` = 902427,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Holy Resistance IV',
+    `displayid` = 140301,
+    `Quality` = 2,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `ItemLevel` = 55,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 235,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103323,
+    `spelltrigger_2` = 6;
+
+
+
+-- =====================================================
+-- RANK IV DUNGEON LOOT TABLE ENTRIES
+-- =====================================================
+-- Boss Distribution (thematically appropriate):
+--   Fire: Ambassador Flamelash (9156 - BRD), Lord Incendius (9017 - BRD)
+--   Frost: Hydromancer Velratha (7795 - ZF), Theka the Martyr (7272 - ZF)
+--   Arcane: Shade of Eranikus (5709 - ST), Jammal'an the Prophet (5710 - ST)
+--   Shadow: Darkmaster Gandling (1853 - Scholo), Rattlegore (11622 - Scholo)
+--   Nature: Princess Theradras (12201 - Maraudon), Celebras the Cursed (12225 - Maraudon)
+--   Holy: Magistrate Barthilas (10435 - Strat), Balnazzar (10813 - Strat)
+-- =====================================================
+
+-- Clean up existing entries for Rank IV recipes
+DELETE FROM `creature_loot_template` WHERE `Item` IN (902402, 902407, 902412, 902417, 902422, 902427);
+
+-- Fire Resistance IV - Blackrock Depths
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(9156, 902402, 15, 'Ambassador Flamelash - Technique: Scroll of Fire Resistance IV'),
+(9017, 902402, 15, 'Lord Incendius - Technique: Scroll of Fire Resistance IV');
+
+-- Frost Resistance IV - Zul'Farrak
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(7795, 902407, 15, 'Hydromancer Velratha - Technique: Scroll of Frost Resistance IV'),
+(7272, 902407, 15, 'Theka the Martyr - Technique: Scroll of Frost Resistance IV');
+
+-- Arcane Resistance IV - Sunken Temple
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(5709, 902412, 15, 'Shade of Eranikus - Technique: Scroll of Arcane Resistance IV'),
+(5710, 902412, 15, 'Jammal''an the Prophet - Technique: Scroll of Arcane Resistance IV');
+
+-- Shadow Resistance IV - Scholomance
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(1853, 902417, 15, 'Darkmaster Gandling - Technique: Scroll of Shadow Resistance IV'),
+(11622, 902417, 15, 'Rattlegore - Technique: Scroll of Shadow Resistance IV');
+
+-- Nature Resistance IV - Maraudon
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(12201, 902422, 15, 'Princess Theradras - Technique: Scroll of Nature Resistance IV'),
+(12225, 902422, 15, 'Celebras the Cursed - Technique: Scroll of Nature Resistance IV');
+
+-- Holy Resistance IV - Stratholme
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(10435, 902427, 15, 'Magistrate Barthilas - Technique: Scroll of Holy Resistance IV'),
+(10813, 902427, 15, 'Balnazzar - Technique: Scroll of Holy Resistance IV');
+
+-- =====================================================
+-- RANK VI RECIPE ITEMS (TBC Dungeons)
+-- =====================================================
+-- TBC Dungeons: Mechanar, Botanica, Arcatraz, Shadow Lab, Underbog, Auchenai
+-- Skill Req: Fire/Frost 360, Arcane/Shadow 365, Nature/Holy 370
+-- Premium Rank (requires Primal reagent for crafting)
+
+-- Technique: Scroll of Fire Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902403;
+
+INSERT INTO `item_template` SET
+    `entry` = 902403,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Fire Resistance VI',
+    `displayid` = 140302,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 360,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103330,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Frost Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902408;
+
+INSERT INTO `item_template` SET
+    `entry` = 902408,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Frost Resistance VI',
+    `displayid` = 140304,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 360,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103331,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Arcane Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902413;
+
+INSERT INTO `item_template` SET
+    `entry` = 902413,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Arcane Resistance VI',
+    `displayid` = 140305,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 365,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103332,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Shadow Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902418;
+
+INSERT INTO `item_template` SET
+    `entry` = 902418,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Shadow Resistance VI',
+    `displayid` = 140305,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 365,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103333,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Nature Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902423;
+
+INSERT INTO `item_template` SET
+    `entry` = 902423,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Nature Resistance VI',
+    `displayid` = 140303,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 370,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103334,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Holy Resistance VI
+DELETE FROM `item_template` WHERE `entry` = 902428;
+
+INSERT INTO `item_template` SET
+    `entry` = 902428,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Holy Resistance VI',
+    `displayid` = 140301,
+    `Quality` = 3,
+    `BuyPrice` = 50000,
+    `SellPrice` = 12500,
+    `ItemLevel` = 78,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 370,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103335,
+    `spelltrigger_2` = 6;
+
+
+
+-- =====================================================
+-- RANK VI DUNGEON LOOT TABLE ENTRIES
+-- =====================================================
+-- Boss Distribution (thematically appropriate):
+--   Fire: Kael'thas Sunstrider (24664 - MGT), Pathaleon (19220 - Mechanar)
+--   Frost: High Botanist Freywinn (17975 - Botanica), Warp Splinter (17977 - Botanica)
+--   Arcane: Harbinger Skyriss (20912 - Arcatraz), Dalliah (20885 - Arcatraz)
+--   Shadow: Murmur (18708 - Shadow Lab), Grandmaster Vorpil (18732 - Shadow Lab)
+--   Nature: Hungarfen (17770 - Underbog), Swamplord Musel'ek (17826 - Underbog)
+--   Holy: Exarch Maladaar (18373 - Auchenai), Avatar of the Martyred (18478 - Auchenai)
+-- =====================================================
+
+-- Clean up existing entries for Rank VI recipes
+DELETE FROM `creature_loot_template` WHERE `Item` IN (902403, 902408, 902413, 902418, 902423, 902428);
+
+-- Fire Resistance VI - Magister's Terrace / Mechanar
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(24664, 902403, 15, 'Kael''thas Sunstrider - Technique: Scroll of Fire Resistance VI'),
+(19220, 902403, 15, 'Pathaleon the Calculator - Technique: Scroll of Fire Resistance VI');
+
+-- Frost Resistance VI - Botanica
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(17975, 902408, 15, 'High Botanist Freywinn - Technique: Scroll of Frost Resistance VI'),
+(17977, 902408, 15, 'Warp Splinter - Technique: Scroll of Frost Resistance VI');
+
+-- Arcane Resistance VI - Arcatraz
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(20912, 902413, 15, 'Harbinger Skyriss - Technique: Scroll of Arcane Resistance VI'),
+(20885, 902413, 15, 'Dalliah the Doomsayer - Technique: Scroll of Arcane Resistance VI');
+
+-- Shadow Resistance VI - Shadow Labyrinth
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(18708, 902418, 15, 'Murmur - Technique: Scroll of Shadow Resistance VI'),
+(18732, 902418, 15, 'Grandmaster Vorpil - Technique: Scroll of Shadow Resistance VI');
+
+-- Nature Resistance VI - Underbog
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(17770, 902423, 15, 'Hungarfen - Technique: Scroll of Nature Resistance VI'),
+(17826, 902423, 15, 'Swamplord Musel''ek - Technique: Scroll of Nature Resistance VI');
+
+-- Holy Resistance VI - Auchenai Crypts
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(18373, 902428, 15, 'Exarch Maladaar - Technique: Scroll of Holy Resistance VI'),
+(18478, 902428, 15, 'Avatar of the Martyred - Technique: Scroll of Holy Resistance VI');
+
+-- =====================================================
+-- RANK VIII RECIPE ITEMS (WotLK Dungeons)
+-- =====================================================
+-- WotLK Dungeons: Halls of Lightning, Pit of Saron, Oculus, Forge of Souls, Gundrak, Drak'Tharon
+-- Skill Req: Fire/Frost 420, Arcane/Shadow 425, Nature/Holy 430
+-- Premium Rank (requires Eternal reagent for crafting)
+
+-- Technique: Scroll of Fire Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902404;
+
+INSERT INTO `item_template` SET
+    `entry` = 902404,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Fire Resistance VIII',
+    `displayid` = 140302,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 420,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103342,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Frost Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902409;
+
+INSERT INTO `item_template` SET
+    `entry` = 902409,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Frost Resistance VIII',
+    `displayid` = 140304,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 420,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103343,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Arcane Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902414;
+
+INSERT INTO `item_template` SET
+    `entry` = 902414,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Arcane Resistance VIII',
+    `displayid` = 140305,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 425,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103344,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Shadow Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902419;
+
+INSERT INTO `item_template` SET
+    `entry` = 902419,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Shadow Resistance VIII',
+    `displayid` = 140305,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 425,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103345,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Nature Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902424;
+
+INSERT INTO `item_template` SET
+    `entry` = 902424,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Nature Resistance VIII',
+    `displayid` = 140303,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 430,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103346,
+    `spelltrigger_2` = 6;
+
+
+
+-- Technique: Scroll of Holy Resistance VIII
+DELETE FROM `item_template` WHERE `entry` = 902429;
+
+INSERT INTO `item_template` SET
+    `entry` = 902429,
+    `class` = 9,
+    `subclass` = 0,
+    `name` = 'Technique: Scroll of Holy Resistance VIII',
+    `displayid` = 140301,
+    `Quality` = 3,
+    `BuyPrice` = 100000,
+    `SellPrice` = 25000,
+    `ItemLevel` = 85,
+    `RequiredLevel` = 0,
+    `RequiredSkill` = 773,
+    `RequiredSkillRank` = 430,
+    `stackable` = 1,
+    `spellid_1` = 483,
+    `spelltrigger_1` = 0,
+    `spellid_2` = 103347,
+    `spelltrigger_2` = 6;
+
+
+
+-- =====================================================
+-- RANK VIII DUNGEON LOOT TABLE ENTRIES
+-- =====================================================
+-- Boss Distribution (thematically appropriate):
+--   Fire: Loken (28923 - HoL), General Bjarngrim (28586 - HoL)
+--   Frost: Scourgelord Tyrannus (36658 - PoS), Forgemaster Garfrost (36494 - PoS)
+--   Arcane: Ley-Guardian Eregos (27656 - Oculus), Mage-Lord Urom (27655 - Oculus)
+--   Shadow: Devourer of Souls (36502 - FoS), Bronjahm (36497 - FoS)
+--   Nature: Gal'darah (29306 - Gundrak), Slad'ran (29304 - Gundrak)
+--   Holy: The Prophet Tharon'ja (26632 - Drak'Tharon), Sjonnir (27978 - HoS)
+-- =====================================================
+
+-- Clean up existing entries for Rank VIII recipes
+DELETE FROM `creature_loot_template` WHERE `Item` IN (902404, 902409, 902414, 902419, 902424, 902429);
+
+-- Fire Resistance VIII - Halls of Lightning
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(28923, 902404, 15, 'Loken - Technique: Scroll of Fire Resistance VIII'),
+(28586, 902404, 15, 'General Bjarngrim - Technique: Scroll of Fire Resistance VIII');
+
+-- Frost Resistance VIII - Pit of Saron
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(36658, 902409, 15, 'Scourgelord Tyrannus - Technique: Scroll of Frost Resistance VIII'),
+(36494, 902409, 15, 'Forgemaster Garfrost - Technique: Scroll of Frost Resistance VIII');
+
+-- Arcane Resistance VIII - Oculus
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(27656, 902414, 15, 'Ley-Guardian Eregos - Technique: Scroll of Arcane Resistance VIII'),
+(27655, 902414, 15, 'Mage-Lord Urom - Technique: Scroll of Arcane Resistance VIII');
+
+-- Shadow Resistance VIII - Forge of Souls
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(36502, 902419, 15, 'Devourer of Souls - Technique: Scroll of Shadow Resistance VIII'),
+(36497, 902419, 15, 'Bronjahm - Technique: Scroll of Shadow Resistance VIII');
+
+-- Nature Resistance VIII - Gundrak
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(29306, 902424, 15, 'Gal''darah - Technique: Scroll of Nature Resistance VIII'),
+(29304, 902424, 15, 'Slad''ran - Technique: Scroll of Nature Resistance VIII');
+
+-- Holy Resistance VIII - Drak'Tharon / Halls of Stone
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(26632, 902429, 15, 'The Prophet Tharon''ja - Technique: Scroll of Holy Resistance VIII'),
+(27978, 902429, 15, 'Sjonnir the Ironshaper - Technique: Scroll of Holy Resistance VIII');
