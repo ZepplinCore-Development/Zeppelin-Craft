@@ -10,6 +10,11 @@ from atlasloot_mappings import get_lua_item_line, get_boss_header_line
 class LuaGenerator:
     """Generates AtlasLoot Lua table entries from loot data."""
 
+    # AtlasLoot display constants
+    COLUMN_1_MAX = 15  # Positions 1-15 = Column 1
+    COLUMN_2_START = 16  # Positions 16-30 = Column 2
+    MAX_ITEMS = 30  # Maximum items per page
+
     def __init__(self, section_name: str):
         """
         Initialize generator for a specific section.
@@ -21,14 +26,95 @@ class LuaGenerator:
         self.lines = []
         self.current_line_num = 1
 
+    def _calculate_boss_section_size(self, loot_items: List[Dict]) -> int:
+        """
+        Calculate how many line positions a boss section will consume.
+
+        Accounts for boss header, all items, and group spacers.
+
+        Args:
+            loot_items: List of loot item dictionaries
+
+        Returns:
+            Number of line positions needed
+        """
+        if not loot_items:
+            return 0
+
+        size = 1  # Boss header
+
+        # Count items and group transitions (spacers)
+        last_group_id = None
+        for item in loot_items:
+            current_group_id = item.get('group_id', 0)
+            if last_group_id is not None and current_group_id != last_group_id:
+                size += 1  # Spacer between groups
+            last_group_id = current_group_id
+            size += 1  # The item itself
+
+        return size
+
+    def _would_span_columns(self, section_size: int) -> bool:
+        """
+        Check if adding a section at current position would span columns.
+
+        Args:
+            section_size: Number of line positions the section needs
+
+        Returns:
+            True if section would start in column 1 and extend into column 2
+        """
+        if self.current_line_num > self.COLUMN_1_MAX:
+            # Already in column 2, can't span
+            return False
+
+        # Check if section would extend past column 1
+        end_position = self.current_line_num + section_size - 1
+        return end_position > self.COLUMN_1_MAX
+
+    def _get_group_items(self, loot_items: List[Dict], start_idx: int) -> List[Dict]:
+        """
+        Get all items belonging to the same group starting from start_idx.
+
+        Args:
+            loot_items: Full list of loot items
+            start_idx: Starting index to look from
+
+        Returns:
+            List of items in the same group
+        """
+        if start_idx >= len(loot_items):
+            return []
+
+        group_id = loot_items[start_idx].get('group_id', 0)
+        group_items = []
+
+        for i in range(start_idx, len(loot_items)):
+            if loot_items[i].get('group_id', 0) == group_id:
+                group_items.append(loot_items[i])
+            else:
+                break
+
+        return group_items
+
     def add_boss_section(self, boss_name: str, loot_items: List[Dict]):
         """
         Add a complete boss section with header and loot items.
+
+        Implements column-aware layout to prevent boss sections from
+        spanning across columns (positions 1-15 = column 1, 16-30 = column 2).
 
         Args:
             boss_name: Boss name for the header
             loot_items: List of loot item dictionaries from database query
         """
+        # Calculate section size and check for column spillover
+        section_size = self._calculate_boss_section_size(loot_items)
+
+        # If this section would span columns, advance to column 2
+        if self._would_span_columns(section_size):
+            self.current_line_num = self.COLUMN_2_START
+
         # Add boss header
         boss_header = get_boss_header_line(self.current_line_num, boss_name)
         self.lines.append(boss_header)
@@ -43,16 +129,28 @@ class LuaGenerator:
                 group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
         # Add loot items with calculated drop rates
-        # Track group changes for visual separation
+        # Track group changes for visual separation with column-aware layout
         last_group_id = None
-        for item in loot_items:
-            # Add spacer when group changes (visual separation between loot pools)
-            current_group_id = item.get('group_id', 0)
+        i = 0
+        while i < len(loot_items):
+            current_group_id = loot_items[i].get('group_id', 0)
+
+            # Check for group transition
             if last_group_id is not None and current_group_id != last_group_id:
-                self.current_line_num += 1  # Skip a line number for visual gap
+                # Get items in this new group
+                group_items = self._get_group_items(loot_items, i)
+                group_size = len(group_items)
+
+                # Check if this group would span columns
+                if self._would_span_columns(group_size + 1):  # +1 for spacer
+                    self.current_line_num = self.COLUMN_2_START
+                else:
+                    self.current_line_num += 1  # Skip a line number for visual gap
+
             last_group_id = current_group_id
 
             # Calculate actual drop chance for group loot
+            item = loot_items[i]
             drop_chance = item['drop_chance']
             if drop_chance == 0 and item.get('group_id', 0) > 0:
                 # Group loot: 100% divided by number of items in group
@@ -71,6 +169,7 @@ class LuaGenerator:
             )
             self.lines.append(item_line)
             self.current_line_num += 1
+            i += 1
 
         # Add spacing after boss section (skip a line number)
         self.current_line_num += 1
@@ -135,6 +234,9 @@ class LuaGenerator:
         Used for raid bosses that have their own dedicated sections
         (e.g., BWLFiremaw, MCRagnaros) without BabbleBoss headers.
 
+        Implements column-aware layout to prevent loot groups from
+        spanning across columns (positions 1-15 = column 1, 16-30 = column 2).
+
         Args:
             loot_items: List of loot item dictionaries from database query
 
@@ -155,17 +257,28 @@ class LuaGenerator:
                 group_id = item['group_id']
                 group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
-        # Add loot items (no boss header needed)
-        # Track group changes for visual separation
+        # Process items with column-aware layout
         last_group_id = None
-        for item in loot_items:
-            # Add spacer when group changes (visual separation between loot pools)
-            current_group_id = item.get('group_id', 0)
+        i = 0
+        while i < len(loot_items):
+            current_group_id = loot_items[i].get('group_id', 0)
+
+            # Check for group transition
             if last_group_id is not None and current_group_id != last_group_id:
-                self.current_line_num += 1  # Skip a line number for visual gap
+                # Get items in this new group
+                group_items = self._get_group_items(loot_items, i)
+                group_size = len(group_items)
+
+                # Check if this group would span columns
+                if self._would_span_columns(group_size + 1):  # +1 for spacer
+                    self.current_line_num = self.COLUMN_2_START
+                else:
+                    self.current_line_num += 1  # Skip a line number for visual gap
+
             last_group_id = current_group_id
 
             # Calculate actual drop chance for group loot
+            item = loot_items[i]
             drop_chance = item['drop_chance']
             if drop_chance == 0 and item.get('group_id', 0) > 0:
                 group_id = item['group_id']
@@ -182,6 +295,104 @@ class LuaGenerator:
                 drop_chance=drop_chance
             )
             self.lines.append(item_line)
+            self.current_line_num += 1
+            i += 1
+
+        # Section footer
+        self.lines.append('\t};')
+
+        return '\n'.join(self.lines)
+
+    def generate_multi_source_section(self, sources_with_loot: list) -> str:
+        """
+        Generate AtlasLoot section for multi-source encounters with headers.
+
+        Used for encounters that combine loot from multiple sources
+        (e.g., Vazruden + Nazan + Chest) on a single page.
+
+        Args:
+            sources_with_loot: List of dicts with:
+                - 'header': BabbleBoss name or custom header text
+                - 'header_sub': Subtitle (e.g., "Quest Item", "Loot", or empty)
+                - 'is_babble': True to use BabbleBoss[], False for AL[]
+                - 'loot_items': List of loot item dictionaries
+
+        Returns:
+            Complete Lua code for the section including header and footer
+        """
+        self.lines = []
+        self.current_line_num = 1
+
+        # Section header
+        section_header = f'\tAtlasLoot_Data["{self.section_name}"] = {{'
+        self.lines.append(section_header)
+
+        for source in sources_with_loot:
+            header = source['header']
+            header_sub = source.get('header_sub', '')
+            is_babble = source.get('is_babble', True)
+            loot_items = source.get('loot_items', [])
+
+            # Skip sources with no loot
+            if not loot_items:
+                continue
+
+            # Calculate total size for this source (header + items)
+            source_size = 1 + len(loot_items)
+
+            # Check if source would span columns
+            # Only move to column 2 if source fits entirely there (15 slots)
+            # Otherwise, let it span columns naturally to avoid overflow
+            column_2_capacity = self.MAX_ITEMS - self.COLUMN_2_START + 1  # 15 slots
+            if self._would_span_columns(source_size) and self.current_line_num > 1:
+                if source_size <= column_2_capacity:
+                    self.current_line_num = self.COLUMN_2_START
+                # else: source too big for column 2, let it span naturally
+
+            # Add header line
+            if is_babble:
+                if header_sub:
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
+                else:
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
+            else:
+                # Use AL[] for non-BabbleBoss headers (like chest names)
+                if header_sub:
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
+                else:
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
+            self.lines.append(header_line)
+            self.current_line_num += 1
+
+            # Calculate group loot drop rates
+            group_counts = {}
+            for item in loot_items:
+                if item['drop_chance'] == 0 and item.get('group_id', 0) > 0:
+                    group_id = item['group_id']
+                    group_counts[group_id] = group_counts.get(group_id, 0) + 1
+
+            # Process items
+            for item in loot_items:
+                # Calculate actual drop chance for group loot
+                drop_chance = item['drop_chance']
+                if drop_chance == 0 and item.get('group_id', 0) > 0:
+                    group_id = item['group_id']
+                    drop_chance = 100.0 / group_counts[group_id]
+
+                item_line = get_lua_item_line(
+                    line_num=self.current_line_num,
+                    item_id=item['item_id'],
+                    item_name=item['item_name'],
+                    quality=item['quality'],
+                    item_class=item['item_class'],
+                    item_subclass=item['item_subclass'],
+                    inventory_type=item['inventory_type'],
+                    drop_chance=drop_chance
+                )
+                self.lines.append(item_line)
+                self.current_line_num += 1
+
+            # Add gap after source (skip one line number)
             self.current_line_num += 1
 
         # Section footer
@@ -249,13 +460,13 @@ def test_generator():
 
     # Verify structure
     if 'AtlasLoot_Data["TheStockade"]' in lua_code:
-        print("\n✓ Section header correct")
+        print("\n[OK] Section header correct")
     if 'BabbleBoss["Targorr the Dread"]' in lua_code:
-        print("✓ Boss headers correct")
+        print("[OK] Boss headers correct")
     if '901100' in lua_code:
-        print("✓ Custom item IDs included")
+        print("[OK] Custom item IDs included")
     if lua_code.strip().endswith('};'):
-        print("✓ Section footer correct")
+        print("[OK] Section footer correct")
 
 
 if __name__ == "__main__":
