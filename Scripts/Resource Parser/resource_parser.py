@@ -391,6 +391,71 @@ class ResourceParser:
 
         return " → ".join(formatted_parts)
 
+    def normalize_export_folder_case(self):
+        """
+        Normalize all folder names in export directory to UPPERCASE.
+
+        This fixes case mismatches from previous runs (e.g., DUNGEONS vs Dungeons)
+        by merging lowercase/mixed-case folders into their uppercase equivalents.
+        """
+        export_dir = self.paths.get('export')
+        if not export_dir or not export_dir.exists():
+            return
+
+        self.log('\n  Normalizing export folder case...')
+
+        # Find all directories (walk bottom-up so we can rename children before parents)
+        dirs_to_check = []
+        for root, dirs, files in os.walk(export_dir, topdown=False):
+            for dir_name in dirs:
+                dir_path = Path(root) / dir_name
+                dirs_to_check.append(dir_path)
+
+        merged_count = 0
+        renamed_count = 0
+
+        for dir_path in dirs_to_check:
+            if not dir_path.exists():
+                continue  # May have been merged/renamed already
+
+            dir_name = dir_path.name
+            dir_upper = dir_name.upper()
+
+            if dir_name != dir_upper:
+                # This folder needs to be renamed/merged
+                target_path = dir_path.parent / dir_upper
+
+                if target_path.exists():
+                    # Merge: move all contents to uppercase folder, then remove
+                    for item in dir_path.iterdir():
+                        dest = target_path / item.name.upper() if item.is_dir() else target_path / item.name
+                        if item.is_file():
+                            if not dest.exists():
+                                shutil.move(str(item), str(dest))
+                        elif item.is_dir():
+                            if dest.exists():
+                                # Recursively merge
+                                for sub_item in item.rglob('*'):
+                                    if sub_item.is_file():
+                                        sub_rel = sub_item.relative_to(item)
+                                        sub_dest = dest / sub_rel
+                                        sub_dest.parent.mkdir(parents=True, exist_ok=True)
+                                        if not sub_dest.exists():
+                                            shutil.move(str(sub_item), str(sub_dest))
+                                shutil.rmtree(item, ignore_errors=True)
+                            else:
+                                shutil.move(str(item), str(dest))
+                    # Remove the now-empty lowercase folder
+                    shutil.rmtree(dir_path, ignore_errors=True)
+                    merged_count += 1
+                else:
+                    # Simple rename to uppercase
+                    dir_path.rename(target_path)
+                    renamed_count += 1
+
+        if merged_count > 0 or renamed_count > 0:
+            self.log(f'    Merged {merged_count} duplicate folders, renamed {renamed_count} folders to uppercase')
+
     def copy_patch_o_to_export(self):
         """
         Copy all Patch-O content to Export folder (Phase 0).
@@ -417,13 +482,20 @@ class ResourceParser:
         self.log(f'\nSource: {patch_o}')
         self.log(f'Destination: {export_dir}')
 
+        # Normalize existing export folder case (fix any previous mixed-case folders)
+        self.normalize_export_folder_case()
+
         # Count files to copy
+        # IMPORTANT: Normalize all paths to UPPERCASE for consistency
+        # This prevents duplicate folders with different casing (e.g., DUNGEONS vs Dungeons)
         files_to_copy = []
         for root, dirs, files in os.walk(patch_o):
             for file in files:
                 src_file = Path(root) / file
                 rel_path = src_file.relative_to(patch_o)
-                dst_file = export_dir / rel_path
+                # Normalize path to uppercase
+                rel_path_upper = Path(str(rel_path).upper())
+                dst_file = export_dir / rel_path_upper
                 files_to_copy.append((src_file, dst_file))
 
         self.log(f'Files to copy: {len(files_to_copy):,}')
@@ -1715,8 +1787,9 @@ class ResourceParser:
             # Skip files already extracted in previous phases
             if normalized in self.extracted:
                 continue
-            # Reconstruct proper path
-            dest_path = export_dir / normalized.replace('/', os.sep)
+            # Reconstruct proper path (ensure uppercase for consistency)
+            normalized_upper = normalized.upper().replace('/', os.sep)
+            dest_path = export_dir / normalized_upper
             dest_path.parent.mkdir(parents=True, exist_ok=True)
 
             try:
