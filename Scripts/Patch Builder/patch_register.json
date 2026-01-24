@@ -1,47 +1,13 @@
 {
   "format_version": "2.0",
-  "last_updated": "2026-01-23T21:10:35.707201Z",
+  "last_updated": "2026-01-24T19:10:49.745402Z",
   "server_metadata": {
-    "build_number": 46,
-    "last_build_timestamp": "2026-01-23T21:10:35.707210Z",
-    "dbc_version": 46,
+    "build_number": 62,
+    "last_build_timestamp": "2026-01-24T19:10:49.745413Z",
+    "dbc_version": 62,
     "patch_builder_version": "1.0.0"
   },
   "patches": {
-    "PATCH-4.MPQ": {
-      "name": "Open Azeroth Maps Assets",
-      "description": "Asset files required for the Open Azeroth world expansion",
-      "category": "World Expansion",
-      "size_mb": 250,
-      "version": 1,
-      "is_mandatory": false,
-      "is_enabled_by_default": true,
-      "requires": [],
-      "required_for": [
-        "PATCH-5.MPQ"
-      ],
-      "last_modified": "2025-07-13T00:00:00Z",
-      "checksum": "",
-      "build_source": "static",
-      "auto_update": false
-    },
-    "PATCH-5.MPQ": {
-      "name": "Open Azeroth Map",
-      "description": "New zones and areas from the Open Azeroth project",
-      "category": "World Expansion",
-      "size_mb": 180,
-      "version": 1,
-      "is_mandatory": false,
-      "is_enabled_by_default": true,
-      "requires": [
-        "PATCH-4.MPQ"
-      ],
-      "required_for": [],
-      "last_modified": "2025-07-13T00:00:00Z",
-      "checksum": "",
-      "build_source": "static",
-      "auto_update": false
-    },
     "PATCH-6.MPQ": {
       "name": "Modern NPC and Character Models + HD World Textures",
       "description": "High-definition character models and improved world textures",
@@ -179,6 +145,22 @@
       "build_source": "static",
       "auto_update": false
     },
+    "PATCH-O.MPQ": {
+      "name": "Open Azeroth",
+      "description": "Complete Open Azeroth world expansion - custom maps, models, and textures",
+      "category": "World Expansion",
+      "size_mb": 0,
+      "version": 1,
+      "is_mandatory": false,
+      "is_enabled_by_default": true,
+      "requires": [],
+      "required_for": [],
+      "last_modified": "2026-01-24T00:00:00Z",
+      "checksum": "",
+      "build_source": "resource_parser",
+      "auto_update": false,
+      "file_path": "MPQ/optional/PATCH-O.MPQ"
+    },
     "PATCH-S.MPQ": {
       "name": "Sunlight",
       "description": "Enhanced lighting and sunlight effects",
@@ -229,12 +211,12 @@
       "description": "Custom models, textures, and character customization options",
       "category": "Content Addition",
       "size_mb": 0,
-      "version": 15,
+      "version": 16,
       "is_mandatory": true,
       "is_enabled_by_default": true,
       "requires": [],
       "required_for": [],
-      "last_modified": "2026-01-23T21:10:35.706543Z",
+      "last_modified": "2026-01-23T21:28:05.218282Z",
       "checksum": "",
       "build_source": "generated",
       "auto_update": true,
@@ -246,12 +228,12 @@
       "description": "Database modifications for enhanced gameplay",
       "category": "Core Enhancement",
       "size_mb": 0,
-      "version": 46,
+      "version": 62,
       "is_mandatory": true,
       "is_enabled_by_default": true,
       "requires": [],
       "required_for": [],
-      "last_modified": "2026-01-23T21:10:35.705558Z",
+      "last_modified": "2026-01-24T19:10:49.744617Z",
       "checksum": "",
       "build_source": "generated",
       "auto_update": true,

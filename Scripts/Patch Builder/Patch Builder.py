@@ -466,10 +466,23 @@ def compare_and_generate_updates():
 parser = argparse.ArgumentParser(description='Patch Builder - Generate DBC diffs and build MPQ patches')
 parser.add_argument('--db-diff-only', action='store_true',
                     help='Generate SQL diffs only (skip GUI tools and MPQ building)')
+parser.add_argument('--build-patch-o', action='store_true',
+                    help='Build PATCH-O.MPQ only (runs Resource Parser)')
 args = parser.parse_args()
 
 # Determine build mode based on command-line args
-if args.db_diff_only:
+build_patch_o = False
+
+if args.build_patch_o:
+    print("\n" + "="*60)
+    print("PATCH BUILDER - PATCH-O Only Mode")
+    print("="*60)
+    print("Running Resource Parser to build PATCH-O.MPQ...")
+    print("="*60 + "\n")
+    build_patch_z = False
+    build_patch_x = False
+    build_patch_o = True
+elif args.db_diff_only:
     print("\n" + "="*60)
     print("PATCH BUILDER - DB Diff Only Mode")
     print("="*60)
@@ -485,19 +498,29 @@ else:
     print("="*60)
     print("1) PATCH-Z.MPQ only (DBC + AtlasLoot)")
     print("2) PATCH-X.MPQ only (Custom content)")
-    print("3) Both patches")
+    print("3) Both Z and X patches")
+    print("4) PATCH-O.MPQ only (Open Azeroth - runs Resource Parser)")
+    print("5) All patches (Z, X, and O)")
     print("="*60)
 
     while True:
-        choice = input("Enter your choice (1-3): ").strip()
-        if choice in ['1', '2', '3']:
+        choice = input("Enter your choice (1-5): ").strip()
+        if choice in ['1', '2', '3', '4', '5']:
             break
-        print("Invalid choice. Please enter 1, 2, or 3.")
+        print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
 
-    build_patch_z = choice in ['1', '3']
-    build_patch_x = choice in ['2', '3']
+    build_patch_z = choice in ['1', '3', '5']
+    build_patch_x = choice in ['2', '3', '5']
+    build_patch_o = choice in ['4', '5']
 
-    print(f"\nBuilding: {'PATCH-Z' if build_patch_z else ''}{' and ' if build_patch_z and build_patch_x else ''}{'PATCH-X' if build_patch_x else ''}")
+    patches_to_build = []
+    if build_patch_z:
+        patches_to_build.append('PATCH-Z')
+    if build_patch_x:
+        patches_to_build.append('PATCH-X')
+    if build_patch_o:
+        patches_to_build.append('PATCH-O')
+    print(f"\nBuilding: {', '.join(patches_to_build)}")
     print("="*60 + "\n")
 
 # Function to update ITEM.DBC
@@ -750,8 +773,8 @@ if build_patch_z and not args.db_diff_only:
     # Copy DBC files to Server
     shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
-# Generate AtlasLoot tables from database (before building PATCH-X)
-if not args.db_diff_only and build_patch_x:
+# Generate AtlasLoot tables from database (AtlasLoot is in PATCH-Z)
+if not args.db_diff_only and build_patch_z:
     print("\n" + "="*60)
     print("Generating AtlasLoot tables from database...")
     print("="*60)
@@ -779,7 +802,13 @@ if not args.db_diff_only and build_patch_x:
                 print("⚠ Warning: AtlasLoot generator completed with warnings")
                 print(f"  Exit code: {result.returncode}")
                 if result.stderr:
-                    print(f"  Error: {result.stderr[:200]}")
+                    print(f"  Error output:\n{result.stderr}")
+                if result.stdout:
+                    # Show last 20 lines of stdout for context
+                    stdout_lines = result.stdout.strip().split('\n')
+                    print(f"  Last output lines:")
+                    for line in stdout_lines[-20:]:
+                        print(f"    {line}")
         except Exception as e:
             print(f"⚠ Warning: Could not run AtlasLoot generator: {e}")
             print("  Continuing with existing AtlasLoot data...")
@@ -800,6 +829,26 @@ if not args.db_diff_only:
         subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
         print("✓ PATCH-X.MPQ built successfully")
 
+    if build_patch_o:
+        print("\nBuilding PATCH-O.MPQ (Running Resource Parser)...")
+        resource_parser_script = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Resource Parser', 'resource_parser.py')
+
+        if os.path.exists(resource_parser_script):
+            try:
+                # Run Resource Parser - it will handle extraction and MPQ building
+                result = subprocess.run(
+                    ['python', resource_parser_script],
+                    cwd=os.path.dirname(resource_parser_script),
+                    check=True
+                )
+                print("✓ PATCH-O.MPQ built successfully via Resource Parser")
+            except subprocess.CalledProcessError as e:
+                print(f"✗ Resource Parser failed with exit code {e.returncode}")
+                build_patch_o = False  # Don't update register if build failed
+        else:
+            print(f"✗ Resource Parser not found: {resource_parser_script}")
+            build_patch_o = False
+
 
 # Update patch register with new versions (skip in db-diff-only mode)
 if not args.db_diff_only:
@@ -817,6 +866,11 @@ if not args.db_diff_only:
             x_success = update_patch_metadata(patch_register, 'PATCH-X.MPQ')
             if not x_success:
                 print("Warning: Failed to update PATCH-X.MPQ metadata")
+
+        if build_patch_o:
+            o_success = update_patch_metadata(patch_register, 'PATCH-O.MPQ')
+            if not o_success:
+                print("Warning: Failed to update PATCH-O.MPQ metadata")
 
         # Update server build number
         patch_register['server_metadata']['build_number'] += 1
@@ -838,6 +892,13 @@ if args.db_diff_only:
     print("DB DIFF GENERATION COMPLETE")
     print("="*60)
     print("✓ SQL diffs generated in Updates folder")
+elif args.build_patch_o:
+    print("PATCH-O BUILD COMPLETE")
+    print("="*60)
+    if build_patch_o:
+        print("✓ PATCH-O.MPQ (Open Azeroth)")
+    else:
+        print("✗ PATCH-O.MPQ build failed")
 else:
     print("PATCH BUILD COMPLETE")
     print("="*60)
@@ -845,4 +906,6 @@ else:
         print("✓ PATCH-Z.MPQ (DBC + AtlasLoot)")
     if build_patch_x:
         print("✓ PATCH-X.MPQ (Custom content)")
+    if build_patch_o:
+        print("✓ PATCH-O.MPQ (Open Azeroth)")
 print("="*60)

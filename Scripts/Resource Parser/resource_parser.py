@@ -403,7 +403,9 @@ class ResourceParser:
         """
         import shutil
 
-        self.log('\nSTEP 1: Copying Patch-O content to Export folder')
+        self.log('\n' + '='*80)
+        self.log('STEP 1: Copying Patch-O content to Export folder')
+        self.log('='*80)
 
         patch_o = self.paths.get('patch_o')
         export_dir = self.paths['export']
@@ -1582,7 +1584,7 @@ class ResourceParser:
         Organizes files by folder for fast lookups during related asset discovery.
         """
         self.log('\n' + '='*80)
-        self.log('\nSTEP 0: Building assets directory cache')
+        self.log('STEP 0: Building assets directory cache')
         self.log('='*80)
 
         file_count = 0
@@ -1921,14 +1923,12 @@ class ResourceParser:
         if not self.duplicate_wmos:
             return
 
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-
-        # Determine report filename based on whether fixes were applied
+        # Determine report filename based on whether fixes were applied (overwrites previous)
         if self.fixed_adts:
-            report_path = Path(__file__).parent / f'duplicate_wmos_fixed_{timestamp}.txt'
+            report_path = Path(__file__).parent / 'duplicate_wmos_fixed.txt'
             report_title = 'DUPLICATE WMO FIX REPORT'
         else:
-            report_path = Path(__file__).parent / f'duplicate_wmos_{timestamp}.txt'
+            report_path = Path(__file__).parent / 'duplicate_wmos.txt'
             report_title = 'DUPLICATE WMO DETECTION REPORT'
 
         lines = []
@@ -2029,7 +2029,7 @@ class ResourceParser:
     def generate_log(self):
         """Generate final log file"""
         self.log('\n' + '='*80)
-        self.log('STEP 17: Generating log file')
+        self.log('STEP 18: Generating log file')
         self.log('='*80)
 
         log_path = Path(__file__).parent / 'resource_parser.log'
@@ -2336,7 +2336,9 @@ class ResourceParser:
             self.log('\n  MPQ building disabled in config (build_mpq = false)')
             return False
 
-        self.log('\nSTEP 18: Building MPQ file')
+        self.log('\n' + '='*80)
+        self.log('STEP 17: Building MPQ file')
+        self.log('='*80)
 
         # Get MPQ configuration
         mpq_editor = self.paths.get('mpq_editor')
@@ -2361,11 +2363,18 @@ class ResourceParser:
             self.log(f'      MPQ building requires MPQEditor.exe from Ladik\'s MPQ Editor')
             return False
 
-        # Count files to package
-        files_to_package = list(export_dir.rglob('*'))
-        files_to_package = [f for f in files_to_package if f.is_file()]
+        # Count files to package (handle network errors gracefully)
+        self.log('\nScanning export directory...')
+        try:
+            files_to_package = list(export_dir.rglob('*'))
+            files_to_package = [f for f in files_to_package if f.is_file()]
+            file_count = len(files_to_package)
+        except OSError as e:
+            self.log(f'\n  ⚠️  Network error scanning files: {e}')
+            self.log(f'  Proceeding with MPQ build using directory wildcard...')
+            file_count = None  # Skip file count due to network error
 
-        if not files_to_package:
+        if file_count == 0:
             self.log('\n  ⚠️  No files in export directory to package')
             return False
 
@@ -2373,7 +2382,10 @@ class ResourceParser:
         self.log(f'  MPQEditor: {mpq_editor}')
         self.log(f'  Output MPQ: {mpq_output}')
         self.log(f'  Source Dir: {export_dir}')
-        self.log(f'  Files to package: {len(files_to_package):,}')
+        if file_count:
+            self.log(f'  Files to package: {file_count:,}')
+        else:
+            self.log(f'  Files to package: (count unavailable due to network)')
 
         # Generate MPQ script file
         # MPQEditor console format:
@@ -2404,55 +2416,66 @@ class ResourceParser:
             # Exit
             script_content.append('exit')
 
-            script_text = '\n'.join(script_content)
+            script_text = '\r\n'.join(script_content)  # Windows line endings
 
-            # Write script to temp file
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+            # Write script to temp file in MPQEditor directory
+            script_path = mpq_editor.parent / 'resource_parser_build.txt'
+            with open(script_path, 'w') as f:
                 f.write(script_text)
-                script_path = f.name
 
-            self.log(f'\nGenerated MPQ script:')
+            self.log(f'\nGenerated MPQ script ({script_path}):')
             for line in script_content:
                 self.log(f'  {line}')
 
-            # Run MPQEditor with script
-            self.log(f'\nExecuting MPQEditor...')
+            # Run MPQEditor with script (exact same approach as Patch Builder)
+            if file_count:
+                self.log(f'\nExecuting MPQEditor (this may take several minutes for {file_count:,} files)...')
+            else:
+                self.log(f'\nExecuting MPQEditor (this may take several minutes)...')
+            self.log(f'  (No progress output - wait for completion)')
 
-            result = subprocess.run(
-                [str(mpq_editor), '/console', script_path],
-                capture_output=True,
-                text=True,
-                cwd=str(mpq_editor.parent),
-                timeout=600  # 10 minute timeout
-            )
+            start_time = datetime.now()
 
-            # Clean up temp script
+            # Change to MPQEditor directory and run exactly like Patch Builder
+            original_dir = os.getcwd()
+            os.chdir(mpq_editor.parent)
             try:
-                os.unlink(script_path)
+                subprocess.run(
+                    ['MPQEditor.exe', '/console', str(script_path)],
+                    check=True
+                )
+                success = True
+            except subprocess.CalledProcessError as e:
+                self.log(f'\n  ❌ MPQEditor failed with code {e.returncode}')
+                success = False
+            finally:
+                os.chdir(original_dir)
+
+            elapsed_total = (datetime.now() - start_time).total_seconds()
+
+            # Clean up script file
+            try:
+                script_path.unlink()
             except:
                 pass
 
-            if result.returncode == 0:
-                # Get file size
+            if success:
+                # Verify MPQ was actually created
                 if mpq_output.exists():
                     size_mb = mpq_output.stat().st_size / (1024 * 1024)
-                    self.log(f'\n  ✅ MPQ built successfully: {mpq_output}')
+                    # Sanity check - 26k files should produce a reasonably sized MPQ
+                    if file_count and size_mb < 10:
+                        self.log(f'\n  ⚠️  MPQ suspiciously small ({size_mb:.1f} MB for {file_count:,} files)')
+                        self.log(f'  Build may have failed silently')
+                        return False
+                    self.log(f'\n  ✅ MPQ built successfully ({elapsed_total:.0f}s): {mpq_output}')
                     self.log(f'  📦 Size: {size_mb:.1f} MB')
                     return True
                 else:
-                    self.log(f'\n  ⚠️  MPQEditor completed but output file not found')
+                    self.log(f'\n  ❌ MPQEditor completed but output file not found')
                     return False
             else:
-                self.log(f'\n  ❌ MPQEditor failed with code {result.returncode}')
-                if result.stdout:
-                    self.log(f'  stdout: {result.stdout[:500]}')
-                if result.stderr:
-                    self.log(f'  stderr: {result.stderr[:500]}')
                 return False
-
-        except subprocess.TimeoutExpired:
-            self.log(f'\n  ❌ MPQEditor timed out after 10 minutes')
-            return False
         except Exception as e:
             self.log(f'\n  ❌ Error building MPQ: {e}')
             return False
@@ -2583,19 +2606,20 @@ class ResourceParser:
             self.analyze_missing_by_area()
             self.generate_duplicate_wmo_report()
 
-            # Step 17: Generate log file
-            log_path = self.generate_log()
-
-            # Step 18: Build MPQ (optional)
+            # Step 17: Build MPQ (optional)
             mpq_success = self.build_mpq()
 
+            # Final completion message (added to log buffer before log generation)
             self.log('\n' + '='*80)
             self.log('EXTRACTION COMPLETE')
             self.log('='*80)
-            self.log(f'Log File: {log_path}')
             if mpq_success:
                 self.log(f'MPQ File: {self.paths.get("mpq_output", "N/A")}')
             self.log('='*80)
+
+            # Step 18: Generate log file (LAST - captures all output including MPQ build)
+            log_path = self.generate_log()
+            self.log(f'Log File: {log_path}')
 
         except Exception as e:
             self.log(f'\nERROR: {str(e)}')
