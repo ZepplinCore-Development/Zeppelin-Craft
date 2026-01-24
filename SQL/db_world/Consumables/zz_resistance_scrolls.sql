@@ -2143,7 +2143,7 @@ INSERT INTO `item_template` SET
 --   Holy: Exarch Maladaar (18373 - Auchenai), Avatar of the Martyred (18478 - Auchenai)
 -- =====================================================
 
--- Clean up existing entries for Rank VI recipes
+-- Clean up existing entries for Rank VI recipes (normal + heroic)
 DELETE FROM `creature_loot_template` WHERE `Item` IN (57459, 57464, 57469, 57474, 57479, 57484);
 
 -- Fire Resistance VI - Magister's Terrace / Mechanar
@@ -2175,6 +2175,41 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
 (18373, 57484, 15, 'Exarch Maladaar - Technique: Scroll of Holy Resistance VI'),
 (18478, 57484, 15, 'Avatar of the Martyred - Technique: Scroll of Holy Resistance VI');
+
+-- =====================================================
+-- RANK VI HEROIC MODE DROPS (25% drop rate)
+-- =====================================================
+-- TBC Heroic dungeons use difficulty_entry_1 creatures with separate loot tables
+
+-- Fire Resistance VI - Heroic Magister's Terrace / Mechanar
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(24857, 57459, 25, 'Kael''thas Sunstrider (Heroic) - Technique: Scroll of Fire Resistance VI'),
+(21537, 57459, 25, 'Pathaleon the Calculator (Heroic) - Technique: Scroll of Fire Resistance VI');
+
+-- Frost Resistance VI - Heroic Botanica
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(21558, 57464, 25, 'High Botanist Freywinn (Heroic) - Technique: Scroll of Frost Resistance VI'),
+(21582, 57464, 25, 'Warp Splinter (Heroic) - Technique: Scroll of Frost Resistance VI');
+
+-- Arcane Resistance VI - Heroic Arcatraz
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(21601, 57469, 25, 'Harbinger Skyriss (Heroic) - Technique: Scroll of Arcane Resistance VI'),
+(21590, 57469, 25, 'Dalliah the Doomsayer (Heroic) - Technique: Scroll of Arcane Resistance VI');
+
+-- Shadow Resistance VI - Heroic Shadow Labyrinth
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(20657, 57474, 25, 'Murmur (Heroic) - Technique: Scroll of Shadow Resistance VI'),
+(20653, 57474, 25, 'Grandmaster Vorpil (Heroic) - Technique: Scroll of Shadow Resistance VI');
+
+-- Nature Resistance VI - Heroic Underbog
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(20169, 57479, 25, 'Hungarfen (Heroic) - Technique: Scroll of Nature Resistance VI'),
+(20183, 57479, 25, 'Swamplord Musel''ek (Heroic) - Technique: Scroll of Nature Resistance VI');
+
+-- Holy Resistance VI - Heroic Auchenai Crypts
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(20306, 57484, 25, 'Exarch Maladaar (Heroic) - Technique: Scroll of Holy Resistance VI'),
+(20303, 57484, 25, 'Avatar of the Martyred (Heroic) - Technique: Scroll of Holy Resistance VI');
 
 -- =====================================================
 -- RANK VIII RECIPE ITEMS (WotLK Dungeons)
@@ -2345,7 +2380,7 @@ INSERT INTO `item_template` SET
 --   Holy: The Prophet Tharon'ja (26632 - Drak'Tharon), Sjonnir (27978 - HoS)
 -- =====================================================
 
--- Clean up existing entries for Rank VIII recipes
+-- Clean up existing entries for Rank VIII recipes (normal + heroic)
 DELETE FROM `creature_loot_template` WHERE `Item` IN (57460, 57465, 57470, 57475, 57480, 57485);
 
 -- Fire Resistance VIII - Halls of Lightning
@@ -2377,3 +2412,38 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
 (26632, 57485, 15, 'The Prophet Tharon''ja - Technique: Scroll of Holy Resistance VIII'),
 (27978, 57485, 15, 'Sjonnir the Ironshaper - Technique: Scroll of Holy Resistance VIII');
+
+-- =====================================================
+-- RANK VIII HEROIC MODE DROPS (25% drop rate)
+-- =====================================================
+-- WotLK Heroic dungeons use difficulty_entry_1 creatures with separate loot tables
+
+-- Fire Resistance VIII - Heroic Halls of Lightning
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(31538, 57460, 25, 'Loken (Heroic) - Technique: Scroll of Fire Resistance VIII'),
+(31533, 57460, 25, 'General Bjarngrim (Heroic) - Technique: Scroll of Fire Resistance VIII');
+
+-- Frost Resistance VIII - Heroic Pit of Saron
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(36938, 57465, 25, 'Scourgelord Tyrannus (Heroic) - Technique: Scroll of Frost Resistance VIII'),
+(37613, 57465, 25, 'Forgemaster Garfrost (Heroic) - Technique: Scroll of Frost Resistance VIII');
+
+-- Arcane Resistance VIII - Heroic Oculus
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(31561, 57470, 25, 'Ley-Guardian Eregos (Heroic) - Technique: Scroll of Arcane Resistance VIII'),
+(31560, 57470, 25, 'Mage-Lord Urom (Heroic) - Technique: Scroll of Arcane Resistance VIII');
+
+-- Shadow Resistance VIII - Heroic Forge of Souls
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(37677, 57475, 25, 'Devourer of Souls (Heroic) - Technique: Scroll of Shadow Resistance VIII'),
+(36498, 57475, 25, 'Bronjahm (Heroic) - Technique: Scroll of Shadow Resistance VIII');
+
+-- Nature Resistance VIII - Heroic Gundrak
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(31368, 57480, 25, 'Gal''darah (Heroic) - Technique: Scroll of Nature Resistance VIII'),
+(31370, 57480, 25, 'Slad''ran (Heroic) - Technique: Scroll of Nature Resistance VIII');
+
+-- Holy Resistance VIII - Heroic Drak'Tharon / Halls of Stone
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(31360, 57485, 25, 'The Prophet Tharon''ja (Heroic) - Technique: Scroll of Holy Resistance VIII'),
+(31386, 57485, 25, 'Sjonnir the Ironshaper (Heroic) - Technique: Scroll of Holy Resistance VIII');
