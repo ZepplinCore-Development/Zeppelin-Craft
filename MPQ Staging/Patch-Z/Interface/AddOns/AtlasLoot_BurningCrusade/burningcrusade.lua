@@ -2580,37 +2580,6 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 20, 27456, "", "=q3=Raiments of Nature's Breath", "=ds=#a2#", "", "20.0%" };
 	};
 
-	AtlasLoot_Data["HCRampReinforcedChest"] = {
-    { 1, 24044, "", "=q3=Hellreaver", "=ds=#w7#", "", "10.0%" };
-    { 2, 24045, "", "=q3=Band of Renewal", "=ds=#e15#", "", "10.0%" };
-    { 3, 24046, "", "=q3=Kilt of Rolling Thunders", "=ds=#a3#", "", "10.0%" };
-    { 4, 24063, "", "=q3=Shifting Sash of Midnight", "=ds=#a2#", "", "10.0%" };
-    { 5, 24064, "", "=q3=Ironsole Clompers", "=ds=#a4#", "", "10.0%" };
-    { 6, 24083, "", "=q3=Lifegiver Britches", "=ds=#a1#", "", "10.0%" };
-    { 7, 24150, "", "=q3=Mok'Nathal Wildercloak", "=ds=#a1#", "", "10.0%" };
-    { 8, 24151, "", "=q3=Mok'Nathal Clan Ring", "=ds=#e15#", "", "10.0%" };
-    { 9, 24154, "", "=q3=Witching Band", "=ds=#e15#", "", "10.0%" };
-    { 10, 24155, "", "=q3=Ursol's Claw", "=ds=#w9#", "", "10.0%" };
-	};
-
-	AtlasLoot_Data["HCRampReinforcedChestHEROIC"] = {
-    { 1, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
-    { 3, 29238, "", "=q4=Lion's Heart Girdle", "=ds=#a4#", "", "25.0%" };
-    { 4, 29264, "", "=q4=Tree-Mender's Belt", "=ds=#a2#", "", "25.0%" };
-    { 5, 29346, "", "=q4=Feltooth Eviscerator", "=ds=#w4#", "", "25.0%" };
-    { 6, 32077, "", "=q4=Wrath Infused Gauntlets", "=ds=#a3#", "", "25.0%" };
-    { 7, 27457, "", "=q3=Life Bearer's Gauntlets", "=ds=#a4#", "", "20.0%" };
-    { 8, 27458, "", "=q3=Oceansong Kilt", "=ds=#a3#", "", "20.0%" };
-    { 9, 27459, "", "=q3=Vambraces of Daring", "=ds=#a4#", "", "20.0%" };
-    { 10, 27460, "", "=q3=Reavers' Ring", "=ds=#e15#", "", "20.0%" };
-    { 11, 27461, "", "=q3=Chestguard of the Prowler", "=ds=#a2#", "", "20.0%" };
-    { 16, 27452, "", "=q3=Light Scribe Bands", "=ds=#a1#", "", "20.0%" };
-    { 17, 27453, "", "=q3=Averinn's Ring of Slaying", "=ds=#e15#", "", "20.0%" };
-    { 18, 27454, "", "=q3=Volcanic Pauldrons", "=ds=#a3#", "", "20.0%" };
-    { 19, 27455, "", "=q3=Irondrake Faceguard", "=ds=#a4#", "", "20.0%" };
-    { 20, 27456, "", "=q3=Raiments of Nature's Breath", "=ds=#a2#", "", "20.0%" };
-	};
-
 	AtlasLoot_Data["HCMagtheridon"] = {
     { 1, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
     { 2, 32385, "", "=q4=Magtheridon's Head", "=ds=#e10#", "", "100%" };
