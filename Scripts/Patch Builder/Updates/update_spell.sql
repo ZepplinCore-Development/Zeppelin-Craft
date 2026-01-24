@@ -28050,3 +28050,33 @@ INSERT INTO `dbc`.`spell` SET
     `SchoolMask` = 1,
     `EffectBonusMultiplier2` = 1.0;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 104003;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 104003,
+    `Attributes` = 192,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = -1,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 256,
+    `EffectMiscValue1` = 5,
+    `EffectSpellClassMaskA1` = 40,
+    `EffectSpellClassMaskA3` = 1,
+    `SpellIconID` = 1,
+    `SpellName0` = 'Paladin Buff Mastery',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712188,
+    `SpellDescription0` = 'Your Prayer of Fortitude and Prayer of Spirit spells no longer require a reagent.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTipFlags7` = 16712188,
+    `SpellFamilyName` = 6,
+    `EffectDamageMultiplier1` = 1.0,
+    `EffectDamageMultiplier2` = 1.0,
+    `EffectDamageMultiplier3` = 1.0,
+    `SchoolMask` = 1,
+    `EffectBonusMultiplier2` = 1.0;
+
