@@ -1,7 +1,9 @@
 -- F-015: Magic Resistance Scrolls - Item Templates
 -- Creates 48 scroll consumable items (6 types × 8 ranks)
--- Item IDs: 902331 - 902378
--- Links to spell IDs: 103198 - 103245
+-- Scroll Item IDs: 57408 - 57455 (Inscription range)
+-- Recipe Item IDs: 57456 - 57485 (Inscription range)
+-- Links to buff spell IDs: 103198 - 103245
+-- Crafting spell IDs: 103300 - 103347
 --
 -- Note: Scroll of Protection (vanilla item) already provides armor buff
 -- Execute against acore_world database
@@ -10,11 +12,11 @@
 -- FIRE RESISTANCE SCROLLS (Spell IDs: 103198-103205)
 -- ============================================================================
 
--- Scroll of Fire Resistance (Rank I) - Item 902331, Spell 103198
-DELETE FROM `item_template` WHERE `entry` = 902331;
+-- Scroll of Fire Resistance (Rank I) - Item 57408, Spell 103198
+DELETE FROM `item_template` WHERE `entry` = 57408;
 
 INSERT INTO `item_template` SET
-    `entry` = 902331,
+    `entry` = 57408,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance',
     `displayid` = 154865,
@@ -33,11 +35,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance II (Rank II) - Item 902332, Spell 103199
-DELETE FROM `item_template` WHERE `entry` = 902332;
+-- Scroll of Fire Resistance II (Rank II) - Item 57409, Spell 103199
+DELETE FROM `item_template` WHERE `entry` = 57409;
 
 INSERT INTO `item_template` SET
-    `entry` = 902332,
+    `entry` = 57409,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance II',
     `displayid` = 154865,
@@ -56,11 +58,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance III (Rank III) - Item 902333, Spell 103200
-DELETE FROM `item_template` WHERE `entry` = 902333;
+-- Scroll of Fire Resistance III (Rank III) - Item 57410, Spell 103200
+DELETE FROM `item_template` WHERE `entry` = 57410;
 
 INSERT INTO `item_template` SET
-    `entry` = 902333,
+    `entry` = 57410,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance III',
     `displayid` = 154865,
@@ -79,11 +81,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance IV (Rank IV) - Item 902334, Spell 103201
-DELETE FROM `item_template` WHERE `entry` = 902334;
+-- Scroll of Fire Resistance IV (Rank IV) - Item 57411, Spell 103201
+DELETE FROM `item_template` WHERE `entry` = 57411;
 
 INSERT INTO `item_template` SET
-    `entry` = 902334,
+    `entry` = 57411,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance IV',
     `displayid` = 154865,
@@ -102,11 +104,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance V (Rank V) - Item 902335, Spell 103202
-DELETE FROM `item_template` WHERE `entry` = 902335;
+-- Scroll of Fire Resistance V (Rank V) - Item 57412, Spell 103202
+DELETE FROM `item_template` WHERE `entry` = 57412;
 
 INSERT INTO `item_template` SET
-    `entry` = 902335,
+    `entry` = 57412,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance V',
     `displayid` = 154865,
@@ -125,11 +127,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance VI (Rank VI) - Item 902336, Spell 103203
-DELETE FROM `item_template` WHERE `entry` = 902336;
+-- Scroll of Fire Resistance VI (Rank VI) - Item 57413, Spell 103203
+DELETE FROM `item_template` WHERE `entry` = 57413;
 
 INSERT INTO `item_template` SET
-    `entry` = 902336,
+    `entry` = 57413,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VI',
     `displayid` = 154865,
@@ -148,11 +150,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance VII (Rank VII) - Item 902337, Spell 103204
-DELETE FROM `item_template` WHERE `entry` = 902337;
+-- Scroll of Fire Resistance VII (Rank VII) - Item 57414, Spell 103204
+DELETE FROM `item_template` WHERE `entry` = 57414;
 
 INSERT INTO `item_template` SET
-    `entry` = 902337,
+    `entry` = 57414,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VII',
     `displayid` = 154865,
@@ -171,11 +173,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Fire Resistance VIII (Rank VIII) - Item 902338, Spell 103205
-DELETE FROM `item_template` WHERE `entry` = 902338;
+-- Scroll of Fire Resistance VIII (Rank VIII) - Item 57415, Spell 103205
+DELETE FROM `item_template` WHERE `entry` = 57415;
 
 INSERT INTO `item_template` SET
-    `entry` = 902338,
+    `entry` = 57415,
     `subclass` = 4,
     `name` = 'Scroll of Fire Resistance VIII',
     `displayid` = 154865,
@@ -198,11 +200,11 @@ INSERT INTO `item_template` SET
 -- FROST RESISTANCE SCROLLS (Spell IDs: 103206-103213)
 -- ============================================================================
 
--- Scroll of Frost Resistance (Rank I) - Item 902339, Spell 103206
-DELETE FROM `item_template` WHERE `entry` = 902339;
+-- Scroll of Frost Resistance (Rank I) - Item 57416, Spell 103206
+DELETE FROM `item_template` WHERE `entry` = 57416;
 
 INSERT INTO `item_template` SET
-    `entry` = 902339,
+    `entry` = 57416,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance',
     `displayid` = 154864,
@@ -221,11 +223,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance II (Rank II) - Item 902340, Spell 103207
-DELETE FROM `item_template` WHERE `entry` = 902340;
+-- Scroll of Frost Resistance II (Rank II) - Item 57417, Spell 103207
+DELETE FROM `item_template` WHERE `entry` = 57417;
 
 INSERT INTO `item_template` SET
-    `entry` = 902340,
+    `entry` = 57417,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance II',
     `displayid` = 154864,
@@ -244,11 +246,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance III (Rank III) - Item 902341, Spell 103208
-DELETE FROM `item_template` WHERE `entry` = 902341;
+-- Scroll of Frost Resistance III (Rank III) - Item 57418, Spell 103208
+DELETE FROM `item_template` WHERE `entry` = 57418;
 
 INSERT INTO `item_template` SET
-    `entry` = 902341,
+    `entry` = 57418,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance III',
     `displayid` = 154864,
@@ -267,11 +269,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance IV (Rank IV) - Item 902342, Spell 103209
-DELETE FROM `item_template` WHERE `entry` = 902342;
+-- Scroll of Frost Resistance IV (Rank IV) - Item 57419, Spell 103209
+DELETE FROM `item_template` WHERE `entry` = 57419;
 
 INSERT INTO `item_template` SET
-    `entry` = 902342,
+    `entry` = 57419,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance IV',
     `displayid` = 154864,
@@ -290,11 +292,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance V (Rank V) - Item 902343, Spell 103210
-DELETE FROM `item_template` WHERE `entry` = 902343;
+-- Scroll of Frost Resistance V (Rank V) - Item 57420, Spell 103210
+DELETE FROM `item_template` WHERE `entry` = 57420;
 
 INSERT INTO `item_template` SET
-    `entry` = 902343,
+    `entry` = 57420,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance V',
     `displayid` = 154864,
@@ -313,11 +315,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance VI (Rank VI) - Item 902344, Spell 103211
-DELETE FROM `item_template` WHERE `entry` = 902344;
+-- Scroll of Frost Resistance VI (Rank VI) - Item 57421, Spell 103211
+DELETE FROM `item_template` WHERE `entry` = 57421;
 
 INSERT INTO `item_template` SET
-    `entry` = 902344,
+    `entry` = 57421,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VI',
     `displayid` = 154864,
@@ -336,11 +338,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance VII (Rank VII) - Item 902345, Spell 103212
-DELETE FROM `item_template` WHERE `entry` = 902345;
+-- Scroll of Frost Resistance VII (Rank VII) - Item 57422, Spell 103212
+DELETE FROM `item_template` WHERE `entry` = 57422;
 
 INSERT INTO `item_template` SET
-    `entry` = 902345,
+    `entry` = 57422,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VII',
     `displayid` = 154864,
@@ -359,11 +361,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Frost Resistance VIII (Rank VIII) - Item 902346, Spell 103213
-DELETE FROM `item_template` WHERE `entry` = 902346;
+-- Scroll of Frost Resistance VIII (Rank VIII) - Item 57423, Spell 103213
+DELETE FROM `item_template` WHERE `entry` = 57423;
 
 INSERT INTO `item_template` SET
-    `entry` = 902346,
+    `entry` = 57423,
     `subclass` = 4,
     `name` = 'Scroll of Frost Resistance VIII',
     `displayid` = 154864,
@@ -386,11 +388,11 @@ INSERT INTO `item_template` SET
 -- ARCANE RESISTANCE SCROLLS (Spell IDs: 103214-103221)
 -- ============================================================================
 
--- Scroll of Arcane Resistance (Rank I) - Item 902347, Spell 103214
-DELETE FROM `item_template` WHERE `entry` = 902347;
+-- Scroll of Arcane Resistance (Rank I) - Item 57424, Spell 103214
+DELETE FROM `item_template` WHERE `entry` = 57424;
 
 INSERT INTO `item_template` SET
-    `entry` = 902347,
+    `entry` = 57424,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance',
     `displayid` = 141292,
@@ -409,11 +411,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance II (Rank II) - Item 902348, Spell 103215
-DELETE FROM `item_template` WHERE `entry` = 902348;
+-- Scroll of Arcane Resistance II (Rank II) - Item 57425, Spell 103215
+DELETE FROM `item_template` WHERE `entry` = 57425;
 
 INSERT INTO `item_template` SET
-    `entry` = 902348,
+    `entry` = 57425,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance II',
     `displayid` = 141292,
@@ -432,11 +434,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance III (Rank III) - Item 902349, Spell 103216
-DELETE FROM `item_template` WHERE `entry` = 902349;
+-- Scroll of Arcane Resistance III (Rank III) - Item 57426, Spell 103216
+DELETE FROM `item_template` WHERE `entry` = 57426;
 
 INSERT INTO `item_template` SET
-    `entry` = 902349,
+    `entry` = 57426,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance III',
     `displayid` = 141292,
@@ -455,11 +457,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance IV (Rank IV) - Item 902350, Spell 103217
-DELETE FROM `item_template` WHERE `entry` = 902350;
+-- Scroll of Arcane Resistance IV (Rank IV) - Item 57427, Spell 103217
+DELETE FROM `item_template` WHERE `entry` = 57427;
 
 INSERT INTO `item_template` SET
-    `entry` = 902350,
+    `entry` = 57427,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance IV',
     `displayid` = 141292,
@@ -478,11 +480,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance V (Rank V) - Item 902351, Spell 103218
-DELETE FROM `item_template` WHERE `entry` = 902351;
+-- Scroll of Arcane Resistance V (Rank V) - Item 57428, Spell 103218
+DELETE FROM `item_template` WHERE `entry` = 57428;
 
 INSERT INTO `item_template` SET
-    `entry` = 902351,
+    `entry` = 57428,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance V',
     `displayid` = 141292,
@@ -501,11 +503,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance VI (Rank VI) - Item 902352, Spell 103219
-DELETE FROM `item_template` WHERE `entry` = 902352;
+-- Scroll of Arcane Resistance VI (Rank VI) - Item 57429, Spell 103219
+DELETE FROM `item_template` WHERE `entry` = 57429;
 
 INSERT INTO `item_template` SET
-    `entry` = 902352,
+    `entry` = 57429,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VI',
     `displayid` = 141292,
@@ -524,11 +526,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance VII (Rank VII) - Item 902353, Spell 103220
-DELETE FROM `item_template` WHERE `entry` = 902353;
+-- Scroll of Arcane Resistance VII (Rank VII) - Item 57430, Spell 103220
+DELETE FROM `item_template` WHERE `entry` = 57430;
 
 INSERT INTO `item_template` SET
-    `entry` = 902353,
+    `entry` = 57430,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VII',
     `displayid` = 141292,
@@ -547,11 +549,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Arcane Resistance VIII (Rank VIII) - Item 902354, Spell 103221
-DELETE FROM `item_template` WHERE `entry` = 902354;
+-- Scroll of Arcane Resistance VIII (Rank VIII) - Item 57431, Spell 103221
+DELETE FROM `item_template` WHERE `entry` = 57431;
 
 INSERT INTO `item_template` SET
-    `entry` = 902354,
+    `entry` = 57431,
     `subclass` = 4,
     `name` = 'Scroll of Arcane Resistance VIII',
     `displayid` = 141292,
@@ -574,11 +576,11 @@ INSERT INTO `item_template` SET
 -- SHADOW RESISTANCE SCROLLS (Spell IDs: 103222-103229)
 -- ============================================================================
 
--- Scroll of Shadow Resistance (Rank I) - Item 902355, Spell 103222
-DELETE FROM `item_template` WHERE `entry` = 902355;
+-- Scroll of Shadow Resistance (Rank I) - Item 57432, Spell 103222
+DELETE FROM `item_template` WHERE `entry` = 57432;
 
 INSERT INTO `item_template` SET
-    `entry` = 902355,
+    `entry` = 57432,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance',
     `displayid` = 139967,
@@ -597,11 +599,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance II (Rank II) - Item 902356, Spell 103223
-DELETE FROM `item_template` WHERE `entry` = 902356;
+-- Scroll of Shadow Resistance II (Rank II) - Item 57433, Spell 103223
+DELETE FROM `item_template` WHERE `entry` = 57433;
 
 INSERT INTO `item_template` SET
-    `entry` = 902356,
+    `entry` = 57433,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance II',
     `displayid` = 139967,
@@ -620,11 +622,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance III (Rank III) - Item 902357, Spell 103224
-DELETE FROM `item_template` WHERE `entry` = 902357;
+-- Scroll of Shadow Resistance III (Rank III) - Item 57434, Spell 103224
+DELETE FROM `item_template` WHERE `entry` = 57434;
 
 INSERT INTO `item_template` SET
-    `entry` = 902357,
+    `entry` = 57434,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance III',
     `displayid` = 139967,
@@ -643,11 +645,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance IV (Rank IV) - Item 902358, Spell 103225
-DELETE FROM `item_template` WHERE `entry` = 902358;
+-- Scroll of Shadow Resistance IV (Rank IV) - Item 57435, Spell 103225
+DELETE FROM `item_template` WHERE `entry` = 57435;
 
 INSERT INTO `item_template` SET
-    `entry` = 902358,
+    `entry` = 57435,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance IV',
     `displayid` = 139967,
@@ -666,11 +668,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance V (Rank V) - Item 902359, Spell 103226
-DELETE FROM `item_template` WHERE `entry` = 902359;
+-- Scroll of Shadow Resistance V (Rank V) - Item 57436, Spell 103226
+DELETE FROM `item_template` WHERE `entry` = 57436;
 
 INSERT INTO `item_template` SET
-    `entry` = 902359,
+    `entry` = 57436,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance V',
     `displayid` = 139967,
@@ -689,11 +691,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance VI (Rank VI) - Item 902360, Spell 103227
-DELETE FROM `item_template` WHERE `entry` = 902360;
+-- Scroll of Shadow Resistance VI (Rank VI) - Item 57437, Spell 103227
+DELETE FROM `item_template` WHERE `entry` = 57437;
 
 INSERT INTO `item_template` SET
-    `entry` = 902360,
+    `entry` = 57437,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VI',
     `displayid` = 139967,
@@ -712,11 +714,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance VII (Rank VII) - Item 902361, Spell 103228
-DELETE FROM `item_template` WHERE `entry` = 902361;
+-- Scroll of Shadow Resistance VII (Rank VII) - Item 57438, Spell 103228
+DELETE FROM `item_template` WHERE `entry` = 57438;
 
 INSERT INTO `item_template` SET
-    `entry` = 902361,
+    `entry` = 57438,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VII',
     `displayid` = 139967,
@@ -735,11 +737,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Shadow Resistance VIII (Rank VIII) - Item 902362, Spell 103229
-DELETE FROM `item_template` WHERE `entry` = 902362;
+-- Scroll of Shadow Resistance VIII (Rank VIII) - Item 57439, Spell 103229
+DELETE FROM `item_template` WHERE `entry` = 57439;
 
 INSERT INTO `item_template` SET
-    `entry` = 902362,
+    `entry` = 57439,
     `subclass` = 4,
     `name` = 'Scroll of Shadow Resistance VIII',
     `displayid` = 139967,
@@ -762,11 +764,11 @@ INSERT INTO `item_template` SET
 -- NATURE RESISTANCE SCROLLS (Spell IDs: 103230-103237)
 -- ============================================================================
 
--- Scroll of Nature Resistance (Rank I) - Item 902363, Spell 103230
-DELETE FROM `item_template` WHERE `entry` = 902363;
+-- Scroll of Nature Resistance (Rank I) - Item 57440, Spell 103230
+DELETE FROM `item_template` WHERE `entry` = 57440;
 
 INSERT INTO `item_template` SET
-    `entry` = 902363,
+    `entry` = 57440,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance',
     `displayid` = 138251,
@@ -785,11 +787,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance II (Rank II) - Item 902364, Spell 103231
-DELETE FROM `item_template` WHERE `entry` = 902364;
+-- Scroll of Nature Resistance II (Rank II) - Item 57441, Spell 103231
+DELETE FROM `item_template` WHERE `entry` = 57441;
 
 INSERT INTO `item_template` SET
-    `entry` = 902364,
+    `entry` = 57441,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance II',
     `displayid` = 138251,
@@ -808,11 +810,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance III (Rank III) - Item 902365, Spell 103232
-DELETE FROM `item_template` WHERE `entry` = 902365;
+-- Scroll of Nature Resistance III (Rank III) - Item 57442, Spell 103232
+DELETE FROM `item_template` WHERE `entry` = 57442;
 
 INSERT INTO `item_template` SET
-    `entry` = 902365,
+    `entry` = 57442,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance III',
     `displayid` = 138251,
@@ -831,11 +833,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance IV (Rank IV) - Item 902366, Spell 103233
-DELETE FROM `item_template` WHERE `entry` = 902366;
+-- Scroll of Nature Resistance IV (Rank IV) - Item 57443, Spell 103233
+DELETE FROM `item_template` WHERE `entry` = 57443;
 
 INSERT INTO `item_template` SET
-    `entry` = 902366,
+    `entry` = 57443,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance IV',
     `displayid` = 138251,
@@ -854,11 +856,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance V (Rank V) - Item 902367, Spell 103234
-DELETE FROM `item_template` WHERE `entry` = 902367;
+-- Scroll of Nature Resistance V (Rank V) - Item 57444, Spell 103234
+DELETE FROM `item_template` WHERE `entry` = 57444;
 
 INSERT INTO `item_template` SET
-    `entry` = 902367,
+    `entry` = 57444,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance V',
     `displayid` = 138251,
@@ -877,11 +879,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance VI (Rank VI) - Item 902368, Spell 103235
-DELETE FROM `item_template` WHERE `entry` = 902368;
+-- Scroll of Nature Resistance VI (Rank VI) - Item 57445, Spell 103235
+DELETE FROM `item_template` WHERE `entry` = 57445;
 
 INSERT INTO `item_template` SET
-    `entry` = 902368,
+    `entry` = 57445,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VI',
     `displayid` = 138251,
@@ -900,11 +902,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance VII (Rank VII) - Item 902369, Spell 103236
-DELETE FROM `item_template` WHERE `entry` = 902369;
+-- Scroll of Nature Resistance VII (Rank VII) - Item 57446, Spell 103236
+DELETE FROM `item_template` WHERE `entry` = 57446;
 
 INSERT INTO `item_template` SET
-    `entry` = 902369,
+    `entry` = 57446,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VII',
     `displayid` = 138251,
@@ -923,11 +925,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Nature Resistance VIII (Rank VIII) - Item 902370, Spell 103237
-DELETE FROM `item_template` WHERE `entry` = 902370;
+-- Scroll of Nature Resistance VIII (Rank VIII) - Item 57447, Spell 103237
+DELETE FROM `item_template` WHERE `entry` = 57447;
 
 INSERT INTO `item_template` SET
-    `entry` = 902370,
+    `entry` = 57447,
     `subclass` = 4,
     `name` = 'Scroll of Nature Resistance VIII',
     `displayid` = 138251,
@@ -950,11 +952,11 @@ INSERT INTO `item_template` SET
 -- HOLY RESISTANCE SCROLLS (Spell IDs: 103238-103245) [CUSTOM]
 -- ============================================================================
 
--- Scroll of Holy Resistance (Rank I) - Item 902371, Spell 103238
-DELETE FROM `item_template` WHERE `entry` = 902371;
+-- Scroll of Holy Resistance (Rank I) - Item 57448, Spell 103238
+DELETE FROM `item_template` WHERE `entry` = 57448;
 
 INSERT INTO `item_template` SET
-    `entry` = 902371,
+    `entry` = 57448,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance',
     `displayid` = 140076,
@@ -973,11 +975,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance II (Rank II) - Item 902372, Spell 103239
-DELETE FROM `item_template` WHERE `entry` = 902372;
+-- Scroll of Holy Resistance II (Rank II) - Item 57449, Spell 103239
+DELETE FROM `item_template` WHERE `entry` = 57449;
 
 INSERT INTO `item_template` SET
-    `entry` = 902372,
+    `entry` = 57449,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance II',
     `displayid` = 140076,
@@ -996,11 +998,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance III (Rank III) - Item 902373, Spell 103240
-DELETE FROM `item_template` WHERE `entry` = 902373;
+-- Scroll of Holy Resistance III (Rank III) - Item 57450, Spell 103240
+DELETE FROM `item_template` WHERE `entry` = 57450;
 
 INSERT INTO `item_template` SET
-    `entry` = 902373,
+    `entry` = 57450,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance III',
     `displayid` = 140076,
@@ -1019,11 +1021,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance IV (Rank IV) - Item 902374, Spell 103241
-DELETE FROM `item_template` WHERE `entry` = 902374;
+-- Scroll of Holy Resistance IV (Rank IV) - Item 57451, Spell 103241
+DELETE FROM `item_template` WHERE `entry` = 57451;
 
 INSERT INTO `item_template` SET
-    `entry` = 902374,
+    `entry` = 57451,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance IV',
     `displayid` = 140076,
@@ -1042,11 +1044,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance V (Rank V) - Item 902375, Spell 103242
-DELETE FROM `item_template` WHERE `entry` = 902375;
+-- Scroll of Holy Resistance V (Rank V) - Item 57452, Spell 103242
+DELETE FROM `item_template` WHERE `entry` = 57452;
 
 INSERT INTO `item_template` SET
-    `entry` = 902375,
+    `entry` = 57452,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance V',
     `displayid` = 140076,
@@ -1065,11 +1067,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance VI (Rank VI) - Item 902376, Spell 103243
-DELETE FROM `item_template` WHERE `entry` = 902376;
+-- Scroll of Holy Resistance VI (Rank VI) - Item 57453, Spell 103243
+DELETE FROM `item_template` WHERE `entry` = 57453;
 
 INSERT INTO `item_template` SET
-    `entry` = 902376,
+    `entry` = 57453,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VI',
     `displayid` = 140076,
@@ -1088,11 +1090,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance VII (Rank VII) - Item 902377, Spell 103244
-DELETE FROM `item_template` WHERE `entry` = 902377;
+-- Scroll of Holy Resistance VII (Rank VII) - Item 57454, Spell 103244
+DELETE FROM `item_template` WHERE `entry` = 57454;
 
 INSERT INTO `item_template` SET
-    `entry` = 902377,
+    `entry` = 57454,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VII',
     `displayid` = 140076,
@@ -1111,11 +1113,11 @@ INSERT INTO `item_template` SET
 
 
 
--- Scroll of Holy Resistance VIII (Rank VIII) - Item 902378, Spell 103245
-DELETE FROM `item_template` WHERE `entry` = 902378;
+-- Scroll of Holy Resistance VIII (Rank VIII) - Item 57455, Spell 103245
+DELETE FROM `item_template` WHERE `entry` = 57455;
 
 INSERT INTO `item_template` SET
-    `entry` = 902378,
+    `entry` = 57455,
     `subclass` = 4,
     `name` = 'Scroll of Holy Resistance VIII',
     `displayid` = 140076,
@@ -1248,64 +1250,64 @@ INSERT INTO `spell_group` VALUES (1119, 58453, 0);  -- Rank VIII
 -- Tier values: I=5/15, II=15/25, III=30/40, IV=45/55, V=58/65, VI=68/78, VII=72/78, VIII=78/85
 
 -- Fire Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902331;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902332;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902333;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902334;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902335;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902336;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902337;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902338;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57408;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57409;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57410;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57411;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57412;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57413;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57414;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57415;
 
 -- Frost Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902339;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902340;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902341;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902342;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902343;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902344;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902345;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902346;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57416;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57417;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57418;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57419;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57420;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57421;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57422;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57423;
 
 -- Arcane Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902347;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902348;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902349;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902350;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902351;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902352;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902353;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902354;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57424;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57425;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57426;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57427;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57428;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57429;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57430;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57431;
 
 -- Shadow Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902355;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902356;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902357;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902358;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902359;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902360;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902361;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902362;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57432;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57433;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57434;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57435;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57436;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57437;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57438;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57439;
 
 -- Nature Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902363;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902364;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902365;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902366;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902367;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902368;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902369;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902370;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57440;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57441;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57442;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57443;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57444;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57445;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57446;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57447;
 
 -- Holy Resistance Scrolls
-UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 902371;
-UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 902372;
-UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 902373;
-UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 902374;
-UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 902375;
-UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 902376;
-UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 902377;
-UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 902378;
+UPDATE `item_template` SET `RequiredLevel` = 5, `ItemLevel` = 15 WHERE `entry` = 57448;
+UPDATE `item_template` SET `RequiredLevel` = 15, `ItemLevel` = 25 WHERE `entry` = 57449;
+UPDATE `item_template` SET `RequiredLevel` = 30, `ItemLevel` = 40 WHERE `entry` = 57450;
+UPDATE `item_template` SET `RequiredLevel` = 45, `ItemLevel` = 55 WHERE `entry` = 57451;
+UPDATE `item_template` SET `RequiredLevel` = 58, `ItemLevel` = 65 WHERE `entry` = 57452;
+UPDATE `item_template` SET `RequiredLevel` = 68, `ItemLevel` = 78 WHERE `entry` = 57453;
+UPDATE `item_template` SET `RequiredLevel` = 72, `ItemLevel` = 78 WHERE `entry` = 57454;
+UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` = 57455;
 
 
 -- =====================================================
@@ -1361,13 +1363,13 @@ INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSki
 --   Rank VI - TBC dungeon drops
 --   Rank VIII - WotLK dungeon drops
 --
--- Recipe Item IDs: 902400-902429 (5 ranks × 6 types)
---   Fire: 902400-902404 (II, III, IV, VI, VIII)
---   Frost: 902405-902409
---   Arcane: 902410-902414
---   Shadow: 902415-902419
---   Nature: 902420-902424
---   Holy: 902425-902429
+-- Recipe Item IDs: 57456-57485 (5 ranks × 6 types)
+--   Fire: 57456-57460 (II, III, IV, VI, VIII)
+--   Frost: 57461-57465
+--   Arcane: 57466-57470
+--   Shadow: 57471-57475
+--   Nature: 57476-57480
+--   Holy: 57481-57485
 -- =====================================================
 
 -- =====================================================
@@ -1376,10 +1378,10 @@ INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSki
 -- Skill Req: Fire/Frost 80, Arcane/Shadow 85, Nature/Holy 90
 
 -- Technique: Scroll of Fire Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902400;
+DELETE FROM `item_template` WHERE `entry` = 57456;
 
 INSERT INTO `item_template` SET
-    `entry` = 902400,
+    `entry` = 57456,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Fire Resistance II',
@@ -1400,10 +1402,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Frost Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902405;
+DELETE FROM `item_template` WHERE `entry` = 57461;
 
 INSERT INTO `item_template` SET
-    `entry` = 902405,
+    `entry` = 57461,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Frost Resistance II',
@@ -1424,10 +1426,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Arcane Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902410;
+DELETE FROM `item_template` WHERE `entry` = 57466;
 
 INSERT INTO `item_template` SET
-    `entry` = 902410,
+    `entry` = 57466,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Arcane Resistance II',
@@ -1448,10 +1450,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Shadow Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902415;
+DELETE FROM `item_template` WHERE `entry` = 57471;
 
 INSERT INTO `item_template` SET
-    `entry` = 902415,
+    `entry` = 57471,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Shadow Resistance II',
@@ -1472,10 +1474,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Nature Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902420;
+DELETE FROM `item_template` WHERE `entry` = 57476;
 
 INSERT INTO `item_template` SET
-    `entry` = 902420,
+    `entry` = 57476,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Nature Resistance II',
@@ -1496,10 +1498,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Holy Resistance II
-DELETE FROM `item_template` WHERE `entry` = 902425;
+DELETE FROM `item_template` WHERE `entry` = 57481;
 
 INSERT INTO `item_template` SET
-    `entry` = 902425,
+    `entry` = 57481,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Holy Resistance II',
@@ -1532,37 +1534,37 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Clean up existing entries for Rank II recipes
-DELETE FROM `creature_loot_template` WHERE `Item` IN (902400, 902405, 902410, 902415, 902420, 902425);
+DELETE FROM `creature_loot_template` WHERE `Item` IN (57456, 57461, 57466, 57471, 57476, 57481);
 
 -- Fire Resistance II - Ragefire Chasm
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(11520, 902400, 15, 'Taragaman the Hungerer - Technique: Scroll of Fire Resistance II'),
-(11518, 902400, 15, 'Jergosh the Invoker - Technique: Scroll of Fire Resistance II');
+(11520, 57456, 15, 'Taragaman the Hungerer - Technique: Scroll of Fire Resistance II'),
+(11518, 57456, 15, 'Jergosh the Invoker - Technique: Scroll of Fire Resistance II');
 
 -- Frost Resistance II - SFK/Deadmines
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(3887, 902405, 15, 'Baron Silverlaine - Technique: Scroll of Frost Resistance II'),
-(645, 902405, 15, 'Cookie - Technique: Scroll of Frost Resistance II');
+(3887, 57461, 15, 'Baron Silverlaine - Technique: Scroll of Frost Resistance II'),
+(645, 57461, 15, 'Cookie - Technique: Scroll of Frost Resistance II');
 
 -- Arcane Resistance II - SFK/WC
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(4275, 902410, 15, 'Archmage Arugal - Technique: Scroll of Arcane Resistance II'),
-(3671, 902410, 15, 'Lady Anacondra - Technique: Scroll of Arcane Resistance II');
+(4275, 57466, 15, 'Archmage Arugal - Technique: Scroll of Arcane Resistance II'),
+(3671, 57466, 15, 'Lady Anacondra - Technique: Scroll of Arcane Resistance II');
 
 -- Shadow Resistance II - SFK/Deadmines
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(4275, 902415, 15, 'Archmage Arugal - Technique: Scroll of Shadow Resistance II'),
-(639, 902415, 15, 'Edwin VanCleef - Technique: Scroll of Shadow Resistance II');
+(4275, 57471, 15, 'Archmage Arugal - Technique: Scroll of Shadow Resistance II'),
+(639, 57471, 15, 'Edwin VanCleef - Technique: Scroll of Shadow Resistance II');
 
 -- Nature Resistance II - Wailing Caverns
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(5775, 902420, 15, 'Verdan the Everliving - Technique: Scroll of Nature Resistance II'),
-(3669, 902420, 15, 'Lord Cobrahn - Technique: Scroll of Nature Resistance II');
+(5775, 57476, 15, 'Verdan the Everliving - Technique: Scroll of Nature Resistance II'),
+(3669, 57476, 15, 'Lord Cobrahn - Technique: Scroll of Nature Resistance II');
 
 -- Holy Resistance II - SFK/Deadmines
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(4278, 902425, 15, 'Commander Springvale - Technique: Scroll of Holy Resistance II'),
-(646, 902425, 15, 'Mr. Smite - Technique: Scroll of Holy Resistance II');
+(4278, 57481, 15, 'Commander Springvale - Technique: Scroll of Holy Resistance II'),
+(646, 57481, 15, 'Mr. Smite - Technique: Scroll of Holy Resistance II');
 
 -- =====================================================
 -- RANK III RECIPE ITEMS (Vanilla Mid-Level Dungeons)
@@ -1571,10 +1573,10 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 -- Skill Req: Fire/Frost 155, Arcane/Shadow 160, Nature/Holy 165
 
 -- Technique: Scroll of Fire Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902401;
+DELETE FROM `item_template` WHERE `entry` = 57457;
 
 INSERT INTO `item_template` SET
-    `entry` = 902401,
+    `entry` = 57457,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Fire Resistance III',
@@ -1595,10 +1597,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Frost Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902406;
+DELETE FROM `item_template` WHERE `entry` = 57462;
 
 INSERT INTO `item_template` SET
-    `entry` = 902406,
+    `entry` = 57462,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Frost Resistance III',
@@ -1619,10 +1621,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Arcane Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902411;
+DELETE FROM `item_template` WHERE `entry` = 57467;
 
 INSERT INTO `item_template` SET
-    `entry` = 902411,
+    `entry` = 57467,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Arcane Resistance III',
@@ -1643,10 +1645,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Shadow Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902416;
+DELETE FROM `item_template` WHERE `entry` = 57472;
 
 INSERT INTO `item_template` SET
-    `entry` = 902416,
+    `entry` = 57472,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Shadow Resistance III',
@@ -1667,10 +1669,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Nature Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902421;
+DELETE FROM `item_template` WHERE `entry` = 57477;
 
 INSERT INTO `item_template` SET
-    `entry` = 902421,
+    `entry` = 57477,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Nature Resistance III',
@@ -1691,10 +1693,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Holy Resistance III
-DELETE FROM `item_template` WHERE `entry` = 902426;
+DELETE FROM `item_template` WHERE `entry` = 57482;
 
 INSERT INTO `item_template` SET
-    `entry` = 902426,
+    `entry` = 57482,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Holy Resistance III',
@@ -1727,36 +1729,36 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Clean up existing entries for Rank III recipes
-DELETE FROM `creature_loot_template` WHERE `Item` IN (902401, 902406, 902411, 902416, 902421, 902426);
+DELETE FROM `creature_loot_template` WHERE `Item` IN (57457, 57462, 57467, 57472, 57477, 57482);
 
 -- Fire Resistance III - SM Armory / Gnomeregan
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(3975, 902401, 15, 'Herod - Technique: Scroll of Fire Resistance III'),
-(7079, 902401, 15, 'Viscous Fallout - Technique: Scroll of Fire Resistance III');
+(3975, 57457, 15, 'Herod - Technique: Scroll of Fire Resistance III'),
+(7079, 57457, 15, 'Viscous Fallout - Technique: Scroll of Fire Resistance III');
 
 -- Frost Resistance III - Razorfen Downs (frost lich!)
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(7358, 902406, 20, 'Amnennar the Coldbringer - Technique: Scroll of Frost Resistance III');
+(7358, 57462, 20, 'Amnennar the Coldbringer - Technique: Scroll of Frost Resistance III');
 
 -- Arcane Resistance III - Uldaman / SM Library
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(2748, 902411, 15, 'Archaedas - Technique: Scroll of Arcane Resistance III'),
-(6487, 902411, 15, 'Arcanist Doan - Technique: Scroll of Arcane Resistance III');
+(2748, 57467, 15, 'Archaedas - Technique: Scroll of Arcane Resistance III'),
+(6487, 57467, 15, 'Arcanist Doan - Technique: Scroll of Arcane Resistance III');
 
 -- Shadow Resistance III - Razorfen Downs
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(7357, 902416, 15, 'Mordresh Fire Eye - Technique: Scroll of Shadow Resistance III'),
-(7355, 902416, 15, 'Tuten''kash - Technique: Scroll of Shadow Resistance III');
+(7357, 57472, 15, 'Mordresh Fire Eye - Technique: Scroll of Shadow Resistance III'),
+(7355, 57472, 15, 'Tuten''kash - Technique: Scroll of Shadow Resistance III');
 
 -- Nature Resistance III - Razorfen Kraul
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(4421, 902421, 15, 'Charlga Razorflank - Technique: Scroll of Nature Resistance III'),
-(4420, 902421, 15, 'Overlord Ramtusk - Technique: Scroll of Nature Resistance III');
+(4421, 57477, 15, 'Charlga Razorflank - Technique: Scroll of Nature Resistance III'),
+(4420, 57477, 15, 'Overlord Ramtusk - Technique: Scroll of Nature Resistance III');
 
 -- Holy Resistance III - SM Cathedral
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(3977, 902426, 15, 'High Inquisitor Whitemane - Technique: Scroll of Holy Resistance III'),
-(3976, 902426, 15, 'Scarlet Commander Mograine - Technique: Scroll of Holy Resistance III');
+(3977, 57482, 15, 'High Inquisitor Whitemane - Technique: Scroll of Holy Resistance III'),
+(3976, 57482, 15, 'Scarlet Commander Mograine - Technique: Scroll of Holy Resistance III');
 
 -- =====================================================
 -- RANK IV RECIPE ITEMS (Vanilla High-Level Dungeons)
@@ -1766,10 +1768,10 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 -- Premium Rank (requires Essence reagent for crafting)
 
 -- Technique: Scroll of Fire Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902402;
+DELETE FROM `item_template` WHERE `entry` = 57458;
 
 INSERT INTO `item_template` SET
-    `entry` = 902402,
+    `entry` = 57458,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Fire Resistance IV',
@@ -1790,10 +1792,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Frost Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902407;
+DELETE FROM `item_template` WHERE `entry` = 57463;
 
 INSERT INTO `item_template` SET
-    `entry` = 902407,
+    `entry` = 57463,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Frost Resistance IV',
@@ -1814,10 +1816,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Arcane Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902412;
+DELETE FROM `item_template` WHERE `entry` = 57468;
 
 INSERT INTO `item_template` SET
-    `entry` = 902412,
+    `entry` = 57468,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Arcane Resistance IV',
@@ -1838,10 +1840,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Shadow Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902417;
+DELETE FROM `item_template` WHERE `entry` = 57473;
 
 INSERT INTO `item_template` SET
-    `entry` = 902417,
+    `entry` = 57473,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Shadow Resistance IV',
@@ -1862,10 +1864,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Nature Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902422;
+DELETE FROM `item_template` WHERE `entry` = 57478;
 
 INSERT INTO `item_template` SET
-    `entry` = 902422,
+    `entry` = 57478,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Nature Resistance IV',
@@ -1886,10 +1888,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Holy Resistance IV
-DELETE FROM `item_template` WHERE `entry` = 902427;
+DELETE FROM `item_template` WHERE `entry` = 57483;
 
 INSERT INTO `item_template` SET
-    `entry` = 902427,
+    `entry` = 57483,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Holy Resistance IV',
@@ -1922,37 +1924,37 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Clean up existing entries for Rank IV recipes
-DELETE FROM `creature_loot_template` WHERE `Item` IN (902402, 902407, 902412, 902417, 902422, 902427);
+DELETE FROM `creature_loot_template` WHERE `Item` IN (57458, 57463, 57468, 57473, 57478, 57483);
 
 -- Fire Resistance IV - Blackrock Depths
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(9156, 902402, 15, 'Ambassador Flamelash - Technique: Scroll of Fire Resistance IV'),
-(9017, 902402, 15, 'Lord Incendius - Technique: Scroll of Fire Resistance IV');
+(9156, 57458, 15, 'Ambassador Flamelash - Technique: Scroll of Fire Resistance IV'),
+(9017, 57458, 15, 'Lord Incendius - Technique: Scroll of Fire Resistance IV');
 
 -- Frost Resistance IV - Zul'Farrak
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(7795, 902407, 15, 'Hydromancer Velratha - Technique: Scroll of Frost Resistance IV'),
-(7272, 902407, 15, 'Theka the Martyr - Technique: Scroll of Frost Resistance IV');
+(7795, 57463, 15, 'Hydromancer Velratha - Technique: Scroll of Frost Resistance IV'),
+(7272, 57463, 15, 'Theka the Martyr - Technique: Scroll of Frost Resistance IV');
 
 -- Arcane Resistance IV - Sunken Temple
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(5709, 902412, 15, 'Shade of Eranikus - Technique: Scroll of Arcane Resistance IV'),
-(5710, 902412, 15, 'Jammal''an the Prophet - Technique: Scroll of Arcane Resistance IV');
+(5709, 57468, 15, 'Shade of Eranikus - Technique: Scroll of Arcane Resistance IV'),
+(5710, 57468, 15, 'Jammal''an the Prophet - Technique: Scroll of Arcane Resistance IV');
 
 -- Shadow Resistance IV - Scholomance
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(1853, 902417, 15, 'Darkmaster Gandling - Technique: Scroll of Shadow Resistance IV'),
-(11622, 902417, 15, 'Rattlegore - Technique: Scroll of Shadow Resistance IV');
+(1853, 57473, 15, 'Darkmaster Gandling - Technique: Scroll of Shadow Resistance IV'),
+(11622, 57473, 15, 'Rattlegore - Technique: Scroll of Shadow Resistance IV');
 
 -- Nature Resistance IV - Maraudon
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(12201, 902422, 15, 'Princess Theradras - Technique: Scroll of Nature Resistance IV'),
-(12225, 902422, 15, 'Celebras the Cursed - Technique: Scroll of Nature Resistance IV');
+(12201, 57478, 15, 'Princess Theradras - Technique: Scroll of Nature Resistance IV'),
+(12225, 57478, 15, 'Celebras the Cursed - Technique: Scroll of Nature Resistance IV');
 
 -- Holy Resistance IV - Stratholme
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(10435, 902427, 15, 'Magistrate Barthilas - Technique: Scroll of Holy Resistance IV'),
-(10813, 902427, 15, 'Balnazzar - Technique: Scroll of Holy Resistance IV');
+(10435, 57483, 15, 'Magistrate Barthilas - Technique: Scroll of Holy Resistance IV'),
+(10813, 57483, 15, 'Balnazzar - Technique: Scroll of Holy Resistance IV');
 
 -- =====================================================
 -- RANK VI RECIPE ITEMS (TBC Dungeons)
@@ -1962,10 +1964,10 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 -- Premium Rank (requires Primal reagent for crafting)
 
 -- Technique: Scroll of Fire Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902403;
+DELETE FROM `item_template` WHERE `entry` = 57459;
 
 INSERT INTO `item_template` SET
-    `entry` = 902403,
+    `entry` = 57459,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Fire Resistance VI',
@@ -1986,10 +1988,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Frost Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902408;
+DELETE FROM `item_template` WHERE `entry` = 57464;
 
 INSERT INTO `item_template` SET
-    `entry` = 902408,
+    `entry` = 57464,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Frost Resistance VI',
@@ -2010,10 +2012,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Arcane Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902413;
+DELETE FROM `item_template` WHERE `entry` = 57469;
 
 INSERT INTO `item_template` SET
-    `entry` = 902413,
+    `entry` = 57469,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Arcane Resistance VI',
@@ -2034,10 +2036,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Shadow Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902418;
+DELETE FROM `item_template` WHERE `entry` = 57474;
 
 INSERT INTO `item_template` SET
-    `entry` = 902418,
+    `entry` = 57474,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Shadow Resistance VI',
@@ -2058,10 +2060,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Nature Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902423;
+DELETE FROM `item_template` WHERE `entry` = 57479;
 
 INSERT INTO `item_template` SET
-    `entry` = 902423,
+    `entry` = 57479,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Nature Resistance VI',
@@ -2082,10 +2084,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Holy Resistance VI
-DELETE FROM `item_template` WHERE `entry` = 902428;
+DELETE FROM `item_template` WHERE `entry` = 57484;
 
 INSERT INTO `item_template` SET
-    `entry` = 902428,
+    `entry` = 57484,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Holy Resistance VI',
@@ -2118,37 +2120,37 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Clean up existing entries for Rank VI recipes
-DELETE FROM `creature_loot_template` WHERE `Item` IN (902403, 902408, 902413, 902418, 902423, 902428);
+DELETE FROM `creature_loot_template` WHERE `Item` IN (57459, 57464, 57469, 57474, 57479, 57484);
 
 -- Fire Resistance VI - Magister's Terrace / Mechanar
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(24664, 902403, 15, 'Kael''thas Sunstrider - Technique: Scroll of Fire Resistance VI'),
-(19220, 902403, 15, 'Pathaleon the Calculator - Technique: Scroll of Fire Resistance VI');
+(24664, 57459, 15, 'Kael''thas Sunstrider - Technique: Scroll of Fire Resistance VI'),
+(19220, 57459, 15, 'Pathaleon the Calculator - Technique: Scroll of Fire Resistance VI');
 
 -- Frost Resistance VI - Botanica
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(17975, 902408, 15, 'High Botanist Freywinn - Technique: Scroll of Frost Resistance VI'),
-(17977, 902408, 15, 'Warp Splinter - Technique: Scroll of Frost Resistance VI');
+(17975, 57464, 15, 'High Botanist Freywinn - Technique: Scroll of Frost Resistance VI'),
+(17977, 57464, 15, 'Warp Splinter - Technique: Scroll of Frost Resistance VI');
 
 -- Arcane Resistance VI - Arcatraz
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(20912, 902413, 15, 'Harbinger Skyriss - Technique: Scroll of Arcane Resistance VI'),
-(20885, 902413, 15, 'Dalliah the Doomsayer - Technique: Scroll of Arcane Resistance VI');
+(20912, 57469, 15, 'Harbinger Skyriss - Technique: Scroll of Arcane Resistance VI'),
+(20885, 57469, 15, 'Dalliah the Doomsayer - Technique: Scroll of Arcane Resistance VI');
 
 -- Shadow Resistance VI - Shadow Labyrinth
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(18708, 902418, 15, 'Murmur - Technique: Scroll of Shadow Resistance VI'),
-(18732, 902418, 15, 'Grandmaster Vorpil - Technique: Scroll of Shadow Resistance VI');
+(18708, 57474, 15, 'Murmur - Technique: Scroll of Shadow Resistance VI'),
+(18732, 57474, 15, 'Grandmaster Vorpil - Technique: Scroll of Shadow Resistance VI');
 
 -- Nature Resistance VI - Underbog
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(17770, 902423, 15, 'Hungarfen - Technique: Scroll of Nature Resistance VI'),
-(17826, 902423, 15, 'Swamplord Musel''ek - Technique: Scroll of Nature Resistance VI');
+(17770, 57479, 15, 'Hungarfen - Technique: Scroll of Nature Resistance VI'),
+(17826, 57479, 15, 'Swamplord Musel''ek - Technique: Scroll of Nature Resistance VI');
 
 -- Holy Resistance VI - Auchenai Crypts
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(18373, 902428, 15, 'Exarch Maladaar - Technique: Scroll of Holy Resistance VI'),
-(18478, 902428, 15, 'Avatar of the Martyred - Technique: Scroll of Holy Resistance VI');
+(18373, 57484, 15, 'Exarch Maladaar - Technique: Scroll of Holy Resistance VI'),
+(18478, 57484, 15, 'Avatar of the Martyred - Technique: Scroll of Holy Resistance VI');
 
 -- =====================================================
 -- RANK VIII RECIPE ITEMS (WotLK Dungeons)
@@ -2158,10 +2160,10 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALU
 -- Premium Rank (requires Eternal reagent for crafting)
 
 -- Technique: Scroll of Fire Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902404;
+DELETE FROM `item_template` WHERE `entry` = 57460;
 
 INSERT INTO `item_template` SET
-    `entry` = 902404,
+    `entry` = 57460,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Fire Resistance VIII',
@@ -2182,10 +2184,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Frost Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902409;
+DELETE FROM `item_template` WHERE `entry` = 57465;
 
 INSERT INTO `item_template` SET
-    `entry` = 902409,
+    `entry` = 57465,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Frost Resistance VIII',
@@ -2206,10 +2208,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Arcane Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902414;
+DELETE FROM `item_template` WHERE `entry` = 57470;
 
 INSERT INTO `item_template` SET
-    `entry` = 902414,
+    `entry` = 57470,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Arcane Resistance VIII',
@@ -2230,10 +2232,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Shadow Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902419;
+DELETE FROM `item_template` WHERE `entry` = 57475;
 
 INSERT INTO `item_template` SET
-    `entry` = 902419,
+    `entry` = 57475,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Shadow Resistance VIII',
@@ -2254,10 +2256,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Nature Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902424;
+DELETE FROM `item_template` WHERE `entry` = 57480;
 
 INSERT INTO `item_template` SET
-    `entry` = 902424,
+    `entry` = 57480,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Nature Resistance VIII',
@@ -2278,10 +2280,10 @@ INSERT INTO `item_template` SET
 
 
 -- Technique: Scroll of Holy Resistance VIII
-DELETE FROM `item_template` WHERE `entry` = 902429;
+DELETE FROM `item_template` WHERE `entry` = 57485;
 
 INSERT INTO `item_template` SET
-    `entry` = 902429,
+    `entry` = 57485,
     `class` = 9,
     `subclass` = 0,
     `name` = 'Technique: Scroll of Holy Resistance VIII',
@@ -2314,34 +2316,34 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 -- Clean up existing entries for Rank VIII recipes
-DELETE FROM `creature_loot_template` WHERE `Item` IN (902404, 902409, 902414, 902419, 902424, 902429);
+DELETE FROM `creature_loot_template` WHERE `Item` IN (57460, 57465, 57470, 57475, 57480, 57485);
 
 -- Fire Resistance VIII - Halls of Lightning
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(28923, 902404, 15, 'Loken - Technique: Scroll of Fire Resistance VIII'),
-(28586, 902404, 15, 'General Bjarngrim - Technique: Scroll of Fire Resistance VIII');
+(28923, 57460, 15, 'Loken - Technique: Scroll of Fire Resistance VIII'),
+(28586, 57460, 15, 'General Bjarngrim - Technique: Scroll of Fire Resistance VIII');
 
 -- Frost Resistance VIII - Pit of Saron
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(36658, 902409, 15, 'Scourgelord Tyrannus - Technique: Scroll of Frost Resistance VIII'),
-(36494, 902409, 15, 'Forgemaster Garfrost - Technique: Scroll of Frost Resistance VIII');
+(36658, 57465, 15, 'Scourgelord Tyrannus - Technique: Scroll of Frost Resistance VIII'),
+(36494, 57465, 15, 'Forgemaster Garfrost - Technique: Scroll of Frost Resistance VIII');
 
 -- Arcane Resistance VIII - Oculus
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(27656, 902414, 15, 'Ley-Guardian Eregos - Technique: Scroll of Arcane Resistance VIII'),
-(27655, 902414, 15, 'Mage-Lord Urom - Technique: Scroll of Arcane Resistance VIII');
+(27656, 57470, 15, 'Ley-Guardian Eregos - Technique: Scroll of Arcane Resistance VIII'),
+(27655, 57470, 15, 'Mage-Lord Urom - Technique: Scroll of Arcane Resistance VIII');
 
 -- Shadow Resistance VIII - Forge of Souls
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(36502, 902419, 15, 'Devourer of Souls - Technique: Scroll of Shadow Resistance VIII'),
-(36497, 902419, 15, 'Bronjahm - Technique: Scroll of Shadow Resistance VIII');
+(36502, 57475, 15, 'Devourer of Souls - Technique: Scroll of Shadow Resistance VIII'),
+(36497, 57475, 15, 'Bronjahm - Technique: Scroll of Shadow Resistance VIII');
 
 -- Nature Resistance VIII - Gundrak
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(29306, 902424, 15, 'Gal''darah - Technique: Scroll of Nature Resistance VIII'),
-(29304, 902424, 15, 'Slad''ran - Technique: Scroll of Nature Resistance VIII');
+(29306, 57480, 15, 'Gal''darah - Technique: Scroll of Nature Resistance VIII'),
+(29304, 57480, 15, 'Slad''ran - Technique: Scroll of Nature Resistance VIII');
 
 -- Holy Resistance VIII - Drak'Tharon / Halls of Stone
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
-(26632, 902429, 15, 'The Prophet Tharon''ja - Technique: Scroll of Holy Resistance VIII'),
-(27978, 902429, 15, 'Sjonnir the Ironshaper - Technique: Scroll of Holy Resistance VIII');
+(26632, 57485, 15, 'The Prophet Tharon''ja - Technique: Scroll of Holy Resistance VIII'),
+(27978, 57485, 15, 'Sjonnir the Ironshaper - Technique: Scroll of Holy Resistance VIII');
