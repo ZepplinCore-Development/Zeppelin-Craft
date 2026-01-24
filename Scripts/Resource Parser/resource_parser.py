@@ -25,9 +25,12 @@ class ResourceParser:
     """Main parser orchestrator"""
 
     def __init__(self, config_path: Path = None):
+        # Script directory for relative paths
+        self.script_dir = Path(__file__).parent
+
         # Load configuration
         if config_path is None:
-            config_path = Path(__file__).parent / 'config.conf'
+            config_path = self.script_dir / 'config.conf'
 
         if not config_path.exists():
             raise FileNotFoundError(f"Config file not found: {config_path}")
@@ -37,6 +40,18 @@ class ResourceParser:
         # Initialize paths with fallback support
         self.paths = self._resolve_paths_with_fallback(self.config['paths'])
         self.options = self.config.get('options', {})
+
+        # Derive paths from patch_o (DBCs, ADTs)
+        patch_o = self.paths.get('patch_o')
+        if patch_o:
+            self.paths['area_table_dbc'] = patch_o / 'DBFilesClient' / 'AreaTable.dbc'
+            self.paths['groundeffect_doodad_dbc'] = patch_o / 'DBFilesClient' / 'GroundEffectDoodad.dbc'
+            self.paths['groundeffect_texture_dbc'] = patch_o / 'DBFilesClient' / 'GroundEffectTexture.dbc'
+            self.paths['adt'] = patch_o / 'WORLD' / 'maps'
+
+        # Data files relative to script directory
+        self.paths['wotlk_base_assets'] = self.script_dir / 'data' / 'wotlk_335a_merged.txt'
+        self.paths['modern_groundeffect_csv'] = self.script_dir / 'data' / 'Modern GroundEffectTexture.csv'
 
         # Log buffer (must be initialized first)
         self.log_lines = []
@@ -60,8 +75,7 @@ class ResourceParser:
         self.modern_ground_effect_ids = set()  # IDs in modern client but not WotLK (modern content)
         self.all_dependencies = set()
         self.stock_assets = set()
-        self.stock_matched_wmos = set()  # WMOs filtered as stock but may contain custom textures (I-048)
-        self.stock_matched_wmo_textures = set()  # Custom textures discovered in stock-matched WMOs
+        self.patch_o_textures = set()  # Custom textures from scanning Patch-O M2s
         self.required_custom = set()
         self.already_exported = set()
         self.found_assets = {}  # {normalized_path: source_path}
@@ -376,6 +390,70 @@ class ResourceParser:
                 formatted_parts.append(f"{parent_type}: {item_filename}")
 
         return " → ".join(formatted_parts)
+
+    def copy_patch_o_to_export(self):
+        """
+        Copy all Patch-O content to Export folder (Phase 0).
+
+        This creates a unified working directory where:
+        - Original Patch-O content is copied
+        - Extracted dependencies are added
+        - Fixed ADTs overwrite originals
+        - Final MPQ is built from this single location
+        """
+        import shutil
+
+        patch_o = self.paths.get('patch_o')
+        export_dir = self.paths['export']
+
+        if not patch_o or not patch_o.exists():
+            self.log('  ⚠️  Patch-O directory not configured or does not exist')
+            return False
+
+        self.log(f'\nSource: {patch_o}')
+        self.log(f'Destination: {export_dir}')
+
+        # Count files to copy
+        files_to_copy = []
+        for root, dirs, files in os.walk(patch_o):
+            for file in files:
+                src_file = Path(root) / file
+                rel_path = src_file.relative_to(patch_o)
+                dst_file = export_dir / rel_path
+                files_to_copy.append((src_file, dst_file))
+
+        self.log(f'Files to copy: {len(files_to_copy):,}')
+
+        # Copy files (skip if destination exists and is same size)
+        copied = 0
+        skipped = 0
+
+        for src_file, dst_file in files_to_copy:
+            # Create destination directory if needed
+            dst_file.parent.mkdir(parents=True, exist_ok=True)
+
+            # Skip if destination exists and is same size (already copied)
+            if dst_file.exists() and dst_file.stat().st_size == src_file.stat().st_size:
+                skipped += 1
+                continue
+
+            # Copy file
+            shutil.copy2(src_file, dst_file)
+            copied += 1
+
+            # Progress every 1000 files
+            if copied % 1000 == 0:
+                self.log(f'  Progress: {copied:,} files copied...')
+
+        self.log(f'\n  Copied: {copied:,} files')
+        if skipped > 0:
+            self.log(f'  Skipped (already exist): {skipped:,} files')
+
+        # Update paths to point to Export folder for subsequent phases
+        self.paths['adt'] = export_dir / 'WORLD' / 'maps'
+        self.log(f'\n  ADT path updated to: {self.paths["adt"]}')
+
+        return True
 
     def parse_adts(self):
         """Parse ADT files for model dependencies, ground effect IDs, and terrain textures"""
@@ -751,11 +829,12 @@ class ResourceParser:
                 self.log(f'    Modern Reference: {len(modern_ids):,} entries')
 
     def parse_exported_wmos(self):
-        """Parse exported WMO files for M2 doodad, texture, and nested WMO dependencies (Phase 2)"""
+        """Parse all WMO files in Export folder for M2 doodad, texture, and nested WMO dependencies (Phase 2)"""
         from parsers.wmo_parser import WMOParser
+        import re
 
         self.log('\n' + '='*80)
-        self.log('STEP 7: Parsing exported WMO files for M2 doodad, texture, and nested WMO dependencies')
+        self.log('STEP 7: Parsing WMO files for M2 doodad, texture, and nested WMO dependencies')
         self.log('='*80)
 
         export_dir = self.paths['export']
@@ -763,6 +842,17 @@ class ResourceParser:
 
         if not export_dir.exists():
             self.log('  Export directory does not exist - skipping WMO parsing')
+            return
+
+        # Find all WMO files in export directory (includes Patch-O content from Phase 0)
+        all_wmo_files = list(export_dir.rglob("*.wmo")) + list(export_dir.rglob("*.WMO"))
+        wmo_files = [f for f in all_wmo_files if not re.search(r'_\d{3}$', f.stem)]
+        group_files = [f for f in all_wmo_files if re.search(r'_\d{3}$', f.stem)]
+
+        self.log(f'WMO files found: {len(wmo_files):,} root files (+{len(group_files):,} group files)')
+
+        if not wmo_files:
+            self.log('  No WMO files to parse')
             return
 
         # Track Phase 2 dependencies separately
@@ -775,68 +865,55 @@ class ResourceParser:
         max_iterations = 10  # Safety limit to prevent infinite loops
 
         while iteration <= max_iterations:
-            # Find all WMO files in export directory (root files only, not groups)
-            all_wmo_files = list(export_dir.rglob("*.wmo")) + list(export_dir.rglob("*.WMO"))
-            # Filter to root WMO files only (exclude group files ending with _###)
-            import re
-            wmo_files = [f for f in all_wmo_files if not re.search(r'_\d{3}$', f.stem)]
-            group_wmo_files = [f for f in all_wmo_files if re.search(r'_\d{3}$', f.stem)]
-
             if iteration == 1:
-                self.log(f'Found {len(all_wmo_files)} total WMO files in export directory')
-                self.log(f'  - {len(wmo_files)} root WMO files (contain doodad/texture references)')
-                self.log(f'  - {len(group_wmo_files)} group WMO files (geometry only, skipped)')
-                self.log(f'\nParsing root WMO files for dependencies...')
-
-            if not wmo_files:
-                self.log('  No WMO files to parse')
-                return
+                self.log(f'\nParsing WMO files for dependencies...')
 
             # Track newly discovered WMOs in this iteration
             iteration_new_wmos = set()
 
             for wmo_file in wmo_files:
-                parser = WMOParser(wmo_file)
-                doodads, textures = parser.parse_all()
-                wmo_refs = parser.wmo_refs  # Get nested WMO references
+                try:
+                    parser = WMOParser(wmo_file)
+                    doodads, textures = parser.parse_all()
+                    wmo_refs = parser.wmo_refs  # Get nested WMO references
 
-                # Get normalized WMO path (relative to export directory)
-                wmo_rel_path = wmo_file.relative_to(export_dir)
-                wmo_normalized = self.normalize_path(str(wmo_rel_path)).upper()
+                    # Get normalized WMO path (relative to export directory)
+                    wmo_rel_path = wmo_file.relative_to(export_dir)
+                    wmo_normalized = self.normalize_path(str(wmo_rel_path)).upper()
 
-                # Track M2 doodads → WMO
-                if doodads:
-                    for doodad in doodads:
-                        doodad_normalized = self.normalize_path(doodad).upper()
-                        if doodad_normalized not in self.asset_parents:
-                            self.asset_parents[doodad_normalized] = wmo_normalized
-                            self.parent_types[doodad_normalized] = "M2"
-                    phase2_doodads.update(doodads)
+                    # Track M2 doodads → WMO
+                    if doodads:
+                        for doodad in doodads:
+                            doodad_normalized = self.normalize_path(doodad).upper()
+                            if doodad_normalized not in self.asset_parents:
+                                self.asset_parents[doodad_normalized] = wmo_normalized
+                                self.parent_types[doodad_normalized] = "M2"
+                        phase2_doodads.update(doodads)
 
-                # Track BLP textures → WMO
-                if textures:
-                    for texture in textures:
-                        texture_normalized = self.normalize_path(texture).upper()
-                        if texture_normalized not in self.asset_parents:
-                            self.asset_parents[texture_normalized] = wmo_normalized
-                            self.parent_types[texture_normalized] = "BLP"
-                    phase2_textures.update(textures)
+                    # Track BLP textures → WMO
+                    if textures:
+                        for texture in textures:
+                            texture_normalized = self.normalize_path(texture).upper()
+                            if texture_normalized not in self.asset_parents:
+                                self.asset_parents[texture_normalized] = wmo_normalized
+                                self.parent_types[texture_normalized] = "BLP"
+                        phase2_textures.update(textures)
 
-                # Track nested WMO references → parent WMO
-                if wmo_refs:
-                    for nested_wmo in wmo_refs:
-                        nested_normalized = self.normalize_path(nested_wmo).upper()
-                        # Check if this WMO is new (not in ADT references, not already extracted)
-                        if nested_normalized not in self.adt_wmos and nested_normalized not in self.found_assets:
-                            iteration_new_wmos.add(nested_normalized)
-                            # Track parent relationship
-                            if nested_normalized not in self.asset_parents:
-                                self.asset_parents[nested_normalized] = wmo_normalized
-                                self.parent_types[nested_normalized] = "WMO"
+                    # Track nested WMO references → parent WMO
+                    if wmo_refs:
+                        for nested_wmo in wmo_refs:
+                            nested_normalized = self.normalize_path(nested_wmo).upper()
+                            # Check if this WMO is new (not in ADT references, not already extracted)
+                            if nested_normalized not in self.adt_wmos and nested_normalized not in self.found_assets:
+                                iteration_new_wmos.add(nested_normalized)
+                                # Track parent relationship
+                                if nested_normalized not in self.asset_parents:
+                                    self.asset_parents[nested_normalized] = wmo_normalized
+                                    self.parent_types[nested_normalized] = "WMO"
 
-                if iteration == 1:
-                    nested_count = len(wmo_refs) if wmo_refs else 0
-                    self.log(f'  Parsed: {wmo_file.name} -> {len(doodads)} doodads, {len(textures)} textures, {nested_count} nested WMOs')
+                except Exception as e:
+                    if self.options.get('verbose', True):
+                        self.log(f'    Warning: Could not parse {wmo_file.name}: {e}')
 
             # If we found new WMOs, extract them and repeat
             if iteration_new_wmos:
@@ -865,11 +942,11 @@ class ResourceParser:
         self.wmo_doodads.update(phase2_doodads)
         self.wmo_textures.update(phase2_textures)
 
-        self.log(f'\n  WMO files parsed: {len(wmo_files)}')
+        self.log(f'\n  WMO files parsed: {len(wmo_files):,}')
         if newly_discovered_wmos:
             self.log(f'  Nested WMOs discovered: {len(newly_discovered_wmos):,}')
-        self.log(f'  M2 doodads found in WMOs: {len(phase2_doodads):,}')
-        self.log(f'  BLP textures found in WMOs: {len(phase2_textures):,}')
+        self.log(f'  M2 doodads found: {len(phase2_doodads):,}')
+        self.log(f'  BLP textures found: {len(phase2_textures):,}')
 
         # Summary of all M2 sources discovered so far
         self.log(f'\n  ━━━ M2 Model Sources Summary ━━━')
@@ -883,11 +960,11 @@ class ResourceParser:
         self.log(f'  Total unique M2 models: {total_m2s:,}')
 
     def parse_exported_m2s(self):
-        """Parse exported M2 models for BLP texture dependencies (Phase 3)"""
+        """Parse all M2 models in Export folder for BLP texture dependencies (Phase 3)"""
         from parsers.m2_texture_parser import parse_m2_textures
 
         self.log('\n' + '='*80)
-        self.log('STEP 11: Parsing exported M2 models for texture dependencies')
+        self.log('STEP 11: Parsing M2 models for texture dependencies')
         self.log('='*80)
 
         export_dir = self.paths['export']
@@ -897,12 +974,12 @@ class ResourceParser:
             self.log('  Export directory does not exist - skipping M2 parsing')
             return
 
-        # Find all M2 files in export directory
+        # Find all M2 files in export directory (includes Patch-O content from Phase 0)
         m2_files = []
         for ext in ['*.m2', '*.M2', '*.mdx', '*.MDX']:
             m2_files.extend(export_dir.rglob(ext))
 
-        self.log(f'Found {len(m2_files)} M2/MDX files in export directory')
+        self.log(f'M2 files found: {len(m2_files):,}')
 
         if not m2_files:
             self.log('  No M2 files to parse')
@@ -913,28 +990,33 @@ class ResourceParser:
         parsed_count = 0
         processed = 0
 
+        self.log(f'\nParsing M2 files for textures...')
+
         for m2_file in m2_files:
             processed += 1
-            # Log progress every 250 files
-            if processed % 250 == 0:
-                self.log(f'  Progress: {processed}/{len(m2_files)} M2 files parsed...')
+            # Log progress every 500 files
+            if processed % 500 == 0:
+                self.log(f'  Progress: {processed:,}/{len(m2_files):,} M2 files parsed...')
 
-            textures = parse_m2_textures(m2_file)
-            if textures:
-                # Track parent relationships: BLP textures → M2
-                # Get normalized M2 path (relative to export directory)
-                m2_rel_path = m2_file.relative_to(export_dir)
-                m2_normalized = self.normalize_path(str(m2_rel_path)).upper()
+            try:
+                textures = parse_m2_textures(m2_file)
+                if textures:
+                    # Track parent relationships: BLP textures → M2
+                    m2_rel_path = m2_file.relative_to(export_dir)
+                    m2_normalized = self.normalize_path(str(m2_rel_path)).upper()
 
-                for texture in textures:
-                    texture_normalized = self.normalize_path(texture).upper()
-                    # Only set parent if not already set (ADT terrain textures have higher priority)
-                    if texture_normalized not in self.asset_parents:
-                        self.asset_parents[texture_normalized] = m2_normalized
-                        self.parent_types[texture_normalized] = "BLP"
+                    for texture in textures:
+                        texture_normalized = self.normalize_path(texture).upper()
+                        phase3_m2_textures.add(texture_normalized)
 
-                phase3_m2_textures.update(textures)
-                parsed_count += 1
+                        # Only set parent if not already set (ADT terrain textures have higher priority)
+                        if texture_normalized not in self.asset_parents:
+                            self.asset_parents[texture_normalized] = m2_normalized
+                            self.parent_types[texture_normalized] = "BLP"
+
+                    parsed_count += 1
+            except Exception as e:
+                pass  # M2 texture parsing failures are common, don't log each one
 
         # Clear and set Phase 3 dependencies (textures from M2s + WMOs + ADTs)
         self.all_dependencies.clear()
@@ -942,11 +1024,11 @@ class ResourceParser:
         self.all_dependencies.update(self.wmo_textures)
         self.all_dependencies.update(self.adt_textures)
 
-        self.log(f'\n  M2 files parsed: {len(m2_files)}')
-        self.log(f'  M2 files with textures: {parsed_count}')
-        self.log(f'  Unique textures from M2s: {len(phase3_m2_textures)}')
-        self.log(f'  Unique textures from WMOs: {len(self.wmo_textures)}')
-        self.log(f'  Unique textures from ADTs: {len(self.adt_textures)}')
+        self.log(f'\n  M2 files parsed: {len(m2_files):,}')
+        self.log(f'  M2 files with textures: {parsed_count:,}')
+        self.log(f'  Unique textures from M2s: {len(phase3_m2_textures):,}')
+        self.log(f'  Unique textures from WMOs: {len(self.wmo_textures):,}')
+        self.log(f'  Unique textures from ADTs: {len(self.adt_textures):,}')
         self.log(f'  Total texture dependencies: {len(self.all_dependencies):,}')
 
     def load_stock_assets(self):
@@ -994,10 +1076,6 @@ class ResourceParser:
 
             if is_stock:
                 stock_count += 1
-                # Track stock-matched WMOs for Phase 1.5 texture scanning (I-048 fix)
-                # These WMOs have stock filenames but may contain custom textures
-                if asset_type == "WMO files" and normalized.endswith('.WMO'):
-                    self.stock_matched_wmos.add(normalized)
             else:
                 # CRITICAL: Add normalized path to match asset_parents keys
                 self.required_custom.add(normalized)
@@ -1009,10 +1087,6 @@ class ResourceParser:
         self.log(f'  ✅ Stock WotLK {asset_type} (already in base client): {stock_count:,}')
         self.log(f'  ⚠️  Custom/modern {asset_type} (need to extract): {len(self.required_custom):,}')
 
-        # Report stock-matched WMOs that will be scanned for custom textures
-        if asset_type == "WMO files" and self.stock_matched_wmos:
-            self.log(f'  ℹ️  Stock-matched WMOs to scan for custom textures: {len(self.stock_matched_wmos):,}')
-
     def find_assets(self, step_number: int, asset_type: str):
         """Search for required assets in source directory"""
         self.log('\n' + '='*80)
@@ -1022,17 +1096,17 @@ class ResourceParser:
         assets_dir = self.paths['assets_source']
         self.log(f'\nAssets Source: {assets_dir}')
 
-        # Build asset lookup map (include .anim files now)
+        # Build asset lookup map from cached folder contents (Step 0)
+        # This avoids re-walking the entire assets directory
         asset_map = {}
-        for root, dirs, files in os.walk(assets_dir):
-            for file in files:
-                if file.lower().endswith(('.m2', '.mdx', '.wmo', '.skin', '.blp', '.anim')):
-                    full_path = Path(root) / file
-                    rel_path = full_path.relative_to(assets_dir)
+        for folder_path, folder_contents in self.folder_cache.items():
+            for file_upper, file_path in folder_contents.items():
+                if file_upper.endswith(('.M2', '.MDX', '.WMO', '.SKIN', '.BLP', '.ANIM')):
+                    rel_path = file_path.relative_to(assets_dir)
                     normalized = str(rel_path).upper().replace('\\', '/')
-                    asset_map[normalized] = full_path
+                    asset_map[normalized] = file_path
 
-        self.log(f'  Scanned: {len(asset_map):,} available assets')
+        self.log(f'  Using cached index: {len(asset_map):,} available assets')
 
         # Match required assets (with debug logging for first few misses)
         not_found_sample = []
@@ -1383,20 +1457,23 @@ class ResourceParser:
             elif asset not in asset_map:  # In found_assets but not exact match = fuzzy
                 fuzzy_match_count += 1
 
+        # Calculate how many of the REQUESTED assets were found
+        requested_found_count = len(self.required_custom) - len(actually_missing_set)
+
         if not actually_missing_set:
             if fuzzy_match_count > 0:
                 self.log(f'  ✅ Found all {len(self.required_custom):,} requested {asset_type} ({fuzzy_match_count:,} via fuzzy matching)')
             else:
                 self.log(f'  ✅ Found all {len(self.required_custom):,} requested {asset_type}')
         else:
-            self.log(f'  ⚠️  Found {root_assets_found:,} of {len(self.required_custom):,} requested {asset_type}')
+            self.log(f'  ⚠️  Found {requested_found_count:,} of {len(self.required_custom):,} requested {asset_type}')
             self.log(f'  ⚠️  Missing: {len(actually_missing_set):,} {asset_type}')
 
         # Store missing count for later use
         missing_count = len(actually_missing_set)
 
-        # Show extra assets found via folder scanning
-        extra_count = root_assets_found - len(self.required_custom)
+        # Show extra assets found via folder scanning (root files beyond what was requested)
+        extra_count = root_assets_found - requested_found_count
         if extra_count > 0:
             self.log(f'  + Found {extra_count:,} additional {asset_type} variants via folder scanning')
 
@@ -1699,113 +1776,6 @@ class ResourceParser:
             self.log(f'  Total: {len(extracted_this_phase):,} {asset_type}')
         else:
             self.log(f'\n  Extracted: {len(extracted_this_phase):,} {asset_type}')
-
-    def scan_stock_matched_wmo_textures(self):
-        """
-        Phase 1.5: Scan stock-matched WMOs for custom textures (I-048 fix).
-
-        Some WMOs have stock WotLK filenames but contain references to custom textures.
-        This method finds those WMOs in the Asset Library and extracts any non-stock
-        textures they reference.
-        """
-        if not self.stock_matched_wmos:
-            self.log('\n  No stock-matched WMOs to scan for custom textures')
-            return
-
-        self.log('\n' + '='*80)
-        self.log('STEP 5.5: Scanning stock-matched WMOs for custom textures (I-048 fix)')
-        self.log('='*80)
-
-        self.log(f'\nStock-matched WMOs to scan: {len(self.stock_matched_wmos):,}')
-        self.log(f'  These WMOs have stock filenames but may reference custom textures')
-
-        from parsers.wmo_parser import WMOParser
-
-        assets_dir = self.paths['assets_source']
-        wmos_found = 0
-        wmos_with_custom_textures = 0
-        total_custom_textures = 0
-        total_stock_textures = 0
-
-        # Build asset map if not already cached
-        asset_map = {}
-        for root, dirs, files in os.walk(assets_dir):
-            for file in files:
-                if file.lower().endswith('.wmo'):
-                    full_path = Path(root) / file
-                    rel_path = full_path.relative_to(assets_dir)
-                    normalized = str(rel_path).upper().replace('\\', '/')
-                    asset_map[normalized] = full_path
-
-        self.log(f'  Scanned Asset Library: {len(asset_map):,} WMO files available')
-
-        for wmo_normalized in self.stock_matched_wmos:
-            # Try to find this WMO in Asset Library
-            wmo_path = None
-
-            # Exact match
-            if wmo_normalized in asset_map:
-                wmo_path = asset_map[wmo_normalized]
-            else:
-                # Try filename-only match (WMO might be in different path)
-                wmo_filename = wmo_normalized.split('/')[-1]
-                for key, path in asset_map.items():
-                    if key.endswith('/' + wmo_filename) or key == wmo_filename:
-                        wmo_path = path
-                        break
-
-            if not wmo_path:
-                continue
-
-            wmos_found += 1
-
-            # Parse WMO for texture references
-            try:
-                parser = WMOParser(wmo_path)
-                _, textures = parser.parse_all()
-
-                if not textures:
-                    continue
-
-                # Filter textures against stock registry
-                custom_textures_in_wmo = []
-                for texture in textures:
-                    texture_normalized = self.normalize_path(texture).upper()
-
-                    # Check if texture is in stock registry
-                    is_stock = texture_normalized in self.stock_assets
-
-                    if is_stock:
-                        total_stock_textures += 1
-                    else:
-                        custom_textures_in_wmo.append(texture_normalized)
-                        total_custom_textures += 1
-
-                        # Add to the set for Phase 3 extraction
-                        self.stock_matched_wmo_textures.add(texture_normalized)
-
-                        # Track parent relationship: texture → stock-matched WMO
-                        if texture_normalized not in self.asset_parents:
-                            self.asset_parents[texture_normalized] = wmo_normalized
-                            self.parent_types[texture_normalized] = "BLP"
-
-                if custom_textures_in_wmo:
-                    wmos_with_custom_textures += 1
-                    if self.options.get('verbose', True):
-                        wmo_name = wmo_path.name
-                        self.log(f'  {wmo_name}: {len(custom_textures_in_wmo)} custom, {len(textures) - len(custom_textures_in_wmo)} stock textures')
-
-            except Exception as e:
-                self.log(f'  Warning: Could not parse {wmo_path.name}: {e}')
-
-        self.log(f'\nStock-matched WMO texture scan results:')
-        self.log(f'  WMOs found in Asset Library: {wmos_found:,} / {len(self.stock_matched_wmos):,}')
-        self.log(f'  WMOs with custom textures: {wmos_with_custom_textures:,}')
-        self.log(f'  Stock textures (skipped): {total_stock_textures:,}')
-        self.log(f'  Custom textures (to extract): {total_custom_textures:,}')
-
-        if self.stock_matched_wmo_textures:
-            self.log(f'\n  ℹ️  {len(self.stock_matched_wmo_textures)} custom textures will be extracted in Phase 3')
 
     def report_missing_assets(self, asset_type: str):
         """Report what assets are still missing after extraction attempt with full parent chains"""
@@ -2489,16 +2459,32 @@ class ResourceParser:
 
     def run(self):
         """
-        Execute full extraction workflow (Four-Phase Approach).
+        Execute full extraction workflow (Five-Phase Approach).
 
-        Phase 1: WMO Hunting - Extract WMO files first
-        Phase 1.5: Stock-Matched WMO Texture Scanning (I-048 fix)
-        Phase 2: M2 Hunting - Extract M2 models (from ADTs, ground effects, and Phase 1 WMOs)
-        Phase 3: Texture/Skin Hunting - Extract textures and skins from Phase 2 M2s
-        Phase 4: MPQ Building - Package extracted assets into MPQ (optional)
+        Phase 0: Content Staging
+                 - Copy all Patch-O content to Export folder
+                 - Creates unified working directory
+
+        Phase 1: Discovery & WMO Extraction
+                 - Parse ADTs for asset references
+                 - Filter WMOs against stock registry
+                 - Extract custom WMOs from Asset Library
+
+        Phase 2: WMO Parsing & M2 Extraction
+                 - Parse all WMOs for dependencies (textures, M2 doodads)
+                 - Filter M2s against stock registry
+                 - Extract custom M2s from Asset Library
+
+        Phase 3: M2 Parsing & Texture Extraction
+                 - Parse all M2s for texture dependencies
+                 - Combine all texture sources
+                 - Filter and extract custom textures
+
+        Phase 4: MPQ Building (optional)
+                 - Package entire Export folder into single MPQ
         """
         self.log('='*80)
-        self.log('OPEN AZEROTH RESOURCE PARSER (Three-Phase Extraction)')
+        self.log('OPEN AZEROTH RESOURCE PARSER')
         self.log('='*80)
 
         try:
@@ -2507,85 +2493,88 @@ class ResourceParser:
             self.build_folder_cache(assets_dir)
 
             # ============================================================
-            # PHASE 1: WMO HUNTING
+            # PHASE 0: CONTENT STAGING
             # ============================================================
             self.log('\n' + '='*80)
-            self.log('PHASE 1: WMO HUNTING')
+            self.log('PHASE 0: CONTENT STAGING')
             self.log('='*80)
 
-            # Parse ADTs (gets both M2s and WMOs, but only process WMOs in this phase)
+            # Copy Patch-O content to Export folder
+            self.copy_patch_o_to_export()
+
+            # ============================================================
+            # PHASE 1: DISCOVERY & WMO EXTRACTION
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 1: DISCOVERY & WMO EXTRACTION')
+            self.log('='*80)
+
+            # Parse ADTs for asset references (WMOs, M2s, ground effects, terrain textures)
             self.parse_adts()
             self.detect_duplicate_wmos()  # Optional: Detect duplicate WMO placements
 
-            # Load stock assets list
+            # Load stock assets registry
             self.load_stock_assets()
 
-            # Process WMOs only
+            # Filter and extract WMOs
             self.all_dependencies.clear()
             self.all_dependencies.update(self.adt_wmos)
 
             self.filter_stock_assets(step_number=3, asset_type="WMO files")
-            self.total_wmo_required = len(self.required_custom)  # Save WMO count
+            self.total_wmo_required = len(self.required_custom)
             self.find_assets(step_number=4, asset_type="WMO files")
             self.extract_assets(step_number=5, asset_type="WMO files")
             self.report_missing_assets(asset_type="WMO files")
 
-            # Phase 1.5: Scan stock-matched WMOs for custom textures (I-048 fix)
-            self.scan_stock_matched_wmo_textures()
-
             # ============================================================
-            # PHASE 2: M2 HUNTING
+            # PHASE 2: WMO PARSING & M2 EXTRACTION
             # ============================================================
             self.log('\n' + '='*80)
-            self.log('PHASE 2: M2 HUNTING')
+            self.log('PHASE 2: WMO PARSING & M2 EXTRACTION')
             self.log('='*80)
 
-            # Parse ground effects
+            # Parse ground effects DBC for M2 models
             self.parse_ground_effects()
 
-            # Parse exported WMOs from Phase 1 for M2 doodads
+            # Parse all WMO sources for M2 doodads and textures
+            # (includes both exported WMOs from Phase 1 and Patch-O WMOs)
             self.parse_exported_wmos()
 
-            # Now process all M2 sources: ADTs + ground effects + WMO doodads
+            # Combine all M2 sources
             self.all_dependencies.clear()
-            # Add M2s from ADTs
+            # M2s from ADT direct references
             for models in self.adt_models.values():
                 self.all_dependencies.update(models)
-            # Add ground effect doodads (only those referenced by ADTs)
-            ground_effects_from_adts = set()
+            # M2s from ground effects
             for effect_id, models in self.ground_effect_id_to_models.items():
-                ground_effects_from_adts.update(models)
-            self.all_dependencies.update(ground_effects_from_adts)
-            # Add WMO doodads
+                self.all_dependencies.update(models)
+            # M2s from WMO doodads
             self.all_dependencies.update(self.wmo_doodads)
 
+            # Filter and extract M2s
             self.required_custom.clear()
             self.filter_stock_assets(step_number=8, asset_type="M2 models")
-            self.total_m2_required = len(self.required_custom)  # Save M2 count
+            self.total_m2_required = len(self.required_custom)
             self.find_assets(step_number=9, asset_type="M2 models")
             self.extract_assets(step_number=10, asset_type="M2 models")
             self.report_missing_assets(asset_type="M2 models")
 
             # ============================================================
-            # PHASE 3: TEXTURE/SKIN HUNTING
+            # PHASE 3: M2 PARSING & TEXTURE EXTRACTION
             # ============================================================
             self.log('\n' + '='*80)
-            self.log('PHASE 3: TEXTURE/SKIN HUNTING')
+            self.log('PHASE 3: M2 PARSING & TEXTURE EXTRACTION')
             self.log('='*80)
 
-            # Parse exported M2s from Phase 2 for textures
+            # Parse all M2 sources for textures
+            # (includes both exported M2s from Phase 2 and Patch-O M2s)
+            # Also combines textures from WMOs and ADTs into all_dependencies
             self.parse_exported_m2s()
 
-            # Add custom textures from stock-matched WMOs (Phase 1.5, I-048 fix)
-            if self.stock_matched_wmo_textures:
-                self.all_dependencies.update(self.stock_matched_wmo_textures)
-                self.log(f'\n  Added {len(self.stock_matched_wmo_textures):,} textures from stock-matched WMOs')
-
-            # all_dependencies already updated by parse_exported_m2s()
-            # but we need to reset for Phase 3
+            # Filter and extract textures
             self.required_custom.clear()
             self.filter_stock_assets(step_number=12, asset_type="textures")
-            self.total_texture_required = len(self.required_custom)  # Save texture count
+            self.total_texture_required = len(self.required_custom)
             self.find_assets(step_number=13, asset_type="textures")
             self.extract_assets(step_number=14, asset_type="textures")
             self.report_missing_assets(asset_type="textures")
@@ -2594,7 +2583,7 @@ class ResourceParser:
             # REPORTING
             # ============================================================
             self.analyze_missing_by_area()
-            self.generate_duplicate_wmo_report()  # Generate duplicate WMO report if enabled
+            self.generate_duplicate_wmo_report()
             log_path = self.generate_log()
 
             # ============================================================

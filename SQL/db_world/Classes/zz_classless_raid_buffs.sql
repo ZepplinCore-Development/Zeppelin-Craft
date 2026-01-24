@@ -522,3 +522,21 @@ INSERT INTO `creature_loot_template` SET
 
 
 
+-- =============================================================================
+-- CLASS BUFF MASTERY PASSIVES
+-- Original classes get free casting (no Azerite Shard cost) via Aura 256
+-- Spells are defined in DBC database, this adds them to character creation
+-- =============================================================================
+
+-- Priest Buff Mastery (104000) - Free Prayer of Fortitude & Prayer of Spirit
+-- Druid Buff Mastery (104001) - Free Gift of the Wild
+-- Mage Buff Mastery (104002) - Free Arcane Brilliance
+-- Paladin Buff Mastery (104003) - Free Greater Blessing of Kings
+DELETE FROM `playercreateinfo_spell_custom` WHERE (`Spell` IN (104000, 104001, 104002, 104003));
+INSERT INTO `playercreateinfo_spell_custom` (`racemask`, `classmask`, `Spell`, `Note`) VALUES
+(0, 16, 104000, 'F-004 Priest Buff Mastery - No reagent for Fortitude/Spirit'),
+(0, 1024, 104001, 'F-004 Druid Buff Mastery - No reagent for Gift of the Wild'),
+(0, 128, 104002, 'F-004 Mage Buff Mastery - No reagent for Arcane Brilliance'),
+(0, 2, 104003, 'F-004 Paladin Buff Mastery - No reagent for Greater Blessing of Kings');
+
+
