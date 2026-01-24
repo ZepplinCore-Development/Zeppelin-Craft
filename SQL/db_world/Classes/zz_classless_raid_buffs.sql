@@ -444,6 +444,24 @@ INSERT INTO `creature_loot_template` SET
     `Chance` = 10.0,
     `Comment` = 'Murmur - Codex: Prayer of Spirit II';
 
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 20306,
+    `Item` = 100004,
+    `Chance` = 25.0,
+    `Comment` = 'Exarch Maladaar (Heroic) - Codex: Prayer of Spirit II';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 20653,
+    `Item` = 100004,
+    `Chance` = 25.0,
+    `Comment` = 'Grandmaster Vorpil (Heroic) - Codex: Prayer of Spirit II';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 20657,
+    `Item` = 100004,
+    `Chance` = 25.0,
+    `Comment` = 'Murmur (Heroic) - Codex: Prayer of Spirit II';
+
 
 
 
@@ -510,6 +528,18 @@ INSERT INTO `creature_loot_template` SET
     `Item` = 100005,
     `Chance` = 12.0,
     `Comment` = 'Jedoga Shadowseeker - Codex: Prayer of Spirit III';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 31464,
+    `Item` = 100005,
+    `Chance` = 25.0,
+    `Comment` = 'Herald Volazj (Heroic) - Codex: Prayer of Spirit III';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 31465,
+    `Item` = 100005,
+    `Chance` = 25.0,
+    `Comment` = 'Jedoga Shadowseeker (Heroic) - Codex: Prayer of Spirit III';
 
 
 
