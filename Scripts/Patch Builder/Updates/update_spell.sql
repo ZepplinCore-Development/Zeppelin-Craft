@@ -80,6 +80,30 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 432;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 436;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 437;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 438;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 439;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 440;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 441;
+
+UPDATE `dbc`.`spell` SET 
     `AttributesEx3` = 0 /* was 536870912 */,
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
@@ -361,6 +385,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2018;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 2023;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 2024;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 16 /* was 0 */
 WHERE `ID` = 2108;
@@ -463,6 +495,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2368;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 2370;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 32 /* was 0 */
 WHERE `ID` = 2385;
@@ -550,6 +586,14 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 4 /* was 0 */
 WHERE `ID` = 2576;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 2599;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 2600;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 6 /* was 5 */,
@@ -1315,6 +1359,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 32 /* was 0 */
 WHERE `ID` = 3915;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 4042;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -3246,6 +3294,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 11252;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 11387;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 11454;
@@ -3285,6 +3337,10 @@ UPDATE `dbc`.`spell` SET
     `EffectRealPointsPerLevel2` = 5.0 /* was 0.0 */,
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 11829;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 11903;
 
 UPDATE `dbc`.`spell` SET 
     `MaximumLevel` = 80 /* was 0 */,
@@ -4481,6 +4537,18 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17481;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 17530;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 17531;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 17534;
+
+UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 17740;
 
@@ -4775,6 +4843,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 32 /* was 0 */
 WHERE `ID` = 18560;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 18832;
 
 UPDATE `dbc`.`spell` SET 
     `AttributesEx3` = 0 /* was 536870912 */,
@@ -5108,6 +5180,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 19107;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 19199;
+
+UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 8000 /* was 0 */,
     `CategoryRecoveryTime` = 0 /* was 24000 */,
     `BaseLevel` = 4 /* was 36 */,
@@ -5340,6 +5416,22 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21161;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 21393;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 21394;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 21395;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 21396;
+
+UPDATE `dbc`.`spell` SET 
     `Reagent1` = 58302 /* was 17028 */,
     `ManaCostPercentage` = 0 /* was 69 */
 WHERE `ID` = 21562;
@@ -5518,6 +5610,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 16 /* was 0 */
 WHERE `ID` = 22727;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 22729;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -7651,6 +7747,18 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28482;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 28495;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 28499;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 28517;
+
+UPDATE `dbc`.`spell` SET 
     `Effect2` = 6 /* was 0 */,
     `Effect3` = 6 /* was 0 */,
     `EffectDieSides2` = 1 /* was 0 */,
@@ -7687,6 +7795,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 2 /* was 0 */
 WHERE `ID` = 28695;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 28718;
 
 UPDATE `dbc`.`spell` SET 
     `RangeIndex` = 3 /* was 1 */,
@@ -7736,6 +7848,10 @@ UPDATE `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190 /* was 16712188 */,
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */
 WHERE `ID` = 29107;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 29236;
 
 UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 28 */,
@@ -10594,6 +10710,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41252;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 41304;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 41306;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 41414;
@@ -10679,6 +10803,22 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 41518;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 41617;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 41618;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 41619;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 41620;
 
 UPDATE `dbc`.`spell` SET 
     `SpellRankFlags7` = 16712190 /* was 16712172 */,
@@ -10848,6 +10988,14 @@ UPDATE `dbc`.`spell` SET
     `SpellDescription0` = 'Increases Armor by $m1 and Threat generated by $m3%.   If an enemy strikes the caster, they may have their movement slowed by $6136s1% and the time between their attacks increased by $6136s2% for $6136d.  Only one type of Armor spell can be active on the Mage at any time.  Lasts $d.' /* was 'Increases Armor by $s1 and Frost resistance by $s3.   If an enemy strikes the caster, they may have their movement slowed by $7321s1% and the time between their attacks increased by $7321s2% for $7321d.  Only one type of Armor spell can be active on the Mage at any time.  Lasts $d.' */,
     `SpellToolTip0` = 'Increases Armor and Threat generated. May slow attackers.' /* was 'Increases armor by $s1, Frost resistance by $s3 and may slow attackers.' */
 WHERE `ID` = 43008;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 43185;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 43186;
 
 UPDATE `dbc`.`spell` SET 
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */
@@ -11127,6 +11275,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 16 /* was 0 */
 WHERE `ID` = 44970;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 45051;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -11528,6 +11680,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 32 /* was 0 */
 WHERE `ID` = 49677;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 49748;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -12029,6 +12185,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 52572;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 52697;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 16 /* was 0 */
 WHERE `ID` = 52733;
@@ -12037,6 +12197,10 @@ UPDATE `dbc`.`spell` SET
     `Reagent1` = 0 /* was 17031 */,
     `ReagentCount1` = 0 /* was 1 */
 WHERE `ID` = 53140;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 53144;
 
 UPDATE `dbc`.`spell` SET 
     `RecoveryTime` = 10000 /* was 180000 */,
@@ -12054,8 +12218,20 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 53482;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 53670;
+
+UPDATE `dbc`.`spell` SET 
     `SpellName0` = 'Increased Spirit 34' /* was 'Guru's Elixir' */
 WHERE `ID` = 53749;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 53750;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 53761;
 
 UPDATE `dbc`.`spell` SET 
     `SpellName0` = 'Increased Spirit 34' /* was 'Guru's Elixir' */
@@ -12110,6 +12286,10 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyName` = 14 /* was 0 */,
     `SpellFamilyFlags` = 1 /* was 0 */
 WHERE `ID` = 54557;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 54572;
 
 UPDATE `dbc`.`spell` SET 
     `Dispel` = 0 /* was 1 */,
@@ -13391,6 +13571,14 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 58819;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 58862;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 58864;
+
+UPDATE `dbc`.`spell` SET 
     `Totem1` = 0 /* was 20815 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 58954;
@@ -14369,6 +14557,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 61309;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 8 /* was 0 */
+WHERE `ID` = 61371;
+
+UPDATE `dbc`.`spell` SET 
     `CastingTimeIndex` = 14 /* was 16 */,
     `MaximumLevel` = 60 /* was 0 */,
     `BaseLevel` = 20 /* was 0 */,
@@ -14610,6 +14802,10 @@ UPDATE `dbc`.`spell` SET
     `SpellToolTipFlags7` = 16712190 /* was 16712188 */,
     `TotemCategory1` = 191 /* was 0 */
 WHERE `ID` = 62203;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 62352;
 
 UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 14 /* was 0 */,
@@ -15608,6 +15804,22 @@ UPDATE `dbc`.`spell` SET
     `SpellFamilyFlags` = 2147483648 /* was 0 */,
     `SpellDescriptionVariableID` = 182 /* was 0 */
 WHERE `ID` = 67466;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 67486;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 67487;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 2 /* was 0 */
+WHERE `ID` = 67489;
+
+UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 67490;
 
 UPDATE `dbc`.`spell` SET 
     `Dispel` = 1 /* was 0 */,
@@ -25100,11 +25312,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -25126,7 +25342,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25152,7 +25368,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25178,7 +25394,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25204,7 +25420,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25230,7 +25446,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25256,7 +25472,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25282,7 +25498,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
-    `SpellIconID` = 16,
+    `SpellIconID` = 5644,
     `SpellName0` = 'Fire Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
@@ -25308,11 +25524,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -25334,7 +25554,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25360,7 +25580,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25386,7 +25606,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25412,7 +25632,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25438,7 +25658,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25464,7 +25684,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25490,7 +25710,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
-    `SpellIconID` = 181,
+    `SpellIconID` = 4905,
     `SpellName0` = 'Frost Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
@@ -25516,11 +25736,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -25542,7 +25766,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25568,7 +25792,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25594,7 +25818,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25620,7 +25844,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25646,7 +25870,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25672,7 +25896,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25698,7 +25922,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
-    `SpellIconID` = 122,
+    `SpellIconID` = 4793,
     `SpellName0` = 'Arcane Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
@@ -25724,11 +25948,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -25750,7 +25978,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25776,7 +26004,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25802,7 +26030,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25828,7 +26056,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25854,7 +26082,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25880,7 +26108,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25906,7 +26134,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
-    `SpellIconID` = 210,
+    `SpellIconID` = 5058,
     `SpellName0` = 'Shadow Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
@@ -25932,11 +26160,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -25958,7 +26190,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -25984,7 +26216,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26010,7 +26242,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26036,7 +26268,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26062,7 +26294,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26088,7 +26320,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26114,7 +26346,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
-    `SpellIconID` = 133,
+    `SpellIconID` = 5183,
     `SpellName0` = 'Nature Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
@@ -26140,11 +26372,15 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
+    `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
+    `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
+    `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
+    `SpellToolTipFlags7` = 16712190,
     `StartRecoveryCategory` = 133,
     `DamageClass` = 1,
     `PreventionType` = 1;
@@ -26166,7 +26402,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26192,7 +26428,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26218,7 +26454,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26244,7 +26480,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26270,7 +26506,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26296,7 +26532,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
@@ -26322,7 +26558,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 21,
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
-    `SpellIconID` = 73,
+    `SpellIconID` = 5546,
     `SpellName0` = 'Holy Resistance',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
