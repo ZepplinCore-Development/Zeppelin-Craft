@@ -2,7 +2,10 @@
 -- F-025 Tier Satchel Proof of Concept
 -- Tests class-conditional container loot with T1 Helms
 --
--- STATUS: Ready for Testing (requires worldserver restart for conditions)
+-- KEY REQUIREMENT: GroupIds in reference_loot must MATCH the parent GroupId
+-- in item_loot_template. This is what makes class-specific drops work.
+--
+-- STATUS: ✅ WORKING (tested 2026-01-24)
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
@@ -21,61 +24,67 @@ INSERT INTO item_template (
     1585,            -- displayid (bag icon)
     4,               -- Quality (4 = Epic)
     4,               -- Flags (4 = BoP)
-    0,               -- BuyPrice
-    0,               -- SellPrice
+    0, 0,            -- Buy/Sell Price
     0,               -- InventoryType (0 = non-equippable)
-    66,              -- ItemLevel
-    60,              -- RequiredLevel
+    66, 60,          -- ItemLevel, RequiredLevel
     1,               -- bonding (1 = BoP)
-    0,               -- Material
-    1,               -- MaxCount
-    1,               -- stackable
-    0,               -- ContainerSlots (0 = not a bag, just openable)
+    0, 1, 1,         -- Material, MaxCount, stackable
+    0,               -- ContainerSlots
     0, 0, 0, 0, 0    -- no combat stats
 );
 
 -- -----------------------------------------------------------------------------
--- 2. ITEM LOOT TABLE - Each class in separate GroupId
+-- 2. CLEANUP ALL OLD STRUCTURES
 -- -----------------------------------------------------------------------------
--- Each helm has 100% chance in its own GroupId
--- Conditions should filter so only one drops per class
+DELETE FROM reference_loot_template WHERE Entry BETWEEN 900100 AND 900109;
 DELETE FROM item_loot_template WHERE Entry = 900100;
-INSERT INTO item_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
-(900100, 16866, 100, 1, 1, 1),  -- Helm of Might (Warrior)
-(900100, 16854, 100, 2, 1, 1),  -- Lawbringer Helm (Paladin)
-(900100, 16846, 100, 3, 1, 1),  -- Giantstalker's Helmet (Hunter)
-(900100, 16821, 100, 4, 1, 1),  -- Nightslayer Cover (Rogue)
-(900100, 16813, 100, 5, 1, 1),  -- Circlet of Prophecy (Priest)
-(900100, 16842, 100, 6, 1, 1),  -- Earthfury Helmet (Shaman)
-(900100, 16795, 100, 7, 1, 1),  -- Arcanist Crown (Mage)
-(900100, 16808, 100, 8, 1, 1),  -- Felheart Horns (Warlock)
-(900100, 16834, 100, 9, 1, 1);  -- Cenarion Helm (Druid)
+DELETE FROM conditions WHERE SourceTypeOrReferenceId IN (4, 5, 10) AND SourceGroup BETWEEN 900100 AND 900109;
 
 -- -----------------------------------------------------------------------------
--- 3. CLASS CONDITIONS - Filter each helm to its class
+-- 3. REFERENCE TABLES - One per class, GroupId MATCHES parent!
 -- -----------------------------------------------------------------------------
--- SourceTypeOrReferenceId = 4 (item_loot_template condition)
--- SourceGroup = Item Entry (900100 = satchel)
--- SourceEntry = Item ID being conditioned
--- ConditionTypeOrReference = 15 (CLASS condition)
--- ConditionValue1 = Class mask
---
--- Class Masks: Warrior=1, Paladin=2, Hunter=4, Rogue=8, Priest=16,
---              Shaman=64, Mage=128, Warlock=256, Druid=1024
-DELETE FROM conditions WHERE SourceTypeOrReferenceId = 4 AND SourceGroup = 900100;
-INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, ErrorType, ErrorTextId, ScriptName, Comment) VALUES
-(4, 900100, 16866, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T1 Helm - Warrior'),
-(4, 900100, 16854, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T1 Helm - Paladin'),
-(4, 900100, 16846, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T1 Helm - Hunter'),
-(4, 900100, 16821, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T1 Helm - Rogue'),
-(4, 900100, 16813, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T1 Helm - Priest'),
-(4, 900100, 16842, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T1 Helm - Shaman'),
-(4, 900100, 16795, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T1 Helm - Mage'),
-(4, 900100, 16808, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T1 Helm - Warlock'),
-(4, 900100, 16834, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T1 Helm - Druid');
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment) VALUES
+(900101, 16866, 0, 0, 0, 1, 1, 1, 1, 'Helm of Might - Warrior'),
+(900102, 16854, 0, 0, 0, 1, 2, 1, 1, 'Lawbringer Helm - Paladin'),
+(900103, 16846, 0, 0, 0, 1, 3, 1, 1, 'Giantstalker Helmet - Hunter'),
+(900104, 16821, 0, 0, 0, 1, 4, 1, 1, 'Nightslayer Cover - Rogue'),
+(900105, 16813, 0, 0, 0, 1, 5, 1, 1, 'Circlet of Prophecy - Priest'),
+(900106, 16842, 0, 0, 0, 1, 6, 1, 1, 'Earthfury Helmet - Shaman'),
+(900107, 16795, 0, 0, 0, 1, 7, 1, 1, 'Arcanist Crown - Mage'),
+(900108, 16808, 0, 0, 0, 1, 8, 1, 1, 'Felheart Horns - Warlock'),
+(900109, 16834, 0, 0, 0, 1, 9, 1, 1, 'Cenarion Helm - Druid');
 
 -- -----------------------------------------------------------------------------
--- 4. TEST CREATURE (Entry 900100) - Level 1 for easy testing
+-- 4. ITEM LOOT TABLE - References with matching GroupIds
+-- -----------------------------------------------------------------------------
+INSERT INTO item_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment) VALUES
+(900100, 1, 900101, 100, 0, 1, 1, 1, 1, 'Ref: Warrior'),
+(900100, 2, 900102, 100, 0, 1, 2, 1, 1, 'Ref: Paladin'),
+(900100, 3, 900103, 100, 0, 1, 3, 1, 1, 'Ref: Hunter'),
+(900100, 4, 900104, 100, 0, 1, 4, 1, 1, 'Ref: Rogue'),
+(900100, 5, 900105, 100, 0, 1, 5, 1, 1, 'Ref: Priest'),
+(900100, 6, 900106, 100, 0, 1, 6, 1, 1, 'Ref: Shaman'),
+(900100, 7, 900107, 100, 0, 1, 7, 1, 1, 'Ref: Mage'),
+(900100, 8, 900108, 100, 0, 1, 8, 1, 1, 'Ref: Warlock'),
+(900100, 9, 900109, 100, 0, 1, 9, 1, 1, 'Ref: Druid');
+
+-- -----------------------------------------------------------------------------
+-- 5. CONDITIONS - Single-class masks (SourceType=10, ConditionType=15)
+-- -----------------------------------------------------------------------------
+-- Class Masks: War=1, Pal=2, Hun=4, Rog=8, Pri=16, Sha=64, Mag=128, Loc=256, Dru=1024
+INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, ErrorType, ErrorTextId, ScriptName, Comment) VALUES
+(10, 900101, 16866, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'Warrior: Helm of Might'),
+(10, 900102, 16854, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'Paladin: Lawbringer Helm'),
+(10, 900103, 16846, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'Hunter: Giantstalker Helmet'),
+(10, 900104, 16821, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'Rogue: Nightslayer Cover'),
+(10, 900105, 16813, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'Priest: Circlet of Prophecy'),
+(10, 900106, 16842, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'Shaman: Earthfury Helmet'),
+(10, 900107, 16795, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'Mage: Arcanist Crown'),
+(10, 900108, 16808, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'Warlock: Felheart Horns'),
+(10, 900109, 16834, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'Druid: Cenarion Helm');
+
+-- -----------------------------------------------------------------------------
+-- 6. TEST CREATURE (Entry 900100)
 -- -----------------------------------------------------------------------------
 DELETE FROM creature_template WHERE entry = 900100;
 DELETE FROM creature_template_model WHERE CreatureID = 900100;
@@ -85,45 +94,19 @@ INSERT INTO creature_template (
     unit_class, unit_flags, type, type_flags, HealthModifier, ManaModifier, ArmorModifier,
     ExperienceModifier, RacialLeader, RegenHealth, mechanic_immune_mask, AIName
 ) VALUES (
-    900100,
-    'Satchel Test Dummy',
-    'F-025 POC',
-    1,                -- minlevel
-    1,                -- maxlevel
-    7,                -- faction (Creature - neutral/attackable)
-    0,                -- npcflag (none - just killable)
-    1,                -- speed_walk
-    1.14286,          -- speed_run
-    1,                -- unit_class (Warrior)
-    0,                -- unit_flags
-    10,               -- type (Humanoid)
-    0,                -- type_flags
-    0.01,             -- HealthModifier (very low HP for instant kill)
-    1,                -- ManaModifier
-    1,                -- ArmorModifier
-    0,                -- ExperienceModifier (no XP)
-    0,                -- RacialLeader
-    1,                -- RegenHealth
-    0,                -- mechanic_immune_mask
-    ''                -- AIName
+    900100, 'Satchel Test Dummy', 'F-025 POC',
+    1, 1, 7, 0, 1, 1.14286,
+    1, 0, 10, 0, 0.01, 1, 1, 0, 0, 1, 0, ''
 );
 
--- Model entry required for creature to render in-game
 INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES
-(900100, 0, 7937, 1, 1, 12340);  -- Training Dummy model
+(900100, 0, 7937, 1, 1, 12340);
 
 -- -----------------------------------------------------------------------------
--- 5. CREATURE LOOT TABLE - 100% satchel drop
+-- 7. CREATURE LOOT TABLE
 -- -----------------------------------------------------------------------------
 DELETE FROM creature_loot_template WHERE Entry = 900100;
 INSERT INTO creature_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
-(900100, 900100, 100, 0, 1, 1);  -- 100% chance to drop satchel
+(900100, 900100, 100, 0, 1, 1);
 
--- Link creature to loot table
 UPDATE creature_template SET lootid = 900100 WHERE entry = 900100;
-
--- -----------------------------------------------------------------------------
--- CLEANUP: Remove old reference_loot_template approach if exists
--- -----------------------------------------------------------------------------
-DELETE FROM reference_loot_template WHERE Entry = 900100;
-DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup = 900100;
