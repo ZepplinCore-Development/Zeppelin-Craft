@@ -1397,6 +1397,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103306,
+    `description` = 'Teaches you how to scribe Scroll of Fire Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1421,6 +1422,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103307,
+    `description` = 'Teaches you how to scribe Scroll of Frost Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1445,6 +1447,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103308,
+    `description` = 'Teaches you how to scribe Scroll of Arcane Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1469,6 +1472,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103309,
+    `description` = 'Teaches you how to scribe Scroll of Shadow Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1493,6 +1497,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103310,
+    `description` = 'Teaches you how to scribe Scroll of Nature Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1517,6 +1522,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103311,
+    `description` = 'Teaches you how to scribe Scroll of Holy Resistance II.',
     `spelltrigger_2` = 6;
 
 
@@ -1592,6 +1598,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103312,
+    `description` = 'Teaches you how to scribe Scroll of Fire Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1616,6 +1623,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103313,
+    `description` = 'Teaches you how to scribe Scroll of Frost Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1640,6 +1648,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103314,
+    `description` = 'Teaches you how to scribe Scroll of Arcane Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1664,6 +1673,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103315,
+    `description` = 'Teaches you how to scribe Scroll of Shadow Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1688,6 +1698,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103316,
+    `description` = 'Teaches you how to scribe Scroll of Nature Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1712,6 +1723,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103317,
+    `description` = 'Teaches you how to scribe Scroll of Holy Resistance III.',
     `spelltrigger_2` = 6;
 
 
@@ -1787,6 +1799,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103318,
+    `description` = 'Teaches you how to scribe Scroll of Fire Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1811,6 +1824,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103319,
+    `description` = 'Teaches you how to scribe Scroll of Frost Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1835,6 +1849,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103320,
+    `description` = 'Teaches you how to scribe Scroll of Arcane Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1859,6 +1874,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103321,
+    `description` = 'Teaches you how to scribe Scroll of Shadow Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1883,6 +1899,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103322,
+    `description` = 'Teaches you how to scribe Scroll of Nature Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1907,6 +1924,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103323,
+    `description` = 'Teaches you how to scribe Scroll of Holy Resistance IV.',
     `spelltrigger_2` = 6;
 
 
@@ -1983,6 +2001,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103330,
+    `description` = 'Teaches you how to scribe Scroll of Fire Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2007,6 +2026,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103331,
+    `description` = 'Teaches you how to scribe Scroll of Frost Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2031,6 +2051,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103332,
+    `description` = 'Teaches you how to scribe Scroll of Arcane Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2055,6 +2076,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103333,
+    `description` = 'Teaches you how to scribe Scroll of Shadow Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2079,6 +2101,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103334,
+    `description` = 'Teaches you how to scribe Scroll of Nature Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2103,6 +2126,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103335,
+    `description` = 'Teaches you how to scribe Scroll of Holy Resistance VI.',
     `spelltrigger_2` = 6;
 
 
@@ -2179,6 +2203,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103342,
+    `description` = 'Teaches you how to scribe Scroll of Fire Resistance VIII.',
     `spelltrigger_2` = 6;
 
 
@@ -2203,6 +2228,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103343,
+    `description` = 'Teaches you how to scribe Scroll of Frost Resistance VIII.',
     `spelltrigger_2` = 6;
 
 
@@ -2227,6 +2253,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103344,
+    `description` = 'Teaches you how to scribe Scroll of Arcane Resistance VIII.',
     `spelltrigger_2` = 6;
 
 
@@ -2251,6 +2278,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103345,
+    `description` = 'Teaches you how to scribe Scroll of Shadow Resistance VIII.',
     `spelltrigger_2` = 6;
 
 
@@ -2275,6 +2303,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103346,
+    `description` = 'Teaches you how to scribe Scroll of Nature Resistance VIII.',
     `spelltrigger_2` = 6;
 
 
@@ -2299,6 +2328,7 @@ INSERT INTO `item_template` SET
     `spellid_1` = 483,
     `spelltrigger_1` = 0,
     `spellid_2` = 103347,
+    `description` = 'Teaches you how to scribe Scroll of Holy Resistance VIII.',
     `spelltrigger_2` = 6;
 
 

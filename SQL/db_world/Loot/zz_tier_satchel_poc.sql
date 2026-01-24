@@ -84,29 +84,8 @@ INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, Sourc
 (10, 900109, 16834, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'Druid: Cenarion Helm');
 
 -- -----------------------------------------------------------------------------
--- 6. TEST CREATURE (Entry 900100)
+-- 6. CLEANUP TEST CREATURE (if exists from earlier testing)
 -- -----------------------------------------------------------------------------
 DELETE FROM creature_template WHERE entry = 900100;
 DELETE FROM creature_template_model WHERE CreatureID = 900100;
-
-INSERT INTO creature_template (
-    entry, name, subname, minlevel, maxlevel, faction, npcflag, speed_walk, speed_run,
-    unit_class, unit_flags, type, type_flags, HealthModifier, ManaModifier, ArmorModifier,
-    ExperienceModifier, RacialLeader, RegenHealth, mechanic_immune_mask, AIName
-) VALUES (
-    900100, 'Satchel Test Dummy', 'F-025 POC',
-    1, 1, 7, 0, 1, 1.14286,
-    1, 0, 10, 0, 0.01, 1, 1, 0, 0, 1, 0, ''
-);
-
-INSERT INTO creature_template_model (CreatureID, Idx, CreatureDisplayID, DisplayScale, Probability, VerifiedBuild) VALUES
-(900100, 0, 7937, 1, 1, 12340);
-
--- -----------------------------------------------------------------------------
--- 7. CREATURE LOOT TABLE
--- -----------------------------------------------------------------------------
 DELETE FROM creature_loot_template WHERE Entry = 900100;
-INSERT INTO creature_loot_template (Entry, Item, Chance, GroupId, MinCount, MaxCount) VALUES
-(900100, 900100, 100, 0, 1, 1);
-
-UPDATE creature_template SET lootid = 900100 WHERE entry = 900100;
