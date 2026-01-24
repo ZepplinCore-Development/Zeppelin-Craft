@@ -12,407 +12,182 @@ Usage:
 import argparse
 import sys
 import os
+import json
+from dotenv import load_dotenv
+
+# Load .env from Patch Builder directory (parent of AtlasLoot Generator)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PATCH_BUILDER_DIR = os.path.dirname(SCRIPT_DIR)
+load_dotenv(os.path.join(PATCH_BUILDER_DIR, '.env'))
 
 # Import our modules
 from lua_parser import AtlasLootParser
 from loot_query import LootDatabase
 from lua_generator import LuaGenerator
 
+# Path configuration - try .env first, fall back to Linux/Docker path if not found
+_env_base = os.getenv('BASE_DIRECTORY', '')
+_linux_base = '/workspace/project'
 
-# Dungeon section name mappings
-# Organized by level tier for easy reference
-DUNGEON_SECTIONS = {
-    # Low Level Dungeons (10-25)
-    'ragefire': 'RagefireChasm',
-    'wailing1': 'WailingCaverns1',
-    'wailing2': 'WailingCaverns2',
-    'deadmines1': 'TheDeadmines1',
-    'deadmines2': 'TheDeadmines2',
-    'shadowfang1': 'ShadowfangKeep1',
-    'shadowfang2': 'ShadowfangKeep2',
-    'blackfathom1': 'BlackfathomDeeps1',
-    'blackfathom2': 'BlackfathomDeeps2',
-    'stockades': 'TheStockade',
+# Test which base directory exists
+def _get_base_directory():
+    if _env_base and os.path.isdir(os.path.join(_env_base, 'Zeppelin-Craft')):
+        return _env_base
+    if os.path.isdir(os.path.join(_linux_base, 'Zeppelin-Craft')):
+        return _linux_base
+    # Fallback to env if set, else linux default
+    return _env_base if _env_base else _linux_base
 
-    # Mid Level Dungeons (25-50)
-    'gnomeregan1': 'Gnomeregan1',
-    'gnomeregan2': 'Gnomeregan2',
-    'rfk1': 'RazorfenKraul1',
-    'rfk2': 'RazorfenKraul2',
-    'sm_graveyard': 'SMGraveyard',
-    'sm_library': 'SMLibrary',
-    'sm_armory': 'SMHerod',
-    'sm_cathedral': 'SMCathedral',
-    'rfd1': 'RazorfenDowns1',
-    'rfd2': 'RazorfenDowns2',
-    'maraudon1': 'Maraudon1',
-    'maraudon2': 'Maraudon2',
+BASE_DIRECTORY = _get_base_directory()
+ADDON_BASE_DIR = os.path.join(BASE_DIRECTORY, 'Zeppelin-Craft', 'MPQ Staging', 'Patch-Z', 'Interface', 'AddOns')
 
-    # High Level Dungeons (50-60)
-    # Sunken Temple
-    'st_atalalarion': 'STAtalalarion',
-    'st_dreamscythe': 'STDreamscythe',
-    'st_weaver': 'STWeaver',
-    'st_hazzas': 'STHazzas',
-    'st_morphaz': 'STMorphaz',
-    'st_jammalan': 'STJammalan',
-    'st_ogom': 'STOgom',
-    'st_spawn': 'STSpawnOfHakkar',
-    'st_avatar': 'STAvatarofHakkar',
-    'st_eranikus': 'STEranikus',
-    'st_trolls': 'STTrollMinibosses',
+VANILLA_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_OriginalWoW', 'originalwow.lua')
+TBC_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_BurningCrusade', 'burningcrusade.lua')
+TABLE_REGISTRY_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'TableRegister', 'loottables.en.lua')
 
-    # Blackrock Depths (many bosses)
-    'brd_roccor': 'BRDLordRoccor',
-    'brd_pyron': 'BRDPyron',
-    'brd_gerstahn': 'BRDHighInterrogatorGerstahn',
-    'brd_arena': 'BRDArena',
-    'brd_theldren': 'BRDTheldren',
-    'brd_houndmaster': 'BRDHoundmaster',
-    'brd_loregrain': 'BRDPyromantLoregrain',
-    'brd_incendius': 'BRDLordIncendius',
-    'brd_baelgar': 'BRDBaelGar',
-    'brd_angerforge': 'BRDGeneralAngerforge',
-    'brd_golem': 'BRDGolemLordArgelmach',
-    'brd_guzzler': 'BRDGuzzler',
-    'brd_flamelash': 'BRDFlamelash',
-    'brd_panzor': 'BRDPanzor',
-    'brd_tomb': 'BRDTomb',
-    'brd_magmus': 'BRDMagmus',
-    'brd_princess': 'BRDPrincess',
-    'brd_emperor': 'BRDImperatorDagranThaurissan',
-    'brd_vault': 'BRDTheVault',
-    'brd_warder': 'BRDWarderStilgiss',
-    'brd_verek': 'BRDVerek',
-    'brd_fineous': 'BRDFineousDarkvire',
-    'brd_lyceum': 'BRDLyceum',
-    'brd_forgewright': 'BRDForgewright',
+# Load section mappings from JSON
+MAPPINGS_FILE = os.path.join(SCRIPT_DIR, 'section_mappings.json')
+with open(MAPPINGS_FILE, 'r') as f:
+    _mappings = json.load(f)
 
-    # Lower Blackrock Spire
-    'lbrs_omokk': 'LBRSOmokk',
-    'lbrs_slavener': 'LBRSSlavener',
-    'lbrs_vosh': 'LBRSVosh',
-    'lbrs_grayhoof': 'LBRSGrayhoof',
-    'lbrs_felguard': 'LBRSFelguard',
-    'lbrs_smolderweb': 'LBRSSmolderweb',
-    'lbrs_crystalfang': 'LBRSCrystalFang',
-    'lbrs_doomhowl': 'LBRSDoomhowl',
-    'lbrs_grimaxe': 'LBRSGrimaxe',
-    'lbrs_spirestone_butcher': 'LBRSSpirestoneButcher',
-    'lbrs_spirestone_lord': 'LBRSSpirestoneLord',
-    'lbrs_halycon': 'LBRSHalycon',
-    'lbrs_voone': 'LBRSVoone',
-    'lbrs_wyrmthalak': 'LBRSWyrmthalak',
-    'lbrs_zigris': 'LBRSZigris',
-    'lbrs_bashguud': 'LBRSBashguud',
-    'lbrs_lordmagus': 'LBRSLordMagus',
+# Remove comment keys from mappings
+def _clean_mapping(d):
+    return {k: v for k, v in d.items() if not k.startswith('_')}
 
-    # Upper Blackrock Spire
-    'ubrs_emberseer': 'UBRSEmberseer',
-    'ubrs_runewatcher': 'UBRSRunewatcher',
-    'ubrs_solakar': 'UBRSSolakar',
-    'ubrs_anvilcrack': 'UBRSAnvilcrack',
-    'ubrs_gyth': 'UBRSGyth',
-    'ubrs_rend': 'UBRSRend',
-    'ubrs_beast': 'UBRSBeast',
-    'ubrs_drakkisath': 'UBRSDrakkisath',
-    'ubrs_valthalak': 'UBRSValthalak',
+DUNGEON_SECTIONS = _clean_mapping(_mappings['dungeon_sections'])
+SINGLE_BOSS_SECTIONS = _clean_mapping(_mappings['single_boss_sections'])
+TBC_SINGLE_BOSS_SECTIONS = _clean_mapping(_mappings['tbc_single_boss_sections'])
+TBC_GAMEOBJECT_SECTIONS = _clean_mapping(_mappings['tbc_gameobject_sections'])
+TBC_MULTI_SOURCE_SECTIONS = _mappings.get('tbc_multi_source_sections', {})
+# Clean comment keys from multi-source sections
+TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in TBC_MULTI_SOURCE_SECTIONS.items() if not k.startswith('_')}
 
-    # Dire Maul East
-    'dme_pusillin': 'DMEPusillin',
-    'dme_zevrim': 'DMEZevrimThornhoof',
-    'dme_hydro': 'DMEHydro',
-    'dme_lethtendris': 'DMELethtendris',
-    'dme_pimgib': 'DMEPimgib',
-    'dme_alzzin': 'DMEAlzzin',
-    'dme_isalien': 'DMEIsalien',
 
-    # Dire Maul North
-    'dmn_fengus': 'DMNGuardFengus',
-    'dmn_slipkik': 'DMNGuardSlipkik',
-    'dmn_kromcrush': 'DMNCaptainKromcrush',
-    'dmn_moldar': 'DMNGuardMoldar',
-    'dmn_kreeg': 'DMNStomperKreeg',
-    'dmn_chorush': 'DMNChoRush',
-    'dmn_gordok': 'DMNKingGordok',
-    'dmn_thimblejack': 'DMNThimblejack',
+# =============================================================================
+# Table Registry Management (loottables.en.lua)
+# =============================================================================
 
-    # Dire Maul West
-    'dmw_tendris': 'DMWTendrisWarpwood',
-    'dmw_illyanna': 'DMWIllyannaRavenoak',
-    'dmw_magister': 'DMWMagisterKalendris',
-    'dmw_immolthar': 'DMWImmolthar',
-    'dmw_prince': 'DMWPrinceTortheldrin',
-    'dmw_helnurath': 'DMWHelnurath',
-    'dmw_tsuzee': 'DMWTsuzee',
+def is_section_registered(section_name: str) -> bool:
+    """
+    Check if a section is registered in loottables.en.lua.
 
-    # Stratholme
-    'strat_courier': 'STRATStratholmeCourier',
-    'strat_fras': 'STRATFrasSiabi',
-    'strat_hearthsinger': 'STRATHearthsingerForresten',
-    'strat_unforgiven': 'STRATTheUnforgiven',
-    'strat_timmy': 'STRATTimmytheCruel',
-    'strat_malor': 'STRATMalorsStrongbox',
-    'strat_magistrate': 'STRATMagistrateBarthilas',
-    'strat_ramstein': 'STRATRamsteintheGorger',
-    'strat_baron': 'STRATBaronRivendare',
-    'strat_nerubenkan': 'STRATNerubenkan',
-    'strat_maleki': 'STRATMalekithePallid',
-    'strat_baroness': 'STRATBaronessAnastari',
-    'strat_cannon': 'STRATCannonMasterWilley',
-    'strat_archivist': 'STRATArchivistGalford',
-    'strat_balnazzar': 'STRATBalnazzar',
-    'strat_stonespine': 'STRATStonespine',
-    'strat_sothos': 'STRATSothosJarien',
+    Args:
+        section_name: Section name to check (e.g., "HCFurnaceBroggok")
 
-    # ===== RAIDS (Multi-Boss) =====
-    # Multi-boss encounter sections use BabbleBoss format
+    Returns:
+        True if section is registered, False otherwise
+    """
+    if not os.path.exists(TABLE_REGISTRY_FILE):
+        print(f"[WARN] Table registry file not found: {TABLE_REGISTRY_FILE}")
+        return False
 
-    # Zul'Gurub (ZG) - 20-man raid
-    'zg_edge_of_madness': 'ZGEdgeofMadness',  # Multi-boss rotating encounter (Gri'lek, Hazza'rah, Renataki, Wushoolay)
-}
+    import re
+    pattern = rf'AtlasLoot_TableNames\["{re.escape(section_name)}"\]'
 
-# ===== SINGLE-BOSS SECTIONS =====
-# Maps section name -> creature ID (no BabbleBoss parsing needed)
-# These sections list items directly without boss headers
+    with open(TABLE_REGISTRY_FILE, 'r', encoding='utf-8') as f:
+        content = f.read()
+        return bool(re.search(pattern, content))
 
-SINGLE_BOSS_SECTIONS = {
-    # ===== Blackwing Lair (BWL) =====
-    'BWLRazorgore': 12435,      # Razorgore the Untamed
-    'BWLVaelastrasz': 13020,    # Vaelastrasz the Corrupt
-    'BWLLashlayer': 12017,      # Broodlord Lashlayer
-    'BWLFiremaw': 11983,        # Firemaw
-    'BWLEbonroc': 14601,        # Ebonroc
-    'BWLFlamegor': 11981,       # Flamegor
-    'BWLChromaggus': 14020,     # Chromaggus
-    'BWLNefarian1': 11583,      # Nefarian (page 1)
-    'BWLNefarian2': 11583,      # Nefarian (page 2 - same boss, different loot display)
 
-    # ===== Molten Core (MC) =====
-    'MCLucifron': 12118,        # Lucifron
-    'MCMagmadar': 11982,        # Magmadar
-    'MCGehennas': 12259,        # Gehennas
-    'MCGarr': 12057,            # Garr
-    'MCShazzrah': 12264,        # Shazzrah
-    'MCGeddon': 12056,          # Baron Geddon
-    'MCGolemagg': 11988,        # Golemagg the Incinerator
-    'MCSulfuron': 12098,        # Sulfuron Harbinger
-    'MCMajordomo': 12018,       # Majordomo Executus
-    'MCRagnaros': 11502,        # Ragnaros
+def register_section(section_name: str, display_name: str, addon_name: str,
+                     is_heroic: bool = False, use_babble_boss: bool = True,
+                     dry_run: bool = False) -> bool:
+    """
+    Register a new section in loottables.en.lua.
 
-    # ===== Zul'Gurub (ZG) =====
-    'ZGJeklik': 14517,          # High Priestess Jeklik
-    'ZGVenoxis': 14507,         # High Priest Venoxis
-    'ZGMarli': 14510,           # High Priestess Mar'li
-    'ZGMandokir': 11382,        # Bloodlord Mandokir
-    'ZGThekal': 14509,          # High Priest Thekal
-    'ZGArlokk': 14515,          # High Priestess Arlokk
-    'ZGHakkar': 14834,          # Hakkar
-    'ZGJindo': 11380,           # Jin'do the Hexxer
-    'ZGGahzranka': 15114,       # Gahz'ranka
+    Args:
+        section_name: Section name (e.g., "HCFurnaceBroggokHEROIC")
+        display_name: Display name (boss name for BabbleBoss, or plain string)
+        addon_name: AtlasLoot addon name (e.g., "AtlasLootBurningCrusade")
+        is_heroic: If True, append "(Heroic)" to the display name
+        use_babble_boss: If True, wrap display_name in BabbleBoss[]; False for plain string
+        dry_run: If True, don't actually modify the file
 
-    # ===== Ruins of Ahn'Qiraj (AQ20) =====
-    'AQ20Kurinnaxx': 15348,     # Kurinnaxx
-    'AQ20Rajaxx': 15341,        # General Rajaxx
-    'AQ20Moam': 15340,          # Moam
-    'AQ20Buru': 15370,          # Buru the Gorger
-    'AQ20Ayamiss': 15369,       # Ayamiss the Hunter
-    'AQ20Ossirian': 15339,      # Ossirian the Unscarred
+    Returns:
+        True if successful, False otherwise
+    """
+    if not os.path.exists(TABLE_REGISTRY_FILE):
+        print(f"[ERROR] Table registry file not found: {TABLE_REGISTRY_FILE}")
+        return False
 
-    # ===== Temple of Ahn'Qiraj (AQ40) =====
-    'AQ40Skeram': 15263,        # The Prophet Skeram
-    'AQ40Vem': 15543,           # Princess Yauj (Bug Trio - Vem section)
-    'AQ40Sartura': 15516,       # Battleguard Sartura
-    'AQ40Fankriss': 15510,      # Fankriss the Unyielding
-    'AQ40Viscidus': 15299,      # Viscidus
-    'AQ40Huhuran': 15509,       # Princess Huhuran
-    'AQ40Emperors': 15276,      # Emperor Vek'lor (Twin Emperors)
-    'AQ40Ouro': 15517,          # Ouro
-    'AQ40CThun': 15727,         # C'Thun
-}
+    # Build the registration line
+    if use_babble_boss:
+        if is_heroic:
+            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ BabbleBoss["{display_name}"].." ("..AL["Heroic"]..")", "{addon_name}" }};'
+        else:
+            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ BabbleBoss["{display_name}"], "{addon_name}" }};'
+    else:
+        # Plain string for chests/gameobjects
+        if is_heroic:
+            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name} (Heroic)", "{addon_name}" }};'
+        else:
+            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name}", "{addon_name}" }};'
 
-# ===== TBC SINGLE-BOSS SECTIONS =====
-# Maps section name -> creature ID for Burning Crusade content
-# File: burningcrusade.lua
+    if dry_run:
+        print(f"[DRY RUN] Would register: {section_name}")
+        print(f"  Line: {reg_line}")
+        return True
 
-TBC_SINGLE_BOSS_SECTIONS = {
-    # NOTE: Only include sections that EXIST in the Lua file!
-    # Missing sections will cause AtlasLoot errors when toggling heroic mode.
+    # Read current content
+    with open(TABLE_REGISTRY_FILE, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
 
-    # ===== Hellfire Citadel: Ramparts =====
-    'HCRampWatchkeeper': 17306,     # Watchkeeper Gargolmar
-    'HCRampWatchkeeperHEROIC': 17306,
-    'HCRampVazruden': 17537,        # Vazruden (Nazan: 17536)
-    'HCRampVazrudenHEROIC': 17537,
+    # Find where to insert (after the normal version if HEROIC, or after related sections)
+    insert_idx = None
+    import re
 
-    # ===== Hellfire Citadel: Blood Furnace =====
-    'HCFurnaceBreaker': 17377,      # Keli'dan the Breaker
-    'HCFurnaceBreakerHEROIC': 17377,
+    if is_heroic:
+        # For HEROIC, find the normal version and insert after it
+        normal_section = section_name[:-6]  # Remove 'HEROIC'
+        pattern = rf'AtlasLoot_TableNames\["{re.escape(normal_section)}"\]'
+        for i, line in enumerate(lines):
+            if re.search(pattern, line):
+                insert_idx = i + 1
+                break
 
-    # ===== Hellfire Citadel: Shattered Halls =====
-    'HCHallsPorung': 20923,         # Blood Guard Porung (Heroic only)
-    'HCHallsOmrogg': 16809,         # Warbringer O'mrogg
-    'HCHallsOmroggHEROIC': 16809,
+    if insert_idx is None:
+        # Find related sections by prefix (e.g., HCFurnace, AuchMana)
+        prefix = section_name[:8] if len(section_name) > 8 else section_name[:6]
+        pattern = rf'AtlasLoot_TableNames\["{prefix}'
+        for i, line in enumerate(lines):
+            if re.search(pattern, line):
+                insert_idx = i + 1  # Keep updating to get the last one
 
-    # ===== Coilfang Reservoir: Slave Pens =====
-    'CFRSlaveMennu': 17941,         # Mennu the Betrayer
-    'CFRSlaveMennuHEROIC': 17941,
-    'CFRSlaveQuagmirran': 17942,    # Quagmirran
-    'CFRSlaveQuagmirranHEROIC': 17942,
+    if insert_idx is None:
+        print(f"[ERROR] Could not find insertion point for {section_name}")
+        return False
 
-    # ===== Coilfang Reservoir: Underbog =====
-    'CFRUnderHungarfen': 17770,     # Hungarfen
-    'CFRUnderHungarfenHEROIC': 17770,
-    'CFRUnderSwamplord': 17826,     # Swamplord Musel'ek
-    'CFRUnderSwamplordHEROIC': 17826,
-    'CFRUnderStalkerHEROIC': 17882, # The Black Stalker (HEROIC only in file)
+    # Insert the new registration
+    lines.insert(insert_idx, reg_line + '\n')
 
-    # ===== Coilfang Reservoir: Steamvault =====
-    'CFRSteamSteamrigger': 17796,   # Mekgineer Steamrigger
-    'CFRSteamSteamriggerHEROIC': 17796,
+    # Write back
+    with open(TABLE_REGISTRY_FILE, 'w', encoding='utf-8') as f:
+        f.writelines(lines)
 
-    # ===== Auchindoun: Mana-Tombs =====
-    'AuchManaPandemonius': 18341,   # Pandemonius
-    'AuchManaPandemoniusHEROIC': 18341,
-    'AuchManaNexusPrince': 18344,   # Nexus-Prince Shaffar
-    'AuchManaNexusPrinceHEROIC': 18344,
-    'AuchManaYor': 22930,           # Yor (Heroic only)
+    print(f"[OK] Registered section '{section_name}' in table registry")
+    return True
 
-    # ===== Auchindoun: Auchenai Crypts =====
-    'AuchCryptsShirrak': 18371,     # Shirrak the Dead Watcher
-    'AuchCryptsShirrakHEROIC': 18371,
-    'AuchCryptsAvatar': 18478,      # Avatar of the Martyred (Heroic only)
 
-    # ===== Auchindoun: Sethekk Halls =====
-    'AuchSethekkDarkweaver': 18472, # Darkweaver Syth
-    'AuchSethekkDarkweaverHEROIC': 18472,
-    'AuchSethekkTalonKing': 18473,  # Talon King Ikiss
-    'AuchSethekkTalonKingHEROIC': 18473,
+def ensure_section_registered(section_name: str, display_name: str, addon_name: str,
+                              use_babble_boss: bool = True, dry_run: bool = False) -> bool:
+    """
+    Ensure a section is registered in loottables.en.lua, adding if missing.
 
-    # ===== Auchindoun: Shadow Labyrinth =====
-    'AuchShadowBlackheartHEROIC': 18667, # Blackheart (HEROIC only in file)
-    'AuchShadowMurmur': 18708,      # Murmur
-    'AuchShadowMurmurHEROIC': 18708,
+    Args:
+        section_name: Section name (e.g., "HCFurnaceBroggok")
+        display_name: Display name (boss name for BabbleBoss, or plain string for chests)
+        addon_name: AtlasLoot addon name (e.g., "AtlasLootBurningCrusade")
+        use_babble_boss: If True, wrap display_name in BabbleBoss[]; False for plain string
+        dry_run: If True, don't actually modify the file
 
-    # ===== Caverns of Time: Old Hillsbrad =====
-    'CoTHillsbradDrake': 17848,     # Lieutenant Drake
-    'CoTHillsbradDrakeHEROIC': 17848,
-    'CoTHillsbradHunter': 18096,    # Epoch Hunter
-    'CoTHillsbradHunterHEROIC': 18096,
+    Returns:
+        True if section is now registered, False on error
+    """
+    if is_section_registered(section_name):
+        return True
 
-    # ===== Caverns of Time: Black Morass =====
-    'CoTMorassDeja': 17879,         # Chrono Lord Deja
-    'CoTMorassDejaHEROIC': 17879,
-    'CoTMorassAeonus': 17881,       # Aeonus
-    'CoTMorassAeonusHEROIC': 17881,
-
-    # ===== Tempest Keep: Mechanar =====
-    'TKMechCapacitus': 19219,       # Mechano-Lord Capacitus
-    'TKMechCapacitusHEROIC': 19219,
-    'TKMechCalc': 19220,            # Pathaleon the Calculator
-    'TKMechCalcHEROIC': 19220,
-
-    # ===== Tempest Keep: Botanica =====
-    'TKBotSarannis': 17976,         # Commander Sarannis
-    'TKBotSarannisHEROIC': 17976,
-    'TKBotThorngrin': 17978,        # Thorngrin the Tender
-    'TKBotThorngrinHEROIC': 17978,
-    'TKBotSplinter': 17977,         # Warp Splinter
-    'TKBotSplinterHEROIC': 17977,
-
-    # ===== Tempest Keep: Arcatraz =====
-    'TKArcUnbound': 20870,          # Zereketh the Unbound
-    'TKArcUnboundHEROIC': 20870,
-    'TKArcDalliah': 20885,          # Dalliah the Doomsayer
-    'TKArcDalliahHEROIC': 20885,
-
-    # ===== Magister's Terrace =====
-    'SMTFireheart': 24723,          # Selin Fireheart
-    'SMTFireheartHEROIC': 24723,
-    'SMTDelrissa': 24560,           # Priestess Delrissa
-    'SMTDelrissaHEROIC': 24560,
-    'SMTKaelthasHEROIC': 24664,     # Kael'thas (HEROIC only in file)
-
-    # ===== Karazhan (10-man Raid) =====
-    'KaraAttumen': 16152,           # Attumen the Huntsman
-    'KaraMoroes': 15687,            # Moroes
-    'KaraMaiden': 16457,            # Maiden of Virtue
-    'KaraCurator': 15691,           # The Curator
-    'KaraIllhoof': 15688,           # Terestian Illhoof
-    'KaraAran': 16524,              # Shade of Aran
-    'KaraNetherspite': 15689,       # Netherspite
-    'KaraNightbane': 17225,         # Nightbane
-    'KaraPrince': 15690,            # Prince Malchezaar
-    'KaraChess': 0,                 # Chess Event (no creature loot)
-
-    # ===== Gruul's Lair =====
-    'GruulsLairHighKingMaulgar': 18831,  # High King Maulgar
-    'GruulGruul': 19044,            # Gruul the Dragonkiller
-
-    # ===== Magtheridon's Lair =====
-    'HCMagtheridon': 17257,         # Magtheridon
-
-    # ===== Serpentshrine Cavern (SSC) =====
-    'CFRSerpentHydross': 21216,     # Hydross the Unstable
-    'CFRSerpentLurker': 21217,      # The Lurker Below
-    'CFRSerpentLeotheras': 21215,   # Leotheras the Blind
-    'CFRSerpentKarathress': 21214,  # Fathom-Lord Karathress
-    'CFRSerpentMorogrim': 21213,    # Morogrim Tidewalker
-    'CFRSerpentVashj': 21212,       # Lady Vashj
-
-    # ===== Tempest Keep: The Eye =====
-    'TKEyeAlar': 19514,             # Al'ar
-    'TKEyeVoidReaver': 19516,       # Void Reaver
-    'TKEyeSolarian': 18805,         # High Astromancer Solarian
-    'TKEyeKaelthas': 19622,         # Kael'thas Sunstrider
-
-    # ===== Battle for Mount Hyjal =====
-    'MountHyjalAnetheron': 17808,   # Anetheron
-    'MountHyjalKazrogal': 17888,    # Kaz'rogal
-    'MountHyjalAzgalor': 17842,     # Azgalor
-    'MountHyjalArchimonde': 17968,  # Archimonde
-
-    # ===== Black Temple =====
-    'BTNajentus': 22887,            # High Warlord Naj'entus
-    'BTSupremus': 22898,            # Supremus
-    'BTAkama': 22841,               # Shade of Akama
-    'BTGorefiend': 22871,           # Teron Gorefiend
-    'BTBloodboil': 22948,           # Gurtogg Bloodboil
-    'BTEssencofSouls': 23420,       # Essence of Anger (Reliquary of Souls)
-    'BTShahraz': 22947,             # Mother Shahraz
-    'BTCouncil': 22950,             # Illidari Council
-    'BTIllidanStormrage': 22917,    # Illidan Stormrage
-
-    # ===== Sunwell Plateau =====
-    'SPKalecgos': 24844,            # Kalecgos
-    'SPBrutallus': 24882,           # Brutallus
-    'SPFelmyst': 25038,             # Felmyst
-    'SPEredarTwins': 25165,         # Lady Sacrolash (Eredar Twins)
-    'SPMuru': 17544,                # M'uru
-    'SPKiljaeden': 25315,           # Kil'jaeden
-
-    # ===== Zul'Aman =====
-    'ZANalorakk': 23576,            # Nalorakk
-    'ZAAkilZon': 23574,             # Akil'zon
-    'ZAJanAlai': 23578,             # Jan'alai
-    'ZAHalazzi': 23577,             # Halazzi
-    'ZAMalacrass': 24239,           # Hex Lord Malacrass
-    'ZAZuljin': 23863,              # Zul'jin
-}
-
-# Maps section name -> gameobject entry ID for chest loot
-# File: burningcrusade.lua
-TBC_GAMEOBJECT_SECTIONS = {
-    # ===== Hellfire Citadel: Ramparts =====
-    'HCRampReinforcedChest': 185168,        # Reinforced Fel Iron Chest (Normal)
-    'HCRampReinforcedChestHEROIC': 185169,  # Reinforced Fel Iron Chest (Heroic)
-
-    # Note: Cache of the Legion (184465/184849) is in Mechanar at TKMechCacheoftheLegion
-    # That section already exists with correct data in the original AtlasLoot
-
-    # ===== Auchindoun: Sethekk Halls =====
-    'AuchSethekkTalonKingCoffer': 187372,   # The Talon King's Coffer (Heroic only - Shadow Lab key)
-}
+    is_heroic = section_name.endswith('HEROIC')
+    return register_section(section_name, display_name, addon_name, is_heroic, use_babble_boss, dry_run)
 
 
 def generate_gameobject_section(lua_file_path: str, section_name: str,
@@ -449,7 +224,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
         if section_name.endswith('HEROIC'):
             normal_section = section_name[:-6]
             if parser.section_exists(normal_section):
-                print(f"✓ Creating new HEROIC chest section based on '{normal_section}'")
+                print(f"[OK] Creating new HEROIC chest section based on '{normal_section}'")
                 parser.insert_section_after(normal_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
@@ -460,34 +235,42 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
             all_sections = parser.get_all_sections()
             related = [s for s in all_sections if s.startswith(prefix)]
             if related:
-                print(f"✓ Creating new chest section after '{related[-1]}'")
+                print(f"[OK] Creating new chest section after '{related[-1]}'")
                 parser.insert_section_after(related[-1], section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
                 bounds = parser.find_section_bounds(section_name)
 
         if not bounds:
-            print(f"✗ Could not create section '{section_name}'")
+            print(f"[ERROR] Could not create section '{section_name}'")
             return False
 
     if not section_created:
-        print(f"✓ Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+        print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get gameobject name
     go_name = db.get_gameobject_name(gameobject_entry)
     if go_name:
-        print(f"✓ Chest: {go_name} (ID: {gameobject_entry})")
+        print(f"[OK] Chest: {go_name} (ID: {gameobject_entry})")
     else:
-        print(f"✓ Gameobject ID: {gameobject_entry}")
+        go_name = f"Chest {gameobject_entry}"
+        print(f"[OK] Gameobject ID: {gameobject_entry}")
+
+    # Ensure section is registered in table registry (if newly created)
+    if section_created:
+        # Determine addon name from lua file path
+        addon_name = "AtlasLootBurningCrusade" if "BurningCrusade" in lua_file_path else "AtlasLootOriginalWoW"
+        ensure_section_registered(section_name, go_name, addon_name,
+                                  use_babble_boss=False, dry_run=dry_run)
 
     # Step 3: Query loot
     loot_items = db.get_gameobject_loot(gameobject_entry)
 
     if not loot_items:
-        print(f"⚠ No loot items found for gameobject {gameobject_entry}")
+        print(f"[WARN] No loot items found for gameobject {gameobject_entry}")
         return False
 
-    print(f"✓ Found {len(loot_items)} loot items")
+    print(f"[OK] Found {len(loot_items)} loot items")
 
     # Step 4: Generate Lua code
     generator = LuaGenerator(section_name)
@@ -507,10 +290,119 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
 
     if parser.replace_section(section_name, new_lua_code):
         parser.save_file(backup=True)
-        print(f"\n✓ Section '{section_name}' updated successfully")
+        print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
     else:
-        print(f"\n✗ Failed to update section '{section_name}'")
+        print(f"\n[ERROR] Failed to update section '{section_name}'")
+        return False
+
+
+def generate_multi_source_section(lua_file_path: str, section_name: str,
+                                  config: dict, db: LootDatabase,
+                                  dry_run: bool = False, verbose: bool = False) -> bool:
+    """
+    Generate an AtlasLoot section that combines loot from multiple sources.
+
+    Used for encounters like Vazruden + Nazan + Chest that should display
+    on a single page with BabbleBoss headers for each source.
+
+    Args:
+        lua_file_path: Path to AtlasLoot Lua file
+        section_name: Section name (e.g., "HCRampVazruden")
+        config: Dict with 'sources' list containing source definitions
+        db: Database connection object
+        dry_run: If True, don't save changes
+        verbose: If True, print detailed output
+
+    Returns:
+        True if successful, False otherwise
+    """
+    print(f"\n{'='*60}")
+    print(f"Processing multi-source section: {section_name}")
+    print(f"{'='*60}")
+
+    sources = config.get('sources', [])
+    if not sources:
+        print(f"[ERROR] No sources defined for {section_name}")
+        return False
+
+    # Step 1: Parse Lua file
+    parser = AtlasLootParser(lua_file_path)
+
+    bounds = parser.find_section_bounds(section_name)
+    if not bounds:
+        print(f"[ERROR] Section '{section_name}' not found")
+        return False
+
+    print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+
+    # Step 2: Gather loot from all sources
+    sources_with_loot = []
+    total_items = 0
+
+    for source in sources:
+        source_type = source.get('type')
+        source_id = source.get('id')
+        header = source.get('header', '')
+        header_sub = source.get('header_sub', '')
+
+        loot_items = []
+
+        if source_type == 'creature':
+            # Check for heroic creature ID
+            if section_name.endswith('HEROIC'):
+                heroic_id = db.get_heroic_creature_id(source_id)
+                if heroic_id:
+                    source_id = heroic_id
+
+            boss_name = db.get_boss_name(source_id)
+            loot_items = db.get_boss_loot(source_id)
+            print(f"[OK] {header} (creature {source_id}): {len(loot_items)} items")
+
+        elif source_type == 'gameobject':
+            go_name = db.get_gameobject_name(source_id)
+            loot_items = db.get_gameobject_loot(source_id)
+            print(f"[OK] {header} (gameobject {source_id}): {len(loot_items)} items")
+
+        if loot_items:
+            # Determine if header uses BabbleBoss or AL
+            is_babble = source_type == 'creature'
+            sources_with_loot.append({
+                'header': header,
+                'header_sub': header_sub,
+                'is_babble': is_babble,
+                'loot_items': loot_items
+            })
+            total_items += len(loot_items)
+
+    if not sources_with_loot:
+        print(f"[WARN] No loot items found for any source in {section_name}")
+        return False
+
+    print(f"[OK] Total: {total_items} items from {len(sources_with_loot)} sources")
+
+    # Step 3: Generate Lua code
+    generator = LuaGenerator(section_name)
+    new_lua_code = generator.generate_multi_source_section(sources_with_loot)
+
+    print(f"\nGenerated code preview:")
+    preview_lines = new_lua_code.split('\n')[:15]
+    for line in preview_lines:
+        print(line)
+    if len(new_lua_code.split('\n')) > 15:
+        print(f"... ({len(new_lua_code.split(chr(10))) - 15} more lines)")
+
+    # Step 4: Update file
+    if dry_run:
+        print("\n[DRY RUN] Skipping file update")
+        return True
+
+    if parser.replace_section(section_name, new_lua_code):
+        parser.save_file(backup=True)
+        print(f"\n[OK] Section '{section_name}' updated successfully")
+        return True
+    else:
+        print(f"\n[ERROR] Failed to update section '{section_name}'")
         return False
 
 
@@ -542,17 +434,17 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     if section_name.endswith('HEROIC'):
         heroic_id = db.get_heroic_creature_id(creature_id)
         if heroic_id:
-            print(f"✓ Heroic section detected: using heroic creature ID {heroic_id} (was {creature_id})")
+            print(f"[OK] Heroic section detected: using heroic creature ID {heroic_id} (was {creature_id})")
             creature_id = heroic_id
         else:
-            print(f"⚠ Warning: No heroic creature ID found for {creature_id}, using normal loot")
+            print(f"[WARN] Warning: No heroic creature ID found for {creature_id}, using normal loot")
 
     # Step 1: Parse Lua file
     if verbose:
         print("\n[1/4] Parsing Lua file...")
     parser = AtlasLootParser(lua_file_path)
 
-    # Verify section exists, or create it for HEROIC sections
+    # Verify section exists, or create it
     bounds = parser.find_section_bounds(section_name)
     section_created = False
     if not bounds:
@@ -560,26 +452,56 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
         if section_name.endswith('HEROIC'):
             normal_section = section_name[:-6]  # Remove 'HEROIC' suffix
             if parser.section_exists(normal_section):
-                print(f"✓ Creating new HEROIC section based on '{normal_section}'")
-                # Insert placeholder that will be replaced
+                print(f"[OK] Creating new HEROIC section after '{normal_section}'")
                 parser.insert_section_after(normal_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
                 bounds = parser.find_section_bounds(section_name)
+        else:
+            # For normal sections, find a related section to insert after
+            # Use prefix matching (e.g., HCFurnace, TKBot, etc.)
+            prefix = section_name[:8] if len(section_name) > 8 else section_name[:6]
+            all_sections = parser.get_all_sections()
+            related = [s for s in all_sections if s.startswith(prefix)]
+            if related:
+                # Insert after the last related section
+                print(f"[OK] Creating new section '{section_name}' after '{related[-1]}'")
+                parser.insert_section_after(related[-1], section_name,
+                    '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
+                section_created = True
+                bounds = parser.find_section_bounds(section_name)
+            else:
+                # No related section found, try inserting after any TBC section
+                tbc_sections = [s for s in all_sections if any(s.startswith(p) for p in
+                    ['HC', 'CFR', 'Auch', 'CoT', 'TK', 'SMT', 'Kara', 'Gruul', 'BT', 'SP', 'ZA', 'Mount'])]
+                if tbc_sections:
+                    print(f"[OK] Creating new section '{section_name}' after '{tbc_sections[-1]}'")
+                    parser.insert_section_after(tbc_sections[-1], section_name,
+                        '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
+                    section_created = True
+                    bounds = parser.find_section_bounds(section_name)
 
         if not bounds:
-            print(f"✗ Section '{section_name}' not found in Lua file")
+            print(f"[ERROR] Section '{section_name}' not found and could not be created")
             return False
 
     if not section_created:
-        print(f"✓ Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+        print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get boss name for display
     boss_name = db.get_boss_name(creature_id)
     if boss_name:
-        print(f"✓ Boss: {boss_name} (ID: {creature_id})")
+        print(f"[OK] Boss: {boss_name} (ID: {creature_id})")
     else:
-        print(f"✓ Creature ID: {creature_id}")
+        boss_name = f"Boss {creature_id}"
+        print(f"[OK] Creature ID: {creature_id}")
+
+    # Ensure section is registered in table registry (if newly created)
+    if section_created and boss_name:
+        # Determine addon name from lua file path
+        addon_name = "AtlasLootBurningCrusade" if "BurningCrusade" in lua_file_path else "AtlasLootOriginalWoW"
+        ensure_section_registered(section_name, boss_name, addon_name,
+                                  use_babble_boss=True, dry_run=dry_run)
 
     # Step 3: Query loot for this boss
     if verbose:
@@ -587,10 +509,10 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     loot_items = db.get_boss_loot(creature_id)
 
     if not loot_items:
-        print(f"⚠ No loot items found for creature {creature_id}")
+        print(f"[WARN] No loot items found for creature {creature_id}")
         return False
 
-    print(f"✓ Found {len(loot_items)} loot items")
+    print(f"[OK] Found {len(loot_items)} loot items")
 
     if verbose:
         for item in loot_items[:5]:
@@ -605,7 +527,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     new_lua_code = generator.generate_single_boss_section(loot_items)
 
     if verbose:
-        print(f"✓ Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
+        print(f"[OK] Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
 
     # Show preview
     print("\nGenerated code preview:")
@@ -625,16 +547,16 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
 
     success = parser.replace_section(section_name, new_lua_code)
     if not success:
-        print(f"✗ Failed to replace section '{section_name}'")
+        print(f"[ERROR] Failed to replace section '{section_name}'")
         return False
 
     # Save file with backup
     save_success = parser.save_file(backup=True)
     if save_success:
-        print(f"\n✓ Section '{section_name}' updated successfully")
+        print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
     else:
-        print(f"\n✗ Failed to save file")
+        print(f"\n[ERROR] Failed to save file")
         return False
 
 
@@ -665,10 +587,10 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     # Extract boss names from existing section
     boss_names = parser.extract_boss_names(section_name)
     if not boss_names:
-        print(f"✗ No bosses found in section '{section_name}'")
+        print(f"[ERROR] No bosses found in section '{section_name}'")
         return False
 
-    print(f"✓ Found {len(boss_names)} bosses: {', '.join(boss_names)}")
+    print(f"[OK] Found {len(boss_names)} bosses: {', '.join(boss_names)}")
 
     # Step 2: Query database for creature IDs
     if verbose:
@@ -681,10 +603,10 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
             if verbose:
                 print(f"  {boss_name} → ID {creature_id}")
         else:
-            print(f"⚠ Warning: Boss '{boss_name}' not found in database")
+            print(f"[WARN] Warning: Boss '{boss_name}' not found in database")
 
     if not creature_id_map:
-        print("✗ No valid creature IDs found")
+        print("[ERROR] No valid creature IDs found")
         return False
 
     # Step 3: Query loot for all bosses
@@ -694,7 +616,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     loot_by_creature_id = db.get_all_bosses_loot(creature_ids)
 
     total_items = sum(len(items) for items in loot_by_creature_id.values())
-    print(f"✓ Found {total_items} total loot items")
+    print(f"[OK] Found {total_items} total loot items")
 
     if verbose:
         for boss_name, creature_id in creature_id_map.items():
@@ -710,7 +632,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     )
 
     if verbose:
-        print(f"✓ Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
+        print(f"[OK] Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
 
     # Show preview
     print("\nGenerated code preview:")
@@ -730,16 +652,16 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
 
     success = parser.replace_section(section_name, new_lua_code)
     if not success:
-        print(f"✗ Failed to replace section '{section_name}'")
+        print(f"[ERROR] Failed to replace section '{section_name}'")
         return False
 
     # Save file with backup
     save_success = parser.save_file(backup=True)
     if save_success:
-        print(f"\n✓ Section '{section_name}' updated successfully")
+        print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
     else:
-        print(f"\n✗ Failed to save file")
+        print(f"\n[ERROR] Failed to save file")
         return False
 
 
@@ -787,7 +709,7 @@ def main():
     )
     parser.add_argument(
         '--lua-file',
-        default='/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_OriginalWoW/originalwow.lua',
+        default=VANILLA_LUA_FILE,
         help='Path to AtlasLoot Lua file'
     )
     parser.add_argument(
@@ -816,16 +738,16 @@ def main():
 
     # Check if Lua file exists
     if not os.path.exists(args.lua_file):
-        print(f"✗ Error: Lua file not found: {args.lua_file}")
+        print(f"[ERROR] Error: Lua file not found: {args.lua_file}")
         return 1
 
     # Connect to database
     print("Connecting to database...")
     db = LootDatabase()
     if not db.connect():
-        print("✗ Failed to connect to database")
+        print("[ERROR] Failed to connect to database")
         return 1
-    print("✓ Database connected")
+    print("[OK] Database connected")
 
     success_count = 0
     total_count = 0
@@ -851,7 +773,7 @@ def main():
             if creature_id:
                 single_boss_to_process = {args.raid: creature_id}
             else:
-                print(f"✗ Unknown raid section: {args.raid}")
+                print(f"[ERROR] Unknown raid section: {args.raid}")
                 db.disconnect()
                 return 1
 
@@ -867,10 +789,10 @@ def main():
     # Handle --tbc option (TBC single-boss sections)
     if args.tbc:
         # TBC content uses burningcrusade.lua
-        tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
+        tbc_lua_file = TBC_LUA_FILE
 
         if not os.path.exists(tbc_lua_file):
-            print(f"✗ Error: TBC Lua file not found: {tbc_lua_file}")
+            print(f"[ERROR] Error: TBC Lua file not found: {tbc_lua_file}")
             db.disconnect()
             return 1
 
@@ -936,14 +858,29 @@ def main():
             if creature_id is not None and creature_id != 0:
                 tbc_to_process = {args.tbc: creature_id}
             elif creature_id == 0:
-                print(f"⚠ Section '{args.tbc}' has no creature loot (creature_id=0), skipping")
+                print(f"[WARN] Section '{args.tbc}' has no creature loot (creature_id=0), skipping")
             else:
-                print(f"✗ Unknown TBC section: {args.tbc}")
+                print(f"[ERROR] Unknown TBC section: {args.tbc}")
                 db.disconnect()
                 return 1
 
-        total_count += len(tbc_to_process)
-        for section_name, creature_id in tbc_to_process.items():
+        # First, process any multi-source sections
+        multi_source_to_process = {k: v for k, v in TBC_MULTI_SOURCE_SECTIONS.items()
+                                   if k in tbc_to_process}
+        for section_name, config in multi_source_to_process.items():
+            total_count += 1
+            success = generate_multi_source_section(
+                tbc_lua_file, section_name, config, db,
+                dry_run=args.dry_run, verbose=args.verbose
+            )
+            if success:
+                success_count += 1
+
+        # Then process remaining single-boss sections (skip multi-source ones)
+        remaining = {k: v for k, v in tbc_to_process.items()
+                     if k not in TBC_MULTI_SOURCE_SECTIONS}
+        total_count += len(remaining)
+        for section_name, creature_id in remaining.items():
             success = generate_single_boss_section(
                 tbc_lua_file, section_name, creature_id, db,
                 dry_run=args.dry_run, verbose=args.verbose
@@ -953,10 +890,10 @@ def main():
 
     # Handle --chest option (gameobject loot sections)
     if args.chest:
-        tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
+        tbc_lua_file = TBC_LUA_FILE
 
         if not os.path.exists(tbc_lua_file):
-            print(f"✗ Error: TBC Lua file not found: {tbc_lua_file}")
+            print(f"[ERROR] Error: TBC Lua file not found: {tbc_lua_file}")
             db.disconnect()
             return 1
 
@@ -974,7 +911,7 @@ def main():
             if go_entry:
                 chests_to_process = {args.chest: go_entry}
             else:
-                print(f"✗ Unknown chest section: {args.chest}")
+                print(f"[ERROR] Unknown chest section: {args.chest}")
                 db.disconnect()
                 return 1
 
@@ -997,16 +934,24 @@ def main():
             if section_name:
                 sections_to_process.append(section_name)
             else:
-                print(f"✗ Unknown dungeon: {args.dungeon}")
+                print(f"[ERROR] Unknown dungeon: {args.dungeon}")
                 db.disconnect()
                 return 1
 
         total_count += len(sections_to_process)
         for section_name in sections_to_process:
-            success = generate_section(
-                args.lua_file, section_name, db,
-                dry_run=args.dry_run, verbose=args.verbose
-            )
+            # Check if this is actually a single-boss section
+            if section_name in SINGLE_BOSS_SECTIONS:
+                creature_id = SINGLE_BOSS_SECTIONS[section_name]
+                success = generate_single_boss_section(
+                    args.lua_file, section_name, creature_id, db,
+                    dry_run=args.dry_run, verbose=args.verbose
+                )
+            else:
+                success = generate_section(
+                    args.lua_file, section_name, db,
+                    dry_run=args.dry_run, verbose=args.verbose
+                )
             if success:
                 success_count += 1
 
@@ -1024,12 +969,11 @@ def main():
         elif args.section in TBC_SINGLE_BOSS_SECTIONS:
             creature_id = TBC_SINGLE_BOSS_SECTIONS[args.section]
             if creature_id == 0:
-                print(f"⚠ Section '{args.section}' has no creature loot (creature_id=0)")
+                print(f"[WARN] Section '{args.section}' has no creature loot (creature_id=0)")
                 success = False
             else:
-                tbc_lua_file = '/workspace/project/Zeppelin-Craft/MPQ Staging/Patch-Z/Interface/AddOns/AtlasLoot_BurningCrusade/burningcrusade.lua'
                 success = generate_single_boss_section(
-                    tbc_lua_file, args.section, creature_id, db,
+                    TBC_LUA_FILE, args.section, creature_id, db,
                     dry_run=args.dry_run, verbose=args.verbose
                 )
         else:

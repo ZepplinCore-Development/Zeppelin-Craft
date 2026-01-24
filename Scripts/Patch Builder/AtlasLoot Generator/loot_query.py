@@ -4,30 +4,31 @@ Handles all database operations for fetching boss loot data
 """
 
 import mysql.connector
+import os
 from typing import List, Dict, Optional
 
 
 class LootDatabase:
     """Database connection handler for AzerothCore loot queries."""
 
-    def __init__(self, host="192.168.0.55", port=3306, user="acore",
-                 password="acore", database="acore_world"):
+    def __init__(self, host=None, port=None, user=None, password=None, database=None):
         """
         Initialize database connection.
+        Uses environment variables from .env if parameters not provided.
 
         Args:
-            host: Database host address
-            port: Database port
-            user: Database username
-            password: Database password
-            database: Database name
+            host: Database host address (default: ACORE_DB_HOST or 192.168.0.55)
+            port: Database port (default: ACORE_DB_PORT or 3306)
+            user: Database username (default: ACORE_DB_USER or acore)
+            password: Database password (default: ACORE_DB_PASSWORD or acore)
+            database: Database name (default: WORLD_DB_NAME or acore_world)
         """
         self.connection_params = {
-            'host': host,
-            'port': port,
-            'user': user,
-            'password': password,
-            'database': database
+            'host': host or os.getenv('ACORE_DB_HOST', '192.168.0.55'),
+            'port': port or int(os.getenv('ACORE_DB_PORT', '3306')),
+            'user': user or os.getenv('ACORE_DB_USER', 'acore'),
+            'password': password or os.getenv('ACORE_DB_PASSWORD', 'acore'),
+            'database': database or os.getenv('WORLD_DB_NAME', 'acore_world')
         }
         self.connection = None
 
@@ -116,14 +117,16 @@ class LootDatabase:
               AND clt.Item > 0
               -- Filter to show only meaningful boss loot (keep under 30 items)
               AND (
-                  -- Always show quest items (class 12)
-                  it.class = 12
+                  -- Show quest items (class 12) with >= 50% drop rate (filters world-drop quest items like Ace cards)
+                  (it.class = 12 AND (clt.Chance >= 50 OR clt.Chance = 0))
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
-                  -- Always show rare/epic/legendary (quality 3+), exclude low drop-rate recipes
-                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND clt.Chance > 0 AND clt.Chance < 5))
-                  -- Show uncommon (green) items with decent drop rates
-                  OR (it.Quality = 2 AND clt.Chance >= 10)
+                  -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
+                  OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
+                  -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)
+                  OR (it.Quality >= 4 AND clt.Chance >= 1 AND it.class != 12)
+                  -- Show uncommon (green) items with decent drop rates (excludes class 12 quest items)
+                  OR (it.Quality = 2 AND clt.Chance >= 10 AND it.class != 12)
                   -- Show group loot items (Chance=0 with GroupId>0) - these are special boss drops
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
@@ -181,10 +184,13 @@ class LootDatabase:
             if not references:
                 return []
 
-            # Resolve each reference table
+            # Deduplicate reference IDs - same reference table may be referenced
+            # multiple times with different GroupIds (e.g., for multiple loot rolls)
+            unique_ref_ids = set(ref['Reference'] for ref in references)
+
+            # Resolve each unique reference table once
             all_ref_items = []
-            for ref in references:
-                ref_id = ref['Reference']
+            for ref_id in unique_ref_ids:
                 ref_items = self._get_reference_items(ref_id)
                 all_ref_items.extend(ref_items)
 
@@ -274,14 +280,24 @@ class LootDatabase:
             # Filter to meaningful items only (after calculating chances)
             filtered_items = []
             for item in all_items:
-                # Exclude low drop-rate recipes (class 9) from rare+ filter
-                is_low_drop_recipe = (item['item_class'] == 9 and
-                                      item['drop_chance'] > 0 and
-                                      item['drop_chance'] < 5)
-                if (item['item_class'] == 12 or           # Quest items
+                chance = item['drop_chance']
+                quality = item['quality']
+
+                # Quality-based drop rate thresholds (filters world drops)
+                # Quest items (class 12): >= 50% or group loot (chance=0) - ONLY use quest threshold
+                # Rare (Q3): >= 3% or group loot (chance=0) - excludes class 12
+                # Epic+ (Q4+): >= 1% or group loot (chance=0) - excludes class 12
+                is_quest_item = (item['item_class'] == 12)
+                is_quest_with_good_chance = (is_quest_item and (chance == 0 or chance >= 50))
+                is_rare_with_good_chance = (quality == 3 and (chance == 0 or chance >= 3) and not is_quest_item)
+                is_epic_with_good_chance = (quality >= 4 and (chance == 0 or chance >= 1) and not is_quest_item)
+                is_uncommon_with_good_chance = (quality == 2 and chance >= 10 and not is_quest_item)
+
+                if (is_quest_with_good_chance or          # Quest items with >= 50%
                     item['item_id'] >= 900000 or          # Custom items
-                    (item['quality'] >= 3 and not is_low_drop_recipe) or  # Rare+ (excl low drop recipes)
-                    (item['quality'] == 2 and item['drop_chance'] >= 10)):
+                    is_rare_with_good_chance or           # Rare with >= 3% drop (not quest items)
+                    is_epic_with_good_chance or           # Epic+ with >= 1% drop (not quest items)
+                    is_uncommon_with_good_chance):        # Uncommon with >= 10% (not quest items)
                     filtered_items.append(item)
 
             return filtered_items
@@ -323,14 +339,16 @@ class LootDatabase:
               AND clt.Item > 0
               -- Filter to show only meaningful boss loot (keep under 30 items)
               AND (
-                  -- Always show quest items (class 12)
-                  it.class = 12
+                  -- Show quest items (class 12) with >= 50% drop rate (filters world-drop quest items like Ace cards)
+                  (it.class = 12 AND (clt.Chance >= 50 OR clt.Chance = 0))
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
-                  -- Always show rare/epic/legendary (quality 3+), exclude low drop-rate recipes
-                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND clt.Chance > 0 AND clt.Chance < 5))
-                  -- Show uncommon (green) items with decent drop rates
-                  OR (it.Quality = 2 AND clt.Chance >= 10)
+                  -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
+                  OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
+                  -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)
+                  OR (it.Quality >= 4 AND clt.Chance >= 1 AND it.class != 12)
+                  -- Show uncommon (green) items with decent drop rates (excludes class 12 quest items)
+                  OR (it.Quality = 2 AND clt.Chance >= 10 AND it.class != 12)
                   -- Show group loot items (Chance=0 with GroupId>0) - these are special boss drops
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
@@ -574,11 +592,15 @@ class LootDatabase:
               AND glt.Item > 0
               -- Filter to show only meaningful loot
               AND (
-                  it.class = 12                          -- Quest items
+                  -- Quest items with >= 50% drop rate (filters world-drop quest items)
+                  (it.class = 12 AND (glt.Chance >= 50 OR glt.Chance = 0))
                   OR it.class = 13                       -- Keys (dungeon attunement keys)
                   OR glt.Item >= 900000                  -- Custom items
-                  OR (it.Quality >= 3 AND NOT (it.class = 9 AND glt.Chance > 0 AND glt.Chance < 5))
-                  OR (it.Quality = 2 AND glt.Chance >= 10)
+                  -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
+                  OR (it.Quality = 3 AND glt.Chance >= 3 AND it.class != 12)
+                  -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)
+                  OR (it.Quality >= 4 AND glt.Chance >= 1 AND it.class != 12)
+                  OR (it.Quality = 2 AND glt.Chance >= 10 AND it.class != 12)
                   OR (glt.Chance = 0 AND glt.GroupId > 0)
               )
             ORDER BY glt.GroupId, glt.Chance DESC, glt.Item
@@ -631,10 +653,13 @@ class LootDatabase:
             if not references:
                 return []
 
-            # Resolve each reference table (reuse existing method)
+            # Deduplicate reference IDs - same reference table may be referenced
+            # multiple times with different GroupIds
+            unique_ref_ids = set(ref['Reference'] for ref in references)
+
+            # Resolve each unique reference table once
             all_ref_items = []
-            for ref in references:
-                ref_id = ref['Reference']
+            for ref_id in unique_ref_ids:
                 ref_items = self._get_reference_items(ref_id)
                 all_ref_items.extend(ref_items)
 
@@ -649,17 +674,17 @@ def test_connection():
     """Test database connection and query basic info."""
     db = LootDatabase()
     if db.connect():
-        print("✓ Database connection successful")
+        print("[OK] Database connection successful")
 
         # Test: Get Targorr the Dread's ID
         boss_name = "Targorr the Dread"
         creature_id = db.get_creature_id(boss_name)
         if creature_id:
-            print(f"✓ Found '{boss_name}' with ID: {creature_id}")
+            print(f"[OK] Found '{boss_name}' with ID: {creature_id}")
 
             # Test: Get his loot
             loot = db.get_boss_loot(creature_id)
-            print(f"✓ Found {len(loot)} loot items for {boss_name}")
+            print(f"[OK] Found {len(loot)} loot items for {boss_name}")
 
             if loot:
                 print("\nSample loot items:")
@@ -668,9 +693,9 @@ def test_connection():
                           f"Quality: {item['quality']}, Drop: {item['drop_chance']}%)")
 
         db.disconnect()
-        print("\n✓ Database test complete")
+        print("\n[OK] Database test complete")
     else:
-        print("✗ Database connection failed")
+        print("[ERROR] Database connection failed")
 
 
 if __name__ == "__main__":
