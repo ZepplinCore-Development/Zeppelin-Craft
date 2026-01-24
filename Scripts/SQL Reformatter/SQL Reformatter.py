@@ -403,6 +403,103 @@ def extract_fields_from_query(query):
         raise ValueError("Fields list not found in VALUES syntax query")
     return [f'`{field.strip("` ")}`' for field in fields_match.group(1).split(",")]
 
+def get_fields_from_schema(table_name):
+    """Gets ordered field list from cached table schema."""
+    if table_name not in TABLE_STRUCTURES:
+        return None
+    # Return all column names in order (schema preserves ORDINAL_POSITION order)
+    return list(TABLE_STRUCTURES[table_name].keys())
+
+def parse_values_no_fields(query, table_name, query_type):
+    """
+    Parses VALUES syntax without explicit field list by looking up schema.
+    Example: INSERT INTO table VALUES (val1, val2, val3);
+    """
+    # Get field order from schema
+    fields = get_fields_from_schema(table_name)
+    if not fields:
+        # Can't parse without schema, fall back to passthrough
+        return {"passthrough": True, "original_query": query}
+
+    values_content = extract_values_content(query)
+
+    values_sets = []
+    comments = {}
+    field_value_pairs = {}
+
+    pos = 0
+    while pos < len(values_content):
+        tuple_start = values_content.find("(", pos)
+        if tuple_start == -1:
+            break
+
+        tuple_end = find_matching_parenthesis(values_content, tuple_start)
+        if tuple_end == -1:
+            break
+
+        # Parse the tuple content
+        tuple_content = values_content[tuple_start+1:tuple_end]
+        current_set = []
+        current_value = []
+        in_quotes = False
+
+        for char in tuple_content:
+            if char == "'":
+                in_quotes = not in_quotes
+                current_value.append(char)
+            elif char == "," and not in_quotes:
+                current_set.append("".join(current_value).strip())
+                current_value = []
+            else:
+                current_value.append(char)
+
+        if current_value:
+            current_set.append("".join(current_value).strip())
+
+        # Validate value count matches field count
+        if len(current_set) != len(fields):
+            # Value count mismatch - can't safely parse, use passthrough
+            return {"passthrough": True, "original_query": query}
+
+        row_idx = len(values_sets)
+        values_sets.append(current_set)
+
+        # Find comment after this tuple
+        comment_start = values_content.find("--", tuple_end)
+        if comment_start != -1:
+            comment_end = len(values_content)
+            for end_marker in ["\n", ";"]:
+                marker_pos = values_content.find(end_marker, comment_start)
+                if marker_pos != -1 and marker_pos < comment_end:
+                    comment_end = marker_pos
+            next_tuple = values_content.find("(", tuple_end)
+            if next_tuple != -1 and next_tuple < comment_end:
+                comment_end = next_tuple
+            comment = values_content[comment_start+2:comment_end].strip()
+            comment = re.sub(r"[;,]\s*$", "", comment)
+            comments[row_idx] = comment
+
+        pos = tuple_end + 1
+
+    # Process all collected value sets
+    for row_idx, values in enumerate(values_sets):
+        parsed_values = [parse_individual_value(val) for val in values]
+        field_value_pairs[row_idx] = dict(zip(fields, parsed_values))
+
+    if not values_sets:
+        return {"passthrough": True, "original_query": query}
+
+    return {
+        "query_type": query_type,
+        "table_name": table_name,
+        "fields": fields,
+        "values": values_sets[0] if len(values_sets) == 1 else values_sets,
+        "field_value_pairs": field_value_pairs,
+        "comments": comments,
+        "multiple_rows": len(values_sets) > 1,
+        "row_count": len(values_sets)
+    }
+
 def extract_values_content(query):
     """Extracts the content after VALUES clause."""
     values_match = re.search(r"VALUES\s*", query, re.IGNORECASE)
@@ -459,6 +556,10 @@ def parse_query(query):
     # Check for explicit VALUES syntax (must appear after fields list)
     elif re.search(r"\)\s+VALUES\s*\(", normalized_query, re.IGNORECASE):
         return parse_values_syntax(normalized_query, table_name, query_type)
+    # Check for VALUES syntax WITHOUT field list (e.g., INSERT INTO table VALUES (...))
+    # Look up field order from schema to properly parse
+    elif re.search(r"VALUES\s*\(", normalized_query, re.IGNORECASE):
+        return parse_values_no_fields(normalized_query, table_name, query_type)
     else:
         raise ValueError("Could not parse the query. Unsupported format.")
 
@@ -721,8 +822,9 @@ def split_sql_statements(sql_text):
             # Continue building current statement
             current_statement.append(line)
 
-        # Check for statement end (semicolon)
-        if in_statement and stripped.endswith(';'):
+        # Check for statement end (semicolon, possibly followed by comment)
+        # Match: ends with ; OR has ; followed by whitespace and -- comment
+        if in_statement and (stripped.endswith(';') or re.search(r';\s*(--.*)?$', stripped)):
             statements.append((statement_type, '\n'.join(current_statement)))
             current_statement = []
             in_statement = False
@@ -800,6 +902,15 @@ def format_query(input_query, verbose=False, output_file=None):
 
                 # Parse the query
                 parsed_query = parse_query(stmt_content)
+
+                # Handle passthrough queries (e.g., VALUES without field list)
+                if parsed_query.get("passthrough"):
+                    if verbose:
+                        print(f"Passthrough: VALUES syntax without field list (cannot safely reformat)", file=sys.stderr)
+                    print(parsed_query["original_query"])
+                    print()
+                    continue
+
                 secondary_queries = []
 
                 # Handle creature_template special case
