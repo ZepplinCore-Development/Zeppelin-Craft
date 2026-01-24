@@ -403,6 +403,8 @@ class ResourceParser:
         """
         import shutil
 
+        self.log('\nSTEP 1: Copying Patch-O content to Export folder')
+
         patch_o = self.paths.get('patch_o')
         export_dir = self.paths['export']
 
@@ -461,7 +463,7 @@ class ResourceParser:
         from parsers.adt_texture_parser import ADTTextureParser
 
         self.log('\n' + '='*80)
-        self.log('STEP 1: Parsing ADT files for model, texture, and ground effect dependencies')
+        self.log('STEP 2: Parsing ADT files for model, texture, and ground effect dependencies')
         self.log('='*80)
 
         adt_dir = self.paths['adt']
@@ -702,7 +704,7 @@ class ResourceParser:
         from parsers.groundeffect_parser import GroundEffectTextureReader, GroundEffectDoodadReader
 
         self.log('\n' + '='*80)
-        self.log('STEP 6: Parsing GroundEffect DBCs and validating ADT references')
+        self.log('STEP 7: Parsing GroundEffect DBCs and validating ADT references')
         self.log('='*80)
 
         # Use DBC paths from config if available
@@ -834,7 +836,7 @@ class ResourceParser:
         import re
 
         self.log('\n' + '='*80)
-        self.log('STEP 7: Parsing WMO files for M2 doodad, texture, and nested WMO dependencies')
+        self.log('STEP 8: Parsing WMO files for M2 doodad, texture, and nested WMO dependencies')
         self.log('='*80)
 
         export_dir = self.paths['export']
@@ -927,11 +929,11 @@ class ResourceParser:
                 self.all_dependencies.clear()
                 self.all_dependencies.update(iteration_new_wmos)
                 self.required_custom.clear()
-                self.filter_stock_assets(step_number=f'7.{iteration}', asset_type="nested WMO files")
+                self.filter_stock_assets(step_number=f'8.{iteration}', asset_type="nested WMO files")
 
                 if self.required_custom:
-                    self.find_assets(step_number=f'7.{iteration}', asset_type="nested WMO files")
-                    self.extract_assets(step_number=f'7.{iteration}', asset_type="nested WMO files")
+                    self.find_assets(step_number=f'8.{iteration}', asset_type="nested WMO files")
+                    self.extract_assets(step_number=f'8.{iteration}', asset_type="nested WMO files")
 
                 iteration += 1
             else:
@@ -964,7 +966,7 @@ class ResourceParser:
         from parsers.m2_texture_parser import parse_m2_textures
 
         self.log('\n' + '='*80)
-        self.log('STEP 11: Parsing M2 models for texture dependencies')
+        self.log('STEP 12: Parsing M2 models for texture dependencies')
         self.log('='*80)
 
         export_dir = self.paths['export']
@@ -1034,7 +1036,7 @@ class ResourceParser:
     def load_stock_assets(self):
         """Load merged stock WotLK 3.3.5a asset list"""
         self.log('\n' + '='*80)
-        self.log('STEP 2: Loading stock WotLK asset list')
+        self.log('STEP 3: Loading stock WotLK asset list')
         self.log('='*80)
 
         listfile = self.paths['wotlk_base_assets']
@@ -1580,7 +1582,7 @@ class ResourceParser:
         Organizes files by folder for fast lookups during related asset discovery.
         """
         self.log('\n' + '='*80)
-        self.log('STEP 0: Building assets directory cache...')
+        self.log('\nSTEP 0: Building assets directory cache')
         self.log('='*80)
 
         file_count = 0
@@ -1800,7 +1802,7 @@ class ResourceParser:
     def analyze_missing_by_area(self):
         """Analyze missing assets by map area using parent chain tracking"""
         self.log('\n' + '='*80)
-        self.log('STEP 15: Analyzing missing assets by area')
+        self.log('STEP 16: Analyzing missing assets by area')
         self.log('='*80)
 
         # Find what's still missing
@@ -2027,7 +2029,7 @@ class ResourceParser:
     def generate_log(self):
         """Generate final log file"""
         self.log('\n' + '='*80)
-        self.log('STEP 16: Generating log file')
+        self.log('STEP 17: Generating log file')
         self.log('='*80)
 
         log_path = Path(__file__).parent / 'resource_parser.log'
@@ -2334,9 +2336,7 @@ class ResourceParser:
             self.log('\n  MPQ building disabled in config (build_mpq = false)')
             return False
 
-        self.log('\n' + '='*80)
-        self.log('PHASE 4: MPQ BUILDING')
-        self.log('='*80)
+        self.log('\nSTEP 18: Building MPQ file')
 
         # Get MPQ configuration
         mpq_editor = self.paths.get('mpq_editor')
@@ -2488,107 +2488,105 @@ class ResourceParser:
         self.log('='*80)
 
         try:
-            # Build folder cache for fast asset lookups
+            # ============================================================
+            # PHASE 0: INITIALIZATION (Steps 0-1)
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 0: INITIALIZATION')
+            self.log('='*80)
+
+            # Step 0: Build folder cache for fast asset lookups
             assets_dir = Path(self.paths['assets_source'])
             self.build_folder_cache(assets_dir)
 
-            # ============================================================
-            # PHASE 0: CONTENT STAGING
-            # ============================================================
-            self.log('\n' + '='*80)
-            self.log('PHASE 0: CONTENT STAGING')
-            self.log('='*80)
-
-            # Copy Patch-O content to Export folder
+            # Step 1: Copy Patch-O content to Export folder
             self.copy_patch_o_to_export()
 
             # ============================================================
-            # PHASE 1: DISCOVERY & WMO EXTRACTION
+            # PHASE 1: DISCOVERY & WMO EXTRACTION (Steps 2-6)
             # ============================================================
             self.log('\n' + '='*80)
             self.log('PHASE 1: DISCOVERY & WMO EXTRACTION')
             self.log('='*80)
 
-            # Parse ADTs for asset references (WMOs, M2s, ground effects, terrain textures)
+            # Step 2: Parse ADTs for asset references
             self.parse_adts()
-            self.detect_duplicate_wmos()  # Optional: Detect duplicate WMO placements
+            self.detect_duplicate_wmos()
 
-            # Load stock assets registry
+            # Step 3: Load stock assets registry
             self.load_stock_assets()
 
-            # Filter and extract WMOs
+            # Steps 4-6: Filter, find, and extract WMOs
             self.all_dependencies.clear()
             self.all_dependencies.update(self.adt_wmos)
 
-            self.filter_stock_assets(step_number=3, asset_type="WMO files")
+            self.filter_stock_assets(step_number=4, asset_type="WMO files")
             self.total_wmo_required = len(self.required_custom)
-            self.find_assets(step_number=4, asset_type="WMO files")
-            self.extract_assets(step_number=5, asset_type="WMO files")
+            self.find_assets(step_number=5, asset_type="WMO files")
+            self.extract_assets(step_number=6, asset_type="WMO files")
             self.report_missing_assets(asset_type="WMO files")
 
             # ============================================================
-            # PHASE 2: WMO PARSING & M2 EXTRACTION
+            # PHASE 2: WMO PARSING & M2 EXTRACTION (Steps 7-11)
             # ============================================================
             self.log('\n' + '='*80)
             self.log('PHASE 2: WMO PARSING & M2 EXTRACTION')
             self.log('='*80)
 
-            # Parse ground effects DBC for M2 models
+            # Step 7: Parse ground effects DBC for M2 models
             self.parse_ground_effects()
 
-            # Parse all WMO sources for M2 doodads and textures
-            # (includes both exported WMOs from Phase 1 and Patch-O WMOs)
+            # Step 8: Parse WMO files for M2 doodads and textures
             self.parse_exported_wmos()
 
-            # Combine all M2 sources
+            # Steps 9-11: Filter, find, and extract M2s
             self.all_dependencies.clear()
-            # M2s from ADT direct references
             for models in self.adt_models.values():
                 self.all_dependencies.update(models)
-            # M2s from ground effects
             for effect_id, models in self.ground_effect_id_to_models.items():
                 self.all_dependencies.update(models)
-            # M2s from WMO doodads
             self.all_dependencies.update(self.wmo_doodads)
 
-            # Filter and extract M2s
             self.required_custom.clear()
-            self.filter_stock_assets(step_number=8, asset_type="M2 models")
+            self.filter_stock_assets(step_number=9, asset_type="M2 models")
             self.total_m2_required = len(self.required_custom)
-            self.find_assets(step_number=9, asset_type="M2 models")
-            self.extract_assets(step_number=10, asset_type="M2 models")
+            self.find_assets(step_number=10, asset_type="M2 models")
+            self.extract_assets(step_number=11, asset_type="M2 models")
             self.report_missing_assets(asset_type="M2 models")
 
             # ============================================================
-            # PHASE 3: M2 PARSING & TEXTURE EXTRACTION
+            # PHASE 3: M2 PARSING & TEXTURE EXTRACTION (Steps 12-15)
             # ============================================================
             self.log('\n' + '='*80)
             self.log('PHASE 3: M2 PARSING & TEXTURE EXTRACTION')
             self.log('='*80)
 
-            # Parse all M2 sources for textures
-            # (includes both exported M2s from Phase 2 and Patch-O M2s)
-            # Also combines textures from WMOs and ADTs into all_dependencies
+            # Step 12: Parse M2 files for textures
             self.parse_exported_m2s()
 
-            # Filter and extract textures
+            # Steps 13-15: Filter, find, and extract textures
             self.required_custom.clear()
-            self.filter_stock_assets(step_number=12, asset_type="textures")
+            self.filter_stock_assets(step_number=13, asset_type="textures")
             self.total_texture_required = len(self.required_custom)
-            self.find_assets(step_number=13, asset_type="textures")
-            self.extract_assets(step_number=14, asset_type="textures")
+            self.find_assets(step_number=14, asset_type="textures")
+            self.extract_assets(step_number=15, asset_type="textures")
             self.report_missing_assets(asset_type="textures")
 
             # ============================================================
-            # REPORTING
+            # PHASE 4: REPORTING & MPQ BUILDING (Steps 16-18)
             # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 4: REPORTING & MPQ BUILDING')
+            self.log('='*80)
+
+            # Step 16: Analyze missing assets by area
             self.analyze_missing_by_area()
             self.generate_duplicate_wmo_report()
+
+            # Step 17: Generate log file
             log_path = self.generate_log()
 
-            # ============================================================
-            # PHASE 4: MPQ BUILDING (optional)
-            # ============================================================
+            # Step 18: Build MPQ (optional)
             mpq_success = self.build_mpq()
 
             self.log('\n' + '='*80)
