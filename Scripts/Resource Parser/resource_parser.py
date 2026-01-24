@@ -13,6 +13,8 @@ Configuration:
 import os
 import sys
 import shutil
+import subprocess
+import tempfile
 import configparser
 from pathlib import Path
 from datetime import datetime
@@ -58,6 +60,8 @@ class ResourceParser:
         self.modern_ground_effect_ids = set()  # IDs in modern client but not WotLK (modern content)
         self.all_dependencies = set()
         self.stock_assets = set()
+        self.stock_matched_wmos = set()  # WMOs filtered as stock but may contain custom textures (I-048)
+        self.stock_matched_wmo_textures = set()  # Custom textures discovered in stock-matched WMOs
         self.required_custom = set()
         self.already_exported = set()
         self.found_assets = {}  # {normalized_path: source_path}
@@ -99,6 +103,11 @@ class ResourceParser:
         # Load paths section
         if 'paths' in parser:
             config['paths'] = dict(parser['paths'])
+
+        # Load mpq section paths (merged into paths for fallback support)
+        if 'mpq' in parser:
+            for key, value in parser['mpq'].items():
+                config['paths'][key] = value
 
         # Load options section with type conversion
         if 'options' in parser:
@@ -985,6 +994,10 @@ class ResourceParser:
 
             if is_stock:
                 stock_count += 1
+                # Track stock-matched WMOs for Phase 1.5 texture scanning (I-048 fix)
+                # These WMOs have stock filenames but may contain custom textures
+                if asset_type == "WMO files" and normalized.endswith('.WMO'):
+                    self.stock_matched_wmos.add(normalized)
             else:
                 # CRITICAL: Add normalized path to match asset_parents keys
                 self.required_custom.add(normalized)
@@ -995,6 +1008,10 @@ class ResourceParser:
         self.log(f'\nFiltering results:')
         self.log(f'  ✅ Stock WotLK {asset_type} (already in base client): {stock_count:,}')
         self.log(f'  ⚠️  Custom/modern {asset_type} (need to extract): {len(self.required_custom):,}')
+
+        # Report stock-matched WMOs that will be scanned for custom textures
+        if asset_type == "WMO files" and self.stock_matched_wmos:
+            self.log(f'  ℹ️  Stock-matched WMOs to scan for custom textures: {len(self.stock_matched_wmos):,}')
 
     def find_assets(self, step_number: int, asset_type: str):
         """Search for required assets in source directory"""
@@ -1683,6 +1700,113 @@ class ResourceParser:
         else:
             self.log(f'\n  Extracted: {len(extracted_this_phase):,} {asset_type}')
 
+    def scan_stock_matched_wmo_textures(self):
+        """
+        Phase 1.5: Scan stock-matched WMOs for custom textures (I-048 fix).
+
+        Some WMOs have stock WotLK filenames but contain references to custom textures.
+        This method finds those WMOs in the Asset Library and extracts any non-stock
+        textures they reference.
+        """
+        if not self.stock_matched_wmos:
+            self.log('\n  No stock-matched WMOs to scan for custom textures')
+            return
+
+        self.log('\n' + '='*80)
+        self.log('STEP 5.5: Scanning stock-matched WMOs for custom textures (I-048 fix)')
+        self.log('='*80)
+
+        self.log(f'\nStock-matched WMOs to scan: {len(self.stock_matched_wmos):,}')
+        self.log(f'  These WMOs have stock filenames but may reference custom textures')
+
+        from parsers.wmo_parser import WMOParser
+
+        assets_dir = self.paths['assets_source']
+        wmos_found = 0
+        wmos_with_custom_textures = 0
+        total_custom_textures = 0
+        total_stock_textures = 0
+
+        # Build asset map if not already cached
+        asset_map = {}
+        for root, dirs, files in os.walk(assets_dir):
+            for file in files:
+                if file.lower().endswith('.wmo'):
+                    full_path = Path(root) / file
+                    rel_path = full_path.relative_to(assets_dir)
+                    normalized = str(rel_path).upper().replace('\\', '/')
+                    asset_map[normalized] = full_path
+
+        self.log(f'  Scanned Asset Library: {len(asset_map):,} WMO files available')
+
+        for wmo_normalized in self.stock_matched_wmos:
+            # Try to find this WMO in Asset Library
+            wmo_path = None
+
+            # Exact match
+            if wmo_normalized in asset_map:
+                wmo_path = asset_map[wmo_normalized]
+            else:
+                # Try filename-only match (WMO might be in different path)
+                wmo_filename = wmo_normalized.split('/')[-1]
+                for key, path in asset_map.items():
+                    if key.endswith('/' + wmo_filename) or key == wmo_filename:
+                        wmo_path = path
+                        break
+
+            if not wmo_path:
+                continue
+
+            wmos_found += 1
+
+            # Parse WMO for texture references
+            try:
+                parser = WMOParser(wmo_path)
+                _, textures = parser.parse_all()
+
+                if not textures:
+                    continue
+
+                # Filter textures against stock registry
+                custom_textures_in_wmo = []
+                for texture in textures:
+                    texture_normalized = self.normalize_path(texture).upper()
+
+                    # Check if texture is in stock registry
+                    is_stock = texture_normalized in self.stock_assets
+
+                    if is_stock:
+                        total_stock_textures += 1
+                    else:
+                        custom_textures_in_wmo.append(texture_normalized)
+                        total_custom_textures += 1
+
+                        # Add to the set for Phase 3 extraction
+                        self.stock_matched_wmo_textures.add(texture_normalized)
+
+                        # Track parent relationship: texture → stock-matched WMO
+                        if texture_normalized not in self.asset_parents:
+                            self.asset_parents[texture_normalized] = wmo_normalized
+                            self.parent_types[texture_normalized] = "BLP"
+
+                if custom_textures_in_wmo:
+                    wmos_with_custom_textures += 1
+                    if self.options.get('verbose', True):
+                        wmo_name = wmo_path.name
+                        self.log(f'  {wmo_name}: {len(custom_textures_in_wmo)} custom, {len(textures) - len(custom_textures_in_wmo)} stock textures')
+
+            except Exception as e:
+                self.log(f'  Warning: Could not parse {wmo_path.name}: {e}')
+
+        self.log(f'\nStock-matched WMO texture scan results:')
+        self.log(f'  WMOs found in Asset Library: {wmos_found:,} / {len(self.stock_matched_wmos):,}')
+        self.log(f'  WMOs with custom textures: {wmos_with_custom_textures:,}')
+        self.log(f'  Stock textures (skipped): {total_stock_textures:,}')
+        self.log(f'  Custom textures (to extract): {total_custom_textures:,}')
+
+        if self.stock_matched_wmo_textures:
+            self.log(f'\n  ℹ️  {len(self.stock_matched_wmo_textures)} custom textures will be extracted in Phase 3')
+
     def report_missing_assets(self, asset_type: str):
         """Report what assets are still missing after extraction attempt with full parent chains"""
         # Calculate what's still missing
@@ -2228,13 +2352,150 @@ class ResourceParser:
 
         return log_path
 
+    def build_mpq(self):
+        """
+        Phase 4: Build MPQ file from exported assets.
+
+        Uses MPQEditor.exe in console mode to create/update an MPQ archive
+        containing all extracted assets. Configuration via [mpq] section in config.conf.
+        """
+        # Check if MPQ building is enabled
+        if not self.options.get('build_mpq', False):
+            self.log('\n  MPQ building disabled in config (build_mpq = false)')
+            return False
+
+        self.log('\n' + '='*80)
+        self.log('PHASE 4: MPQ BUILDING')
+        self.log('='*80)
+
+        # Get MPQ configuration
+        mpq_editor = self.paths.get('mpq_editor')
+        mpq_output = self.paths.get('mpq_output')
+        export_dir = self.paths.get('export')
+
+        # Validate required paths
+        if not mpq_editor:
+            self.log('\n  ❌ ERROR: mpq_editor path not configured in config.conf')
+            return False
+
+        if not mpq_output:
+            self.log('\n  ❌ ERROR: mpq_output path not configured in config.conf')
+            return False
+
+        if not export_dir or not export_dir.exists():
+            self.log(f'\n  ❌ ERROR: Export directory not found: {export_dir}')
+            return False
+
+        if not mpq_editor.exists():
+            self.log(f'\n  ❌ ERROR: MPQEditor not found: {mpq_editor}')
+            self.log(f'      MPQ building requires MPQEditor.exe from Ladik\'s MPQ Editor')
+            return False
+
+        # Count files to package
+        files_to_package = list(export_dir.rglob('*'))
+        files_to_package = [f for f in files_to_package if f.is_file()]
+
+        if not files_to_package:
+            self.log('\n  ⚠️  No files in export directory to package')
+            return False
+
+        self.log(f'\nMPQ Configuration:')
+        self.log(f'  MPQEditor: {mpq_editor}')
+        self.log(f'  Output MPQ: {mpq_output}')
+        self.log(f'  Source Dir: {export_dir}')
+        self.log(f'  Files to package: {len(files_to_package):,}')
+
+        # Generate MPQ script file
+        # MPQEditor console format:
+        #   a "mpq_path" "source_folder" [options] - Add files
+        #   f "mpq_path" - Flush changes
+        #   compact "mpq_path" - Compact MPQ
+        #   exit - Exit
+        try:
+            # Create temporary script file
+            script_content = []
+
+            # Ensure output directory exists
+            mpq_output_dir = mpq_output.parent
+            if not mpq_output_dir.exists():
+                mpq_output_dir.mkdir(parents=True, exist_ok=True)
+                self.log(f'  Created output directory: {mpq_output_dir}')
+
+            # Add files to MPQ (recursive, auto-confirm, create if needed)
+            # /auto = auto-confirm, /r = recursive, /c = create if not exists
+            script_content.append(f'a "{mpq_output}" "{export_dir}\\*" /auto /r /c')
+
+            # Flush changes
+            script_content.append(f'f "{mpq_output}"')
+
+            # Compact to reduce file size
+            script_content.append(f'compact "{mpq_output}"')
+
+            # Exit
+            script_content.append('exit')
+
+            script_text = '\n'.join(script_content)
+
+            # Write script to temp file
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+                f.write(script_text)
+                script_path = f.name
+
+            self.log(f'\nGenerated MPQ script:')
+            for line in script_content:
+                self.log(f'  {line}')
+
+            # Run MPQEditor with script
+            self.log(f'\nExecuting MPQEditor...')
+
+            result = subprocess.run(
+                [str(mpq_editor), '/console', script_path],
+                capture_output=True,
+                text=True,
+                cwd=str(mpq_editor.parent),
+                timeout=600  # 10 minute timeout
+            )
+
+            # Clean up temp script
+            try:
+                os.unlink(script_path)
+            except:
+                pass
+
+            if result.returncode == 0:
+                # Get file size
+                if mpq_output.exists():
+                    size_mb = mpq_output.stat().st_size / (1024 * 1024)
+                    self.log(f'\n  ✅ MPQ built successfully: {mpq_output}')
+                    self.log(f'  📦 Size: {size_mb:.1f} MB')
+                    return True
+                else:
+                    self.log(f'\n  ⚠️  MPQEditor completed but output file not found')
+                    return False
+            else:
+                self.log(f'\n  ❌ MPQEditor failed with code {result.returncode}')
+                if result.stdout:
+                    self.log(f'  stdout: {result.stdout[:500]}')
+                if result.stderr:
+                    self.log(f'  stderr: {result.stderr[:500]}')
+                return False
+
+        except subprocess.TimeoutExpired:
+            self.log(f'\n  ❌ MPQEditor timed out after 10 minutes')
+            return False
+        except Exception as e:
+            self.log(f'\n  ❌ Error building MPQ: {e}')
+            return False
+
     def run(self):
         """
-        Execute full extraction workflow (Three-Phase Approach).
+        Execute full extraction workflow (Four-Phase Approach).
 
         Phase 1: WMO Hunting - Extract WMO files first
+        Phase 1.5: Stock-Matched WMO Texture Scanning (I-048 fix)
         Phase 2: M2 Hunting - Extract M2 models (from ADTs, ground effects, and Phase 1 WMOs)
         Phase 3: Texture/Skin Hunting - Extract textures and skins from Phase 2 M2s
+        Phase 4: MPQ Building - Package extracted assets into MPQ (optional)
         """
         self.log('='*80)
         self.log('OPEN AZEROTH RESOURCE PARSER (Three-Phase Extraction)')
@@ -2268,6 +2529,9 @@ class ResourceParser:
             self.find_assets(step_number=4, asset_type="WMO files")
             self.extract_assets(step_number=5, asset_type="WMO files")
             self.report_missing_assets(asset_type="WMO files")
+
+            # Phase 1.5: Scan stock-matched WMOs for custom textures (I-048 fix)
+            self.scan_stock_matched_wmo_textures()
 
             # ============================================================
             # PHASE 2: M2 HUNTING
@@ -2312,6 +2576,11 @@ class ResourceParser:
             # Parse exported M2s from Phase 2 for textures
             self.parse_exported_m2s()
 
+            # Add custom textures from stock-matched WMOs (Phase 1.5, I-048 fix)
+            if self.stock_matched_wmo_textures:
+                self.all_dependencies.update(self.stock_matched_wmo_textures)
+                self.log(f'\n  Added {len(self.stock_matched_wmo_textures):,} textures from stock-matched WMOs')
+
             # all_dependencies already updated by parse_exported_m2s()
             # but we need to reset for Phase 3
             self.required_custom.clear()
@@ -2328,10 +2597,17 @@ class ResourceParser:
             self.generate_duplicate_wmo_report()  # Generate duplicate WMO report if enabled
             log_path = self.generate_log()
 
+            # ============================================================
+            # PHASE 4: MPQ BUILDING (optional)
+            # ============================================================
+            mpq_success = self.build_mpq()
+
             self.log('\n' + '='*80)
             self.log('EXTRACTION COMPLETE')
             self.log('='*80)
             self.log(f'Log File: {log_path}')
+            if mpq_success:
+                self.log(f'MPQ File: {self.paths.get("mpq_output", "N/A")}')
             self.log('='*80)
 
         except Exception as e:
