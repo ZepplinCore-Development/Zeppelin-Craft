@@ -4999,6 +4999,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17580;
 
 UPDATE `dbc`.`spell` SET 
+    `EffectBasePoints1` = 39 /* was 0 */,
+    `EffectApplyAuraName1` = 108 /* was 4 */,
+    `EffectMiscValue1` = 3 /* was 0 */,
+    `EffectSpellClassMaskA1` = 14 /* was 0 */
+WHERE `ID` = 17619;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 13 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 17634;
