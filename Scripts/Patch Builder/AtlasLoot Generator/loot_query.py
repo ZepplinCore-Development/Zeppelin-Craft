@@ -204,12 +204,14 @@ class LootDatabase:
             unique_ref_ids.sort()  # Sort for consistent ordering
 
             # Resolve each unique reference table once
-            # Use reference ID as unique group identifier (offset by 1000 to avoid collision)
+            # Use base offset per reference to preserve internal GroupId structure
+            # Each reference gets its own 1000-range (1000, 2000, 3000, etc.)
             all_ref_items = []
             for idx, ref_id in enumerate(unique_ref_ids):
-                # Assign unique group_id per reference table (1001, 1002, etc.)
-                ref_group_id = 1000 + idx + 1
-                ref_items = self._get_reference_items(ref_id, ref_group_id)
+                # Base offset for this reference (1000, 2000, 3000, etc.)
+                # Internal GroupIds are added to this base to preserve structure
+                base_group_offset = (idx + 1) * 1000
+                ref_items = self._get_reference_items(ref_id, base_group_offset)
                 all_ref_items.extend(ref_items)
 
             return all_ref_items
@@ -218,7 +220,7 @@ class LootDatabase:
             print(f"Reference query error: {err}")
             return []
 
-    def _get_reference_items(self, reference_id: int, override_group_id: int = None) -> List[Dict]:
+    def _get_reference_items(self, reference_id: int, base_group_offset: int = None) -> List[Dict]:
         """
         Get all items from a reference loot table with properly calculated drop rates.
 
@@ -229,8 +231,10 @@ class LootDatabase:
 
         Args:
             reference_id: Reference loot table ID
-            override_group_id: If set, use this as group_id for all items (to keep
-                              reference tables as separate pools)
+            base_group_offset: If set, add this to each item's internal GroupId to create
+                              unique output group_ids. This preserves internal group structure
+                              while avoiding collisions between different reference tables.
+                              Example: base=1000, internal GroupId=2 -> output group_id=1002
 
         Returns:
             List of loot items from the reference table with calculated drop_chance
@@ -319,10 +323,17 @@ class LootDatabase:
                     is_epic_with_good_chance):            # Epic+ with >= 1% drop (not quest items)
                     filtered_items.append(item)
 
-            # Override group_id if specified (to keep reference tables as separate pools)
-            if override_group_id is not None:
+            # Apply base offset to group_ids (preserves internal group structure)
+            # This keeps items from the same internal GroupId together while
+            # preventing collisions between different reference tables
+            if base_group_offset is not None:
                 for item in filtered_items:
-                    item['group_id'] = override_group_id
+                    # Add base offset to internal GroupId
+                    # GroupId=0 stays as 0 (independent drops, no pooling)
+                    # GroupId=2 with base=1000 becomes 1002
+                    # GroupId=3 with base=1000 becomes 1003
+                    if item['group_id'] > 0:
+                        item['group_id'] = base_group_offset + item['group_id']
 
             return filtered_items
 
