@@ -1376,6 +1376,55 @@ INSERT INTO `dbc`.`item` SET
     `sound_override_subclassid` = -1,
     `ItemDisplayInfo` = 135477;
 
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59314;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59314,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 135477;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59315;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59315,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 135477;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59316;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59316,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 135477;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59317;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59317,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 135477;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59318;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59318,
+    `ItemClass` = 15,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 135477;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59319;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59319,
+    `ItemClass` = 12,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 134131;
+
+DELETE FROM `dbc`.`item` WHERE `itemID` = 59320;
+INSERT INTO `dbc`.`item` SET 
+    `itemID` = 59320,
+    `ItemClass` = 12,
+    `sound_override_subclassid` = -1,
+    `ItemDisplayInfo` = 134298;
+
 DELETE FROM `dbc`.`item` WHERE `itemID` = 100001;
 INSERT INTO `dbc`.`item` SET 
     `itemID` = 100001,
