@@ -145,6 +145,35 @@ class LootDatabase:
             print(f"Direct loot query error: {err}")
             return []
 
+        # Step 1b: Calculate drop chances for direct loot groups (Chance=0 with GroupId>0)
+        # Same logic as _get_reference_items() - GroupId > 0 means "pick one from group"
+        groups = {}
+        for item in results:
+            gid = item['group_id']
+            if gid not in groups:
+                groups[gid] = []
+            groups[gid].append(item)
+
+        for gid, items in groups.items():
+            if gid == 0:
+                # GroupId 0: Items drop independently, Chance=0 means 100%
+                for item in items:
+                    if item['drop_chance'] == 0:
+                        item['drop_chance'] = 100.0
+            else:
+                # GroupId > 0: Only ONE item drops from the group
+                # Calculate total explicit chance
+                explicit_total = sum(item['drop_chance'] for item in items if item['drop_chance'] > 0)
+                zero_chance_items = [item for item in items if item['drop_chance'] == 0]
+
+                if zero_chance_items:
+                    # Remaining chance is split equally among Chance=0 items
+                    remaining = 100.0 - explicit_total
+                    equal_share = remaining / len(zero_chance_items) if remaining > 0 else 0
+
+                    for item in zero_chance_items:
+                        item['drop_chance'] = equal_share
+
         # Step 2: Resolve reference loot tables (if enabled)
         if include_references:
             ref_items = self._resolve_reference_loot(creature_id)
