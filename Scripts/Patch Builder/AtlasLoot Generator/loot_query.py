@@ -298,26 +298,25 @@ class LootDatabase:
                             item['drop_chance'] = equal_share
 
             # Filter to meaningful items only (after calculating chances)
+            # For reference loot (boss gear pools), only show rare+ quality
+            # This excludes green items like gem sacks that clutter raid displays
             filtered_items = []
             for item in all_items:
                 chance = item['drop_chance']
                 quality = item['quality']
 
-                # Quality-based drop rate thresholds (filters world drops)
-                # Quest items (class 12): >= 50% or group loot (chance=0) - ONLY use quest threshold
-                # Rare (Q3): >= 3% or group loot (chance=0) - excludes class 12
-                # Epic+ (Q4+): >= 1% or group loot (chance=0) - excludes class 12
+                # Quality-based thresholds for reference loot (stricter than direct loot)
+                # Only rare (Q3) or better from reference tables
                 is_quest_item = (item['item_class'] == 12)
                 is_quest_with_good_chance = (is_quest_item and (chance == 0 or chance >= 50))
                 is_rare_with_good_chance = (quality == 3 and (chance == 0 or chance >= 3) and not is_quest_item)
                 is_epic_with_good_chance = (quality >= 4 and (chance == 0 or chance >= 1) and not is_quest_item)
-                is_uncommon_with_good_chance = (quality == 2 and chance >= 10 and not is_quest_item)
+                # NOTE: Uncommon (green) items excluded from reference loot to reduce clutter
 
                 if (is_quest_with_good_chance or          # Quest items with >= 50%
                     item['item_id'] >= 900000 or          # Custom items
                     is_rare_with_good_chance or           # Rare with >= 3% drop (not quest items)
-                    is_epic_with_good_chance or           # Epic+ with >= 1% drop (not quest items)
-                    is_uncommon_with_good_chance):        # Uncommon with >= 10% (not quest items)
+                    is_epic_with_good_chance):            # Epic+ with >= 1% drop (not quest items)
                     filtered_items.append(item)
 
             # Override group_id if specified (to keep reference tables as separate pools)
