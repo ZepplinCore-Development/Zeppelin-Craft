@@ -23,7 +23,7 @@
 59000,59099,Azeroth Normal Dungeon Loot,59000-59002 T0 Caches (3) | Refs 59010-59038 (27) | Next item: 59003 | Next ref: 59039 (F-025)
 59100,59199,Azeroth Heroic Dungeon Loot,
 59200,59299,Azeroth Mythic Dungeon Loot,
-59300,59399,Azeroth Raid Loot,59300-59305 T1 Flamewaker (6) | 59306-59313 T2 Blackwing (8) | 59314-59318 T2.5 Qiraji (5) | Next: 59319 (F-025)
+59300,59399,Azeroth Raid Loot,59300-59305 T1 (6) | 59306-59313 T2 (8) | 59314-59318 T2.5 (5) | Refs 59310-59370 T1 | Refs 59380-59458 T2 | Next item: 59314 | Next ref: 59459 (F-025)
 59400,59499,Outland Normal Dungeon Loot,
 59500,59599,Outland Heroic Dungeon Loot,
 59600,59699,Outland Mythic Dungeon Loot,
