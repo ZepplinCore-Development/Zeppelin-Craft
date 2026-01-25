@@ -57,24 +57,28 @@ ARMOR_TYPE_CODES = {
 }
 
 # Weapon type codes (item_template.subclass for class=2 Weapon)
+# Maps WoW subclass ID to AtlasLoot code (see TextParsing.lua)
+# AtlasLoot codes: #w1#=Axe, #w2#=Bow, #w3#=Crossbow, #w4#=Dagger, #w5#=Gun,
+#                  #w6#=Mace, #w7#=Polearm, #w8#=Shield, #w9#=Staff, #w10#=Sword,
+#                  #w11#=Thrown, #w12#=Wand, #w13#=Fist Weapon
 WEAPON_TYPE_CODES = {
-    0: "#w1#",   # Axe (One-Hand)
-    1: "#w2#",   # Axe (Two-Hand)
-    2: "#w3#",   # Bow
-    3: "#w13#",  # Gun
-    4: "#w6#",   # Mace (One-Hand)
-    5: "#w7#",   # Mace (Two-Hand)
-    6: "#w8#",   # Polearm
-    7: "#w10#",  # Sword (One-Hand)
-    8: "#w11#",  # Sword (Two-Hand)
-    10: "#w9#",  # Staff
-    13: "#w5#",  # Fist Weapon
-    14: "#w0#",  # Miscellaneous Weapon
-    15: "#w4#",  # Dagger
-    16: "#w12#", # Thrown
-    18: "#w14#", # Crossbow
-    19: "#w15#", # Wand
-    20: "#w16#", # Fishing Pole
+    0: "#w1#",   # Axe (One-Hand) → Axe
+    1: "#w1#",   # Axe (Two-Hand) → Axe
+    2: "#w2#",   # Bow → Bow
+    3: "#w5#",   # Gun → Gun
+    4: "#w6#",   # Mace (One-Hand) → Mace
+    5: "#w6#",   # Mace (Two-Hand) → Mace
+    6: "#w7#",   # Polearm → Polearm
+    7: "#w10#",  # Sword (One-Hand) → Sword
+    8: "#w10#",  # Sword (Two-Hand) → Sword
+    10: "#w9#",  # Staff → Staff
+    13: "#w13#", # Fist Weapon → Fist Weapon
+    14: "",      # Miscellaneous Weapon (no specific code)
+    15: "#w4#",  # Dagger → Dagger
+    16: "#w11#", # Thrown → Thrown
+    18: "#w3#",  # Crossbow → Crossbow
+    19: "#w12#", # Wand → Wand
+    20: "",      # Fishing Pole (no specific code)
 }
 
 # Item class codes (for consumables, quest items, etc.)
@@ -171,7 +175,7 @@ def get_lua_item_line(line_num, item_id, item_name, quality, item_class,
 
     # Build the Lua line
     # Format: { LineNum, ItemID, Icon, Name, Codes, "", DropChance }
-    lua_line = f'    {{ {line_num}, {item_id}, "{icon}", "{quality_code}{item_name}"'
+    lua_line = f'\t\t{{ {line_num}, {item_id}, "{icon}", "{quality_code}{item_name}"'
 
     if type_code:
         lua_line += f', "=ds={type_code}"'
@@ -202,4 +206,4 @@ def get_boss_header_line(line_num, boss_name):
     Returns:
         str: Formatted Lua boss header entry
     """
-    return f'    {{ {line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{boss_name}"], "" }};'
+    return f'\t\t{{ {line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{boss_name}"], "" }};'

@@ -269,9 +269,9 @@ class LuaGenerator:
     def _add_pool_header(self, header_text: str, subtitle: str = ""):
         """Add a pool/category header line."""
         if subtitle:
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
+            header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
         else:
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
+            header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
@@ -537,15 +537,15 @@ class LuaGenerator:
             # Add header line
             if is_babble:
                 if header_sub:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
+                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
                 else:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
+                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
             else:
                 # Use AL[] for non-BabbleBoss headers (like chest names)
                 if header_sub:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
+                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
                 else:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
+                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
             self.lines.append(header_line)
             self.current_line_num += 1
 
