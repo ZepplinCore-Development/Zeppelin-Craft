@@ -157,19 +157,17 @@ class AtlasLootParser:
             return False
 
         try:
-            # Create backup if requested
+            # Create backup if requested (disabled by default - use git for versioning)
             if backup:
                 backup_path = self.lua_file_path + '.bak'
                 with open(self.lua_file_path, 'r', encoding='utf-8') as f:
                     backup_content = f.read()
                 with open(backup_path, 'w', encoding='utf-8') as f:
                     f.write(backup_content)
-                print(f"✓ Backup created: {backup_path}")
 
-            # Write modified content
+            # Write modified content (silently - caller handles success message)
             with open(self.lua_file_path, 'w', encoding='utf-8') as f:
                 f.writelines(self.content)
-            print(f"✓ File saved: {self.lua_file_path}")
             return True
 
         except Exception as e:
@@ -231,7 +229,7 @@ class AtlasLootParser:
             insert_pos += 1
 
         self.content.insert(insert_pos, section_code)
-        print(f"✓ Created new section '{new_section_name}' after '{reference_section}'")
+        print(f"[OK] Created new section '{new_section_name}' after '{reference_section}'")
         return True
 
     def section_exists(self, section_name: str) -> bool:
@@ -258,25 +256,25 @@ def test_parser():
     # Test 1: Find TheStockade section
     bounds = parser.find_section_bounds("TheStockade")
     if bounds:
-        print(f"✓ Found TheStockade section: lines {bounds[0]}-{bounds[1]}")
+        print(f"[OK] Found TheStockade section: lines {bounds[0]}-{bounds[1]}")
     else:
-        print("✗ TheStockade section not found")
+        print("[ERROR] TheStockade section not found")
 
     # Test 2: Extract boss names
     boss_names = parser.extract_boss_names("TheStockade")
-    print(f"\n✓ Found {len(boss_names)} bosses in TheStockade:")
+    print(f"\n[OK] Found {len(boss_names)} bosses in TheStockade:")
     for boss in boss_names:
         print(f"  - {boss}")
 
     # Test 3: Get section content preview
     content = parser.get_section_content("TheStockade")
     if content:
-        print(f"\n✓ Section content length: {len(content)} characters")
+        print(f"\n[OK] Section content length: {len(content)} characters")
         print(f"First line: {content.split(chr(10))[0]}")
 
     # Test 4: List all sections
     all_sections = parser.get_all_sections()
-    print(f"\n✓ Total sections in file: {len(all_sections)}")
+    print(f"\n[OK] Total sections in file: {len(all_sections)}")
     print(f"First 10 sections: {', '.join(all_sections[:10])}")
 
 

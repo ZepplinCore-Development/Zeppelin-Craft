@@ -818,11 +818,11 @@ if not args.db_diff_only and build_patch_z:
 
             if result.returncode == 0:
                 print("✓ AtlasLoot tables updated successfully")
-                # Show summary and warnings from generator output
+                # Show only summary and warnings (not every [OK] line)
                 for line in result.stdout.split('\n'):
-                    if 'Summary:' in line or '[OK]' in line or '✓' in line:
+                    if 'Summary:' in line:
                         print(f"  {line}")
-                    elif '[WARN]' in line:
+                    elif '[WARN]' in line or '       -' in line:  # Warning + detail lines
                         print(f"  {line}")
             else:
                 print("⚠ Warning: AtlasLoot generator completed with warnings")

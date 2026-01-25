@@ -62,6 +62,9 @@ TBC_MULTI_SOURCE_SECTIONS = _mappings.get('tbc_multi_source_sections', {})
 # Clean comment keys from multi-source sections
 TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in TBC_MULTI_SOURCE_SECTIONS.items() if not k.startswith('_')}
 
+VANILLA_MULTI_SOURCE_SECTIONS = _mappings.get('vanilla_multi_source_sections', {})
+VANILLA_MULTI_SOURCE_SECTIONS = {k: v for k, v in VANILLA_MULTI_SOURCE_SECTIONS.items() if not k.startswith('_')}
+
 
 # =============================================================================
 # Table Registry Management (loottables.en.lua)
@@ -289,7 +292,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
         return True
 
     if parser.replace_section(section_name, new_lua_code):
-        parser.save_file(backup=True)
+        parser.save_file(backup=False)
         print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
     else:
@@ -398,7 +401,7 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
         return True
 
     if parser.replace_section(section_name, new_lua_code):
-        parser.save_file(backup=True)
+        parser.save_file(backup=False)
         print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
     else:
@@ -551,7 +554,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
         return False
 
     # Save file with backup
-    save_success = parser.save_file(backup=True)
+    save_success = parser.save_file(backup=False)
     if save_success:
         print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
@@ -656,7 +659,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
         return False
 
     # Save file with backup
-    save_success = parser.save_file(backup=True)
+    save_success = parser.save_file(backup=False)
     if save_success:
         print(f"\n[OK] Section '{section_name}' updated successfully")
         return True
@@ -958,8 +961,15 @@ def main():
     # Handle --section option (auto-detect mode)
     if args.section:
         total_count += 1
+        # Check if it's a vanilla multi-source section (e.g., VCSneed = Shredder + Sneed)
+        if args.section in VANILLA_MULTI_SOURCE_SECTIONS:
+            config = VANILLA_MULTI_SOURCE_SECTIONS[args.section]
+            success = generate_multi_source_section(
+                args.lua_file, args.section, config, db,
+                dry_run=args.dry_run, verbose=args.verbose
+            )
         # Check if it's a known single-boss section (vanilla)
-        if args.section in SINGLE_BOSS_SECTIONS:
+        elif args.section in SINGLE_BOSS_SECTIONS:
             creature_id = SINGLE_BOSS_SECTIONS[args.section]
             success = generate_single_boss_section(
                 args.lua_file, args.section, creature_id, db,
