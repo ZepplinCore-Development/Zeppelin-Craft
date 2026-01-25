@@ -269,9 +269,9 @@ class LuaGenerator:
     def _add_pool_header(self, header_text: str, subtitle: str = ""):
         """Add a pool/category header line."""
         if subtitle:
-            header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
         else:
-            header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
@@ -446,16 +446,30 @@ class LuaGenerator:
             self._add_pool_header("Variable", "Chance on Drop")
             self._add_items_block(variable)
 
-        # Add pool drops with headers
+        # Add pool drops with headers (pool-aware truncation)
+        dropped_pools = []
         for group_id in sorted(pools.keys()):
             pool_items = pools[group_id]
+
+            # Calculate space needed: spacer + header + items
+            pool_size = 1 + 1 + len(pool_items)  # spacer + header + items
+
+            # Check if entire pool fits within MAX_ITEMS
+            if self.current_line_num + pool_size > self.MAX_ITEMS + 1:
+                # Pool won't fit - skip entire pool to avoid orphaned headers
+                dropped_pools.append({
+                    'group_id': group_id,
+                    'item_count': len(pool_items),
+                    'items': [item['item_name'] for item in pool_items[:3]]  # First 3 for reference
+                })
+                continue
 
             # Add spacer before pool
             self.current_line_num += 1
 
             # Check column spanning for this pool (header + items)
-            pool_size = len(pool_items) + 1  # +1 for header
-            if allow_column_jump and self._should_jump_to_column_2(pool_size):
+            pool_size_for_column = len(pool_items) + 1  # +1 for header
+            if allow_column_jump and self._should_jump_to_column_2(pool_size_for_column):
                 self.current_line_num = self.COLUMN_2_START
 
             # Add pool header
@@ -464,24 +478,15 @@ class LuaGenerator:
             # Add pool items
             self._add_items_block(pool_items, group_counts)
 
-        # Check for overflow and truncate if needed
-        overflow_lines = []
-        final_lines = []
-        import re
-        for line in self.lines:
-            # Check if line has a position number
-            match = re.match(r'\s*\{\s*(\d+),', line)
-            if match:
-                pos = int(match.group(1))
-                if pos > self.MAX_ITEMS:
-                    overflow_lines.append(line)
-                    continue
-            final_lines.append(line)
-
-        if overflow_lines:
-            print(f"[WARN] OVERFLOW: {self.section_name} has {len(overflow_lines)} items past position {self.MAX_ITEMS}")
-            print(f"       Truncated items to prevent blank page display")
-            self.lines = final_lines
+        # Report dropped pools
+        if dropped_pools:
+            total_dropped = sum(p['item_count'] for p in dropped_pools)
+            print(f"[WARN] OVERFLOW: {self.section_name} - {len(dropped_pools)} pool(s) dropped ({total_dropped} items) to fit {self.MAX_ITEMS}-slot limit")
+            for pool in dropped_pools:
+                sample = ', '.join(pool['items'])
+                if pool['item_count'] > 3:
+                    sample += f", ... (+{pool['item_count'] - 3} more)"
+                print(f"       - Pool {pool['group_id']}: {pool['item_count']} items ({sample})")
 
         # Section footer
         self.lines.append('\t};')
@@ -537,15 +542,15 @@ class LuaGenerator:
             # Add header line
             if is_babble:
                 if header_sub:
-                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
                 else:
-                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
             else:
                 # Use AL[] for non-BabbleBoss headers (like chest names)
                 if header_sub:
-                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
                 else:
-                    header_line = f'\t\t{{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
+                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
             self.lines.append(header_line)
             self.current_line_num += 1
 

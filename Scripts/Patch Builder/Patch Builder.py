@@ -114,8 +114,8 @@ except ValueError as e:
     print(f"Configuration error in CUSTOM_ITEM_THRESHOLD: {e}")
     exit(1)
 
-# Directories for updates
-update_dir = os.getenv("UPDATE_DIR", r'Y:\wow-server\Zeppelin-Craft\Scripts\Patch Builder\Updates')
+# Directories for updates (defaults to "Updates" subdirectory relative to script)
+update_dir = os.getenv("UPDATE_DIR", "Updates")
 # Handle relative paths
 if not os.path.isabs(update_dir):
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -593,17 +593,25 @@ if build_patch_z:
 
 # Shell script equivalent starts here
 
-# Get paths from environment variables with fallbacks
-base_directory = os.getenv("BASE_DIRECTORY", r'Y:\wow-server')
-spell_editor_dir = os.getenv("SPELL_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor'))
+# Get paths from environment variables (required - no fallbacks)
+def get_required_env(name):
+    value = os.getenv(name)
+    if not value:
+        print(f"ERROR: Required environment variable {name} is not set.")
+        print("Please configure your .env file with all required paths.")
+        exit(1)
+    return value
+
+base_directory = get_required_env("BASE_DIRECTORY")
+spell_editor_dir = os.getenv("SPELL_EDITOR_DIR") or os.path.join(base_directory, 'Zeppelin-Tools', 'WoW Spell Editor')
 headless_exporter_dir = os.path.join(spell_editor_dir, 'HeadlessExporter')
-mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR", os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor'))
-destination_dir = os.getenv("SERVER_DATA_DIR", os.path.join(base_directory, 'data', 'dbc'))
+mpq_editor_dir = os.getenv("MPQ_EDITOR_DIR") or os.path.join(base_directory, 'Zeppelin-Tools', 'MPQ Editor')
+destination_dir = os.getenv("SERVER_DATA_DIR") or os.path.join(base_directory, 'data', 'dbc')
 
 # Local patch register is always in the Patch Builder directory (source of truth)
 local_patch_register_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'patch_register.json')
 # Export/publish location (NGINX) for the launcher to read
-export_patch_register_path = os.getenv("PATCH_REGISTER_PATH", r'Y:\binhex-nginx\nginx\MPQ\patch_register.json')
+export_patch_register_path = get_required_env("PATCH_REGISTER_PATH")
 
 
 # Functions for patch register management
@@ -713,8 +721,8 @@ def update_patch_metadata(patch_register, patch_name, nginx_base_path=None):
     if nginx_base_path:
         file_path = os.path.join(nginx_base_path, patch_info['file_path'])
     else:
-        # Default NGINX path structure
-        nginx_base = os.getenv("NGINX_BASE_PATH", r'Y:\binhex-nginx\nginx')
+        # NGINX path from environment (required)
+        nginx_base = get_required_env("NGINX_BASE_PATH")
         file_path = os.path.join(nginx_base, patch_info['file_path'])
 
     # Update metadata
@@ -810,9 +818,11 @@ if not args.db_diff_only and build_patch_z:
 
             if result.returncode == 0:
                 print("✓ AtlasLoot tables updated successfully")
-                # Show summary from generator output
+                # Show summary and warnings from generator output
                 for line in result.stdout.split('\n'):
-                    if 'Summary:' in line or '✓' in line:
+                    if 'Summary:' in line or '[OK]' in line or '✓' in line:
+                        print(f"  {line}")
+                    elif '[WARN]' in line:
                         print(f"  {line}")
             else:
                 print("⚠ Warning: AtlasLoot generator completed with warnings")
