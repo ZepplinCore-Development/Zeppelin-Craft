@@ -467,21 +467,35 @@ parser = argparse.ArgumentParser(description='Patch Builder - Generate DBC diffs
 parser.add_argument('--db-diff-only', action='store_true',
                     help='Generate SQL diffs only (skip GUI tools and MPQ building)')
 parser.add_argument('--build-patch-o', action='store_true',
-                    help='Build PATCH-O.MPQ only (runs Resource Parser)')
+                    help='Build PATCH-O.MPQ (runs Resource Parser + builds MPQ)')
+parser.add_argument('--build-patch-o-mpq-only', action='store_true',
+                    help='Build PATCH-O.MPQ only (skip Resource Parser, use existing exports)')
 args = parser.parse_args()
 
 # Determine build mode based on command-line args
 build_patch_o = False
+run_resource_parser = False
 
 if args.build_patch_o:
     print("\n" + "="*60)
     print("PATCH BUILDER - PATCH-O Only Mode")
     print("="*60)
-    print("Running Resource Parser to build PATCH-O.MPQ...")
+    print("Running Resource Parser + building PATCH-O.MPQ...")
     print("="*60 + "\n")
     build_patch_z = False
     build_patch_x = False
     build_patch_o = True
+    run_resource_parser = True
+elif args.build_patch_o_mpq_only:
+    print("\n" + "="*60)
+    print("PATCH BUILDER - PATCH-O MPQ Only Mode")
+    print("="*60)
+    print("Building PATCH-O.MPQ from existing exports (skipping Resource Parser)...")
+    print("="*60 + "\n")
+    build_patch_z = False
+    build_patch_x = False
+    build_patch_o = True
+    run_resource_parser = False
 elif args.db_diff_only:
     print("\n" + "="*60)
     print("PATCH BUILDER - DB Diff Only Mode")
@@ -499,19 +513,21 @@ else:
     print("1) PATCH-Z.MPQ only (DBC + AtlasLoot)")
     print("2) PATCH-X.MPQ only (Custom content)")
     print("3) Both Z and X patches")
-    print("4) PATCH-O.MPQ only (Open Azeroth - runs Resource Parser)")
-    print("5) All patches (Z, X, and O)")
+    print("4) PATCH-O.MPQ only (Resource Parser + MPQ)")
+    print("5) PATCH-O.MPQ only (MPQ only - skip parser)")
+    print("6) All patches (Z, X, and O)")
     print("="*60)
 
     while True:
-        choice = input("Enter your choice (1-5): ").strip()
-        if choice in ['1', '2', '3', '4', '5']:
+        choice = input("Enter your choice (1-6): ").strip()
+        if choice in ['1', '2', '3', '4', '5', '6']:
             break
-        print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+        print("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.")
 
-    build_patch_z = choice in ['1', '3', '5']
-    build_patch_x = choice in ['2', '3', '5']
-    build_patch_o = choice in ['4', '5']
+    build_patch_z = choice in ['1', '3', '6']
+    build_patch_x = choice in ['2', '3', '6']
+    build_patch_o = choice in ['4', '5', '6']
+    run_resource_parser = choice in ['4', '6']  # Skip parser for option 5
 
     patches_to_build = []
     if build_patch_z:
@@ -830,24 +846,36 @@ if not args.db_diff_only:
         print("✓ PATCH-X.MPQ built successfully")
 
     if build_patch_o:
-        print("\nBuilding PATCH-O.MPQ (Running Resource Parser)...")
-        resource_parser_script = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Resource Parser', 'resource_parser.py')
+        print("\nBuilding PATCH-O.MPQ...")
 
-        if os.path.exists(resource_parser_script):
-            try:
-                # Run Resource Parser - it will handle extraction and MPQ building
-                result = subprocess.run(
-                    ['python', resource_parser_script],
-                    cwd=os.path.dirname(resource_parser_script),
-                    check=True
-                )
-                print("✓ PATCH-O.MPQ built successfully via Resource Parser")
-            except subprocess.CalledProcessError as e:
-                print(f"✗ Resource Parser failed with exit code {e.returncode}")
-                build_patch_o = False  # Don't update register if build failed
+        # Step 1: Run Resource Parser for extraction (if requested)
+        if run_resource_parser:
+            resource_parser_script = os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Resource Parser', 'resource_parser.py')
+            if os.path.exists(resource_parser_script):
+                print("  Running Resource Parser for asset extraction...")
+                try:
+                    subprocess.run(
+                        ['python', resource_parser_script],
+                        cwd=os.path.dirname(resource_parser_script),
+                        check=True
+                    )
+                    print("  ✓ Resource Parser extraction complete")
+                except subprocess.CalledProcessError as e:
+                    print(f"  ✗ Resource Parser failed with exit code {e.returncode}")
+                    build_patch_o = False
+            else:
+                print(f"  ✗ Resource Parser not found: {resource_parser_script}")
+                build_patch_o = False
         else:
-            print(f"✗ Resource Parser not found: {resource_parser_script}")
-            build_patch_o = False
+            print("  Skipping Resource Parser (using existing exports)")
+
+        # Step 2: Build MPQ from exports
+        if build_patch_o:
+            # Note: n (new) command handles existing files - "converts to MPQ"
+            # No need to delete first
+            print("  Building MPQ from exports...")
+            subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQO-Open-Azeroth.txt')], check=True)
+            print("✓ PATCH-O.MPQ built successfully")
 
 
 # Update patch register with new versions (skip in db-diff-only mode)

@@ -2476,9 +2476,18 @@ class ResourceParser:
                 mpq_output_dir.mkdir(parents=True, exist_ok=True)
                 self.log(f'  Created output directory: {mpq_output_dir}')
 
-            # Add files to MPQ (recursive, auto-confirm, create if needed)
-            # /auto = auto-confirm, /r = recursive, /c = create if not exists
-            script_content.append(f'a "{mpq_output}" "{export_dir}\\*" /auto /r /c')
+            # Delete existing MPQ to start fresh (avoids stale files and corruption)
+            if mpq_output.exists():
+                try:
+                    mpq_output.unlink()
+                    self.log(f'  Deleted existing MPQ: {mpq_output}')
+                except Exception as e:
+                    self.log(f'  Warning: Could not delete existing MPQ: {e}')
+
+            # Create new MPQ and add files
+            # n = create new MPQ, a = add files, /auto = auto-confirm, /r = recursive
+            script_content.append(f'n "{mpq_output}"')
+            script_content.append(f'a "{mpq_output}" "{export_dir}\\*" /auto /r')
 
             # Flush changes
             script_content.append(f'f "{mpq_output}"')
