@@ -121,6 +121,8 @@ class LootDatabase:
                   (it.class = 12 AND (clt.Chance >= 50 OR clt.Chance = 0))
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
+                  -- Always show mounts (class 15, subclass 5) regardless of drop rate
+                  OR (it.class = 15 AND it.subclass = 5)
                   -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
                   OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
                   -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)
@@ -147,6 +149,18 @@ class LootDatabase:
         if include_references:
             ref_items = self._resolve_reference_loot(creature_id)
             results.extend(ref_items)
+
+        # Step 3: Deduplicate items (same item may appear in direct + reference loot)
+        # Keep the one with higher drop chance
+        seen_items = {}
+        for item in results:
+            item_id = item['item_id']
+            if item_id not in seen_items or item['drop_chance'] > seen_items[item_id]['drop_chance']:
+                seen_items[item_id] = item
+        results = list(seen_items.values())
+
+        # Re-sort after deduplication
+        results.sort(key=lambda x: (x.get('group_id', 0), -x['drop_chance'], x['item_id']))
 
         return results
 
@@ -186,12 +200,16 @@ class LootDatabase:
 
             # Deduplicate reference IDs - same reference table may be referenced
             # multiple times with different GroupIds (e.g., for multiple loot rolls)
-            unique_ref_ids = set(ref['Reference'] for ref in references)
+            unique_ref_ids = list(set(ref['Reference'] for ref in references))
+            unique_ref_ids.sort()  # Sort for consistent ordering
 
             # Resolve each unique reference table once
+            # Use reference ID as unique group identifier (offset by 1000 to avoid collision)
             all_ref_items = []
-            for ref_id in unique_ref_ids:
-                ref_items = self._get_reference_items(ref_id)
+            for idx, ref_id in enumerate(unique_ref_ids):
+                # Assign unique group_id per reference table (1001, 1002, etc.)
+                ref_group_id = 1000 + idx + 1
+                ref_items = self._get_reference_items(ref_id, ref_group_id)
                 all_ref_items.extend(ref_items)
 
             return all_ref_items
@@ -200,7 +218,7 @@ class LootDatabase:
             print(f"Reference query error: {err}")
             return []
 
-    def _get_reference_items(self, reference_id: int) -> List[Dict]:
+    def _get_reference_items(self, reference_id: int, override_group_id: int = None) -> List[Dict]:
         """
         Get all items from a reference loot table with properly calculated drop rates.
 
@@ -211,6 +229,8 @@ class LootDatabase:
 
         Args:
             reference_id: Reference loot table ID
+            override_group_id: If set, use this as group_id for all items (to keep
+                              reference tables as separate pools)
 
         Returns:
             List of loot items from the reference table with calculated drop_chance
@@ -300,6 +320,11 @@ class LootDatabase:
                     is_uncommon_with_good_chance):        # Uncommon with >= 10% (not quest items)
                     filtered_items.append(item)
 
+            # Override group_id if specified (to keep reference tables as separate pools)
+            if override_group_id is not None:
+                for item in filtered_items:
+                    item['group_id'] = override_group_id
+
             return filtered_items
 
         except mysql.connector.Error as err:
@@ -343,6 +368,8 @@ class LootDatabase:
                   (it.class = 12 AND (clt.Chance >= 50 OR clt.Chance = 0))
                   -- Always show custom items (900000+)
                   OR clt.Item >= 900000
+                  -- Always show mounts (class 15, subclass 5) regardless of drop rate
+                  OR (it.class = 15 AND it.subclass = 5)
                   -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
                   OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
                   -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)

@@ -54,6 +54,10 @@ class LuaGenerator:
 
         return size
 
+    # Minimum position in column 1 before considering jump to column 2
+    # Only applies when section DOESN'T fit in column 2
+    COLUMN_JUMP_THRESHOLD = 12
+
     def _would_span_columns(self, section_size: int) -> bool:
         """
         Check if adding a section at current position would span columns.
@@ -71,6 +75,41 @@ class LuaGenerator:
         # Check if section would extend past column 1
         end_position = self.current_line_num + section_size - 1
         return end_position > self.COLUMN_1_MAX
+
+    def _should_jump_to_column_2(self, section_size: int) -> bool:
+        """
+        Decide if we should jump to column 2 for a section.
+
+        Logic:
+        - If section fits entirely in column 2 AND would span columns, ALWAYS jump
+        - If section doesn't fit in column 2, only jump if past threshold
+          (to avoid large gaps early in column 1)
+
+        Args:
+            section_size: Number of line positions the section needs
+
+        Returns:
+            True if should jump to column 2
+        """
+        if self.current_line_num > self.COLUMN_1_MAX:
+            # Already in column 2
+            return False
+
+        if not self._would_span_columns(section_size):
+            # Section fits in remaining column 1 space
+            return False
+
+        # Section would span columns - decide whether to jump
+        column_2_capacity = self.MAX_ITEMS - self.COLUMN_2_START + 1  # 15 slots
+        fits_in_column_2 = section_size <= column_2_capacity
+
+        if fits_in_column_2:
+            # Section fits entirely in column 2 - always jump to keep it together
+            return True
+        else:
+            # Section too big for column 2 - only jump if past threshold
+            # (to avoid large gaps when we'll span anyway)
+            return self.current_line_num >= self.COLUMN_JUMP_THRESHOLD
 
     def _get_group_items(self, loot_items: List[Dict], start_idx: int) -> List[Dict]:
         """
@@ -227,15 +266,123 @@ class LuaGenerator:
 
         return self.generate_section(boss_loot_data)
 
+    def _add_pool_header(self, header_text: str, subtitle: str = ""):
+        """Add a pool/category header line."""
+        if subtitle:
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
+        else:
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
+        self.lines.append(header_line)
+        self.current_line_num += 1
+
+    def _categorize_loot(self, loot_items: List[Dict]) -> dict:
+        """
+        Categorize loot items into display groups.
+
+        Returns dict with:
+        - 'guaranteed': Items with 100% drop, or custom items (900000+) with 0% chance
+        - 'variable': Items with <100% drop (independent rolls)
+        - 'pools': Dict of GroupId -> items (one of these drops per group)
+                   Only includes groups where total chance ≈ 100% (true "pick one" pools)
+        """
+        guaranteed = []
+        variable = []
+        pools = {}
+
+        # First pass: collect items by group
+        groups = {}
+        for item in loot_items:
+            group_id = item.get('group_id', 0)
+            if group_id not in groups:
+                groups[group_id] = []
+            groups[group_id].append(item)
+
+        # Calculate total chance per group to determine if it's a true pool
+        group_totals = {}
+        for group_id, items in groups.items():
+            group_totals[group_id] = sum(item['drop_chance'] for item in items)
+
+        # Second pass: categorize based on group behavior
+        for item in loot_items:
+            group_id = item.get('group_id', 0)
+            chance = item['drop_chance']
+            item_id = item.get('item_id', 0)
+
+            # Custom items (900000+) with 0% chance are guaranteed drops
+            is_custom_guaranteed = (item_id >= 900000 or item_id >= 59000) and chance == 0
+
+            if is_custom_guaranteed:
+                guaranteed.append(item)
+            elif group_id == 0:
+                # GroupId 0 = independent drops
+                if chance >= 100:
+                    guaranteed.append(item)
+                else:
+                    variable.append(item)
+            else:
+                # GroupId > 0: check if it's a true "pick one" pool
+                # A pool totals ~100% (allowing some tolerance for rounding)
+                group_total = group_totals.get(group_id, 0)
+                is_true_pool = 90 <= group_total <= 110  # ~100% with tolerance
+
+                if is_true_pool:
+                    # True pool: one of these drops
+                    if group_id not in pools:
+                        pools[group_id] = []
+                    pools[group_id].append(item)
+                else:
+                    # Not a true pool: treat as independent variable drops
+                    if chance >= 100:
+                        guaranteed.append(item)
+                    else:
+                        variable.append(item)
+
+        return {
+            'guaranteed': guaranteed,
+            'variable': variable,
+            'pools': pools
+        }
+
+    def _add_items_block(self, items: List[Dict], group_counts: dict = None, force_chance: float = None):
+        """Add a block of items with proper formatting.
+
+        Args:
+            items: List of item dicts
+            group_counts: Dict of group_id -> count for equal-chance calculation
+            force_chance: If set, override drop chance display for all items (e.g., 100 for guaranteed)
+        """
+        for item in items:
+            drop_chance = item['drop_chance']
+
+            # Override chance if specified (for guaranteed custom items)
+            if force_chance is not None and drop_chance == 0:
+                drop_chance = force_chance
+            # Calculate actual drop chance for group loot (Chance=0 means equal share)
+            elif drop_chance == 0 and item.get('group_id', 0) > 0 and group_counts:
+                group_id = item['group_id']
+                drop_chance = 100.0 / group_counts.get(group_id, 1)
+
+            item_line = get_lua_item_line(
+                line_num=self.current_line_num,
+                item_id=item['item_id'],
+                item_name=item['item_name'],
+                quality=item['quality'],
+                item_class=item['item_class'],
+                item_subclass=item['item_subclass'],
+                inventory_type=item['inventory_type'],
+                drop_chance=drop_chance
+            )
+            self.lines.append(item_line)
+            self.current_line_num += 1
+
     def generate_single_boss_section(self, loot_items: List[Dict]) -> str:
         """
-        Generate AtlasLoot section for a single boss (no boss headers).
+        Generate AtlasLoot section for a single boss with pool headers.
 
-        Used for raid bosses that have their own dedicated sections
-        (e.g., BWLFiremaw, MCRagnaros) without BabbleBoss headers.
-
-        Implements column-aware layout to prevent loot groups from
-        spanning across columns (positions 1-15 = column 1, 16-30 = column 2).
+        Organizes loot into categories:
+        - Guaranteed drops (100%)
+        - Variable drops (independent rolls, <100%)
+        - Pool drops (one of these drops per pool)
 
         Args:
             loot_items: List of loot item dictionaries from database query
@@ -250,53 +397,55 @@ class LuaGenerator:
         section_header = f'\tAtlasLoot_Data["{self.section_name}"] = {{'
         self.lines.append(section_header)
 
-        # Calculate group loot drop rates
+        # Categorize items
+        categories = self._categorize_loot(loot_items)
+        guaranteed = categories['guaranteed']
+        variable = categories['variable']
+        pools = categories['pools']
+
+        # Calculate group counts for equal-chance pool items
         group_counts = {}
-        for item in loot_items:
-            if item['drop_chance'] == 0 and item.get('group_id', 0) > 0:
-                group_id = item['group_id']
-                group_counts[group_id] = group_counts.get(group_id, 0) + 1
+        for group_id, items in pools.items():
+            for item in items:
+                if item['drop_chance'] == 0:
+                    group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
-        # Process items with column-aware layout
-        last_group_id = None
-        i = 0
-        while i < len(loot_items):
-            current_group_id = loot_items[i].get('group_id', 0)
+        # Add guaranteed drops with header
+        if guaranteed:
+            self._add_pool_header("Guaranteed", "Always Drops")
+            self._add_items_block(guaranteed, force_chance=100)
 
-            # Check for group transition
-            if last_group_id is not None and current_group_id != last_group_id:
-                # Get items in this new group
-                group_items = self._get_group_items(loot_items, i)
-                group_size = len(group_items)
+        # Add variable drops with header
+        if variable:
+            # Add spacer if we had guaranteed drops
+            if guaranteed:
+                self.current_line_num += 1
 
-                # Check if this group would span columns
-                if self._would_span_columns(group_size + 1):  # +1 for spacer
-                    self.current_line_num = self.COLUMN_2_START
-                else:
-                    self.current_line_num += 1  # Skip a line number for visual gap
+            # Check column spanning for variable section (header + items)
+            section_size = len(variable) + 1  # +1 for header
+            if self._should_jump_to_column_2(section_size):
+                self.current_line_num = self.COLUMN_2_START
 
-            last_group_id = current_group_id
+            self._add_pool_header("Variable", "Chance on Drop")
+            self._add_items_block(variable)
 
-            # Calculate actual drop chance for group loot
-            item = loot_items[i]
-            drop_chance = item['drop_chance']
-            if drop_chance == 0 and item.get('group_id', 0) > 0:
-                group_id = item['group_id']
-                drop_chance = 100.0 / group_counts[group_id]
+        # Add pool drops with headers
+        for group_id in sorted(pools.keys()):
+            pool_items = pools[group_id]
 
-            item_line = get_lua_item_line(
-                line_num=self.current_line_num,
-                item_id=item['item_id'],
-                item_name=item['item_name'],
-                quality=item['quality'],
-                item_class=item['item_class'],
-                item_subclass=item['item_subclass'],
-                inventory_type=item['inventory_type'],
-                drop_chance=drop_chance
-            )
-            self.lines.append(item_line)
+            # Add spacer before pool
             self.current_line_num += 1
-            i += 1
+
+            # Check column spanning for this pool (header + items)
+            pool_size = len(pool_items) + 1  # +1 for header
+            if self._should_jump_to_column_2(pool_size):
+                self.current_line_num = self.COLUMN_2_START
+
+            # Add pool header
+            self._add_pool_header("One of the following:")
+
+            # Add pool items
+            self._add_items_block(pool_items, group_counts)
 
         # Section footer
         self.lines.append('\t};')
