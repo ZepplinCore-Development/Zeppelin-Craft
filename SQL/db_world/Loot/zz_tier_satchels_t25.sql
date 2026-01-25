@@ -21,8 +21,8 @@ INSERT INTO `item_template` (`entry`, `class`, `subclass`, `name`, `displayid`, 
 (59317, 15, 0, 'Qiraji Armor Cache - Legs', 135477, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 1, 1),
 (59318, 15, 0, 'Qiraji Armor Cache - Boots', 135477, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 1, 1),
 -- Boss Artifacts (Quest Tokens)
-(59319, 12, 0, "Viscidus's Crystalline Heart", 134131, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 0, 1),
-(59320, 12, 0, "Huhuran's Stinger", 134298, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 0, 1);
+(59319, 12, 0, "Viscidus's Crystalline Heart", 136478, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 0, 1),
+(59320, 12, 0, "Huhuran's Stinger", 137882, 4, 0, 0, 0, -1, -1, 88, 60, 1, 1, 0, 1);
 
 -- ============================================================================
 -- SECTION 2: ITEM LOOT TEMPLATE (Satchel Contents)
@@ -240,72 +240,117 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (15517, 59317, 0, 100, 0, 1, 0, 1, 1, 'Qiraji Armor Cache - Legs');
 
 -- ============================================================================
--- SECTION 6: QUEST UPDATES
+-- SECTION 6: CONSOLIDATED QUESTS
 -- ============================================================================
--- Update quest tokens, remove class restrictions, remove tier rewards
+-- Replace 45 class-specific quests with 6 consolidated quests (class-agnostic)
+-- Quests give gold + Brood of Nozdormu rep only (satchels provide tier)
 
--- SHOULDER quests: All now require Viscidus's Crystalline Heart (59319)
--- Originally: Command (20928) or Dominance (20932)
-UPDATE `quest_template` SET `RequiredItemId1` = 59319 WHERE `ID` IN (
-    8544,  -- Conqueror's Spaulders (Warrior)
-    8594,  -- Mantle of the Oracle (Priest)
-    8641,  -- Deathdealer's Spaulders (Rogue)
-    8659,  -- Striker's Pauldrons (Hunter)
-    8602,  -- Stormcaller's Pauldrons (Shaman)
-    8625,  -- Enigma Shoulderpads (Mage)
-    8630,  -- Avenger's Pauldrons (Paladin)
-    8664,  -- Doomcaller's Mantle (Warlock)
-    8669   -- Genesis Shoulderpads (Druid)
+-- Delete old class-specific T2.5 quests from all tables
+DELETE FROM `creature_queststarter` WHERE `quest` IN (
+    8544, 8559, 8560, 8561, 8562, 8592, 8593, 8594, 8596, 8602, 8603, 8621, 8622, 8623, 8624, 8625,
+    8626, 8627, 8628, 8629, 8630, 8631, 8632, 8633, 8634, 8637, 8638, 8639, 8640, 8641, 8655, 8656,
+    8657, 8658, 8659, 8660, 8661, 8662, 8663, 8664, 8665, 8666, 8667, 8668, 8669
+);
+DELETE FROM `creature_questender` WHERE `quest` IN (
+    8544, 8559, 8560, 8561, 8562, 8592, 8593, 8594, 8596, 8602, 8603, 8621, 8622, 8623, 8624, 8625,
+    8626, 8627, 8628, 8629, 8630, 8631, 8632, 8633, 8634, 8637, 8638, 8639, 8640, 8641, 8655, 8656,
+    8657, 8658, 8659, 8660, 8661, 8662, 8663, 8664, 8665, 8666, 8667, 8668, 8669
+);
+DELETE FROM `quest_template_addon` WHERE `ID` IN (
+    8544, 8559, 8560, 8561, 8562, 8592, 8593, 8594, 8596, 8602, 8603, 8621, 8622, 8623, 8624, 8625,
+    8626, 8627, 8628, 8629, 8630, 8631, 8632, 8633, 8634, 8637, 8638, 8639, 8640, 8641, 8655, 8656,
+    8657, 8658, 8659, 8660, 8661, 8662, 8663, 8664, 8665, 8666, 8667, 8668, 8669
+);
+DELETE FROM `quest_template` WHERE `ID` IN (
+    8544, 8559, 8560, 8561, 8562, 8592, 8593, 8594, 8596, 8602, 8603, 8621, 8622, 8623, 8624, 8625,
+    8626, 8627, 8628, 8629, 8630, 8631, 8632, 8633, 8634, 8637, 8638, 8639, 8640, 8641, 8655, 8656,
+    8657, 8658, 8659, 8660, 8661, 8662, 8663, 8664, 8665, 8666, 8667, 8668, 8669
 );
 
--- BOOTS quests: All now require Huhuran's Stinger (59320)
--- Originally: Command (20928) or Dominance (20932)
-UPDATE `quest_template` SET `RequiredItemId1` = 59320 WHERE `ID` IN (
-    8559,  -- Conqueror's Greaves (Warrior)
-    8596,  -- Footwraps of the Oracle (Priest)
-    8637,  -- Deathdealer's Boots (Rogue)
-    8626,  -- Striker's Footguards (Hunter)
-    8621,  -- Stormcaller's Footguards (Shaman)
-    8634,  -- Enigma Boots (Mage)
-    8655,  -- Avenger's Greaves (Paladin)
-    8660,  -- Doomcaller's Footwraps (Warlock)
-    8665   -- Genesis Boots (Druid)
-);
+-- Create 6 new consolidated quests (100000-100005)
+-- Quest flags: 128 = QUEST_FLAGS_REPEATABLE (optional, remove if one-time)
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 100000 AND 100005;
+INSERT INTO `quest_template` (
+    `ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`,
+    `SuggestedGroupNum`, `TimeAllowed`, `AllowableRaces`, `RequiredFactionId1`, `RequiredFactionValue1`,
+    `RewardNextQuest`, `RewardXPDifficulty`, `RewardMoney`, `RewardBonusMoney`, `RewardDisplaySpell`,
+    `RewardSpell`, `RewardHonor`, `RewardKillHonor`, `StartItem`, `Flags`, `RewardItem1`, `RewardAmount1`,
+    `RewardItem2`, `RewardAmount2`, `RewardItem3`, `RewardAmount3`, `RewardItem4`, `RewardAmount4`,
+    `RewardChoiceItemId1`, `RewardChoiceItemQuantity1`,
+    `RewardFactionId1`, `RewardFactionValue1`, `RewardFactionOverride1`,
+    `RequiredItemId1`, `RequiredItemCount1`,
+    `RequiredNpcOrGo1`, `RequiredNpcOrGoCount1`,
+    `LogTitle`, `LogDescription`, `QuestDescription`, `AreaDescription`, `QuestCompletionLog`
+) VALUES
+-- Helm (Vek'nilash's Circlet) - Andorgos
+(100000, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 20926, 1, 0, 0,
+ 'Vek''nilash''s Tribute',
+ 'Bring Vek''nilash''s Circlet to Andorgos in Ahn''Qiraj.',
+ 'The Brood of Nozdormu recognizes your victory over Vek''nilash. Present his circlet as proof of your triumph, and you shall be rewarded.',
+ '',
+ 'Return to Andorgos in the Temple of Ahn''Qiraj.'),
+-- Helm (Vek'lor's Diadem) - Andorgos
+(100001, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 20930, 1, 0, 0,
+ 'Vek''lor''s Tribute',
+ 'Bring Vek''lor''s Diadem to Andorgos in Ahn''Qiraj.',
+ 'The Brood of Nozdormu recognizes your victory over Vek''lor. Present his diadem as proof of your triumph, and you shall be rewarded.',
+ '',
+ 'Return to Andorgos in the Temple of Ahn''Qiraj.'),
+-- Shoulder (Viscidus's Crystalline Heart) - Andorgos
+(100002, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 59319, 1, 0, 0,
+ 'Viscidus''s Tribute',
+ 'Bring Viscidus''s Crystalline Heart to Andorgos in Ahn''Qiraj.',
+ 'The Brood of Nozdormu recognizes your victory over the aberration Viscidus. Present his crystalline heart as proof of your triumph.',
+ '',
+ 'Return to Andorgos in the Temple of Ahn''Qiraj.'),
+-- Chest (Carapace of the Old God) - Vethsera
+(100003, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 20929, 1, 0, 0,
+ 'C''Thun''s Tribute',
+ 'Bring the Carapace of the Old God to Vethsera in Ahn''Qiraj.',
+ 'You have defeated the Old God C''Thun himself! The Brood of Nozdormu is eternally grateful. Present a fragment of his carapace as proof of this legendary victory.',
+ '',
+ 'Return to Vethsera in the Temple of Ahn''Qiraj.'),
+-- Legs (Ouro's Intact Hide) - Kandrostrasz
+(100004, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 20927, 1, 0, 0,
+ 'Ouro''s Tribute',
+ 'Bring Ouro''s Intact Hide to Kandrostrasz in Ahn''Qiraj.',
+ 'The sand worm Ouro has terrorized these halls for millennia. Present his intact hide as proof of your triumph over this ancient horror.',
+ '',
+ 'Return to Kandrostrasz in the Temple of Ahn''Qiraj.'),
+-- Boots (Huhuran's Stinger) - Kandrostrasz
+(100005, 2, 60, 60, -22, 0, 0, 0, 0, 910, 0, 0, 0, 50000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 500, 0, 59320, 1, 0, 0,
+ 'Huhuran''s Tribute',
+ 'Bring Huhuran''s Stinger to Kandrostrasz in Ahn''Qiraj.',
+ 'Princess Huhuran was one of the most deadly silithid in the hive. Present her stinger as proof of your victory over this venomous queen.',
+ '',
+ 'Return to Kandrostrasz in the Temple of Ahn''Qiraj.');
 
--- CHEST quests: All now require Carapace of the Old God (20929)
--- Originally: Carapace (20929) or Husk (20933)
-UPDATE `quest_template` SET `RequiredItemId1` = 20929 WHERE `ID` IN (
-    8603,  -- Vestments of the Oracle (Priest) - was Husk
-    8633,  -- Enigma Robes (Mage) - was Husk
-    8661,  -- Doomcaller's Robes (Warlock) - was Husk
-    8666   -- Genesis Vest (Druid) - was Husk
-);
+-- Quest addon (AllowableClasses = 0 means all classes)
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 100000 AND 100005;
+INSERT INTO `quest_template_addon` (`ID`, `MaxLevel`, `AllowableClasses`, `SourceSpellID`, `PrevQuestID`, `NextQuestID`, `ExclusiveGroup`, `RewardMailTemplateID`, `RewardMailDelay`, `RequiredSkillID`, `RequiredSkillPoints`, `RequiredMinRepFaction`, `RequiredMaxRepFaction`, `RequiredMinRepValue`, `RequiredMaxRepValue`, `ProvidedItemCount`, `SpecialFlags`) VALUES
+(100000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0),
+(100001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0),
+(100002, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0),
+(100003, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0),
+(100004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0),
+(100005, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 910, 0, 0, 0, 0, 0);
 
--- LEGS quests: All now require Ouro's Intact Hide (20927)
--- Originally: Intact Hide (20927) or Skin (20931)
-UPDATE `quest_template` SET `RequiredItemId1` = 20927 WHERE `ID` IN (
-    8624,  -- Stormcaller's Leggings (Shaman) - was Skin
-    8629,  -- Avenger's Legguards (Paladin) - was Skin
-    8658,  -- Striker's Leggings (Hunter) - was Skin
-    8663,  -- Doomcaller's Trousers (Warlock) - was Skin
-    8668   -- Genesis Trousers (Druid) - was Skin
-);
+-- Quest starters (which NPC offers the quest)
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 100000 AND 100005;
+INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES
+(15502, 100000),  -- Andorgos: Vek'nilash Helm
+(15502, 100001),  -- Andorgos: Vek'lor Helm
+(15502, 100002),  -- Andorgos: Viscidus Shoulder
+(15504, 100003),  -- Vethsera: C'Thun Chest
+(15503, 100004),  -- Kandrostrasz: Ouro Legs
+(15503, 100005);  -- Kandrostrasz: Huhuran Boots
 
--- HELM quests: Keep existing tokens (Twin Emperors are separate bosses)
--- Vek'nilash's Circlet (20926): Warrior, Priest, Mage, Warlock - no change needed
--- Vek'lor's Diadem (20930): Shaman, Paladin, Rogue, Hunter, Druid - no change needed
-
--- Remove class restrictions from all T2.5 quests (satchels provide tier, quests just give gold/rep)
-UPDATE `quest_template_addon` SET `AllowableClasses` = 0 WHERE `ID` IN (
-    -- Helm quests
-    8561, 8592, 8632, 8662,  -- Vek'nilash Circlet quests
-    8623, 8628, 8639, 8657, 8667,  -- Vek'lor Diadem quests
-    -- Shoulder quests
-    8544, 8594, 8641, 8659, 8602, 8625, 8630, 8664, 8669,
-    -- Chest quests
-    8562, 8622, 8627, 8638, 8656, 8603, 8633, 8661, 8666,
-    -- Legs quests
-    8560, 8593, 8631, 8640, 8624, 8629, 8658, 8663, 8668,
-    -- Boots quests
-    8559, 8596, 8637, 8626, 8621, 8634, 8655, 8660, 8665
-);
+-- Quest enders (which NPC completes the quest)
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 100000 AND 100005;
+INSERT INTO `creature_questender` (`id`, `quest`) VALUES
+(15502, 100000),  -- Andorgos: Vek'nilash Helm
+(15502, 100001),  -- Andorgos: Vek'lor Helm
+(15502, 100002),  -- Andorgos: Viscidus Shoulder
+(15504, 100003),  -- Vethsera: C'Thun Chest
+(15503, 100004),  -- Kandrostrasz: Ouro Legs
+(15503, 100005);  -- Kandrostrasz: Huhuran Boots
