@@ -11060,6 +11060,10 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 38697;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellFamilyFlags` = 4 /* was 0 */
+WHERE `ID` = 38929;
+
+UPDATE `dbc`.`spell` SET 
     `SpellFamilyName` = 13 /* was 0 */,
     `SpellFamilyFlags` = 2147483648 /* was 0 */
 WHERE `ID` = 38960;
