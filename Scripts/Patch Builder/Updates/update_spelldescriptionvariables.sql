@@ -20,6 +20,7 @@ INSERT INTO `dbc`.`spelldescriptionvariables` SET
     `ID` = 183,
     `Formula` = '$mortar=$?a91203[${1.25}][$?a91202[${1.20}][$?a91201[${1.15}][$?a91200[${1.10}][${1}]]]]
 $stone=$?a17619[${1.4}][${1}]
-$heal=${$s1*$<mortar>*$<stone>}
-$mana=${$s1*$<mortar>*$<stone>}';
+$m=${$<mortar>*$<stone>}
+$v1=${$s1*$<m>}
+$v2=${$s2*$<m>}';
 
