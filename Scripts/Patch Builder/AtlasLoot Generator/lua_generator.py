@@ -323,10 +323,14 @@ class LuaGenerator:
                 # GroupId > 0: check if it's a true "pick one" pool
                 # A pool totals ~100% (allowing some tolerance for rounding)
                 group_total = group_totals.get(group_id, 0)
+                group_size = len(groups.get(group_id, []))
                 is_true_pool = 90 <= group_total <= 110  # ~100% with tolerance
 
-                if is_true_pool:
-                    # True pool: one of these drops
+                # Single item with 100% in a "pool" is really just a guaranteed drop
+                if group_size == 1 and chance >= 100:
+                    guaranteed.append(item)
+                elif is_true_pool and group_size > 1:
+                    # True pool with multiple items: one of these drops
                     if group_id not in pools:
                         pools[group_id] = []
                     pools[group_id].append(item)
