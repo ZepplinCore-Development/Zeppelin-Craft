@@ -1416,14 +1416,14 @@ INSERT INTO `dbc`.`item` SET
     `itemID` = 59319,
     `ItemClass` = 12,
     `sound_override_subclassid` = -1,
-    `ItemDisplayInfo` = 134131;
+    `ItemDisplayInfo` = 136478;
 
 DELETE FROM `dbc`.`item` WHERE `itemID` = 59320;
 INSERT INTO `dbc`.`item` SET 
     `itemID` = 59320,
     `ItemClass` = 12,
     `sound_override_subclassid` = -1,
-    `ItemDisplayInfo` = 134298;
+    `ItemDisplayInfo` = 137882;
 
 DELETE FROM `dbc`.`item` WHERE `itemID` = 100001;
 INSERT INTO `dbc`.`item` SET 
