@@ -15,14 +15,16 @@ class LuaGenerator:
     COLUMN_2_START = 16  # Positions 16-30 = Column 2
     MAX_ITEMS = 30  # Maximum items per page
 
-    def __init__(self, section_name: str):
+    def __init__(self, section_name: str, display_name: str = None):
         """
         Initialize generator for a specific section.
 
         Args:
             section_name: AtlasLoot section name (e.g., "TheStockade")
+            display_name: Human-readable name for warnings (e.g., "Stockades - Targorr")
         """
         self.section_name = section_name
+        self.display_name = display_name or section_name
         self.lines = []
         self.current_line_num = 1
 
@@ -481,7 +483,7 @@ class LuaGenerator:
         # Report dropped pools
         if dropped_pools:
             total_dropped = sum(p['item_count'] for p in dropped_pools)
-            print(f"[WARN] OVERFLOW: {self.section_name} - {len(dropped_pools)} pool(s) dropped ({total_dropped} items) to fit {self.MAX_ITEMS}-slot limit")
+            print(f"[WARN] OVERFLOW: {self.display_name} - {len(dropped_pools)} pool(s) dropped ({total_dropped} items) to fit {self.MAX_ITEMS}-slot limit")
             for pool in dropped_pools:
                 sample = ', '.join(pool['items'])
                 if pool['item_count'] > 3:

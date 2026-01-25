@@ -65,6 +65,93 @@ TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in TBC_MULTI_SOURCE_SECTIONS.items() 
 VANILLA_MULTI_SOURCE_SECTIONS = _mappings.get('vanilla_multi_source_sections', {})
 VANILLA_MULTI_SOURCE_SECTIONS = {k: v for k, v in VANILLA_MULTI_SOURCE_SECTIONS.items() if not k.startswith('_')}
 
+# Instance prefix to display name mapping for cleaner warning output
+INSTANCE_PREFIXES = {
+    # Vanilla Dungeons
+    'BRD': 'Blackrock Depths',
+    'LBRS': 'Lower Blackrock Spire',
+    'UBRS': 'Upper Blackrock Spire',
+    'Scholo': 'Scholomance',
+    'Strat': 'Stratholme',
+    'DM': 'Dire Maul',
+    'SM': 'Scarlet Monastery',
+    'VC': 'Deadmines',
+    'ST': 'Sunken Temple',
+    'ZF': 'Zul\'Farrak',
+    'Uld': 'Uldaman',
+    # Vanilla Raids
+    'MC': 'Molten Core',
+    'BWL': 'Blackwing Lair',
+    'ZG': 'Zul\'Gurub',
+    'AQ20': 'Ruins of Ahn\'Qiraj',
+    'AQ40': 'Temple of Ahn\'Qiraj',
+    # TBC Dungeons
+    'HCRamp': 'Hellfire Ramparts',
+    'HCFurnace': 'Blood Furnace',
+    'HCHalls': 'Shattered Halls',
+    'CFRSlave': 'Slave Pens',
+    'CFRUnder': 'Underbog',
+    'CFRSteam': 'Steamvault',
+    'AuchMana': 'Mana-Tombs',
+    'AuchCrypts': 'Auchenai Crypts',
+    'AuchSethekk': 'Sethekk Halls',
+    'AuchShadow': 'Shadow Labyrinth',
+    'CoTHillsbrad': 'Old Hillsbrad',
+    'CoTMorass': 'Black Morass',
+    'TKMech': 'Mechanar',
+    'TKBot': 'Botanica',
+    'TKArc': 'Arcatraz',
+    'SMT': 'Magister\'s Terrace',
+    # TBC Raids
+    'Kara': 'Karazhan',
+    'Gruul': 'Gruul\'s Lair',
+    'Magtheridon': 'Magtheridon\'s Lair',
+    'SSC': 'Serpentshrine Cavern',
+    'TKEye': 'Tempest Keep',
+    'MountHyjal': 'Mount Hyjal',
+    'BT': 'Black Temple',
+    'SP': 'Sunwell Plateau',
+    'ZA': 'Zul\'Aman',
+}
+
+
+def get_display_name(section_name: str, boss_name: str = None) -> str:
+    """
+    Build a human-readable display name from section name and boss name.
+
+    Args:
+        section_name: AtlasLoot section name (e.g., "TKBotSplinter")
+        boss_name: Boss name from database (e.g., "Warp Splinter")
+
+    Returns:
+        Friendly display name (e.g., "Botanica - Warp Splinter")
+    """
+    # Check for HEROIC suffix
+    is_heroic = section_name.endswith('HEROIC')
+    base_section = section_name[:-6] if is_heroic else section_name
+
+    # Find matching instance prefix
+    instance_name = None
+    for prefix, name in INSTANCE_PREFIXES.items():
+        if base_section.startswith(prefix):
+            instance_name = name
+            break
+
+    # Build display name
+    if instance_name and boss_name:
+        display = f"{instance_name} - {boss_name}"
+    elif instance_name:
+        display = f"{instance_name} - {base_section}"
+    elif boss_name:
+        display = boss_name
+    else:
+        display = section_name
+
+    if is_heroic:
+        display += " (Heroic)"
+
+    return display
+
 
 # =============================================================================
 # Table Registry Management (loottables.en.lua)
@@ -276,7 +363,8 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     print(f"[OK] Found {len(loot_items)} loot items")
 
     # Step 4: Generate Lua code
-    generator = LuaGenerator(section_name)
+    display_name = get_display_name(section_name, go_name)
+    generator = LuaGenerator(section_name, display_name)
     new_lua_code = generator.generate_single_boss_section(loot_items)
 
     print(f"\nGenerated code preview:")
@@ -385,7 +473,10 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
     print(f"[OK] Total: {total_items} items from {len(sources_with_loot)} sources")
 
     # Step 3: Generate Lua code
-    generator = LuaGenerator(section_name)
+    # Use first source's header as the main name for display
+    first_header = sources_with_loot[0].get('header', '') if sources_with_loot else None
+    display_name = get_display_name(section_name, first_header)
+    generator = LuaGenerator(section_name, display_name)
     new_lua_code = generator.generate_multi_source_section(sources_with_loot)
 
     print(f"\nGenerated code preview:")
@@ -526,7 +617,8 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     # Step 4: Generate new Lua code
     if verbose:
         print("\n[3/4] Generating Lua code...")
-    generator = LuaGenerator(section_name)
+    display_name = get_display_name(section_name, boss_name)
+    generator = LuaGenerator(section_name, display_name)
     new_lua_code = generator.generate_single_boss_section(loot_items)
 
     if verbose:
@@ -629,7 +721,10 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     # Step 4: Generate new Lua code
     if verbose:
         print("\n[4/5] Generating Lua code...")
-    generator = LuaGenerator(section_name)
+    # Use first boss name for display
+    first_boss = boss_names[0] if boss_names else None
+    display_name = get_display_name(section_name, first_boss)
+    generator = LuaGenerator(section_name, display_name)
     new_lua_code = generator.generate_from_database_results(
         boss_names, loot_by_creature_id, creature_id_map
     )
