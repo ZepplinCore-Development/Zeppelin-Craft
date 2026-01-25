@@ -410,6 +410,19 @@ class LuaGenerator:
                 if item['drop_chance'] == 0:
                     group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
+        # Calculate total positions needed to detect potential overflow
+        total_positions = 0
+        if guaranteed:
+            total_positions += len(guaranteed) + 1  # items + header
+        if variable:
+            total_positions += len(variable) + 1 + (1 if guaranteed else 0)  # items + header + spacer
+        for group_id, pool_items in pools.items():
+            total_positions += len(pool_items) + 2  # items + header + spacer
+
+        # If content would overflow MAX_ITEMS, don't jump to column 2
+        # (allow spanning instead of leaving gaps)
+        allow_column_jump = total_positions <= self.MAX_ITEMS
+
         # Add guaranteed drops with header
         if guaranteed:
             self._add_pool_header("Guaranteed", "Always Drops")
@@ -423,7 +436,7 @@ class LuaGenerator:
 
             # Check column spanning for variable section (header + items)
             section_size = len(variable) + 1  # +1 for header
-            if self._should_jump_to_column_2(section_size):
+            if allow_column_jump and self._should_jump_to_column_2(section_size):
                 self.current_line_num = self.COLUMN_2_START
 
             self._add_pool_header("Variable", "Chance on Drop")
@@ -438,7 +451,7 @@ class LuaGenerator:
 
             # Check column spanning for this pool (header + items)
             pool_size = len(pool_items) + 1  # +1 for header
-            if self._should_jump_to_column_2(pool_size):
+            if allow_column_jump and self._should_jump_to_column_2(pool_size):
                 self.current_line_num = self.COLUMN_2_START
 
             # Add pool header
@@ -446,6 +459,25 @@ class LuaGenerator:
 
             # Add pool items
             self._add_items_block(pool_items, group_counts)
+
+        # Check for overflow and truncate if needed
+        overflow_lines = []
+        final_lines = []
+        import re
+        for line in self.lines:
+            # Check if line has a position number
+            match = re.match(r'\s*\{\s*(\d+),', line)
+            if match:
+                pos = int(match.group(1))
+                if pos > self.MAX_ITEMS:
+                    overflow_lines.append(line)
+                    continue
+            final_lines.append(line)
+
+        if overflow_lines:
+            print(f"[WARN] OVERFLOW: {self.section_name} has {len(overflow_lines)} items past position {self.MAX_ITEMS}")
+            print(f"       Truncated items to prevent blank page display")
+            self.lines = final_lines
 
         # Section footer
         self.lines.append('\t};')

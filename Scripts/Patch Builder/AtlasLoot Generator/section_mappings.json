@@ -7,8 +7,17 @@
     "ragefire": "RagefireChasm",
     "wailing1": "WailingCaverns1",
     "wailing2": "WailingCaverns2",
-    "deadmines1": "TheDeadmines1",
-    "deadmines2": "TheDeadmines2",
+    "vc_marisa": "VCMarisa",
+    "vc_noble": "VCNoble",
+    "vc_thistlenettle": "VCThistlenettle",
+    "vc_rhahkzor": "VCRhahkZor",
+    "vc_minerjohnson": "VCMinerJohnson",
+    "vc_sneed": "VCSneed",
+    "vc_gilnid": "VCGilnid",
+    "vc_smite": "VCSmite",
+    "vc_cookie": "VCCookie",
+    "vc_greenskin": "VCGreenskin",
+    "vc_vancleef": "VCVanCleef",
     "shadowfang1": "ShadowfangKeep1",
     "shadowfang2": "ShadowfangKeep2",
     "blackfathom1": "BlackfathomDeeps1",
@@ -164,6 +173,17 @@
   "single_boss_sections": {
     "_comment": "Maps AtlasLoot section name -> creature ID (vanilla raids, single-boss sections)",
 
+    "VCMarisa": 599,
+    "VCNoble": 596,
+    "VCThistlenettle": 626,
+    "VCRhahkZor": 644,
+    "VCMinerJohnson": 3586,
+    "VCGilnid": 1763,
+    "VCSmite": 646,
+    "VCCookie": 645,
+    "VCGreenskin": 647,
+    "VCVanCleef": 639,
+
     "BWLRazorgore": 12435,
     "BWLVaelastrasz": 13020,
     "BWLLashlayer": 12017,
@@ -182,7 +202,6 @@
     "MCGeddon": 12056,
     "MCGolemagg": 11988,
     "MCSulfuron": 12098,
-    "MCMajordomo": 12018,
     "MCRagnaros": 11502,
 
     "ZGJeklik": 14517,
@@ -563,6 +582,24 @@
         {"type": "creature", "id": 18434, "header": "Vazruden the Herald", "header_sub": "Quest Item"},
         {"type": "creature", "id": 18432, "header": "Nazan", "header_sub": "Quest Item"},
         {"type": "gameobject", "id": 185169, "header": "Reinforced Fel Iron Chest", "header_sub": ""}
+      ]
+    }
+  },
+
+  "vanilla_multi_source_sections": {
+    "_comment": "Vanilla multi-source encounters (shared encounters like Sneed's Shredder -> Sneed)",
+
+    "VCSneed": {
+      "sources": [
+        {"type": "creature", "id": 642, "header": "Sneed's Shredder", "header_sub": ""},
+        {"type": "creature", "id": 643, "header": "Sneed", "header_sub": ""}
+      ]
+    },
+
+    "MCMajordomo": {
+      "_comment": "Majordomo doesn't drop loot directly - Cache of the Firelord spawns after defeat",
+      "sources": [
+        {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": ""}
       ]
     }
   }
