@@ -466,13 +466,18 @@ class LuaGenerator:
                 })
                 continue
 
-            # Add spacer before pool
-            self.current_line_num += 1
-
             # Check column spanning for this pool (header + items)
+            # Must check BEFORE adding spacer to avoid false "already in column 2" detection
             pool_size_for_column = len(pool_items) + 1  # +1 for header
             if allow_column_jump and self._should_jump_to_column_2(pool_size_for_column):
+                # Jump to column 2 - no spacer needed, column break provides separation
                 self.current_line_num = self.COLUMN_2_START
+            elif self.current_line_num == self.COLUMN_2_START:
+                # Already at column 2 start - no spacer needed, column break provides separation
+                pass
+            else:
+                # Add spacer before pool (visual gap between groups)
+                self.current_line_num += 1
 
             # Add pool header
             self._add_pool_header("One of the following:")
