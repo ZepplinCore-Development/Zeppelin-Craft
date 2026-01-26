@@ -4909,7 +4909,7 @@
                     `QuestDescription` = 'The Horde''s path to glory winds deep into Maraudon''s heart, where the Pristine Waters hold the lair of the formidable Princess Theradras. Your mission: slay the princess and bring forth the Face of Theradras as a testament to your might. The Horde seeks champions who can triumph over the most fearsome adversaries. Venture into the waters, face the challenges that await, and emerge victorious with the face of the fallen princess. Will you prove yourself worthy, or will the waters swallow your ambitions?',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Face of Theradras to Overlord Runthak in Orgrimmar.',
-                    `RequiredItemId1` = 901723,
+                    `RequiredItemId1` = 901746,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
                     
@@ -4955,31 +4955,31 @@
                     
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Item template
-                DELETE FROM `item_template` WHERE (`entry` = 901723);
+                DELETE FROM `item_template` WHERE (`entry` = 901746);
                 INSERT INTO `item_template`
-                SET `entry` = 901723,
+                SET `entry` = 901746,
                     `class` = 12,
                     `subclass` = 0,
                     `name` = 'Face of Theradras',
                     `flags` = '2048',
-                    `displayid` = 60006,
+                    `displayid` = 149685,
                     `Quality` = 1,
                     `bonding` = 4;
 
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Quest Item
-                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12201) AND (`ItemId` = 901723);
+                DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 12201) AND (`ItemId` = 901746);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 12201,
                     `Idx` = 1,
-                    `ItemId` = 901723;
+                    `ItemId` = 901746;
                 
                 
                 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Loot Template
-                DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (901723));
+                DELETE FROM `creature_loot_template` WHERE (`Entry` = 12201) AND (`Item` IN (901746));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 12201,
-                    `Item` = 901723,
+                    `Item` = 901746,
                     `Chance` = 100, 
                     `QuestRequired` = 1,
                     `LootMode` = 1,
@@ -5147,7 +5147,7 @@
                     `QuestDescription` = 'Howdy, brave one! Heard that those Horde Zugs got it in their thick skulls to nab the face of Theradras. This''ll be the work of that pesky Zuglord Runthak. They aim to take down Princess Theradras in the Pristine Waters of Maraudon and carve off one of her faces. They''re plannin'' to use it as a mask to fool Therazane the Stonemother. Can''t let that happen! Saddle up, confront Princess Theradras, and bring back that face. We''ll make sure you''re handsomely rewarded. Let''s put a stop to them Horde schemes and secure Theradras'' face!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Face of Theradras to Travis Coomingham in Stormwind.',
-                    `RequiredItemId1` = 901723,
+                    `RequiredItemId1` = 901746,
                     `RequiredItemCount1` = 1,
                     `VerifiedBuild` = 12340;
                     
