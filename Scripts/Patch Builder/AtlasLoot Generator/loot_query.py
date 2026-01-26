@@ -341,15 +341,19 @@ class LootDatabase:
                 # Quality-based thresholds for reference loot (stricter than direct loot)
                 # Only rare (Q3) or better from reference tables
                 is_quest_item = (item['item_class'] == 12)
+                is_recipe_item = (item['item_class'] == 9)
                 is_quest_with_good_chance = (is_quest_item and (chance == 0 or chance >= 50))
                 is_rare_with_good_chance = (quality == 3 and (chance == 0 or chance >= 3) and not is_quest_item)
-                is_epic_with_good_chance = (quality >= 4 and (chance == 0 or chance >= 1) and not is_quest_item)
+                is_epic_with_good_chance = (quality >= 4 and (chance == 0 or chance >= 1) and not is_quest_item and not is_recipe_item)
+                is_recipe_with_good_chance = (is_recipe_item and (chance == 0 or chance >= 5))  # Recipes need >= 5% (filters world drops)
                 # NOTE: Uncommon (green) items excluded from reference loot to reduce clutter
+                # NOTE: Recipe items require >= 5% drop rate to filter world drop style recipes (~1-2%)
 
                 if (is_quest_with_good_chance or          # Quest items with >= 50%
                     item['item_id'] >= 900000 or          # Custom items
                     is_rare_with_good_chance or           # Rare with >= 3% drop (not quest items)
-                    is_epic_with_good_chance):            # Epic+ with >= 1% drop (not quest items)
+                    is_epic_with_good_chance or           # Epic+ with >= 1% drop (not quest/recipe items)
+                    is_recipe_with_good_chance):          # Recipes with >= 5% drop (filters world drops)
                     filtered_items.append(item)
 
             # Apply base offset to group_ids (preserves internal group structure)
