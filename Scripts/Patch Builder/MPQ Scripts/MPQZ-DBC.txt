@@ -1,4 +1,0 @@
-a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-Z.MPQ" "Y:\wow-server\Zeppelin-Tools\WoW Spell Editor\HeadlessExporter\Export" "DBFilesClient" /auto /r
-a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-Z.MPQ" "Y:\wow-server\Zeppelin-Craft\MPQ Staging\Patch-Z\*" /auto /r
-f "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-Z.MPQ"
-exit

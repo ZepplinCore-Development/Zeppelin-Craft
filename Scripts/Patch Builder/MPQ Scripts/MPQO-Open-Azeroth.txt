@@ -1,3 +1,0 @@
-a "Y:\binhex-nginx\nginx\MPQ\optional\PATCH-O.MPQ" "Y:\wow-server\Zeppelin-Tools\Open Azeroth\Resource Parser Export\*" /auto /r
-f "Y:\binhex-nginx\nginx\MPQ\optional\PATCH-O.MPQ"
-exit

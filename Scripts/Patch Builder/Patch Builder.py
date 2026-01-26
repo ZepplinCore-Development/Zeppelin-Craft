@@ -8,6 +8,7 @@ import json
 import hashlib
 import stat
 import argparse
+import tempfile
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -612,6 +613,105 @@ destination_dir = os.getenv("SERVER_DATA_DIR") or os.path.join(base_directory, '
 local_patch_register_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'patch_register.json')
 # Export/publish location (NGINX) for the launcher to read
 export_patch_register_path = get_required_env("PATCH_REGISTER_PATH")
+# NGINX base path for MPQ output
+nginx_base_path = get_required_env("NGINX_BASE_PATH")
+
+
+def generate_mpq_script(patch_type):
+    """
+    Generate MPQ Editor script content dynamically based on patch type.
+
+    Args:
+        patch_type: 'Z', 'X', or 'O' for the respective patch
+
+    Returns:
+        String containing MPQ Editor commands
+    """
+    # Output paths (in NGINX for distribution)
+    mpq_outputs = {
+        'Z': os.path.join(nginx_base_path, 'MPQ', 'mandatory', 'PATCH-Z.MPQ'),
+        'X': os.path.join(nginx_base_path, 'MPQ', 'mandatory', 'PATCH-X.MPQ'),
+        'O': os.path.join(nginx_base_path, 'MPQ', 'optional', 'PATCH-O.MPQ'),
+    }
+
+    # Source directories
+    mpq_staging = os.path.join(base_directory, 'Zeppelin-Craft', 'MPQ Staging')
+    dbc_export = os.path.join(headless_exporter_dir, 'Export')
+    open_azeroth_export = os.path.join(base_directory, 'Zeppelin-Tools', 'Open Azeroth', 'Resource Parser Export')
+
+    output_path = mpq_outputs[patch_type]
+    commands = []
+
+    if patch_type == 'Z':
+        # PATCH-Z: DBC files + AtlasLoot/custom content from staging
+        commands.append(f'a "{output_path}" "{dbc_export}" "DBFilesClient" /auto /r')
+        commands.append(f'a "{output_path}" "{os.path.join(mpq_staging, "Patch-Z")}\\*" /auto /r')
+    elif patch_type == 'X':
+        # PATCH-X: Custom content from staging
+        commands.append(f'a "{output_path}" "{os.path.join(mpq_staging, "Patch-X")}\\*" /auto /r')
+    elif patch_type == 'O':
+        # PATCH-O: Open Azeroth resource exports
+        commands.append(f'a "{output_path}" "{open_azeroth_export}\\*" /auto /r')
+
+    commands.append(f'f "{output_path}"')
+    commands.append('exit')
+
+    return '\n'.join(commands)
+
+
+def ensure_mpq_writable(mpq_path):
+    """
+    Ensure an MPQ file is writable by removing read-only attributes.
+
+    Args:
+        mpq_path: Path to the MPQ file
+    """
+    if os.path.exists(mpq_path):
+        try:
+            # Remove read-only attribute on Windows
+            current_mode = os.stat(mpq_path).st_mode
+            os.chmod(mpq_path, current_mode | stat.S_IWRITE)
+        except Exception as e:
+            print(f"  Warning: Could not update permissions for {mpq_path}: {e}")
+
+
+def run_mpq_editor(patch_type):
+    """
+    Run MPQ Editor with dynamically generated script for the specified patch.
+
+    Args:
+        patch_type: 'Z', 'X', or 'O' for the respective patch
+
+    Returns:
+        True if successful, False otherwise
+    """
+    # Ensure MPQ file is writable
+    mpq_outputs = {
+        'Z': os.path.join(nginx_base_path, 'MPQ', 'mandatory', 'PATCH-Z.MPQ'),
+        'X': os.path.join(nginx_base_path, 'MPQ', 'mandatory', 'PATCH-X.MPQ'),
+        'O': os.path.join(nginx_base_path, 'MPQ', 'optional', 'PATCH-O.MPQ'),
+    }
+    ensure_mpq_writable(mpq_outputs[patch_type])
+
+    script_content = generate_mpq_script(patch_type)
+
+    # Create temporary script file (use Windows line endings for MPQEditor)
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, newline='\r\n') as f:
+        f.write(script_content)
+        temp_script_path = f.name
+
+    try:
+        subprocess.run(['MPQEditor.exe', '/console', temp_script_path], check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"MPQ Editor failed with exit code {e.returncode}")
+        return False
+    finally:
+        # Clean up temp file
+        try:
+            os.unlink(temp_script_path)
+        except:
+            pass
 
 
 # Functions for patch register management
@@ -847,13 +947,17 @@ if not args.db_diff_only:
 
     if build_patch_z:
         print("\nBuilding PATCH-Z.MPQ...")
-        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQZ-DBC.txt')], check=True)
-        print("✓ PATCH-Z.MPQ built successfully")
+        if run_mpq_editor('Z'):
+            print("✓ PATCH-Z.MPQ built successfully")
+        else:
+            print("✗ PATCH-Z.MPQ build failed")
 
     if build_patch_x:
         print("\nBuilding PATCH-X.MPQ...")
-        subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQX-Custom-Content.txt')], check=True)
-        print("✓ PATCH-X.MPQ built successfully")
+        if run_mpq_editor('X'):
+            print("✓ PATCH-X.MPQ built successfully")
+        else:
+            print("✗ PATCH-X.MPQ build failed")
 
     if build_patch_o:
         print("\nBuilding PATCH-O.MPQ...")
@@ -881,11 +985,11 @@ if not args.db_diff_only:
 
         # Step 2: Build MPQ from exports
         if build_patch_o:
-            # Note: n (new) command handles existing files - "converts to MPQ"
-            # No need to delete first
             print("  Building MPQ from exports...")
-            subprocess.run(['MPQEditor.exe', '/console', os.path.join(base_directory, 'Zeppelin-Craft', 'Scripts', 'Patch Builder', 'MPQ Scripts', 'MPQO-Open-Azeroth.txt')], check=True)
-            print("✓ PATCH-O.MPQ built successfully")
+            if run_mpq_editor('O'):
+                print("✓ PATCH-O.MPQ built successfully")
+            else:
+                print("✗ PATCH-O.MPQ build failed")
 
 
 # Update patch register with new versions (skip in db-diff-only mode)

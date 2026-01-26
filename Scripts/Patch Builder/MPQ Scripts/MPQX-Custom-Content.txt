@@ -1,3 +1,0 @@
-a "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ" "Y:\wow-server\Zeppelin-Craft\MPQ Staging\Patch-X\*" /auto /r
-f "Y:\binhex-nginx\nginx\MPQ\mandatory\PATCH-X.MPQ"
-exit
