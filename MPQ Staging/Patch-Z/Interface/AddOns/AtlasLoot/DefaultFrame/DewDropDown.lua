@@ -16,7 +16,7 @@ AtlasLoot_DewDropDown = {
 	[1] = {
 		[AL["Classic Instances"]] = {
 			[1] = {
-				{ BabbleZone["Blackfathom Deeps"], "BlackfathomDeeps1", "Table" },
+				{ BabbleZone["Blackfathom Deeps"], "BlackfathomDeeps", "Submenu" },
 			},
 			[2] = {
 				{ BabbleZone["Blackrock Depths"], "BlackrockDepths", "Submenu" },
@@ -31,7 +31,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Blackwing Lair"], "BlackwingLair", "Submenu" },
 			},
 			[6] = {
-				{ BabbleZone["The Deadmines"], "TheDeadmines1", "Table" },
+				{ BabbleZone["The Deadmines"], "TheDeadmines", "Submenu" },
 			},
 			[7] = {
 				[BabbleZone["Dire Maul"]] = {
@@ -50,7 +50,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Molten Core"], "MoltenCore", "Submenu" },
 			},
 			[11] = {
-				{ BabbleZone["Ragefire Chasm"], "RagefireChasm", "Table" },
+				{ BabbleZone["Ragefire Chasm"], "RagefireChasm", "Submenu" },
 			},
 			[12] = {
 				{ BabbleZone["Razorfen Downs"], "RazorfenDowns1", "Table" },
@@ -370,9 +370,9 @@ AtlasLoot_DewDropDown_SubTables = {
 	},
 	["Scarlet Monastery"] = {
 		{ BabbleZone["Armory"], "SMHerod" },
-		{ "", "SMCathedral" },
-		{ "", "SMGraveyard" },
-		{ "", "SMLibrary" },
+		{ BabbleZone["Cathedral"], "SMCathedral", "Submenu" },
+		{ BabbleZone["Graveyard"], "SMGraveyard", "Submenu" },
+		{ BabbleZone["Library"], "SMLibrary", "Submenu" },
 		{ "", "SMTrash" },
 		{ AL["Set: Chain of the Scarlet Crusade"], "VWOWSets1" },
 	},
@@ -485,6 +485,47 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ "", "MountHyjalAzgalor" },
 		{ "", "MountHyjalArchimonde" },
 		{ AL["Trash Mobs"], "MountHyjalTrash" },
+	},
+	["TheDeadmines"] = {
+		{ BabbleBoss["Marisa du'Paige"], "VCMarisa" },
+		{ BabbleBoss["Brainwashed Noble"], "VCNoble" },
+		{ BabbleBoss["Foreman Thistlenettle"], "VCThistlenettle" },
+		{ BabbleBoss["Rhahk'Zor"], "VCRhahkZor" },
+		{ BabbleBoss["Miner Johnson"], "VCMinerJohnson" },
+		{ BabbleBoss["Sneed"], "VCSneed" },
+		{ BabbleBoss["Gilnid"], "VCGilnid" },
+		{ BabbleBoss["Mr. Smite"], "VCSmite" },
+		{ BabbleBoss["Cookie"], "VCCookie" },
+		{ BabbleBoss["Captain Greenskin"], "VCGreenskin" },
+		{ BabbleBoss["Edwin VanCleef"], "VCVanCleef" },
+	},
+	["BlackfathomDeeps"] = {
+		{ BabbleBoss["Ghamoo-ra"], "BFDGhamoora" },
+		{ BabbleBoss["Lady Sarevess"], "BFDSarevess" },
+		{ BabbleBoss["Gelihast"], "BFDGelihast" },
+		{ BabbleBoss["Baron Aquanis"], "BFDAquanis" },
+		{ BabbleBoss["Twilight Lord Kelris"], "BFDKelris" },
+		{ BabbleBoss["Old Serra'kis"], "BFDSerrakis" },
+		{ BabbleBoss["Aku'mai"], "BFDAkumai" },
+	},
+	["SMCathedral"] = {
+		{ BabbleBoss["High Inquisitor Fairbanks"], "SMCFairbanks" },
+		{ BabbleBoss["Scarlet Commander Mograine"], "SMCMograineWhitemane" },
+	},
+	["SMGraveyard"] = {
+		{ BabbleBoss["Interrogator Vishas"], "SMGVishas" },
+		{ BabbleBoss["Bloodmage Thalnos"], "SMGThalnos" },
+		{ BabbleBoss["Ironspine"], "SMGIronspine" },
+		{ BabbleBoss["Azshir the Sleepless"], "SMGAzshir" },
+		{ BabbleBoss["Fallen Champion"], "SMGFallenChampion" },
+	},
+	["SMLibrary"] = {
+		{ BabbleBoss["Houndmaster Loksey"], "SMLLoksey" },
+		{ BabbleBoss["Arcanist Doan"], "SMLDoan" },
+	},
+	["RagefireChasm"] = {
+		{ BabbleBoss["Taragaman the Hungerer"], "RFCTaragaman" },
+		{ BabbleBoss["Jergosh the Invoker"], "RFCJergosh" },
 	},
 	["DireMaulEast"] = {
 		{ BabbleBoss["Pusillin"], "DMEPusillin" },

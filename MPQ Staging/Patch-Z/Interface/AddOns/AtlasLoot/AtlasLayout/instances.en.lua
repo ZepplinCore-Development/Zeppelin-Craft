@@ -710,8 +710,6 @@ AtlasLootNewBossButtons = {
         "HCRampWatchkeeper";
         "HCRampOmor";
         "HCRampVazruden";
-        "";
-        "HCRampVazruden";
         };
 
     HCMagtheridonsLair = {
@@ -986,23 +984,23 @@ AtlasLootNewBossButtons = {
   -----------------------
 
     BlackfathomDeeps = {
-        "";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps2";
-        "BlackfathomDeeps1";
-        "";
-        "BlackfathomDeeps1";
-        "";
-        "";
-        "BlackfathomDeeps2";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps2";
-        "";
-        "";
-        "";
-        "BlackfathomDeeps2";
+        "";             -- 1: A) Entrance
+        "BFDGhamoora";  -- 2: 1) Ghamoo-ra
+        "";             -- 3: 2) Lorgalis Manuscript (item)
+        "BFDSarevess";  -- 4: 3) Lady Sarevess
+        "";             -- 5: 4) Argent Guard Thaelrid (friendly)
+        "BFDGelihast";  -- 6: 5) Gelihast
+        "BFDGelihast";  -- 7: Shrine of Gelihast
+        "";             -- 8: 6) Lorgus Jett (rare)
+        "";             -- 9: 7) Fathom Stone (object)
+        "BFDAquanis";   -- 10: Baron Aquanis (summoned)
+        "BFDKelris";    -- 11: 8) Twilight Lord Kelris
+        "BFDSerrakis";  -- 12: 9) Old Serra'kis
+        "BFDAkumai";    -- 13: 10) Aku'mai
+        "";             -- 14: Morridune
+        "";             -- 15: Altar of the Deeps
+        "";             -- 16: (extra)
+        "";             -- 17: (extra)
         };
 
     BlackrockDepths = {
@@ -1352,12 +1350,12 @@ AtlasLootNewBossButtons = {
         };
 
     RagefireChasm = {
-        "";
-        "";
-        "";
-        "RagefireChasm";
-        "RagefireChasm";
-        "RagefireChasm";
+        "";             -- 1: A) Entrance
+        "";             -- 2: 1) Maur Grimtotem (no loot)
+        "";             -- 3: Oggleflint (no loot)
+        "RFCTaragaman"; -- 4: 2) Taragaman the Hungerer
+        "RFCJergosh";   -- 5: 3) Jergosh the Invoker
+        "RFCJergosh";   -- 6: Zelemar the Wrathful (summon)
         };
 
     RazorfenDowns = {
@@ -1472,35 +1470,35 @@ AtlasLootNewBossButtons = {
         };
 
     SMCathedral = {
-        "OldKeys";
-        "";
-        "SMCathedral";
-        "SMCathedral";
-        "SMCathedral";
+        "OldKeys";               -- 1: Key
+        "";                      -- 2: A) Entrance
+        "SMCFairbanks";          -- 3: 1) High Inquisitor Fairbanks
+        "SMCMograineWhitemane";  -- 4: 2) Scarlet Commander Mograine
+        "SMCMograineWhitemane";  -- 5: High Inquisitor Whitemane (combined encounter)
         "";
         "SMTrash";
         "VWOWSets1";
         };
 
     SMGraveyard = {
-        "";
-        "SMGraveyard";
-        "";
-        "";
-        "HeadlessHorseman";
-        "SMGraveyard";
-        "SMGraveyard";
-        "SMGraveyard";
-        "SMGraveyard";
+        "";                  -- 1: A) Entrance
+        "SMGVishas";         -- 2: 1) Interrogator Vishas
+        "";                  -- 3: Vorrel Sengutz (no loot)
+        "";                  -- 4: 2) Pumpkin Shrine (event)
+        "HeadlessHorseman";  -- 5: Headless Horseman (event)
+        "SMGThalnos";        -- 6: 3) Bloodmage Thalnos
+        "SMGIronspine";      -- 7: 1') Ironspine (rare)
+        "SMGAzshir";         -- 8: Azshir the Sleepless (rare)
+        "SMGFallenChampion"; -- 9: Fallen Champion (rare)
         "";
         "SMTrash";
         "VWOWSets1";
         };
 
     SMLibrary = {
-        "";
-        "SMLibrary";
-        "SMLibrary";
+        "";          -- 1: A) Entrance
+        "SMLLoksey"; -- 2: 1) Houndmaster Loksey
+        "SMLDoan";   -- 3: 2) Arcanist Doan
         "";
         "SMTrash";
         "VWOWSets1";
@@ -1555,18 +1553,18 @@ AtlasLootNewBossButtons = {
         };
 
     TheDeadmines = {
-        "";
-        "";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
+        "";              -- 1: A) Entrance
+        "";              -- 2: B) Exit
+        "VCRhahkZor";    -- 3: 1) Rhahk'Zor
+        "VCMinerJohnson";-- 4: 2) Miner Johnson
+        "VCSneed";       -- 5: 3) Sneed
+        "VCSneed";       -- 6: Sneed's Shredder (combined section)
+        "VCGilnid";      -- 7: 4) Gilnid
+        "";              -- 8: 5) Defias Gunpowder (no loot)
+        "VCGreenskin";   -- 9: 6) Captain Greenskin
+        "VCVanCleef";    -- 10: Edwin VanCleef
+        "VCSmite";       -- 11: Mr. Smite
+        "VCCookie";      -- 12: Cookie
         "";
         "VWOWSets1";
         };
@@ -1574,9 +1572,9 @@ AtlasLootNewBossButtons = {
     TheDeadminesEnt = {
         "";
         "";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
+        "VCMarisa";
+        "VCNoble";
+        "VCThistlenettle";
         };
 
     TheRuinsofAhnQiraj = {
@@ -2516,8 +2514,6 @@ AtlasLootBossButtons = {
         "HCRampWatchkeeper";
         "HCRampOmor";
         "HCRampVazruden";
-        "";
-        "HCRampVazruden";
         };
 
     HCMagtheridonsLair = {
@@ -2792,23 +2788,23 @@ AtlasLootBossButtons = {
   -----------------------
 
     BlackfathomDeeps = {
-        "";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps2";
-        "BlackfathomDeeps1";
-        "";
-        "BlackfathomDeeps1";
-        "";
-        "";
-        "BlackfathomDeeps2";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps1";
-        "BlackfathomDeeps2";
-        "";
-        "";
-        "";
-        "BlackfathomDeeps2";
+        "";             -- 1: A) Entrance
+        "BFDGhamoora";  -- 2: 1) Ghamoo-ra
+        "";             -- 3: 2) Lorgalis Manuscript (item)
+        "BFDSarevess";  -- 4: 3) Lady Sarevess
+        "";             -- 5: 4) Argent Guard Thaelrid (friendly)
+        "BFDGelihast";  -- 6: 5) Gelihast
+        "BFDGelihast";  -- 7: Shrine of Gelihast
+        "";             -- 8: 6) Lorgus Jett (rare)
+        "";             -- 9: 7) Fathom Stone (object)
+        "BFDAquanis";   -- 10: Baron Aquanis (summoned)
+        "BFDKelris";    -- 11: 8) Twilight Lord Kelris
+        "BFDSerrakis";  -- 12: 9) Old Serra'kis
+        "BFDAkumai";    -- 13: 10) Aku'mai
+        "";             -- 14: Morridune
+        "";             -- 15: Altar of the Deeps
+        "";             -- 16: (extra)
+        "";             -- 17: (extra)
         };
 
     BlackrockDepths = {
@@ -3158,12 +3154,12 @@ AtlasLootBossButtons = {
         };
 
     RagefireChasm = {
-        "";
-        "";
-        "";
-        "RagefireChasm";
-        "RagefireChasm";
-        "RagefireChasm";
+        "";             -- 1: A) Entrance
+        "";             -- 2: 1) Maur Grimtotem (no loot)
+        "";             -- 3: Oggleflint (no loot)
+        "RFCTaragaman"; -- 4: 2) Taragaman the Hungerer
+        "RFCJergosh";   -- 5: 3) Jergosh the Invoker
+        "RFCJergosh";   -- 6: Zelemar the Wrathful (summon)
         };
 
     RazorfenDowns = {
@@ -3278,35 +3274,35 @@ AtlasLootBossButtons = {
         };
 
     SMCathedral = {
-        "OldKeys";
-        "";
-        "SMCathedral";
-        "SMCathedral";
-        "SMCathedral";
+        "OldKeys";               -- 1: Key
+        "";                      -- 2: A) Entrance
+        "SMCFairbanks";          -- 3: 1) High Inquisitor Fairbanks
+        "SMCMograineWhitemane";  -- 4: 2) Scarlet Commander Mograine
+        "SMCMograineWhitemane";  -- 5: High Inquisitor Whitemane (combined encounter)
         "";
         "SMTrash";
         "VWOWSets1";
         };
 
     SMGraveyard = {
-        "";
-        "SMGraveyard";
-        "";
-        "";
-        "HeadlessHorseman";
-        "SMGraveyard";
-        "SMGraveyard";
-        "SMGraveyard";
-        "SMGraveyard";
+        "";                  -- 1: A) Entrance
+        "SMGVishas";         -- 2: 1) Interrogator Vishas
+        "";                  -- 3: Vorrel Sengutz (no loot)
+        "";                  -- 4: 2) Pumpkin Shrine (event)
+        "HeadlessHorseman";  -- 5: Headless Horseman (event)
+        "SMGThalnos";        -- 6: 3) Bloodmage Thalnos
+        "SMGIronspine";      -- 7: 1') Ironspine (rare)
+        "SMGAzshir";         -- 8: Azshir the Sleepless (rare)
+        "SMGFallenChampion"; -- 9: Fallen Champion (rare)
         "";
         "SMTrash";
         "VWOWSets1";
         };
 
     SMLibrary = {
-        "";
-        "SMLibrary";
-        "SMLibrary";
+        "";          -- 1: A) Entrance
+        "SMLLoksey"; -- 2: 1) Houndmaster Loksey
+        "SMLDoan";   -- 3: 2) Arcanist Doan
         "";
         "SMTrash";
         "VWOWSets1";
@@ -3361,18 +3357,18 @@ AtlasLootBossButtons = {
         };
 
     TheDeadmines = {
-        "";
-        "";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
-        "TheDeadmines2";
+        "";              -- 1: A) Entrance
+        "";              -- 2: B) Exit
+        "VCRhahkZor";    -- 3: 1) Rhahk'Zor
+        "VCMinerJohnson";-- 4: 2) Miner Johnson
+        "VCSneed";       -- 5: 3) Sneed
+        "VCSneed";       -- 6: Sneed's Shredder (combined section)
+        "VCGilnid";      -- 7: 4) Gilnid
+        "";              -- 8: 5) Defias Gunpowder (no loot)
+        "VCGreenskin";   -- 9: 6) Captain Greenskin
+        "VCVanCleef";    -- 10: Edwin VanCleef
+        "VCSmite";       -- 11: Mr. Smite
+        "VCCookie";      -- 12: Cookie
         "";
         "VWOWSets1";
         };
@@ -3380,9 +3376,9 @@ AtlasLootBossButtons = {
     TheDeadminesEnt = {
         "";
         "";
-        "TheDeadmines1";
-        "TheDeadmines1";
-        "TheDeadmines1";
+        "VCMarisa";
+        "VCNoble";
+        "VCThistlenettle";
         };
 
     TheRuinsofAhnQiraj = {

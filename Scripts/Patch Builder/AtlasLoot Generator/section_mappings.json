@@ -4,7 +4,8 @@
   "dungeon_sections": {
     "_comment": "Maps CLI shortcut -> AtlasLoot section name (multi-boss sections with BabbleBoss)",
 
-    "ragefire": "RagefireChasm",
+    "rfc_taragaman": "RFCTaragaman",
+    "rfc_jergosh": "RFCJergosh",
     "wailing1": "WailingCaverns1",
     "wailing2": "WailingCaverns2",
     "vc_marisa": "VCMarisa",
@@ -20,18 +21,29 @@
     "vc_vancleef": "VCVanCleef",
     "shadowfang1": "ShadowfangKeep1",
     "shadowfang2": "ShadowfangKeep2",
-    "blackfathom1": "BlackfathomDeeps1",
-    "blackfathom2": "BlackfathomDeeps2",
+    "bfd_ghamoora": "BFDGhamoora",
+    "bfd_sarevess": "BFDSarevess",
+    "bfd_gelihast": "BFDGelihast",
+    "bfd_aquanis": "BFDAquanis",
+    "bfd_kelris": "BFDKelris",
+    "bfd_serrakis": "BFDSerrakis",
+    "bfd_akumai": "BFDAkumai",
     "stockades": "TheStockade",
 
     "gnomeregan1": "Gnomeregan1",
     "gnomeregan2": "Gnomeregan2",
     "rfk1": "RazorfenKraul1",
     "rfk2": "RazorfenKraul2",
-    "sm_graveyard": "SMGraveyard",
-    "sm_library": "SMLibrary",
+    "smg_vishas": "SMGVishas",
+    "smg_thalnos": "SMGThalnos",
+    "smg_ironspine": "SMGIronspine",
+    "smg_azshir": "SMGAzshir",
+    "smg_fallenchampion": "SMGFallenChampion",
+    "sml_loksey": "SMLLoksey",
+    "sml_doan": "SMLDoan",
     "sm_armory": "SMHerod",
-    "sm_cathedral": "SMCathedral",
+    "smc_fairbanks": "SMCFairbanks",
+    "smc_mograine": "SMCMograineWhitemane",
     "rfd1": "RazorfenDowns1",
     "rfd2": "RazorfenDowns2",
     "maraudon1": "Maraudon1",
@@ -183,6 +195,33 @@
     "VCCookie": 645,
     "VCGreenskin": 647,
     "VCVanCleef": 639,
+
+    "_comment_smc": "Scarlet Monastery Cathedral bosses",
+    "SMCFairbanks": 4542,
+
+    "_comment_smg": "Scarlet Monastery Graveyard bosses",
+    "SMGVishas": 3983,
+    "SMGThalnos": 4543,
+    "SMGIronspine": 6489,
+    "SMGAzshir": 6490,
+    "SMGFallenChampion": 6488,
+
+    "_comment_sml": "Scarlet Monastery Library bosses",
+    "SMLLoksey": 3974,
+    "SMLDoan": 6487,
+
+    "_comment_rfc": "Ragefire Chasm bosses",
+    "RFCTaragaman": 11520,
+    "RFCJergosh": 11518,
+
+    "_comment_bfd": "Blackfathom Deeps bosses",
+    "BFDGhamoora": 4887,
+    "BFDSarevess": 4831,
+    "BFDGelihast": 6243,
+    "BFDAquanis": 12876,
+    "BFDKelris": 4832,
+    "BFDSerrakis": 4830,
+    "BFDAkumai": 4829,
 
     "BWLRazorgore": 12435,
     "BWLVaelastrasz": 13020,
@@ -600,10 +639,17 @@
       ]
     },
 
+    "SMCMograineWhitemane": {
+      "sources": [
+        {"type": "creature", "id": 3976, "header": "Scarlet Commander Mograine", "header_sub": ""},
+        {"type": "creature", "id": 3977, "header": "High Inquisitor Whitemane", "header_sub": ""}
+      ]
+    },
+
     "MCMajordomo": {
       "_comment": "Majordomo doesn't drop loot directly - Cache of the Firelord spawns after defeat",
       "sources": [
-        {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": ""}
+        {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": "", "is_babble": true}
       ]
     }
   }

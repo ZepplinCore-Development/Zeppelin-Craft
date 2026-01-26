@@ -633,8 +633,13 @@ end
   -- Keys
 	AtlasLoot_TableNames["OldKeys"] = { "Keys", "AtlasLootOriginalWoW" };
   -- Blackfathom Deeps
-	AtlasLoot_TableNames["BlackfathomDeeps1"] = { BabbleZone["Blackfathom Deeps"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["BlackfathomDeeps2"] = { BabbleZone["Blackfathom Deeps"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDGhamoora"] = { BabbleBoss["Ghamoo-ra"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDSarevess"] = { BabbleBoss["Lady Sarevess"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDGelihast"] = { BabbleBoss["Gelihast"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDAquanis"] = { BabbleBoss["Baron Aquanis"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDKelris"] = { BabbleBoss["Twilight Lord Kelris"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDSerrakis"] = { BabbleBoss["Old Serra'kis"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["BFDAkumai"] = { BabbleBoss["Aku'mai"], "AtlasLootOriginalWoW" };
   -- Blackrock Mountain
 	AtlasLoot_TableNames["BRMScarshieldQuartermaster"] = { AL["Scarshield Quartermaster"], "AtlasLootOriginalWoW" };
   -- Blackrock Depths
@@ -709,9 +714,17 @@ end
 	AtlasLoot_TableNames["BWLNefarian2"] = { BabbleBoss["Nefarian"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["BWLTrashMobs"] = { AL["Trash Mobs"].." ("..BabbleZone["Blackwing Lair"]..")", "AtlasLootOriginalWoW" };
   -- The Deadmines
-	AtlasLoot_TableNames["TheDeadminesEntrance"] = { BabbleZone["The Deadmines"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["TheDeadmines1"] = { BabbleZone["The Deadmines"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["TheDeadmines2"] = { BabbleZone["The Deadmines"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCMarisa"] = { BabbleBoss["Marisa du'Paige"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCNoble"] = { BabbleBoss["Brainwashed Noble"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCThistlenettle"] = { BabbleBoss["Foreman Thistlenettle"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCRhahkZor"] = { BabbleBoss["Rhahk'Zor"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCMinerJohnson"] = { BabbleBoss["Miner Johnson"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCSneed"] = { BabbleBoss["Sneed"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCGilnid"] = { BabbleBoss["Gilnid"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCSmite"] = { BabbleBoss["Mr. Smite"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCCookie"] = { BabbleBoss["Cookie"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCGreenskin"] = { BabbleBoss["Captain Greenskin"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["VCVanCleef"] = { BabbleBoss["Edwin VanCleef"], "AtlasLootOriginalWoW" };
   -- Dire Maul East
 	AtlasLoot_TableNames["DMEPusillin"] = { BabbleBoss["Pusillin"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["DMEZevrimThornhoof"] = { BabbleBoss["Zevrim Thornhoof"], "AtlasLootOriginalWoW" };
@@ -762,7 +775,8 @@ end
 	AtlasLoot_TableNames["MCRANDOMBOSSDROPPS"] = { "Random Boss Drops", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["MCTrashMobs"] = { AL["Trash Mobs"].." ("..BabbleZone["Molten Core"]..")", "AtlasLootOriginalWoW" };
   -- Ragefire Chasm
-	AtlasLoot_TableNames["RagefireChasm"] = { BabbleZone["Ragefire Chasm"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFCTaragaman"] = { BabbleBoss["Taragaman the Hungerer"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFCJergosh"] = { BabbleBoss["Jergosh the Invoker"], "AtlasLootOriginalWoW" };
   -- Razorfen Downs
 	AtlasLoot_TableNames["RazorfenDowns1"] = { BabbleZone["Razorfen Downs"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["RazorfenDowns2"] = { BabbleZone["Razorfen Downs"], "AtlasLootOriginalWoW" };
@@ -781,9 +795,15 @@ end
 	AtlasLoot_TableNames["AQEnchants"] = { "AQ Enchants", "AtlasLootOriginalWoW" };
   -- Scarlet Monestery
 	AtlasLoot_TableNames["SMHerod"] = { BabbleZone["Scarlet Monastery"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["SMCathedral"] = { BabbleZone["Cathedral"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["SMGraveyard"] = { BabbleZone["Graveyard"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["SMLibrary"] = { BabbleZone["Library"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMCFairbanks"] = { BabbleBoss["High Inquisitor Fairbanks"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMCMograineWhitemane"] = { BabbleBoss["Scarlet Commander Mograine"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMGVishas"] = { BabbleBoss["Interrogator Vishas"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMGThalnos"] = { BabbleBoss["Bloodmage Thalnos"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMGIronspine"] = { BabbleBoss["Ironspine"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMGAzshir"] = { BabbleBoss["Azshir the Sleepless"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMGFallenChampion"] = { BabbleBoss["Fallen Champion"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMLLoksey"] = { BabbleBoss["Houndmaster Loksey"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SMLDoan"] = { BabbleBoss["Arcanist Doan"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["SMTrash"] = { AL["Trash Mobs"].." ("..BabbleZone["Scarlet Monastery"]..")", "AtlasLootOriginalWoW" };
   -- Scholomance
 	AtlasLoot_TableNames["SCHOLOBloodStewardofKirtonos"] = { BabbleBoss["Blood Steward of Kirtonos"], "AtlasLootOriginalWoW" };
