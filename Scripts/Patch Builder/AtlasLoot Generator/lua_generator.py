@@ -500,6 +500,33 @@ class LuaGenerator:
 
         return '\n'.join(self.lines)
 
+    def _add_multi_source_header(self, header: str, is_babble: bool, category: str, subtitle: str):
+        """
+        Add a header line for multi-source sections with boss name + loot category.
+
+        Format: "Boss Name - Category" on line 1, "Subtitle" on line 2
+        Example: "Sneed's Shredder - Guaranteed" / "Always Drops"
+
+        Args:
+            header: Boss name or source name
+            is_babble: True to use BabbleBoss[], False for AL[]
+            category: Loot category (e.g., "Guaranteed", "Variable", "One of the following:")
+            subtitle: Description line (e.g., "Always Drops", "Chance on Drop", or empty)
+        """
+        if is_babble:
+            if subtitle:
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "=q5={subtitle}"}};'
+            else:
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", ""}};'
+        else:
+            # Use AL[] for non-BabbleBoss headers (like chest names)
+            if subtitle:
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "=q5={subtitle}"}};'
+            else:
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", ""}};'
+        self.lines.append(header_line)
+        self.current_line_num += 1
+
     def generate_multi_source_section(self, sources_with_loot: list) -> str:
         """
         Generate AtlasLoot section for multi-source encounters with headers.
@@ -507,10 +534,13 @@ class LuaGenerator:
         Used for encounters that combine loot from multiple sources
         (e.g., Vazruden + Nazan + Chest) on a single page.
 
+        Each source's loot is categorized into Guaranteed/Variable/Pool sections
+        with headers in format: "Boss Name - Category" / "Description"
+
         Args:
             sources_with_loot: List of dicts with:
                 - 'header': BabbleBoss name or custom header text
-                - 'header_sub': Subtitle (e.g., "Quest Item", "Loot", or empty)
+                - 'header_sub': Subtitle (e.g., "Quest Item", "Loot", or empty) - legacy, now auto-generated
                 - 'is_babble': True to use BabbleBoss[], False for AL[]
                 - 'loot_items': List of loot item dictionaries
 
@@ -526,7 +556,6 @@ class LuaGenerator:
 
         for source in sources_with_loot:
             header = source['header']
-            header_sub = source.get('header_sub', '')
             is_babble = source.get('is_babble', True)
             loot_items = source.get('loot_items', [])
 
@@ -534,60 +563,57 @@ class LuaGenerator:
             if not loot_items:
                 continue
 
-            # Calculate total size for this source (header + items)
-            source_size = 1 + len(loot_items)
+            # Categorize loot items
+            categories = self._categorize_loot(loot_items)
+            guaranteed = categories['guaranteed']
+            variable = categories['variable']
+            pools = categories['pools']
+
+            # Calculate group counts for equal-chance pool items
+            group_counts = {}
+            for group_id, items in pools.items():
+                for item in items:
+                    if item['drop_chance'] == 0:
+                        group_counts[group_id] = group_counts.get(group_id, 0) + 1
+
+            # Calculate total size for this source to check column spanning
+            source_size = 0
+            if guaranteed:
+                source_size += len(guaranteed) + 1  # items + header
+            if variable:
+                source_size += len(variable) + 1 + (1 if guaranteed else 0)  # items + header + spacer
+            for pool_items in pools.values():
+                source_size += len(pool_items) + 2  # items + header + spacer
 
             # Check if source would span columns
-            # Only move to column 2 if source fits entirely there (15 slots)
-            # Otherwise, let it span columns naturally to avoid overflow
             column_2_capacity = self.MAX_ITEMS - self.COLUMN_2_START + 1  # 15 slots
             if self._would_span_columns(source_size) and self.current_line_num > 1:
                 if source_size <= column_2_capacity:
                     self.current_line_num = self.COLUMN_2_START
-                # else: source too big for column 2, let it span naturally
 
-            # Add header line
-            if is_babble:
-                if header_sub:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5="..AL["{header_sub}"]}};'
-                else:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], ""}};'
-            else:
-                # Use AL[] for non-BabbleBoss headers (like chest names)
-                if header_sub:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5="..AL["{header_sub}"]}};'
-                else:
-                    header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], ""}};'
-            self.lines.append(header_line)
-            self.current_line_num += 1
+            # Add guaranteed drops with header
+            if guaranteed:
+                self._add_multi_source_header(header, is_babble, "Guaranteed", "Always Drops")
+                self._add_items_block(guaranteed, force_chance=100)
 
-            # Calculate group loot drop rates
-            group_counts = {}
-            for item in loot_items:
-                if item['drop_chance'] == 0 and item.get('group_id', 0) > 0:
-                    group_id = item['group_id']
-                    group_counts[group_id] = group_counts.get(group_id, 0) + 1
+            # Add variable drops with header
+            if variable:
+                # Add spacer if we had guaranteed drops
+                if guaranteed:
+                    self.current_line_num += 1
 
-            # Process items
-            for item in loot_items:
-                # Calculate actual drop chance for group loot
-                drop_chance = item['drop_chance']
-                if drop_chance == 0 and item.get('group_id', 0) > 0:
-                    group_id = item['group_id']
-                    drop_chance = 100.0 / group_counts[group_id]
+                self._add_multi_source_header(header, is_babble, "Variable", "Chance on Drop")
+                self._add_items_block(variable)
 
-                item_line = get_lua_item_line(
-                    line_num=self.current_line_num,
-                    item_id=item['item_id'],
-                    item_name=item['item_name'],
-                    quality=item['quality'],
-                    item_class=item['item_class'],
-                    item_subclass=item['item_subclass'],
-                    inventory_type=item['inventory_type'],
-                    drop_chance=drop_chance
-                )
-                self.lines.append(item_line)
+            # Add pool drops with headers
+            for group_id in sorted(pools.keys()):
+                pool_items = pools[group_id]
+
+                # Add spacer before pool
                 self.current_line_num += 1
+
+                self._add_multi_source_header(header, is_babble, "One of the following:", "")
+                self._add_items_block(pool_items, group_counts)
 
             # Add gap after source (skip one line number)
             self.current_line_num += 1

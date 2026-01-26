@@ -457,7 +457,9 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
 
         if loot_items:
             # Determine if header uses BabbleBoss or AL
-            is_babble = source_type == 'creature'
+            # Default: creatures use BabbleBoss, gameobjects use AL
+            # Can be overridden with is_babble in config
+            is_babble = source.get('is_babble', source_type == 'creature')
             sources_with_loot.append({
                 'header': header,
                 'header_sub': header_sub,
@@ -1038,8 +1040,15 @@ def main():
 
         total_count += len(sections_to_process)
         for section_name in sections_to_process:
+            # Check if this is a vanilla multi-source section (e.g., VCSneed = Shredder + Sneed)
+            if section_name in VANILLA_MULTI_SOURCE_SECTIONS:
+                config = VANILLA_MULTI_SOURCE_SECTIONS[section_name]
+                success = generate_multi_source_section(
+                    args.lua_file, section_name, config, db,
+                    dry_run=args.dry_run, verbose=args.verbose
+                )
             # Check if this is actually a single-boss section
-            if section_name in SINGLE_BOSS_SECTIONS:
+            elif section_name in SINGLE_BOSS_SECTIONS:
                 creature_id = SINGLE_BOSS_SECTIONS[section_name]
                 success = generate_single_boss_section(
                     args.lua_file, section_name, creature_id, db,

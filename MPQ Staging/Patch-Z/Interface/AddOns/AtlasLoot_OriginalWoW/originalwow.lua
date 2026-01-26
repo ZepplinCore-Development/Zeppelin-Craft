@@ -1977,16 +1977,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		------------------
 
 	AtlasLoot_Data["GnomeTechbot"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 9277, "", "=q1=Techbot's Memory Core", "=ds=#m3#", "", "100%" };
     { 3, 9309, "", "=q1=Robo-mechanical Guts", "=ds=#m3#", "", "100%" };
-    { 4, 9444, "", "=q2=Techbot CPU Shell", "=ds=#w8#", "", "69.2%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 9444, "", "=q2=Techbot CPU Shell", "=ds=#w8#", "", "69.2%" };
 	};
 
 	AtlasLoot_Data["GnomeGrubbis"] = {
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
     { 2, 9445, "", "=q3=Grubbis Paws", "=ds=#a3#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["GnomeViscousFallout"] = {
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
     { 2, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
     { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
     { 5, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
@@ -2002,9 +2006,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["GnomeCrowdPummeler"] = {
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
     { 2, 11827, "", "=q2=Schematic: Lil' Smoky", "=ds=#e2#", "", "50.0%" };
-    { 4, 9450, "", "=q2=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
-    { 5, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 9450, "", "=q2=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
+    { 6, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["GnomeDarkIronAmbassador"] = {
@@ -2017,12 +2023,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["GnomeThermaplugg"] = {
     { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 901708, "", "=q1=Plugg Nuts", "=ds=#m3#", "", "100%" };
-    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
-    { 5, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
-    { 6, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
-    { 7, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "50.0%" };
-    { 8, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "50.0%" };
-    { 10, 11828, "", "=q2=Schematic: Pet Bombling", "=ds=#e2#", "", "90.0%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 11828, "", "=q2=Schematic: Pet Bombling", "=ds=#e2#", "", "90.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "30.0%" };
+    { 9, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "30.0%" };
+    { 10, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
+    { 11, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
 	};
 
 		----------------
