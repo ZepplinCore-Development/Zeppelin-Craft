@@ -28,3 +28,6 @@ Thumbs.db
 # Temporary files
 temp.txt
 *.tmp
+
+# Backup files (use git for versioning)
+*.bak
