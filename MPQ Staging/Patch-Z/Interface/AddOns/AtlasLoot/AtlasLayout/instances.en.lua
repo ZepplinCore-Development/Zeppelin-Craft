@@ -1259,7 +1259,7 @@ AtlasLootNewBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
+        "GnomeGrubbis";
         "";
         "";
         "";
@@ -1268,15 +1268,15 @@ AtlasLootNewBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
-        "Gnomeregan1";
+        "GnomeViscousFallout";
+        "GnomeElectrocutioner";
         "";
-        "Gnomeregan1";
+        "GnomeCrowdPummeler";
         "";
-        "Gnomeregan1";
-        "Gnomeregan2";
+        "GnomeDarkIronAmbassador";
+        "GnomeThermaplugg";
         "";
-        "Gnomeregan2";
+        "";
         };
 
     GnomereganEnt = {
@@ -1288,8 +1288,8 @@ AtlasLootNewBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
-        "Gnomeregan1";
+        "";
+        "GnomeTechbot";
         };
         
     Maraudon = {
@@ -3063,7 +3063,7 @@ AtlasLootBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
+        "GnomeGrubbis";
         "";
         "";
         "";
@@ -3072,15 +3072,15 @@ AtlasLootBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
-        "Gnomeregan1";
+        "GnomeViscousFallout";
+        "GnomeElectrocutioner";
         "";
-        "Gnomeregan1";
+        "GnomeCrowdPummeler";
         "";
-        "Gnomeregan1";
-        "Gnomeregan2";
+        "GnomeDarkIronAmbassador";
+        "GnomeThermaplugg";
         "";
-        "Gnomeregan2";
+        "";
         };
 
     GnomereganEnt = {
@@ -3092,8 +3092,8 @@ AtlasLootBossButtons = {
         "";
         "";
         "";
-        "Gnomeregan1";
-        "Gnomeregan1";
+        "";
+        "GnomeTechbot";
         };
         
     Maraudon = {

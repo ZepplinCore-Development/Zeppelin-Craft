@@ -1976,40 +1976,53 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		--- Gnomeregan ---
 		------------------
 
-	AtlasLoot_Data["Gnomeregan1"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Techbot"], "" };
+	AtlasLoot_Data["GnomeTechbot"] = {
     { 2, 9277, "", "=q1=Techbot's Memory Core", "=ds=#m3#", "", "100%" };
     { 3, 9309, "", "=q1=Robo-mechanical Guts", "=ds=#m3#", "", "100%" };
     { 4, 9444, "", "=q2=Techbot CPU Shell", "=ds=#w8#", "", "69.2%" };
-    { 6, 0, "INV_Box_01", "=q6="..BabbleBoss["Grubbis"], "" };
-    { 7, 9445, "", "=q3=Grubbis Paws", "=ds=#a3#", "", "10.0%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Viscous Fallout"], "" };
-    { 10, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 12, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
-    { 13, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
-    { 14, 9454, "", "=q3=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Electrocutioner 6000"], "" };
-    { 17, 9446, "", "=q3=Electrocutioner Leg", "=ds=#w10#", "", "33.3%" };
-    { 18, 9447, "", "=q3=Electrocutioner Lagnut", "=ds=#s13#", "", "33.3%" };
-    { 19, 9448, "", "=q2=Spidertank Oilrag", "=ds=#a1#", "", "33.3%" };
-    { 21, 0, "INV_Box_01", "=q6="..BabbleBoss["Crowd Pummeler 9-60"], "" };
-    { 22, 11827, "", "=q2=Schematic: Lil' Smoky", "=ds=#e2#", "", "50.0%" };
-    { 24, 9450, "", "=q2=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
-    { 25, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
-    { 27, 0, "INV_Box_01", "=q6="..BabbleBoss["Dark Iron Ambassador"], "" };
-    { 28, 9455, "", "=q3=Emissary Cuffs", "=ds=#a2#", "", "33.3%" };
-    { 29, 9456, "", "=q3=Glass Shooter", "=ds=#w5#", "", "33.3%" };
-    { 30, 9457, "", "=q3=Royal Diplomatic Scepter", "=ds=#w6#", "", "33.3%" };
 	};
 
-	AtlasLoot_Data["Gnomeregan2"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Mekgineer Thermaplugg"], "" };
+	AtlasLoot_Data["GnomeGrubbis"] = {
+    { 2, 9445, "", "=q3=Grubbis Paws", "=ds=#a3#", "", "10.0%" };
+	};
+
+	AtlasLoot_Data["GnomeViscousFallout"] = {
+    { 2, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
+    { 6, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
+    { 7, 9454, "", "=q3=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["GnomeElectrocutioner"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 9446, "", "=q3=Electrocutioner Leg", "=ds=#w10#", "", "33.3%" };
+    { 4, 9447, "", "=q3=Electrocutioner Lagnut", "=ds=#s13#", "", "33.3%" };
+    { 5, 9448, "", "=q2=Spidertank Oilrag", "=ds=#a1#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["GnomeCrowdPummeler"] = {
+    { 2, 11827, "", "=q2=Schematic: Lil' Smoky", "=ds=#e2#", "", "50.0%" };
+    { 4, 9450, "", "=q2=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
+    { 5, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
+	};
+
+	AtlasLoot_Data["GnomeDarkIronAmbassador"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 9455, "", "=q3=Emissary Cuffs", "=ds=#a2#", "", "33.3%" };
+    { 4, 9456, "", "=q3=Glass Shooter", "=ds=#w5#", "", "33.3%" };
+    { 5, 9457, "", "=q3=Royal Diplomatic Scepter", "=ds=#w6#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["GnomeThermaplugg"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 901708, "", "=q1=Plugg Nuts", "=ds=#m3#", "", "100%" };
-    { 4, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
-    { 5, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
-    { 6, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "50.0%" };
-    { 7, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "50.0%" };
-    { 9, 11828, "", "=q2=Schematic: Pet Bombling", "=ds=#e2#", "", "90.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
+    { 6, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
+    { 7, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "50.0%" };
+    { 8, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "50.0%" };
+    { 10, 11828, "", "=q2=Schematic: Pet Bombling", "=ds=#e2#", "", "90.0%" };
 	};
 
 		----------------
@@ -2180,13 +2193,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		-------------------------
 
 	AtlasLoot_Data["SMHerod"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "" };
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Guaranteed", "=q5=Always Drops"};
     { 2, 901721, "", "=q1=Herod's War Banner", "=ds=#m3#", "", "100%" };
-    { 3, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 5, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
-    { 6, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
-    { 7, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
-    { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Variable", "=q5=Chance on Drop"};
+    { 5, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 7, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - One of the following:", ""};
+    { 8, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
+    { 9, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
+    { 10, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
+    { 11, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
+    { 13, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"].." - Variable", "=q5=Chance on Drop"};
+    { 14, 23192, "", "=q1=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
 	};
 
 	AtlasLoot_Data["SMCFairbanks"] = {
@@ -2197,19 +2214,22 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SMCMograineWhitemane"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"], "" };
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - Variable", "=q5=Chance on Drop"};
     { 2, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
-    { 5, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "33.3%" };
-    { 6, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "33.3%" };
-    { 7, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "33.3%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - One of the following:", ""};
+    { 5, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
+    { 6, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
+    { 7, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
+    { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
+    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Guaranteed", "=q5=Always Drops"};
     { 17, 901722, "", "=q1=Whitemane's Prayer Book", "=ds=#m3#", "", "100%" };
-    { 18, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 19, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
-    { 21, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
-    { 22, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "50.0%" };
-    { 23, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "50.0%" };
+    { 19, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Variable", "=q5=Chance on Drop"};
+    { 20, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 21, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
+    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - One of the following:", ""};
+    { 24, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
+    { 25, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
+    { 26, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["SMGVishas"] = {
@@ -2369,13 +2389,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["VCSneed"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], ""};
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - Guaranteed", "=q5=Always Drops"};
     { 2, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
-    { 3, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
-    { 4, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
-    { 6, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], ""};
-    { 7, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
-    { 8, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - One of the following:", ""};
+    { 5, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
+    { 6, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
+    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"].." - One of the following:", ""};
+    { 10, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
+    { 11, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
 	};
 
 	AtlasLoot_Data["VCThistlenettle"] = {

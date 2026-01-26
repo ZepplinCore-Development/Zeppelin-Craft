@@ -41,7 +41,7 @@ AtlasLoot_DewDropDown = {
 				},
 			},
 			[8] = {
-				{ BabbleZone["Gnomeregan"], "Gnomeregan1", "Table" },
+				{ BabbleZone["Gnomeregan"], "Gnomeregan", "Submenu" },
 			},
 			[9] = {
 				{ BabbleZone["Maraudon"], "Maraudon1", "Table" },
@@ -522,6 +522,15 @@ AtlasLoot_DewDropDown_SubTables = {
 	["SMLibrary"] = {
 		{ BabbleBoss["Houndmaster Loksey"], "SMLLoksey" },
 		{ BabbleBoss["Arcanist Doan"], "SMLDoan" },
+	},
+	["Gnomeregan"] = {
+		{ BabbleBoss["Techbot"], "GnomeTechbot" },
+		{ BabbleBoss["Grubbis"], "GnomeGrubbis" },
+		{ BabbleBoss["Viscous Fallout"], "GnomeViscousFallout" },
+		{ BabbleBoss["Electrocutioner 6000"], "GnomeElectrocutioner" },
+		{ BabbleBoss["Crowd Pummeler 9-60"], "GnomeCrowdPummeler" },
+		{ BabbleBoss["Dark Iron Ambassador"], "GnomeDarkIronAmbassador" },
+		{ BabbleBoss["Mekgineer Thermaplugg"], "GnomeThermaplugg" },
 	},
 	["RagefireChasm"] = {
 		{ BabbleBoss["Taragaman the Hungerer"], "RFCTaragaman" },

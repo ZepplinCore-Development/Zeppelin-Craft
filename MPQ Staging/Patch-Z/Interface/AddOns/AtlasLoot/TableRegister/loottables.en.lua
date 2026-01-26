@@ -756,8 +756,13 @@ end
 	AtlasLoot_TableNames["DMWShendralarProvisioner"] = { AL["Shen'dralar Provisioner"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["DMWTrash"] = { AL["Trash Mobs"].." ("..BabbleZone["Dire Maul (West)"]..")", "AtlasLootOriginalWoW" };
   -- Gnomeregan
-	AtlasLoot_TableNames["Gnomeregan1"] = { BabbleZone["Gnomeregan"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["Gnomeregan2"] = { BabbleZone["Gnomeregan"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeTechbot"] = { BabbleBoss["Techbot"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeGrubbis"] = { BabbleBoss["Grubbis"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeViscousFallout"] = { BabbleBoss["Viscous Fallout"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeElectrocutioner"] = { BabbleBoss["Electrocutioner 6000"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeCrowdPummeler"] = { BabbleBoss["Crowd Pummeler 9-60"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeDarkIronAmbassador"] = { BabbleBoss["Dark Iron Ambassador"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["GnomeThermaplugg"] = { BabbleBoss["Mekgineer Thermaplugg"], "AtlasLootOriginalWoW" };
   -- Maraudon
 	AtlasLoot_TableNames["Maraudon1"] = { BabbleZone["Maraudon"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["Maraudon2"] = { BabbleZone["Maraudon"], "AtlasLootOriginalWoW" };
