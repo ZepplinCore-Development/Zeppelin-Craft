@@ -646,11 +646,41 @@
       ]
     },
 
+    "SMHerod": {
+      "sources": [
+        {"type": "creature", "id": 3975, "header": "Herod", "header_sub": ""},
+        {"type": "creature", "id": 6575, "header": "Scarlet Trainee", "header_sub": ""}
+      ]
+    },
+
     "MCMajordomo": {
       "_comment": "Majordomo doesn't drop loot directly - Cache of the Firelord spawns after defeat",
       "sources": [
         {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": "", "is_babble": true}
       ]
     }
+  },
+
+  "item_whitelist": {
+    "_comment": "Items to always include regardless of quality/drop rate filters",
+    "items": [
+      {"id": 23192, "comment": "Tabard of the Scarlet Crusade - rare cosmetic from Scarlet Trainee"}
+    ]
+  },
+
+  "item_blacklist": {
+    "_comment": "Items to always exclude even if they meet filter criteria",
+    "items": []
+  },
+
+  "loot_thresholds": {
+    "_comment": "Minimum drop chance thresholds by item quality/type",
+    "quest_item_min_chance": 50,
+    "rare_min_chance": 3,
+    "epic_min_chance": 1,
+    "uncommon_min_chance": 10,
+    "recipe_min_chance": 5,
+    "_comment2": "Custom items (ID >= this) always shown",
+    "custom_item_min_id": 900000
   }
 }

@@ -5,7 +5,63 @@ Handles all database operations for fetching boss loot data
 
 import mysql.connector
 import os
-from typing import List, Dict, Optional
+import json
+from typing import List, Dict, Optional, Set
+
+# Load whitelist/blacklist from section_mappings.json
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MAPPINGS_FILE = os.path.join(SCRIPT_DIR, 'section_mappings.json')
+
+def _load_loot_config() -> dict:
+    """Load whitelist, blacklist, and thresholds from section_mappings.json."""
+    config = {
+        'whitelist': set(),
+        'blacklist': set(),
+        'thresholds': {
+            'quest_item_min_chance': 50,
+            'rare_min_chance': 3,
+            'epic_min_chance': 1,
+            'uncommon_min_chance': 10,
+            'recipe_min_chance': 5,
+            'custom_item_min_id': 900000
+        }
+    }
+
+    try:
+        with open(MAPPINGS_FILE, 'r') as f:
+            mappings = json.load(f)
+
+        # Load whitelist
+        whitelist_config = mappings.get('item_whitelist', {})
+        for item in whitelist_config.get('items', []):
+            if isinstance(item, dict) and 'id' in item:
+                config['whitelist'].add(item['id'])
+            elif isinstance(item, int):
+                config['whitelist'].add(item)
+
+        # Load blacklist
+        blacklist_config = mappings.get('item_blacklist', {})
+        for item in blacklist_config.get('items', []):
+            if isinstance(item, dict) and 'id' in item:
+                config['blacklist'].add(item['id'])
+            elif isinstance(item, int):
+                config['blacklist'].add(item)
+
+        # Load thresholds
+        thresholds_config = mappings.get('loot_thresholds', {})
+        for key in config['thresholds']:
+            if key in thresholds_config:
+                config['thresholds'][key] = thresholds_config[key]
+
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Warning: Could not load loot config from {MAPPINGS_FILE}: {e}")
+
+    return config
+
+LOOT_CONFIG = _load_loot_config()
+ITEM_WHITELIST = LOOT_CONFIG['whitelist']
+ITEM_BLACKLIST = LOOT_CONFIG['blacklist']
+THRESHOLDS = LOOT_CONFIG['thresholds']
 
 
 class LootDatabase:
@@ -99,7 +155,13 @@ class LootDatabase:
         results = []
 
         # Step 1: Get direct loot items
-        direct_query = """
+        # Build whitelist condition if we have items
+        whitelist_condition = "FALSE"  # Default: no whitelist match
+        if ITEM_WHITELIST:
+            whitelist_ids = ','.join(str(id) for id in ITEM_WHITELIST)
+            whitelist_condition = f"clt.Item IN ({whitelist_ids})"
+
+        direct_query = f"""
             SELECT
                 clt.Entry as creature_id,
                 clt.Item as item_id,
@@ -117,18 +179,20 @@ class LootDatabase:
               AND clt.Item > 0
               -- Filter to show only meaningful boss loot (keep under 30 items)
               AND (
-                  -- Show quest items (class 12) with >= 50% drop rate (filters world-drop quest items like Ace cards)
-                  (it.class = 12 AND (clt.Chance >= 50 OR clt.Chance = 0))
-                  -- Always show custom items (900000+)
-                  OR clt.Item >= 900000
+                  -- Whitelisted items always included
+                  {whitelist_condition}
+                  -- Show quest items (class 12) with >= {THRESHOLDS['quest_item_min_chance']}% drop rate
+                  OR (it.class = 12 AND (clt.Chance >= {THRESHOLDS['quest_item_min_chance']} OR clt.Chance = 0))
+                  -- Always show custom items ({THRESHOLDS['custom_item_min_id']}+)
+                  OR clt.Item >= {THRESHOLDS['custom_item_min_id']}
                   -- Always show mounts (class 15, subclass 5) regardless of drop rate
                   OR (it.class = 15 AND it.subclass = 5)
-                  -- Show rare items (quality 3) with >= 3% drop rate (excludes class 12 quest items)
-                  OR (it.Quality = 3 AND clt.Chance >= 3 AND it.class != 12)
-                  -- Show epic+ items (quality 4+) with >= 1% drop rate (excludes class 12 quest items)
-                  OR (it.Quality >= 4 AND clt.Chance >= 1 AND it.class != 12)
-                  -- Show uncommon (green) items with decent drop rates (excludes class 12 quest items)
-                  OR (it.Quality = 2 AND clt.Chance >= 10 AND it.class != 12)
+                  -- Show rare items (quality 3) with >= {THRESHOLDS['rare_min_chance']}% drop rate
+                  OR (it.Quality = 3 AND clt.Chance >= {THRESHOLDS['rare_min_chance']} AND it.class != 12)
+                  -- Show epic+ items (quality 4+) with >= {THRESHOLDS['epic_min_chance']}% drop rate
+                  OR (it.Quality >= 4 AND clt.Chance >= {THRESHOLDS['epic_min_chance']} AND it.class != 12)
+                  -- Show uncommon (green) items with >= {THRESHOLDS['uncommon_min_chance']}% drop rate
+                  OR (it.Quality = 2 AND clt.Chance >= {THRESHOLDS['uncommon_min_chance']} AND it.class != 12)
                   -- Show group loot items (Chance=0 with GroupId>0) - these are special boss drops
                   OR (clt.Chance = 0 AND clt.GroupId > 0)
               )
@@ -190,6 +254,10 @@ class LootDatabase:
 
         # Re-sort after deduplication
         results.sort(key=lambda x: (x.get('group_id', 0), -x['drop_chance'], x['item_id']))
+
+        # Filter out blacklisted items
+        if ITEM_BLACKLIST:
+            results = [item for item in results if item['item_id'] not in ITEM_BLACKLIST]
 
         return results
 
