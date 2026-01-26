@@ -664,7 +664,11 @@
   "item_whitelist": {
     "_comment": "Items to always include regardless of quality/drop rate filters",
     "items": [
-      {"id": 23192, "comment": "Tabard of the Scarlet Crusade - rare cosmetic from Scarlet Trainee"}
+      {"id": 23192, "comment": "Tabard of the Scarlet Crusade - rare cosmetic from Scarlet Trainee"},
+      {"id": 5187, "comment": "Rhahk'Zor's Hammer - Deadmines boss drop (Common quality filtered out)"},
+      {"id": 872, "comment": "Rockslicer - Rhahk'Zor (5% drop rate below threshold)"},
+      {"id": 2169, "comment": "Buzzer Blade - Sneed's Shredder (Common quality filtered out)"},
+      {"id": 8490, "comment": "Cat Carrier (Siamese) - Cookie (collectible pet)"}
     ]
   },
 

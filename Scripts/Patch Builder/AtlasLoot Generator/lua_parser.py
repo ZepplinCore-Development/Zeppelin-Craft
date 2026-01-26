@@ -228,7 +228,18 @@ class AtlasLootParser:
         while insert_pos < len(self.content) and self.content[insert_pos].strip() == '':
             insert_pos += 1
 
-        self.content.insert(insert_pos, section_code)
+        # Split section_code into individual lines and insert each
+        # This ensures find_section_bounds works correctly on the in-memory content
+        section_lines = section_code.split('\n')
+        # Add newlines back (split removes them) except for empty final element
+        section_lines = [line + '\n' if line or i < len(section_lines) - 1 else ''
+                        for i, line in enumerate(section_lines)]
+        # Remove empty trailing element if present
+        if section_lines and section_lines[-1] == '':
+            section_lines = section_lines[:-1]
+        # Insert all lines at the position
+        for i, line in enumerate(section_lines):
+            self.content.insert(insert_pos + i, line)
         print(f"[OK] Created new section '{new_section_name}' after '{reference_section}'")
         return True
 

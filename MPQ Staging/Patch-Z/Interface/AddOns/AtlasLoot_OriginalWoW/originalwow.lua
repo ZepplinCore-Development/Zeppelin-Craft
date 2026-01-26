@@ -2296,6 +2296,26 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 28, 7729, "", "=q3=Chesterfall Musket", "=ds=#w5#", "", "0.01%"};
 	};
 
+	AtlasLoot_Data["SCHOLOGandling"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
+    { 3, 901726, "", "=q1=Gandling's Plague Formula", "=ds=#m3#", "", "100%" };
+    { 4, 59000, "", "=q3=Gandling's Armor Cache - Helm", "=ds=#e10#", "", "100%" };
+    { 6, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 7, 57473, "", "=q2=Technique: Scroll of Shadow Resistance IV", "=ds=#e2#", "", "15.0%" };
+    { 8, 13501, "", "=q2=Recipe: Major Mana Potion", "=ds=#e2#", "", "10.0%" };
+    { 9, 14514, "", "=q4=Pattern: Robe of the Void", "=ds=#e2#", "", "7.00%" };
+    { 16, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 17, 13398, "", "=q3=Boots of the Shrieker", "=ds=#a2#", "", "14.0%" };
+    { 18, 13938, "", "=q3=Bonecreeper Stylus", "=ds=#w12#", "", "14.0%" };
+    { 19, 13944, "", "=q3=Tombstone Breastplate", "=ds=#a2#", "", "14.0%" };
+    { 20, 13951, "", "=q3=Vigorsteel Vambraces", "=ds=#a4#", "", "14.0%" };
+    { 21, 13953, "", "=q3=Silent Fang", "=ds=#w10#", "", "14.0%" };
+    { 22, 13964, "", "=q3=Witchblade", "=ds=#w4#", "", "14.0%" };
+    { 23, 22433, "", "=q3=Don Mauricio's Band of Domination", "=ds=#s13#", "", "14.0%" };
+    { 24, 13937, "", "=q4=Headmaster's Charge", "=ds=#w9#", "", "2.00%" };
+	};
+
 	AtlasLoot_Data["VCVanCleef"] = {
     { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 2874, "", "=q1=An Unsent Letter", "=ds=#m3#", "", "100%" };
@@ -2307,6 +2327,78 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 10, 5202, "", "=q3=Corsair's Overshirt", "=ds=#a1#", "", "30.0%" };
     { 11, 5191, "", "=q3=Cruel Barb", "=ds=#w10#", "", "20.0%" };
     { 12, 10399, "", "=q3=Blackened Defias Armor", "=ds=#a2#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["VCGreenskin"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 5201, "", "=q3=Emberstone Staff", "=ds=#w9#", "", "40.0%" };
+    { 4, 5200, "", "=q2=Impaling Harpoon", "=ds=#w7#", "", "30.0%" };
+    { 5, 10403, "", "=q2=Blackened Defias Belt", "=ds=#a2#", "", "30.0%" };
+	};
+
+	AtlasLoot_Data["VCCookie"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 901727, "", "=q1=Stabby Patty Secret Formula", "=ds=#m3#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 8490, "", "=q1=Cat Carrier (Siamese)", "=ds=#e10#", "", "15.0%" };
+    { 6, 57461, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 5197, "", "=q2=Cookie's Tenderizer", "=ds=#w6#", "", "65.0%" };
+    { 10, 5198, "", "=q3=Cookie's Stirring Rod", "=ds=#w12#", "", "35.0%" };
+	};
+
+	AtlasLoot_Data["VCSmite"] = {
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 2, 57481, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 5192, "", "=q2=Thief's Blade", "=ds=#w10#", "", "40.0%" };
+    { 6, 5196, "", "=q2=Smite's Reaver", "=ds=#w1#", "", "40.0%" };
+    { 7, 7230, "", "=q3=Smite's Mighty Hammer", "=ds=#w6#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["VCGilnid"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 5199, "", "=q2=Smelting Pants", "=ds=#a2#", "", "55.0%" };
+    { 4, 1156, "", "=q3=Lavishly Jeweled Ring", "=ds=#s13#", "", "45.0%" };
+	};
+
+	AtlasLoot_Data["VCMinerJohnson"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 5444, "", "=q2=Miner's Cape", "=ds=#a1#", "", "65.0%" };
+    { 4, 5443, "", "=q3=Gold-plated Buckler", "=ds=#w8#", "", "35.0%" };
+	};
+
+	AtlasLoot_Data["VCSneed"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], ""};
+    { 2, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
+    { 3, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
+    { 4, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
+    { 6, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], ""};
+    { 7, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
+    { 8, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
+	};
+
+	AtlasLoot_Data["VCThistlenettle"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 1875, "", "=q1=Thistlenettle's Badge", "=ds=#m3#", "", "100%" };
+	};
+
+	AtlasLoot_Data["VCNoble"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 5967, "", "=q2=Girdle of Nobility", "=ds=#a1#", "", "70.0%" };
+    { 4, 3902, "", "=q2=Staff of Nobles", "=ds=#w9#", "", "30.0%" };
+	};
+
+	AtlasLoot_Data["VCRhahkZor"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 5187, "", "=q1=Rhahk'Zor's Hammer", "=ds=#w6#", "", "95.0%" };
+    { 4, 872, "", "=q2=Rockslicer", "=ds=#w1#", "", "5.00%" };
+	};
+
+	AtlasLoot_Data["VCMarisa"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 4660, "", "=q2=Walking Boots", "=ds=#a1#", "", "75.0%" };
+    { 4, 3019, "", "=q2=Noble's Robe", "=ds=#a1#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["SCHOLOBloodStewardofKirtonos"] = {
@@ -2852,46 +2944,6 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 23, 16723, "", "=q3=Lightforge Belt", "=ds=#s10#, #a4# (D1)", "", "1.83%"};
 		{ 25, 12811, "", "=q2=Righteous Orb", "=ds=#e8#", "", "5.09%"};
 		{ 26, 12735, "", "=q2=Frayed Abomination Stitching", "=ds=#m3#", "", "17.5%"};
-	};
-
-		---------------------
-		--- The Deadmines ---
-		---------------------
-
-	AtlasLoot_Data["TheDeadmines1"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Marisa du'Paige"], "" };
-    { 2, 4660, "", "=q2=Walking Boots", "=ds=#a1#", "", "75.0%" };
-    { 3, 3019, "", "=q2=Noble's Robe", "=ds=#a1#", "", "100%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Brainwashed Noble"], "" };
-    { 6, 5967, "", "=q2=Girdle of Nobility", "=ds=#a1#", "", "70.0%" };
-    { 7, 3902, "", "=q2=Staff of Nobles", "=ds=#w9#", "", "100%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Foreman Thistlenettle"], "" };
-    { 10, 1875, "", "=q1=Thistlenettle's Badge", "=ds=#m3#", "", "100%" };
-    { 12, 0, "INV_Box_01", "=q6="..BabbleBoss["Miner Johnson"], "" };
-    { 13, 5444, "", "=q2=Miner's Cape", "=ds=#a1#", "", "65.0%" };
-    { 14, 5443, "", "=q3=Gold-plated Buckler", "=ds=#e16#", "", "35.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], "" };
-    { 17, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
-    { 19, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
-    { 21, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], "" };
-    { 22, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
-    { 23, 5194, "", "=q3=Taskmaster Axe", "=ds=#w2#", "", "35.0%" };
-	};
-
-	AtlasLoot_Data["TheDeadmines2"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Gilnid"], "" };
-    { 2, 5199, "", "=q2=Smelting Pants", "=ds=#a2#", "", "55.0%" };
-    { 3, 1156, "", "=q3=Lavishly Jeweled Ring", "=ds=#e15#", "", "45.0%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Mr. Smite"], "" };
-    { 6, 902425, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 8, 5192, "", "=q2=Thief's Blade", "=ds=#w10#", "", "40.0%" };
-    { 9, 5196, "", "=q2=Smite's Reaver", "=ds=#w1#", "", "40.0%" };
-    { 10, 7230, "", "=q3=Smite's Mighty Hammer", "=ds=#w7#", "", "20.0%" };
-    { 12, 0, "INV_Box_01", "=q6="..BabbleBoss["Cookie"], "" };
-    { 13, 901727, "", "=q1=Stabby Patty Secret Formula", "=ds=#m3#", "", "100%" };
-    { 14, 902405, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 16, 5197, "", "=q2=Cookie's Tenderizer", "=ds=#w6#", "", "65.0%" };
-    { 17, 5198, "", "=q3=Cookie's Stirring Rod", "=ds=#w15#", "", "35.0%" };
 	};
 
 		--------------------
