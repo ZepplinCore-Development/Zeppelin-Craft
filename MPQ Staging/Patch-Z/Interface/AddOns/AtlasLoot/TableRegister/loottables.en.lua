@@ -910,6 +910,23 @@ end
 	AtlasLoot_TableNames["AQ40Trash1"] = { AL["Trash Mobs"].." (AQ40)", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["AQ40Trash2"] = { AL["Trash Mobs"].." (AQ40)", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["AQOpening"] = { "AQ Opening Quest Line", "AtlasLootOriginalWoW" };
+  -- Naxxramas (Original)
+	AtlasLoot_TableNames["Naxx40Patchwerk"] = { BabbleBoss["Patchwerk"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Grobbulus"] = { BabbleBoss["Grobbulus"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Gluth"] = { BabbleBoss["Gluth"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Thaddius"] = { BabbleBoss["Thaddius"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40AnubRekhan"] = { BabbleBoss["Anub'Rekhan"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Faerlina"] = { BabbleBoss["Grand Widow Faerlina"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Maexxna"] = { BabbleBoss["Maexxna"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Razuvious"] = { BabbleBoss["Instructor Razuvious"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Gothik"] = { BabbleBoss["Gothik the Harvester"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40FourHorsemen"] = { BabbleBoss["The Four Horsemen"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Noth"] = { BabbleBoss["Noth the Plaguebringer"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Heigan"] = { BabbleBoss["Heigan the Unclean"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Loatheb"] = { BabbleBoss["Loatheb"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Sapphiron"] = { BabbleBoss["Sapphiron"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40KelThuzad"] = { BabbleBoss["Kel'Thuzad"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["Naxx40Trash"] = { AL["Trash Mobs"].." ("..BabbleZone["Naxxramas"]..")", "AtlasLootOriginalWoW" };
   -- Uldaman
 	AtlasLoot_TableNames["UldMagreganDeepshadow"] = { AL["Magregan Deepshadow"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["UldTabletofRyuneh"] = { "Tablet of Ryun'eh", "AtlasLootOriginalWoW" };

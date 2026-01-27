@@ -50,48 +50,51 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Molten Core"], "MoltenCore", "Submenu" },
 			},
 			[11] = {
-				{ BabbleZone["Ragefire Chasm"], "RagefireChasm", "Submenu" },
+				{ BabbleZone["Naxxramas"].." (Original)", "Naxxramas40", "Submenu" },
 			},
 			[12] = {
-				{ BabbleZone["Razorfen Downs"], "RazorfenDowns", "Submenu" },
+				{ BabbleZone["Ragefire Chasm"], "RagefireChasm", "Submenu" },
 			},
 			[13] = {
-				{ BabbleZone["Razorfen Kraul"], "RazorfenKraul", "Submenu" },
+				{ BabbleZone["Razorfen Downs"], "RazorfenDowns", "Submenu" },
 			},
 			[14] = {
-				{ BabbleZone["Ruins of Ahn'Qiraj"], "RuinsofAQ", "Submenu" },
+				{ BabbleZone["Razorfen Kraul"], "RazorfenKraul", "Submenu" },
 			},
 			[15] = {
-				{ BabbleZone["Scarlet Monastery"], "Scarlet Monastery", "Submenu" },
+				{ BabbleZone["Ruins of Ahn'Qiraj"], "RuinsofAQ", "Submenu" },
 			},
 			[16] = {
-				{ BabbleZone["Scholomance"], "Scholomance", "Submenu" },
+				{ BabbleZone["Scarlet Monastery"], "Scarlet Monastery", "Submenu" },
 			},
 			[17] = {
-				{ BabbleZone["Shadowfang Keep"], "ShadowfangKeep", "Submenu" },
+				{ BabbleZone["Scholomance"], "Scholomance", "Submenu" },
 			},
 			[18] = {
-				{ BabbleZone["The Stockade"], "TheStockade", "Submenu" },
+				{ BabbleZone["Shadowfang Keep"], "ShadowfangKeep", "Submenu" },
 			},
 			[19] = {
-				{ BabbleZone["Stratholme"], "Stratholme", "Submenu" },
+				{ BabbleZone["The Stockade"], "TheStockade", "Submenu" },
 			},
 			[20] = {
-				{ BabbleZone["Temple of Ahn'Qiraj"], "TempleofAQ", "Submenu" },
+				{ BabbleZone["Stratholme"], "Stratholme", "Submenu" },
 			},
 			[21] = {
-				{ BabbleZone["The Temple of Atal'Hakkar"], "SunkenTemple", "Submenu" },
+				{ BabbleZone["Temple of Ahn'Qiraj"], "TempleofAQ", "Submenu" },
 			},
 			[22] = {
-				{ BabbleZone["Uldaman"], "Uldaman", "Submenu" },
+				{ BabbleZone["The Temple of Atal'Hakkar"], "SunkenTemple", "Submenu" },
 			},
 			[23] = {
-				{ BabbleZone["Wailing Caverns"], "WailingCaverns", "Submenu" },
+				{ BabbleZone["Uldaman"], "Uldaman", "Submenu" },
 			},
 			[24] = {
-				{ BabbleZone["Zul'Farrak"], "ZulFarrak", "Submenu" },
+				{ BabbleZone["Wailing Caverns"], "WailingCaverns", "Submenu" },
 			},
 			[25] = {
+				{ BabbleZone["Zul'Farrak"], "ZulFarrak", "Submenu" },
+			},
+			[26] = {
 				{ BabbleZone["Zul'Gurub"], "ZulGurub", "Submenu" },
 			},
 		},
@@ -367,6 +370,24 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ "", "MCRagnaros" },
 		{ "", "MCTrashMobs" },
 		{ "", "MCRANDOMBOSSDROPPS" },
+	},
+	["Naxxramas40"] = {
+		{ AtlasLoot_TableNames["Naxx40Patchwerk"][1].." ("..AL["Construct Quarter"]..")", "Naxx40Patchwerk" },
+		{ AtlasLoot_TableNames["Naxx40Grobbulus"][1].." ("..AL["Construct Quarter"]..")", "Naxx40Grobbulus" },
+		{ AtlasLoot_TableNames["Naxx40Gluth"][1].." ("..AL["Construct Quarter"]..")", "Naxx40Gluth" },
+		{ AtlasLoot_TableNames["Naxx40Thaddius"][1].." ("..AL["Construct Quarter"]..")", "Naxx40Thaddius" },
+		{ AtlasLoot_TableNames["Naxx40AnubRekhan"][1].." ("..AL["Arachnid Quarter"]..")", "Naxx40AnubRekhan" },
+		{ AtlasLoot_TableNames["Naxx40Faerlina"][1].." ("..AL["Arachnid Quarter"]..")", "Naxx40Faerlina" },
+		{ AtlasLoot_TableNames["Naxx40Maexxna"][1].." ("..AL["Arachnid Quarter"]..")", "Naxx40Maexxna" },
+		{ AtlasLoot_TableNames["Naxx40Razuvious"][1].." ("..AL["Military Quarter"]..")", "Naxx40Razuvious" },
+		{ AtlasLoot_TableNames["Naxx40Gothik"][1].." ("..AL["Military Quarter"]..")", "Naxx40Gothik" },
+		{ AtlasLoot_TableNames["Naxx40FourHorsemen"][1].." ("..AL["Military Quarter"]..")", "Naxx40FourHorsemen" },
+		{ AtlasLoot_TableNames["Naxx40Noth"][1].." ("..AL["Plague Quarter"]..")", "Naxx40Noth" },
+		{ AtlasLoot_TableNames["Naxx40Heigan"][1].." ("..AL["Plague Quarter"]..")", "Naxx40Heigan" },
+		{ AtlasLoot_TableNames["Naxx40Loatheb"][1].." ("..AL["Plague Quarter"]..")", "Naxx40Loatheb" },
+		{ AtlasLoot_TableNames["Naxx40Sapphiron"][1].." ("..AL["Frostwyrm Lair"]..")", "Naxx40Sapphiron" },
+		{ AtlasLoot_TableNames["Naxx40KelThuzad"][1].." ("..AL["Frostwyrm Lair"]..")", "Naxx40KelThuzad" },
+		{ "", "Naxx40Trash" },
 	},
 	["Scarlet Monastery"] = {
 		{ BabbleZone["Armory"], "SMHerod" },

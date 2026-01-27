@@ -199,6 +199,39 @@ AtlasLootNewBossButtons = {
         "T7T8SET";
         };
 
+    Naxxramas40 = {
+        "";
+        "";
+        "";
+        "Naxx40Patchwerk";
+        "Naxx40Grobbulus";
+        "Naxx40Gluth";
+        "Naxx40Thaddius";
+        "";
+        "Naxx40AnubRekhan";
+        "Naxx40Faerlina";
+        "Naxx40Maexxna";
+        "";
+        "Naxx40Razuvious";
+        "Naxx40Gothik";
+        "";
+        "";
+        "";
+        "";
+        "";
+        "Naxx40FourHorsemen";
+        "";
+        "Naxx40Noth";
+        "Naxx40Heigan";
+        "Naxx40Loatheb";
+        "";
+        "Naxx40Sapphiron";
+        "Naxx40KelThuzad";
+        "";
+        "Naxx40Trash";
+        "";
+        };
+
     TheNexus = {
         "";
         "";
@@ -2001,6 +2034,39 @@ AtlasLootBossButtons = {
         "";
         "Naxx80Trash";
         "T7T8SET";
+        };
+
+    Naxxramas40 = {
+        "";
+        "";
+        "";
+        "Naxx40Patchwerk";
+        "Naxx40Grobbulus";
+        "Naxx40Gluth";
+        "Naxx40Thaddius";
+        "";
+        "Naxx40AnubRekhan";
+        "Naxx40Faerlina";
+        "Naxx40Maexxna";
+        "";
+        "Naxx40Razuvious";
+        "Naxx40Gothik";
+        "";
+        "";
+        "";
+        "";
+        "";
+        "Naxx40FourHorsemen";
+        "";
+        "Naxx40Noth";
+        "Naxx40Heigan";
+        "Naxx40Loatheb";
+        "";
+        "Naxx40Sapphiron";
+        "Naxx40KelThuzad";
+        "";
+        "Naxx40Trash";
+        "";
         };
 
     TheNexus = {

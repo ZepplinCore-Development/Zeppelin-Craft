@@ -2396,6 +2396,256 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 28, 7729, "", "=q3=Chesterfall Musket", "=ds=#w5#", "", "0.01%"};
 	};
 
+	AtlasLoot_Data["Naxx40FourHorsemen"] = {
+    { 1, 0, "INV_Box_01", "=q6=Four Horsemen Chest", "=q5=Guaranteed - Always Drops" };
+    { 2, 22350, "", "=q4=Desecrated Tunic", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Four Horsemen Chest", "=q5=Variable - Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 6, 22691, "", "=q4=Corrupted Ashbringer", "=ds=#w10#", "", "" };
+    { 7, 22809, "", "=q4=Maul of the Redeemed Crusader", "=ds=#w6#", "", "" };
+    { 8, 22811, "", "=q4=Soulstring", "=ds=#w2#", "", "" };
+    { 9, 23025, "", "=q4=Seal of the Damned", "=ds=#s13#", "", "" };
+    { 10, 23027, "", "=q4=Warmth of Forgiveness", "=ds=#s14#", "", "" };
+    { 11, 23071, "", "=q4=Leggings of Apocalypse", "=ds=#a2#", "", "" };
+	};
+
+	AtlasLoot_Data["Naxx40KelThuzad"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22520, "", "=q4=The Phylactery of Kel'Thuzad", "=ds=#e10#", "", "100%" };
+    { 3, 22733, "", "=q5=Staff Head of Atiesh", "=ds=#m3#", "", "100%" };
+    { 4, 30470, "", "=q0=NPC Equip 30470", "=ds=#e2#", "", "100%" };
+    { 5, 30471, "", "=q0=NPC Equip 30471", "=ds=#e2#", "", "100%" };
+    { 6, 23059, "", "=q4=Ring of the Dreadnaught", "=ds=#s13#", "", "100%" };
+    { 7, 23060, "", "=q4=Bonescythe Ring", "=ds=#s13#", "", "100%" };
+    { 8, 23061, "", "=q4=Ring of Faith", "=ds=#s13#", "", "100%" };
+    { 9, 23062, "", "=q4=Frostfire Ring", "=ds=#s13#", "", "100%" };
+    { 10, 23063, "", "=q4=Plagueheart Ring", "=ds=#s13#", "", "100%" };
+    { 11, 23064, "", "=q4=Ring of the Dreamwalker", "=ds=#s13#", "", "100%" };
+    { 12, 23065, "", "=q4=Ring of the Earthshatterer", "=ds=#s13#", "", "100%" };
+    { 13, 23066, "", "=q4=Ring of Redemption", "=ds=#s13#", "", "100%" };
+    { 14, 23067, "", "=q4=Ring of the Cryptstalker", "=ds=#s13#", "", "100%" };
+    { 16, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 17, 22798, "", "=q4=Might of Menethil", "=ds=#w6#", "", "9.09%" };
+    { 18, 22799, "", "=q4=Soulseeker", "=ds=#w9#", "", "9.09%" };
+    { 19, 22802, "", "=q4=Kingsfall", "=ds=#w4#", "", "9.09%" };
+    { 20, 22812, "", "=q4=Nerubian Slavemaker", "=ds=#w3#", "", "9.09%" };
+    { 21, 22819, "", "=q4=Shield of Condemnation", "=ds=#w8#", "", "9.09%" };
+    { 22, 22821, "", "=q4=Doomfinger", "=ds=#w12#", "", "9.09%" };
+    { 23, 23053, "", "=q4=Stormrage's Talisman of Seething", "=ds=#s2#", "", "9.09%" };
+    { 24, 23054, "", "=q4=Gressil, Dawn of Ruin", "=ds=#w10#", "", "9.09%" };
+    { 25, 23056, "", "=q4=Hammer of the Twisting Nether", "=ds=#w6#", "", "9.09%" };
+    { 26, 23057, "", "=q4=Gem of Trapped Innocents", "=ds=#s2#", "", "9.09%" };
+    { 27, 23577, "", "=q4=The Hungering Cold", "=ds=#w10#", "", "9.09%" };
+	};
+
+	AtlasLoot_Data["Naxx40Sapphiron"] = {
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 23040, "", "=q4=Glyph of Deflection", "=ds=#s14#", "", "10.0%" };
+    { 4, 23041, "", "=q4=Slayer's Crest", "=ds=#s14#", "", "10.0%" };
+    { 5, 23043, "", "=q4=The Face of Death", "=ds=#w8#", "", "10.0%" };
+    { 6, 23045, "", "=q4=Shroud of Dominion", "=ds=#a1#", "", "10.0%" };
+    { 7, 23046, "", "=q4=The Restrained Essence of Sapphiron", "=ds=#s14#", "", "10.0%" };
+    { 8, 23047, "", "=q4=Eye of the Dead", "=ds=#s14#", "", "10.0%" };
+    { 9, 23048, "", "=q4=Sapphiron's Right Eye", "=ds=#s15#", "", "10.0%" };
+    { 10, 23049, "", "=q4=Sapphiron's Left Eye", "=ds=#s15#", "", "10.0%" };
+    { 11, 23050, "", "=q4=Cloak of the Necropolis", "=ds=#a1#", "", "10.0%" };
+    { 12, 23242, "", "=q4=Claw of the Frost Wyrm", "=ds=#w13#", "", "10.0%" };
+    { 14, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 15, 23545, "", "=q4=Power of the Scourge", "=ds=#m3#", "", "50.0%" };
+    { 16, 23547, "", "=q4=Resilience of the Scourge", "=ds=#m3#", "", "50.0%" };
+    { 18, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 19, 23548, "", "=q4=Might of the Scourge", "=ds=#m3#", "", "50.0%" };
+    { 20, 23549, "", "=q4=Fortitude of the Scourge", "=ds=#m3#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Thaddius"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 30450, "", "=q4=Warp-Spring Coil", "=ds=#s14#", "", "100%" };
+    { 3, 22360, "", "=q4=Desecrated Headpiece", "=ds=#e10#", "", "100%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 22801, "", "=q4=Spire of Twilight", "=ds=#w9#", "", "20.0%" };
+    { 10, 22808, "", "=q4=The Castigator", "=ds=#w6#", "", "20.0%" };
+    { 11, 23000, "", "=q4=Plated Abomination Ribcage", "=ds=#a4#", "", "20.0%" };
+    { 12, 23001, "", "=q4=Eye of Diminution", "=ds=#s14#", "", "20.0%" };
+    { 13, 23070, "", "=q4=Leggings of Polarity", "=ds=#a1#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Gluth"] = {
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 2, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 22361, "", "=q4=Desecrated Spaulders", "=ds=#e10#", "", "25.0%" };
+    { 6, 22362, "", "=q4=Desecrated Wristguards", "=ds=#e10#", "", "25.0%" };
+    { 7, 22363, "", "=q4=Desecrated Girdle", "=ds=#e10#", "", "25.0%" };
+    { 8, 22365, "", "=q4=Desecrated Boots", "=ds=#e10#", "", "25.0%" };
+    { 10, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 11, 22813, "", "=q4=Claymore of Unholy Might", "=ds=#w10#", "", "20.0%" };
+    { 12, 22981, "", "=q4=Gluth's Missing Collar", "=ds=#s2#", "", "20.0%" };
+    { 13, 22983, "", "=q4=Rime Covered Mantle", "=ds=#a1#", "", "20.0%" };
+    { 14, 22994, "", "=q4=Digested Hand of Power", "=ds=#s15#", "", "20.0%" };
+    { 15, 23075, "", "=q4=Death's Bargain", "=ds=#w8#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Grobbulus"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22361, "", "=q4=Desecrated Spaulders", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 22803, "", "=q4=Midnight Haze", "=ds=#w4#", "", "20.0%" };
+    { 9, 22810, "", "=q4=Toxin Injector", "=ds=#w5#", "", "20.0%" };
+    { 10, 22967, "", "=q4=Icy Scale Spaulders", "=ds=#a3#", "", "20.0%" };
+    { 11, 22968, "", "=q4=Glacial Mantle", "=ds=#a1#", "", "20.0%" };
+    { 12, 22988, "", "=q4=The End of Dreams", "=ds=#w6#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Patchwerk"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22361, "", "=q4=Desecrated Spaulders", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 22815, "", "=q4=Severance", "=ds=#w1#", "", "20.0%" };
+    { 9, 22818, "", "=q4=The Plague Bearer", "=ds=#w8#", "", "20.0%" };
+    { 10, 22820, "", "=q4=Wand of Fates", "=ds=#w12#", "", "20.0%" };
+    { 11, 22960, "", "=q4=Cloak of Suturing", "=ds=#a1#", "", "20.0%" };
+    { 12, 22961, "", "=q4=Band of Reanimation", "=ds=#s13#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Gothik"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22365, "", "=q4=Desecrated Boots", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 23020, "", "=q4=Polar Helmet", "=ds=#a2#", "", "20.0%" };
+    { 9, 23021, "", "=q4=The Soul Harvester's Bindings", "=ds=#a1#", "", "20.0%" };
+    { 10, 23023, "", "=q4=Sadist's Collar", "=ds=#s2#", "", "20.0%" };
+    { 11, 23032, "", "=q4=Glacial Headdress", "=ds=#a1#", "", "20.0%" };
+    { 12, 23073, "", "=q4=Boots of Displacement", "=ds=#a2#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Razuvious"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22365, "", "=q4=Desecrated Boots", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 23004, "", "=q4=Idol of Longevity", "", "", "16.7%" };
+    { 9, 23009, "", "=q4=Wand of the Whispering Dead", "=ds=#w12#", "", "16.7%" };
+    { 10, 23014, "", "=q4=Iblis, Blade of the Fallen Seraph", "=ds=#w10#", "", "16.7%" };
+    { 11, 23017, "", "=q4=Veil of Eclipse", "=ds=#a1#", "", "16.7%" };
+    { 12, 23018, "", "=q4=Signet of the Fallen Defender", "=ds=#s13#", "", "16.7%" };
+    { 13, 23219, "", "=q4=Girdle of the Mentor", "=ds=#a4#", "", "16.7%" };
+	};
+
+	AtlasLoot_Data["Naxx40Loatheb"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 30474, "", "=q0=NPC Equip 30474", "=ds=#e2#", "", "100%" };
+    { 3, 22359, "", "=q4=Desecrated Legguards", "=ds=#e10#", "", "100%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 22800, "", "=q4=Brimstone Staff", "=ds=#w9#", "", "20.0%" };
+    { 10, 23037, "", "=q4=Ring of Spiritual Fervor", "=ds=#s13#", "", "20.0%" };
+    { 11, 23038, "", "=q4=Band of Unnatural Forces", "=ds=#s13#", "", "20.0%" };
+    { 12, 23039, "", "=q4=The Eye of Nerub", "=ds=#w7#", "", "20.0%" };
+    { 13, 23042, "", "=q4=Loatheb's Reflection", "=ds=#s14#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Heigan"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22363, "", "=q4=Desecrated Girdle", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 23019, "", "=q4=Icebane Helmet", "=ds=#a4#", "", "20.0%" };
+    { 9, 23033, "", "=q4=Icy Scale Coif", "=ds=#a3#", "", "20.0%" };
+    { 10, 23035, "", "=q4=Preceptor's Hat", "=ds=#a1#", "", "20.0%" };
+    { 11, 23036, "", "=q4=Necklace of Necropsy", "=ds=#s2#", "", "20.0%" };
+    { 12, 23068, "", "=q4=Legplates of Carnage", "=ds=#a4#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Noth"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 57401, "", "=q6=Artisan Mining Pick", "=ds=#e3#", "", "100%" };
+    { 3, 22363, "", "=q4=Desecrated Girdle", "=ds=#e10#", "", "100%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 22816, "", "=q4=Hatchet of Sundered Bone", "=ds=#w1#", "", "14.3%" };
+    { 10, 23005, "", "=q4=Totem of Flowing Water", "", "", "14.3%" };
+    { 11, 23006, "", "=q4=Libram of Light", "", "", "14.3%" };
+    { 12, 23028, "", "=q4=Hailstone Band", "=ds=#s13#", "", "14.3%" };
+    { 13, 23029, "", "=q4=Noth's Frigid Heart", "=ds=#s15#", "", "14.3%" };
+    { 14, 23030, "", "=q4=Cloak of the Scourge", "=ds=#a1#", "", "14.3%" };
+    { 15, 23031, "", "=q4=Band of the Inevitable", "=ds=#s13#", "", "14.3%" };
+	};
+
+	AtlasLoot_Data["Naxx40Maexxna"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 30459, "", "=q3=Netherflame Robe", "=ds=#a1#", "", "100%" };
+    { 3, 22364, "", "=q4=Desecrated Handguards", "=ds=#e10#", "", "100%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 22804, "", "=q4=Maexxna's Fang", "=ds=#w4#", "", "20.0%" };
+    { 10, 22807, "", "=q4=Wraith Blade", "=ds=#w10#", "", "20.0%" };
+    { 11, 22947, "", "=q4=Pendant of Forgotten Names", "=ds=#s2#", "", "20.0%" };
+    { 12, 22954, "", "=q4=Kiss of the Spider", "=ds=#s14#", "", "20.0%" };
+    { 13, 23220, "", "=q4=Crystal Webbed Robe", "=ds=#a1#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Faerlina"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22362, "", "=q4=Desecrated Wristguards", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 22806, "", "=q4=Widow's Remorse", "=ds=#w10#", "", "20.0%" };
+    { 9, 22940, "", "=q4=Icebane Pauldrons", "=ds=#a4#", "", "20.0%" };
+    { 10, 22941, "", "=q4=Polar Shoulder Pads", "=ds=#a2#", "", "20.0%" };
+    { 11, 22942, "", "=q4=The Widow's Embrace", "=ds=#w6#", "", "20.0%" };
+    { 12, 22943, "", "=q4=Malice Stone Pendant", "=ds=#s2#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40AnubRekhan"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 22362, "", "=q4=Desecrated Wristguards", "=ds=#e10#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 5, 22726, "", "=q5=Splinter of Atiesh", "=ds=#e10#", "", "30.0%" };
+    { 7, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 8, 22935, "", "=q4=Touch of Frost", "=ds=#s2#", "", "20.0%" };
+    { 9, 22936, "", "=q4=Wristguards of Vengeance", "=ds=#a4#", "", "20.0%" };
+    { 10, 22937, "", "=q4=Gem of Nerubis", "=ds=#s15#", "", "20.0%" };
+    { 11, 22938, "", "=q4=Cryptfiend Silk Cloak", "=ds=#a1#", "", "20.0%" };
+    { 12, 22939, "", "=q4=Band of Unanswered Prayers", "=ds=#s13#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["Naxx40Trash"] = {
+		{ 1, 23069, "", "=q4=Necro-Knight's Garb", "=ds=#a1#", "", "1%"};
+		{ 2, 23226, "", "=q4=Ghoul Skin Tunic", "=ds=#a2#", "", "1%"};
+		{ 3, 23221, "", "=q4=Misplaced Servo Arm", "=ds=#w6#", "", "1%"};
+		{ 4, 23044, "", "=q4=Harbinger of Doom", "=ds=#w4#", "", "1%"};
+		{ 5, 23237, "", "=q4=Ring of the Eternal Flame", "=ds=#s13#", "", "1%"};
+		{ 6, 23238, "", "=q4=Stygian Buckler", "=ds=#w8#", "", "1%"};
+		{ 8, 23663, "", "=q4=Girdle of Elemental Fury", "=ds=#a3#", "", "0.5%"};
+		{ 9, 23664, "", "=q4=Pauldrons of Elemental Fury", "=ds=#a3#", "", "0.5%"};
+		{ 10, 23665, "", "=q4=Leggings of Elemental Fury", "=ds=#a3#", "", "0.5%"};
+		{ 11, 23666, "", "=q4=Belt of the Grand Crusader", "=ds=#a4#", "", "0.5%"};
+		{ 12, 23667, "", "=q4=Spaulders of the Grand Crusader", "=ds=#a4#", "", "0.5%"};
+		{ 13, 23668, "", "=q4=Leggings of the Grand Crusader", "=ds=#a4#", "", "0.5%"};
+		{ 15, 14511, "", "=q4=Pattern: Gloves of Spell Mastery", "=ds=#p8#", "", "0.2%"};
+		{ 16, 12728, "", "=q4=Plans: Invulnerable Mail", "=ds=#p2#", "", "0.1%"};
+		{ 17, 12720, "", "=q4=Plans: Stronghold Gauntlets", "=ds=#p2#", "", "0.1%"};
+		{ 19, 22376, "", "=q3=Wartorn Cloth Scrap", "=ds=#e10#"};
+		{ 20, 22373, "", "=q3=Wartorn Leather Scrap", "=ds=#e10#"};
+		{ 21, 22374, "", "=q3=Wartorn Chain Scrap", "=ds=#e10#"};
+		{ 22, 22375, "", "=q3=Wartorn Plate Scrap", "=ds=#e10#"};
+	};
+
 	AtlasLoot_Data["SCHOLOGandling"] = {
     { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };

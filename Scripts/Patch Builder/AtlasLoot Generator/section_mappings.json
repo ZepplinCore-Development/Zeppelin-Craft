@@ -377,6 +377,22 @@
     "AQ40Ouro": 15517,
     "AQ40CThun": 15727,
 
+    "_comment_naxx40": "Naxxramas (Original) bosses - IPP level 60 versions",
+    "Naxx40AnubRekhan": 351009,
+    "Naxx40Faerlina": 351007,
+    "Naxx40Maexxna": 351006,
+    "Naxx40Noth": 351008,
+    "Naxx40Heigan": 351005,
+    "Naxx40Loatheb": 351020,
+    "Naxx40Razuvious": 351036,
+    "Naxx40Gothik": 351035,
+    "Naxx40Patchwerk": 351028,
+    "Naxx40Grobbulus": 351003,
+    "Naxx40Gluth": 351004,
+    "Naxx40Thaddius": 351000,
+    "Naxx40Sapphiron": 351018,
+    "Naxx40KelThuzad": 351019,
+
     "_comment_zf": "Zul'Farrak bosses",
     "ZFAntusul": 8127,
     "ZFThekatheMartyr": 7272,
@@ -763,6 +779,13 @@
       "_comment": "Majordomo doesn't drop loot directly - Cache of the Firelord spawns after defeat",
       "sources": [
         {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": "", "is_babble": true}
+      ]
+    },
+
+    "Naxx40FourHorsemen": {
+      "_comment": "Four Horsemen chest - individual horsemen (351037-351040) have no creature loot",
+      "sources": [
+        {"type": "gameobject", "id": 361000, "header": "Four Horsemen Chest", "header_sub": "", "is_babble": false}
       ]
     }
   },

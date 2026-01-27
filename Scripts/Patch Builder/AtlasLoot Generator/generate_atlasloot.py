@@ -85,6 +85,7 @@ INSTANCE_PREFIXES = {
     'ZG': 'Zul\'Gurub',
     'AQ20': 'Ruins of Ahn\'Qiraj',
     'AQ40': 'Temple of Ahn\'Qiraj',
+    'Naxx40': 'Naxxramas (Original)',
     # TBC Dungeons
     'HCRamp': 'Hellfire Ramparts',
     'HCFurnace': 'Blood Furnace',
@@ -783,7 +784,7 @@ def main():
     parser.add_argument(
         '--raid',
         help='Vanilla raid boss section (BWLFiremaw, MCRagnaros, etc.) - single-boss sections',
-        choices=list(SINGLE_BOSS_SECTIONS.keys()) + ['all', 'bwl', 'mc', 'zg', 'aq20', 'aq40']
+        choices=list(SINGLE_BOSS_SECTIONS.keys()) + ['all', 'bwl', 'mc', 'zg', 'aq20', 'aq40', 'naxx40']
     )
     parser.add_argument(
         '--tbc',
@@ -868,6 +869,8 @@ def main():
             single_boss_to_process = {k: v for k, v in SINGLE_BOSS_SECTIONS.items() if k.startswith('AQ20')}
         elif args.raid == 'aq40':
             single_boss_to_process = {k: v for k, v in SINGLE_BOSS_SECTIONS.items() if k.startswith('AQ40')}
+        elif args.raid == 'naxx40':
+            single_boss_to_process = {k: v for k, v in SINGLE_BOSS_SECTIONS.items() if k.startswith('Naxx40')}
         else:
             creature_id = SINGLE_BOSS_SECTIONS.get(args.raid)
             if creature_id:
