@@ -71,7 +71,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Shadowfang Keep"], "ShadowfangKeep", "Submenu" },
 			},
 			[18] = {
-				{ BabbleZone["The Stockade"], "TheStockade", "Table" },
+				{ BabbleZone["The Stockade"], "TheStockade", "Submenu" },
 			},
 			[19] = {
 				{ BabbleZone["Stratholme"], "Stratholme", "Submenu" },
@@ -572,6 +572,13 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ BabbleBoss["Fenrus the Devourer"], "SFKFenrus" },
 		{ BabbleBoss["Wolf Master Nandos"], "SFKNandos" },
 		{ BabbleBoss["Archmage Arugal"], "SFKArugal" },
+	},
+	["TheStockade"] = {
+		{ BabbleBoss["Targorr the Dread"], "StockTargorr" },
+		{ BabbleBoss["Kam Deepfury"], "StockKam" },
+		{ BabbleBoss["Bazil Thredd"], "StockBazil" },
+		{ BabbleBoss["Dextren Ward"], "StockDextren" },
+		{ BabbleBoss["Bruegal Ironknuckle"], "StockBruegal" },
 	},
 	["DireMaulEast"] = {
 		{ BabbleBoss["Pusillin"], "DMEPusillin" },

@@ -854,7 +854,11 @@ end
 	AtlasLoot_TableNames["SFKNandos"] = { BabbleBoss["Wolf Master Nandos"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["SFKArugal"] = { BabbleBoss["Archmage Arugal"], "AtlasLootOriginalWoW" };
   -- The Stockade
-	AtlasLoot_TableNames["TheStockade"] = { BabbleZone["The Stockade"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["StockTargorr"] = { BabbleBoss["Targorr the Dread"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["StockKam"] = { BabbleBoss["Kam Deepfury"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["StockBazil"] = { BabbleBoss["Bazil Thredd"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["StockDextren"] = { BabbleBoss["Dextren Ward"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["StockBruegal"] = { BabbleBoss["Bruegal Ironknuckle"], "AtlasLootOriginalWoW" };
   -- Stratholme
 	AtlasLoot_TableNames["STRATSkull"] = { BabbleBoss["Skul"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["STRATStratholmeCourier"] = { "Mailbox Keys", "AtlasLootOriginalWoW" };

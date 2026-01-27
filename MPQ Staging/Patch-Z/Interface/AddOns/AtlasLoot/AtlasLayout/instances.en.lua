@@ -1604,15 +1604,15 @@ AtlasLootNewBossButtons = {
         };
 
     TheStockade = {
+        "";                  -- A: Entrance
+        "StockTargorr";      -- 1: Targorr the Dread
+        "StockKam";          -- 2: Kam Deepfury
+        "";                  -- 3: Hamhock (no loot)
+        "StockBazil";        -- 4: Bazil Thredd
+        "StockDextren";      -- 5: Dextren Ward
+        "StockBruegal";      -- 6: Bruegal Ironknuckle (rare)
         "";
-        "TheStockade";
-        "TheStockade";
         "";
-        "TheStockade";
-        "TheStockade";
-        "TheStockade";
-        "";
-        "TheStockade";
         };
 
     TheSunkenTemple = {
@@ -3408,15 +3408,15 @@ AtlasLootBossButtons = {
         };
 
     TheStockade = {
+        "";                  -- A: Entrance
+        "StockTargorr";      -- 1: Targorr the Dread
+        "StockKam";          -- 2: Kam Deepfury
+        "";                  -- 3: Hamhock (no loot)
+        "StockBazil";        -- 4: Bazil Thredd
+        "StockDextren";      -- 5: Dextren Ward
+        "StockBruegal";      -- 6: Bruegal Ironknuckle (rare)
         "";
-        "TheStockade";
-        "TheStockade";
         "";
-        "TheStockade";
-        "TheStockade";
-        "TheStockade";
-        "";
-        "TheStockade";
         };
 
     TheSunkenTemple = {

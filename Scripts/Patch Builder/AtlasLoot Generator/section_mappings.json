@@ -34,7 +34,11 @@
     "bfd_kelris": "BFDKelris",
     "bfd_serrakis": "BFDSerrakis",
     "bfd_akumai": "BFDAkumai",
-    "stockades": "TheStockade",
+    "stock_targorr": "StockTargorr",
+    "stock_kam": "StockKam",
+    "stock_bazil": "StockBazil",
+    "stock_dextren": "StockDextren",
+    "stock_bruegal": "StockBruegal",
 
     "gnome_techbot": "GnomeTechbot",
     "gnome_grubbis": "GnomeGrubbis",
@@ -294,6 +298,13 @@
     "SFKFenrus": 4274,
     "SFKNandos": 3927,
     "SFKArugal": 4275,
+
+    "_comment_stock": "The Stockade bosses",
+    "StockTargorr": 1696,
+    "StockKam": 1666,
+    "StockBazil": 1716,
+    "StockDextren": 1663,
+    "StockBruegal": 1720,
 
     "BWLRazorgore": 12435,
     "BWLVaelastrasz": 13020,
