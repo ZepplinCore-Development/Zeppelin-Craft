@@ -502,24 +502,32 @@ class LuaGenerator:
 
     def _add_multi_source_header(self, header: str, is_babble: bool, category: str, subtitle: str):
         """
-        Add a header line for multi-source sections with boss name + loot category.
+        Add TWO header lines for multi-source sections: boss name + loot category.
 
-        Format: "Boss Name" on line 1, "Category" on line 2
-        Example: "Sneed's Shredder" / "Guaranteed"
+        Format:
+        - Line 1: Boss name (via BabbleBoss with empty description)
+        - Line 2: Loot category header (like single-boss sections)
+
+        This two-line format is required because AtlasLoot doesn't support
+        combining BabbleBoss references with non-empty descriptions.
 
         Args:
             header: Boss name or source name
             is_babble: True to use BabbleBoss[], False for AL[]
             category: Loot category (e.g., "Guaranteed", "Variable", "One of the following:")
-            subtitle: Description line - now used for category display
+            subtitle: Description for category header (e.g., "Always Drops", "Chance on Drop")
         """
-        # Use category as the subtitle since we can't concatenate after BabbleBoss
+        # Line 1: Boss name header (BabbleBoss/AL with empty description - this works)
         if is_babble:
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5={category}" }};'
+            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "" }};'
         else:
-            # Use AL[] for non-BabbleBoss headers (like chest names)
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5={category}" }};'
-        self.lines.append(header_line)
+            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "" }};'
+        self.lines.append(boss_line)
+        self.current_line_num += 1
+
+        # Line 2: Category header (simple text - same as single-boss sections)
+        category_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={category}", "=q5={subtitle}" }};'
+        self.lines.append(category_line)
         self.current_line_num += 1
 
     def generate_multi_source_section(self, sources_with_loot: list) -> str:
@@ -572,13 +580,14 @@ class LuaGenerator:
                         group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
             # Calculate total size for this source to check column spanning
+            # Note: Each header is now TWO lines (boss name + category)
             source_size = 0
             if guaranteed:
-                source_size += len(guaranteed) + 1  # items + header
+                source_size += len(guaranteed) + 2  # items + 2 header lines
             if variable:
-                source_size += len(variable) + 1 + (1 if guaranteed else 0)  # items + header + spacer
+                source_size += len(variable) + 2 + (1 if guaranteed else 0)  # items + 2 header lines + spacer
             for pool_items in pools.values():
-                source_size += len(pool_items) + 2  # items + header + spacer
+                source_size += len(pool_items) + 3  # items + 2 header lines + spacer
 
             # Check if source would span columns
             column_2_capacity = self.MAX_ITEMS - self.COLUMN_2_START + 1  # 15 slots
