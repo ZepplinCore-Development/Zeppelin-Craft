@@ -928,8 +928,18 @@ end
 	AtlasLoot_TableNames["UldArchaedas"] = { BabbleBoss["Archaedas"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["UldTrash"] = { AL["Trash Mobs"].." ("..BabbleZone["Uldaman"]..")", "AtlasLootOriginalWoW" };
   -- Wailing Caverns
-	AtlasLoot_TableNames["WailingCaverns1"] = { BabbleZone["Wailing Caverns"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["WailingCaverns2"] = { BabbleZone["Wailing Caverns"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCMagglish"] = { BabbleBoss["Mad Magglish"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCTrigore"] = { BabbleBoss["Trigore the Lasher"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCBoahn"] = { BabbleBoss["Boahn"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCCobrahn"] = { BabbleBoss["Lord Cobrahn"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCAnacondra"] = { BabbleBoss["Lady Anacondra"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCKresh"] = { BabbleBoss["Kresh"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCPythas"] = { BabbleBoss["Lord Pythas"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCSkum"] = { BabbleBoss["Skum"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCSerpentis"] = { BabbleBoss["Lord Serpentis"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCVerdan"] = { BabbleBoss["Verdan the Everliving"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCMutanus"] = { BabbleBoss["Mutanus the Devourer"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["WCFaerie"] = { BabbleBoss["Deviate Faerie Dragon"], "AtlasLootOriginalWoW" };
   -- Zul'Farrak
 	AtlasLoot_TableNames["ZFAntusul"] = { BabbleBoss["Antu'sul"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["ZFThekatheMartyr"] = { BabbleBoss["Theka the Martyr"], "AtlasLootOriginalWoW" };

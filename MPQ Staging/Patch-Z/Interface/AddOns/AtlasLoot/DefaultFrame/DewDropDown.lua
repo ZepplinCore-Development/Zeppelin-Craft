@@ -86,7 +86,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Uldaman"], "Uldaman", "Submenu" },
 			},
 			[23] = {
-				{ BabbleZone["Wailing Caverns"], "WailingCaverns1", "Table" },
+				{ BabbleZone["Wailing Caverns"], "WailingCaverns", "Submenu" },
 			},
 			[24] = {
 				{ BabbleZone["Zul'Farrak"], "ZulFarrak", "Submenu" },
@@ -639,6 +639,20 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ AL["Trash Mobs"], "AQ40Trash1" },
 		{ AL["AQ Enchants"], "AQEnchants" },
 		{ AL["AQ Opening Quest Chain"], "AQOpening" },
+	},
+	["WailingCaverns"] = {
+		{ BabbleBoss["Mad Magglish"], "WCMagglish" },
+		{ BabbleBoss["Trigore the Lasher"], "WCTrigore" },
+		{ BabbleBoss["Boahn"], "WCBoahn" },
+		{ BabbleBoss["Lord Cobrahn"], "WCCobrahn" },
+		{ BabbleBoss["Lady Anacondra"], "WCAnacondra" },
+		{ BabbleBoss["Kresh"], "WCKresh" },
+		{ BabbleBoss["Lord Pythas"], "WCPythas" },
+		{ BabbleBoss["Skum"], "WCSkum" },
+		{ BabbleBoss["Lord Serpentis"], "WCSerpentis" },
+		{ BabbleBoss["Verdan the Everliving"], "WCVerdan" },
+		{ BabbleBoss["Mutanus the Devourer"], "WCMutanus" },
+		{ BabbleBoss["Deviate Faerie Dragon"], "WCFaerie" },
 	},
 	["ZulFarrak"] = {
 		{ BabbleBoss["Antu'sul"], "ZFAntusul" },

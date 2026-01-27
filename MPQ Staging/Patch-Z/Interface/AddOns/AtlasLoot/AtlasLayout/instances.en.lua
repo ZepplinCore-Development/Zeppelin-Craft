@@ -1716,16 +1716,16 @@ AtlasLootNewBossButtons = {
     WailingCaverns = {
         "";
         "";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
+        "WCCobrahn";
+        "WCAnacondra";
+        "WCKresh";
+        "WCPythas";
+        "WCSkum";
+        "WCSerpentis";
+        "WCVerdan";
+        "WCMutanus";
         "";
-        "WailingCaverns2";
+        "WCFaerie";
         "";
         "VWOWSets1";
         };
@@ -1733,14 +1733,14 @@ AtlasLootNewBossButtons = {
     WailingCavernsEnt = {
         "";
         "";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns1";
+        "WCMagglish";
+        "WCTrigore";
+        "WCBoahn";
         "";
         "";
         "";
         "";
-        "WailingCaverns1";
+        "";
         "";
         };
 
@@ -3520,16 +3520,16 @@ AtlasLootBossButtons = {
     WailingCaverns = {
         "";
         "";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
-        "WailingCaverns2";
+        "WCCobrahn";
+        "WCAnacondra";
+        "WCKresh";
+        "WCPythas";
+        "WCSkum";
+        "WCSerpentis";
+        "WCVerdan";
+        "WCMutanus";
         "";
-        "WailingCaverns2";
+        "WCFaerie";
         "";
         "VWOWSets1";
         };
@@ -3537,14 +3537,14 @@ AtlasLootBossButtons = {
     WailingCavernsEnt = {
         "";
         "";
-        "WailingCaverns1";
-        "WailingCaverns1";
-        "WailingCaverns1";
+        "WCMagglish";
+        "WCTrigore";
+        "WCBoahn";
         "";
         "";
         "";
         "";
-        "WailingCaverns1";
+        "";
         "";
         };
 
