@@ -2282,7 +2282,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 9, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
     { 10, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
     { 11, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
-    { 13, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"], "=q5=Variable - Chance on Drop" };
+    { 13, 0, "INV_Box_01", "=q6=Scarlet Trainee", "=q5=Variable - Chance on Drop" };
     { 14, 23192, "", "=q1=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
 	};
 

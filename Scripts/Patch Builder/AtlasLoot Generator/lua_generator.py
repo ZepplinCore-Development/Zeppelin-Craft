@@ -527,7 +527,7 @@ class LuaGenerator:
         if is_babble:
             boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "{desc}" }};'
         else:
-            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "{desc}" }};'
+            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header}", "{desc}" }};'
         self.lines.append(boss_line)
         self.current_line_num += 1
 

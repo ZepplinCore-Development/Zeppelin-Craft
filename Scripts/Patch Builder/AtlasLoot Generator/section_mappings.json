@@ -755,7 +755,7 @@
     "SMHerod": {
       "sources": [
         {"type": "creature", "id": 3975, "header": "Herod", "header_sub": ""},
-        {"type": "creature", "id": 6575, "header": "Scarlet Trainee", "header_sub": ""}
+        {"type": "creature", "id": 6575, "header": "Scarlet Trainee", "header_sub": "", "is_babble": false}
       ]
     },
 
