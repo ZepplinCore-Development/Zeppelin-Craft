@@ -764,8 +764,15 @@ end
 	AtlasLoot_TableNames["GnomeDarkIronAmbassador"] = { BabbleBoss["Dark Iron Ambassador"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["GnomeThermaplugg"] = { BabbleBoss["Mekgineer Thermaplugg"], "AtlasLootOriginalWoW" };
   -- Maraudon
-	AtlasLoot_TableNames["Maraudon1"] = { BabbleZone["Maraudon"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["Maraudon2"] = { BabbleZone["Maraudon"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraNoxxion"] = { BabbleBoss["Noxxion"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraRazorlash"] = { BabbleBoss["Razorlash"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraVyletongue"] = { BabbleBoss["Lord Vyletongue"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraMeshlok"] = { BabbleBoss["Meshlok the Harvester"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraCelebras"] = { BabbleBoss["Celebras the Cursed"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraLandslide"] = { BabbleBoss["Landslide"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraGizlock"] = { BabbleBoss["Tinkerer Gizlock"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraRotgrip"] = { BabbleBoss["Rotgrip"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["MaraTheradras"] = { BabbleBoss["Princess Theradras"], "AtlasLootOriginalWoW" };
   -- Molten Core
 	AtlasLoot_TableNames["MCLucifron"] = { BabbleBoss["Lucifron"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["MCMagmadar"] = { BabbleBoss["Magmadar"], "AtlasLootOriginalWoW" };

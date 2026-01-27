@@ -44,7 +44,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Gnomeregan"], "Gnomeregan", "Submenu" },
 			},
 			[9] = {
-				{ BabbleZone["Maraudon"], "Maraudon1", "Table" },
+				{ BabbleZone["Maraudon"], "Maraudon", "Submenu" },
 			},
 			[10] = {
 				{ BabbleZone["Molten Core"], "MoltenCore", "Submenu" },
@@ -531,6 +531,17 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ BabbleBoss["Crowd Pummeler 9-60"], "GnomeCrowdPummeler" },
 		{ BabbleBoss["Dark Iron Ambassador"], "GnomeDarkIronAmbassador" },
 		{ BabbleBoss["Mekgineer Thermaplugg"], "GnomeThermaplugg" },
+	},
+	["Maraudon"] = {
+		{ BabbleBoss["Noxxion"], "MaraNoxxion" },
+		{ BabbleBoss["Razorlash"], "MaraRazorlash" },
+		{ BabbleBoss["Lord Vyletongue"], "MaraVyletongue" },
+		{ BabbleBoss["Meshlok the Harvester"], "MaraMeshlok" },
+		{ BabbleBoss["Celebras the Cursed"], "MaraCelebras" },
+		{ BabbleBoss["Landslide"], "MaraLandslide" },
+		{ BabbleBoss["Tinkerer Gizlock"], "MaraGizlock" },
+		{ BabbleBoss["Rotgrip"], "MaraRotgrip" },
+		{ BabbleBoss["Princess Theradras"], "MaraTheradras" },
 	},
 	["RagefireChasm"] = {
 		{ BabbleBoss["Taragaman the Hungerer"], "RFCTaragaman" },

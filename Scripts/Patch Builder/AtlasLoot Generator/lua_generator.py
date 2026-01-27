@@ -504,26 +504,21 @@ class LuaGenerator:
         """
         Add a header line for multi-source sections with boss name + loot category.
 
-        Format: "Boss Name - Category" on line 1, "Subtitle" on line 2
-        Example: "Sneed's Shredder - Guaranteed" / "Always Drops"
+        Format: "Boss Name" on line 1, "Category" on line 2
+        Example: "Sneed's Shredder" / "Guaranteed"
 
         Args:
             header: Boss name or source name
             is_babble: True to use BabbleBoss[], False for AL[]
             category: Loot category (e.g., "Guaranteed", "Variable", "One of the following:")
-            subtitle: Description line (e.g., "Always Drops", "Chance on Drop", or empty)
+            subtitle: Description line - now used for category display
         """
+        # Use category as the subtitle since we can't concatenate after BabbleBoss
         if is_babble:
-            if subtitle:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "=q5={subtitle}" }};'
-            else:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "=q5={category}" }};'
         else:
             # Use AL[] for non-BabbleBoss headers (like chest names)
-            if subtitle:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "=q5={subtitle}" }};'
-            else:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "=q5={category}" }};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
