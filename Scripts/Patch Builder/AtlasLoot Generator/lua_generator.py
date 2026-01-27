@@ -515,15 +515,15 @@ class LuaGenerator:
         """
         if is_babble:
             if subtitle:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "=q5={subtitle}"}};'
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "=q5={subtitle}" }};'
             else:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", ""}};'
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"].." - {category}", "" }};'
         else:
             # Use AL[] for non-BabbleBoss headers (like chest names)
             if subtitle:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "=q5={subtitle}"}};'
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "=q5={subtitle}" }};'
             else:
-                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", ""}};'
+                header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"].." - {category}", "" }};'
         self.lines.append(header_line)
         self.current_line_num += 1
 

@@ -2036,62 +2036,89 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		--- Maraudon ---
 		----------------
 		
-	AtlasLoot_Data["Maraudon1"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Noxxion"], "" };
+	AtlasLoot_Data["MaraNoxxion"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 17702, "", "=q1=Celebrian Rod", "=ds=#m3#", "", "100%" };
     { 3, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 5, 17745, "", "=q3=Noxious Shooter", "=ds=#w12#", "", "20.0%" };
-    { 6, 17744, "", "=q3=Heart of Noxxion", "=ds=#s14#", "", "50.0%" };
-    { 7, 17746, "", "=q3=Noxxion's Shackles", "=ds=#a4#", "", "50.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Razorlash"], "" };
-    { 17, 901700, "", "=q1=Razor Petal", "=ds=#m3#", "", "100%" };
-    { 18, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 19, 22529, "", "=q1=Savage Frond", "=ds=#m3#", "", "54.0%" };
-    { 21, 17748, "", "=q3=Vinerot Sandals", "=ds=#a1#", "", "25.0%" };
-    { 22, 17749, "", "=q3=Phytoskin Spaulders", "=ds=#a2#", "", "25.0%" };
-    { 23, 17750, "", "=q2=Chloromesh Girdle", "=ds=#a1#", "", "25.0%" };
-    { 24, 17751, "", "=q2=Brusslehide Leggings", "=ds=#a2#", "", "25.0%" };
-    { 26, 0, "INV_Box_01", "=q6="..BabbleBoss["Lord Vyletongue"], "" };
-    { 27, 17703, "", "=q1=Celebrian Diamond", "=ds=#m3#", "", "100%" };
-    { 28, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 30, 17752, "", "=q3=Satyr's Lash", "=ds=#w4#", "", "33.3%" };
-    { 31, 17754, "", "=q3=Infernal Trickster Leggings", "=ds=#a3#", "", "33.3%" };
-    { 32, 17755, "", "=q3=Satyrmane Sash", "=ds=#a1#", "", "33.3%" };
-    { 34, 0, "INV_Box_01", "=q6="..BabbleBoss["Meshlok the Harvester"], "" };
-    { 35, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 37, 17741, "", "=q3=Nature's Embrace", "=ds=#a1#", "", "33.3%" };
-    { 38, 17742, "", "=q3=Fungus Shroud Armor", "=ds=#a2#", "", "33.3%" };
-    { 39, 17767, "", "=q3=Bloomsprout Headpiece", "=ds=#a3#", "", "33.3%" };
-    { 41, 0, "INV_Box_01", "=q6="..BabbleBoss["Celebras the Cursed"], "" };
-    { 42, 901701, "", "=q1=Carved Horn of Remulos", "=ds=#m3#", "", "100%" };
-    { 43, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 44, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 46, 17738, "", "=q3=Claw of Celebras", "=ds=#w13#", "", "33.3%" };
-    { 47, 17739, "", "=q3=Grovekeeper's Drape", "=ds=#a1#", "", "33.3%" };
-    { 48, 17740, "", "=q3=Soothsayer's Headdress", "=ds=#a2#", "", "33.3%" };
+    { 5, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 6, 17745, "", "=q3=Noxious Shooter", "=ds=#w12#", "", "20.0%" };
+    { 7, 17744, "", "=q3=Heart of Noxxion", "=ds=#s14#", "", "50.0%" };
+    { 8, 17746, "", "=q3=Noxxion's Shackles", "=ds=#a4#", "", "50.0%" };
 	};
-	
-	AtlasLoot_Data["Maraudon2"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Landslide"], "" };
+
+	AtlasLoot_Data["MaraRazorlash"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 901700, "", "=q1=Razor Petal", "=ds=#m3#", "", "100%" };
+    { 3, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 4, 22529, "", "=q1=Savage Frond", "=ds=#m3#", "", "54.0%" };
+    { 6, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 7, 17748, "", "=q3=Vinerot Sandals", "=ds=#a1#", "", "25.0%" };
+    { 8, 17749, "", "=q3=Phytoskin Spaulders", "=ds=#a2#", "", "25.0%" };
+    { 9, 17750, "", "=q2=Chloromesh Girdle", "=ds=#a1#", "", "25.0%" };
+    { 10, 17751, "", "=q2=Brusslehide Leggings", "=ds=#a2#", "", "25.0%" };
+	};
+
+	AtlasLoot_Data["MaraVyletongue"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 17703, "", "=q1=Celebrian Diamond", "=ds=#m3#", "", "100%" };
+    { 3, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 5, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 6, 17752, "", "=q3=Satyr's Lash", "=ds=#w4#", "", "33.3%" };
+    { 7, 17754, "", "=q3=Infernal Trickster Leggings", "=ds=#a3#", "", "33.3%" };
+    { 8, 17755, "", "=q3=Satyrmane Sash", "=ds=#a1#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["MaraMeshlok"] = {
     { 2, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 4, 17734, "", "=q3=Helm of the Mountain", "=ds=#a4#", "", "25.0%" };
-    { 5, 17736, "", "=q3=Rockgrip Gauntlets", "=ds=#a3#", "", "25.0%" };
-    { 6, 17737, "", "=q3=Cloud Stone", "=ds=#s15#", "", "25.0%" };
-    { 7, 17943, "", "=q3=Fist of Stone", "=ds=#w6#", "", "25.0%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Tinkerer Gizlock"], "" };
-    { 10, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 12, 17717, "", "=q3=Megashot Rifle", "=ds=#w5#", "", "33.3%" };
-    { 13, 17718, "", "=q3=Gizlock's Hypertech Buckler", "=ds=#w8#", "", "33.3%" };
-    { 14, 17719, "", "=q3=Inventor's Focal Sword", "=ds=#w10#", "", "33.3%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Rotgrip"], "" };
-    { 17, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 19, 17730, "", "=q3=Gatorbite Axe", "=ds=#w1#", "", "20.0%" };
-    { 20, 17728, "", "=q3=Albino Crocscale Boots", "=ds=#a2#", "", "50.0%" };
-    { 21, 17732, "", "=q3=Rotgrip Mantle", "=ds=#a1#", "", "50.0%" };
-    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["Princess Theradras"], "" };
-    { 24, 901723, "", "=q1=Face of Theradras", "=ds=#m3#", "", "100%" };
-    { 25, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 26, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 17741, "", "=q3=Nature's Embrace", "=ds=#a1#", "", "33.3%" };
+    { 6, 17742, "", "=q3=Fungus Shroud Armor", "=ds=#a2#", "", "33.3%" };
+    { 7, 17767, "", "=q3=Bloomsprout Headpiece", "=ds=#a3#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["MaraCelebras"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 901701, "", "=q1=Carved Horn of Remulos", "=ds=#m3#", "", "100%" };
+    { 3, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
+    { 8, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 9, 17738, "", "=q3=Claw of Celebras", "=ds=#w13#", "", "33.3%" };
+    { 10, 17739, "", "=q3=Grovekeeper's Drape", "=ds=#a1#", "", "33.3%" };
+    { 11, 17740, "", "=q3=Soothsayer's Headdress", "=ds=#a2#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["MaraLandslide"] = {
+    { 2, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 17734, "", "=q3=Helm of the Mountain", "=ds=#a4#", "", "25.0%" };
+    { 6, 17736, "", "=q3=Rockgrip Gauntlets", "=ds=#a3#", "", "25.0%" };
+    { 7, 17737, "", "=q3=Cloud Stone", "=ds=#s15#", "", "25.0%" };
+    { 8, 17943, "", "=q3=Fist of Stone", "=ds=#w6#", "", "25.0%" };
+	};
+
+	AtlasLoot_Data["MaraGizlock"] = {
+    { 2, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 17717, "", "=q3=Megashot Rifle", "=ds=#w5#", "", "33.3%" };
+    { 6, 17718, "", "=q3=Gizlock's Hypertech Buckler", "=ds=#w8#", "", "33.3%" };
+    { 7, 17719, "", "=q3=Inventor's Focal Sword", "=ds=#w10#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["MaraRotgrip"] = {
+    { 2, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 17730, "", "=q3=Gatorbite Axe", "=ds=#w1#", "", "20.0%" };
+    { 6, 17728, "", "=q3=Albino Crocscale Boots", "=ds=#a2#", "", "50.0%" };
+    { 7, 17732, "", "=q3=Rotgrip Mantle", "=ds=#a1#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["MaraTheradras"] = {
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
+    { 2, 901746, "", "=q1=Face of Theradras", "=ds=#m3#", "", "100%" };
+    { 3, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
+    { 5, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 6, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
 	};
 
 		----------------------
@@ -2200,16 +2227,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		-------------------------
 
 	AtlasLoot_Data["SMHerod"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Guaranteed", "=q5=Always Drops"};
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Guaranteed", "=q5=Always Drops" };
     { 2, 901721, "", "=q1=Herod's War Banner", "=ds=#m3#", "", "100%" };
-    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Variable", "=q5=Chance on Drop"};
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - Variable", "=q5=Chance on Drop" };
     { 5, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - One of the following:", ""};
+    { 7, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"].." - One of the following:", "" };
     { 8, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
     { 9, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
     { 10, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
     { 11, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
-    { 13, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"].." - Variable", "=q5=Chance on Drop"};
+    { 13, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"].." - Variable", "=q5=Chance on Drop" };
     { 14, 23192, "", "=q1=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
 	};
 
@@ -2221,19 +2248,19 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SMCMograineWhitemane"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - Variable", "=q5=Chance on Drop"};
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - Variable", "=q5=Chance on Drop" };
     { 2, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - One of the following:", ""};
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"].." - One of the following:", "" };
     { 5, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
     { 6, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
     { 7, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
     { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Guaranteed", "=q5=Always Drops"};
+    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Guaranteed", "=q5=Always Drops" };
     { 17, 901722, "", "=q1=Whitemane's Prayer Book", "=ds=#m3#", "", "100%" };
-    { 19, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Variable", "=q5=Chance on Drop"};
+    { 19, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - Variable", "=q5=Chance on Drop" };
     { 20, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
     { 21, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
-    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - One of the following:", ""};
+    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"].." - One of the following:", "" };
     { 24, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
     { 25, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
     { 26, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
@@ -2396,12 +2423,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["VCSneed"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - Guaranteed", "=q5=Always Drops"};
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - Guaranteed", "=q5=Always Drops" };
     { 2, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
-    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - One of the following:", ""};
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"].." - One of the following:", "" };
     { 5, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
     { 6, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"].." - One of the following:", ""};
+    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"].." - One of the following:", "" };
     { 10, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
     { 11, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
 	};
