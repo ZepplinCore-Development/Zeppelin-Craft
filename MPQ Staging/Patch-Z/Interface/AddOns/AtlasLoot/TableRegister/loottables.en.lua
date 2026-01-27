@@ -845,8 +845,14 @@ end
 	AtlasLoot_TableNames["SCHOLOQuestItems"] = { AL["Quest Item"].." ("..BabbleZone["Scholomance"]..")", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["SCHOLOTrash"] = { AL["Trash Mobs"].." ("..BabbleZone["Scholomance"]..")", "AtlasLootOriginalWoW" };
   -- Shadowfang Keep
-	AtlasLoot_TableNames["ShadowfangKeep1"] = { BabbleZone["Shadowfang Keep"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["ShadowfangKeep2"] = { BabbleZone["Shadowfang Keep"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKDeathsworn"] = { BabbleBoss["Deathsworn Captain"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKRazorclaw"] = { BabbleBoss["Razorclaw the Butcher"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKSilverlaine"] = { BabbleBoss["Baron Silverlaine"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKSpringvale"] = { BabbleBoss["Commander Springvale"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKOdo"] = { BabbleBoss["Odo the Blindwatcher"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKFenrus"] = { BabbleBoss["Fenrus the Devourer"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKNandos"] = { BabbleBoss["Wolf Master Nandos"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["SFKArugal"] = { BabbleBoss["Archmage Arugal"], "AtlasLootOriginalWoW" };
   -- The Stockade
 	AtlasLoot_TableNames["TheStockade"] = { BabbleZone["The Stockade"], "AtlasLootOriginalWoW" };
   -- Stratholme

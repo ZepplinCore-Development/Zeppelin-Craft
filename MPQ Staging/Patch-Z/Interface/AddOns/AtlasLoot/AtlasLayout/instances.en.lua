@@ -1432,32 +1432,32 @@ AtlasLootNewBossButtons = {
         };
 
     ShadowfangKeep = {
+        "";                  -- A: Entrance
+        "";                  -- 1: Rethilgore (no loot)
+        "";                  -- 1: Sorcerer Ashcrombe (quest NPC)
+        "";                  -- 1: Deathstalker Adamant (quest NPC)
+        "";                  -- 1: Landen Stilwell (quest NPC)
+        "";                  -- 2: Investigator Fezzen (Love is in Air)
+        "";                  -- 3: Deathstalker Vincent (quest NPC)
+        "Valentineday3";     -- 4: Apothecary Trio (Love is in Air)
+        "";                  -- 4: Apothecary Hummel
+        "";                  -- 4: Apothecary Baxter
+        "";                  -- 4: Apothecary Frye
+        "";                  -- 5: Fel Steed (no loot)
+        "";                  -- 5: Jordan's Hammer (object)
+        "";                  -- 5: Crate of Ingots (object)
+        "SFKRazorclaw";      -- 6: Razorclaw the Butcher
+        "SFKSilverlaine";    -- 7: Baron Silverlaine
+        "SFKSpringvale";     -- 8: Commander Springvale
+        "SFKOdo";            -- 9: Odo the Blindwatcher
+        "SFKDeathsworn";     -- 10: Deathsworn Captain (rare)
+        "SFKFenrus";         -- 11: Fenrus the Devourer
+        "";                  -- 11: Arugal's Voidwalker
+        "";                  -- 11: The Book of Ur (object)
+        "SFKNandos";         -- 12: Wolf Master Nandos
+        "SFKArugal";         -- 13: Archmage Arugal
         "";
-        "ShadowfangKeep1";
         "";
-        "";
-        "";
-        "";
-        "";
-        "Valentineday3";
-        "";
-        "";
-        "";
-        "ShadowfangKeep1";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "";
-        "ShadowfangKeep2";
         };
 
     SMArmory = {
@@ -3236,32 +3236,32 @@ AtlasLootBossButtons = {
         };
 
     ShadowfangKeep = {
+        "";                  -- A: Entrance
+        "";                  -- 1: Rethilgore (no loot)
+        "";                  -- 1: Sorcerer Ashcrombe (quest NPC)
+        "";                  -- 1: Deathstalker Adamant (quest NPC)
+        "";                  -- 1: Landen Stilwell (quest NPC)
+        "";                  -- 2: Investigator Fezzen (Love is in Air)
+        "";                  -- 3: Deathstalker Vincent (quest NPC)
+        "Valentineday3";     -- 4: Apothecary Trio (Love is in Air)
+        "";                  -- 4: Apothecary Hummel
+        "";                  -- 4: Apothecary Baxter
+        "";                  -- 4: Apothecary Frye
+        "";                  -- 5: Fel Steed (no loot)
+        "";                  -- 5: Jordan's Hammer (object)
+        "";                  -- 5: Crate of Ingots (object)
+        "SFKRazorclaw";      -- 6: Razorclaw the Butcher
+        "SFKSilverlaine";    -- 7: Baron Silverlaine
+        "SFKSpringvale";     -- 8: Commander Springvale
+        "SFKOdo";            -- 9: Odo the Blindwatcher
+        "SFKDeathsworn";     -- 10: Deathsworn Captain (rare)
+        "SFKFenrus";         -- 11: Fenrus the Devourer
+        "";                  -- 11: Arugal's Voidwalker
+        "";                  -- 11: The Book of Ur (object)
+        "SFKNandos";         -- 12: Wolf Master Nandos
+        "SFKArugal";         -- 13: Archmage Arugal
         "";
-        "ShadowfangKeep1";
         "";
-        "";
-        "";
-        "";
-        "";
-        "Valentineday3";
-        "";
-        "";
-        "";
-        "ShadowfangKeep1";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep1";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "ShadowfangKeep2";
-        "";
-        "ShadowfangKeep2";
         };
 
     SMArmory = {

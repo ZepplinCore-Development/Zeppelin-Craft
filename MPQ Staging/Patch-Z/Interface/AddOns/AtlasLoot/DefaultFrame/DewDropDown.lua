@@ -68,7 +68,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Scholomance"], "Scholomance", "Submenu" },
 			},
 			[17] = {
-				{ BabbleZone["Shadowfang Keep"], "ShadowfangKeep1", "Table" },
+				{ BabbleZone["Shadowfang Keep"], "ShadowfangKeep", "Submenu" },
 			},
 			[18] = {
 				{ BabbleZone["The Stockade"], "TheStockade", "Table" },
@@ -562,6 +562,16 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ BabbleBoss["Blind Hunter"], "RFKBlindHunter" },
 		{ BabbleBoss["Charlga Razorflank"], "RFKCharlga" },
 		{ BabbleBoss["Earthcaller Halmgar"], "RFKHalmgar" },
+	},
+	["ShadowfangKeep"] = {
+		{ BabbleBoss["Deathsworn Captain"], "SFKDeathsworn" },
+		{ BabbleBoss["Razorclaw the Butcher"], "SFKRazorclaw" },
+		{ BabbleBoss["Baron Silverlaine"], "SFKSilverlaine" },
+		{ BabbleBoss["Commander Springvale"], "SFKSpringvale" },
+		{ BabbleBoss["Odo the Blindwatcher"], "SFKOdo" },
+		{ BabbleBoss["Fenrus the Devourer"], "SFKFenrus" },
+		{ BabbleBoss["Wolf Master Nandos"], "SFKNandos" },
+		{ BabbleBoss["Archmage Arugal"], "SFKArugal" },
 	},
 	["DireMaulEast"] = {
 		{ BabbleBoss["Pusillin"], "DMEPusillin" },

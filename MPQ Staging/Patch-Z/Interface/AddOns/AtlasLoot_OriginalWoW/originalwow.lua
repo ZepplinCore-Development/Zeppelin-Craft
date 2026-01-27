@@ -2222,47 +2222,50 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		----------------------
 		
 	AtlasLoot_Data["RFKJargba"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Death Speaker Jargba"], "" };
-    { 2, 6682, "", "=q2=Death Speaker Robes", "=ds=#a1#", "", "40.0%" };
-    { 3, 6685, "", "=q2=Death Speaker Mantle", "=ds=#a1#", "", "40.0%" };
-    { 4, 2816, "", "=q3=Death Speaker Scepter", "=ds=#w6#", "", "20.0%" };
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 6682, "", "=q2=Death Speaker Robes", "=ds=#a1#", "", "40.0%" };
+    { 4, 6685, "", "=q2=Death Speaker Mantle", "=ds=#a1#", "", "40.0%" };
+    { 5, 2816, "", "=q3=Death Speaker Scepter", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFKRamtusk"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Overlord Ramtusk"], "" };
+    { 1, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
     { 2, 57477, "", "=q2=Technique: Scroll of Nature Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 6686, "", "=q2=Tusken Helm", "=ds=#a3#", "", "60.0%" };
-    { 5, 6687, "", "=q3=Corpsemaker", "=ds=#w1#", "", "40.0%" };
+    { 4, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 5, 6686, "", "=q2=Tusken Helm", "=ds=#a3#", "", "60.0%" };
+    { 6, 6687, "", "=q3=Corpsemaker", "=ds=#w1#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["RFKAgathelos"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Agathelos the Raging"], "" };
-    { 2, 6690, "", "=q2=Ferine Leggings", "=ds=#a2#", "", "60.0%" };
-    { 3, 6691, "", "=q3=Swinetusk Shank", "=ds=#w4#", "", "40.0%" };
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 6690, "", "=q2=Ferine Leggings", "=ds=#a2#", "", "60.0%" };
+    { 4, 6691, "", "=q3=Swinetusk Shank", "=ds=#w4#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["RFKBlindHunter"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Blind Hunter"], "" };
-    { 2, 6695, "", "=q3=Stygian Bone Amulet", "=ds=#s2#", "", "33.3%" };
-    { 3, 6696, "", "=q3=Nightstalker Bow", "=ds=#w2#", "", "33.3%" };
-    { 4, 6697, "", "=q3=Batwing Mantle", "=ds=#a1#", "", "33.3%" };
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 6695, "", "=q3=Stygian Bone Amulet", "=ds=#s2#", "", "33.3%" };
+    { 4, 6696, "", "=q3=Nightstalker Bow", "=ds=#w2#", "", "33.3%" };
+    { 5, 6697, "", "=q3=Batwing Mantle", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["RFKCharlga"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Charlga Razorflank"], "" };
+    { 1, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
     { 2, 5792, "", "=q1=Razorflank's Medallion", "=ds=#m3#", "", "100%" };
     { 3, 5793, "", "=q1=Razorflank's Heart", "=ds=#m3#", "", "100%" };
     { 4, 901704, "", "=q1=Gauntlets of Growth", "=ds=#m3#", "", "100%" };
-    { 5, 57477, "", "=q2=Technique: Scroll of Nature Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 7, 6693, "", "=q3=Agamaggan's Clutch", "=ds=#s13#", "", "40.0%" };
-    { 8, 6694, "", "=q3=Heart of Agamaggan", "=ds=#w8#", "", "40.0%" };
-    { 9, 6692, "", "=q3=Pronged Reaver", "=ds=#w1#", "", "20.0%" };
+    { 6, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
+    { 7, 57477, "", "=q2=Technique: Scroll of Nature Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 9, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 10, 6693, "", "=q3=Agamaggan's Clutch", "=ds=#s13#", "", "40.0%" };
+    { 11, 6694, "", "=q3=Heart of Agamaggan", "=ds=#w8#", "", "40.0%" };
+    { 12, 6692, "", "=q3=Pronged Reaver", "=ds=#w1#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFKHalmgar"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Earthcaller Halmgar"], "" };
-    { 2, 6688, "", "=q2=Whisperwind Headdress", "=ds=#a2#", "", "50.0%" };
-    { 3, 6689, "", "=q3=Wind Spirit Staff", "=ds=#w9#", "", "50.0%" };
+    { 2, 0, "INV_Box_01", "=q6=One of the following:", "" };
+    { 3, 6688, "", "=q2=Whisperwind Headdress", "=ds=#a2#", "", "50.0%" };
+    { 4, 6689, "", "=q3=Wind Spirit Staff", "=ds=#w9#", "", "50.0%" };
 	};
 
 		-------------------------
@@ -2692,42 +2695,60 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		--- Shadowfang Keep ---
 		-----------------------
 
-	AtlasLoot_Data["ShadowfangKeep1"] = {
+	AtlasLoot_Data["SFKDeathsworn"] = {
     { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Deathsworn Captain"], "" };
     { 2, 6641, "", "=q2=Haunting Blade", "=ds=#w10#", "", "60.0%" };
     { 3, 6642, "", "=q3=Phantom Armor", "=ds=#a3#", "", "40.0%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Razorclaw the Butcher"], "" };
-    { 6, 6226, "", "=q2=Bloody Apron", "=ds=#a1#", "", "45.0%" };
-    { 7, 6633, "", "=q2=Butcher's Slicer", "=ds=#w10#", "", "45.0%" };
-    { 8, 1292, "", "=q3=Butcher's Cleaver", "=ds=#w1#", "", "10.0%" };
-    { 10, 0, "INV_Box_01", "=q6="..BabbleBoss["Baron Silverlaine"], "" };
-    { 11, 57461, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 13, 6323, "", "=q2=Baron's Scepter", "=ds=#w6#", "", "70.0%" };
-    { 14, 6321, "", "=q3=Silverlaine's Family Seal", "=ds=#s13#", "", "30.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Commander Springvale"], "" };
-    { 17, 57481, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 19, 3191, "", "=q2=Arced War Axe", "=ds=#w1#", "", "50.0%" };
-    { 20, 6320, "", "=q3=Commander's Crest", "=ds=#w8#", "", "50.0%" };
-    { 22, 0, "INV_Box_01", "=q6="..BabbleBoss["Odo the Blindwatcher"], "" };
-    { 23, 6319, "", "=q2=Girdle of the Blindwatcher", "=ds=#a2#", "", "60.0%" };
-    { 24, 6318, "", "=q3=Odo's Ley Staff", "=ds=#w9#", "", "40.0%" };
-    { 26, 0, "INV_Box_01", "=q6="..BabbleBoss["Fenrus the Devourer"], "" };
-    { 27, 6340, "", "=q2=Fenrus' Hide", "=ds=#a1#", "", "70.0%" };
-    { 28, 3230, "", "=q2=Black Wolf Bracers", "=ds=#a2#", "", "30.0%" };
 	};
-	
-	AtlasLoot_Data["ShadowfangKeep2"] = {
+
+	AtlasLoot_Data["SFKRazorclaw"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Razorclaw the Butcher"], "" };
+    { 2, 6226, "", "=q2=Bloody Apron", "=ds=#a1#", "", "45.0%" };
+    { 3, 6633, "", "=q2=Butcher's Slicer", "=ds=#w10#", "", "45.0%" };
+    { 4, 1292, "", "=q3=Butcher's Cleaver", "=ds=#w1#", "", "10.0%" };
+	};
+
+	AtlasLoot_Data["SFKSilverlaine"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Baron Silverlaine"], "" };
+    { 2, 57461, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 4, 6323, "", "=q2=Baron's Scepter", "=ds=#w6#", "", "70.0%" };
+    { 5, 6321, "", "=q3=Silverlaine's Family Seal", "=ds=#s13#", "", "30.0%" };
+	};
+
+	AtlasLoot_Data["SFKSpringvale"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Commander Springvale"], "" };
+    { 2, 57481, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 4, 3191, "", "=q2=Arced War Axe", "=ds=#w1#", "", "50.0%" };
+    { 5, 6320, "", "=q3=Commander's Crest", "=ds=#w8#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["SFKOdo"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Odo the Blindwatcher"], "" };
+    { 2, 6319, "", "=q2=Girdle of the Blindwatcher", "=ds=#a2#", "", "60.0%" };
+    { 3, 6318, "", "=q3=Odo's Ley Staff", "=ds=#w9#", "", "40.0%" };
+	};
+
+	AtlasLoot_Data["SFKFenrus"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Fenrus the Devourer"], "" };
+    { 2, 6340, "", "=q2=Fenrus' Hide", "=ds=#a1#", "", "70.0%" };
+    { 3, 3230, "", "=q2=Black Wolf Bracers", "=ds=#a2#", "", "30.0%" };
+	};
+
+	AtlasLoot_Data["SFKNandos"] = {
     { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Wolf Master Nandos"], "" };
     { 2, 3748, "", "=q3=Feline Mantle", "=ds=#a1#", "", "60.0%" };
     { 3, 6314, "", "=q2=Wolfmaster Cape", "=ds=#a1#", "", "40.0%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Archmage Arugal"], "" };
-    { 6, 5442, "", "=q1=Head of Arugal", "=ds=#m3#", "", "100%" };
-    { 7, 901703, "", "=q1=Fangfire Amulet", "=ds=#m3#", "", "100%" };
-    { 8, 57466, "", "=q2=Technique: Scroll of Arcane Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 9, 57471, "", "=q2=Technique: Scroll of Shadow Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 11, 6324, "", "=q3=Robes of Arugal", "=ds=#a1#", "", "40.0%" };
-    { 12, 6392, "", "=q3=Belt of Arugal", "=ds=#a1#", "", "40.0%" };
-    { 13, 6220, "", "=q3=Meteor Shard", "=ds=#w4#", "", "20.0%" };
+	};
+
+	AtlasLoot_Data["SFKArugal"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Archmage Arugal"], "" };
+    { 2, 5442, "", "=q1=Head of Arugal", "=ds=#m3#", "", "100%" };
+    { 3, 901703, "", "=q1=Fangfire Amulet", "=ds=#m3#", "", "100%" };
+    { 4, 57466, "", "=q2=Technique: Scroll of Arcane Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 5, 57471, "", "=q2=Technique: Scroll of Shadow Resistance II", "=ds=#e2#", "", "15.0%" };
+    { 7, 6324, "", "=q3=Robes of Arugal", "=ds=#a1#", "", "40.0%" };
+    { 8, 6392, "", "=q3=Belt of Arugal", "=ds=#a1#", "", "40.0%" };
+    { 9, 6220, "", "=q3=Meteor Shard", "=ds=#w4#", "", "20.0%" };
 	};
 
 		------------------
