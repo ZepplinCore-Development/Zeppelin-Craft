@@ -18,8 +18,8 @@ $speed2=${$m2+($pl-20)*2+$<crop5>}';
 DELETE FROM `dbc`.`spelldescriptionvariables` WHERE `ID` = 183;
 INSERT INTO `dbc`.`spelldescriptionvariables` SET 
     `ID` = 183,
-    `Formula` = '$mortar=$?a91203[${1.25}][$?a91202[${1.20}][$?a91201[${1.15}][$?a91200[${1.10}][${1}]]]]
-$stone=$?a17619[${1.4}][${1}]
+    `Formula` = '$mortar=$?a91203[${1+0.01*($91203m2+1)}][$?a91202[${1+0.01*($91202m2+1)}][$?a91201[${1+0.01*($91201m2+1)}][$?a91200[${1+0.01*($91200m2+1)}][${1}]]]]
+$stone=$?a17619[${1+0.01*($17619m1+1)}][${1}]
 $m=${$<mortar>*$<stone>}
 $potion1=${$s1*$<m>}
 $potion2=${$s2*$<m>}';
