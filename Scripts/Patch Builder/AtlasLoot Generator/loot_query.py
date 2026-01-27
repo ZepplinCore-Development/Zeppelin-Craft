@@ -265,8 +265,10 @@ class LootDatabase:
         """
         Resolve reference loot tables for a creature.
 
-        Only includes references with Chance >= 100 (guaranteed roll) or
-        Chance = 0 with GroupId = 0 (always included).
+        Includes references that are:
+        - Guaranteed rolls (Chance >= 100)
+        - Always included (Chance = 0 with GroupId = 0)
+        - Boss loot pools (GroupId > 0 with any Chance > 0)
 
         Args:
             creature_id: Creature entry ID
@@ -277,13 +279,16 @@ class LootDatabase:
         if not self.connection:
             return []
 
-        # Find references with high drop chance (meaningful loot tables)
+        # Find meaningful references:
+        # - Chance >= 100: guaranteed roll
+        # - Chance = 0 AND GroupId = 0: always included
+        # - GroupId > 0: boss loot pool (one item from group)
         ref_query = """
             SELECT Reference, Chance, GroupId
             FROM creature_loot_template
             WHERE Entry = %s
               AND Reference > 0
-              AND (Chance >= 100 OR (Chance = 0 AND GroupId = 0))
+              AND (Chance >= 100 OR (Chance = 0 AND GroupId = 0) OR GroupId > 0)
         """
 
         try:
@@ -295,10 +300,17 @@ class LootDatabase:
             if not references:
                 return []
 
-            # Deduplicate reference IDs - same reference table may be referenced
-            # multiple times with different GroupIds (e.g., for multiple loot rolls)
-            unique_ref_ids = list(set(ref['Reference'] for ref in references))
-            unique_ref_ids.sort()  # Sort for consistent ordering
+            # Build a map of reference_id -> highest Chance value
+            # Same reference may appear multiple times; use highest Chance for compound calc
+            ref_chances = {}
+            for ref in references:
+                ref_id = ref['Reference']
+                chance = ref['Chance']
+                if ref_id not in ref_chances or chance > ref_chances[ref_id]:
+                    ref_chances[ref_id] = chance
+
+            # Sort for consistent ordering
+            unique_ref_ids = sorted(ref_chances.keys())
 
             # Resolve each unique reference table once
             # Use base offset per reference to preserve internal GroupId structure
@@ -308,7 +320,8 @@ class LootDatabase:
                 # Base offset for this reference (1000, 2000, 3000, etc.)
                 # Internal GroupIds are added to this base to preserve structure
                 base_group_offset = (idx + 1) * 1000
-                ref_items = self._get_reference_items(ref_id, base_group_offset)
+                reference_chance = ref_chances[ref_id]
+                ref_items = self._get_reference_items(ref_id, base_group_offset, reference_chance)
                 all_ref_items.extend(ref_items)
 
             return all_ref_items
@@ -317,7 +330,8 @@ class LootDatabase:
             print(f"Reference query error: {err}")
             return []
 
-    def _get_reference_items(self, reference_id: int, base_group_offset: int = None) -> List[Dict]:
+    def _get_reference_items(self, reference_id: int, base_group_offset: int = None,
+                             reference_chance: float = 100.0) -> List[Dict]:
         """
         Get all items from a reference loot table with properly calculated drop rates.
 
@@ -325,6 +339,7 @@ class LootDatabase:
         - GroupId > 0: Only ONE item from the group drops
         - Chance = 0 in a group: Equal-chanced, shares remaining probability
         - Items with explicit Chance values take priority
+        - Final drop_chance is compounded with reference_chance
 
         Args:
             reference_id: Reference loot table ID
@@ -332,6 +347,8 @@ class LootDatabase:
                               unique output group_ids. This preserves internal group structure
                               while avoiding collisions between different reference tables.
                               Example: base=1000, internal GroupId=2 -> output group_id=1002
+            reference_chance: The chance to roll on this reference table (from creature_loot_template).
+                             Used to calculate compound probability. Default 100.0 (guaranteed).
 
         Returns:
             List of loot items from the reference table with calculated drop_chance
@@ -397,6 +414,12 @@ class LootDatabase:
 
                         for item in zero_chance_items:
                             item['drop_chance'] = equal_share
+
+            # Apply compound probability: internal_chance * reference_roll_chance
+            # Example: 12.5% internal * 40% reference roll = 5% effective drop rate
+            if reference_chance < 100.0:
+                for item in all_items:
+                    item['drop_chance'] = item['drop_chance'] * (reference_chance / 100.0)
 
             # Filter to meaningful items only (after calculating chances)
             # For reference loot (boss gear pools), only show rare+ quality
