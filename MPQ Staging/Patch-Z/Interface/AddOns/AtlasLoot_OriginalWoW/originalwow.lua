@@ -2166,27 +2166,36 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		--- Razorfen Downs ---
 		----------------------
 		
-	AtlasLoot_Data["RazorfenDowns1"] = {
+	AtlasLoot_Data["RFDTutenkash"] = {
     { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Tuten'kash"], "" };
     { 2, 57472, "", "=q2=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
     { 4, 10775, "", "=q3=Carapace of Tuten'kash", "=ds=#a4#", "", "33.3%" };
     { 5, 10776, "", "=q3=Silky Spider Cape", "=ds=#a1#", "", "33.3%" };
     { 6, 10777, "", "=q3=Arachnid Gloves", "=ds=#a2#", "", "33.3%" };
-    { 8, 0, "INV_Box_01", "=q6="..BabbleBoss["Mordresh Fire Eye"], "" };
-    { 9, 57472, "", "=q2=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 11, 10769, "", "=q3=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
-    { 12, 10770, "", "=q3=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
-    { 13, 10771, "", "=q3=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Glutton"], "" };
-    { 17, 10772, "", "=q2=Glutton's Cleaver", "=ds=#w1#", "", "50.0%" };
-    { 18, 10774, "", "=q3=Fleshhide Shoulders", "=ds=#a2#", "", "50.0%" };
-    { 20, 0, "INV_Box_01", "=q6="..BabbleBoss["Ragglesnout"], "" };
-    { 21, 10758, "", "=q3=X'caliboar", "=ds=#w10#", "", "20.0%" };
-    { 22, 10767, "", "=q3=Savage Boar's Guard", "=ds=#w8#", "", "50.0%" };
-    { 23, 10768, "", "=q3=Boar Champion's Belt", "=ds=#a3#", "", "50.0%" };
 	};
 
-	AtlasLoot_Data["RazorfenDowns2"] = {
+	AtlasLoot_Data["RFDMordresh"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Mordresh Fire Eye"], "" };
+    { 2, 57472, "", "=q2=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 4, 10769, "", "=q3=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
+    { 5, 10770, "", "=q3=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
+    { 6, 10771, "", "=q3=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
+	};
+
+	AtlasLoot_Data["RFDGlutton"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Glutton"], "" };
+    { 2, 10772, "", "=q2=Glutton's Cleaver", "=ds=#w1#", "", "50.0%" };
+    { 3, 10774, "", "=q3=Fleshhide Shoulders", "=ds=#a2#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["RFDRagglesnout"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Ragglesnout"], "" };
+    { 2, 10758, "", "=q3=X'caliboar", "=ds=#w10#", "", "20.0%" };
+    { 3, 10767, "", "=q3=Savage Boar's Guard", "=ds=#w8#", "", "50.0%" };
+    { 4, 10768, "", "=q3=Boar Champion's Belt", "=ds=#a3#", "", "50.0%" };
+	};
+
+	AtlasLoot_Data["RFDAmnennar"] = {
     { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Amnennar the Coldbringer"], "" };
     { 2, 10420, "", "=q1=Skull of the Coldbringer", "=ds=#m3#", "", "100%" };
     { 3, 901705, "", "=q1=Frozen Bone", "=ds=#m3#", "", "100%" };
@@ -2196,9 +2205,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 8, 10763, "", "=q3=Icemetal Barbute", "=ds=#a4#", "", "20.0%" };
     { 9, 10764, "", "=q3=Deathchill Armor", "=ds=#a3#", "", "20.0%" };
     { 10, 10765, "", "=q2=Bonefingers", "=ds=#a2#", "", "20.0%" };
-    { 12, 0, "INV_Box_01", "=q6="..BabbleBoss["Plaguemaw the Rotting"], "" };
-    { 13, 10760, "", "=q2=Swine Fists", "=ds=#a2#", "", "60.0%" };
-    { 14, 10766, "", "=q3=Plaguerot Sprig", "=ds=#w12#", "", "40.0%" };
+	};
+
+	AtlasLoot_Data["RFDPlaguemaw"] = {
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Plaguemaw the Rotting"], "" };
+    { 2, 10760, "", "=q2=Swine Fists", "=ds=#a2#", "", "60.0%" };
+    { 3, 10766, "", "=q3=Plaguerot Sprig", "=ds=#w12#", "", "40.0%" };
 	};
 
 		----------------------

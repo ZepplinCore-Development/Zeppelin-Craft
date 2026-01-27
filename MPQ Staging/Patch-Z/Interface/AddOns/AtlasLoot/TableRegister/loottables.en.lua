@@ -790,8 +790,12 @@ end
 	AtlasLoot_TableNames["RFCTaragaman"] = { BabbleBoss["Taragaman the Hungerer"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["RFCJergosh"] = { BabbleBoss["Jergosh the Invoker"], "AtlasLootOriginalWoW" };
   -- Razorfen Downs
-	AtlasLoot_TableNames["RazorfenDowns1"] = { BabbleZone["Razorfen Downs"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["RazorfenDowns2"] = { BabbleZone["Razorfen Downs"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDTutenkash"] = { BabbleBoss["Tuten'kash"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDMordresh"] = { BabbleBoss["Mordresh Fire Eye"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDGlutton"] = { BabbleBoss["Glutton"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDRagglesnout"] = { BabbleBoss["Ragglesnout"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDAmnennar"] = { BabbleBoss["Amnennar the Coldbringer"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFDPlaguemaw"] = { BabbleBoss["Plaguemaw the Rotting"], "AtlasLootOriginalWoW" };
   -- Razorfen Kraul
 	AtlasLoot_TableNames["RazorfenKraul1"] = { BabbleZone["Razorfen Kraul"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["RazorfenKraul2"] = { BabbleZone["Razorfen Kraul"], "AtlasLootOriginalWoW" };

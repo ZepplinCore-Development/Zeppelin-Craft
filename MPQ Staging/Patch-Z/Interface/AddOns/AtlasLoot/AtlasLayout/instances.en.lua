@@ -1359,18 +1359,18 @@ AtlasLootNewBossButtons = {
         };
 
     RazorfenDowns = {
+        "";                  -- A: Entrance
+        "RFDTutenkash";      -- 1: Tuten'kash
+        "";                  -- 2: Henry Stern (quest NPC)
+        "";                  -- 2: Belnistrasz (quest NPC)
+        "";                  -- 2: Sah'rhee (quest NPC)
+        "RFDMordresh";       -- 3: Mordresh Fire Eye
+        "RFDGlutton";        -- 4: Glutton
+        "RFDRagglesnout";    -- 5: Ragglesnout (rare)
+        "RFDAmnennar";       -- 6: Amnennar the Coldbringer
+        "RFDPlaguemaw";      -- 7: Plaguemaw the Rotting
         "";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
         "";
-        "";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
-        "RazorfenDowns2";
-        "RazorfenDowns2";
-        "";
-        "RazorfenDowns2";
         };
 
     RazorfenKraul = {
@@ -3163,18 +3163,18 @@ AtlasLootBossButtons = {
         };
 
     RazorfenDowns = {
+        "";                  -- A: Entrance
+        "RFDTutenkash";      -- 1: Tuten'kash
+        "";                  -- 2: Henry Stern (quest NPC)
+        "";                  -- 2: Belnistrasz (quest NPC)
+        "";                  -- 2: Sah'rhee (quest NPC)
+        "RFDMordresh";       -- 3: Mordresh Fire Eye
+        "RFDGlutton";        -- 4: Glutton
+        "RFDRagglesnout";    -- 5: Ragglesnout (rare)
+        "RFDAmnennar";       -- 6: Amnennar the Coldbringer
+        "RFDPlaguemaw";      -- 7: Plaguemaw the Rotting
         "";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
         "";
-        "";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
-        "RazorfenDowns1";
-        "RazorfenDowns2";
-        "RazorfenDowns2";
-        "";
-        "RazorfenDowns2";
         };
 
     RazorfenKraul = {

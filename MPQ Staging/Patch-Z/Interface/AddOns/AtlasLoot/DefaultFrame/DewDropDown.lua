@@ -53,7 +53,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Ragefire Chasm"], "RagefireChasm", "Submenu" },
 			},
 			[12] = {
-				{ BabbleZone["Razorfen Downs"], "RazorfenDowns1", "Table" },
+				{ BabbleZone["Razorfen Downs"], "RazorfenDowns", "Submenu" },
 			},
 			[13] = {
 				{ BabbleZone["Razorfen Kraul"], "RazorfenKraul1", "Table" },
@@ -546,6 +546,14 @@ AtlasLoot_DewDropDown_SubTables = {
 	["RagefireChasm"] = {
 		{ BabbleBoss["Taragaman the Hungerer"], "RFCTaragaman" },
 		{ BabbleBoss["Jergosh the Invoker"], "RFCJergosh" },
+	},
+	["RazorfenDowns"] = {
+		{ BabbleBoss["Tuten'kash"], "RFDTutenkash" },
+		{ BabbleBoss["Mordresh Fire Eye"], "RFDMordresh" },
+		{ BabbleBoss["Glutton"], "RFDGlutton" },
+		{ BabbleBoss["Ragglesnout"], "RFDRagglesnout" },
+		{ BabbleBoss["Amnennar the Coldbringer"], "RFDAmnennar" },
+		{ BabbleBoss["Plaguemaw the Rotting"], "RFDPlaguemaw" },
 	},
 	["DireMaulEast"] = {
 		{ BabbleBoss["Pusillin"], "DMEPusillin" },
