@@ -12160,7 +12160,7 @@ WHERE `ID` = 44970;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and mana. Sometimes has side effects.' /* was 'Restores $s1 mana and health.  Sometimes has side effects.' */,
+    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana. Sometimes has side effects.' /* was 'Restores $s1 mana and health.  Sometimes has side effects.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 45051;
