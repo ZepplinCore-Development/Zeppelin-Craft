@@ -797,8 +797,12 @@ end
 	AtlasLoot_TableNames["RFDAmnennar"] = { BabbleBoss["Amnennar the Coldbringer"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["RFDPlaguemaw"] = { BabbleBoss["Plaguemaw the Rotting"], "AtlasLootOriginalWoW" };
   -- Razorfen Kraul
-	AtlasLoot_TableNames["RazorfenKraul1"] = { BabbleZone["Razorfen Kraul"], "AtlasLootOriginalWoW" };
-	AtlasLoot_TableNames["RazorfenKraul2"] = { BabbleZone["Razorfen Kraul"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKJargba"] = { BabbleBoss["Death Speaker Jargba"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKRamtusk"] = { BabbleBoss["Overlord Ramtusk"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKAgathelos"] = { BabbleBoss["Agathelos the Raging"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKBlindHunter"] = { BabbleBoss["Blind Hunter"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKCharlga"] = { BabbleBoss["Charlga Razorflank"], "AtlasLootOriginalWoW" };
+	AtlasLoot_TableNames["RFKHalmgar"] = { BabbleBoss["Earthcaller Halmgar"], "AtlasLootOriginalWoW" };
   -- The Ruins of Ahn'Qiraj
 	AtlasLoot_TableNames["AQ20Kurinnaxx"] = { BabbleBoss["Kurinnaxx"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["AQ20Rajaxx"] = { BabbleBoss["General Rajaxx"], "AtlasLootOriginalWoW" };

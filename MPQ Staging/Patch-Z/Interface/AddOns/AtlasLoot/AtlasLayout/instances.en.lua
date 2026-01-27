@@ -1374,20 +1374,20 @@ AtlasLootNewBossButtons = {
         };
 
     RazorfenKraul = {
+        "";                  -- A: Entrance
+        "";                  -- 1: Roogug (no loot)
+        "";                  -- 2: Aggem Thorncurse (no loot)
+        "RFKJargba";         -- 3: Death Speaker Jargba
+        "RFKRamtusk";        -- 4: Overlord Ramtusk
+        "";                  -- 4: Razorfen Spearhide (no loot)
+        "RFKAgathelos";      -- 5: Agathelos the Raging
+        "RFKBlindHunter";    -- 6: Blind Hunter (rare)
+        "RFKCharlga";        -- 7: Charlga Razorflank
+        "";                  -- 8: Willix the Importer (quest NPC)
+        "";                  -- 8: Heralath Fallowbrook (quest NPC)
         "";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul2";
         "";
-        "";
-        "RazorfenKraul2";
-        "";
-        "RazorfenKraul2";
+        "RFKHalmgar";        -- 9: Earthcaller Halmgar (rare)
         };
 
     Scholomance = {
@@ -3178,20 +3178,20 @@ AtlasLootBossButtons = {
         };
 
     RazorfenKraul = {
+        "";                  -- A: Entrance
+        "";                  -- 1: Roogug (no loot)
+        "";                  -- 2: Aggem Thorncurse (no loot)
+        "RFKJargba";         -- 3: Death Speaker Jargba
+        "RFKRamtusk";        -- 4: Overlord Ramtusk
+        "";                  -- 4: Razorfen Spearhide (no loot)
+        "RFKAgathelos";      -- 5: Agathelos the Raging
+        "RFKBlindHunter";    -- 6: Blind Hunter (rare)
+        "RFKCharlga";        -- 7: Charlga Razorflank
+        "";                  -- 8: Willix the Importer (quest NPC)
+        "";                  -- 8: Heralath Fallowbrook (quest NPC)
         "";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul1";
-        "RazorfenKraul2";
         "";
-        "";
-        "RazorfenKraul2";
-        "";
-        "RazorfenKraul2";
+        "RFKHalmgar";        -- 9: Earthcaller Halmgar (rare)
         };
 
     Scholomance = {

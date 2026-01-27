@@ -56,7 +56,7 @@ AtlasLoot_DewDropDown = {
 				{ BabbleZone["Razorfen Downs"], "RazorfenDowns", "Submenu" },
 			},
 			[13] = {
-				{ BabbleZone["Razorfen Kraul"], "RazorfenKraul1", "Table" },
+				{ BabbleZone["Razorfen Kraul"], "RazorfenKraul", "Submenu" },
 			},
 			[14] = {
 				{ BabbleZone["Ruins of Ahn'Qiraj"], "RuinsofAQ", "Submenu" },
@@ -554,6 +554,14 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ BabbleBoss["Ragglesnout"], "RFDRagglesnout" },
 		{ BabbleBoss["Amnennar the Coldbringer"], "RFDAmnennar" },
 		{ BabbleBoss["Plaguemaw the Rotting"], "RFDPlaguemaw" },
+	},
+	["RazorfenKraul"] = {
+		{ BabbleBoss["Death Speaker Jargba"], "RFKJargba" },
+		{ BabbleBoss["Overlord Ramtusk"], "RFKRamtusk" },
+		{ BabbleBoss["Agathelos the Raging"], "RFKAgathelos" },
+		{ BabbleBoss["Blind Hunter"], "RFKBlindHunter" },
+		{ BabbleBoss["Charlga Razorflank"], "RFKCharlga" },
+		{ BabbleBoss["Earthcaller Halmgar"], "RFKHalmgar" },
 	},
 	["DireMaulEast"] = {
 		{ BabbleBoss["Pusillin"], "DMEPusillin" },
