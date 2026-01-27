@@ -2273,21 +2273,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		-------------------------
 
 	AtlasLoot_Data["SMHerod"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "" };
-    { 2, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
-    { 3, 901721, "", "=q1=Herod's War Banner", "=ds=#m3#", "", "100%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "" };
-    { 6, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
-    { 7, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "" };
-    { 10, 0, "INV_Box_01", "=q6=One of the following:", "=q5=" };
-    { 11, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
-    { 12, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
-    { 13, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
-    { 14, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"], "" };
-    { 17, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
-    { 18, 23192, "", "=q1=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "=q5=Guaranteed - Always Drops" };
+    { 2, 901721, "", "=q1=Herod's War Banner", "=ds=#m3#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "=q5=Variable - Chance on Drop" };
+    { 5, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 7, 0, "INV_Box_01", "=q6="..BabbleBoss["Herod"], "=q5=One of the following:" };
+    { 8, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
+    { 9, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
+    { 10, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
+    { 11, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
+    { 13, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Trainee"], "=q5=Variable - Chance on Drop" };
+    { 14, 23192, "", "=q1=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
 	};
 
 	AtlasLoot_Data["SMCFairbanks"] = {
@@ -2298,27 +2294,22 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SMCMograineWhitemane"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"], "" };
-    { 2, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
-    { 3, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"], "" };
-    { 6, 0, "INV_Box_01", "=q6=One of the following:", "=q5=" };
-    { 7, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
-    { 8, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
-    { 9, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
-    { 10, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
-    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "" };
-    { 17, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
-    { 18, 901722, "", "=q1=Whitemane's Prayer Book", "=ds=#m3#", "", "100%" };
-    { 20, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "" };
-    { 21, 0, "INV_Box_01", "=q6=Variable", "=q5=Chance on Drop" };
-    { 22, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 23, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
-    { 25, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "" };
-    { 26, 0, "INV_Box_01", "=q6=One of the following:", "=q5=" };
-    { 27, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
-    { 28, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
-    { 29, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"], "=q5=Variable - Chance on Drop" };
+    { 2, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Scarlet Commander Mograine"], "=q5=One of the following:" };
+    { 5, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
+    { 6, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
+    { 7, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
+    { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
+    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "=q5=Guaranteed - Always Drops" };
+    { 17, 901722, "", "=q1=Whitemane's Prayer Book", "=ds=#m3#", "", "100%" };
+    { 19, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "=q5=Variable - Chance on Drop" };
+    { 20, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
+    { 21, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
+    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["High Inquisitor Whitemane"], "=q5=One of the following:" };
+    { 24, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
+    { 25, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
+    { 26, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["SMGVishas"] = {
@@ -2478,17 +2469,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["VCSneed"] = {
-    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], "" };
-    { 2, 0, "INV_Box_01", "=q6=Guaranteed", "=q5=Always Drops" };
-    { 3, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
-    { 5, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], "" };
-    { 6, 0, "INV_Box_01", "=q6=One of the following:", "=q5=" };
-    { 7, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
-    { 8, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
-    { 11, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], "" };
-    { 12, 0, "INV_Box_01", "=q6=One of the following:", "=q5=" };
-    { 13, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
-    { 14, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
+    { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], "=q5=Guaranteed - Always Drops" };
+    { 2, 7365, "", "=q1=Gnoam Sprecklesprocket", "=ds=#m3#", "", "100%" };
+    { 4, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed's Shredder"], "=q5=One of the following:" };
+    { 5, 2169, "", "=q1=Buzzer Blade", "=ds=#w4#", "", "90.0%" };
+    { 6, 1937, "", "=q2=Buzz Saw", "=ds=#w10#", "", "10.0%" };
+    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], "=q5=One of the following:" };
+    { 10, 5195, "", "=q2=Gold-flecked Gloves", "=ds=#a1#", "", "65.0%" };
+    { 11, 5194, "", "=q3=Taskmaster Axe", "=ds=#w1#", "", "35.0%" };
 	};
 
 	AtlasLoot_Data["VCThistlenettle"] = {

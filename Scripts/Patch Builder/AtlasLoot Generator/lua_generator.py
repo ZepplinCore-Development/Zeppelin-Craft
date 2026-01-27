@@ -500,50 +500,51 @@ class LuaGenerator:
 
         return '\n'.join(self.lines)
 
-    def _add_multi_source_header(self, header: str, is_babble: bool, category: str, subtitle: str):
+    def _add_multi_source_header(self, header: str, is_babble: bool, category: str = "", subtitle: str = ""):
         """
-        Add TWO header lines for multi-source sections: boss name + loot category.
+        Add a single header slot for multi-source sections with boss name + category.
 
-        Format:
-        - Line 1: Boss name (via BabbleBoss with empty description)
-        - Line 2: Loot category header (like single-boss sections)
+        Format: One slot using both display lines:
+        - Line 1 (field 4): Boss name via BabbleBoss
+        - Line 2 (field 5): Category + Description (e.g., "Guaranteed - Always Drops")
 
-        This two-line format is required because AtlasLoot doesn't support
-        combining BabbleBoss references with non-empty descriptions.
+        Example: { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], "=q5=Guaranteed - Always Drops" };
 
         Args:
             header: Boss name or source name
             is_babble: True to use BabbleBoss[], False for AL[]
             category: Loot category (e.g., "Guaranteed", "Variable", "One of the following:")
-            subtitle: Description for category header (e.g., "Always Drops", "Chance on Drop")
+            subtitle: Additional description (e.g., "Always Drops", "Chance on Drop")
         """
-        # Line 1: Boss name header (BabbleBoss/AL with empty description - this works)
-        if is_babble:
-            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "" }};'
+        # Build the description field (line 2)
+        if category and subtitle:
+            desc = f"=q5={category} - {subtitle}"
+        elif category:
+            desc = f"=q5={category}"
         else:
-            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "" }};'
-        self.lines.append(boss_line)
-        self.current_line_num += 1
+            desc = ""
 
-        # Line 2: Category header (simple text - same as single-boss sections)
-        category_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={category}", "=q5={subtitle}" }};'
-        self.lines.append(category_line)
+        if is_babble:
+            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "{desc}" }};'
+        else:
+            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..AL["{header}"], "{desc}" }};'
+        self.lines.append(boss_line)
         self.current_line_num += 1
 
     def generate_multi_source_section(self, sources_with_loot: list) -> str:
         """
-        Generate AtlasLoot section for multi-source encounters with headers.
+        Generate AtlasLoot section for multi-source encounters.
 
         Used for encounters that combine loot from multiple sources
-        (e.g., Vazruden + Nazan + Chest) on a single page.
+        (e.g., Sneed's Shredder + Sneed, Herod + Scarlet Trainee).
 
-        Each source's loot is categorized into Guaranteed/Variable/Pool sections
-        with headers in format: "Boss Name - Category" / "Description"
+        Format: Single header slot per loot category showing:
+        - Line 1: Boss name (via BabbleBoss)
+        - Line 2: Category + Description (e.g., "Guaranteed - Always Drops")
 
         Args:
             sources_with_loot: List of dicts with:
                 - 'header': BabbleBoss name or custom header text
-                - 'header_sub': Subtitle (e.g., "Quest Item", "Loot", or empty) - legacy, now auto-generated
                 - 'is_babble': True to use BabbleBoss[], False for AL[]
                 - 'loot_items': List of loot item dictionaries
 
@@ -580,14 +581,13 @@ class LuaGenerator:
                         group_counts[group_id] = group_counts.get(group_id, 0) + 1
 
             # Calculate total size for this source to check column spanning
-            # Note: Each header is now TWO lines (boss name + category)
             source_size = 0
             if guaranteed:
-                source_size += len(guaranteed) + 2  # items + 2 header lines
+                source_size += len(guaranteed) + 1  # items + 1 header
             if variable:
-                source_size += len(variable) + 2 + (1 if guaranteed else 0)  # items + 2 header lines + spacer
+                source_size += len(variable) + 1 + (1 if guaranteed else 0)  # items + header + spacer
             for pool_items in pools.values():
-                source_size += len(pool_items) + 3  # items + 2 header lines + spacer
+                source_size += len(pool_items) + 2  # items + header + spacer
 
             # Check if source would span columns
             column_2_capacity = self.MAX_ITEMS - self.COLUMN_2_START + 1  # 15 slots
