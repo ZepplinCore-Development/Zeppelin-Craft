@@ -112,12 +112,9 @@
     "uld_baelog": "UldBaelog",
 
     "st_atalalarion": "STAtalalarion",
-    "st_dreamscythe": "STDreamscythe",
-    "st_weaver": "STWeaver",
-    "st_hazzas": "STHazzas",
-    "st_morphaz": "STMorphaz",
-    "st_jammalan": "STJammalan",
-    "st_ogom": "STOgom",
+    "st_dreamscythe": "STDreamscytheWeaver",
+    "st_hazzas": "STHazzasMorphaz",
+    "st_jammalan": "STJammalanOgom",
     "st_spawn": "STSpawnOfHakkar",
     "st_avatar": "STAvatarofHakkar",
     "st_eranikus": "STEranikus",
@@ -139,8 +136,7 @@
     "brd_panzor": "BRDPanzor",
     "brd_tomb": "BRDTomb",
     "brd_magmus": "BRDMagmus",
-    "brd_princess": "BRDPrincess",
-    "brd_emperor": "BRDImperatorDagranThaurissan",
+    "brd_emperor": "BRDEmperorPrincess",
     "brd_vault": "BRDTheVault",
     "brd_warder": "BRDWarderStilgiss",
     "brd_verek": "BRDVerek",
@@ -170,8 +166,7 @@
     "ubrs_runewatcher": "UBRSRunewatcher",
     "ubrs_solakar": "UBRSSolakar",
     "ubrs_anvilcrack": "UBRSAnvilcrack",
-    "ubrs_gyth": "UBRSGyth",
-    "ubrs_rend": "UBRSRend",
+    "ubrs_rend": "UBRSRendGyth",
     "ubrs_beast": "UBRSBeast",
     "ubrs_drakkisath": "UBRSDrakkisath",
     "ubrs_valthalak": "UBRSValthalak",
@@ -417,14 +412,8 @@
     "UldArchaedas": 2748,
     "UldBaelog": 6906,
 
-    "_comment_st": "Sunken Temple bosses",
+    "_comment_st": "Sunken Temple bosses (Dreamscythe+Weaver, Hazzas+Morphaz, Jammalan+Ogom are in vanilla_multi_source_sections)",
     "STAtalalarion": 8580,
-    "STDreamscythe": 5721,
-    "STWeaver": 5720,
-    "STHazzas": 5722,
-    "STMorphaz": 5719,
-    "STJammalan": 5710,
-    "STOgom": 5711,
     "STAvatarofHakkar": 8443,
     "STEranikus": 5709,
 
@@ -443,8 +432,6 @@
     "BRDVerek": 9042,
     "BRDFineousDarkvire": 9056,
     "BRDMagmus": 9938,
-    "BRDPrincess": 8929,
-    "BRDImperatorDagranThaurissan": 9019,
     "BRDTheldren": 16059,
 
     "_comment_lbrs": "Lower Blackrock Spire bosses",
@@ -465,13 +452,11 @@
     "LBRSZigris": 9736,
     "LBRSBashguud": 9718,
 
-    "_comment_ubrs": "Upper Blackrock Spire bosses",
+    "_comment_ubrs": "Upper Blackrock Spire bosses (Rend+Gyth is in vanilla_multi_source_sections)",
     "UBRSEmberseer": 9816,
     "UBRSRunewatcher": 10509,
     "UBRSSolakar": 10264,
     "UBRSAnvilcrack": 10899,
-    "UBRSGyth": 10339,
-    "UBRSRend": 10429,
     "UBRSBeast": 10430,
     "UBRSDrakkisath": 10363,
     "UBRSValthalak": 16042,
@@ -751,6 +736,13 @@
     }
   },
 
+  "single_boss_go_sections": {
+    "_comment": "Single boss sections where loot comes from a gameobject, not the creature. Uses single-boss layout with Guaranteed/Variable/Pool headers.",
+
+    "MCMajordomo": 179703,
+    "Naxx40FourHorsemen": 361000
+  },
+
   "vanilla_multi_source_sections": {
     "_comment": "Vanilla multi-source encounters (shared encounters like Sneed's Shredder -> Sneed)",
 
@@ -775,17 +767,43 @@
       ]
     },
 
-    "MCMajordomo": {
-      "_comment": "Majordomo doesn't drop loot directly - Cache of the Firelord spawns after defeat",
+    "STDreamscytheWeaver": {
+      "_comment": "Sunken Temple dragonkin pair - fought simultaneously",
       "sources": [
-        {"type": "gameobject", "id": 179703, "header": "Cache of the Firelord", "header_sub": "", "is_babble": true}
+        {"type": "creature", "id": 5721, "header": "Dreamscythe", "header_sub": ""},
+        {"type": "creature", "id": 5720, "header": "Weaver", "header_sub": ""}
       ]
     },
 
-    "Naxx40FourHorsemen": {
-      "_comment": "Four Horsemen chest - individual horsemen (351037-351040) have no creature loot",
+    "STHazzasMorphaz": {
+      "_comment": "Sunken Temple dragonkin pair - fought simultaneously",
       "sources": [
-        {"type": "gameobject", "id": 361000, "header": "Four Horsemen Chest", "header_sub": "", "is_babble": false}
+        {"type": "creature", "id": 5722, "header": "Hazzas", "header_sub": ""},
+        {"type": "creature", "id": 5719, "header": "Morphaz", "header_sub": ""}
+      ]
+    },
+
+    "STJammalanOgom": {
+      "_comment": "Sunken Temple prophet + bodyguard - same encounter",
+      "sources": [
+        {"type": "creature", "id": 5710, "header": "Jammal'an the Prophet", "header_sub": ""},
+        {"type": "creature", "id": 5711, "header": "Ogom the Wretched", "header_sub": ""}
+      ]
+    },
+
+    "UBRSRendGyth": {
+      "_comment": "UBRS rider/mount sequential encounter (like Sneed's Shredder -> Sneed)",
+      "sources": [
+        {"type": "creature", "id": 10339, "header": "Gyth", "header_sub": ""},
+        {"type": "creature", "id": 10429, "header": "Warchief Rend Blackhand", "header_sub": ""}
+      ]
+    },
+
+    "BRDEmperorPrincess": {
+      "_comment": "BRD throne room encounter - Emperor + Princess fought together",
+      "sources": [
+        {"type": "creature", "id": 9019, "header": "Emperor Dagran Thaurissan", "header_sub": ""},
+        {"type": "creature", "id": 8929, "header": "Princess Moira Bronzebeard", "header_sub": ""}
       ]
     }
   },
