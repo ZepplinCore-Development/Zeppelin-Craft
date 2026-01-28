@@ -15,6 +15,16 @@ class LuaGenerator:
     COLUMN_2_START = 16  # Positions 16-30 = Column 2
     MAX_ITEMS = 30  # Maximum items per page
 
+    # Category-specific icons (from extra_icons.sql)
+    ICON_GUARANTEED_ALL = "AO_ChestWithTreasures"  # Display ID 135500 - treasure chest
+    ICON_GUARANTEED_ONE = "AO_Unknown"             # Display ID 141313 - mystery/random
+    ICON_VARIABLE = "RoM_stellar_dice"             # Display ID 151396 - dice/chance
+
+    # Category descriptions
+    CATEGORY_GUARANTEED_ALL = "Always Drops"
+    CATEGORY_GUARANTEED_ONE = "One Random Drop"
+    CATEGORY_VARIABLE = "Chance on Drop"
+
     def __init__(self, section_name: str, display_name: str = None):
         """
         Initialize generator for a specific section.
@@ -270,12 +280,22 @@ class LuaGenerator:
 
         return self.generate_section(boss_loot_data)
 
-    def _add_pool_header(self, header_text: str, subtitle: str = ""):
-        """Add a pool/category header line."""
-        if subtitle:
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "=q5={subtitle}" }};'
+    def _add_loot_header(self, boss_name: str, category: str, icon: str, is_babble: bool = True):
+        """
+        Add a unified loot section header with boss name, category, and icon.
+
+        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"], "=q5=CATEGORY" }
+
+        Args:
+            boss_name: Boss name for the header
+            category: Category description (e.g., "Always Drops", "Chance on Drop")
+            icon: Icon texture name (e.g., "AO_ChestWithTreasures")
+            is_babble: True to use BabbleBoss[], False for direct text
+        """
+        if is_babble:
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"], "=q5={category}" }};'
         else:
-            header_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header_text}", "" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name}", "=q5={category}" }};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
@@ -383,7 +403,7 @@ class LuaGenerator:
             self.lines.append(item_line)
             self.current_line_num += 1
 
-    def generate_single_boss_section(self, loot_items: List[Dict]) -> str:
+    def generate_single_boss_section(self, loot_items: List[Dict], boss_name: str = None, is_babble: bool = True) -> str:
         """
         Generate AtlasLoot section for a single boss with pool headers.
 
@@ -394,10 +414,14 @@ class LuaGenerator:
 
         Args:
             loot_items: List of loot item dictionaries from database query
+            boss_name: Boss name for headers (uses display_name if not provided)
+            is_babble: True to use BabbleBoss[], False for direct text
 
         Returns:
             Complete Lua code for the section including header and footer
         """
+        # Use provided boss_name or fall back to display_name
+        header_boss_name = boss_name or self.display_name
         self.lines = []
         self.current_line_num = 1
 
@@ -433,7 +457,7 @@ class LuaGenerator:
 
         # Add guaranteed drops with header
         if guaranteed:
-            self._add_pool_header("Guaranteed", "Always Drops")
+            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL, is_babble)
             self._add_items_block(guaranteed, force_chance=100)
 
         # Add variable drops with header
@@ -447,7 +471,7 @@ class LuaGenerator:
             if allow_column_jump and self._should_jump_to_column_2(section_size):
                 self.current_line_num = self.COLUMN_2_START
 
-            self._add_pool_header("Variable", "Chance on Drop")
+            self._add_loot_header(header_boss_name, self.CATEGORY_VARIABLE, self.ICON_VARIABLE, is_babble)
             self._add_items_block(variable)
 
         # Add pool drops with headers (pool-aware truncation)
@@ -482,7 +506,7 @@ class LuaGenerator:
                 self.current_line_num += 1
 
             # Add pool header
-            self._add_pool_header("One of the following:")
+            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE, is_babble)
 
             # Add pool items
             self._add_items_block(pool_items, group_counts)
@@ -501,37 +525,6 @@ class LuaGenerator:
         self.lines.append('\t};')
 
         return '\n'.join(self.lines)
-
-    def _add_multi_source_header(self, header: str, is_babble: bool, category: str = "", subtitle: str = ""):
-        """
-        Add a single header slot for multi-source sections with boss name + category.
-
-        Format: One slot using both display lines:
-        - Line 1 (field 4): Boss name via BabbleBoss
-        - Line 2 (field 5): Category + Description (e.g., "Guaranteed - Always Drops")
-
-        Example: { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Sneed"], "=q5=Guaranteed - Always Drops" };
-
-        Args:
-            header: Boss name or source name
-            is_babble: True to use BabbleBoss[], False for AL[]
-            category: Loot category (e.g., "Guaranteed", "Variable", "One of the following:")
-            subtitle: Additional description (e.g., "Always Drops", "Chance on Drop")
-        """
-        # Build the description field (line 2)
-        if category and subtitle:
-            desc = f"=q5={category} - {subtitle}"
-        elif category:
-            desc = f"=q5={category}"
-        else:
-            desc = ""
-
-        if is_babble:
-            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6="..BabbleBoss["{header}"], "{desc}" }};'
-        else:
-            boss_line = f'    {{ {self.current_line_num}, 0, "INV_Box_01", "=q6={header}", "{desc}" }};'
-        self.lines.append(boss_line)
-        self.current_line_num += 1
 
     def generate_multi_source_section(self, sources_with_loot: list) -> str:
         """
@@ -599,7 +592,7 @@ class LuaGenerator:
 
             # Add guaranteed drops with header
             if guaranteed:
-                self._add_multi_source_header(header, is_babble, "Guaranteed", "Always Drops")
+                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL, is_babble)
                 self._add_items_block(guaranteed, force_chance=100)
 
             # Add variable drops with header
@@ -608,7 +601,7 @@ class LuaGenerator:
                 if guaranteed:
                     self.current_line_num += 1
 
-                self._add_multi_source_header(header, is_babble, "Variable", "Chance on Drop")
+                self._add_loot_header(header, self.CATEGORY_VARIABLE, self.ICON_VARIABLE, is_babble)
                 self._add_items_block(variable)
 
             # Add pool drops with headers
@@ -620,7 +613,7 @@ class LuaGenerator:
                 if self.current_line_num != self.COLUMN_2_START:
                     self.current_line_num += 1
 
-                self._add_multi_source_header(header, is_babble, "One of the following:", "")
+                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE, is_babble)
                 self._add_items_block(pool_items, group_counts)
 
             # Add gap after source (skip one line number)
