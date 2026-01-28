@@ -9,7 +9,7 @@
 
 DELETE FROM item_template WHERE entry = 58309;
 INSERT INTO item_template (entry, class, subclass, name, displayid, Quality, Flags, BuyPrice, SellPrice, InventoryType, ItemLevel, RequiredLevel, maxcount, stackable, Material, description) VALUES
-(58309, 15, 0, 'Nefarian''s Massive Sack', 1623, 3, 4, 0, 0, 0, 60, 0, 1, 1, 0, 'Contains a selection of rare gems from the dragon hoard.');
+(58309, 15, 0, 'Nefarian''s Massive Sack', 134802, 3, 4, 0, 0, 0, 60, 0, 1, 1, 0, 'Contains a selection of rare gems from the dragon hoard.');
 
 -- Item loot: Contains all 5 signature gems guaranteed, plus common gems
 DELETE FROM item_loot_template WHERE Entry = 58309;
