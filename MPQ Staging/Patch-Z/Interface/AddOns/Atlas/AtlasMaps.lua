@@ -2018,6 +2018,15 @@ AtlasMaps = {
 		{ GREN..INDENT.."1) "..AtlasLocale["Sapphiron"], NPC, 15989 };
 		{ GREN..INDENT.."2) "..AtlasLocale["Kel'Thuzad"], NPC, 15990 };
 	};
+	Naxxramas40 = {
+		ZoneName = { BabbleZone["Naxxramas"].." (Original)", 3456 };
+		Location = { BabbleZone["Eastern Plaguelands"], 139 };
+		LevelRange = "60";
+		MinLevel = "60";
+		PlayerLimit = "40";
+		Acronym = "Nax40";
+		{ BLUE.."A) "..AtlasLocale["Entrance"] };
+	};
 	ObsidianSanctum = {
 		ZoneName = { BabbleSubZone["Chamber of the Aspects"]..": "..BabbleZone["The Obsidian Sanctum"], 4493 };
 		Location = { BabbleZone["Dragonblight"], 65 };
