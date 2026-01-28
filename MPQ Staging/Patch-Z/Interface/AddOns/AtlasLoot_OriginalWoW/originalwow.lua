@@ -844,30 +844,29 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["BRDEmperorPrincess"] = {
     { 1, 0, "INV_Box_01", "=q6="..BabbleBoss["Emperor Dagran Thaurissan"], "=q5=Guaranteed - Always Drops" };
-    { 2, 57206, "", "=q3=Schematic: Thorium Headed Arrows", "=ds=#e2#", "", "100%" };
-    { 3, 57502, "", "=q3=Design: Black Diamond Dragonling", "=ds=#e2#", "", "100%" };
-    { 4, 901725, "", "=q1=Emperor's Dark Iron Seal", "=ds=#m3#", "", "100%" };
-    { 6, 0, "INV_Box_01", "=q6="..BabbleBoss["Emperor Dagran Thaurissan"], "=q5=Variable - Chance on Drop" };
-    { 7, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
-    { 9, 0, "INV_Box_01", "=q6="..BabbleBoss["Emperor Dagran Thaurissan"], "=q5=One of the following:" };
-    { 10, 11815, "", "=q3=Hand of Justice", "=ds=#s14#", "", "9.90%" };
-    { 11, 11924, "", "=q3=Robes of the Royal Crown", "=ds=#a1#", "", "9.90%" };
-    { 12, 11928, "", "=q3=Thaurissan's Royal Scepter", "=ds=#s15#", "", "9.90%" };
-    { 13, 11930, "", "=q3=The Emperor's New Cape", "=ds=#a1#", "", "9.90%" };
-    { 14, 11931, "", "=q3=Dreadforge Retaliator", "=ds=#w1#", "", "9.90%" };
-    { 15, 11932, "", "=q3=Guiding Stave of Wisdom", "=ds=#w9#", "", "9.90%" };
-    { 16, 11933, "", "=q3=Imperial Jewel", "=ds=#s2#", "", "9.90%" };
-    { 17, 11934, "", "=q3=Emperor's Seal", "=ds=#s13#", "", "9.90%" };
-    { 18, 22204, "", "=q3=Wristguards of Renown", "=ds=#a2#", "", "9.90%" };
-    { 19, 22207, "", "=q3=Sash of the Grand Hunt", "=ds=#a3#", "", "9.90%" };
-    { 20, 11684, "", "=q4=Ironfoe", "=ds=#w6#", "", "1.00%" };
-    { 22, 0, "INV_Box_01", "=q6="..BabbleBoss["Princess Moira Bronzebeard"], "=q5=Variable - Chance on Drop" };
-    { 23, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
-    { 25, 0, "INV_Box_01", "=q6="..BabbleBoss["Princess Moira Bronzebeard"], "=q5=One of the following:" };
-    { 26, 12553, "", "=q3=Swiftwalker Boots", "=ds=#a2#", "", "25.0%" };
-    { 27, 12554, "", "=q3=Hands of the Exalted Herald", "=ds=#a1#", "", "25.0%" };
-    { 28, 12556, "", "=q3=High Priestess Boots", "=ds=#a1#", "", "25.0%" };
-    { 29, 12557, "", "=q3=Ebonsteel Spaulders", "=ds=#a4#", "", "25.0%" };
+    { 2, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "100%" };
+    { 3, 57206, "", "=q3=Schematic: Thorium Headed Arrows", "=ds=#e2#", "", "100%" };
+    { 4, 57502, "", "=q3=Design: Black Diamond Dragonling", "=ds=#e2#", "", "100%" };
+    { 5, 901725, "", "=q1=Emperor's Dark Iron Seal", "=ds=#m3#", "", "100%" };
+    { 7, 0, "INV_Box_01", "=q6="..BabbleBoss["Emperor Dagran Thaurissan"], "=q5=One of the following:" };
+    { 8, 11815, "", "=q3=Hand of Justice", "=ds=#s14#", "", "9.90%" };
+    { 9, 11924, "", "=q3=Robes of the Royal Crown", "=ds=#a1#", "", "9.90%" };
+    { 10, 11928, "", "=q3=Thaurissan's Royal Scepter", "=ds=#s15#", "", "9.90%" };
+    { 11, 11930, "", "=q3=The Emperor's New Cape", "=ds=#a1#", "", "9.90%" };
+    { 12, 11931, "", "=q3=Dreadforge Retaliator", "=ds=#w1#", "", "9.90%" };
+    { 13, 11932, "", "=q3=Guiding Stave of Wisdom", "=ds=#w9#", "", "9.90%" };
+    { 14, 11933, "", "=q3=Imperial Jewel", "=ds=#s2#", "", "9.90%" };
+    { 15, 11934, "", "=q3=Emperor's Seal", "=ds=#s13#", "", "9.90%" };
+    { 16, 22204, "", "=q3=Wristguards of Renown", "=ds=#a2#", "", "9.90%" };
+    { 17, 22207, "", "=q3=Sash of the Grand Hunt", "=ds=#a3#", "", "9.90%" };
+    { 18, 11684, "", "=q4=Ironfoe", "=ds=#w6#", "", "1.00%" };
+    { 20, 0, "INV_Box_01", "=q6="..BabbleBoss["Princess Moira Bronzebeard"], "=q5=Guaranteed - Always Drops" };
+    { 21, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "100%" };
+    { 23, 0, "INV_Box_01", "=q6="..BabbleBoss["Princess Moira Bronzebeard"], "=q5=One of the following:" };
+    { 24, 12553, "", "=q3=Swiftwalker Boots", "=ds=#a2#", "", "25.0%" };
+    { 25, 12554, "", "=q3=Hands of the Exalted Herald", "=ds=#a1#", "", "25.0%" };
+    { 26, 12556, "", "=q3=High Priestess Boots", "=ds=#a1#", "", "25.0%" };
+    { 27, 12557, "", "=q3=Ebonsteel Spaulders", "=ds=#a4#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["BRDBSPlans"] = {
@@ -1172,19 +1171,19 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 12, 12630, "", "=q1=Head of Rend Blackhand", "=ds=#m3#", "", "100%" };
     { 14, 0, "INV_Box_01", "=q6="..BabbleBoss["Warchief Rend Blackhand"], "=q5=Variable - Chance on Drop" };
     { 15, 22138, "", "=q1=Blackrock Bracer", "=ds=#m3#", "", "80.0%" };
-    { 17, 0, "INV_Box_01", "=q6="..BabbleBoss["Warchief Rend Blackhand"], "=q5=One of the following:" };
-    { 18, 12587, "", "=q3=Eye of Rend", "=ds=#a2#", "", "9.25%" };
-    { 19, 12935, "", "=q3=Warmaster Legguards", "=ds=#a4#", "", "9.25%" };
-    { 20, 12936, "", "=q3=Battleborn Armbraces", "=ds=#a4#", "", "9.25%" };
-    { 21, 16733, "", "=q3=Spaulders of Valor", "=ds=#a4#", "", "9.25%" };
-    { 22, 18102, "", "=q3=Dragonrider Boots", "=ds=#a1#", "", "9.25%" };
-    { 23, 18103, "", "=q3=Band of Rumination", "=ds=#s13#", "", "9.25%" };
-    { 24, 18104, "", "=q3=Feralsurge Girdle", "=ds=#a3#", "", "9.25%" };
-    { 25, 22247, "", "=q3=Faith Healer's Boots", "=ds=#a1#", "", "9.25%" };
-    { 26, 12583, "", "=q3=Blackhand Doomsaw", "=ds=#w7#", "", "8.00%" };
-    { 27, 12939, "", "=q3=Dal'Rend's Tribal Guardian", "=ds=#w10#", "", "8.00%" };
-    { 28, 12940, "", "=q3=Dal'Rend's Sacred Charge", "=ds=#w10#", "", "8.00%" };
-    { 29, 12590, "", "=q4=Felstriker", "=ds=#w4#", "", "2.00%" };
+    { 16, 0, "INV_Box_01", "=q6="..BabbleBoss["Warchief Rend Blackhand"], "=q5=One of the following:" };
+    { 17, 12587, "", "=q3=Eye of Rend", "=ds=#a2#", "", "9.25%" };
+    { 18, 12935, "", "=q3=Warmaster Legguards", "=ds=#a4#", "", "9.25%" };
+    { 19, 12936, "", "=q3=Battleborn Armbraces", "=ds=#a4#", "", "9.25%" };
+    { 20, 16733, "", "=q3=Spaulders of Valor", "=ds=#a4#", "", "9.25%" };
+    { 21, 18102, "", "=q3=Dragonrider Boots", "=ds=#a1#", "", "9.25%" };
+    { 22, 18103, "", "=q3=Band of Rumination", "=ds=#s13#", "", "9.25%" };
+    { 23, 18104, "", "=q3=Feralsurge Girdle", "=ds=#a3#", "", "9.25%" };
+    { 24, 22247, "", "=q3=Faith Healer's Boots", "=ds=#a1#", "", "9.25%" };
+    { 25, 12583, "", "=q3=Blackhand Doomsaw", "=ds=#w7#", "", "8.00%" };
+    { 26, 12939, "", "=q3=Dal'Rend's Tribal Guardian", "=ds=#w10#", "", "8.00%" };
+    { 27, 12940, "", "=q3=Dal'Rend's Sacred Charge", "=ds=#w10#", "", "8.00%" };
+    { 28, 12590, "", "=q4=Felstriker", "=ds=#w4#", "", "2.00%" };
 	};
 
 	AtlasLoot_Data["UBRSBeast"] = {

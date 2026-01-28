@@ -185,8 +185,10 @@ class LuaGenerator:
                 # Check if this group would span columns
                 if self._would_span_columns(group_size + 1):  # +1 for spacer
                     self.current_line_num = self.COLUMN_2_START
-                else:
-                    self.current_line_num += 1  # Skip a line number for visual gap
+                elif self.current_line_num != self.COLUMN_2_START:
+                    # Skip a line for visual gap, but not at column 2 start
+                    # (column 2 already has a natural visual break)
+                    self.current_line_num += 1
 
             last_group_id = current_group_id
 
@@ -613,8 +615,10 @@ class LuaGenerator:
             for group_id in sorted(pools.keys()):
                 pool_items = pools[group_id]
 
-                # Add spacer before pool
-                self.current_line_num += 1
+                # Add spacer before pool, but not at column 2 start
+                # (column 2 already has a natural visual break)
+                if self.current_line_num != self.COLUMN_2_START:
+                    self.current_line_num += 1
 
                 self._add_multi_source_header(header, is_babble, "One of the following:", "")
                 self._add_items_block(pool_items, group_counts)
