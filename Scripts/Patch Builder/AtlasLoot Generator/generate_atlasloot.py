@@ -369,7 +369,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     # Step 4: Generate Lua code
     display_name = get_display_name(section_name, go_name)
     generator = LuaGenerator(section_name, display_name)
-    new_lua_code = generator.generate_single_boss_section(loot_items)
+    new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=go_name)
 
     print(f"\nGenerated code preview:")
     preview_lines = new_lua_code.split('\n')[:12]
@@ -625,7 +625,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
         print("\n[3/4] Generating Lua code...")
     display_name = get_display_name(section_name, boss_name)
     generator = LuaGenerator(section_name, display_name)
-    new_lua_code = generator.generate_single_boss_section(loot_items)
+    new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=boss_name)
 
     if verbose:
         print(f"[OK] Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
@@ -728,7 +728,7 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
         print("\n[3/4] Generating Lua code...")
     display_name = get_display_name(section_name, go_name)
     generator = LuaGenerator(section_name, display_name)
-    new_lua_code = generator.generate_single_boss_section(loot_items)
+    new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=go_name)
 
     if verbose:
         print(f"[OK] Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")

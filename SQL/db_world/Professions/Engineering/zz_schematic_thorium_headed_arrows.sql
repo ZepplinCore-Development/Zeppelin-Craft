@@ -5,6 +5,7 @@
         `class` = 9, -- Recipe
         `subclass` = 4, -- Engineering
         `name` = 'Schematic: Thorium Headed Arrows',
+        `description` = 'Teaches you how to make Thorium Headed Arrows.',
         `displayid` = 6270,
         `SellPrice` = 100000, -- 10G 
         `Quality` = 3, -- Rare
