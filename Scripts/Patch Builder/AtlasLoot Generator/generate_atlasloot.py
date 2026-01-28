@@ -65,6 +65,9 @@ TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in TBC_MULTI_SOURCE_SECTIONS.items() 
 VANILLA_MULTI_SOURCE_SECTIONS = _mappings.get('vanilla_multi_source_sections', {})
 VANILLA_MULTI_SOURCE_SECTIONS = {k: v for k, v in VANILLA_MULTI_SOURCE_SECTIONS.items() if not k.startswith('_')}
 
+# Single boss sections where loot comes from a gameobject (e.g., Majordomo -> Cache of the Firelord)
+SINGLE_BOSS_GO_SECTIONS = _clean_mapping(_mappings.get('single_boss_go_sections', {}))
+
 # Instance prefix to display name mapping for cleaner warning output
 INSTANCE_PREFIXES = {
     # Vanilla Dungeons
@@ -658,6 +661,109 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
         return False
 
 
+def generate_single_boss_go_section(lua_file_path: str, section_name: str,
+                                     gameobject_id: int, db: LootDatabase,
+                                     dry_run: bool = False, verbose: bool = False) -> bool:
+    """
+    Generate and update a single-boss AtlasLoot section where loot comes from a gameobject.
+
+    Used for bosses like Majordomo where the boss doesn't drop loot directly,
+    but loot spawns in a chest/cache after defeat. Uses single-boss layout
+    with Guaranteed/Variable/Pool headers.
+
+    Args:
+        lua_file_path: Path to AtlasLoot Lua file
+        section_name: Section name (e.g., "MCMajordomo")
+        gameobject_id: Gameobject entry ID from database
+        db: Database connection object
+        dry_run: If True, don't save changes
+        verbose: If True, print detailed output
+
+    Returns:
+        True if successful, False otherwise
+    """
+    print(f"\n{'='*60}")
+    print(f"Processing single-boss GO section: {section_name}")
+    print(f"{'='*60}")
+
+    # Step 1: Parse Lua file
+    if verbose:
+        print("\n[1/4] Parsing Lua file...")
+    parser = AtlasLootParser(lua_file_path)
+
+    bounds = parser.find_section_bounds(section_name)
+    if not bounds:
+        print(f"[ERROR] Section '{section_name}' not found")
+        return False
+
+    print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+
+    # Step 2: Get gameobject name for display
+    go_name = db.get_gameobject_name(gameobject_id)
+    if go_name:
+        print(f"[OK] Gameobject: {go_name} (ID: {gameobject_id})")
+    else:
+        go_name = f"Gameobject {gameobject_id}"
+        print(f"[OK] Gameobject ID: {gameobject_id}")
+
+    # Step 3: Query loot from gameobject
+    if verbose:
+        print("\n[2/4] Querying gameobject loot table...")
+    loot_items = db.get_gameobject_loot(gameobject_id)
+
+    if not loot_items:
+        print(f"[WARN] No loot items found for gameobject {gameobject_id}")
+        return False
+
+    print(f"[OK] Found {len(loot_items)} loot items")
+
+    if verbose:
+        for item in loot_items[:5]:
+            print(f"  - {item['item_name']} ({item['item_id']})")
+        if len(loot_items) > 5:
+            print(f"  ... and {len(loot_items) - 5} more items")
+
+    # Step 4: Generate new Lua code using single-boss format
+    if verbose:
+        print("\n[3/4] Generating Lua code...")
+    display_name = get_display_name(section_name, go_name)
+    generator = LuaGenerator(section_name, display_name)
+    new_lua_code = generator.generate_single_boss_section(loot_items)
+
+    if verbose:
+        print(f"[OK] Generated {len(new_lua_code.split(chr(10)))} lines of Lua code")
+
+    # Show preview
+    print("\nGenerated code preview:")
+    preview_lines = new_lua_code.split('\n')[:10]
+    for line in preview_lines:
+        print(line)
+    if len(new_lua_code.split('\n')) > 10:
+        print(f"... ({len(new_lua_code.split(chr(10))) - 10} more lines)")
+
+    # Step 5: Update file
+    if dry_run:
+        print("\n[DRY RUN] Skipping file update")
+        return True
+
+    if verbose:
+        print("\n[4/4] Updating Lua file...")
+
+    success = parser.replace_section(section_name, new_lua_code)
+    if not success:
+        print(f"[ERROR] Failed to replace section '{section_name}'")
+        return False
+
+    # Save file with backup
+    save_success = parser.save_file(backup=False)
+    if save_success:
+        print(f"\n[OK] Section '{section_name}' updated successfully")
+        return True
+    else:
+        print(f"\n[ERROR] Failed to save file")
+        return False
+
+
 def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
                     dry_run: bool = False, verbose: bool = False) -> bool:
     """
@@ -1043,8 +1149,15 @@ def main():
 
         total_count += len(sections_to_process)
         for section_name in sections_to_process:
+            # Check if this is a single-boss GO section (e.g., MCMajordomo -> Cache of the Firelord)
+            if section_name in SINGLE_BOSS_GO_SECTIONS:
+                gameobject_id = SINGLE_BOSS_GO_SECTIONS[section_name]
+                success = generate_single_boss_go_section(
+                    args.lua_file, section_name, gameobject_id, db,
+                    dry_run=args.dry_run, verbose=args.verbose
+                )
             # Check if this is a vanilla multi-source section (e.g., VCSneed = Shredder + Sneed)
-            if section_name in VANILLA_MULTI_SOURCE_SECTIONS:
+            elif section_name in VANILLA_MULTI_SOURCE_SECTIONS:
                 config = VANILLA_MULTI_SOURCE_SECTIONS[section_name]
                 success = generate_multi_source_section(
                     args.lua_file, section_name, config, db,
@@ -1068,8 +1181,15 @@ def main():
     # Handle --section option (auto-detect mode)
     if args.section:
         total_count += 1
+        # Check if it's a single-boss GO section (e.g., MCMajordomo -> Cache of the Firelord)
+        if args.section in SINGLE_BOSS_GO_SECTIONS:
+            gameobject_id = SINGLE_BOSS_GO_SECTIONS[args.section]
+            success = generate_single_boss_go_section(
+                args.lua_file, args.section, gameobject_id, db,
+                dry_run=args.dry_run, verbose=args.verbose
+            )
         # Check if it's a vanilla multi-source section (e.g., VCSneed = Shredder + Sneed)
-        if args.section in VANILLA_MULTI_SOURCE_SECTIONS:
+        elif args.section in VANILLA_MULTI_SOURCE_SECTIONS:
             config = VANILLA_MULTI_SOURCE_SECTIONS[args.section]
             success = generate_multi_source_section(
                 args.lua_file, args.section, config, db,
