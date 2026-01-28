@@ -76,6 +76,7 @@ Atlas_DropDownLayouts = {
 			"KarazhanStart",
 			"MagistersTerrace",
 			"MoltenCore",
+			"Naxxramas40",
 			"Scholomance",
 			"ShadowfangKeep",
 			"SMArmory",
