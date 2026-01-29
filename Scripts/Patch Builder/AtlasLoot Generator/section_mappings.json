@@ -805,6 +805,15 @@
         {"type": "creature", "id": 9019, "header": "Emperor Dagran Thaurissan", "header_sub": ""},
         {"type": "creature", "id": 8929, "header": "Princess Moira Bronzebeard", "header_sub": ""}
       ]
+    },
+
+    "STRATSothosJarien": {
+      "_comment": "Stratholme T0.5 summoning event - chest loot + quest items from ghosts",
+      "sources": [
+        {"type": "gameobject", "id": 181083, "header": "Sothos and Jarien's Heirlooms", "header_sub": ""},
+        {"type": "creature", "id": 16102, "header": "Sothos", "header_sub": ""},
+        {"type": "creature", "id": 16101, "header": "Jarien", "header_sub": ""}
+      ]
     }
   },
 

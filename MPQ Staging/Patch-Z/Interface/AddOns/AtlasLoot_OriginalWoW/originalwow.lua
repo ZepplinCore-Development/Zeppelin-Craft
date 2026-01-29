@@ -1461,33 +1461,24 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		---------------------------
 
 	AtlasLoot_Data["Onyxia40"] = {
-    { 1, 0, "AO_Unknown", "=q6="..BabbleBoss["Onyxia"], "=q5=TIER 2 HELM WILL DROP" };
-    { 2, 16908, "", "=q4=Bloodfang Hood", "=ds=#s1#, #a2#", "", "11.1%" };
-    { 3, 16914, "", "=q4=Netherwind Crown", "=ds=#s1#, #a1#", "", "11.1%" };
-    { 4, 16921, "", "=q4=Halo of Transcendence", "=ds=#s1#, #a1#", "", "11.1%" };
-    { 5, 16929, "", "=q4=Nemesis Skullcap", "=ds=#s1#, #a1#", "", "11.1%" };
-    { 6, 16939, "", "=q4=Dragonstalker's Helm", "=ds=#s1#, #a3#", "", "11.1%" };
-    { 7, 16947, "", "=q4=Helmet of Ten Storms", "=ds=#s1#, #a3#", "", "11.1%" };
-    { 8, 16955, "", "=q4=Judgement Crown", "=ds=#s1#, #a4#", "", "11.1%" };
-    { 9, 16963, "", "=q4=Helm of Wrath", "=ds=#s1#, #a4#", "", "11.1%" };
-    { 10, 16900, "", "=q4=Stormrage Cover", "=ds=#s1#, #a2#", "", "11.1%" };
-    { 12, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
-    { 13, 17078, "", "=q4=Sapphiron Drape", "=ds=#s4#", "", "17.0%" };
-    { 14, 18205, "", "=q4=Eskhandar's Collar", "=ds=#s2#", "", "17.0%" };
-    { 15, 18813, "", "=q4=Ring of Binding", "=ds=#s13#", "", "17.0%" };
-    { 16, 17064, "", "=q4=Shard of the Scale", "=ds=#s14#", "", "17.0%" };
-    { 17, 17067, "", "=q4=Ancient Cornerstone Grimoire", "=ds=#s15#", "", "17.0%" };
-    { 19, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
-    { 20, 17070, "", "=q4=Fang of the Mystics", "=ds=#h3#, #w4#", "", "7.0%" };
-    { 21, 17075, "", "=q4=Vis'kag the Bloodletter", "=ds=#h1#, #w10#", "", "7.0%" };
-    { 22, 17068, "", "=q4=Deathbringer", "=ds=#h1#, #w1#", "", "7.0%" };
-    { 23, 17073, "", "=q4=Earthshaker", "=ds=#w7#", "", "7.0%" };
-    { 24, 17074, "", "=q4=Shadowstrike", "=ds=#w7#", "", "7.0%" };
-    { 25, 17072, "", "=q4=Blastershot Launcher", "=ds=#w5#", "", "7.0%" };
-    { 26, 17077, "", "=q4=Crimson Shocker", "=ds=#w12#", "", "7.0%" };
-    { 28, 0, "AO_ChestWithTreasures", "=q6="..BabbleBoss["Onyxia"], "=q5=ALWAYS DROPS" };
-    { 29, 18423, "", "=q4=Head of Onyxia", "=ds=#m3#", "", "100%" };
-    { 30, 17966, "", "=q2=Onyxia Hide Backpack", "=ds=#e1#", "", "100%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6="..BabbleBoss["Onyxia"], "=q5=ALWAYS DROPS" };
+    { 2, 59306, "", "=q4=Blackwing Armor Cache - Helm", "=ds=#e10# (x2)", "", "100%" };
+    { 3, 18423, "", "=q4=Head of Onyxia", "=ds=#m3#", "", "100%" };
+    { 4, 17966, "", "=q2=Onyxia Hide Backpack", "=ds=#e1#", "", "100%" };
+    { 6, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
+    { 7, 17078, "", "=q4=Sapphiron Drape", "=ds=#s4#", "", "17.0%" };
+    { 8, 18205, "", "=q4=Eskhandar's Collar", "=ds=#s2#", "", "17.0%" };
+    { 9, 18813, "", "=q4=Ring of Binding", "=ds=#s13#", "", "17.0%" };
+    { 10, 17064, "", "=q4=Shard of the Scale", "=ds=#s14#", "", "17.0%" };
+    { 11, 17067, "", "=q4=Ancient Cornerstone Grimoire", "=ds=#s15#", "", "17.0%" };
+    { 16, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
+    { 17, 17070, "", "=q4=Fang of the Mystics", "=ds=#h3#, #w4#", "", "7.0%" };
+    { 18, 17075, "", "=q4=Vis'kag the Bloodletter", "=ds=#h1#, #w10#", "", "7.0%" };
+    { 19, 17068, "", "=q4=Deathbringer", "=ds=#h1#, #w1#", "", "7.0%" };
+    { 20, 17073, "", "=q4=Earthshaker", "=ds=#w7#", "", "7.0%" };
+    { 21, 17074, "", "=q4=Shadowstrike", "=ds=#w7#", "", "7.0%" };
+    { 22, 17072, "", "=q4=Blastershot Launcher", "=ds=#w5#", "", "7.0%" };
+    { 23, 17077, "", "=q4=Crimson Shocker", "=ds=#w12#", "", "7.0%" };
 	};
 
 		------------------------------------------
