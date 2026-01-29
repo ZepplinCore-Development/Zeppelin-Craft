@@ -80,37 +80,37 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 432;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 436;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 437;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 438;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 439;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 440;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 441;
@@ -402,13 +402,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 2018;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 2023;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 2024;
@@ -563,7 +563,7 @@ WHERE `ID` = 2368;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 2370;
@@ -660,7 +660,7 @@ WHERE `ID` = 2576;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 2599;
@@ -668,7 +668,7 @@ WHERE `ID` = 2599;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and $s2 health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 2600;
@@ -1519,7 +1519,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 3915;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 4042;
@@ -3550,7 +3550,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 11252;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 health and $s2 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 health and $s2 mana.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 11387;
@@ -3682,7 +3682,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 11829;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 11903;
@@ -4897,19 +4897,19 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 17527;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 17530;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 17531;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 17534;
@@ -5328,7 +5328,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 18560;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 18832;
@@ -5665,7 +5665,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 19107;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 health and mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 health and mana.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 19199;
@@ -5903,25 +5903,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 21161;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 health. This item may only be used in PvP Battlegrounds.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 health. This item may only be used in PvP Battlegrounds.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 21393;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 health. This item may only be used in PvP Battlegrounds.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 health. This item may only be used in PvP Battlegrounds.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 21394;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 mana. This item may only be used in PvP Battlegrounds.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 mana. This item may only be used in PvP Battlegrounds.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 21395;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 mana. This item may only be used in PvP Battlegrounds.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana. This item may only be used in PvP Battlegrounds.' /* was 'Restores $s1 mana. This item may only be used in PvP Battlegrounds.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 21396;
@@ -6114,7 +6114,7 @@ WHERE `ID` = 22727;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 22729;
@@ -8286,13 +8286,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28482;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 28495;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 28499;
@@ -8300,7 +8300,7 @@ WHERE `ID` = 28499;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 28517;
@@ -8509,7 +8509,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 28695;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 28718;
@@ -8564,7 +8564,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 29107;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 29236;
@@ -11520,13 +11520,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41252;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana. Only works in the Blade''s Edge Plateaus.' /* was 'Restores $s1 mana. Only works in the Blade's Edge Plateaus.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana. Only works in the Blade''s Edge Plateaus.' /* was 'Restores $s1 mana. Only works in the Blade's Edge Plateaus.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 41304;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health. Only works in the Blade''s Edge Plateaus.' /* was 'Restores $s1 health. Only works in the Blade's Edge Plateaus.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health. Only works in the Blade''s Edge Plateaus.' /* was 'Restores $s1 health. Only works in the Blade's Edge Plateaus.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 41306;
@@ -11644,7 +11644,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 41518;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.
 
 Only works inside Coilfang: The Serpentshrine, The Underbog, The Steamvaults, The Slave Pens.' /* was 'Restores $s1 mana.
 
@@ -11654,7 +11654,7 @@ Only works inside Coilfang: The Serpentshrine, The Underbog, The Steamvaults, Th
 WHERE `ID` = 41617;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.
 
 Only works inside Tempest Keep: The Eye, The Arcatraz, The Botanica, The Mechanar.' /* was 'Restores $s1 mana.
 
@@ -11664,7 +11664,7 @@ Only works inside Tempest Keep: The Eye, The Arcatraz, The Botanica, The Mechana
 WHERE `ID` = 41618;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.
 
 Only works inside Coilfang: The Serpentshrine, The Underbog, The Steamvaults, The Slave Pens.' /* was 'Restores $s1 health.
 
@@ -11674,7 +11674,7 @@ Only works inside Coilfang: The Serpentshrine, The Underbog, The Steamvaults, Th
 WHERE `ID` = 41619;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.
 
 Only works inside Tempest Keep: The Eye, The Arcatraz, The Botanica, The Mechanar.' /* was 'Restores $s1 health.
 
@@ -11858,13 +11858,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43008;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 43185;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 43186;
@@ -12161,7 +12161,7 @@ WHERE `ID` = 44970;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana. Sometimes has side effects.' /* was 'Restores $s1 mana and health.  Sometimes has side effects.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana. Sometimes has side effects.' /* was 'Restores $s1 mana and health.  Sometimes has side effects.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 45051;
@@ -12578,7 +12578,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 49677;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.
 
 Drinking mana potions inflicts Mana Sickness, draining all of your mana after 1 min.' /* was 'Restores $s1 mana.
 
@@ -13120,7 +13120,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 53140;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 53144;
@@ -13141,7 +13141,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 53482;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.  The potion will refill itself every 2 min.' /* was 'Restores $s1 health.  The potion will refill itself every 2 min.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.  The potion will refill itself every 2 min.' /* was 'Restores $s1 health.  The potion will refill itself every 2 min.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 53670;
@@ -13151,7 +13151,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 53749;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.  Sometimes has the effect of an additional random potion.' /* was 'Restores $s1 health and $s2 mana.  Sometimes has the effect of an additional random potion.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.  Sometimes has the effect of an additional random potion.' /* was 'Restores $s1 health and $s2 mana.  Sometimes has the effect of an additional random potion.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 53750;
@@ -13159,7 +13159,7 @@ WHERE `ID` = 53750;
 UPDATE `dbc`.`spell` SET 
     `Effect1` = 10 /* was 30 */,
     `Effect2` = 30 /* was 10 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s1 mana and health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s1 mana and health.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 53761;
@@ -13354,7 +13354,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 54557;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 54572;
@@ -14644,13 +14644,13 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 58819;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 58862;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.' /* was 'Restores $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.' /* was 'Restores $s1 mana.' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 58864;
@@ -15700,7 +15700,7 @@ UPDATE `dbc`.`spell` SET
     `EffectDieSides2` = 201 /* was 481 */,
     `EffectBasePoints1` = 1679 /* was 399 */,
     `EffectBasePoints2` = 399 /* was 1679 */,
-    `SpellDescription0` = 'Restores $<potion1> health and $<potion2> mana.' /* was 'Restores $s2 health and $s1 mana.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and $<potion2> to $<potion2max> mana.' /* was 'Restores $s2 health and $s1 mana.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 61371;
@@ -15954,7 +15954,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 62213;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.' /* was 'Restores $s1 health.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.' /* was 'Restores $s1 health.' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 62352;
@@ -16973,25 +16973,25 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 67466;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.  Increased effect for engineers!' /* was 'Restores $s1 health.  Increased effect for engineers!' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.  Increased effect for engineers!' /* was 'Restores $s1 health.  Increased effect for engineers!' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 67486;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.  Increased effect for engineers!' /* was 'Restores $s1 mana.  Increased effect for engineers!' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.  Increased effect for engineers!' /* was 'Restores $s1 mana.  Increased effect for engineers!' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 67487;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health.  Increased effect for engineers!' /* was 'Restores $s1 health.  Increased effect for engineers!' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health.  Increased effect for engineers!' /* was 'Restores $s1 health.  Increased effect for engineers!' */,
     `SpellFamilyFlags` = 2 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 67489;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> mana.  Increased effect for engineers!' /* was 'Restores $s1 mana.  Increased effect for engineers!' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> mana.  Increased effect for engineers!' /* was 'Restores $s1 mana.  Increased effect for engineers!' */,
     `SpellFamilyFlags` = 4 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 67490;
