@@ -26289,6 +26289,35 @@ INSERT INTO `dbc`.`spell` SET
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
+DELETE FROM `dbc`.`spell` WHERE `ID` = 91207;
+INSERT INTO `dbc`.`spell` SET 
+    `ID` = 91207,
+    `Attributes` = 2164261120,
+    `AttributesEx3` = 1048576,
+    `AttributesEx4` = 128,
+    `AttributesEx6` = 4096,
+    `CastingTimeIndex` = 1,
+    `ProcChance` = 101,
+    `DurationIndex` = 21,
+    `RangeIndex` = 1,
+    `EquippedItemClass` = -1,
+    `Effect1` = 6,
+    `EffectDieSides1` = 1,
+    `EffectBasePoints1` = 24,
+    `EffectImplicitTargetA1` = 1,
+    `EffectApplyAuraName1` = 190,
+    `EffectMiscValue1` = 947,
+    `SpellIconID` = 2625,
+    `ActiveIconID` = 2625,
+    `SpellName0` = 'Champion of Darnassus',
+    `SpellNameFlag7` = 16712190,
+    `SpellRankFlags7` = 16712190,
+    `SpellDescription0` = 'You champion the cause of Thrallmar. Increases Thrallmar reputation gained from killing monsters by  $s1%.',
+    `SpellDescriptionFlags7` = 16712190,
+    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTipFlags7` = 16712190,
+    `EffectDamageMultiplier1` = 1.0;
+
 DELETE FROM `dbc`.`spell` WHERE `ID` = 100010;
 INSERT INTO `dbc`.`spell` SET 
     `ID` = 100010,
