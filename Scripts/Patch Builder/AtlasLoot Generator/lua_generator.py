@@ -288,18 +288,26 @@ class LuaGenerator:
         """
         Add a unified loot section header with boss name, category, and icon.
 
-        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"], "=q5=CATEGORY" }
+        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"].." - CATEGORY", "=q5=DESCRIPTION" }
 
         Args:
             boss_name: Boss name for the header
             category: Category description (e.g., "Always Drops", "Chance on Drop")
-            icon: Icon texture name (e.g., "AO_ChestWithTreasures")
+            icon: Icon texture name (e.g., "INV_Box_01")
             is_babble: True to use BabbleBoss[], False for direct text
         """
+        # Map category to description for field 5
+        desc_map = {
+            self.CATEGORY_GUARANTEED_ALL: "Always Drops",
+            self.CATEGORY_GUARANTEED_ONE: "Random Drop",
+            self.CATEGORY_VARIABLE: "Chance on Drop"
+        }
+        description = desc_map.get(category, "")
+
         if is_babble:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"], "=q5={category}" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"].." - {category}", "=q5={description}"}};'
         else:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name}", "=q5={category}" }};'
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name} - {category}", "=q5={description}"}};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
