@@ -2291,91 +2291,109 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8041;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.  Only one scroll effect can be active at a time.' */
 WHERE `ID` = 8091;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 8094;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 8095;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.  Only one scroll effect can be active at a time.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 8096;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 8097;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 8098;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.  Only one scroll effect can be active at a time.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 8099;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 8100;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 8101;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.  Only one scroll effect can be active at a time.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 8112;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 8113;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 8114;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.  Only one scroll effect can be active at a time.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 8115;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 8116;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 8117;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.  Only one scroll effect can be active at a time.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 8118;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 8119;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 8120;
@@ -3961,31 +3979,37 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 12093;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 12174;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 12175;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 12176;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 12177;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 12178;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 12179;
@@ -9839,31 +9863,37 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 32999;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 33077;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 33078;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 33079;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 33080;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 33081;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 33082;
@@ -11899,31 +11929,37 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 43186;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 43194;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 43195;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 43196;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 43197;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 43198;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 43199;
@@ -12449,32 +12485,38 @@ WHERE `ID` = 48074;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 48099;
 
 UPDATE `dbc`.`spell` SET 
     `SpellIconID` = 4899 /* was 125 */,
+    `SpellName0` = 'Empowered: Intellect' /* was 'Intellect' */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */,
     `SpellToolTip0` = 'Intellect increased by $s1.  Empowering Scroll.' /* was 'Intellect increased by $s1.' */
 WHERE `ID` = 48100;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 48101;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Stamina' /* was 'Stamina' */,
     `SpellDescription0` = 'Increases Stamina by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Stamina by $s1 for $d.' */,
     `SpellToolTip0` = 'Stamina increased by $s1.  Empowering Scroll.' /* was 'Stamina increased by $s1.' */
 WHERE `ID` = 48102;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 48103;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Spirit' /* was 'Spirit' */,
     `SpellDescription0` = 'Increases Spirit by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Spirit by $s1 for $d.' */,
     `SpellToolTip0` = 'Spirit increased by $s1.  Empowering Scroll.' /* was 'Spirit increased by $s1.' */
 WHERE `ID` = 48104;
@@ -14565,30 +14607,36 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 58308;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 58448;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Strength' /* was 'Strength' */,
     `SpellDescription0` = 'Increases Strength by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Strength by $s1 for $d.' */,
     `SpellToolTip0` = 'Strength increased by $s1.  Empowering Scroll.' /* was 'Strength increased by $s1.' */
 WHERE `ID` = 58449;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 58450;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Empowered: Agility' /* was 'Agility' */,
     `SpellDescription0` = 'Increases Agility by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Agility by $s1 for $d.' */,
     `SpellToolTip0` = 'Agility increased by $s1.  Empowering Scroll.' /* was 'Agility increased by $s1.' */
 WHERE `ID` = 58451;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 58452;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellName0` = 'Warding: Protection' /* was 'Armor' */,
     `SpellDescription0` = 'Increases Armor by $s1 for $d.  Warding Scroll.' /* was 'Increases the target's Armor by $s1 for $d.' */
 WHERE `ID` = 58453;
 
@@ -26985,7 +27033,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -27015,7 +27063,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27041,7 +27089,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27067,7 +27115,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27093,7 +27141,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27119,7 +27167,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27145,7 +27193,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27171,7 +27219,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 4,
     `SpellIconID` = 5644,
-    `SpellName0` = 'Fire Resistance',
+    `SpellName0` = 'Warding: Fire',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Fire resistance increased by $s1.',
@@ -27197,7 +27245,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -27227,7 +27275,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27253,7 +27301,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27279,7 +27327,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27305,7 +27353,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27331,7 +27379,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27357,7 +27405,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27383,7 +27431,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 16,
     `SpellIconID` = 4905,
-    `SpellName0` = 'Frost Resistance',
+    `SpellName0` = 'Warding: Frost',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Frost resistance increased by $s1.',
@@ -27409,7 +27457,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -27439,7 +27487,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27465,7 +27513,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27491,7 +27539,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27517,7 +27565,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27543,7 +27591,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27569,7 +27617,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27595,7 +27643,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 64,
     `SpellIconID` = 4793,
-    `SpellName0` = 'Arcane Resistance',
+    `SpellName0` = 'Warding: Arcane',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Arcane resistance increased by $s1.',
@@ -27621,7 +27669,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -27651,7 +27699,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27677,7 +27725,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27703,7 +27751,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27729,7 +27777,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27755,7 +27803,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27781,7 +27829,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27807,7 +27855,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 32,
     `SpellIconID` = 5058,
-    `SpellName0` = 'Shadow Resistance',
+    `SpellName0` = 'Warding: Nature',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Shadow resistance increased by $s1.',
@@ -27833,7 +27881,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -27863,7 +27911,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -27889,7 +27937,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -27915,7 +27963,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -27941,7 +27989,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -27967,7 +28015,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -27993,7 +28041,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -28019,7 +28067,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 8,
     `SpellIconID` = 5183,
-    `SpellName0` = 'Nature Resistance',
+    `SpellName0` = 'Warding: Holy',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Nature resistance increased by $s1.',
@@ -28045,7 +28093,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellNameFlag7` = 16712190,
     `SpellRank0` = 'Rank 1',
     `SpellRankFlags7` = 16712190,
@@ -28075,7 +28123,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 2',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28101,7 +28149,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 3',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28127,7 +28175,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 4',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28153,7 +28201,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 5',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28179,7 +28227,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 6',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28205,7 +28253,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 7',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
@@ -28231,7 +28279,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectApplyAuraName1` = 143,
     `EffectMiscValue1` = 1,
     `SpellIconID` = 5546,
-    `SpellName0` = 'Holy Resistance',
+    `SpellName0` = 'Warding: Shadow',
     `SpellRank0` = 'Rank 8',
     `SpellDescription0` = 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.',
     `SpellToolTip0` = 'Holy resistance increased by $s1.',
