@@ -1,6 +1,7 @@
 import mysql.connector
 import numbers
 import os
+import sys
 import subprocess
 import shutil
 import re
@@ -471,6 +472,8 @@ parser.add_argument('--build-patch-o', action='store_true',
                     help='Build PATCH-O.MPQ (runs Resource Parser + builds MPQ)')
 parser.add_argument('--build-patch-o-mpq-only', action='store_true',
                     help='Build PATCH-O.MPQ only (skip Resource Parser, use existing exports)')
+parser.add_argument('--build-patch-z-mpq-only', action='store_true',
+                    help='Build PATCH-Z.MPQ quickly (skip DBC diff/HeadlessExport, run AtlasLoot generator)')
 args = parser.parse_args()
 
 # Determine build mode based on command-line args
@@ -497,6 +500,17 @@ elif args.build_patch_o_mpq_only:
     build_patch_x = False
     build_patch_o = True
     run_resource_parser = False
+elif args.build_patch_z_mpq_only:
+    print("\n" + "="*60)
+    print("PATCH BUILDER - PATCH-Z Quick Build Mode")
+    print("="*60)
+    print("Running AtlasLoot generator + building PATCH-Z.MPQ...")
+    print("Skipping: DBC diff, HeadlessExport")
+    print("="*60 + "\n")
+    build_patch_z = True
+    build_patch_x = False
+    build_patch_o = False
+    run_resource_parser = False
 elif args.db_diff_only:
     print("\n" + "="*60)
     print("PATCH BUILDER - DB Diff Only Mode")
@@ -511,24 +525,28 @@ else:
     print("\n" + "="*60)
     print("PATCH BUILDER - Select patches to build")
     print("="*60)
-    print("1) PATCH-Z.MPQ only (DBC + AtlasLoot)")
-    print("2) PATCH-X.MPQ only (Custom content)")
-    print("3) Both Z and X patches")
-    print("4) PATCH-O.MPQ only (Resource Parser + MPQ)")
-    print("5) PATCH-O.MPQ only (MPQ only - skip parser)")
-    print("6) All patches (Z, X, and O)")
+    print("1) PATCH-Z full build (DBC export + AtlasLoot)")
+    print("2) PATCH-Z quick build (AtlasLoot only, skip DBC export)")
+    print("3) PATCH-X (Custom content)")
+    print("4) PATCH-O full build (Resource Parser + MPQ)")
+    print("5) PATCH-O quick repackage (MPQ only)")
+    print("6) Z + X patches")
+    print("7) All patches (Z, X, O)")
     print("="*60)
 
     while True:
-        choice = input("Enter your choice (1-6): ").strip()
-        if choice in ['1', '2', '3', '4', '5', '6']:
+        choice = input("Enter your choice (1-7): ").strip()
+        if choice in ['1', '2', '3', '4', '5', '6', '7']:
             break
-        print("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.")
+        print("Invalid choice. Please enter 1, 2, 3, 4, 5, 6, or 7.")
 
-    build_patch_z = choice in ['1', '3', '6']
-    build_patch_x = choice in ['2', '3', '6']
-    build_patch_o = choice in ['4', '5', '6']
-    run_resource_parser = choice in ['4', '6']  # Skip parser for option 5
+    build_patch_z = choice in ['1', '2', '6', '7']
+    build_patch_x = choice in ['3', '6', '7']
+    build_patch_o = choice in ['4', '5', '7']
+    run_resource_parser = choice in ['4', '7']  # Skip parser for option 5
+    # For option 2, we set a flag to simulate --build-patch-z-mpq-only behavior
+    if choice == '2':
+        args.build_patch_z_mpq_only = True
 
     patches_to_build = []
     if build_patch_z:
@@ -581,8 +599,8 @@ def update_item_dbc():
     except mysql.connector.Error as err:
         print(f"Error: {err}")
 
-# Only generate DBC diffs when building Patch-Z
-if build_patch_z:
+# Only generate DBC diffs when building Patch-Z (skip in MPQ-only mode)
+if build_patch_z and not args.build_patch_z_mpq_only:
     try:
         update_item_dbc()
         create_dbc_backup()
@@ -865,15 +883,15 @@ print(f"Script is running here {base_directory}")
 # Check file permissions before proceeding
 check_file_permissions()
 
-# Headless export (only needed for PATCH-Z and when not in db-diff-only mode)
+# Headless export (only needed for PATCH-Z and when not in db-diff-only or mpq-only mode)
 # Uses HeadlessExporter subfolder which has matched pair of HeadlessExport.exe + SpellEditor.exe v2.1.0
-if build_patch_z and not args.db_diff_only:
+if build_patch_z and not args.db_diff_only and not args.build_patch_z_mpq_only:
     os.chdir(headless_exporter_dir)
     subprocess.run(['HeadlessExport.exe'], check=True)
 
-# Post-process: Reorder CharSections.dbc by race/gender grouping (only needed for PATCH-Z and not in db-diff-only mode)
+# Post-process: Reorder CharSections.dbc by race/gender grouping (only needed for PATCH-Z and not in db-diff-only or mpq-only mode)
 # HeadlessExport sorts by ID which breaks client expectations for race/gender grouping
-if build_patch_z and not args.db_diff_only:
+if build_patch_z and not args.db_diff_only and not args.build_patch_z_mpq_only:
     export_dir = os.path.join(headless_exporter_dir, 'Export')
     charsections_path = os.path.join(export_dir, 'CharSections.dbc')
 
@@ -898,6 +916,7 @@ if build_patch_z and not args.db_diff_only:
     shutil.copytree(export_dir, destination_dir, dirs_exist_ok=True)
 
 # Generate AtlasLoot tables from database (AtlasLoot is in PATCH-Z)
+# Runs in both full build and quick repackage mode (for AtlasLoot troubleshooting)
 if not args.db_diff_only and build_patch_z:
     print("\n" + "="*60)
     print("Generating AtlasLoot tables from database...")
