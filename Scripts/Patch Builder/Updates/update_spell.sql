@@ -2307,6 +2307,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 8096;
 
 UPDATE `dbc`.`spell` SET 
+    `SpellIconID` = 4899 /* was 125 */,
     `SpellDescription0` = 'Increases Intellect by $s1 for $d. Empowering Scroll.' /* was 'Increases the target's Intellect by $s1 for $d.' */
 WHERE `ID` = 8097;
 
@@ -13007,27 +13008,39 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 51960;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52128s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52127n globes of water, granting $52127s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52128s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52127d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52128s1 mana.' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52128s1 mana.  $n charges.' */
 WHERE `ID` = 52127;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52130s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52129n globes of water, granting $52129s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52130s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52129d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52130s1 mana. ' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52130s1 mana.  $n charges.' */
 WHERE `ID` = 52129;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52132s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52131n globes of water, granting $52131s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52132s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52131d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52132s1 mana.' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52132s1 mana.  $n charges.' */
 WHERE `ID` = 52131;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52133s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52134n globes of water, granting $52134s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52133s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52134d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52133s1 mana.' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52133s1 mana.  $n charges.' */
 WHERE `ID` = 52134;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52135s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52136n globes of water, granting $52136s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52135s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52136d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52135s1 mana.' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52135s1 mana.  $n charges.' */
 WHERE `ID` = 52136;
 
 UPDATE `dbc`.`spell` SET 
-    `ProcCharges` = 0 /* was 3 */
+    `ProcCharges` = 0 /* was 3 */,
+    `SpellDescription0` = 'The caster is surrounded by globes of water, granting $s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52138s1 mana is restored to the caster. Activate once every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.' /* was 'The caster is surrounded by $52138n globes of water, granting $52138s2 mana per 5 sec.  When a spell, melee or ranged attack hits the caster, $52137s1 mana is restored to the caster. This expends one water globe.  Only one globe will activate every few seconds.  Lasts $52138d.  Only one Elemental Shield can be active on the Shaman at any one time.' */,
+    `SpellToolTip0` = '$s2 mana per 5 sec.  Attacks and spells used against you restore $52137s1 mana. ' /* was '$s2 mana per 5 sec.  Attacks and spells used against you restore $52137s1 mana.  $n charges.' */
 WHERE `ID` = 52138;
 
 UPDATE `dbc`.`spell` SET 

@@ -22,5 +22,7 @@ INSERT INTO `dbc`.`spelldescriptionvariables` SET
 $stone=$?a17619[${1+0.01*($17619m1+1)}][${1}]
 $m=${$<mortar>*$<stone>}
 $potion1=${$s1*$<m>}
-$potion2=${$s2*$<m>}';
+$potion1max=${$S1*$<m>}
+$potion2=${$s2*$<m>}
+$potion2max=${$S2*$<m>}';
 
