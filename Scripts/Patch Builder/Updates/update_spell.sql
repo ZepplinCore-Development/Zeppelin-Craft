@@ -13104,7 +13104,7 @@ UPDATE `dbc`.`spell` SET
 WHERE `ID` = 52572;
 
 UPDATE `dbc`.`spell` SET 
-    `SpellDescription0` = 'Restores $<potion1> health and ${$m2/10} runic power.' /* was 'Restores $s1 health and ${$m2/10} runic power.' */,
+    `SpellDescription0` = 'Restores $<potion1> to $<potion1max> health and ${($m2+1)/10} runic power.' /* was 'Restores $s1 health and ${$m2/10} runic power.' */,
     `SpellFamilyFlags` = 8 /* was 0 */,
     `SpellDescriptionVariableID` = 183 /* was 0 */
 WHERE `ID` = 52697;
