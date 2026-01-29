@@ -30,13 +30,9 @@ class LuaGenerator:
     MAX_ITEMS = 30  # Maximum items per page
 
     # Category-specific icons
-    # TODO: Switch to custom icons once they're added to patch MPQ
-    # ICON_GUARANTEED_ALL = "AO_ChestWithTreasures"  # Display ID 135500 - treasure chest
-    # ICON_GUARANTEED_ONE = "AO_Unknown"             # Display ID 141313 - mystery/random
-    # ICON_VARIABLE = "RoM_stellar_dice"             # Display ID 151396 - dice/chance
-    ICON_GUARANTEED_ALL = "INV_Box_01"
-    ICON_GUARANTEED_ONE = "INV_Box_01"
-    ICON_VARIABLE = "INV_Box_01"
+    ICON_GUARANTEED_ALL = "AO_ChestWithTreasures"  # Display ID 135500 - treasure chest
+    ICON_GUARANTEED_ONE = "AO_Unknown"             # Display ID 141313 - mystery/random
+    ICON_VARIABLE = "RoM_stellar_dice"             # Display ID 151396 - dice/chance
 
     # Category descriptions
     CATEGORY_GUARANTEED_ALL = "Always Drops"
@@ -302,7 +298,9 @@ class LuaGenerator:
         """
         Add a unified loot section header with boss name, category, and icon.
 
-        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"].." - CATEGORY", "=q5=DESCRIPTION" }
+        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"], "=q5=CATEGORY" }
+        - Field 4 (top line): Boss name via BabbleBoss
+        - Field 5 (bottom line): Loot category
 
         Args:
             boss_name: Boss name for the header
@@ -310,13 +308,13 @@ class LuaGenerator:
             icon: Icon texture name (e.g., "INV_Box_01")
             is_babble: True to use BabbleBoss[], False for direct text
         """
-        # Map category to description for field 5
-        desc_map = {
-            self.CATEGORY_GUARANTEED_ALL: "Always Drops",
-            self.CATEGORY_GUARANTEED_ONE: "Random Drop",
-            self.CATEGORY_VARIABLE: "Chance on Drop"
+        # Map category to field 5 display text
+        category_map = {
+            self.CATEGORY_GUARANTEED_ALL: "ALL WILL DROP",
+            self.CATEGORY_GUARANTEED_ONE: "ONE WILL DROP",
+            self.CATEGORY_VARIABLE: "CHANCE TO DROP"
         }
-        description = desc_map.get(category, "")
+        field5 = f"=q5={category_map.get(category, category)}"
 
         # Validate BabbleBoss name if validator is available
         if is_babble:
@@ -330,9 +328,9 @@ class LuaGenerator:
                 print(f"        Auto-fallback: Using literal string instead of BabbleBoss[]")
 
         if is_babble:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"].." - {category}", "=q5={description}"}};'
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"], "{field5}"}};'
         else:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name} - {category}", "=q5={description}"}};'
+            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name}", "{field5}"}};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
