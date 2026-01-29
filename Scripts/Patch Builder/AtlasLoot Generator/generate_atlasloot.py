@@ -24,6 +24,8 @@ load_dotenv(os.path.join(PATCH_BUILDER_DIR, '.env'))
 from lua_parser import AtlasLootParser
 from loot_query import LootDatabase
 from lua_generator import LuaGenerator
+from babble_validator import get_validator, BabbleValidator
+from lua_generator import set_babble_validator
 
 # Path configuration - try .env first, fall back to Linux/Docker path if not found
 _env_base = os.getenv('BASE_DIRECTORY', '')
@@ -44,6 +46,7 @@ ADDON_BASE_DIR = os.path.join(BASE_DIRECTORY, 'Zeppelin-Craft', 'MPQ Staging', '
 VANILLA_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_OriginalWoW', 'originalwow.lua')
 TBC_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_BurningCrusade', 'burningcrusade.lua')
 TABLE_REGISTRY_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'TableRegister', 'loottables.en.lua')
+BABBLE_BOSS_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'Libs', 'LibBabble-Boss-3.0', 'LibBabble-Boss-3.0.lua')
 
 # Load section mappings from JSON
 MAPPINGS_FILE = os.path.join(SCRIPT_DIR, 'section_mappings.json')
@@ -947,6 +950,11 @@ def main():
     if not os.path.exists(args.lua_file):
         print(f"[ERROR] Error: Lua file not found: {args.lua_file}")
         return 1
+
+    # Initialize BabbleBoss validator
+    print("Loading BabbleBoss validator...")
+    validator = get_validator(BABBLE_BOSS_FILE)
+    set_babble_validator(validator)
 
     # Connect to database
     print("Connecting to database...")

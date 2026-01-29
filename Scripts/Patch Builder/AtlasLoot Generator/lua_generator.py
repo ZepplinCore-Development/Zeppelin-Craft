@@ -3,8 +3,22 @@ Lua Generator Module
 Generates AtlasLoot-formatted Lua code from database loot data
 """
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 from atlasloot_mappings import get_lua_item_line, get_boss_header_line
+
+# Global validator reference (set by generate_atlasloot.py)
+_babble_validator = None
+
+
+def set_babble_validator(validator):
+    """Set the global BabbleBoss validator instance."""
+    global _babble_validator
+    _babble_validator = validator
+
+
+def get_babble_validator():
+    """Get the global BabbleBoss validator instance."""
+    return _babble_validator
 
 
 class LuaGenerator:
@@ -303,6 +317,17 @@ class LuaGenerator:
             self.CATEGORY_VARIABLE: "Chance on Drop"
         }
         description = desc_map.get(category, "")
+
+        # Validate BabbleBoss name if validator is available
+        if is_babble:
+            validator = get_babble_validator()
+            if validator and not validator.is_valid(boss_name):
+                print(f"[ERROR] BabbleBoss validation FAILED: \"{boss_name}\" not found in library!")
+                print(f"        Section: {self.section_name}")
+                print(f"        Fix: Add \"{boss_name}\" to LibBabble-Boss-3.0.lua or set is_babble=false")
+                # Auto-fallback to literal string to prevent Lua nil error
+                is_babble = False
+                print(f"        Auto-fallback: Using literal string instead of BabbleBoss[]")
 
         if is_babble:
             header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"].." - {category}", "=q5={description}"}};'
