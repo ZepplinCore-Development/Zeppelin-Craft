@@ -14,6 +14,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 ---- Blackrock Mountain: Lower Blackrock Spire
 ---- Blackrock Mountain: Upper Blackrock Spire
 ---- Blackrock Mountain: Molten Core
+---- Onyxia's Lair (40)
 ---- Blackrock Mountain: Blackwing Lair
 ---- Dire Maul Books
 ---- Dire Maul East
@@ -1453,6 +1454,40 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		{ 25, 18257, "", "=q3=Recipe: Major Rejuvenation Potion", "=ds=#p1# (300)", "", "0.76%"};
 		{ 26, 18253, "", "=q1=Major Rejuvenation Potion", "=ds=#e2#"};
 		{ 28, 18260, "", "=q3=Formula: Enchant Weapon - Healing Power", "=ds=#p4# (300)", "", "0.75%"};
+	};
+
+		---------------------------
+		--- Onyxia's Lair (40) ---
+		---------------------------
+
+	AtlasLoot_Data["Onyxia40"] = {
+    { 1, 0, "AO_Unknown", "=q6="..BabbleBoss["Onyxia"], "=q5=TIER 2 HELM WILL DROP" };
+    { 2, 16908, "", "=q4=Bloodfang Hood", "=ds=#s1#, #a2#", "", "11.1%" };
+    { 3, 16914, "", "=q4=Netherwind Crown", "=ds=#s1#, #a1#", "", "11.1%" };
+    { 4, 16921, "", "=q4=Halo of Transcendence", "=ds=#s1#, #a1#", "", "11.1%" };
+    { 5, 16929, "", "=q4=Nemesis Skullcap", "=ds=#s1#, #a1#", "", "11.1%" };
+    { 6, 16939, "", "=q4=Dragonstalker's Helm", "=ds=#s1#, #a3#", "", "11.1%" };
+    { 7, 16947, "", "=q4=Helmet of Ten Storms", "=ds=#s1#, #a3#", "", "11.1%" };
+    { 8, 16955, "", "=q4=Judgement Crown", "=ds=#s1#, #a4#", "", "11.1%" };
+    { 9, 16963, "", "=q4=Helm of Wrath", "=ds=#s1#, #a4#", "", "11.1%" };
+    { 10, 16900, "", "=q4=Stormrage Cover", "=ds=#s1#, #a2#", "", "11.1%" };
+    { 12, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
+    { 13, 17078, "", "=q4=Sapphiron Drape", "=ds=#s4#", "", "17.0%" };
+    { 14, 18205, "", "=q4=Eskhandar's Collar", "=ds=#s2#", "", "17.0%" };
+    { 15, 18813, "", "=q4=Ring of Binding", "=ds=#s13#", "", "17.0%" };
+    { 16, 17064, "", "=q4=Shard of the Scale", "=ds=#s14#", "", "17.0%" };
+    { 17, 17067, "", "=q4=Ancient Cornerstone Grimoire", "=ds=#s15#", "", "17.0%" };
+    { 19, 0, "RoM_stellar_dice", "=q6="..BabbleBoss["Onyxia"], "=q5=CHANCE TO DROP" };
+    { 20, 17070, "", "=q4=Fang of the Mystics", "=ds=#h3#, #w4#", "", "7.0%" };
+    { 21, 17075, "", "=q4=Vis'kag the Bloodletter", "=ds=#h1#, #w10#", "", "7.0%" };
+    { 22, 17068, "", "=q4=Deathbringer", "=ds=#h1#, #w1#", "", "7.0%" };
+    { 23, 17073, "", "=q4=Earthshaker", "=ds=#w7#", "", "7.0%" };
+    { 24, 17074, "", "=q4=Shadowstrike", "=ds=#w7#", "", "7.0%" };
+    { 25, 17072, "", "=q4=Blastershot Launcher", "=ds=#w5#", "", "7.0%" };
+    { 26, 17077, "", "=q4=Crimson Shocker", "=ds=#w12#", "", "7.0%" };
+    { 28, 0, "AO_ChestWithTreasures", "=q6="..BabbleBoss["Onyxia"], "=q5=ALWAYS DROPS" };
+    { 29, 18423, "", "=q4=Head of Onyxia", "=ds=#m3#", "", "100%" };
+    { 30, 17966, "", "=q2=Onyxia Hide Backpack", "=ds=#e1#", "", "100%" };
 	};
 
 		------------------------------------------
@@ -3261,14 +3296,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["STRATSothosJarien"] = {
-		{ 1, 0, "INV_Misc_Bag_09", "=q6=#j5#", "=q5=#n18#"};
-		{ 2, 22301, "", "=q3=Ironweave Robe", "=ds=#s5#, #a1#", "", "19.00%"};
-		{ 3, 22328, "", "=q3=Legplates of Vigilance", "=ds=#s11#, #a4#", "", "21.27%"};
-		{ 4, 22327, "", "=q3=Amulet of the Redeemed", "=ds=#s2#", "", "14.03%"};
-		{ 5, 22334, "", "=q3=Band of Mending", "=ds=#s13#", "", "17.19%"};
-		{ 6, 22329, "", "=q3=Scepter of Interminable Focus", "=ds=#s15#", "", "28.51%"};
-		{ 8, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#"};
-		{ 9, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#"};
+    { 1, 0, "RoM_stellar_dice", "=q6=Sothos and Jarien's Heirlooms", "=q5=CHANCE TO DROP"};
+    { 2, 22301, "", "=q3=Ironweave Robe", "=ds=#a1#", "", "" };
+    { 3, 22327, "", "=q3=Amulet of the Redeemed", "=ds=#s2#", "", "" };
+    { 4, 22328, "", "=q3=Legplates of Vigilance", "=ds=#a4#", "", "" };
+    { 5, 22329, "", "=q3=Scepter of Interminable Focus", "=ds=#s15#", "", "" };
+    { 6, 22334, "", "=q3=Band of Mending", "=ds=#s13#", "", "" };
+    { 8, 0, "AO_ChestWithTreasures", "=q6=Sothos", "=q5=ALL WILL DROP"};
+    { 9, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 10, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 12, 0, "AO_ChestWithTreasures", "=q6=Jarien", "=q5=ALL WILL DROP"};
+    { 13, 21984, "", "=q1=Left Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
+    { 14, 22046, "", "=q1=Right Piece of Lord Valthalak's Amulet", "=ds=#m3#", "", "100%" };
 	};
 
 	AtlasLoot_Data["STRATStonespine"] = {

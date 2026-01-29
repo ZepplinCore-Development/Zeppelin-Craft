@@ -784,6 +784,8 @@ end
 	AtlasLoot_TableNames["MCRagnaros"] = { BabbleBoss["Ragnaros"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["MCRANDOMBOSSDROPPS"] = { "Random Boss Drops", "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["MCTrashMobs"] = { AL["Trash Mobs"].." ("..BabbleZone["Molten Core"]..")", "AtlasLootOriginalWoW" };
+  -- Onyxia's Lair (40)
+	AtlasLoot_TableNames["Onyxia40"] = { BabbleBoss["Onyxia"].." (Level 60)", "AtlasLootOriginalWoW" };
   -- Ragefire Chasm
 	AtlasLoot_TableNames["RFCTaragaman"] = { BabbleBoss["Taragaman the Hungerer"], "AtlasLootOriginalWoW" };
 	AtlasLoot_TableNames["RFCJergosh"] = { BabbleBoss["Jergosh the Invoker"], "AtlasLootOriginalWoW" };

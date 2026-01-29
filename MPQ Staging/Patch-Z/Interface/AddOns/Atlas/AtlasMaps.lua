@@ -2079,6 +2079,18 @@ AtlasMaps = {
 		{ GREY.."2) "..AtlasLocale["Whelp Eggs"] };
 		{ GREY.."3) "..AtlasLocale["Onyxia"], NPC, 10184 };
 	};
+	Onyxia40 = {
+		ZoneName = { BabbleZone["Onyxia's Lair"].." (Original)", 2159 };
+		Location = { BabbleZone["Dustwallow Marsh"], 15 };
+		LevelRange = "60";
+		MinLevel = "60";
+		PlayerLimit = "40";
+		Acronym = "Ony40";
+		{ BLUE.."A) "..AtlasLocale["Entrance"] };
+		{ GREY.."1) "..AtlasLocale["Onyxian Warders"], NPC, 12129 };
+		{ GREY.."2) "..AtlasLocale["Whelp Eggs"] };
+		{ GREY.."3) "..AtlasLocale["Onyxia"], NPC, 10184 };
+	};
 	RubySanctum = {
 		ZoneName = { BabbleSubZone["Chamber of the Aspects"]..": "..BabbleZone["The Ruby Sanctum"], 4987 };
 		Location = { BabbleZone["Dragonblight"], 65 };

@@ -1382,6 +1382,13 @@ AtlasLootNewBossButtons = {
         "Onyxia_1";
         };
 
+    Onyxia40 = {
+        "";
+        "";
+        "";
+        "Onyxia40";
+        };
+
     RagefireChasm = {
         "";             -- 1: A) Entrance
         "";             -- 2: 1) Maur Grimtotem (no loot)
@@ -3217,6 +3224,13 @@ AtlasLootBossButtons = {
         "";
         "";
         "Onyxia_1";
+        };
+
+    Onyxia40 = {
+        "";
+        "";
+        "";
+        "Onyxia40";
         };
 
     RagefireChasm = {
