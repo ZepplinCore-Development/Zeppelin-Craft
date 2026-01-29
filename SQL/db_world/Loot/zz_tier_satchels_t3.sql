@@ -437,3 +437,77 @@ UPDATE `quest_template` SET
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 300000, `RewardItem1` = 0
 WHERE `ID` IN (9041, 9049, 9060, 9068, 9078, 9087, 9096, 9107, 9115);
+
+-- ============================================================================
+-- SECTION 7: WARTORN SCRAP DAILY QUESTS
+-- ============================================================================
+-- Create rotating daily quest pool for Wartorn Scrap turn-ins
+-- Quest IDs: 100010-100013
+-- Pool offers 1 random quest per day
+
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 100010 AND 100013;
+INSERT INTO `quest_template` (
+    `ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`,
+    `Flags`, `RewardMoney`, `RewardFactionID1`, `RewardFactionValue1`, `RewardFactionOverride1`,
+    `RequiredItemId1`, `RequiredItemCount1`,
+    `LogTitle`, `LogDescription`, `QuestDescription`, `QuestCompletionLog`
+) VALUES
+-- Wartorn Plate Scrap (Warrior/Paladin)
+(100010, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22375, 20,
+ 'Remnants of the Scourge - Plate',
+ 'Bring 20 Wartorn Plate Scraps to Korfax at Light''s Hope Chapel.',
+ 'The Scourge war machine leaves behind fragments of armor from fallen knights and paladins. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Plate Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
+ 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
+-- Wartorn Chain Scrap (Rogue/Shaman)
+(100011, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22374, 20,
+ 'Remnants of the Scourge - Chain',
+ 'Bring 20 Wartorn Chain Scraps to Korfax at Light''s Hope Chapel.',
+ 'The Scourge war machine leaves behind fragments of armor from fallen rogues and shaman. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Chain Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
+ 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
+-- Wartorn Leather Scrap (Hunter/Druid)
+(100012, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22373, 20,
+ 'Remnants of the Scourge - Leather',
+ 'Bring 20 Wartorn Leather Scraps to Korfax at Light''s Hope Chapel.',
+ 'The Scourge war machine leaves behind fragments of armor from fallen hunters and druids. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Leather Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
+ 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
+-- Wartorn Cloth Scrap (Mage/Warlock/Priest)
+(100013, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22376, 20,
+ 'Remnants of the Scourge - Cloth',
+ 'Bring 20 Wartorn Cloth Scraps to Korfax at Light''s Hope Chapel.',
+ 'The Scourge war machine leaves behind fragments of armor from fallen mages, warlocks, and priests. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Cloth Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
+ 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.');
+
+-- Mark quests as daily repeatable
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 100010 AND 100013;
+INSERT INTO `quest_template_addon` (`ID`, `MaxLevel`, `AllowableClasses`, `SourceSpellID`, `PrevQuestID`, `NextQuestID`, `ExclusiveGroup`, `RewardMailTemplateID`, `RewardMailDelay`, `RequiredSkillID`, `RequiredSkillPoints`, `RequiredMinRepFaction`, `RequiredMaxRepFaction`, `RequiredMinRepValue`, `RequiredMaxRepValue`, `ProvidedItemCount`, `SpecialFlags`) VALUES
+(100010, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag (SpecialFlags = 1)
+(100011, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag + same exclusive group
+(100012, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag + same exclusive group
+(100013, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1); -- Daily flag + same exclusive group
+
+-- Add quests to Korfax (16112)
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 100010 AND 100013;
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 100010 AND 100013;
+INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES
+(16112, 100010),
+(16112, 100011),
+(16112, 100012),
+(16112, 100013);
+INSERT INTO `creature_questender` (`id`, `quest`) VALUES
+(16112, 100010),
+(16112, 100011),
+(16112, 100012),
+(16112, 100013);
+
+-- Create daily quest pool (offers 1 random quest per day)
+DELETE FROM `pool_template` WHERE `entry` = 39010;
+INSERT INTO `pool_template` (`entry`, `max_limit`, `description`) VALUES
+(39010, 1, 'Light''s Hope Chapel - Wartorn Scrap Daily Quest Pool (F-025)');
+
+-- Add quests to pool
+DELETE FROM `pool_quest` WHERE `pool_entry` = 39010;
+INSERT INTO `pool_quest` (`entry`, `pool_entry`, `description`) VALUES
+(100010, 39010, 'Remnants of the Scourge - Plate'),
+(100011, 39010, 'Remnants of the Scourge - Chain'),
+(100012, 39010, 'Remnants of the Scourge - Leather'),
+(100013, 39010, 'Remnants of the Scourge - Cloth');
