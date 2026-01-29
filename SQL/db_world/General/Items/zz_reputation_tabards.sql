@@ -540,6 +540,8 @@ INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
 -- Alliance City Tabards
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 72,
     `RequiredReputationRank` = 5,
@@ -549,6 +551,8 @@ WHERE `entry` = 45574; -- Stormwind Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 47,
     `RequiredReputationRank` = 5,
@@ -558,6 +562,8 @@ WHERE `entry` = 45577; -- Ironforge Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 54,
     `RequiredReputationRank` = 5,
@@ -567,6 +573,8 @@ WHERE `entry` = 45578; -- Gnomeregan Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 69,
     `RequiredReputationRank` = 5,
@@ -576,6 +584,8 @@ WHERE `entry` = 45579; -- Darnassus Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 930,
     `RequiredReputationRank` = 5,
@@ -586,6 +596,8 @@ WHERE `entry` = 45580; -- Exodar Tabard
 -- Horde City Tabards
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 76,
     `RequiredReputationRank` = 5,
@@ -595,6 +607,8 @@ WHERE `entry` = 45581; -- Orgrimmar Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 530,
     `RequiredReputationRank` = 5,
@@ -604,6 +618,8 @@ WHERE `entry` = 45582; -- Sen'jin Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 68,
     `RequiredReputationRank` = 5,
@@ -613,6 +629,8 @@ WHERE `entry` = 45583; -- Undercity Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 81,
     `RequiredReputationRank` = 5,
@@ -622,6 +640,8 @@ WHERE `entry` = 45584; -- Thunder Bluff Tabard
 
 UPDATE `item_template` SET
     `ItemLevel` = 1,
+    `BuyPrice` = 9500,
+    `SellPrice` = 2375,
     `bonding` = 1,
     `RequiredReputationFaction` = 911,
     `RequiredReputationRank` = 5,
