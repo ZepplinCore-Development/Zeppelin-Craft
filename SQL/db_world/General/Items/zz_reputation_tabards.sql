@@ -302,3 +302,329 @@ INSERT INTO `npc_vendor` SET
 INSERT INTO `npc_vendor` SET
     `entry` = 16528,
     `item` = 902003;
+
+-- ==============================================================================
+-- PART 4: STANDARDIZE CITY TABARD VENDORS
+-- ==============================================================================
+-- Update all tabard vendor subnames to "Tabard Vendor" for consistency
+
+UPDATE `creature_template` SET `subname` = 'Tabard Vendor' WHERE `entry` IN (
+    5049,   -- Lyesa Steelbrow (Ironforge)
+    5191,   -- Shalumon (Darnassus)
+    16766,  -- Issca (Exodar)
+    5193,   -- Rebecca Laughlin (Stormwind)
+    5190,   -- Merill Pleasance (Undercity)
+    16610,  -- Kredis (Silvermoon)
+    5188,   -- Garyl (Orgrimmar)
+    5189    -- Thrumn (Thunder Bluff)
+);
+
+-- ==============================================================================
+-- PART 5: UPGRADE GUILD-ONLY VENDORS TO FULL SERVICE
+-- ==============================================================================
+-- Add all Outland tabards to city vendors that currently only sell Guild tabards
+-- This brings Stormwind, Orgrimmar, and Thunder Bluff up to par with other cities
+
+-- Delete existing Outland tabard entries for these 3 vendors to allow re-running
+DELETE FROM `npc_vendor` WHERE `entry` IN (5193, 5188, 5189) AND `item` IN (
+    -- Neutral Outland
+    31775, 31776, 31777, 31778, 31779, 31780, 31781, 31804, 32445, 32828, 35221,
+    -- Alliance Outland
+    23999, 31774,
+    -- Horde Outland
+    24004, 31773,
+    -- PvP tabards
+    15196, 15197, 15198, 15199, 19031, 19032, 19505, 19506
+);
+
+-- Rebecca Laughlin (5193) - Stormwind (Alliance)
+-- Add neutral Outland tabards
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    (5193, 31775),  -- Sporeggar Tabard
+    (5193, 31776),  -- Consortium Tabard
+    (5193, 31777),  -- Keepers of Time Tabard
+    (5193, 31778),  -- Lower City Tabard
+    (5193, 31779),  -- Aldor Tabard
+    (5193, 31780),  -- Scryers Tabard
+    (5193, 31781),  -- Sha'tar Tabard
+    (5193, 31804),  -- Cenarion Expedition Tabard
+    (5193, 32445),  -- Skyguard Tabard
+    (5193, 32828),  -- Ogri'la Tabard
+    (5193, 35221),  -- Tabard of the Shattered Sun
+    -- Alliance Outland tabards
+    (5193, 23999),  -- Honor Hold Tabard
+    (5193, 31774),  -- Kurenai Tabard
+    -- Alliance PvP tabards
+    (5193, 15196),  -- Private's Tabard
+    (5193, 15198),  -- Knight's Colors
+    (5193, 19032),  -- Stormpike Battle Tabard
+    (5193, 19506);  -- Silverwing Battle Tabard
+
+-- Garyl (5188) - Orgrimmar (Horde)
+-- Add neutral Outland tabards
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    (5188, 31775),  -- Sporeggar Tabard
+    (5188, 31776),  -- Consortium Tabard
+    (5188, 31777),  -- Keepers of Time Tabard
+    (5188, 31778),  -- Lower City Tabard
+    (5188, 31779),  -- Aldor Tabard
+    (5188, 31780),  -- Scryers Tabard
+    (5188, 31781),  -- Sha'tar Tabard
+    (5188, 31804),  -- Cenarion Expedition Tabard
+    (5188, 32445),  -- Skyguard Tabard
+    (5188, 32828),  -- Ogri'la Tabard
+    (5188, 35221),  -- Tabard of the Shattered Sun
+    -- Horde Outland tabards
+    (5188, 24004),  -- Thrallmar Tabard
+    (5188, 31773),  -- Mag'har Tabard
+    -- Horde PvP tabards
+    (5188, 15197),  -- Scout's Tabard
+    (5188, 15199),  -- Stone Guard's Herald
+    (5188, 19031),  -- Frostwolf Battle Tabard
+    (5188, 19505);  -- Warsong Battle Tabard
+
+-- Thrumn (5189) - Thunder Bluff (Horde)
+-- Add neutral Outland tabards
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    (5189, 31775),  -- Sporeggar Tabard
+    (5189, 31776),  -- Consortium Tabard
+    (5189, 31777),  -- Keepers of Time Tabard
+    (5189, 31778),  -- Lower City Tabard
+    (5189, 31779),  -- Aldor Tabard
+    (5189, 31780),  -- Scryers Tabard
+    (5189, 31781),  -- Sha'tar Tabard
+    (5189, 31804),  -- Cenarion Expedition Tabard
+    (5189, 32445),  -- Skyguard Tabard
+    (5189, 32828),  -- Ogri'la Tabard
+    (5189, 35221),  -- Tabard of the Shattered Sun
+    -- Horde Outland tabards
+    (5189, 24004),  -- Thrallmar Tabard
+    (5189, 31773),  -- Mag'har Tabard
+    -- Horde PvP tabards
+    (5189, 15197),  -- Scout's Tabard
+    (5189, 15199),  -- Stone Guard's Herald
+    (5189, 19031),  -- Frostwolf Battle Tabard
+    (5189, 19505);  -- Warsong Battle Tabard
+
+-- ==============================================================================
+-- PART 6: ADD CUSTOM OUTLAND TABARDS TO CITY VENDORS
+-- ==============================================================================
+-- Add the 5 custom tabards (902001-902005) to all city vendors for convenience
+-- Note: Tranquillien (902003) is Horde-only faction
+
+-- Delete existing custom tabard entries for city vendors to allow re-running
+DELETE FROM `npc_vendor` WHERE `entry` IN (5049, 5191, 16766, 5193, 5190, 16610, 5188, 5189)
+    AND `item` IN (902001, 902002, 902003, 902004, 902005);
+
+-- Alliance City Vendors (4 custom tabards - excluding Tranquillien)
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    -- Lyesa Steelbrow (5049) - Ironforge
+    (5049, 902001),  -- Netherwing Tabard
+    (5049, 902002),  -- Violet Eye Tabard
+    (5049, 902004),  -- Ashtongue Deathsworn Tabard
+    (5049, 902005),  -- Scale of the Sands Tabard
+    -- Shalumon (5191) - Darnassus
+    (5191, 902001),  -- Netherwing Tabard
+    (5191, 902002),  -- Violet Eye Tabard
+    (5191, 902004),  -- Ashtongue Deathsworn Tabard
+    (5191, 902005),  -- Scale of the Sands Tabard
+    -- Issca (16766) - Exodar
+    (16766, 902001), -- Netherwing Tabard
+    (16766, 902002), -- Violet Eye Tabard
+    (16766, 902004), -- Ashtongue Deathsworn Tabard
+    (16766, 902005), -- Scale of the Sands Tabard
+    -- Rebecca Laughlin (5193) - Stormwind
+    (5193, 902001),  -- Netherwing Tabard
+    (5193, 902002),  -- Violet Eye Tabard
+    (5193, 902004),  -- Ashtongue Deathsworn Tabard
+    (5193, 902005);  -- Scale of the Sands Tabard
+
+-- Horde City Vendors (all 5 custom tabards including Tranquillien)
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    -- Merill Pleasance (5190) - Undercity
+    (5190, 902001),  -- Netherwing Tabard
+    (5190, 902002),  -- Violet Eye Tabard
+    (5190, 902003),  -- Tranquillien Tabard
+    (5190, 902004),  -- Ashtongue Deathsworn Tabard
+    (5190, 902005),  -- Scale of the Sands Tabard
+    -- Kredis (16610) - Silvermoon
+    (16610, 902001), -- Netherwing Tabard
+    (16610, 902002), -- Violet Eye Tabard
+    (16610, 902003), -- Tranquillien Tabard
+    (16610, 902004), -- Ashtongue Deathsworn Tabard
+    (16610, 902005), -- Scale of the Sands Tabard
+    -- Garyl (5188) - Orgrimmar
+    (5188, 902001),  -- Netherwing Tabard
+    (5188, 902002),  -- Violet Eye Tabard
+    (5188, 902003),  -- Tranquillien Tabard
+    (5188, 902004),  -- Ashtongue Deathsworn Tabard
+    (5188, 902005),  -- Scale of the Sands Tabard
+    -- Thrumn (5189) - Thunder Bluff
+    (5189, 902001),  -- Netherwing Tabard
+    (5189, 902002),  -- Violet Eye Tabard
+    (5189, 902003),  -- Tranquillien Tabard
+    (5189, 902004),  -- Ashtongue Deathsworn Tabard
+    (5189, 902005);  -- Scale of the Sands Tabard
+
+-- ==============================================================================
+-- PART 7: ADD CITY TABARDS TO CITY VENDORS
+-- ==============================================================================
+-- Add city faction tabards to all city vendors
+-- NOTE: These tabards do not yet have 25% rep bonus spells (Phase 5A TODO)
+-- They will function as cosmetic items until spells are created
+
+-- Delete existing city tabard entries for city vendors to allow re-running
+DELETE FROM `npc_vendor` WHERE `entry` IN (5049, 5191, 16766, 5193, 5190, 16610, 5188, 5189)
+    AND `item` IN (45574, 45577, 45578, 45579, 45580, 45581, 45582, 45583, 45584, 45585);
+
+-- Alliance City Tabards (5 tabards to 4 vendors)
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    -- Lyesa Steelbrow (5049) - Ironforge
+    (5049, 45574),   -- Stormwind Tabard
+    (5049, 45577),   -- Ironforge Tabard
+    (5049, 45578),   -- Gnomeregan Tabard
+    (5049, 45579),   -- Darnassus Tabard
+    (5049, 45580),   -- Exodar Tabard
+    -- Shalumon (5191) - Darnassus
+    (5191, 45574),   -- Stormwind Tabard
+    (5191, 45577),   -- Ironforge Tabard
+    (5191, 45578),   -- Gnomeregan Tabard
+    (5191, 45579),   -- Darnassus Tabard
+    (5191, 45580),   -- Exodar Tabard
+    -- Issca (16766) - Exodar
+    (16766, 45574),  -- Stormwind Tabard
+    (16766, 45577),  -- Ironforge Tabard
+    (16766, 45578),  -- Gnomeregan Tabard
+    (16766, 45579),  -- Darnassus Tabard
+    (16766, 45580),  -- Exodar Tabard
+    -- Rebecca Laughlin (5193) - Stormwind
+    (5193, 45574),   -- Stormwind Tabard
+    (5193, 45577),   -- Ironforge Tabard
+    (5193, 45578),   -- Gnomeregan Tabard
+    (5193, 45579),   -- Darnassus Tabard
+    (5193, 45580);   -- Exodar Tabard
+
+-- Horde City Tabards (5 tabards to 4 vendors)
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    -- Merill Pleasance (5190) - Undercity
+    (5190, 45581),   -- Orgrimmar Tabard
+    (5190, 45582),   -- Sen'jin Tabard
+    (5190, 45583),   -- Undercity Tabard
+    (5190, 45584),   -- Thunder Bluff Tabard
+    (5190, 45585),   -- Silvermoon City Tabard
+    -- Kredis (16610) - Silvermoon
+    (16610, 45581),  -- Orgrimmar Tabard
+    (16610, 45582),  -- Sen'jin Tabard
+    (16610, 45583),  -- Undercity Tabard
+    (16610, 45584),  -- Thunder Bluff Tabard
+    (16610, 45585),  -- Silvermoon City Tabard
+    -- Garyl (5188) - Orgrimmar
+    (5188, 45581),   -- Orgrimmar Tabard
+    (5188, 45582),   -- Sen'jin Tabard
+    (5188, 45583),   -- Undercity Tabard
+    (5188, 45584),   -- Thunder Bluff Tabard
+    (5188, 45585),   -- Silvermoon City Tabard
+    -- Thrumn (5189) - Thunder Bluff
+    (5189, 45581),   -- Orgrimmar Tabard
+    (5189, 45582),   -- Sen'jin Tabard
+    (5189, 45583),   -- Undercity Tabard
+    (5189, 45584),   -- Thunder Bluff Tabard
+    (5189, 45585);   -- Silvermoon City Tabard
+
+-- ==============================================================================
+-- PART 8: CITY TABARDS - ADD 25% REP BONUS SPELLS (PHASE 5A)
+-- ==============================================================================
+-- Add reputation bonus spells to city faction tabards
+-- Honored reputation requirement to purchase/wear (same as Outland tabards)
+
+-- Alliance City Tabards
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 72,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91204,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45574; -- Stormwind Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 47,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91205,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45577; -- Ironforge Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 54,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91206,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45578; -- Gnomeregan Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 69,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91207,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45579; -- Darnassus Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 930,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91208,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45580; -- Exodar Tabard
+
+-- Horde City Tabards
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 76,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91209,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45581; -- Orgrimmar Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 530,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91210,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45582; -- Sen'jin Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 68,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91211,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45583; -- Undercity Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 81,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91212,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45584; -- Thunder Bluff Tabard
+
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 911,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91213,
+    `spelltrigger_1` = 1
+WHERE `entry` = 45585; -- Silvermoon City Tabard
