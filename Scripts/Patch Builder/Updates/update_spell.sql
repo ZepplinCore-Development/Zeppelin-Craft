@@ -26306,7 +26306,7 @@ INSERT INTO `dbc`.`spell` SET
     `EffectBasePoints1` = 24,
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
-    `EffectMiscValue1` = 947,
+    `EffectMiscValue1` = 69,
     `SpellIconID` = 2625,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Darnassus',
