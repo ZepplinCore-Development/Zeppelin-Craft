@@ -6,20 +6,6 @@ Generates AtlasLoot-formatted Lua code from database loot data
 from typing import List, Dict, Optional
 from atlasloot_mappings import get_lua_item_line, get_boss_header_line
 
-# Global validator reference (set by generate_atlasloot.py)
-_babble_validator = None
-
-
-def set_babble_validator(validator):
-    """Set the global BabbleBoss validator instance."""
-    global _babble_validator
-    _babble_validator = validator
-
-
-def get_babble_validator():
-    """Get the global BabbleBoss validator instance."""
-    return _babble_validator
-
 
 class LuaGenerator:
     """Generates AtlasLoot Lua table entries from loot data."""
@@ -294,19 +280,18 @@ class LuaGenerator:
 
         return self.generate_section(boss_loot_data)
 
-    def _add_loot_header(self, boss_name: str, category: str, icon: str, is_babble: bool = True):
+    def _add_loot_header(self, boss_name: str, category: str, icon: str):
         """
         Add a unified loot section header with boss name, category, and icon.
 
-        Format: { line_num, 0, "ICON", "=q6="..BabbleBoss["BOSS"], "=q5=CATEGORY" }
-        - Field 4 (top line): Boss name via BabbleBoss
+        Format: { line_num, 0, "ICON", "=q6=BOSS", "=q5=CATEGORY" }
+        - Field 4 (top line): Boss name as literal string
         - Field 5 (bottom line): Loot category
 
         Args:
             boss_name: Boss name for the header
             category: Category description (e.g., "Always Drops", "Chance on Drop")
             icon: Icon texture name (e.g., "INV_Box_01")
-            is_babble: True to use BabbleBoss[], False for direct text
         """
         # Map category to field 5 display text
         category_map = {
@@ -316,21 +301,8 @@ class LuaGenerator:
         }
         field5 = f"=q5={category_map.get(category, category)}"
 
-        # Validate BabbleBoss name if validator is available
-        if is_babble:
-            validator = get_babble_validator()
-            if validator and not validator.is_valid(boss_name):
-                print(f"[ERROR] BabbleBoss validation FAILED: \"{boss_name}\" not found in library!")
-                print(f"        Section: {self.section_name}")
-                print(f"        Fix: Add \"{boss_name}\" to LibBabble-Boss-3.0.lua or set is_babble=false")
-                # Auto-fallback to literal string to prevent Lua nil error
-                is_babble = False
-                print(f"        Auto-fallback: Using literal string instead of BabbleBoss[]")
-
-        if is_babble:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6="..BabbleBoss["{boss_name}"], "{field5}"}};'
-        else:
-            header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name}", "{field5}"}};'
+        # Always use literal strings (I-082: BabbleBoss removed due to library conflicts)
+        header_line = f'    {{ {self.current_line_num}, 0, "{icon}", "=q6={boss_name}", "{field5}"}};'
         self.lines.append(header_line)
         self.current_line_num += 1
 
@@ -438,7 +410,7 @@ class LuaGenerator:
             self.lines.append(item_line)
             self.current_line_num += 1
 
-    def generate_single_boss_section(self, loot_items: List[Dict], boss_name: str = None, is_babble: bool = True) -> str:
+    def generate_single_boss_section(self, loot_items: List[Dict], boss_name: str = None) -> str:
         """
         Generate AtlasLoot section for a single boss with pool headers.
 
@@ -450,7 +422,6 @@ class LuaGenerator:
         Args:
             loot_items: List of loot item dictionaries from database query
             boss_name: Boss name for headers (uses display_name if not provided)
-            is_babble: True to use BabbleBoss[], False for direct text
 
         Returns:
             Complete Lua code for the section including header and footer
@@ -492,7 +463,7 @@ class LuaGenerator:
 
         # Add guaranteed drops with header
         if guaranteed:
-            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL, is_babble)
+            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL)
             self._add_items_block(guaranteed, force_chance=100)
 
         # Add variable drops with header
@@ -506,7 +477,7 @@ class LuaGenerator:
             if allow_column_jump and self._should_jump_to_column_2(section_size):
                 self.current_line_num = self.COLUMN_2_START
 
-            self._add_loot_header(header_boss_name, self.CATEGORY_VARIABLE, self.ICON_VARIABLE, is_babble)
+            self._add_loot_header(header_boss_name, self.CATEGORY_VARIABLE, self.ICON_VARIABLE)
             self._add_items_block(variable)
 
         # Add pool drops with headers (pool-aware truncation)
@@ -541,7 +512,7 @@ class LuaGenerator:
                 self.current_line_num += 1
 
             # Add pool header
-            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE, is_babble)
+            self._add_loot_header(header_boss_name, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE)
 
             # Add pool items
             self._add_items_block(pool_items, group_counts)
@@ -569,13 +540,12 @@ class LuaGenerator:
         (e.g., Sneed's Shredder + Sneed, Herod + Scarlet Trainee).
 
         Format: Single header slot per loot category showing:
-        - Line 1: Boss name (via BabbleBoss)
+        - Line 1: Boss name as literal string
         - Line 2: Category + Description (e.g., "Guaranteed - Always Drops")
 
         Args:
             sources_with_loot: List of dicts with:
-                - 'header': BabbleBoss name or custom header text
-                - 'is_babble': True to use BabbleBoss[], False for AL[]
+                - 'header': Header text (boss name or custom text)
                 - 'loot_items': List of loot item dictionaries
 
         Returns:
@@ -590,7 +560,6 @@ class LuaGenerator:
 
         for source in sources_with_loot:
             header = source['header']
-            is_babble = source.get('is_babble', True)
             loot_items = source.get('loot_items', [])
 
             # Skip sources with no loot
@@ -627,7 +596,7 @@ class LuaGenerator:
 
             # Add guaranteed drops with header
             if guaranteed:
-                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL, is_babble)
+                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ALL, self.ICON_GUARANTEED_ALL)
                 self._add_items_block(guaranteed, force_chance=100)
 
             # Add variable drops with header
@@ -636,7 +605,7 @@ class LuaGenerator:
                 if guaranteed:
                     self.current_line_num += 1
 
-                self._add_loot_header(header, self.CATEGORY_VARIABLE, self.ICON_VARIABLE, is_babble)
+                self._add_loot_header(header, self.CATEGORY_VARIABLE, self.ICON_VARIABLE)
                 self._add_items_block(variable)
 
             # Add pool drops with headers
@@ -648,7 +617,7 @@ class LuaGenerator:
                 if self.current_line_num != self.COLUMN_2_START:
                     self.current_line_num += 1
 
-                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE, is_babble)
+                self._add_loot_header(header, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE)
                 self._add_items_block(pool_items, group_counts)
 
             # Add gap after source (skip one line number)
@@ -720,8 +689,8 @@ def test_generator():
     # Verify structure
     if 'AtlasLoot_Data["TheStockade"]' in lua_code:
         print("\n[OK] Section header correct")
-    if 'BabbleBoss["Targorr the Dread"]' in lua_code:
-        print("[OK] Boss headers correct")
+    if '=q6=Targorr the Dread' in lua_code:
+        print("[OK] Boss headers correct (literal strings)")
     if '901100' in lua_code:
         print("[OK] Custom item IDs included")
     if lua_code.strip().endswith('};'):

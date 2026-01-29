@@ -24,8 +24,6 @@ load_dotenv(os.path.join(PATCH_BUILDER_DIR, '.env'))
 from lua_parser import AtlasLootParser
 from loot_query import LootDatabase
 from lua_generator import LuaGenerator
-from babble_validator import get_validator, BabbleValidator
-from lua_generator import set_babble_validator
 
 # Path configuration - try .env first, fall back to Linux/Docker path if not found
 _env_base = os.getenv('BASE_DIRECTORY', '')
@@ -46,7 +44,6 @@ ADDON_BASE_DIR = os.path.join(BASE_DIRECTORY, 'Zeppelin-Craft', 'MPQ Staging', '
 VANILLA_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_OriginalWoW', 'originalwow.lua')
 TBC_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_BurningCrusade', 'burningcrusade.lua')
 TABLE_REGISTRY_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'TableRegister', 'loottables.en.lua')
-BABBLE_BOSS_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'Libs', 'LibBabble-Boss-3.0', 'LibBabble-Boss-3.0.lua')
 
 # Load section mappings from JSON
 MAPPINGS_FILE = os.path.join(SCRIPT_DIR, 'section_mappings.json')
@@ -187,17 +184,15 @@ def is_section_registered(section_name: str) -> bool:
 
 
 def register_section(section_name: str, display_name: str, addon_name: str,
-                     is_heroic: bool = False, use_babble_boss: bool = True,
-                     dry_run: bool = False) -> bool:
+                     is_heroic: bool = False, dry_run: bool = False) -> bool:
     """
     Register a new section in loottables.en.lua.
 
     Args:
         section_name: Section name (e.g., "HCFurnaceBroggokHEROIC")
-        display_name: Display name (boss name for BabbleBoss, or plain string)
+        display_name: Display name (boss name or plain string)
         addon_name: AtlasLoot addon name (e.g., "AtlasLootBurningCrusade")
         is_heroic: If True, append "(Heroic)" to the display name
-        use_babble_boss: If True, wrap display_name in BabbleBoss[]; False for plain string
         dry_run: If True, don't actually modify the file
 
     Returns:
@@ -207,18 +202,11 @@ def register_section(section_name: str, display_name: str, addon_name: str,
         print(f"[ERROR] Table registry file not found: {TABLE_REGISTRY_FILE}")
         return False
 
-    # Build the registration line
-    if use_babble_boss:
-        if is_heroic:
-            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ BabbleBoss["{display_name}"].." ("..AL["Heroic"]..")", "{addon_name}" }};'
-        else:
-            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ BabbleBoss["{display_name}"], "{addon_name}" }};'
+    # Build the registration line (I-082: using literal strings, no BabbleBoss)
+    if is_heroic:
+        reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name} (Heroic)", "{addon_name}" }};'
     else:
-        # Plain string for chests/gameobjects
-        if is_heroic:
-            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name} (Heroic)", "{addon_name}" }};'
-        else:
-            reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name}", "{addon_name}" }};'
+        reg_line = f'\tAtlasLoot_TableNames["{section_name}"] = {{ "{display_name}", "{addon_name}" }};'
 
     if dry_run:
         print(f"[DRY RUN] Would register: {section_name}")
@@ -266,15 +254,14 @@ def register_section(section_name: str, display_name: str, addon_name: str,
 
 
 def ensure_section_registered(section_name: str, display_name: str, addon_name: str,
-                              use_babble_boss: bool = True, dry_run: bool = False) -> bool:
+                              dry_run: bool = False) -> bool:
     """
     Ensure a section is registered in loottables.en.lua, adding if missing.
 
     Args:
         section_name: Section name (e.g., "HCFurnaceBroggok")
-        display_name: Display name (boss name for BabbleBoss, or plain string for chests)
+        display_name: Display name (boss name or plain string)
         addon_name: AtlasLoot addon name (e.g., "AtlasLootBurningCrusade")
-        use_babble_boss: If True, wrap display_name in BabbleBoss[]; False for plain string
         dry_run: If True, don't actually modify the file
 
     Returns:
@@ -284,7 +271,7 @@ def ensure_section_registered(section_name: str, display_name: str, addon_name: 
         return True
 
     is_heroic = section_name.endswith('HEROIC')
-    return register_section(section_name, display_name, addon_name, is_heroic, use_babble_boss, dry_run)
+    return register_section(section_name, display_name, addon_name, is_heroic, dry_run)
 
 
 def generate_gameobject_section(lua_file_path: str, section_name: str,
@@ -357,8 +344,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     if section_created:
         # Determine addon name from lua file path
         addon_name = "AtlasLootBurningCrusade" if "BurningCrusade" in lua_file_path else "AtlasLootOriginalWoW"
-        ensure_section_registered(section_name, go_name, addon_name,
-                                  use_babble_boss=False, dry_run=dry_run)
+        ensure_section_registered(section_name, go_name, addon_name, dry_run=dry_run)
 
     # Step 3: Query loot
     loot_items = db.get_gameobject_loot(gameobject_entry)
@@ -402,7 +388,7 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
     Generate an AtlasLoot section that combines loot from multiple sources.
 
     Used for encounters like Vazruden + Nazan + Chest that should display
-    on a single page with BabbleBoss headers for each source.
+    on a single page with headers for each source.
 
     Args:
         lua_file_path: Path to AtlasLoot Lua file
@@ -463,14 +449,9 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
             print(f"[OK] {header} (gameobject {source_id}): {len(loot_items)} items")
 
         if loot_items:
-            # Determine if header uses BabbleBoss or AL
-            # Default: creatures use BabbleBoss, gameobjects use AL
-            # Can be overridden with is_babble in config
-            is_babble = source.get('is_babble', source_type == 'creature')
             sources_with_loot.append({
                 'header': header,
                 'header_sub': header_sub,
-                'is_babble': is_babble,
                 'loot_items': loot_items
             })
             total_items += len(loot_items)
@@ -516,7 +497,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     Generate and update a single-boss AtlasLoot section.
 
     Used for raid bosses that have their own dedicated sections
-    (e.g., BWLFiremaw, MCRagnaros) without BabbleBoss headers.
+    (e.g., BWLFiremaw, MCRagnaros).
 
     Args:
         lua_file_path: Path to AtlasLoot Lua file
@@ -603,8 +584,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     if section_created and boss_name:
         # Determine addon name from lua file path
         addon_name = "AtlasLootBurningCrusade" if "BurningCrusade" in lua_file_path else "AtlasLootOriginalWoW"
-        ensure_section_registered(section_name, boss_name, addon_name,
-                                  use_babble_boss=True, dry_run=dry_run)
+        ensure_section_registered(section_name, boss_name, addon_name, dry_run=dry_run)
 
     # Step 3: Query loot for this boss
     if verbose:
@@ -951,11 +931,6 @@ def main():
         print(f"[ERROR] Error: Lua file not found: {args.lua_file}")
         return 1
 
-    # Initialize BabbleBoss validator
-    print("Loading BabbleBoss validator...")
-    validator = get_validator(BABBLE_BOSS_FILE)
-    set_babble_validator(validator)
-
     # Connect to database
     print("Connecting to database...")
     db = LootDatabase()
@@ -1239,7 +1214,7 @@ def main():
     print(f"{'='*60}")
 
     # Return 0 if any sections processed successfully (partial success is acceptable)
-    # Many sections fail expectedly due to different Lua formats, missing BabbleBoss entries, etc.
+    # Many sections fail expectedly due to different Lua formats, missing mappings, etc.
     return 0 if success_count > 0 else 1
 
 
