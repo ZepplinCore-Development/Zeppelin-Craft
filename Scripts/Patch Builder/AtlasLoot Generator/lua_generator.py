@@ -15,10 +15,14 @@ class LuaGenerator:
     COLUMN_2_START = 16  # Positions 16-30 = Column 2
     MAX_ITEMS = 30  # Maximum items per page
 
-    # Category-specific icons (from extra_icons.sql)
-    ICON_GUARANTEED_ALL = "AO_ChestWithTreasures"  # Display ID 135500 - treasure chest
-    ICON_GUARANTEED_ONE = "AO_Unknown"             # Display ID 141313 - mystery/random
-    ICON_VARIABLE = "RoM_stellar_dice"             # Display ID 151396 - dice/chance
+    # Category-specific icons
+    # TODO: Switch to custom icons once they're added to patch MPQ
+    # ICON_GUARANTEED_ALL = "AO_ChestWithTreasures"  # Display ID 135500 - treasure chest
+    # ICON_GUARANTEED_ONE = "AO_Unknown"             # Display ID 141313 - mystery/random
+    # ICON_VARIABLE = "RoM_stellar_dice"             # Display ID 151396 - dice/chance
+    ICON_GUARANTEED_ALL = "INV_Box_01"
+    ICON_GUARANTEED_ONE = "INV_Box_01"
+    ICON_VARIABLE = "INV_Box_01"
 
     # Category descriptions
     CATEGORY_GUARANTEED_ALL = "Always Drops"
