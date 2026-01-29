@@ -504,8 +504,8 @@ class LuaGenerator:
             if allow_column_jump and self._should_jump_to_column_2(pool_size_for_column):
                 # Jump to column 2 - no spacer needed, column break provides separation
                 self.current_line_num = self.COLUMN_2_START
-            elif self.current_line_num == self.COLUMN_2_START:
-                # Already at column 2 start - no spacer needed, column break provides separation
+            elif self.current_line_num == self.COLUMN_2_START or self.current_line_num == 1:
+                # No spacer needed: column 2 start has natural break, position 1 is first item
                 pass
             else:
                 # Add spacer before pool (visual gap between groups)
@@ -612,9 +612,9 @@ class LuaGenerator:
             for group_id in sorted(pools.keys()):
                 pool_items = pools[group_id]
 
-                # Add spacer before pool, but not at column 2 start
-                # (column 2 already has a natural visual break)
-                if self.current_line_num != self.COLUMN_2_START:
+                # Add spacer before pool, but not at column 2 start or position 1
+                # (column 2 has natural visual break, position 1 is first item)
+                if self.current_line_num != self.COLUMN_2_START and self.current_line_num != 1:
                     self.current_line_num += 1
 
                 self._add_loot_header(header, self.CATEGORY_GUARANTEED_ONE, self.ICON_GUARANTEED_ONE)
