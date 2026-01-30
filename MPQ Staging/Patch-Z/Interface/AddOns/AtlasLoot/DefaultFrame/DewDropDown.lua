@@ -290,12 +290,12 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ "", "VWOWSets1" },
 	},
 	["BRDRingOfLaw"] = {
-		{ BabbleBoss["Anub'shiah"], "BRDAnubshiah" },
-		{ BabbleBoss["Eviscerator"], "BRDEviscerator" },
-		{ BabbleBoss["Gorosh the Dervish"], "BRDGorosh" },
-		{ BabbleBoss["Grizzle"], "BRDGrizzle" },
-		{ BabbleBoss["Hedrum the Creeper"], "BRDHedrum" },
-		{ BabbleBoss["Ok'thor the Breaker"], "BRDOkthor" },
+		{ "Anub'shiah", "BRDAnubshiah" },
+		{ "Eviscerator", "BRDEviscerator" },
+		{ "Gorosh the Dervish", "BRDGorosh" },
+		{ "Grizzle", "BRDGrizzle" },
+		{ "Hedrum the Creeper", "BRDHedrum" },
+		{ "Ok'thor the Breaker", "BRDOkthor" },
 	},
 	["LowerBlackrock"] = {
 		{ "", "LBRSSpirestoneButcher" },
