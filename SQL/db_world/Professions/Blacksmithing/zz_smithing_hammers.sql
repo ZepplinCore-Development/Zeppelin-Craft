@@ -167,14 +167,15 @@
         `ReqSkillRank` = 450;
 
 -- Place all the hammer spell auras into the spell group table so they can be made exclusive
-    DELETE FROM `spell_group` WHERE `id` = 1114;
-    INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
-        (1114,91130,0x100), -- Titanium (PRIORITY1)
-        (1114,91128,0x200), -- Felsteel (PRIORITY2)
-        (1114,91126,0x200), -- Thorium (PRIORITY2)
-        (1114,91124,0x400), -- Mithril (PRIORITY3)
-        (1114,91122,0x400), -- Iron (PRIORITY3)
-        (1114,91120,0x800); -- Bronze (PRIORITY4)
+-- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+DELETE FROM `spell_group` WHERE `id` = 1114;
+
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91130; -- Titanium
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91128; -- Felsteel
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91126; -- Thorium
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91124; -- Mithril
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91122; -- Iron
+INSERT INTO `spell_group` SET `id` = 1114, `spell_id` = 91120; -- Bronze
 
 -- Apply the exclusivity flag to the spell group for hammers
     DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;

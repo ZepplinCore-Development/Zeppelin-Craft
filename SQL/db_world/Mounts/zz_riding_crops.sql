@@ -314,12 +314,12 @@ DELETE FROM `spell_group` WHERE `id` = 1121;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1121;
 
 -- Add all 5 riding crop spells to group 1121
-INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
-(1121, 100010, 0),
-(1121, 100011, 0),
-(1121, 100012, 0),
-(1121, 100013, 0),
-(1121, 100014, 0);
+-- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100014; -- Master (+25%)
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100013; -- Artisan (+20%)
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100012; -- Expert (+15%)
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100011; -- Journeyman (+10%)
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100010; -- Apprentice (+5%)
 
 -- Set stack rule to NEVER_STACK (8) - highest tier wins
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES

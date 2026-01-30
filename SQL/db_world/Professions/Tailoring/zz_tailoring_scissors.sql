@@ -6,7 +6,7 @@
 
 -- Delete existing entries
 DELETE FROM `item_template` WHERE `entry` IN (57404, 57405, 57406, 57407);
-DELETE FROM `spell_group` WHERE `id` IN (91164, 91165, 91166, 91167);
+DELETE FROM `spell_group` WHERE `id` = 1118;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1118;
 
 -- =====================================================
@@ -104,15 +104,13 @@ SET `entry` = 57407,
 -- =====================================================
 -- ANTI-STACKING SPELL GROUP
 -- Prevents multiple scissor tiers from being active simultaneously
--- Uses NEVER_STACK (stack_rule = 8) with PRIORITY flags
+-- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
 -- =====================================================
 
--- Spell group 1118 for Tailoring Scissors
-INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
-(1118, 91164, 2048),  -- Journeyman (PRIORITY4 - lowest)
-(1118, 91165, 1024),  -- Artisan (PRIORITY3)
-(1118, 91166, 512),   -- Master (PRIORITY2)
-(1118, 91167, 256);   -- Grand Master (PRIORITY1 - highest)
+INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91167; -- Grand Master
+INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91166; -- Master
+INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91165; -- Artisan
+INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91164; -- Journeyman
 
 -- Stack rule: NEVER_STACK
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES

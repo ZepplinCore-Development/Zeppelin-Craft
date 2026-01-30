@@ -125,15 +125,14 @@ SET `entry` = 57616,
 
 -- =====================================================
 -- ANTI-STACKING SPELL GROUP
--- Higher tier replaces lower tier (NEVER_STACK with priority)
+-- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
 -- =====================================================
 
-INSERT INTO `spell_group` (`id`, `spell_id`, `special_flag`) VALUES
-(1119, 91182, 4096),  -- Journeyman (PRIORITY5 - lowest)
-(1119, 91183, 2048),  -- Expert (PRIORITY4)
-(1119, 91184, 1024),  -- Artisan (PRIORITY3)
-(1119, 91185, 512),   -- Master (PRIORITY2)
-(1119, 91186, 256);   -- Grand Master (PRIORITY1 - highest)
+INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91186; -- Grand Master
+INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91185; -- Master
+INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91184; -- Artisan
+INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91183; -- Expert
+INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91182; -- Journeyman
 
 -- Stack rule: NEVER_STACK
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES

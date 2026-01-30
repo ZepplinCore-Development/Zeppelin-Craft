@@ -67,12 +67,13 @@
         `bonding` = 1; -- BOP
 
 -- Place all the shear spell auras into the spell group table so they can be made exclusive
-    DELETE FROM `spell_group` WHERE `id` = 1116;
-    INSERT INTO `spell_group` (`id`,`spell_id`,`special_flag`) VALUES
-        (1116,91143,0x100), -- Grand Master (PRIORITY1)
-        (1116,91142,0x200), -- Master (PRIORITY2)
-        (1116,91141,0x400), -- Artisan (PRIORITY3)
-        (1116,91140,0x800); -- Journeyman (PRIORITY4)
+-- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+DELETE FROM `spell_group` WHERE `id` = 1116;
+
+INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91143; -- Grand Master
+INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91142; -- Master
+INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91141; -- Artisan
+INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91140; -- Journeyman
 
 -- Apply the exclusivity flag to the spell group for shears
     DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
