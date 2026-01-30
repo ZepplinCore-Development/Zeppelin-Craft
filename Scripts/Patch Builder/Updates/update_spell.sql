@@ -26273,7 +26273,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellName0` = 'Champion of Stormwind',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'You champion the cause of Thrallmar. Increases Thrallmar reputation gained from killing monsters by  $s1%.',
+    `SpellDescription0` = 'You champion the cause of Stormwind. Increases Stormwind reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
     `SpellToolTip0` = 'Increases Stormwind reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
