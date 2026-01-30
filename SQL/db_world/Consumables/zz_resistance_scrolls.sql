@@ -1161,64 +1161,64 @@ INSERT INTO `spell_group_stack_rules` SET
 DELETE FROM `spell_group` WHERE `id` = 1119;
 
 -- Fire Resistance (103198-103205)
-INSERT INTO `spell_group` VALUES (1119, 103198, 0);
-INSERT INTO `spell_group` VALUES (1119, 103199, 0);
-INSERT INTO `spell_group` VALUES (1119, 103200, 0);
-INSERT INTO `spell_group` VALUES (1119, 103201, 0);
-INSERT INTO `spell_group` VALUES (1119, 103202, 0);
-INSERT INTO `spell_group` VALUES (1119, 103203, 0);
-INSERT INTO `spell_group` VALUES (1119, 103204, 0);
-INSERT INTO `spell_group` VALUES (1119, 103205, 0);
+INSERT INTO `spell_group` VALUES (1119, 103198);
+INSERT INTO `spell_group` VALUES (1119, 103199);
+INSERT INTO `spell_group` VALUES (1119, 103200);
+INSERT INTO `spell_group` VALUES (1119, 103201);
+INSERT INTO `spell_group` VALUES (1119, 103202);
+INSERT INTO `spell_group` VALUES (1119, 103203);
+INSERT INTO `spell_group` VALUES (1119, 103204);
+INSERT INTO `spell_group` VALUES (1119, 103205);
 
 -- Frost Resistance (103206-103213)
-INSERT INTO `spell_group` VALUES (1119, 103206, 0);
-INSERT INTO `spell_group` VALUES (1119, 103207, 0);
-INSERT INTO `spell_group` VALUES (1119, 103208, 0);
-INSERT INTO `spell_group` VALUES (1119, 103209, 0);
-INSERT INTO `spell_group` VALUES (1119, 103210, 0);
-INSERT INTO `spell_group` VALUES (1119, 103211, 0);
-INSERT INTO `spell_group` VALUES (1119, 103212, 0);
-INSERT INTO `spell_group` VALUES (1119, 103213, 0);
+INSERT INTO `spell_group` VALUES (1119, 103206);
+INSERT INTO `spell_group` VALUES (1119, 103207);
+INSERT INTO `spell_group` VALUES (1119, 103208);
+INSERT INTO `spell_group` VALUES (1119, 103209);
+INSERT INTO `spell_group` VALUES (1119, 103210);
+INSERT INTO `spell_group` VALUES (1119, 103211);
+INSERT INTO `spell_group` VALUES (1119, 103212);
+INSERT INTO `spell_group` VALUES (1119, 103213);
 
 -- Arcane Resistance (103214-103221)
-INSERT INTO `spell_group` VALUES (1119, 103214, 0);
-INSERT INTO `spell_group` VALUES (1119, 103215, 0);
-INSERT INTO `spell_group` VALUES (1119, 103216, 0);
-INSERT INTO `spell_group` VALUES (1119, 103217, 0);
-INSERT INTO `spell_group` VALUES (1119, 103218, 0);
-INSERT INTO `spell_group` VALUES (1119, 103219, 0);
-INSERT INTO `spell_group` VALUES (1119, 103220, 0);
-INSERT INTO `spell_group` VALUES (1119, 103221, 0);
+INSERT INTO `spell_group` VALUES (1119, 103214);
+INSERT INTO `spell_group` VALUES (1119, 103215);
+INSERT INTO `spell_group` VALUES (1119, 103216);
+INSERT INTO `spell_group` VALUES (1119, 103217);
+INSERT INTO `spell_group` VALUES (1119, 103218);
+INSERT INTO `spell_group` VALUES (1119, 103219);
+INSERT INTO `spell_group` VALUES (1119, 103220);
+INSERT INTO `spell_group` VALUES (1119, 103221);
 
 -- Shadow Resistance (103222-103229)
-INSERT INTO `spell_group` VALUES (1119, 103222, 0);
-INSERT INTO `spell_group` VALUES (1119, 103223, 0);
-INSERT INTO `spell_group` VALUES (1119, 103224, 0);
-INSERT INTO `spell_group` VALUES (1119, 103225, 0);
-INSERT INTO `spell_group` VALUES (1119, 103226, 0);
-INSERT INTO `spell_group` VALUES (1119, 103227, 0);
-INSERT INTO `spell_group` VALUES (1119, 103228, 0);
-INSERT INTO `spell_group` VALUES (1119, 103229, 0);
+INSERT INTO `spell_group` VALUES (1119, 103222);
+INSERT INTO `spell_group` VALUES (1119, 103223);
+INSERT INTO `spell_group` VALUES (1119, 103224);
+INSERT INTO `spell_group` VALUES (1119, 103225);
+INSERT INTO `spell_group` VALUES (1119, 103226);
+INSERT INTO `spell_group` VALUES (1119, 103227);
+INSERT INTO `spell_group` VALUES (1119, 103228);
+INSERT INTO `spell_group` VALUES (1119, 103229);
 
 -- Nature Resistance (103230-103237)
-INSERT INTO `spell_group` VALUES (1119, 103230, 0);
-INSERT INTO `spell_group` VALUES (1119, 103231, 0);
-INSERT INTO `spell_group` VALUES (1119, 103232, 0);
-INSERT INTO `spell_group` VALUES (1119, 103233, 0);
-INSERT INTO `spell_group` VALUES (1119, 103234, 0);
-INSERT INTO `spell_group` VALUES (1119, 103235, 0);
-INSERT INTO `spell_group` VALUES (1119, 103236, 0);
-INSERT INTO `spell_group` VALUES (1119, 103237, 0);
+INSERT INTO `spell_group` VALUES (1119, 103230);
+INSERT INTO `spell_group` VALUES (1119, 103231);
+INSERT INTO `spell_group` VALUES (1119, 103232);
+INSERT INTO `spell_group` VALUES (1119, 103233);
+INSERT INTO `spell_group` VALUES (1119, 103234);
+INSERT INTO `spell_group` VALUES (1119, 103235);
+INSERT INTO `spell_group` VALUES (1119, 103236);
+INSERT INTO `spell_group` VALUES (1119, 103237);
 
 -- Holy Resistance (103238-103245)
-INSERT INTO `spell_group` VALUES (1119, 103238, 0);
-INSERT INTO `spell_group` VALUES (1119, 103239, 0);
-INSERT INTO `spell_group` VALUES (1119, 103240, 0);
-INSERT INTO `spell_group` VALUES (1119, 103241, 0);
-INSERT INTO `spell_group` VALUES (1119, 103242, 0);
-INSERT INTO `spell_group` VALUES (1119, 103243, 0);
-INSERT INTO `spell_group` VALUES (1119, 103244, 0);
-INSERT INTO `spell_group` VALUES (1119, 103245, 0);
+INSERT INTO `spell_group` VALUES (1119, 103238);
+INSERT INTO `spell_group` VALUES (1119, 103239);
+INSERT INTO `spell_group` VALUES (1119, 103240);
+INSERT INTO `spell_group` VALUES (1119, 103241);
+INSERT INTO `spell_group` VALUES (1119, 103242);
+INSERT INTO `spell_group` VALUES (1119, 103243);
+INSERT INTO `spell_group` VALUES (1119, 103244);
+INSERT INTO `spell_group` VALUES (1119, 103245);
 
 
 -- =====================================================
@@ -1229,14 +1229,14 @@ INSERT INTO `spell_group` VALUES (1119, 103245, 0);
 -- =====================================================
 
 -- Scroll of Protection (8 ranks: 8091, 8094, 8095, 12175, 33079, 43196, 58452, 58453)
-INSERT INTO `spell_group` VALUES (1119, 8091, 0);   -- Rank I
-INSERT INTO `spell_group` VALUES (1119, 8094, 0);   -- Rank II
-INSERT INTO `spell_group` VALUES (1119, 8095, 0);   -- Rank III
-INSERT INTO `spell_group` VALUES (1119, 12175, 0);  -- Rank IV
-INSERT INTO `spell_group` VALUES (1119, 33079, 0);  -- Rank V
-INSERT INTO `spell_group` VALUES (1119, 43196, 0);  -- Rank VI
-INSERT INTO `spell_group` VALUES (1119, 58452, 0);  -- Rank VII
-INSERT INTO `spell_group` VALUES (1119, 58453, 0);  -- Rank VIII
+INSERT INTO `spell_group` VALUES (1119, 8091);   -- Rank I
+INSERT INTO `spell_group` VALUES (1119, 8094);   -- Rank II
+INSERT INTO `spell_group` VALUES (1119, 8095);   -- Rank III
+INSERT INTO `spell_group` VALUES (1119, 12175);  -- Rank IV
+INSERT INTO `spell_group` VALUES (1119, 33079);  -- Rank V
+INSERT INTO `spell_group` VALUES (1119, 43196);  -- Rank VI
+INSERT INTO `spell_group` VALUES (1119, 58452);  -- Rank VII
+INSERT INTO `spell_group` VALUES (1119, 58453);  -- Rank VIII
 
 
 -- =====================================================
