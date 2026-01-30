@@ -33,8 +33,9 @@ DELETE FROM `spell_group` WHERE `spell_id` = 8112;   -- Spirit
 
 
 -- Add one spell per scroll type to group 1120 (core handles rank filtering)
-INSERT INTO `spell_group` VALUES (1120, 8099, 0);   -- Stamina (Scroll of Stamina)
-INSERT INTO `spell_group` VALUES (1120, 8115, 0);   -- Agility (Scroll of Agility)
-INSERT INTO `spell_group` VALUES (1120, 8096, 0);   -- Intellect (Scroll of Intellect)
-INSERT INTO `spell_group` VALUES (1120, 8118, 0);   -- Strength (Scroll of Strength)
-INSERT INTO `spell_group` VALUES (1120, 8112, 0);   -- Spirit (Scroll of Spirit)
+-- Note: special_flag column removed from spell_group (I-093)
+INSERT INTO `spell_group` VALUES (1120, 8099);   -- Stamina (Scroll of Stamina)
+INSERT INTO `spell_group` VALUES (1120, 8115);   -- Agility (Scroll of Agility)
+INSERT INTO `spell_group` VALUES (1120, 8096);   -- Intellect (Scroll of Intellect)
+INSERT INTO `spell_group` VALUES (1120, 8118);   -- Strength (Scroll of Strength)
+INSERT INTO `spell_group` VALUES (1120, 8112);   -- Spirit (Scroll of Spirit)
