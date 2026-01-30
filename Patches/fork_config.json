@@ -1,0 +1,49 @@
+{
+  "forks": {
+    "mod-individual-progression": {
+      "path": "modules/mod-individual-progression",
+      "upstream": "https://github.com/ZhengPeiRu21/mod-individual-progression.git",
+      "upstream_branch": "master"
+    },
+    "mod-accountbound": {
+      "path": "modules/mod-accountbound",
+      "upstream": "https://github.com/azerothcore/mod-accountbound.git",
+      "upstream_branch": "master"
+    },
+    "mod-worgoblin": {
+      "path": "modules/mod-worgoblin",
+      "upstream": "https://github.com/heyitsbench/mod-worgoblin.git",
+      "upstream_branch": "master"
+    },
+    "mod-reagent-bank-account": {
+      "path": "modules/mod-reagent-bank-account",
+      "upstream": "https://github.com/SoulSeekkor/mod-reagent-bank-account.git",
+      "upstream_branch": "master"
+    },
+    "mod-racial-trait-swap": {
+      "path": "modules/mod-racial-trait-swap",
+      "upstream": "https://github.com/azerothcore/mod-racial-trait-swap.git",
+      "upstream_branch": "main"
+    },
+    "DungeonRespawn": {
+      "path": "modules/DungeonRespawn",
+      "upstream": "https://github.com/AnchyDev/DungeonRespawn.git",
+      "upstream_branch": "master"
+    },
+    "mod-autobalance": {
+      "path": "modules/mod-autobalance",
+      "upstream": "https://github.com/azerothcore/mod-autobalance.git",
+      "upstream_branch": "master"
+    },
+    "mod-ah-bot": {
+      "path": "modules/mod-ah-bot",
+      "upstream": "https://github.com/azerothcore/mod-ah-bot.git",
+      "upstream_branch": "master"
+    },
+    "mod-starter-guild": {
+      "path": "modules/mod-starter-guild",
+      "upstream": "https://github.com/azerothcore/mod-starter-guild.git",
+      "upstream_branch": "master"
+    }
+  }
+}

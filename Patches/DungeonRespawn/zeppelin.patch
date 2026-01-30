@@ -1,0 +1,256 @@
+From 9166cb0d0defc90f01cd9e577e04b64a5967dc93 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Wed, 31 Dec 2025 12:01:57 +0000
+Subject: [PATCH] Fix module for current AzerothCore API and add debug logging
+
+- Updated hook names for current AzerothCore API (OnPlayerLogout, etc.)
+- Restored original queue-based teleport interception system
+- Added playersToTeleport queue to properly intercept graveyard teleports
+- Fixed OnPlayerBeforeTeleport to block default graveyard teleport (return false)
+- Added configurable debug logging (DungeonRespawn.Debug config option)
+- All debug logs wrapped in if (drDebug) checks for clean production logs
+- Successfully tested in Stockades and Scarlet Monastery
+
+Module now properly teleports dead players to dungeon entrance and resurrects them immediately, preventing trips to world graveyards.
+---
+ conf/dungeonrespawn.conf.dist | 13 ++++++-
+ src/DungeonRespawn.cpp        | 70 ++++++++++++++++++++++++++---------
+ src/DungeonRespawn.h          |  9 +++--
+ 3 files changed, 68 insertions(+), 24 deletions(-)
+
+diff --git a/conf/dungeonrespawn.conf.dist b/conf/dungeonrespawn.conf.dist
+index 9180b23..3127ad3 100644
+--- a/conf/dungeonrespawn.conf.dist
++++ b/conf/dungeonrespawn.conf.dist
+@@ -14,7 +14,16 @@
+ #                     1 - Enabled
+ #
+ 
+-DungeonRespawn.Enable = 0
++DungeonRespawn.Enable = 1
++
++#
++#    DungeonRespawn.Debug
++#        Description: Enables debug logging for troubleshooting.
++#        Default:     0 - Disabled
++#                     1 - Enabled
++#
++
++DungeonRespawn.Debug = 0
+ 
+ #
+ #    DungeonRespawn.RespawnHealthPct
+@@ -23,4 +32,4 @@ DungeonRespawn.Enable = 0
+ #        Default:     100.0
+ #
+ 
+-DungeonRespawn.RespawnHealthPct = 50.0
++DungeonRespawn.RespawnHealthPct = 100.0
+diff --git a/src/DungeonRespawn.cpp b/src/DungeonRespawn.cpp
+index 97bab9f..58a6c8d 100644
+--- a/src/DungeonRespawn.cpp
++++ b/src/DungeonRespawn.cpp
+@@ -32,6 +32,10 @@ void DSPlayerScript::OnPlayerReleasedGhost(Player* player)
+         return;
+     }
+ 
++    if (drDebug)
++    {
++        LOG_INFO("module", "DungeonRespawn: Player {} added to teleport queue", player->GetName());
++    }
+     playersToTeleport.push_back(player->GetGUID());
+ }
+ 
+@@ -41,7 +45,7 @@ void DSPlayerScript::ResurrectPlayer(Player* player)
+     player->SpawnCorpseBones();
+ }
+ 
+-bool DSPlayerScript::OnBeforeTeleport(Player* player, uint32 mapid, float /*x*/, float /*y*/, float /*z*/, float /*orientation*/, uint32 /*options*/, Unit* /*target*/)
++bool DSPlayerScript::OnPlayerBeforeTeleport(Player* player, uint32 mapid, float /*x*/, float /*y*/, float /*z*/, float /*orientation*/, uint32 /*options*/, Unit* /*target*/)
+ {
+     if (!drEnabled)
+     {
+@@ -53,6 +57,7 @@ bool DSPlayerScript::OnBeforeTeleport(Player* player, uint32 mapid, float /*x*/,
+         return true;
+     }
+ 
++    // Track when player teleports to a new map (entering dungeon)
+     if (player->GetMapId() != mapid)
+     {
+         auto prData = GetOrCreateRespawnData(player);
+@@ -61,15 +66,29 @@ bool DSPlayerScript::OnBeforeTeleport(Player* player, uint32 mapid, float /*x*/,
+ 
+     if (!IsInsideDungeonRaid(player))
+     {
++        if (drDebug)
++        {
++            LOG_INFO("module", "DungeonRespawn: Player {} not in dungeon/raid, allowing teleport", player->GetName());
++        }
+         return true;
+     }
+ 
+     if (!player->isDead())
+     {
++        if (drDebug)
++        {
++            LOG_INFO("module", "DungeonRespawn: Player {} not dead, allowing teleport", player->GetName());
++        }
+         return true;
+     }
+ 
+-    GuidVector::iterator itToRemove;
++    if (drDebug)
++    {
++        LOG_INFO("module", "DungeonRespawn: Checking teleport queue for player {}, queue size: {}", player->GetName(), playersToTeleport.size());
++    }
++
++    // Check if player is in the teleport queue
++    std::vector<ObjectGuid>::iterator itToRemove;
+     bool canRestore = false;
+ 
+     for (auto it = playersToTeleport.begin(); it != playersToTeleport.end(); ++it)
+@@ -84,15 +103,23 @@ bool DSPlayerScript::OnBeforeTeleport(Player* player, uint32 mapid, float /*x*/,
+ 
+     if (!canRestore)
+     {
++        if (drDebug)
++        {
++            LOG_INFO("module", "DungeonRespawn: Player {} not in queue, allowing teleport", player->GetName());
++        }
+         return true;
+     }
+ 
++    if (drDebug)
++    {
++        LOG_INFO("module", "DungeonRespawn: Player {} found in queue, intercepting teleport", player->GetName());
++    }
+     playersToTeleport.erase(itToRemove);
+ 
+     auto prData = GetOrCreateRespawnData(player);
+     if (prData)
+     {
+-        //Invalid Player Restore data, use default behaviour.
++        // Invalid Player Restore data, use default behaviour
+         if (prData->dungeon.map == -1)
+         {
+             return true;
+@@ -103,6 +130,10 @@ bool DSPlayerScript::OnBeforeTeleport(Player* player, uint32 mapid, float /*x*/,
+             return true;
+         }
+ 
++        if (drDebug)
++        {
++            LOG_INFO("module", "DungeonRespawn: Teleporting {} to entrance and resurrecting, BLOCKING graveyard teleport", player->GetName());
++        }
+         player->TeleportTo(prData->dungeon.map, prData->dungeon.x, prData->dungeon.y, prData->dungeon.z, prData->dungeon.o);
+         ResurrectPlayer(player);
+         return false;
+@@ -120,6 +151,7 @@ void DSWorldScript::OnAfterConfigLoad(bool reload)
+     }
+ 
+     drEnabled = sConfigMgr->GetOption<bool>("DungeonRespawn.Enable", false);
++    drDebug = sConfigMgr->GetOption<bool>("DungeonRespawn.Debug", false);
+     respawnHpPct = sConfigMgr->GetOption<float>("DungeonRespawn.RespawnHealthPct", 50.0f);
+ 
+     QueryResult qResult = CharacterDatabase.Query("SELECT `guid`, `map`, `x`, `y`, `z`, `o` FROM `dungeonrespawn_playerinfo`");
+@@ -207,7 +239,7 @@ PlayerRespawnData* DSPlayerScript::GetOrCreateRespawnData(Player* player)
+     return GetOrCreateRespawnData(player);
+ }
+ 
+-void DSPlayerScript::OnMapChanged(Player* player)
++void DSPlayerScript::OnPlayerMapChanged(Player* player)
+ {
+     if (!player)
+     {
+@@ -229,18 +261,18 @@ void DSPlayerScript::OnMapChanged(Player* player)
+         return;
+     }
+ 
+-    if (!prData->isTeleportingNewMap)
++    // Save entrance position if this is first time entering this dungeon
++    // or if we detected a teleport to a new map
++    if (prData->isTeleportingNewMap || prData->dungeon.map == -1 || prData->dungeon.map != player->GetMapId())
+     {
+-        return;
+-    }
++        prData->dungeon.map = player->GetMapId();
++        prData->dungeon.x = player->GetPositionX();
++        prData->dungeon.y = player->GetPositionY();
++        prData->dungeon.z = player->GetPositionZ();
++        prData->dungeon.o = player->GetOrientation();
+ 
+-    prData->dungeon.map = player->GetMapId();
+-    prData->dungeon.x = player->GetPositionX();
+-    prData->dungeon.y = player->GetPositionY();
+-    prData->dungeon.z = player->GetPositionZ();
+-    prData->dungeon.o = player->GetOrientation();
+-
+-    prData->isTeleportingNewMap = false;
++        prData->isTeleportingNewMap = false;
++    }
+ }
+ 
+ void DSPlayerScript::CreateRespawnData(Player* player)
+@@ -261,7 +293,7 @@ void DSPlayerScript::CreateRespawnData(Player* player)
+     respawnData.push_back(newPrData);
+ }
+ 
+-void DSPlayerScript::OnLogin(Player* player)
++void DSPlayerScript::OnPlayerLogin(Player* player)
+ {
+     if (!player)
+     {
+@@ -271,18 +303,20 @@ void DSPlayerScript::OnLogin(Player* player)
+     GetOrCreateRespawnData(player);
+ }
+ 
+-void DSPlayerScript::OnLogout(Player* player)
++void DSPlayerScript::OnPlayerLogout(Player* player)
+ {
+     if (!player)
+     {
+         return;
+     }
+ 
+-    for (auto it = playersToTeleport.begin(); it < playersToTeleport.end(); ++it)
++    // Clean player from teleport queue on logout
++    for (auto it = playersToTeleport.begin(); it != playersToTeleport.end(); ++it)
+     {
+-        if (player->GetGUID() == (*it))
++        if (*it == player->GetGUID())
+         {
+             playersToTeleport.erase(it);
++            break;
+         }
+     }
+ }
+diff --git a/src/DungeonRespawn.h b/src/DungeonRespawn.h
+index 9597675..d26a2cf 100644
+--- a/src/DungeonRespawn.h
++++ b/src/DungeonRespawn.h
+@@ -28,6 +28,7 @@ struct PlayerRespawnData
+ std::vector<PlayerRespawnData> respawnData;
+ 
+ bool drEnabled;
++bool drDebug;
+ float respawnHpPct;
+ 
+ class DSPlayerScript : public PlayerScript
+@@ -42,10 +43,10 @@ private:
+     PlayerRespawnData* GetOrCreateRespawnData(Player* /*player*/);
+     void CreateRespawnData(Player* /*player*/);
+     void OnPlayerReleasedGhost(Player* /*player*/) override;
+-    bool OnBeforeTeleport(Player* /*player*/, uint32 /*mapid*/, float /*x*/, float /*y*/, float /*z*/, float /*orientation*/, uint32 /*options*/, Unit* /*target*/) override;
+-    void OnMapChanged(Player* /*player*/) override;
+-    void OnLogin(Player* /*player*/) override;
+-    void OnLogout(Player* /*player*/) override;
++    bool OnPlayerBeforeTeleport(Player* /*player*/, uint32 /*mapid*/, float /*x*/, float /*y*/, float /*z*/, float /*orientation*/, uint32 /*options*/, Unit* /*target*/) override;
++    void OnPlayerMapChanged(Player* /*player*/) override;
++    void OnPlayerLogin(Player* /*player*/) override;
++    void OnPlayerLogout(Player* /*player*/) override;
+ };
+ 
+ class DSWorldScript : public WorldScript
+-- 
+2.34.1
+
