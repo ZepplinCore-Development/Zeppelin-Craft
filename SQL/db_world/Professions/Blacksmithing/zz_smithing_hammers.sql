@@ -1,7 +1,7 @@
 -- Smithing Hammer
     UPDATE `item_template`
     SET `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `name` = 'Basic Smithing Hammer',
         `InventoryType` = 0,
         `Quality` = 6, -- Artifact
@@ -15,7 +15,7 @@
     INSERT INTO `item_template`
     SET `entry` = 57003,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Bronze Smithing Hammer',
@@ -28,20 +28,16 @@
         `bonding` = 1; -- BOP
 
 -- Bronze Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91121);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91121,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 75;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91121);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91121, 500, 164, 75, 0, 0, 0, 0);
 
 -- Iron Smithing Hammer ITEM TEMPLATE
     DELETE FROM `item_template` WHERE (`entry` = 57004);
     INSERT INTO `item_template`
     SET `entry` = 57004,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Iron Smithing Hammer',
@@ -54,20 +50,16 @@
         `bonding` = 1; -- BOP
 
 -- Iron Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91123);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91123,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 150;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91123);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91123, 500, 164, 150, 0, 0, 0, 0);
 
 -- Mithril Smithing Hammer ITEM TEMPLATE
     DELETE FROM `item_template` WHERE (`entry` = 57005);
     INSERT INTO `item_template`
     SET `entry` = 57005,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Mithril Smithing Hammer',
@@ -80,20 +72,16 @@
         `bonding` = 1; -- BOP
 
 -- Mithril Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91125);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91125,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 225;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91125);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91125, 500, 164, 225, 0, 0, 0, 0);
 
 -- Thorium Smithing Hammer ITEM TEMPLATE
     DELETE FROM `item_template` WHERE (`entry` = 57006);
     INSERT INTO `item_template`
     SET `entry` = 57006,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Thorium Smithing Hammer',
@@ -106,20 +94,16 @@
         `bonding` = 1; -- BOP
 
 -- Thorium Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91127);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91127,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 300;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91127);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91127, 500, 164, 300, 0, 0, 0, 0);
 
 -- Felsteel Smithing Hammer ITEM TEMPLATE
     DELETE FROM `item_template` WHERE (`entry` = 57007);
     INSERT INTO `item_template`
     SET `entry` = 57007,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Felsteel Smithing Hammer',
@@ -132,20 +116,16 @@
         `bonding` = 1; -- BOP
 
 -- Felsteel Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91129);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91129,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 375;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91129);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91129, 500, 164, 375, 0, 0, 0, 0);
 
 -- Titanium Smithing Hammer ITEM TEMPLATE
     DELETE FROM `item_template` WHERE (`entry` = 57008);
     INSERT INTO `item_template`
     SET `entry` = 57008,
         `class` = 5, -- Reagent
-        `subclass` = 1, -- Tool 
+        `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Titanium Smithing Hammer',
@@ -158,13 +138,9 @@
         `bonding` = 1; -- BOP
 
 -- Titanium Smithing Hammer TRAINER
-    DELETE FROM `npc_trainer` WHERE (`ID` = 201004 AND `SpellID` = 91131);
-    INSERT INTO `npc_trainer`
-    SET `ID` = 201004,
-        `SpellID` = 91131,
-        `MoneyCost` = 500, -- 5S 
-        `ReqSkillLine` = 164, -- Blacksmithing
-        `ReqSkillRank` = 450;
+    DELETE FROM `trainer_spell` WHERE (`TrainerId` = 201004 AND `SpellId` = 91131);
+    INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+    VALUES (201004, 91131, 500, 164, 450, 0, 0, 0, 0);
 
 -- Place all the hammer spell auras into the spell group table so they can be made exclusive
 -- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)

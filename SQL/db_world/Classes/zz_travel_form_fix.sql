@@ -1,3 +1,3 @@
-UPDATE acore_world.npc_trainer 
-SET ReqLevel = 16 
-WHERE ID = 200006 AND SpellID = 783;
+UPDATE acore_world.trainer_spell
+SET ReqLevel = 16
+WHERE TrainerId = 200006 AND SpellId = 783;

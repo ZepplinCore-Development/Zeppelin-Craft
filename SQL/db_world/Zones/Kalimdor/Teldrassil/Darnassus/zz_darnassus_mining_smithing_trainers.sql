@@ -17,9 +17,9 @@ SET `subname` = 'Blacksmithing Trainer',
     `trainer_class` = 0 -- Not class-specific
 WHERE `entry` = 6142;
 
--- Assign blacksmithing spell group to Mathiel
-DELETE FROM `npc_trainer` WHERE `ID` = 6142 AND `SpellID` = -201004;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (6142, -201004);
+-- Assign blacksmithing trainer template to Mathiel
+DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 6142;
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (6142, 201004);
 
 -- ========================================
 -- BORIN IRONDELVE - New Mining Trainer
@@ -67,9 +67,9 @@ DELETE FROM `creature` WHERE `id1` = 70;
 INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
 (70, 1, 9923.672, 2311.778, 1330.7888, 2.5290294, 300);
 
--- Assign mining spell group to Borin Irondelve
-DELETE FROM `npc_trainer` WHERE `ID` = 70 AND `SpellID` = -201033;
-INSERT INTO `npc_trainer` (`ID`, `SpellID`) VALUES (70, -201033);
+-- Assign mining trainer template to Borin Irondelve
+DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 70;
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (70, 201033);
 
 -- ========================================
 -- GUARD GOSSIP INTEGRATION

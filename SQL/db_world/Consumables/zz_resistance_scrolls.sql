@@ -1323,37 +1323,37 @@ UPDATE `item_template` SET `RequiredLevel` = 78, `ItemLevel` = 85 WHERE `entry` 
 -- =====================================================
 
 -- Remove existing entries (idempotent)
-DELETE FROM `npc_trainer` WHERE `SpellID` BETWEEN 103300 AND 103347;
+DELETE FROM `trainer_spell` WHERE `SpellId` BETWEEN 103300 AND 103347;
 
 -- Trainer 201021: Inscription Trainer
 -- Rank I - Vanilla starter (2 schools per 5 skill, cost 50c)
-INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(201021, 103300, 50, 773, 25, 0, 0),    -- Fire Warding I
-(201021, 103301, 50, 773, 25, 0, 0),    -- Frost Warding I
-(201021, 103302, 50, 773, 30, 0, 0),    -- Arcane Warding I
-(201021, 103303, 50, 773, 30, 0, 0),    -- Shadow Warding I
-(201021, 103304, 50, 773, 35, 0, 0),    -- Nature Warding I
-(201021, 103305, 50, 773, 35, 0, 0);    -- Holy Warding I
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
+(201021, 103300, 50, 773, 25, 0, 0, 0, 0),    -- Fire Warding I
+(201021, 103301, 50, 773, 25, 0, 0, 0, 0),    -- Frost Warding I
+(201021, 103302, 50, 773, 30, 0, 0, 0, 0),    -- Arcane Warding I
+(201021, 103303, 50, 773, 30, 0, 0, 0, 0),    -- Shadow Warding I
+(201021, 103304, 50, 773, 35, 0, 0, 0, 0),    -- Nature Warding I
+(201021, 103305, 50, 773, 35, 0, 0, 0, 0);    -- Holy Warding I
 
 -- Trainer 201022: Master Inscription Trainer
 -- Rank V - TBC starter (2 schools per 5 skill, cost 1g 50s)
-INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(201022, 103324, 15000, 773, 310, 0, 0), -- Fire Warding V
-(201022, 103325, 15000, 773, 310, 0, 0), -- Frost Warding V
-(201022, 103326, 15000, 773, 315, 0, 0), -- Arcane Warding V
-(201022, 103327, 15000, 773, 315, 0, 0), -- Shadow Warding V
-(201022, 103328, 15000, 773, 320, 0, 0), -- Nature Warding V
-(201022, 103329, 15000, 773, 320, 0, 0); -- Holy Warding V
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
+(201022, 103324, 15000, 773, 310, 0, 0, 0, 0), -- Fire Warding V
+(201022, 103325, 15000, 773, 310, 0, 0, 0, 0), -- Frost Warding V
+(201022, 103326, 15000, 773, 315, 0, 0, 0, 0), -- Arcane Warding V
+(201022, 103327, 15000, 773, 315, 0, 0, 0, 0), -- Shadow Warding V
+(201022, 103328, 15000, 773, 320, 0, 0, 0, 0), -- Nature Warding V
+(201022, 103329, 15000, 773, 320, 0, 0, 0, 0); -- Holy Warding V
 
 -- Trainer 201023: Grand Master Inscription Trainer
 -- Rank VII - WotLK starter (2 schools per 5 skill, cost 5g)
-INSERT INTO `npc_trainer` (`ID`, `SpellID`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`, `ReqSpell`) VALUES
-(201023, 103336, 50000, 773, 380, 0, 0), -- Fire Warding VII
-(201023, 103337, 50000, 773, 380, 0, 0), -- Frost Warding VII
-(201023, 103338, 50000, 773, 385, 0, 0), -- Arcane Warding VII
-(201023, 103339, 50000, 773, 385, 0, 0), -- Shadow Warding VII
-(201023, 103340, 50000, 773, 390, 0, 0), -- Nature Warding VII
-(201023, 103341, 50000, 773, 390, 0, 0); -- Holy Warding VII
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
+(201023, 103336, 50000, 773, 380, 0, 0, 0, 0), -- Fire Warding VII
+(201023, 103337, 50000, 773, 380, 0, 0, 0, 0), -- Frost Warding VII
+(201023, 103338, 50000, 773, 385, 0, 0, 0, 0), -- Arcane Warding VII
+(201023, 103339, 50000, 773, 385, 0, 0, 0, 0), -- Shadow Warding VII
+(201023, 103340, 50000, 773, 390, 0, 0, 0, 0), -- Nature Warding VII
+(201023, 103341, 50000, 773, 390, 0, 0, 0, 0); -- Holy Warding VII
 
 -- =====================================================
 -- PHASE 3: DUNGEON RECIPE DROPS
