@@ -25829,7 +25829,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Kurenai. Increases Kurenai reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Scryers reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Kurenai reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -25858,7 +25858,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Mag''har. Increases Mag''har reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Scryers reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Mag''har reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -25887,7 +25887,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Ogri''la. Increases Ogri''la reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Scryers reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Ogri''la reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -25916,7 +25916,7 @@ INSERT INTO `dbc`.`spell` SET
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Aldor. Increases Aldor reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Scryers reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Aldor reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26268,14 +26268,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 72,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3807,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Stormwind',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
-    `SpellDescription0` = 'You champion the cause of Stormwind. Increases Stormwind reputation gained from killing monsters by $s1%.',
+    `SpellDescription0` = 'You champion the cause of Thrallmar. Increases Thrallmar reputation gained from killing monsters by  $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Stormwind reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26297,14 +26297,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 47,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3797,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Ironforge',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Ironforge. Increases Ironforge reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Ironforge reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26326,14 +26326,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 54,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 4232,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Gnomeregan',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Gnomeregan. Increases Gnomeregan reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Gnomeregan reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26355,14 +26355,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 69,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3801,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Darnassus',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Darnassus. Increases Darnassus reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Darnassus reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26384,14 +26384,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 930,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3796,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of the Exodar',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Exodar. Increases Exodar reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Exodar reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26413,14 +26413,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 76,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3806,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Orgrimmar',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Orgrimmar. Increases Orgrimmar reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Orgrimmar reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26442,14 +26442,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 530,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 4239,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of the Darkspear',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Darkspear Trolls. Increases Darkspear Trolls reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Darkspear Trolls reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26471,14 +26471,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 68,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 4254,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of the Undercity',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of the Undercity. Increases Undercity reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Undercity reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26500,14 +26500,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 81,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3803,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Thunder Bluff',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Thunder Bluff. Increases Thunder Bluff reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Thunder Bluff reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
@@ -26529,14 +26529,14 @@ INSERT INTO `dbc`.`spell` SET
     `EffectImplicitTargetA1` = 1,
     `EffectApplyAuraName1` = 190,
     `EffectMiscValue1` = 911,
-    `SpellIconID` = 2625,
+    `SpellIconID` = 3795,
     `ActiveIconID` = 2625,
     `SpellName0` = 'Champion of Silvermoon',
     `SpellNameFlag7` = 16712190,
     `SpellRankFlags7` = 16712190,
     `SpellDescription0` = 'You champion the cause of Silvermoon City. Increases Silvermoon City reputation gained from killing monsters by $s1%.',
     `SpellDescriptionFlags7` = 16712190,
-    `SpellToolTip0` = 'Increases Thrallmar reputation gained from killing monsters by $s1%.',
+    `SpellToolTip0` = 'Increases Silvermoon City reputation gained from killing monsters by $s1%.',
     `SpellToolTipFlags7` = 16712190,
     `EffectDamageMultiplier1` = 1.0;
 
