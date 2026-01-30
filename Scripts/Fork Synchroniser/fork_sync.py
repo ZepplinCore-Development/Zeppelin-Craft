@@ -5,16 +5,30 @@ Fork Sync Tool for Zeppelin Disposable Forks Architecture (F-037)
 Manages syncing forked modules to upstream and applying Zeppelin patches.
 
 Usage:
-    python3 fork_sync.py --status               # Show status of all modules
-    python3 fork_sync.py <module> --check       # Check if patches apply to upstream
-    python3 fork_sync.py <module> --sync        # Full sync: save patches, reset, replay
-    python3 fork_sync.py --all --sync           # Sync all modules
+    python3 fork_sync.py --status                       # Show status of all modules vs upstream
+    python3 fork_sync.py <module> --build-patch         # Build patch files from current repo state
+    python3 fork_sync.py <module> --apply-patch         # Reset to upstream and apply existing patches
+    python3 fork_sync.py <module> --build-apply-patch   # Build patches, reset, apply (full sync)
 
-Workflow:
-    --sync does a full cycle:
-    1. Generate patches from your commits (single or granular per fork_config.json)
-    2. Reset to latest upstream
-    3. Replay patches one-by-one as commits
+Commands:
+    --status
+        Show status of all modules compared to upstream.
+        Displays: commits ahead/behind, patch files, sync state.
+
+    --build-patch
+        Build patch files from the current state of the repo.
+        Use when tuning or cleaning up repos - saves your work as patches.
+        Does NOT reset the repo or apply anything.
+
+    --apply-patch
+        Reset repo to upstream master and apply existing patch files.
+        Use to revert back to your last set of patches if you don't like
+        recent changes in the repo.
+
+    --build-apply-patch  (most common)
+        Full cycle: build patches from current state, reset to upstream,
+        then apply those patches. Use to bring repos up to date with
+        upstream while preserving all custom changes and fixes.
 """
 
 import argparse
@@ -145,196 +159,12 @@ def get_commit_counts(module_path, upstream_branch):
         return None, None
 
 
-def check_patch(module_name, config):
-    """Check if patches would apply cleanly to upstream"""
-    module_path = get_module_path(module_name, config)
-    patch_files = get_patch_files(module_name)
-    upstream_url, upstream_branch = get_upstream_info(module_name, config)
-
-    if not module_path or not module_path.exists():
-        return False, f"Module path not found: {module_path}"
-
-    if not patch_files:
-        return True, "No patches to apply"
-
-    # Ensure upstream remote exists
-    if not check_upstream_remote(module_path, upstream_url):
-        return False, "Failed to add upstream remote"
-
-    # Fetch upstream
-    if not fetch_upstream(module_path):
-        return False, "Failed to fetch upstream"
-
-    # Get commit counts for status info
-    _, behind = get_commit_counts(module_path, upstream_branch)
-
-    # To check if patches apply to upstream, we need to test against upstream state
-    try:
-        # Save current HEAD
-        current_head = run_git(["rev-parse", "HEAD"], module_path)
-
-        # Check for uncommitted changes
-        status = run_git(["status", "--porcelain"], module_path)
-        has_changes = bool(status)
-
-        if has_changes:
-            run_git(["stash", "push", "-m", "fork_sync check"], module_path)
-
-        # Temporarily reset to upstream
-        run_git(["checkout", f"upstream/{upstream_branch}"], module_path, capture=True, check=True)
-
-        # Try applying each patch in order
-        failed_patch = None
-        error_msg = ""
-
-        for patch_file in patch_files:
-            result = subprocess.run(
-                ["git", "apply", "--check", str(patch_file)],
-                cwd=module_path,
-                capture_output=True,
-                text=True
-            )
-
-            if result.returncode != 0:
-                # Try with 3-way merge
-                result3 = subprocess.run(
-                    ["git", "apply", "--check", "--3way", str(patch_file)],
-                    cwd=module_path,
-                    capture_output=True,
-                    text=True
-                )
-                if result3.returncode != 0:
-                    failed_patch = patch_file.name
-                    error_lines = result.stderr.strip().split('\n')
-                    error_msg = error_lines[0] if error_lines else "Unknown error"
-                    break
-
-            # Actually apply the patch (needed for subsequent patches)
-            subprocess.run(
-                ["git", "apply", str(patch_file)],
-                cwd=module_path,
-                capture_output=True,
-                text=True
-            )
-
-        # Restore original state
-        run_git(["checkout", current_head], module_path, capture=True, check=True)
-
-        if has_changes:
-            run_git(["stash", "pop"], module_path, check=False)
-
-        if failed_patch:
-            return False, f"CONFLICT in {failed_patch}: {error_msg}"
-        else:
-            status = f"Clean ({len(patch_files)} patches, upstream +{behind})" if behind else f"Clean ({len(patch_files)} patches)"
-            return True, status
-
-    except Exception as e:
-        # Try to restore state on error
-        try:
-            run_git(["checkout", current_head], module_path, check=False)
-        except:
-            pass
-        return False, f"Error: {str(e)}"
-
-
-def sync_module(module_name, config, dry_run=False):
-    """Reset module to upstream and apply patches"""
-    module_path = get_module_path(module_name, config)
-    patch_files = get_patch_files(module_name)
-    upstream_url, upstream_branch = get_upstream_info(module_name, config)
-
-    if not module_path or not module_path.exists():
-        return False, f"Module path not found: {module_path}"
-
-    # Ensure upstream remote exists and fetch
-    if not check_upstream_remote(module_path, upstream_url):
-        return False, "Failed to add upstream remote"
-
-    if not fetch_upstream(module_path):
-        return False, "Failed to fetch upstream"
-
-    if dry_run:
-        return check_patch(module_name, config)
-
-    # Check for uncommitted changes
-    status = run_git(["status", "--porcelain"], module_path)
-    if status:
-        return False, "Uncommitted changes - commit or stash first"
-
-    # Reset to upstream
-    try:
-        run_git(["reset", "--hard", f"upstream/{upstream_branch}"], module_path, capture=False)
-    except Exception as e:
-        return False, f"Failed to reset: {str(e)}"
-
-    # Apply patches if any exist
-    if not patch_files:
-        return True, "Synced (no patches to apply)"
-
-    applied = []
-    failed_patch = None
-    error_msg = ""
-
-    for patch_file in patch_files:
-        try:
-            # Try git am first (preserves commit metadata)
-            result = subprocess.run(
-                ["git", "am", "--3way", str(patch_file)],
-                cwd=module_path,
-                capture_output=True,
-                text=True
-            )
-
-            if result.returncode != 0:
-                # Abort failed am
-                run_git(["am", "--abort"], module_path, check=False)
-
-                # Try git apply as fallback
-                result = subprocess.run(
-                    ["git", "apply", "--3way", str(patch_file)],
-                    cwd=module_path,
-                    capture_output=True,
-                    text=True
-                )
-
-                if result.returncode != 0:
-                    failed_patch = patch_file.name
-                    error_msg = result.stderr.strip().split('\n')[0] if result.stderr else "Unknown error"
-                    break
-
-                # Stage and commit the applied changes
-                run_git(["add", "-A"], module_path, check=False)
-
-                # Check if there's anything to commit
-                status = run_git(["status", "--porcelain"], module_path)
-                if status:
-                    commit_result = subprocess.run(
-                        ["git", "commit", "-m", f"Apply {patch_file.name}"],
-                        cwd=module_path,
-                        capture_output=True,
-                        text=True
-                    )
-                    if commit_result.returncode != 0:
-                        failed_patch = patch_file.name
-                        error_msg = f"Commit failed: {commit_result.stderr.strip().split(chr(10))[0]}"
-                        break
-
-            applied.append(patch_file.name)
-
-        except Exception as e:
-            failed_patch = patch_file.name
-            error_msg = str(e)
-            break
-
-    if failed_patch:
-        return False, f"Failed at {failed_patch}: {error_msg} ({len(applied)}/{len(patch_files)} applied)"
-    else:
-        return True, f"Synced and applied {len(applied)} patches"
-
-
 def regenerate_patches(module_name, config):
-    """Regenerate patches from current module state"""
+    """Build patch files from current repo state (--build-patch)
+
+    Use when tuning or cleaning up repos. Saves current commits as patches
+    without modifying the repo itself.
+    """
     module_path = get_module_path(module_name, config)
     patch_dir = get_patch_dir(module_name)
     upstream_url, upstream_branch = get_upstream_info(module_name, config)
@@ -407,7 +237,12 @@ def regenerate_patches(module_name, config):
 
 
 def refresh_module(module_name, config):
-    """Full cycle: regenerate patches, reset to upstream, replay as commits"""
+    """Build patches, reset to upstream, apply patches (--build-apply-patch)
+
+    Full sync cycle: extracts current commits as patches, resets to latest
+    upstream, then replays patches. Use to bring repos up to date with
+    upstream while preserving all custom changes.
+    """
     module_path = get_module_path(module_name, config)
     patch_dir = get_patch_dir(module_name)
     upstream_url, upstream_branch = get_upstream_info(module_name, config)
@@ -468,8 +303,19 @@ def refresh_module(module_name, config):
     if not patch_files:
         return False, "No patches generated"
 
-    # Step 2: Reset to upstream
+    # Step 2: Reset to upstream on a proper branch (not detached HEAD)
     try:
+        # Checkout master/main branch first (create if doesn't exist)
+        branches = run_git(["branch", "--list", "master", "main"], module_path) or ""
+        if "master" in branches:
+            run_git(["checkout", "master"], module_path, check=False)
+        elif "main" in branches:
+            run_git(["checkout", "main"], module_path, check=False)
+        else:
+            # Create master branch at upstream
+            run_git(["checkout", "-B", "master", f"upstream/{upstream_branch}"], module_path, check=False)
+
+        # Now reset to upstream
         run_git(["reset", "--hard", f"upstream/{upstream_branch}"], module_path, capture=False)
     except Exception as e:
         return False, f"Failed to reset: {str(e)}"
@@ -518,6 +364,85 @@ def refresh_module(module_name, config):
 
     total_size = sum(p.stat().st_size for p in patch_files) / 1024
     return True, f"Refreshed: {applied} patches ({total_size:.1f}K) replayed on latest upstream"
+
+
+def sync_only(module_name, config):
+    """Reset to upstream and apply existing patches (--apply-patch)
+
+    Use to revert repo back to your last set of patches. Does NOT regenerate
+    patches first - applies whatever patches exist in the Patches directory.
+    """
+    module_path = get_module_path(module_name, config)
+    patch_files = get_patch_files(module_name)
+    upstream_url, upstream_branch = get_upstream_info(module_name, config)
+
+    if not module_path or not module_path.exists():
+        return False, f"Module path not found: {module_path}"
+
+    if not patch_files:
+        return True, "No patches to apply"
+
+    # Ensure upstream remote exists and fetch
+    if not check_upstream_remote(module_path, upstream_url):
+        return False, "Failed to add upstream remote"
+
+    if not fetch_upstream(module_path):
+        return False, "Failed to fetch upstream"
+
+    # Reset to upstream on a proper branch
+    try:
+        branches = run_git(["branch", "--list", "master", "main"], module_path) or ""
+        if "master" in branches:
+            run_git(["checkout", "master"], module_path, check=False)
+        elif "main" in branches:
+            run_git(["checkout", "main"], module_path, check=False)
+        else:
+            run_git(["checkout", "-B", "master", f"upstream/{upstream_branch}"], module_path, check=False)
+
+        run_git(["reset", "--hard", f"upstream/{upstream_branch}"], module_path, capture=False)
+    except Exception as e:
+        return False, f"Failed to reset: {str(e)}"
+
+    # Apply existing patches
+    applied = 0
+    for patch_file in patch_files:
+        try:
+            result = subprocess.run(
+                ["git", "am", "--3way", str(patch_file)],
+                cwd=module_path,
+                capture_output=True,
+                text=True
+            )
+
+            if result.returncode != 0:
+                run_git(["am", "--abort"], module_path, check=False)
+
+                result = subprocess.run(
+                    ["git", "apply", "--3way", str(patch_file)],
+                    cwd=module_path,
+                    capture_output=True,
+                    text=True
+                )
+
+                if result.returncode != 0:
+                    error = result.stderr.strip().split('\n')[0] if result.stderr else "Unknown"
+                    return False, f"Failed at {patch_file.name}: {error} ({applied}/{len(patch_files)} applied)"
+
+                run_git(["add", "-A"], module_path, check=False)
+                commit_msg = patch_file.stem.replace("-", " ").replace("_", " ")
+                subprocess.run(
+                    ["git", "commit", "-m", f"Apply {commit_msg}"],
+                    cwd=module_path,
+                    capture_output=True,
+                    text=True
+                )
+
+            applied += 1
+
+        except Exception as e:
+            return False, f"Error at {patch_file.name}: {str(e)} ({applied}/{len(patch_files)} applied)"
+
+    return True, f"Applied {applied} patches to upstream"
 
 
 def show_status(config):
@@ -580,19 +505,20 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s --status                       Show status of all modules
-  %(prog)s mod-accountbound --check       Check if patches apply to upstream
-  %(prog)s mod-accountbound --sync        Full sync: save patches, reset, replay
-  %(prog)s --all --sync                   Sync all modules
-  %(prog)s --all --check                  Check all modules
+  %(prog)s --status                              Show status of all modules vs upstream
+  %(prog)s mod-accountbound --build-patch        Build patches from current repo state
+  %(prog)s mod-accountbound --apply-patch        Reset to upstream and apply existing patches
+  %(prog)s mod-accountbound --build-apply-patch  Full cycle: build, reset, apply
+  %(prog)s --all --build-apply-patch             Sync all modules with upstream
         """
     )
 
     parser.add_argument("module", nargs="?", help="Module name (or --all)")
     parser.add_argument("--all", action="store_true", help="Process all modules")
-    parser.add_argument("--check", action="store_true", help="Check if patches apply cleanly to upstream")
-    parser.add_argument("--sync", action="store_true", help="Full cycle: save patches, reset to upstream, replay patches")
-    parser.add_argument("--status", action="store_true", help="Show status of all modules")
+    parser.add_argument("--status", action="store_true", help="Show status of all modules vs upstream")
+    parser.add_argument("--build-patch", action="store_true", help="Build patch files from current repo state")
+    parser.add_argument("--apply-patch", action="store_true", help="Reset to upstream and apply existing patches")
+    parser.add_argument("--build-apply-patch", action="store_true", help="Full cycle: build patches, reset to upstream, apply patches")
 
     args = parser.parse_args()
 
@@ -608,8 +534,8 @@ Examples:
     if not args.module and not args.all:
         parser.error("Specify a module name or --all")
 
-    if not any([args.check, args.sync]):
-        parser.error("Specify an action: --check or --sync")
+    if not any([args.build_patch, args.apply_patch, args.build_apply_patch]):
+        parser.error("Specify an action: --build-patch, --apply-patch, or --build-apply-patch")
 
     # Get modules to process
     if args.all:
@@ -627,9 +553,11 @@ Examples:
     results = {"success": 0, "failed": 0}
 
     for module in sorted(modules):
-        if args.check:
-            success, message = check_patch(module, config)
-        elif args.sync:
+        if args.build_patch:
+            success, message = regenerate_patches(module, config)
+        elif args.apply_patch:
+            success, message = sync_only(module, config)
+        elif args.build_apply_patch:
             success, message = refresh_module(module, config)
 
         icon = f"{Colors.GREEN}✓{Colors.RESET}" if success else f"{Colors.RED}✗{Colors.RESET}"
