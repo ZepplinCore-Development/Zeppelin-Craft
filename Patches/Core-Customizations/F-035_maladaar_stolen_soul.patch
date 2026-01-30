@@ -1,0 +1,28 @@
+commit e6b958faa976dd7727d354cba5511cfb5418df14
+Author: justurn <justurn@live.com>
+Date:   Thu Jun 13 20:26:31 2024 +0800
+
+    Update boss_exarch_maladaar.cpp
+
+diff --git a/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp b/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
+index db3ec7204..cb78e39cb 100644
+--- a/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
++++ b/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
+@@ -46,7 +46,7 @@ enum Spells
+     SPELL_FROSTSHOCK            = 37332,
+     SPELL_CURSE_OF_AGONY        = 37334,
+     SPELL_MORTAL_STRIKE         = 37335,
+-    SPELL_FREEZING_TRAP         = 37368,
++    SPELL_EXPLOSIVE_TRAP         = 43444,
+     SPELL_HAMMER_OF_JUSTICE     = 37369,
+     SPELL_PLAGUE_STRIKE         = 58839
+ };
+@@ -184,7 +184,7 @@ struct npc_stolen_soul : public ScriptedAI
+                 case CLASS_HUNTER:
+                     _scheduler.Schedule(0ms, [this](TaskContext context)
+                     {
+-                        DoCastVictim(SPELL_FREEZING_TRAP);
++                        DoCastVictim(SPELL_EXPLOSIVE_TRAP);
+                         context.Repeat(20s);
+                     });
+                     break;

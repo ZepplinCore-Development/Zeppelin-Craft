@@ -1,0 +1,24 @@
+commit 310ca269f0fbe4b274ae7589beb80c213e5ec687
+Author: justurn <justurn@live.com>
+Date:   Tue Sep 3 15:23:13 2024 +0800
+
+    Update ItemTemplate.h
+
+diff --git a/src/server/game/Entities/Item/ItemTemplate.h b/src/server/game/Entities/Item/ItemTemplate.h
+index 8e9283655..d02fbe37b 100644
+--- a/src/server/game/Entities/Item/ItemTemplate.h
++++ b/src/server/game/Entities/Item/ItemTemplate.h
+@@ -414,10 +414,11 @@ enum ItemSubclassArmor
+ 
+ enum ItemSubclassReagent
+ {
+-    ITEM_SUBCLASS_REAGENT                       = 0
++    ITEM_SUBCLASS_REAGENT                       = 0,
++	ITEM_SUBCLASS_TOOL							= 1
+ };
+ 
+-#define MAX_ITEM_SUBCLASS_REAGENT                 1
++#define MAX_ITEM_SUBCLASS_REAGENT                 2
+ 
+ enum ItemSubclassProjectile
+ {

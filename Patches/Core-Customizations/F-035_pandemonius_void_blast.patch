@@ -1,0 +1,19 @@
+commit 793274bc2ee5fa40a28a61cd91408b0f69850da7
+Author: justurn <justurn@live.com>
+Date:   Fri Jun 14 21:39:15 2024 +0800
+
+    Update boss_pandemonius.cpp
+
+diff --git a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
+index e859d4d76..9e33e3366 100644
+--- a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
++++ b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
+@@ -50,7 +50,7 @@ float const ROOM_PULL_RANGE    = 70.0f;
+ float const ROOM_ENTERANCE     = -50.0f;
+ float const ROOM_EXIT          = -145.0f;
+ 
+-constexpr uint8 MAX_VOID_BLAST = 5;
++constexpr uint8 MAX_VOID_BLAST = 1; // normally 5, but should ideally scale to the number of players in the dungeon.
+ 
+ struct boss_pandemonius : public BossAI
+ {

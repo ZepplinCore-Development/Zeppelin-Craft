@@ -1,0 +1,26 @@
+commit 5dc9138cbe11cfdfde447044561d03f1a5c1572f
+Author: justurn <justurn@live.com>
+Date:   Mon May 13 08:49:40 2024 +0800
+
+    Update spell_mage.cpp
+
+diff --git a/src/server/scripts/Spells/spell_mage.cpp b/src/server/scripts/Spells/spell_mage.cpp
+index 0b3a56570..28e206c8e 100644
+--- a/src/server/scripts/Spells/spell_mage.cpp
++++ b/src/server/scripts/Spells/spell_mage.cpp
+@@ -38,7 +38,6 @@ enum MageSpells
+ 
+     // Theirs
+     SPELL_MAGE_COLD_SNAP                         = 11958,
+-    SPELL_MAGE_FOCUS_MAGIC_PROC                  = 54648,
+     SPELL_MAGE_FROST_WARDING_R1                  = 11189,
+     SPELL_MAGE_FROST_WARDING_TRIGGERED           = 57776,
+     SPELL_MAGE_INCANTERS_ABSORBTION_R1           = 44394,
+@@ -1034,7 +1033,6 @@ void AddSC_mage_spell_scripts()
+     RegisterSpellScript(spell_mage_blast_wave);
+     RegisterSpellScript(spell_mage_cold_snap);
+     RegisterSpellScript(spell_mage_fire_frost_ward);
+-    RegisterSpellScript(spell_mage_focus_magic);
+     RegisterSpellScript(spell_mage_ice_barrier);
+     RegisterSpellScript(spell_mage_ignite);
+     RegisterSpellScript(spell_mage_living_bomb);

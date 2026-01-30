@@ -1,17 +1,8 @@
-From 9166cb0d0defc90f01cd9e577e04b64a5967dc93 Mon Sep 17 00:00:00 2001
+From 1a11df7ca0906f36a87ded5ce1bb711343bf724a Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
-Date: Wed, 31 Dec 2025 12:01:57 +0000
-Subject: [PATCH] Fix module for current AzerothCore API and add debug logging
+Date: Fri, 30 Jan 2026 06:52:26 +0000
+Subject: [PATCH] Apply Zeppelin patch - API updates and debug logging
 
-- Updated hook names for current AzerothCore API (OnPlayerLogout, etc.)
-- Restored original queue-based teleport interception system
-- Added playersToTeleport queue to properly intercept graveyard teleports
-- Fixed OnPlayerBeforeTeleport to block default graveyard teleport (return false)
-- Added configurable debug logging (DungeonRespawn.Debug config option)
-- All debug logs wrapped in if (drDebug) checks for clean production logs
-- Successfully tested in Stockades and Scarlet Monastery
-
-Module now properly teleports dead players to dungeon entrance and resurrects them immediately, preventing trips to world graveyards.
 ---
  conf/dungeonrespawn.conf.dist | 13 ++++++-
  src/DungeonRespawn.cpp        | 70 ++++++++++++++++++++++++++---------

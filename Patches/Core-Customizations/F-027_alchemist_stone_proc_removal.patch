@@ -1,0 +1,114 @@
+commit 295ed386e63146b3fc196f33fc92a67f5ed1aeb6
+Author: Justin <justurn@live.com>
+Date:   Sun Jan 25 12:39:10 2026 +0000
+
+    WIP: F-027 - Remove Alchemist Stone hardcoded proc handlers
+    
+    Migrated Alchemist's Stone (17619) from server-side scripting to
+    DBC-based ADD_PCT_MODIFIER aura:
+    
+    - Removed SPELLFAMILY_POTION proc handler from Unit.cpp
+    - Removed spell_item_fel_mana_potion script from spell_item.cpp
+    - Triggered spells 21399/21400 deleted from DBC (no longer needed)
+    - Fel Mana (38929) tagged with mana potion flag for proper targeting
+    
+    The 40% bonus is now applied via spell effect targeting, enabling
+    dynamic tooltip display via SpellDescriptionVariables.
+    
+    🤖 Generated with [Claude Code](https://claude.com/claude-code)
+    
+    Co-Authored-By: Claude <noreply@anthropic.com>
+
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index 79b0b5ff0..a4e757fec 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -8715,34 +8715,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
+                 }
+                 break;
+             }
+-        case SPELLFAMILY_POTION:
+-            {
+-                // alchemist's stone
+-                if (dummySpell->Id == 17619)
+-                {
+-                    if (procSpell->SpellFamilyName == SPELLFAMILY_POTION)
+-                    {
+-                        for (uint8 i = 0; i < MAX_SPELL_EFFECTS; i++)
+-                        {
+-                            if (procSpell->Effects[i].Effect == SPELL_EFFECT_HEAL)
+-                            {
+-                                triggered_spell_id = 21399;
+-                            }
+-                            else if (procSpell->Effects[i].Effect == SPELL_EFFECT_ENERGIZE)
+-                            {
+-                                triggered_spell_id = 21400;
+-                            }
+-                            else
+-                                continue;
+-
+-                            basepoints0 = int32(CalculateSpellDamage(this, procSpell, i) * 0.4f);
+-                            CastCustomSpell(this, triggered_spell_id, &basepoints0, nullptr, nullptr, true, nullptr, triggeredByAura);
+-                        }
+-                        return true;
+-                    }
+-                }
+-                break;
+-            }
++        // F-027: Removed SPELLFAMILY_POTION case - Alchemist's Stone (17619) now uses
++        // ADD_PCT_MODIFIER aura instead of proc handler. Triggered spells 21399/21400 deprecated.
+         case SPELLFAMILY_PET:
+             {
+                 switch (dummySpell->SpellIconID)
+diff --git a/src/server/scripts/Spells/spell_item.cpp b/src/server/scripts/Spells/spell_item.cpp
+index 62b370b05..02244d0bc 100644
+--- a/src/server/scripts/Spells/spell_item.cpp
++++ b/src/server/scripts/Spells/spell_item.cpp
+@@ -3992,36 +3992,8 @@ class spell_item_eye_of_grillok_aura : public AuraScript
+     }
+ };
+ 
+-enum FelManaPotion
+-{
+-    SPELL_ALCHEMIST_STONE          = 17619,
+-    SPELL_ALCHEMIST_STONE_ENERGIZE = 21400
+-};
+-
+-class spell_item_fel_mana_potion : public AuraScript
+-{
+-    PrepareAuraScript(spell_item_fel_mana_potion)
+-
+-    bool Validate(SpellInfo const* /*spellInfo*/) override
+-    {
+-        return ValidateSpellInfo({ SPELL_ALCHEMIST_STONE, SPELL_ALCHEMIST_STONE_ENERGIZE });
+-    }
+-
+-    void OnPeriodic(AuraEffect const* /*aurEff*/)
+-    {
+-        if (Unit* caster = GetCaster())
+-            if (caster->HasAura(SPELL_ALCHEMIST_STONE))
+-            {
+-                uint32 val = GetSpellInfo()->Effects[EFFECT_0].BasePoints * 0.4f;
+-                caster->CastCustomSpell(SPELL_ALCHEMIST_STONE_ENERGIZE, SPELLVALUE_BASE_POINT0, val, caster, true);
+-            }
+-    }
+-
+-    void Register() override
+-    {
+-        OnEffectPeriodic += AuraEffectPeriodicFn(spell_item_fel_mana_potion::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_ENERGIZE);
+-    }
+-};
++// F-027: Removed spell_item_fel_mana_potion - Alchemist's Stone (17619) now uses
++// ADD_PCT_MODIFIER aura. Fel Mana spell (38929) tagged with mana potion flag.
+ 
+ // 32578 - Gor'drek's Ointment
+ enum DreksOintment
+@@ -4309,7 +4281,7 @@ void AddSC_item_spell_scripts()
+     RegisterSpellScript(spell_item_venomhide_feed);
+     RegisterSpellScript(spell_item_scroll_of_retribution);
+     RegisterSpellAndAuraScriptPair(spell_item_eye_of_grillok, spell_item_eye_of_grillok_aura);
+-    RegisterSpellScript(spell_item_fel_mana_potion);
++    // F-027: Removed spell_item_fel_mana_potion registration
+     RegisterSpellScript(spell_item_gor_dreks_ointment);
+     RegisterSpellScript(spell_item_skyguard_blasting_charges);
+     RegisterSpellScript(spell_item_luffa);

@@ -1,0 +1,88 @@
+commit b9b5fa48105eb00ba18cf6f71a2e1fcb74ee601f
+Author: StealthyApe <59826804+StealthyApe@users.noreply.github.com>
+Date:   Thu Oct 12 12:03:43 2023 +0800
+
+    Adjusted cthun to take into account player count
+
+diff --git a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp
+index 306c6c569..c511f3a6b 100644
+--- a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp
++++ b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_cthun.cpp
+@@ -121,6 +121,10 @@ enum Yells
+ #define STOMACH_Z                           -70.0f
+ #define STOMACH_O                           5.05f
+ 
++#define LESSTHAN6                           6
++#define LESSTHAN11                          12
++#define LESSTHAN21                          18
++
+ //Flesh tentacle positions
+ const Position FleshTentaclePos[2] =
+ {
+@@ -158,7 +162,8 @@ struct boss_eye_of_cthun : public BossAI
+         ClockWise = false;
+ 
+         _eyeTentacleCounter = 0;
+-
++        _TentacleSpawnOffset = 0;
++        _playerCount = 0;
+         //Reset flags
+         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE);
+         me->SetVisible(true);
+@@ -184,6 +189,17 @@ struct boss_eye_of_cthun : public BossAI
+     void JustEngagedWith(Unit* who) override
+     {
+         ScheduleTask(true);
++        _playerCount = instance->instance->GetPlayersCountExceptGMs();
++        if(_playerCount <6){
++            _TentacleSpawnOffset = LESSTHAN6;
++        }
++        else if (_playerCount <11){
++            _TentacleSpawnOffset = LESSTHAN11;
++        }
++        else if (_playerCount <21){
++            _TentacleSpawnOffset = LESSTHAN21;
++        }
++        _eyeTentacleCounter = _TentacleSpawnOffset;
+         BossAI::JustEngagedWith(who);
+         _beamTarget = who->GetGUID();
+     }
+@@ -207,9 +223,9 @@ struct boss_eye_of_cthun : public BossAI
+             me->SummonCreatureGroup(_eyeTentacleCounter);
+             _eyeTentacleCounter++;
+ 
+-            if (_eyeTentacleCounter >= MAX_TENTACLE_GROUPS)
++            if (_eyeTentacleCounter >= MAX_TENTACLE_GROUPS + _TentacleSpawnOffset)
+             {
+-                _eyeTentacleCounter = 0;
++                _eyeTentacleCounter = _TentacleSpawnOffset;
+             }
+         }
+     }
+@@ -354,7 +370,7 @@ struct boss_eye_of_cthun : public BossAI
+         //Reset to normal emote state and prevent select and attack
+         me->SetUnitFlag(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE);
+ 
+-        //Remove Target field
++        //Remove Target field_eyeTentacleCounter
+         me->SetTarget();
+ 
+         me->SetHealth(0);
+@@ -380,6 +396,8 @@ private:
+     bool ClockWise;
+ 
+     uint32 _eyeTentacleCounter;
++    uint32 _TentacleSpawnOffset;
++    uint32 _playerCount;
+     ObjectGuid _beamTarget;
+ };
+ 
+@@ -464,7 +482,7 @@ struct boss_cthun : public BossAI
+             }
+ 
+             context.Repeat(30s);
+-        }).Schedule(8s, [this](TaskContext context)
++        }).Schedule(24s, [this](TaskContext context)
+         {
+             if (Unit* target = SelectTarget(SelectTargetMethod::Random, 0, NotInStomachSelector()))
+             {

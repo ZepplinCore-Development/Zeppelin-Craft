@@ -1,0 +1,18 @@
+commit 717643fa43c482b441f98b834f4747ed863809cc
+Author: justurn <justurn@live.com>
+Date:   Mon Jun 2 16:09:41 2025 +0800
+
+    Engineering gets gathering level ups now
+
+diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
+index 4c5554e11..0f68a3b69 100644
+--- a/src/server/game/Entities/Player/PlayerUpdates.cpp
++++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
+@@ -788,6 +788,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
+                     specialLockingBusiness);
+     break;
+     case SKILL_HERBALISM:
++    case SKILL_ENGINEERING:
+     case SKILL_JEWELCRAFTING:
+     case SKILL_INSCRIPTION:
+         return UpdateSkillPro(SkillId,

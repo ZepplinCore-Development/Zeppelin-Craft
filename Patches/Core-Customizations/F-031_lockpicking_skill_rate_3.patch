@@ -1,0 +1,29 @@
+commit 1017616fbe78cc58bc66b60ac039b02a720843bd
+Author: StealthyApe <59826804+StealthyApe@users.noreply.github.com>
+Date:   Sat Jun 8 12:19:54 2024 +0800
+
+    Update PlayerUpdates.cpp
+
+diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
+index 95f433c06..b636af586 100644
+--- a/src/server/game/Entities/Player/PlayerUpdates.cpp
++++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
+@@ -723,10 +723,15 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
+               "UpdateGatherSkill(SkillId {} SkillLevel {} RedLevel {})",
+               SkillId, SkillValue, RedLevel);
+ 
+-    uint32 gathering_skill_gain =
+-        sWorld->getIntConfig(CONFIG_SKILL_GAIN_GATHERING);
+-    sScriptMgr->OnUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, gathering_skill_gain);
++    uint32 gathering_skill_gain = sWorld->getIntConfig(CONFIG_SKILL_GAIN_GATHERING);
+     uint32 specialLockingBusiness =sWorld->getIntConfig(CONFIG_SKILL_GAIN_CRAFTING);
++    if(SkillId == SKILL_LOCKPICKING){
++            sScriptMgr->OnUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, gathering_skill_gain);
++    }
++    else {
++        sScriptMgr->OnUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, specialLockingBusiness);
++    }
++
+     // For skinning and Mining chance decrease with level. 1-74 - no decrease,
+     // 75-149 - 2 times, 225-299 - 8 times
+     switch (SkillId)

@@ -1,0 +1,24 @@
+commit 00da651f475017fa75b6181074e4953c59764c1e
+Author: justurn <justurn@live.com>
+Date:   Fri Jun 13 21:14:35 2025 +0800
+
+    Update zone_ghostlands.cpp
+
+diff --git a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
+index da2cb493e..06615f976 100644
+--- a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
++++ b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
+@@ -69,8 +69,11 @@ struct npc_ranger_lilatha : public npc_escortAI
+         case 18:
+         {
+             Talk(SAY_PROGRESS3, player);
+-            Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 7627.083984f, -7532.538086f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
+-            Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 7620.432129f, -7532.550293f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            // Adjusted spawn locations for Open Azeroth
++            //Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 7627.083984f, -7532.538086f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            //Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 7620.432129f, -7532.550293f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 5493.750000f, -5399.200000f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 5487.090000f, -5399.210000f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
+             if (Summ1 && Summ2)
+             {
+                 Summ1->Attack(me, true);

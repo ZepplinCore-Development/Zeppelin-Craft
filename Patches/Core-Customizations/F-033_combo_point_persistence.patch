@@ -1,0 +1,35 @@
+commit 1218785ebc671198b87fa2cd178c13eeb0c1cb2d
+Author: StealthyApe <59826804+StealthyApe@users.noreply.github.com>
+Date:   Wed Jun 4 17:36:11 2025 +0800
+
+    Removed combo point removal on target switch and death
+
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index 88b743866..82a24df55 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -14642,7 +14642,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+         CombatStop();
+         GetThreatMgr().ClearAllThreat();
+         getHostileRefMgr().deleteReferences();
+-        ClearComboPointHolders();                           // any combo points pointed to unit lost at it death
++        //ClearComboPointHolders();                           // prevents combo point loss on  death
+ 
+         if (IsNonMeleeSpellCast(false))
+             InterruptNonMeleeSpells(false);
+@@ -16929,9 +16929,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+         {
+             m_comboTarget->RemoveComboPointHolder(this);
+         }
+-
+         m_comboTarget = target;
+-        m_comboPoints = count;
++        if(m_comboPoints + count > 5){ // handles transitions where 5 combo points are present
++            m_comboPoints = 5;
++        }
++        else{
++            m_comboPoints = std::max<int8>(std::min<int8>(m_comboPoints + count, 5), 0); // handles normal transitions
++        }
+         target->AddComboPointHolder(this);
+     }
+     else
