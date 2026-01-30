@@ -1,0 +1,46 @@
+From 5bebd449384a11be700c7637a99dc6454ffeffe7 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 19 Jan 2026 14:01:23 +0000
+Subject: [PATCH 3/5] Move stat adjustment files to optional
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- player_levelstats.sql → optional (vanilla player stats per level)
+- warlock_pet_stats.sql → optional (vanilla warlock pet stats)
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ data/sql/world/base/zz_zeppelin_jc_tools.sql                | 6 ------
+ .../sql/world/zz_optional_player_levelstats.sql             | 0
+ .../sql/world/zz_optional_warlock_pet_stats.sql             | 0
+ 3 files changed, 6 deletions(-)
+ delete mode 100644 data/sql/world/base/zz_zeppelin_jc_tools.sql
+ rename data/sql/world/base/player_levelstats.sql => optional/sql/world/zz_optional_player_levelstats.sql (100%)
+ rename data/sql/world/base/warlock_pet_stats.sql => optional/sql/world/zz_optional_warlock_pet_stats.sql (100%)
+
+diff --git a/data/sql/world/base/zz_zeppelin_jc_tools.sql b/data/sql/world/base/zz_zeppelin_jc_tools.sql
+deleted file mode 100644
+index 4d69896..0000000
+--- a/data/sql/world/base/zz_zeppelin_jc_tools.sql
++++ /dev/null
+@@ -1,6 +0,0 @@
+--- Zeppelin Customization: Keep Jeweler's Kit and Simple Grinder available without progression gating
+--- These are JC profession tools that should be available from the start
+--- Item 20815 = Jeweler's Kit
+--- Item 20824 = Simple Grinder
+-
+-DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceEntry` IN (20815, 20824);
+diff --git a/data/sql/world/base/player_levelstats.sql b/optional/sql/world/zz_optional_player_levelstats.sql
+similarity index 100%
+rename from data/sql/world/base/player_levelstats.sql
+rename to optional/sql/world/zz_optional_player_levelstats.sql
+diff --git a/data/sql/world/base/warlock_pet_stats.sql b/optional/sql/world/zz_optional_warlock_pet_stats.sql
+similarity index 100%
+rename from data/sql/world/base/warlock_pet_stats.sql
+rename to optional/sql/world/zz_optional_warlock_pet_stats.sql
+-- 
+2.34.1
+
