@@ -618,32 +618,56 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 5, 22240, "", "=q3=Greaves of Withering Despair", "=ds=#a3#", "", "25.0%" };
 	};
 
-	AtlasLoot_Data["BRDArena"] = {
-		{ 1, 11677, "", "=q3=Graverot Cape", "=ds=#s4# =q2=#brd1#", "", "23.07%"};
-		{ 2, 11675, "", "=q3=Shadefiend Boots", "=ds=#s12#, #a2# =q2=#brd1#", "", "25.84%"};
-		{ 3, 11731, "", "=q3=Savage Gladiator Greaves", "=ds=#s12#, #a3# =q2=#brd1#", "", "15.14%"};
-		{ 4, 11678, "", "=q3=Carapace of Anub'shiah", "=ds=#s5#, #a4# =q2=#brd1#", "", "15.78%"};
-		{ 6, 11685, "", "=q3=Splinthide Shoulders", "=ds=#s3#, #a2# =q2=#brd2#", "", "24.49%"};
-		{ 7, 11686, "", "=q3=Girdle of Beastial Fury", "=ds=#s10#, #a2# =q2=#brd2#", "", "15.85%"};
-		{ 8, 11679, "", "=q3=Rubicund Armguards", "=ds=#s8#, #a3# =q2=#brd2#", "", "25.13%"};
-		{ 9, 11730, "", "=q3=Savage Gladiator Grips", "=ds=#s9#, #a3# =q2=#brd2#", "", "14.12%"};
-		{ 11, 11726, "", "=q4=Savage Gladiator Chain", "=ds=#s5#, #a3# =q2=#brd3#", "", "14.52%"};
-		{ 12, 22271, "", "=q3=Leggings of Frenzied Magic", "=ds=#s11#, #a2# =q2=#brd3#", "", "23.24%"};
-		{ 13, 11729, "", "=q3=Savage Gladiator Helm", "=ds=#s1#, #a3# =q2=#brd3#, #brd5#", "", "10.08%"};
-		{ 14, 11722, "", "=q3=Dregmetal Spaulders", "=ds=#s3#, #a3# =q2=#brd4#", "", "15.07%"};
-		{ 15, 11703, "", "=q3=Stonewall Girdle", "=ds=#s10#, #a4# =q2=#brd4#", "", "31.45%"};
-		{ 16, 22270, "", "=q3=Entrenching Boots", "=ds=#s12#, #a4# =q2=#brd4#", "", "11.97%"};
-		{ 17, 22257, "", "=q3=Bloodclot Band", "=ds=#s13# =q2=#brd3#", "", "26.28%"};
-		{ 18, 22266, "", "=q3=Flarethorn", "=ds=#h1#, #w4# =q2=#brd3#", "", "17.98%"};
-		{ 19, 11702, "", "=q3=Grizzle's Skinner", "=ds=#h1#, #w1# =q2=#brd4#", "", "20.62%"};
-		{ 20, 11610, "", "=q3=Plans: Dark Iron Pulverizer", "=ds=#p2# (265) =q2=#brd4#", "", "69.76%"};
-		{ 22, 11634, "", "=q3=Silkweb Gloves", "=ds=#s9#, #a1# =q2=#brd5#", "", "24.02%"};
-		{ 23, 11633, "", "=q3=Spiderfang Carapace", "=ds=#s5#, #a4# =q2=#brd5#", "", "20.61%"};
-		{ 24, 11635, "", "=q3=Hookfang Shanker", "=ds=#h1#, #w4# =q2=#brd5#", "", "17.26%"};
-		{ 26, 11662, "", "=q3=Ban'thok Sash", "=ds=#s10#, #a1# =q2=#brd6#", "", "23.77%"};
-		{ 27, 11665, "", "=q3=Ogreseer Fists", "=ds=#s9#, #a2# =q2=#brd6#", "", "28.16%"};
-		{ 28, 11728, "", "=q3=Savage Gladiator Leggings", "=ds=#s11#, #a3# =q2=#brd6#", "", "14.95%"};
-		{ 29, 11824, "", "=q3=Cyclopean Band", "=ds=#s13# =q2=#brd6#", "", "18.37%"};
+	AtlasLoot_Data["BRDAnubshiah"] = {
+    { 1, 0, "RoM_stellar_dice", "=q6=Anub'shiah", "=q5=CHANCE TO DROP"};
+    { 2, 22525, "", "=q1=Crypt Fiend Parts", "=ds=#m3#", "", "57.0%" };
+    { 3, 11678, "", "=q3=Carapace of Anub'shiah", "=ds=#a4#", "", "15.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Anub'shiah", "=q5=ONE WILL DROP"};
+    { 6, 11675, "", "=q3=Shadefiend Boots", "=ds=#a2#", "", "42.5%" };
+    { 7, 11677, "", "=q3=Graverot Cape", "=ds=#a1#", "", "42.5%" };
+    { 8, 11731, "", "=q3=Savage Gladiator Greaves", "=ds=#a3#", "", "15.0%" };
+	};
+
+	AtlasLoot_Data["BRDEviscerator"] = {
+    { 1, 0, "AO_Unknown", "=q6=Eviscerator", "=q5=ONE WILL DROP"};
+    { 2, 11679, "", "=q3=Rubicund Armguards", "=ds=#a3#", "", "35.0%" };
+    { 3, 11685, "", "=q3=Splinthide Shoulders", "=ds=#a2#", "", "35.0%" };
+    { 4, 11686, "", "=q3=Girdle of Beastial Fury", "=ds=#a2#", "", "15.0%" };
+    { 5, 11730, "", "=q3=Savage Gladiator Grips", "=ds=#a3#", "", "15.0%" };
+	};
+
+	AtlasLoot_Data["BRDGorosh"] = {
+    { 1, 0, "AO_Unknown", "=q6=Gorosh the Dervish", "=q5=ONE WILL DROP"};
+    { 2, 22257, "", "=q3=Bloodclot Band", "=ds=#s13#", "", "35.0%" };
+    { 3, 22271, "", "=q3=Leggings of Frenzied Magic", "=ds=#a2#", "", "35.0%" };
+    { 4, 11726, "", "=q4=Savage Gladiator Chain", "=ds=#a3#", "", "15.0%" };
+    { 5, 22266, "", "=q3=Flarethorn", "=ds=#w4#", "", "15.0%" };
+	};
+
+	AtlasLoot_Data["BRDGrizzle"] = {
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Grizzle", "=q5=ALL WILL DROP"};
+    { 2, 11610, "", "=q3=Plans: Dark Iron Pulverizer", "=ds=#e2#", "", "100%" };
+    { 4, 0, "AO_Unknown", "=q6=Grizzle", "=q5=ONE WILL DROP"};
+    { 5, 11702, "", "=q3=Grizzle's Skinner", "=ds=#w1#", "", "35.0%" };
+    { 6, 11703, "", "=q3=Stonewall Girdle", "=ds=#a4#", "", "35.0%" };
+    { 7, 11722, "", "=q3=Dregmetal Spaulders", "=ds=#a3#", "", "15.0%" };
+    { 8, 22270, "", "=q3=Entrenching Boots", "=ds=#a4#", "", "15.0%" };
+	};
+
+	AtlasLoot_Data["BRDHedrum"] = {
+    { 1, 0, "AO_Unknown", "=q6=Hedrum the Creeper", "=q5=ONE WILL DROP"};
+    { 2, 11633, "", "=q3=Spiderfang Carapace", "=ds=#a4#", "", "35.0%" };
+    { 3, 11634, "", "=q3=Silkweb Gloves", "=ds=#a1#", "", "35.0%" };
+    { 4, 11635, "", "=q3=Hookfang Shanker", "=ds=#w4#", "", "15.0%" };
+    { 5, 11729, "", "=q3=Savage Gladiator Helm", "=ds=#a3#", "", "15.0%" };
+	};
+
+	AtlasLoot_Data["BRDOkthor"] = {
+    { 1, 0, "AO_Unknown", "=q6=Ok'thor the Breaker", "=q5=ONE WILL DROP"};
+    { 2, 11662, "", "=q3=Ban'thok Sash", "=ds=#a1#", "", "35.0%" };
+    { 3, 11665, "", "=q3=Ogreseer Fists", "=ds=#a2#", "", "35.0%" };
+    { 4, 11728, "", "=q3=Savage Gladiator Leggings", "=ds=#a3#", "", "15.0%" };
+    { 5, 11824, "", "=q3=Cyclopean Band", "=ds=#s13#", "", "15.0%" };
 	};
 
 	AtlasLoot_Data["BRDTheldren"] = {

@@ -266,7 +266,7 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ "", "BRDPyron" },
 		{ "", "BRDLordRoccor" },
 		{ "", "BRDHighInterrogatorGerstahn" },
-		{ "", "BRDArena" },
+		{ "Ring of Law", "BRDRingOfLaw", "Submenu" },
 		{ "", "BRDTheldren" },
 		{ "", "BRDHoundmaster" },
 		{ "", "BRDPyromantLoregrain" },
@@ -288,6 +288,14 @@ AtlasLoot_DewDropDown_SubTables = {
 		{ "", "BRDBSPlans" },
 		{ "", "BRDTrash" },
 		{ "", "VWOWSets1" },
+	},
+	["BRDRingOfLaw"] = {
+		{ BabbleBoss["Anub'shiah"], "BRDAnubshiah" },
+		{ BabbleBoss["Eviscerator"], "BRDEviscerator" },
+		{ BabbleBoss["Gorosh the Dervish"], "BRDGorosh" },
+		{ BabbleBoss["Grizzle"], "BRDGrizzle" },
+		{ BabbleBoss["Hedrum the Creeper"], "BRDHedrum" },
+		{ BabbleBoss["Ok'thor the Breaker"], "BRDOkthor" },
 	},
 	["LowerBlackrock"] = {
 		{ "", "LBRSSpirestoneButcher" },
