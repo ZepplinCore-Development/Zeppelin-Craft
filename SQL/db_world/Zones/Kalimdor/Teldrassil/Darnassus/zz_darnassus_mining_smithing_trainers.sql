@@ -12,14 +12,12 @@
 
 UPDATE `creature_template`
 SET `subname` = 'Blacksmithing Trainer',
-    `npcflag` = 83, -- Gossip + Questgiver + Trainer (1 + 2 + 16 + 64)
-    `trainer_type` = 2, -- Tradeskill trainer
-    `trainer_class` = 0 -- Not class-specific
+    `npcflag` = 83 -- Gossip + Questgiver + Trainer (1 + 2 + 16 + 64)
 WHERE `entry` = 6142;
 
--- Assign blacksmithing trainer template to Mathiel
+-- Assign blacksmithing trainer template to Mathiel (59 = full trainer, 0-440 skill)
 DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 6142;
-INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (6142, 201004);
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (6142, 59);
 
 -- ========================================
 -- BORIN IRONDELVE - New Mining Trainer
@@ -47,9 +45,6 @@ SET `entry` = 70,
     `unit_class` = 1,
     `unit_flags` = 512,
     `unit_flags2` = 2048,
-    `trainer_type` = 2, -- Tradeskill trainer
-    `trainer_class` = 0,
-    `trainer_race` = 0,
     `type` = 7, -- Humanoid
     `type_flags` = 134217728, -- FORCE_GOSSIP
     `HoverHeight` = 1,
@@ -67,9 +62,9 @@ DELETE FROM `creature` WHERE `id1` = 70;
 INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
 (70, 1, 9923.672, 2311.778, 1330.7888, 2.5290294, 300);
 
--- Assign mining trainer template to Borin Irondelve
+-- Assign mining trainer template to Borin Irondelve (78 = full trainer, 0-450 skill)
 DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 70;
-INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (70, 201033);
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (70, 78);
 
 -- ========================================
 -- GUARD GOSSIP INTEGRATION
