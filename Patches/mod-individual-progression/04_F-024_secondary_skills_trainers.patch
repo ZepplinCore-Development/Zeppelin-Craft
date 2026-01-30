@@ -1,30 +1,23 @@
-From 4946c879c043699fe3b5557166659d29b7a2edd7 Mon Sep 17 00:00:00 2001
+From 9e40c749066e9bb7a6fcd20fd0def7b515d047b0 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Mon, 19 Jan 2026 13:54:42 +0000
-Subject: [PATCH 2/5] Zeppelin customizations: Secondary skills and vendor
- gating
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Fri, 30 Jan 2026 04:47:28 +0000
+Subject: [PATCH] F-024: Keep secondary skills learnable from trainers
 
-- Keep First Aid, Cooking, Fishing learnable from trainers (revert IPP book requirements)
-- Move vanilla_vendors.sql to optional (no vendor item progression gating)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+Restore First Aid, Cooking, and Fishing skills to trainers. IPP moves
+these to books/quests only, but Zeppelin wants standard WotLK trainer
+experience.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  .../base/zz_zeppelin_secondary_skills.sql     | 28 +++++++++++++++++++
- .../sql/world/zz_optional_vanilla_vendors.sql |  0
- 2 files changed, 28 insertions(+)
- create mode 100644 data/sql/world/base/zz_zeppelin_secondary_skills.sql
- rename data/sql/world/base/vanilla_vendors.sql => optional/sql/world/zz_optional_vanilla_vendors.sql (100%)
+ 1 file changed, 28 insertions(+)
+ create mode 100644 data/sql/db-world/base/zz_zeppelin_secondary_skills.sql
 
-diff --git a/data/sql/world/base/zz_zeppelin_secondary_skills.sql b/data/sql/world/base/zz_zeppelin_secondary_skills.sql
+diff --git a/data/sql/db-world/base/zz_zeppelin_secondary_skills.sql b/data/sql/db-world/base/zz_zeppelin_secondary_skills.sql
 new file mode 100644
 index 0000000..eb57644
 --- /dev/null
-+++ b/data/sql/world/base/zz_zeppelin_secondary_skills.sql
++++ b/data/sql/db-world/base/zz_zeppelin_secondary_skills.sql
 @@ -0,0 +1,28 @@
 +-- Zeppelin Customization: Keep First Aid, Cooking, and Fishing learnable from trainers
 +-- IPP moves these to books/quests only, but we want the standard WotLK trainer experience
@@ -54,10 +47,6 @@ index 0000000..eb57644
 +(20, 18249, 5000, 356, 125, 0),   -- Expert Fishing (skill 225)
 +(20, 54083, 100000, 356, 225, 0), -- Master Fishing (skill 375)
 +(20, 54084, 350000, 356, 350, 0); -- Grand Master Fishing (skill 450)
-diff --git a/data/sql/world/base/vanilla_vendors.sql b/optional/sql/world/zz_optional_vanilla_vendors.sql
-similarity index 100%
-rename from data/sql/world/base/vanilla_vendors.sql
-rename to optional/sql/world/zz_optional_vanilla_vendors.sql
 -- 
 2.34.1
 

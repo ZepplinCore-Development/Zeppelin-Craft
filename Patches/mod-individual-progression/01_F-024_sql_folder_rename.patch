@@ -1,353 +1,7 @@
-From 5ae3a0c67d8daff245702f46cacd8173632c5a94 Mon Sep 17 00:00:00 2001
+From a8109361d7712222fbfa046e1aa1bba43688deae Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Mon, 19 Jan 2026 13:37:34 +0000
-Subject: [PATCH 1/5] Zeppelin customizations: Daily dungeon XP and JC tools
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-- Add daily dungeon quest IDs to repeatable quests for XP rewards
-- Keep Jeweler's Kit and Simple Grinder available without progression gating
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- data/sql/world/base/zz_zeppelin_jc_tools.sql |  6 ++
- src/IndividualProgression.h                  | 65 ++++++++++++++++++++
- src/IndividualProgressionPlayer.cpp          | 62 +++++++++++++++++++
- 3 files changed, 133 insertions(+)
- create mode 100644 data/sql/world/base/zz_zeppelin_jc_tools.sql
-
-diff --git a/data/sql/world/base/zz_zeppelin_jc_tools.sql b/data/sql/world/base/zz_zeppelin_jc_tools.sql
-new file mode 100644
-index 0000000..4d69896
---- /dev/null
-+++ b/data/sql/world/base/zz_zeppelin_jc_tools.sql
-@@ -0,0 +1,6 @@
-+-- Zeppelin Customization: Keep Jeweler's Kit and Simple Grinder available without progression gating
-+-- These are JC profession tools that should be available from the start
-+-- Item 20815 = Jeweler's Kit
-+-- Item 20824 = Simple Grinder
-+
-+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceEntry` IN (20815, 20824);
-diff --git a/src/IndividualProgression.h b/src/IndividualProgression.h
-index 7cd605d..ba787d3 100644
---- a/src/IndividualProgression.h
-+++ b/src/IndividualProgression.h
-@@ -70,6 +70,71 @@ enum ProgressionQuestIDs
-     QUEST_MORROWGRAIN         = 3803,
-     QUEST_DEADWOOD            = 6221,
-     QUEST_WINTERFALL          = 6241,
-+
-+    // Horde Daily Dungeon Quests
-+    Horde_Wailing_Caverns = 441161,
-+    Horde_Ragefire_Chasm = 441162,
-+    Horde_Deadmines = 441183,
-+    Horde_Shadowfang_Keep = 441158,
-+    Horde_Blackfathom_Deeps = 441164,
-+    Horde_Stormwind_Stockade = 441157,
-+    Horde_Scarlet_Monastery_Graveyard = 441165,
-+    Horde_Gnomeregan = 441163,
-+    Horde_Razorfen_Kraul = 441159,
-+    Horde_Razorfen_Downs = 441160,
-+    Horde_Scarlet_Monastery_Library = 441178,
-+    Horde_Scarlet_Monastery_Armory = 441176,
-+    Horde_Scarlet_Monastery_Cathedral = 441177,
-+    Horde_Maraudon_Orange = 441155,
-+    Horde_ZulFarrak = 441167,
-+    Horde_Maraudon_Purple = 441156,
-+    Horde_Uldaman_East = 441166,
-+    Horde_Maraudon_Pristine_Waters = 441179,
-+    Horde_Blackrock_Depths_Prison = 441169,
-+    Horde_Sunken_Temple = 441168,
-+    Horde_Dire_Maul_East = 441171,
-+    Horde_Lower_Blackrock_Spire = 441170,
-+    Horde_Upper_Blackrock_Spire = 441175,
-+    Horde_Dire_Maul_West = 441172,
-+    Horde_Dire_Maul_North = 441173,
-+    Horde_Stratholme_Undead = 441180,
-+    Horde_Stratholme_Living = 441174,
-+    Horde_Scholomance = 441182,
-+    Horde_Blackrock_Depths_Upper_City = 441181,
-+    Horde_Uldaman_West = 441213,
-+
-+    // Alliance Daily Dungeon Quests
-+    Alliance_Wailing_Caverns = 441188,
-+    Alliance_Ragefire_Chasm = 441189,
-+    Alliance_Deadmines = 441212,
-+    Alliance_Shadowfang_Keep = 441185,
-+    Alliance_Stormwind_Stockade = 441184,
-+    Alliance_Gnomeregan = 441190,
-+    Alliance_Blackfathom_Deeps = 441191,
-+    Alliance_Scarlet_Monastery_Graveyard = 441192,
-+    Alliance_Razorfen_Kraul = 441186,
-+    Alliance_Razorfen_Downs = 441187,
-+    Alliance_Scarlet_Monastery_Armory = 441204,
-+    Alliance_Scarlet_Monastery_Cathedral = 441205,
-+    Alliance_Scarlet_Monastery_Library = 441206,
-+    Alliance_Uldaman_East = 441193,
-+    Alliance_ZulFarrak = 441194,
-+    Alliance_Maraudon_Orange = 441195,
-+    Alliance_Maraudon_Purple = 441207,
-+    Alliance_Maraudon_Pristine_Waters = 441208,
-+    Alliance_Blackrock_Depths_Prison = 441197,
-+    Alliance_Sunken_Temple = 441196,
-+    Alliance_Dire_Maul_East = 441199,
-+    Alliance_Lower_Blackrock_Spire = 441198,
-+    Alliance_Dire_Maul_West = 441200,
-+    Alliance_Dire_Maul_North = 441201,
-+    Alliance_Stratholme_Living = 441202,
-+    Alliance_Stratholme_Undead = 441209,
-+    Alliance_Upper_Blackrock_Spire = 441203,
-+    Alliance_Blackrock_Depths_Upper_City = 441210,
-+    Alliance_Scholomance = 441211,
-+    Alliance_Uldaman_West = 441214,
-+
-     QUEST_THE_ANCIENT_LEAF    = 7632,
-     MIGHT_OF_KALIMDOR         = 8742,
-     BANG_A_GONG               = 8743,
-diff --git a/src/IndividualProgressionPlayer.cpp b/src/IndividualProgressionPlayer.cpp
-index 3fa0374..26e07cd 100644
---- a/src/IndividualProgressionPlayer.cpp
-+++ b/src/IndividualProgressionPlayer.cpp
-@@ -366,6 +366,68 @@ public:
-             case QUEST_TROLL_NECKLACE:
-             case QUEST_DEADWOOD:
-             case QUEST_WINTERFALL:
-+            // Horde Daily Dungeon Quests
-+            case Horde_Wailing_Caverns:
-+            case Horde_Ragefire_Chasm:
-+            case Horde_Deadmines:
-+            case Horde_Shadowfang_Keep:
-+            case Horde_Blackfathom_Deeps:
-+            case Horde_Stormwind_Stockade:
-+            case Horde_Scarlet_Monastery_Graveyard:
-+            case Horde_Gnomeregan:
-+            case Horde_Razorfen_Kraul:
-+            case Horde_Razorfen_Downs:
-+            case Horde_Scarlet_Monastery_Library:
-+            case Horde_Scarlet_Monastery_Armory:
-+            case Horde_Scarlet_Monastery_Cathedral:
-+            case Horde_Maraudon_Orange:
-+            case Horde_ZulFarrak:
-+            case Horde_Maraudon_Purple:
-+            case Horde_Uldaman_East:
-+            case Horde_Maraudon_Pristine_Waters:
-+            case Horde_Blackrock_Depths_Prison:
-+            case Horde_Sunken_Temple:
-+            case Horde_Dire_Maul_East:
-+            case Horde_Lower_Blackrock_Spire:
-+            case Horde_Upper_Blackrock_Spire:
-+            case Horde_Dire_Maul_West:
-+            case Horde_Dire_Maul_North:
-+            case Horde_Stratholme_Undead:
-+            case Horde_Stratholme_Living:
-+            case Horde_Scholomance:
-+            case Horde_Blackrock_Depths_Upper_City:
-+            case Horde_Uldaman_West:
-+            // Alliance Daily Dungeon Quests
-+            case Alliance_Wailing_Caverns:
-+            case Alliance_Ragefire_Chasm:
-+            case Alliance_Deadmines:
-+            case Alliance_Shadowfang_Keep:
-+            case Alliance_Blackfathom_Deeps:
-+            case Alliance_Stormwind_Stockade:
-+            case Alliance_Scarlet_Monastery_Graveyard:
-+            case Alliance_Gnomeregan:
-+            case Alliance_Razorfen_Kraul:
-+            case Alliance_Razorfen_Downs:
-+            case Alliance_Scarlet_Monastery_Armory:
-+            case Alliance_Scarlet_Monastery_Cathedral:
-+            case Alliance_Scarlet_Monastery_Library:
-+            case Alliance_Uldaman_East:
-+            case Alliance_ZulFarrak:
-+            case Alliance_Maraudon_Orange:
-+            case Alliance_Maraudon_Purple:
-+            case Alliance_Maraudon_Pristine_Waters:
-+            case Alliance_Blackrock_Depths_Prison:
-+            case Alliance_Sunken_Temple:
-+            case Alliance_Dire_Maul_East:
-+            case Alliance_Lower_Blackrock_Spire:
-+            case Alliance_Dire_Maul_West:
-+            case Alliance_Dire_Maul_North:
-+            case Alliance_Stratholme_Living:
-+            case Alliance_Stratholme_Undead:
-+            case Alliance_Upper_Blackrock_Spire:
-+            case Alliance_Blackrock_Depths_Upper_City:
-+            case Alliance_Scholomance:
-+            case Alliance_Uldaman_West:
-                 if (sIndividualProgression->repeatableVanillaQuestsXp)
-                 {
-                     // Reset the quest status so the player can take it and receive rewards again
--- 
-2.34.1
-
-
-From 4946c879c043699fe3b5557166659d29b7a2edd7 Mon Sep 17 00:00:00 2001
-From: Justin <justurn@live.com>
-Date: Mon, 19 Jan 2026 13:54:42 +0000
-Subject: [PATCH 2/5] Zeppelin customizations: Secondary skills and vendor
- gating
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-- Keep First Aid, Cooking, Fishing learnable from trainers (revert IPP book requirements)
-- Move vanilla_vendors.sql to optional (no vendor item progression gating)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- .../base/zz_zeppelin_secondary_skills.sql     | 28 +++++++++++++++++++
- .../sql/world/zz_optional_vanilla_vendors.sql |  0
- 2 files changed, 28 insertions(+)
- create mode 100644 data/sql/world/base/zz_zeppelin_secondary_skills.sql
- rename data/sql/world/base/vanilla_vendors.sql => optional/sql/world/zz_optional_vanilla_vendors.sql (100%)
-
-diff --git a/data/sql/world/base/zz_zeppelin_secondary_skills.sql b/data/sql/world/base/zz_zeppelin_secondary_skills.sql
-new file mode 100644
-index 0000000..eb57644
---- /dev/null
-+++ b/data/sql/world/base/zz_zeppelin_secondary_skills.sql
-@@ -0,0 +1,28 @@
-+-- Zeppelin Customization: Keep First Aid, Cooking, and Fishing learnable from trainers
-+-- IPP moves these to books/quests only, but we want the standard WotLK trainer experience
-+
-+-- Restore First Aid skills to trainers (IPP removes SpellIDs 54254, 10847, 54255)
-+-- 54254 = Grand Master First Aid, 10847 = Expert First Aid, 54255 = Master First Aid
-+DELETE FROM `trainer_spell` WHERE `SpellID` IN (54254, 10847, 54255);
-+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`) VALUES
-+-- First Aid trainers use TrainerId from npc_trainer entries
-+(29, 10847, 5000, 129, 125, 0),   -- Expert First Aid (skill 225)
-+(29, 54255, 100000, 129, 225, 0), -- Master First Aid (skill 300)
-+(29, 54254, 350000, 129, 350, 0); -- Grand Master First Aid (skill 450)
-+
-+-- Restore Cooking skills to trainers (IPP removes SpellIDs 18261, 19886, 54257, 54256)
-+-- 18261 = Expert Cooking, 19886 = Artisan Cooking, 54256 = Master Cooking, 54257 = Grand Master Cooking
-+DELETE FROM `trainer_spell` WHERE `SpellID` IN (18261, 19886, 54257, 54256);
-+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`) VALUES
-+(21, 18261, 5000, 185, 125, 0),   -- Expert Cooking (skill 225)
-+(21, 19886, 25000, 185, 200, 0),  -- Artisan Cooking (skill 300)
-+(21, 54256, 100000, 185, 275, 0), -- Master Cooking (skill 375)
-+(21, 54257, 350000, 185, 350, 0); -- Grand Master Cooking (skill 450)
-+
-+-- Restore Fishing skills to trainers (IPP removes SpellIDs 18249, 54083, 54084)
-+-- 18249 = Expert Fishing, 54083 = Master Fishing, 54084 = Grand Master Fishing
-+DELETE FROM `trainer_spell` WHERE `SpellID` IN (18249, 54083, 54084);
-+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqLevel`) VALUES
-+(20, 18249, 5000, 356, 125, 0),   -- Expert Fishing (skill 225)
-+(20, 54083, 100000, 356, 225, 0), -- Master Fishing (skill 375)
-+(20, 54084, 350000, 356, 350, 0); -- Grand Master Fishing (skill 450)
-diff --git a/data/sql/world/base/vanilla_vendors.sql b/optional/sql/world/zz_optional_vanilla_vendors.sql
-similarity index 100%
-rename from data/sql/world/base/vanilla_vendors.sql
-rename to optional/sql/world/zz_optional_vanilla_vendors.sql
--- 
-2.34.1
-
-
-From 5bebd449384a11be700c7637a99dc6454ffeffe7 Mon Sep 17 00:00:00 2001
-From: Justin <justurn@live.com>
-Date: Mon, 19 Jan 2026 14:01:23 +0000
-Subject: [PATCH 3/5] Move stat adjustment files to optional
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-- player_levelstats.sql → optional (vanilla player stats per level)
-- warlock_pet_stats.sql → optional (vanilla warlock pet stats)
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- data/sql/world/base/zz_zeppelin_jc_tools.sql                | 6 ------
- .../sql/world/zz_optional_player_levelstats.sql             | 0
- .../sql/world/zz_optional_warlock_pet_stats.sql             | 0
- 3 files changed, 6 deletions(-)
- delete mode 100644 data/sql/world/base/zz_zeppelin_jc_tools.sql
- rename data/sql/world/base/player_levelstats.sql => optional/sql/world/zz_optional_player_levelstats.sql (100%)
- rename data/sql/world/base/warlock_pet_stats.sql => optional/sql/world/zz_optional_warlock_pet_stats.sql (100%)
-
-diff --git a/data/sql/world/base/zz_zeppelin_jc_tools.sql b/data/sql/world/base/zz_zeppelin_jc_tools.sql
-deleted file mode 100644
-index 4d69896..0000000
---- a/data/sql/world/base/zz_zeppelin_jc_tools.sql
-+++ /dev/null
-@@ -1,6 +0,0 @@
---- Zeppelin Customization: Keep Jeweler's Kit and Simple Grinder available without progression gating
---- These are JC profession tools that should be available from the start
---- Item 20815 = Jeweler's Kit
---- Item 20824 = Simple Grinder
--
--DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceEntry` IN (20815, 20824);
-diff --git a/data/sql/world/base/player_levelstats.sql b/optional/sql/world/zz_optional_player_levelstats.sql
-similarity index 100%
-rename from data/sql/world/base/player_levelstats.sql
-rename to optional/sql/world/zz_optional_player_levelstats.sql
-diff --git a/data/sql/world/base/warlock_pet_stats.sql b/optional/sql/world/zz_optional_warlock_pet_stats.sql
-similarity index 100%
-rename from data/sql/world/base/warlock_pet_stats.sql
-rename to optional/sql/world/zz_optional_warlock_pet_stats.sql
--- 
-2.34.1
-
-
-From a86e6b171ad01092c1b4f2cd59691ead94d103b8 Mon Sep 17 00:00:00 2001
-From: Justin <justurn@live.com>
-Date: Tue, 20 Jan 2026 01:31:24 +0000
-Subject: [PATCH 4/5] Move restrictive SQL files to optional
-
-- class_trainers.sql (removes spells from trainers, raises level reqs)
-- mounts_and_riding.sql (vanilla riding levels 40/60, mount quests)
-- player_starting_gear.sql (vanilla starting equipment)
-- player_starting_skillbars.sql (vanilla starting skills)
-- player_starting_weapon_skills.sql (vanilla starting weapon skills)
-
-Zeppelin philosophy: keep content restoration, make restrictions optional.
----
- .../sql/world/zz_optional_class_trainers.sql                      | 0
- .../sql/world/zz_optional_mounts_and_riding.sql                   | 0
- .../sql/world/zz_optional_player_starting_gear.sql                | 0
- .../sql/world/zz_optional_player_starting_skillbars.sql           | 0
- .../sql/world/zz_optional_player_starting_weapon_skills.sql       | 0
- 5 files changed, 0 insertions(+), 0 deletions(-)
- rename data/sql/world/base/class_trainers.sql => optional/sql/world/zz_optional_class_trainers.sql (100%)
- rename data/sql/world/base/mounts_and_riding.sql => optional/sql/world/zz_optional_mounts_and_riding.sql (100%)
- rename data/sql/world/base/player_starting_gear.sql => optional/sql/world/zz_optional_player_starting_gear.sql (100%)
- rename data/sql/world/base/player_starting_skillbars.sql => optional/sql/world/zz_optional_player_starting_skillbars.sql (100%)
- rename data/sql/world/base/player_starting_weapon_skills.sql => optional/sql/world/zz_optional_player_starting_weapon_skills.sql (100%)
-
-diff --git a/data/sql/world/base/class_trainers.sql b/optional/sql/world/zz_optional_class_trainers.sql
-similarity index 100%
-rename from data/sql/world/base/class_trainers.sql
-rename to optional/sql/world/zz_optional_class_trainers.sql
-diff --git a/data/sql/world/base/mounts_and_riding.sql b/optional/sql/world/zz_optional_mounts_and_riding.sql
-similarity index 100%
-rename from data/sql/world/base/mounts_and_riding.sql
-rename to optional/sql/world/zz_optional_mounts_and_riding.sql
-diff --git a/data/sql/world/base/player_starting_gear.sql b/optional/sql/world/zz_optional_player_starting_gear.sql
-similarity index 100%
-rename from data/sql/world/base/player_starting_gear.sql
-rename to optional/sql/world/zz_optional_player_starting_gear.sql
-diff --git a/data/sql/world/base/player_starting_skillbars.sql b/optional/sql/world/zz_optional_player_starting_skillbars.sql
-similarity index 100%
-rename from data/sql/world/base/player_starting_skillbars.sql
-rename to optional/sql/world/zz_optional_player_starting_skillbars.sql
-diff --git a/data/sql/world/base/player_starting_weapon_skills.sql b/optional/sql/world/zz_optional_player_starting_weapon_skills.sql
-similarity index 100%
-rename from data/sql/world/base/player_starting_weapon_skills.sql
-rename to optional/sql/world/zz_optional_player_starting_weapon_skills.sql
--- 
-2.34.1
-
-
-From 42eaa1a79195eb75d761b53ade36a079587de72d Mon Sep 17 00:00:00 2001
-From: Justin <justurn@live.com>
-Date: Fri, 30 Jan 2026 02:30:19 +0000
-Subject: [PATCH 5/5] Rename SQL folders for AzerothCore auto-import
+Date: Fri, 30 Jan 2026 04:46:08 +0000
+Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import
 
 Rename data/sql/ subfolders to match AzerothCore db-assembler expectations:
 - world -> db-world
@@ -371,6 +25,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/aq_war.sql                      | 0
  data/sql/{world => db-world}/base/aq_war_effort.sql               | 0
  data/sql/{world => db-world}/base/boss_lord_kazzak.sql            | 0
+ data/sql/{world => db-world}/base/class_trainers.sql              | 0
  data/sql/{world => db-world}/base/cs_individualProgression.sql    | 0
  data/sql/{world => db-world}/base/dungeon_aq20.sql                | 0
  data/sql/{world => db-world}/base/dungeon_aq40.sql                | 0
@@ -403,6 +58,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/dungeon_zulgurub.sql            | 0
  data/sql/{world => db-world}/base/ipp_aware_npcs.sql              | 0
  data/sql/{world => db-world}/base/item_enchantment_rates.sql      | 0
+ data/sql/{world => db-world}/base/mounts_and_riding.sql           | 0
  data/sql/{world => db-world}/base/naxx40.sql                      | 0
  data/sql/{world => db-world}/base/naxx40_archmage_tarsis.sql      | 0
  data/sql/{world => db-world}/base/naxx40_creatures.sql            | 0
@@ -411,7 +67,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/naxx40_omarion.sql              | 0
  data/sql/{world => db-world}/base/naxx40_quests.sql               | 0
  data/sql/{world => db-world}/base/naxx40_spells.sql               | 0
+ data/sql/{world => db-world}/base/player_levelstats.sql           | 0
  data/sql/{world => db-world}/base/player_progression.sql          | 0
+ data/sql/{world => db-world}/base/player_starting_gear.sql        | 0
+ data/sql/{world => db-world}/base/player_starting_skillbars.sql   | 0
+ .../{world => db-world}/base/player_starting_weapon_skills.sql    | 0
  data/sql/{world => db-world}/base/professions.sql                 | 0
  data/sql/{world => db-world}/base/pvp_brackets.sql                | 0
  data/sql/{world => db-world}/base/pvp_quests.sql                  | 0
@@ -440,8 +100,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  .../sql/{world => db-world}/base/vanilla_skinning_adjustments.sql | 0
  .../{world => db-world}/base/vanilla_spell_school_immunity.sql    | 0
  .../{world => db-world}/base/vanilla_spell_school_resistances.sql | 0
+ data/sql/{world => db-world}/base/vanilla_vendors.sql             | 0
  .../{world => db-world}/base/vanilla_world_level_adjustments.sql  | 0
  data/sql/{world => db-world}/base/vanilla_xp_tables.sql           | 0
+ data/sql/{world => db-world}/base/warlock_pet_stats.sql           | 0
  data/sql/{world => db-world}/base/wotlk_archmage_timear.sql       | 0
  data/sql/{world => db-world}/base/wotlk_emblems.sql               | 0
  data/sql/{world => db-world}/base/wotlk_vendors.sql               | 0
@@ -503,10 +165,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/zone_wetlands.sql               | 0
  data/sql/{world => db-world}/base/zone_winterspring.sql           | 0
  data/sql/{world => db-world}/base/zone_zangarmarsh.sql            | 0
- .../sql/{world => db-world}/base/zz_zeppelin_secondary_skills.sql | 0
  data/sql/{world => db-world}/updates/.gitignore                   | 0
  data/sql/{world => db-world}/updates/.gitkeep                     | 0
- 144 files changed, 0 insertions(+), 0 deletions(-)
+ 151 files changed, 0 insertions(+), 0 deletions(-)
  rename data/sql/{auth => db-auth}/updates/.gitkeep (100%)
  rename data/sql/{characters => db-characters}/updates/.gitkeep (100%)
  rename data/sql/{world => db-world}/base/.gitignore (100%)
@@ -516,6 +177,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/aq_war.sql (100%)
  rename data/sql/{world => db-world}/base/aq_war_effort.sql (100%)
  rename data/sql/{world => db-world}/base/boss_lord_kazzak.sql (100%)
+ rename data/sql/{world => db-world}/base/class_trainers.sql (100%)
  rename data/sql/{world => db-world}/base/cs_individualProgression.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_aq20.sql (100%)
  rename data/sql/{world => db-world}/base/dungeon_aq40.sql (100%)
@@ -548,6 +210,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/dungeon_zulgurub.sql (100%)
  rename data/sql/{world => db-world}/base/ipp_aware_npcs.sql (100%)
  rename data/sql/{world => db-world}/base/item_enchantment_rates.sql (100%)
+ rename data/sql/{world => db-world}/base/mounts_and_riding.sql (100%)
  rename data/sql/{world => db-world}/base/naxx40.sql (100%)
  rename data/sql/{world => db-world}/base/naxx40_archmage_tarsis.sql (100%)
  rename data/sql/{world => db-world}/base/naxx40_creatures.sql (100%)
@@ -556,7 +219,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/naxx40_omarion.sql (100%)
  rename data/sql/{world => db-world}/base/naxx40_quests.sql (100%)
  rename data/sql/{world => db-world}/base/naxx40_spells.sql (100%)
+ rename data/sql/{world => db-world}/base/player_levelstats.sql (100%)
  rename data/sql/{world => db-world}/base/player_progression.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_gear.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_skillbars.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_weapon_skills.sql (100%)
  rename data/sql/{world => db-world}/base/professions.sql (100%)
  rename data/sql/{world => db-world}/base/pvp_brackets.sql (100%)
  rename data/sql/{world => db-world}/base/pvp_quests.sql (100%)
@@ -585,8 +252,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/vanilla_skinning_adjustments.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_spell_school_immunity.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_spell_school_resistances.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_vendors.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_world_level_adjustments.sql (100%)
  rename data/sql/{world => db-world}/base/vanilla_xp_tables.sql (100%)
+ rename data/sql/{world => db-world}/base/warlock_pet_stats.sql (100%)
  rename data/sql/{world => db-world}/base/wotlk_archmage_timear.sql (100%)
  rename data/sql/{world => db-world}/base/wotlk_emblems.sql (100%)
  rename data/sql/{world => db-world}/base/wotlk_vendors.sql (100%)
@@ -648,7 +317,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/zone_wetlands.sql (100%)
  rename data/sql/{world => db-world}/base/zone_winterspring.sql (100%)
  rename data/sql/{world => db-world}/base/zone_zangarmarsh.sql (100%)
- rename data/sql/{world => db-world}/base/zz_zeppelin_secondary_skills.sql (100%)
  rename data/sql/{world => db-world}/updates/.gitignore (100%)
  rename data/sql/{world => db-world}/updates/.gitkeep (100%)
 
@@ -688,6 +356,10 @@ diff --git a/data/sql/world/base/boss_lord_kazzak.sql b/data/sql/db-world/base/b
 similarity index 100%
 rename from data/sql/world/base/boss_lord_kazzak.sql
 rename to data/sql/db-world/base/boss_lord_kazzak.sql
+diff --git a/data/sql/world/base/class_trainers.sql b/data/sql/db-world/base/class_trainers.sql
+similarity index 100%
+rename from data/sql/world/base/class_trainers.sql
+rename to data/sql/db-world/base/class_trainers.sql
 diff --git a/data/sql/world/base/cs_individualProgression.sql b/data/sql/db-world/base/cs_individualProgression.sql
 similarity index 100%
 rename from data/sql/world/base/cs_individualProgression.sql
@@ -816,6 +488,10 @@ diff --git a/data/sql/world/base/item_enchantment_rates.sql b/data/sql/db-world/
 similarity index 100%
 rename from data/sql/world/base/item_enchantment_rates.sql
 rename to data/sql/db-world/base/item_enchantment_rates.sql
+diff --git a/data/sql/world/base/mounts_and_riding.sql b/data/sql/db-world/base/mounts_and_riding.sql
+similarity index 100%
+rename from data/sql/world/base/mounts_and_riding.sql
+rename to data/sql/db-world/base/mounts_and_riding.sql
 diff --git a/data/sql/world/base/naxx40.sql b/data/sql/db-world/base/naxx40.sql
 similarity index 100%
 rename from data/sql/world/base/naxx40.sql
@@ -848,10 +524,26 @@ diff --git a/data/sql/world/base/naxx40_spells.sql b/data/sql/db-world/base/naxx
 similarity index 100%
 rename from data/sql/world/base/naxx40_spells.sql
 rename to data/sql/db-world/base/naxx40_spells.sql
+diff --git a/data/sql/world/base/player_levelstats.sql b/data/sql/db-world/base/player_levelstats.sql
+similarity index 100%
+rename from data/sql/world/base/player_levelstats.sql
+rename to data/sql/db-world/base/player_levelstats.sql
 diff --git a/data/sql/world/base/player_progression.sql b/data/sql/db-world/base/player_progression.sql
 similarity index 100%
 rename from data/sql/world/base/player_progression.sql
 rename to data/sql/db-world/base/player_progression.sql
+diff --git a/data/sql/world/base/player_starting_gear.sql b/data/sql/db-world/base/player_starting_gear.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_gear.sql
+rename to data/sql/db-world/base/player_starting_gear.sql
+diff --git a/data/sql/world/base/player_starting_skillbars.sql b/data/sql/db-world/base/player_starting_skillbars.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_skillbars.sql
+rename to data/sql/db-world/base/player_starting_skillbars.sql
+diff --git a/data/sql/world/base/player_starting_weapon_skills.sql b/data/sql/db-world/base/player_starting_weapon_skills.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_weapon_skills.sql
+rename to data/sql/db-world/base/player_starting_weapon_skills.sql
 diff --git a/data/sql/world/base/professions.sql b/data/sql/db-world/base/professions.sql
 similarity index 100%
 rename from data/sql/world/base/professions.sql
@@ -964,6 +656,10 @@ diff --git a/data/sql/world/base/vanilla_spell_school_resistances.sql b/data/sql
 similarity index 100%
 rename from data/sql/world/base/vanilla_spell_school_resistances.sql
 rename to data/sql/db-world/base/vanilla_spell_school_resistances.sql
+diff --git a/data/sql/world/base/vanilla_vendors.sql b/data/sql/db-world/base/vanilla_vendors.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_vendors.sql
+rename to data/sql/db-world/base/vanilla_vendors.sql
 diff --git a/data/sql/world/base/vanilla_world_level_adjustments.sql b/data/sql/db-world/base/vanilla_world_level_adjustments.sql
 similarity index 100%
 rename from data/sql/world/base/vanilla_world_level_adjustments.sql
@@ -972,6 +668,10 @@ diff --git a/data/sql/world/base/vanilla_xp_tables.sql b/data/sql/db-world/base/
 similarity index 100%
 rename from data/sql/world/base/vanilla_xp_tables.sql
 rename to data/sql/db-world/base/vanilla_xp_tables.sql
+diff --git a/data/sql/world/base/warlock_pet_stats.sql b/data/sql/db-world/base/warlock_pet_stats.sql
+similarity index 100%
+rename from data/sql/world/base/warlock_pet_stats.sql
+rename to data/sql/db-world/base/warlock_pet_stats.sql
 diff --git a/data/sql/world/base/wotlk_archmage_timear.sql b/data/sql/db-world/base/wotlk_archmage_timear.sql
 similarity index 100%
 rename from data/sql/world/base/wotlk_archmage_timear.sql
@@ -1216,10 +916,6 @@ diff --git a/data/sql/world/base/zone_zangarmarsh.sql b/data/sql/db-world/base/z
 similarity index 100%
 rename from data/sql/world/base/zone_zangarmarsh.sql
 rename to data/sql/db-world/base/zone_zangarmarsh.sql
-diff --git a/data/sql/world/base/zz_zeppelin_secondary_skills.sql b/data/sql/db-world/base/zz_zeppelin_secondary_skills.sql
-similarity index 100%
-rename from data/sql/world/base/zz_zeppelin_secondary_skills.sql
-rename to data/sql/db-world/base/zz_zeppelin_secondary_skills.sql
 diff --git a/data/sql/world/updates/.gitignore b/data/sql/db-world/updates/.gitignore
 similarity index 100%
 rename from data/sql/world/updates/.gitignore
