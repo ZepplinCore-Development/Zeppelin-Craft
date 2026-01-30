@@ -1,11 +1,18 @@
-commit 00da651f475017fa75b6181074e4953c59764c1e
-Author: justurn <justurn@live.com>
-Date:   Fri Jun 13 21:14:35 2025 +0800
+From 55fb41c512c49703bfc252dffd28b134eab47cd1 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:56:54 +0000
+Subject: [PATCH] F-036: Adjust Ghostlands escort spawn locations
 
-    Update zone_ghostlands.cpp
+Updated NPC spawn coordinates for Ranger Lilatha escort quest
+to match Open Azeroth world modifications.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/EasternKingdoms/zone_ghostlands.cpp | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
-index da2cb493e..06615f976 100644
+index 13d92bc96..e95975ac4 100644
 --- a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
 +++ b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
 @@ -69,8 +69,11 @@ struct npc_ranger_lilatha : public npc_escortAI
@@ -22,3 +29,6 @@ index da2cb493e..06615f976 100644
              if (Summ1 && Summ2)
              {
                  Summ1->Attack(me, true);
+-- 
+2.34.1
+

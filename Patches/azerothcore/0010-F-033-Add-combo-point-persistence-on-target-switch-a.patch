@@ -1,14 +1,24 @@
-commit 1218785ebc671198b87fa2cd178c13eeb0c1cb2d
-Author: StealthyApe <59826804+StealthyApe@users.noreply.github.com>
-Date:   Wed Jun 4 17:36:11 2025 +0800
+From b80c07598668ebac61a7d308895875fce3f47e71 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:50:53 +0000
+Subject: [PATCH] F-033: Add combo point persistence on target switch and death
 
-    Removed combo point removal on target switch and death
+- Prevent combo point loss when target dies
+- Preserve combo points when switching targets
+- Cap at 5 combo points during target transitions
+
+Allows rogues/druids to maintain combo points across targets.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Unit/Unit.cpp | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 88b743866..82a24df55 100644
+index 7ad99834f..3ec8a27b6 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -14642,7 +14642,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+@@ -14680,7 +14680,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
          CombatStop();
          GetThreatMgr().ClearAllThreat();
          getHostileRefMgr().deleteReferences();
@@ -17,7 +27,7 @@ index 88b743866..82a24df55 100644
  
          if (IsNonMeleeSpellCast(false))
              InterruptNonMeleeSpells(false);
-@@ -16929,9 +16929,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+@@ -17094,9 +17094,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
          {
              m_comboTarget->RemoveComboPointHolder(this);
          }
@@ -33,3 +43,6 @@ index 88b743866..82a24df55 100644
          target->AddComboPointHolder(this);
      }
      else
+-- 
+2.34.1
+

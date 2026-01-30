@@ -1,0 +1,28 @@
+From adb40959a54b92a20996ff2f4953796bd04010b5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:56:57 +0000
+Subject: [PATCH] I-088: Set Docker timezone to Australia/Perth
+
+Configure default timezone for Docker builds.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ apps/docker/Dockerfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/apps/docker/Dockerfile b/apps/docker/Dockerfile
+index 0fdee45ce..e5221473f 100644
+--- a/apps/docker/Dockerfile
++++ b/apps/docker/Dockerfile
+@@ -6,7 +6,7 @@ FROM ubuntu:$UBUNTU_VERSION AS skeleton
+ 
+ # Note: ARG instructions defined after FROM are available in this build stage.
+ # Placing ARG TZ here (after FROM) ensures it is accessible for configuring the timezone below.
+-ARG TZ=Etc/UTC
++ARG TZ=Australia/Perth
+ ARG DOCKER=1
+ ARG DEBIAN_FRONTEND=noninteractive
+ 
+-- 
+2.34.1
+

@@ -1,0 +1,57 @@
+From 160318bea7d08fc6f4ea2fc0bf95b29f06c7e07f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:49:40 +0000
+Subject: [PATCH] F-031: Add lockpicking skill rate customization
+
+- Add specialLockingBusiness variable using CONFIG_SKILL_GAIN_CRAFTING
+- Separate lockpicking skill gain from other gathering skills
+- Use crafting skill gain rate for lockpicking instead of gathering rate
+- Move SKILL_LOCKPICKING to its own switch case
+
+Allows server to configure lockpicking skill gain independently.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../game/Entities/Player/PlayerUpdates.cpp    | 20 +++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
+index b0c7a8521..5c95b6584 100644
+--- a/src/server/game/Entities/Player/PlayerUpdates.cpp
++++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
+@@ -772,16 +772,28 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
+               "UpdateGatherSkill(SkillId {} SkillLevel {} RedLevel {})",
+               SkillId, SkillValue, RedLevel);
+ 
+-    uint32 gathering_skill_gain =
+-        sWorld->getIntConfig(CONFIG_SKILL_GAIN_GATHERING);
+-    sScriptMgr->OnPlayerUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, gathering_skill_gain);
++    uint32 gathering_skill_gain = sWorld->getIntConfig(CONFIG_SKILL_GAIN_GATHERING);
++    uint32 specialLockingBusiness =sWorld->getIntConfig(CONFIG_SKILL_GAIN_CRAFTING);
++
++    if(SkillId == SKILL_LOCKPICKING){
++        sScriptMgr->OnPlayerUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, specialLockingBusiness);
++    }
++    else {
++        sScriptMgr->OnPlayerUpdateGatheringSkill(this, SkillId, SkillValue, RedLevel + 100, RedLevel + 50, RedLevel + 25, gathering_skill_gain);
++    }
+ 
+     // For skinning and Mining chance decrease with level. 1-74 - no decrease,
+     // 75-149 - 2 times, 225-299 - 8 times
+     switch (SkillId)
+     {
+-    case SKILL_HERBALISM:
+     case SKILL_LOCKPICKING:
++        return UpdateSkillPro(SkillId,
++                        SkillGainChance(SkillValue, RedLevel + 100,
++                        RedLevel + 50, RedLevel + 25) *
++                        Multiplicator,
++                        specialLockingBusiness);
++        break;
++    case SKILL_HERBALISM:
+     case SKILL_JEWELCRAFTING:
+     case SKILL_INSCRIPTION:
+         return UpdateSkillPro(SkillId,
+-- 
+2.34.1
+

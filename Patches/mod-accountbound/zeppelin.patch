@@ -1,51 +1,14 @@
-From 5d4a6a1c3b52f6e806e69fd8336537d9be464745 Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Fri, 30 Jan 2026 06:53:56 +0000
-Subject: [PATCH] Apply Zeppelin patch
+From 1019acc8c04522ec687d4531284bdb68474d47dd Mon Sep 17 00:00:00 2001
+From: justurn <justurn@live.com>
+Date: Sat, 8 Mar 2025 08:57:37 +0800
+Subject: [PATCH 1/4] Update mod_accountbound.h
 
 ---
- .gitattributes                  | 28 ++++++++++++++++++++++++++++
- src/mod_accountbound.h          | 11 ++++++-----
- src/mod_accountbound_player.cpp | 12 +++++++-----
- 3 files changed, 41 insertions(+), 10 deletions(-)
- create mode 100644 .gitattributes
+ src/mod_accountbound.h | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/.gitattributes b/.gitattributes
-new file mode 100644
-index 0000000..cc02d42
---- /dev/null
-+++ b/.gitattributes
-@@ -0,0 +1,28 @@
-+# Handle line endings automatically for files detected as text
-+* text=auto
-+
-+# Force LF line endings for these file types
-+*.cpp text eol=lf
-+*.hpp text eol=lf
-+*.h text eol=lf
-+*.c text eol=lf
-+*.sql text eol=lf
-+*.conf text eol=lf
-+*.py text eol=lf
-+*.sh text eol=lf
-+*.md text eol=lf
-+*.txt text eol=lf
-+*.cmake text eol=lf
-+*.in text eol=lf
-+*.dist text eol=lf
-+
-+# Force binary for certain file types
-+*.exe binary
-+*.dll binary
-+*.so binary
-+*.dylib binary
-+*.a binary
-+*.lib binary
-+*.png binary
-+*.jpg binary
-+*.jpeg binary
 diff --git a/src/mod_accountbound.h b/src/mod_accountbound.h
-index 9fcb3f8..4f82d0a 100644
+index 9fcb3f8..664b4b7 100644
 --- a/src/mod_accountbound.h
 +++ b/src/mod_accountbound.h
 @@ -52,11 +52,12 @@ public:
@@ -59,15 +22,54 @@ index 9fcb3f8..4f82d0a 100644
 -    void OnSave(Player* /*player*/) override;
 +
 +    void OnPlayerAchievementComplete(Player* /*player*/, AchievementEntry const* /*achievement*/) override;
-+    void OnPlayerBeforeStoreOrEquipNewItem(Player* /*player*/, uint32 /*vendorslot*/, uint32& /*item*/, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/) override;
++    void OnPlayerBeforeStoreOrEquipNewItem(Player* /*player*/, uint32 /*vendorslot*/, Item* /*item*/, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/) override;
 +    void OnPlayerLevelChanged(Player* /*player*/, uint8 /*oldlevel*/) override;
 +    void OnPlayerLogin(Player* /*player*/) override;
 +    void OnPlayerSave(Player* /*player*/) override;
  
      // WorldScript
      void OnAfterConfigLoad(bool /*reload*/) override;
+-- 
+2.34.1
+
+
+From 89562e7a1dde6f56b991b3d739139b1078370f5f Mon Sep 17 00:00:00 2001
+From: justurn <justurn@live.com>
+Date: Sat, 8 Mar 2025 09:04:38 +0800
+Subject: [PATCH 2/4] Update mod_accountbound.h
+
+---
+ src/mod_accountbound.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mod_accountbound.h b/src/mod_accountbound.h
+index 664b4b7..4f82d0a 100644
+--- a/src/mod_accountbound.h
++++ b/src/mod_accountbound.h
+@@ -54,7 +54,7 @@ public:
+     // PlayerScript
+ 
+     void OnPlayerAchievementComplete(Player* /*player*/, AchievementEntry const* /*achievement*/) override;
+-    void OnPlayerBeforeStoreOrEquipNewItem(Player* /*player*/, uint32 /*vendorslot*/, Item* /*item*/, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/) override;
++    void OnPlayerBeforeStoreOrEquipNewItem(Player* /*player*/, uint32 /*vendorslot*/, uint32& /*item*/, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/) override;
+     void OnPlayerLevelChanged(Player* /*player*/, uint8 /*oldlevel*/) override;
+     void OnPlayerLogin(Player* /*player*/) override;
+     void OnPlayerSave(Player* /*player*/) override;
+-- 
+2.34.1
+
+
+From 5bcbd382af2612db18df955d73af27f5d72dbc69 Mon Sep 17 00:00:00 2001
+From: justurn <justurn@live.com>
+Date: Sat, 8 Mar 2025 13:16:49 +0800
+Subject: [PATCH 3/4] Update mod_accountbound_player.cpp
+
+---
+ src/mod_accountbound_player.cpp | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
 diff --git a/src/mod_accountbound_player.cpp b/src/mod_accountbound_player.cpp
-index 12cfbe3..9e14da8 100644
+index 12cfbe3..6839397 100644
 --- a/src/mod_accountbound_player.cpp
 +++ b/src/mod_accountbound_player.cpp
 @@ -1,6 +1,6 @@
@@ -78,7 +80,7 @@ index 12cfbe3..9e14da8 100644
  {
      if (player->IsGameMaster() && !EnableGamemasters)
      {
-@@ -16,8 +16,10 @@ void AccountBound::OnAchiComplete(Player* player, AchievementEntry const* achiev
+@@ -16,7 +16,8 @@ void AccountBound::OnAchiComplete(Player* player, AchievementEntry const* achiev
      }
  }
  
@@ -86,11 +88,9 @@ index 12cfbe3..9e14da8 100644
 +
 +void AccountBound::OnPlayerBeforeStoreOrEquipNewItem(Player* player, uint32 /*vendorslot*/, uint32& itemEntry, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/)
  {
-+    Item * item = player->GetItemByEntry(itemEntry);
      if (player->IsGameMaster() && !EnableGamemasters)
      {
-         return;
-@@ -39,7 +41,7 @@ void AccountBound::OnAfterStoreOrEquipNewItem(Player* player, uint32 /*vendorslo
+@@ -39,7 +40,7 @@ void AccountBound::OnAfterStoreOrEquipNewItem(Player* player, uint32 /*vendorslo
      }
  }
  
@@ -99,7 +99,7 @@ index 12cfbe3..9e14da8 100644
  {
      if (player->IsGameMaster() && !EnableGamemasters)
      {
-@@ -52,7 +54,7 @@ void AccountBound::OnLevelChanged(Player* player, uint8 /*oldlevel*/)
+@@ -52,7 +53,7 @@ void AccountBound::OnLevelChanged(Player* player, uint8 /*oldlevel*/)
      }
  }
  
@@ -108,7 +108,7 @@ index 12cfbe3..9e14da8 100644
  {
      if (player->IsGameMaster() && !EnableGamemasters)
      {
-@@ -70,7 +72,7 @@ void AccountBound::OnLogin(Player* player)
+@@ -70,7 +71,7 @@ void AccountBound::OnLogin(Player* player)
      }
  }
  
@@ -117,6 +117,31 @@ index 12cfbe3..9e14da8 100644
  {
      if (player->IsGameMaster() && !EnableGamemasters)
      {
+-- 
+2.34.1
+
+
+From 558efe448d63d992bab3d4cc7f6c2eb60198bcb8 Mon Sep 17 00:00:00 2001
+From: justurn <justurn@live.com>
+Date: Sat, 8 Mar 2025 13:26:16 +0800
+Subject: [PATCH 4/4] Update mod_accountbound_player.cpp
+
+---
+ src/mod_accountbound_player.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/mod_accountbound_player.cpp b/src/mod_accountbound_player.cpp
+index 6839397..9e14da8 100644
+--- a/src/mod_accountbound_player.cpp
++++ b/src/mod_accountbound_player.cpp
+@@ -19,6 +19,7 @@ void AccountBound::OnPlayerAchievementComplete(Player* player, AchievementEntry
+ 
+ void AccountBound::OnPlayerBeforeStoreOrEquipNewItem(Player* player, uint32 /*vendorslot*/, uint32& itemEntry, uint8 /*count*/, uint8 /*bag*/, uint8 /*slot*/, ItemTemplate const* /*pProto*/, Creature* /*pVendor*/, VendorItem const* /*crItem*/, bool /*bStore*/)
+ {
++    Item * item = player->GetItemByEntry(itemEntry);
+     if (player->IsGameMaster() && !EnableGamemasters)
+     {
+         return;
 -- 
 2.34.1
 

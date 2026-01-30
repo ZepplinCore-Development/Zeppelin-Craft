@@ -1,29 +1,28 @@
-commit 295ed386e63146b3fc196f33fc92a67f5ed1aeb6
-Author: Justin <justurn@live.com>
-Date:   Sun Jan 25 12:39:10 2026 +0000
+From 6010c146ee4764714c50eea43d6fc274c1a19bf8 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:47:39 +0000
+Subject: [PATCH] F-027: Remove Alchemist Stone hardcoded proc handlers
 
-    WIP: F-027 - Remove Alchemist Stone hardcoded proc handlers
-    
-    Migrated Alchemist's Stone (17619) from server-side scripting to
-    DBC-based ADD_PCT_MODIFIER aura:
-    
-    - Removed SPELLFAMILY_POTION proc handler from Unit.cpp
-    - Removed spell_item_fel_mana_potion script from spell_item.cpp
-    - Triggered spells 21399/21400 deleted from DBC (no longer needed)
-    - Fel Mana (38929) tagged with mana potion flag for proper targeting
-    
-    The 40% bonus is now applied via spell effect targeting, enabling
-    dynamic tooltip display via SpellDescriptionVariables.
-    
-    🤖 Generated with [Claude Code](https://claude.com/claude-code)
-    
-    Co-Authored-By: Claude <noreply@anthropic.com>
+Migrated Alchemist's Stone (17619) from server-side scripting to
+DBC-based ADD_PCT_MODIFIER aura:
+
+- Removed SPELLFAMILY_POTION proc handler from Unit.cpp
+- Removed spell_item_fel_mana_potion script from spell_item.cpp
+- Triggered spells 21399/21400 no longer needed
+
+The 40% bonus is now applied via spell effect targeting.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Unit/Unit.cpp   | 30 ++-------------------
+ src/server/scripts/Spells/spell_item.cpp | 34 +++---------------------
+ 2 files changed, 5 insertions(+), 59 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 79b0b5ff0..a4e757fec 100644
+index 026597daa..7ad99834f 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -8715,34 +8715,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
+@@ -8887,34 +8887,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
                  }
                  break;
              }
@@ -61,10 +60,10 @@ index 79b0b5ff0..a4e757fec 100644
              {
                  switch (dummySpell->SpellIconID)
 diff --git a/src/server/scripts/Spells/spell_item.cpp b/src/server/scripts/Spells/spell_item.cpp
-index 62b370b05..02244d0bc 100644
+index d3fcc55b9..560ed53ec 100644
 --- a/src/server/scripts/Spells/spell_item.cpp
 +++ b/src/server/scripts/Spells/spell_item.cpp
-@@ -3992,36 +3992,8 @@ class spell_item_eye_of_grillok_aura : public AuraScript
+@@ -4076,36 +4076,8 @@ class spell_item_eye_of_grillok_aura : public AuraScript
      }
  };
  
@@ -103,7 +102,7 @@ index 62b370b05..02244d0bc 100644
  
  // 32578 - Gor'drek's Ointment
  enum DreksOintment
-@@ -4309,7 +4281,7 @@ void AddSC_item_spell_scripts()
+@@ -4415,7 +4387,7 @@ void AddSC_item_spell_scripts()
      RegisterSpellScript(spell_item_venomhide_feed);
      RegisterSpellScript(spell_item_scroll_of_retribution);
      RegisterSpellAndAuraScriptPair(spell_item_eye_of_grillok, spell_item_eye_of_grillok_aura);
@@ -112,3 +111,6 @@ index 62b370b05..02244d0bc 100644
      RegisterSpellScript(spell_item_gor_dreks_ointment);
      RegisterSpellScript(spell_item_skyguard_blasting_charges);
      RegisterSpellScript(spell_item_luffa);
+-- 
+2.34.1
+

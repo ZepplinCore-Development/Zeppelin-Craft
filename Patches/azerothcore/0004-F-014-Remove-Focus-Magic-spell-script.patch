@@ -1,22 +1,29 @@
-commit 5dc9138cbe11cfdfde447044561d03f1a5c1572f
-Author: justurn <justurn@live.com>
-Date:   Mon May 13 08:49:40 2024 +0800
+From 607a25b245ab8d0b3cb104fa641914f9b639c2e9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 08:45:49 +0000
+Subject: [PATCH] F-014: Remove Focus Magic spell script
 
-    Update spell_mage.cpp
+Removes SPELL_MAGE_FOCUS_MAGIC_PROC enum and unregisters the
+spell_mage_focus_magic script for mage tanking customization.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/Spells/spell_mage.cpp | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/src/server/scripts/Spells/spell_mage.cpp b/src/server/scripts/Spells/spell_mage.cpp
-index 0b3a56570..28e206c8e 100644
+index aa1fe3b6d..23d101e67 100644
 --- a/src/server/scripts/Spells/spell_mage.cpp
 +++ b/src/server/scripts/Spells/spell_mage.cpp
-@@ -38,7 +38,6 @@ enum MageSpells
- 
-     // Theirs
+@@ -35,7 +35,6 @@ enum MageSpells
+     SPELL_MAGE_IMPROVED_BLIZZARD_CHILLED         = 12486,
+     SPELL_MAGE_COMBUSTION                        = 11129,
      SPELL_MAGE_COLD_SNAP                         = 11958,
 -    SPELL_MAGE_FOCUS_MAGIC_PROC                  = 54648,
      SPELL_MAGE_FROST_WARDING_R1                  = 11189,
      SPELL_MAGE_FROST_WARDING_TRIGGERED           = 57776,
      SPELL_MAGE_INCANTERS_ABSORBTION_R1           = 44394,
-@@ -1034,7 +1033,6 @@ void AddSC_mage_spell_scripts()
+@@ -1077,7 +1076,6 @@ void AddSC_mage_spell_scripts()
      RegisterSpellScript(spell_mage_blast_wave);
      RegisterSpellScript(spell_mage_cold_snap);
      RegisterSpellScript(spell_mage_fire_frost_ward);
@@ -24,3 +31,6 @@ index 0b3a56570..28e206c8e 100644
      RegisterSpellScript(spell_mage_ice_barrier);
      RegisterSpellScript(spell_mage_ignite);
      RegisterSpellScript(spell_mage_living_bomb);
+-- 
+2.34.1
+
