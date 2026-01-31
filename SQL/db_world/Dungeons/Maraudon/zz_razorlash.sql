@@ -1,9 +1,11 @@
 -- New abilities for Razorlash
-DELETE FROM `smart_scripts` WHERE (`entryorguid` = 12258) AND `action_param1` IN (91048, 91047);
+-- Use high IDs (100+) to avoid conflicts with base AC scripts
+-- DELETE by action_param1 (spell ID) for resilience if base scripts change
+DELETE FROM `smart_scripts` WHERE `entryorguid` = 12258 AND `action_param1` IN (91048, 91047);
 
 INSERT INTO `smart_scripts` SET
     `entryorguid` = 12258,
-    `id` = 1,
+    `id` = 100,
     `event_param1` = 10000,
     `event_param2` = 12000,
     `event_param3` = 18000,
@@ -15,7 +17,7 @@ INSERT INTO `smart_scripts` SET
 
 INSERT INTO `smart_scripts` SET
     `entryorguid` = 12258,
-    `id` = 2,
+    `id` = 101,
     `event_param1` = 5000,
     `event_param2` = 6000,
     `event_param3` = 20000,
