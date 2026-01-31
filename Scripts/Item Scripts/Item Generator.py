@@ -51,8 +51,8 @@ def generate_sql_query(next_entry_value, item_name, item_class, inventory_type, 
     
     return (
         f"INSERT INTO `item_template` (`entry`, `class`, `subclass`, `SoundOverrideSubclass`, `name`, `displayid`, `Quality`, "
-        f"`InventoryType`, `ItemLevel`, `StatsCount`, {stats_columns}, `flagsCustom`, `VerifiedBuild`) VALUES "
-        f"({next_entry_value}, {item_class}, {subclass}, -1, '{item_name}', {display_id}, {quality}, {inventory_type}, {item_level}, {len(stats) // 2}, {stats_str}, 0, 0);"
+        f"`InventoryType`, `ItemLevel`, {stats_columns}, `flagsCustom`, `VerifiedBuild`) VALUES "
+        f"({next_entry_value}, {item_class}, {subclass}, -1, '{item_name}', {display_id}, {quality}, {inventory_type}, {item_level}, {stats_str}, 0, 0);"
     )
 
 # Function to generate a random item quality (either 3 or 4)

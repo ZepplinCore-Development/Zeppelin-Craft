@@ -69,7 +69,7 @@ with open(output_file_path, "w") as output_file:
                 "stat_type1, stat_type2, stat_type3, stat_type4, stat_type5, "
                 "stat_type6, stat_type7, stat_type8, stat_type9, stat_type10, "
                 "stat_value1, stat_value2, stat_value3, stat_value4, stat_value5, "
-                "stat_value6, stat_value7, stat_value8, stat_value9, stat_value10, StatsCount "
+                "stat_value6, stat_value7, stat_value8, stat_value9, stat_value10 "
                 "FROM item_template WHERE "
                 "spellid_1 = %s OR spellid_2 = %s OR spellid_3 = %s OR spellid_4 = %s OR spellid_5 = %s",
                 (spell_id_to_search, spell_id_to_search, spell_id_to_search, spell_id_to_search, spell_id_to_search))
@@ -83,7 +83,6 @@ with open(output_file_path, "w") as output_file:
                 spell_triggers = record[7:12]  # Get all spelltrigger columns into a list
                 stat_types = record[12:22]  # Get all stat_type columns into a list
                 stat_values = record[22:32]  # Get all stat_value columns into a list
-                stats_count = record[32]  # Get StatsCount
 
                 # Create a list to track used stat slots for this item
                 used_stat_slots = []
@@ -117,14 +116,10 @@ with open(output_file_path, "w") as output_file:
 
                     # Check if the corresponding spelltrigger is 1 for the spell we are targeting
                     if spell_triggers[spell_ids.index(spell_id_to_search)] == 1:
-                        # Prepare the SET clause for StatsCount
-                        set_stats_count_clause = f"StatsCount = {max(used_stat_slots)}"
-
                         # Generate and write the update query to the output file
                         output_query = f"-- {name} (Used Stat Slots: {', '.join(map(str, used_stat_slots))})\n"
                         output_query += f"UPDATE item_template SET {set_clause}, "
-                        output_query += f"spellid_{spell_ids.index(spell_id_to_search) + 1} = 0, "  # Set spellid_x to 0
-                        output_query += f"{set_stats_count_clause} "  # Increment StatsCount
+                        output_query += f"spellid_{spell_ids.index(spell_id_to_search) + 1} = 0 "  # Set spellid_x to 0
                         output_query += f"WHERE entry = {entry};\n\n"
                         output_file.write(output_query)
 
