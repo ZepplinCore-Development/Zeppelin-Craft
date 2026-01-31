@@ -1,6 +1,10 @@
-
 import mysql.connector
 import random
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # TO DO LIST
 # WRITE A SEPARATE SCRIPT THAT PULLS RELEVANT ITEM MODELS FOR THE DIFFERENT ITEM TYPES FROM THE ITEM_TEMPLATE DB THEN PLASE THAT INTO IT'S OWN TABLE
@@ -14,10 +18,11 @@ import random
 
 # Database connection configuration
 db_config = {
-    "host": "192.168.0.99",
-    "user": "keira",
-    "password": "slipknot9",
-    "database": "acore_world"
+    "host": os.getenv("ACORE_HOST", "192.168.0.55"),
+    "port": int(os.getenv("ACORE_PORT", "3306")),
+    "user": os.getenv("ACORE_USER"),
+    "password": os.getenv("ACORE_PASSWORD"),
+    "database": os.getenv("ACORE_DATABASE", "acore_world")
 }
 
 # Function to connect to the database and get the next available entry value

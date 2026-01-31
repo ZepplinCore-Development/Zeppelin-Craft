@@ -1,10 +1,14 @@
-
 import mysql.connector
 import random
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # TO DO LIST
 # THIS Is JUST A COPY PASTE SNAPSHOT OF THE ITEM GENERATOR SCRIPT.
-# THIS SCRIPT SHOULD BE A MODIFIED VERSION OF THE ITEM GENERATOR 
+# THIS SCRIPT SHOULD BE A MODIFIED VERSION OF THE ITEM GENERATOR
 # THAT READS THE DB FOR ARMOR AND WEAPONS OF WHITE QUALITY AND CHANGE THE QUALITY TO GREEN
 # THEN SCALE THE ITEM BASED ON ILVL TO AN APPROPRIATE VERSION.
 # WHY? WELL SO THAT ALL EQUIPABLE ITEMS CAN BE DISENCHANTED...
@@ -12,10 +16,11 @@ import random
 
 # Database connection configuration
 db_config = {
-    "host": "192.168.0.99",
-    "user": "keira",
-    "password": "slipknot9",
-    "database": "acore_world"
+    "host": os.getenv("ACORE_HOST", "192.168.0.55"),
+    "port": int(os.getenv("ACORE_PORT", "3306")),
+    "user": os.getenv("ACORE_USER"),
+    "password": os.getenv("ACORE_PASSWORD"),
+    "database": os.getenv("ACORE_DATABASE", "acore_world")
 }
 
 # Function to connect to the database and get the next available entry value

@@ -1,9 +1,23 @@
 import mysql
 import mysql.connector
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# =============================================================================
+# DEPENDENCY WARNING
+# =============================================================================
+# This script requires the `item_spell_list` table to exist in acore_world.
+# If you get error "Table 'acore_world.item_spell_list' doesn't exist", run:
+#
+#   /workspace/project/scripts/mysql-acore.sh < \
+#       /workspace/project/Zeppelin-Craft/SQL/db_world/General/zz_item_spell_list.sql
+# =============================================================================
 
 # Define the full path of the output file
-output_file_path = "C:\Games\ChromieCraft_3.3.5a\Custom Tools\Item Builder\spell_to_stat.sql"
+output_file_path = "/workspace/project/Zeppelin-Craft/SQL/db_world/General/zz_spell_to_stat.sql"
 
 # Check if the output directory exists and create it if it doesn't
 output_dir = os.path.dirname(output_file_path)
@@ -20,10 +34,11 @@ with open(output_file_path, "w") as output_file:
 
     # Reuse the same database configuration for both databases
     db_config_acore_world = {
-        "host": "192.168.0.99",
-        "user": "keira",
-        "password": "slipknot9",
-        "database": "acore_world"
+        "host": os.getenv("ACORE_HOST", "192.168.0.55"),
+        "port": int(os.getenv("ACORE_PORT", "3306")),
+        "user": os.getenv("ACORE_USER"),
+        "password": os.getenv("ACORE_PASSWORD"),
+        "database": os.getenv("ACORE_DATABASE", "acore_world")
     }
 
     # Connect to the acore_world database to look up values
