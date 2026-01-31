@@ -59,6 +59,12 @@
       "upstream": "https://github.com/azerothcore/mod-starter-guild.git",
       "upstream_branch": "master",
       "patch_mode": "single"
+    },
+    "ReusablePotion": {
+      "path": "modules/ReusablePotion",
+      "upstream": "https://github.com/AnchyDev/ReusablePotion.git",
+      "upstream_branch": "master",
+      "patch_mode": "single"
     }
   }
 }
