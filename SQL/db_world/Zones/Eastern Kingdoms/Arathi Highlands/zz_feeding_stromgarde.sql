@@ -74,7 +74,6 @@ INSERT INTO `item_template` SET
     `displayid` = 1762,
     `Quality` = 1,
     `stackable` = 50,
-    `StatsCount` = 0,
     `delay` = 0,
     `bonding` = 4,
     `Material` = -1,

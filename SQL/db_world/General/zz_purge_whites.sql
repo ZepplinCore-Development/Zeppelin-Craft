@@ -16,12 +16,11 @@
 
         -- Upgrade Common Cloth Armor to Uncommon with +1 INT
             UPDATE `item_template`
-            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET 
-            `Quality` = 2, 
-            `StatsCount` = 1, 
-            `stat_type1` = 5, 
-            `stat_value1` = 1, 
-            `DisenchantID` = 21, 
+            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET
+            `Quality` = 2,
+            `stat_type1` = 5,
+            `stat_value1` = 1,
+            `DisenchantID` = 21,
             `RequiredDisenchantSkill` = 1;
 
         -- Ditch the temporary table
@@ -43,12 +42,11 @@
 
         -- Upgrade Common Leather Armor to Uncommon with +1 AGI
             UPDATE `item_template`
-            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET 
-            `Quality` = 2, 
-            `StatsCount` = 1, 
-            `stat_type1` = 3, 
-            `stat_value1` = 1, 
-            `DisenchantID` = 21, 
+            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET
+            `Quality` = 2,
+            `stat_type1` = 3,
+            `stat_value1` = 1,
+            `DisenchantID` = 21,
             `RequiredDisenchantSkill` = 1;
 
         -- Ditch the temporary table
@@ -71,12 +69,11 @@
 
         -- Upgrade Common Mail Armor to Uncommon with +1 STR
             UPDATE `item_template`
-            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET 
-            `Quality` = 2, 
-            `StatsCount` = 1, 
-            `stat_type1` = 4, 
-            `stat_value1` = 1, 
-            `DisenchantID` = 21, 
+            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET
+            `Quality` = 2,
+            `stat_type1` = 4,
+            `stat_value1` = 1,
+            `DisenchantID` = 21,
             `RequiredDisenchantSkill` = 1;
 
         -- Ditch the temporary table
@@ -98,12 +95,11 @@
 
         -- Upgrade Common Shields to Uncommon with +1 STAM
             UPDATE `item_template`
-            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET  
-            `Quality` = 2, 
-            `StatsCount` = 1, 
-            `stat_type1` = 7, 
-            `stat_value1` = 1, 
-            `DisenchantID` = 21, 
+            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET
+            `Quality` = 2,
+            `stat_type1` = 7,
+            `stat_value1` = 1,
+            `DisenchantID` = 21,
             `RequiredDisenchantSkill` = 1 ;
 
         -- Ditch the temporary table
@@ -126,12 +122,11 @@
 
         -- Upgrade Common Weapons to Uncommon with +1 STAM
             UPDATE `item_template`
-            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET 
-            `Quality` = 2, 
-            `StatsCount` = 1, 
-            `stat_type1` = 7, 
-            `stat_value1` = 1, 
-            `DisenchantID` = 21, 
+            JOIN `temp_common_items` `t` ON `item_template`.`entry` = `t`.`entry` SET
+            `Quality` = 2,
+            `stat_type1` = 7,
+            `stat_value1` = 1,
+            `DisenchantID` = 21,
             `RequiredDisenchantSkill` = 1;
 
         -- Ditch the temporary table

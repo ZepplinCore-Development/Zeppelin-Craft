@@ -7,7 +7,6 @@
         `description` = 'Only works on Deathknight Understudy',
         `displayid` = 140306,
         `Quality` = 2,
-        `StatsCount` = 0,
         `spellid_1` = 91051,
         `spellcharges_1` = -1,
         `VerifiedBuild` = '0';
