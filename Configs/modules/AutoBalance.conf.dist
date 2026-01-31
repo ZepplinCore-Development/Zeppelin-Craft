@@ -824,22 +824,6 @@ AutoBalance.LevelScaling.DynamicLevel.PerInstance="229 -1 -1 1, 230 0 0"
 # 189 - Scarlet Monastery
 AutoBalance.LevelScaling.DynamicLevel.DistanceCheck.PerInstance="189 500"
 
-#
-#     AutoBalance.LevelScaling.LevelEndGameBoost
-#
-#        NOTICE: This setting is currently not implemented pending a rewrite.
-#                Enabling it here has NO effect.
-#
-#        See: https://github.com/azerothcore/mod-autobalance/issues/156
-#
-#        Old description:
-#        End game creatures have an exponential (not linear) regression
-#        that is not correctly handled by db values. Keep this enabled
-#        to have stats as near possible to the official ones.
-#
-#        Default:     0 (1 = ON, 0 = OFF)
-AutoBalance.LevelScaling.EndGameBoost = 0        # setting to 1 does not do anything
-
 ##########################
 #
 # Reward Scaling

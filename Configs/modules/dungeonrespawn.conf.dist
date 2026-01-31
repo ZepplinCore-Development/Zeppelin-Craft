@@ -17,6 +17,15 @@
 DungeonRespawn.Enable = 1
 
 #
+#    DungeonRespawn.Debug
+#        Description: Enables debug logging for troubleshooting.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+DungeonRespawn.Debug = 0
+
+#
 #    DungeonRespawn.RespawnHealthPct
 #        Description: The amount of health in % to respawn with.
 #        Range:       0.0 - 100.0

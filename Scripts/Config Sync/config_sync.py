@@ -459,28 +459,36 @@ def process_file_pair(conf_path: Path, dist_path: Path,
 
     # Apply changes
     creating_from_dist = not conf_path.exists()
-    actually_written = 0
+    success = False
 
     if creating_from_dist and (additions or removals):
         # Copy from dist first - this gives us all default values
         import shutil
-        shutil.copy(dist_path, conf_path)
-        print(f"  {Colors.YELLOW}Created {conf_path.name} from .dist{Colors.RESET}")
+        try:
+            shutil.copy(dist_path, conf_path)
+            print(f"  {Colors.YELLOW}Created {conf_path.name} from .dist{Colors.RESET}")
 
-        # Only add options with CUSTOM values (defaults are already in the copied file)
-        custom_additions = [(name, value) for name, value, is_custom in additions if is_custom]
-        actually_written = len(custom_additions)
-        apply_changes(conf_path, custom_additions, removals)
+            # Only add options with CUSTOM values (defaults are already in the copied file)
+            custom_additions = [(name, value) for name, value, is_custom in additions if is_custom]
+            success = apply_changes(conf_path, custom_additions, removals)
 
-        # Show what happened
-        default_count = added_count - actually_written
-        if default_count > 0:
-            print(f"  {Colors.DIM}({default_count} default values already in .dist, {actually_written} custom values added){Colors.RESET}")
+            # Show what happened
+            if success:
+                default_count = added_count - len(custom_additions)
+                if default_count > 0:
+                    print(f"  {Colors.DIM}({default_count} default values already in .dist, {len(custom_additions)} custom values added){Colors.RESET}")
+        except Exception as e:
+            print(f"{Colors.RED}Error creating {conf_path}: {e}{Colors.RESET}")
+            success = False
     elif additions or removals:
         # Existing conf file - add all requested options
         all_additions = [(name, value) for name, value, _ in additions]
-        actually_written = len(all_additions)
-        apply_changes(conf_path, all_additions, removals)
+        success = apply_changes(conf_path, all_additions, removals)
+
+    # Only count changes if write succeeded
+    if not success:
+        added_count = 0
+        removed_count = 0
 
     return new_count, deprecated_count, added_count, removed_count
 
