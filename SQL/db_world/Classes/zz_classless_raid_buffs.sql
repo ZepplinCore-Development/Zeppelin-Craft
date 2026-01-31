@@ -58,7 +58,7 @@ INSERT INTO `item_template` SET
 
 
         -- Remove from priest trainer
-        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 200012 AND `SpellId` = 48162);
+        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 11 AND `SpellId` = 48162);
 
 
 
@@ -232,7 +232,7 @@ INSERT INTO `item_template` SET
 
 
         -- Remove from paladin trainer
-        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 200004 AND `SpellId` = 25898);
+        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 3 AND `SpellId` = 25898);
 
 
 
@@ -331,7 +331,7 @@ INSERT INTO `item_template` SET
 
 
         -- Remove from priest trainer
-        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 200012 AND `SpellId` = 27681);
+        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 11 AND `SpellId` = 27681);
 
 
 
@@ -408,7 +408,7 @@ INSERT INTO `item_template` SET
 
 
         -- Remove from priest trainer
-        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 200012 AND `SpellId` = 32999);
+        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 11 AND `SpellId` = 32999);
 
 
 
@@ -503,7 +503,7 @@ INSERT INTO `item_template` SET
 
 
         -- Remove from priest trainer
-        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 200012 AND `SpellId` = 48074);
+        DELETE FROM `trainer_spell` WHERE (`TrainerId` = 11 AND `SpellId` = 48074);
 
 
 
