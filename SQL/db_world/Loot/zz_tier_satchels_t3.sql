@@ -5,211 +5,1222 @@
 -- Artifact Items: 59329-59336
 -- Reference IDs: 59510-59581
 -- ============================================================================
-
 -- ============================================================================
 -- SECTION 1: CREATE SATCHEL ITEMS + BOSS ARTIFACTS
 -- ============================================================================
 -- Class 15 = Container, Subclass 0 = Bag
 -- Class 12 = Quest Item
 -- DisplayID 135477 = AO_Chest18 (gold chest icon)
-
-DELETE FROM `item_template` WHERE `entry` BETWEEN 59321 AND 59336;
-INSERT INTO `item_template` (`entry`, `class`, `subclass`, `name`, `displayid`, `Quality`, `BuyPrice`, `SellPrice`, `InventoryType`, `AllowableClass`, `AllowableRace`, `ItemLevel`, `RequiredLevel`, `maxcount`, `stackable`, `ContainerSlots`, `bonding`) VALUES
 -- Tier Satchels (8 armor slots)
-(59321, 15, 0, 'Naxxramas Armor Cache - Helm', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59322, 15, 0, 'Naxxramas Armor Cache - Shoulder', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59323, 15, 0, 'Naxxramas Armor Cache - Chest', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59324, 15, 0, 'Naxxramas Armor Cache - Legs', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59325, 15, 0, 'Naxxramas Armor Cache - Boots', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59326, 15, 0, 'Naxxramas Armor Cache - Bracers', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59327, 15, 0, 'Naxxramas Armor Cache - Gloves', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
-(59328, 15, 0, 'Naxxramas Armor Cache - Belt', 135477, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 1, 1),
+DELETE FROM `item_template` WHERE `entry` BETWEEN 59321 AND 59328;
+
+INSERT INTO `item_template` SET
+    `entry` = 59321,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Helm',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59322,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Shoulder',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59323,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Chest',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59324,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Legs',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59325,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Boots',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59326,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Bracers',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59327,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Gloves',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59328,
+    `class` = 15,
+    `name` = 'Naxxramas Armor Cache - Belt',
+    `displayid` = 135477,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `ContainerSlots` = 1,
+    `bonding` = 1;
+
 -- Boss Artifacts (Quest Tokens for Light's Hope Chapel)
-(59329, 12, 0, "Thaddius's Power Core", 135999, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59330, 12, 0, "Grobbulus's Injection Vial", 134437, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59331, 12, 0, "Kel'Thuzad's Phylactery Fragment", 134229, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59332, 12, 0, "Loatheb's Spore Essence", 134206, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59333, 12, 0, "Gothik's Unholy Sigil", 133168, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59334, 12, 0, "Faerlina's Webbing", 132598, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59335, 12, 0, "Maexxna's Fang", 135993, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1),
-(59336, 12, 0, "Heigan's Plague Vial", 134799, 4, 0, 0, 0, -1, -1, 92, 60, 1, 1, 0, 1);
+DELETE FROM `item_template` WHERE `entry` BETWEEN 59329 AND 59336;
+
+INSERT INTO `item_template` SET
+    `entry` = 59329,
+    `class` = 12,
+    `name` = '"Thaddiuss Power Core"',
+    `displayid` = 135999,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59330,
+    `class` = 12,
+    `name` = '"Grobbuluss Injection Vial"',
+    `displayid` = 134437,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59331,
+    `class` = 12,
+    `name` = '"KelThuzads Phylactery Fragment"',
+    `displayid` = 134229,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59332,
+    `class` = 12,
+    `name` = '"Loathebs Spore Essence"',
+    `displayid` = 134206,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59333,
+    `class` = 12,
+    `name` = '"Gothiks Unholy Sigil"',
+    `displayid` = 133168,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59334,
+    `class` = 12,
+    `name` = '"Faerlinas Webbing"',
+    `displayid` = 132598,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59335,
+    `class` = 12,
+    `name` = '"Maexxnas Fang"',
+    `displayid` = 135993,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
+
+INSERT INTO `item_template` SET
+    `entry` = 59336,
+    `class` = 12,
+    `name` = '"Heigans Plague Vial"',
+    `displayid` = 134799,
+    `Quality` = 4,
+    `ItemLevel` = 92,
+    `RequiredLevel` = 60,
+    `maxcount` = 1,
+    `bonding` = 1;
 
 -- ============================================================================
 -- SECTION 2: ITEM LOOT TEMPLATE (Satchel Contents)
 -- ============================================================================
 -- Each satchel references 9 class-specific loot entries
 -- GroupId MUST match in reference_loot_template (critical requirement)
-
 DELETE FROM `item_loot_template` WHERE `Entry` BETWEEN 59321 AND 59328;
-INSERT INTO `item_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
--- Helm Cache (59321) - refs 59510-59518
-(59321, 1, 59510, 100, 0, 1, 1, 1, 1, 'T3 Helm - Warrior ref'),
-(59321, 2, 59511, 100, 0, 1, 2, 1, 1, 'T3 Helm - Paladin ref'),
-(59321, 3, 59512, 100, 0, 1, 3, 1, 1, 'T3 Helm - Hunter ref'),
-(59321, 4, 59513, 100, 0, 1, 4, 1, 1, 'T3 Helm - Rogue ref'),
-(59321, 5, 59514, 100, 0, 1, 5, 1, 1, 'T3 Helm - Priest ref'),
-(59321, 6, 59515, 100, 0, 1, 6, 1, 1, 'T3 Helm - Shaman ref'),
-(59321, 7, 59516, 100, 0, 1, 7, 1, 1, 'T3 Helm - Mage ref'),
-(59321, 8, 59517, 100, 0, 1, 8, 1, 1, 'T3 Helm - Warlock ref'),
-(59321, 9, 59518, 100, 0, 1, 9, 1, 1, 'T3 Helm - Druid ref'),
--- Shoulder Cache (59322) - refs 59519-59527
-(59322, 1, 59519, 100, 0, 1, 1, 1, 1, 'T3 Shoulder - Warrior ref'),
-(59322, 2, 59520, 100, 0, 1, 2, 1, 1, 'T3 Shoulder - Paladin ref'),
-(59322, 3, 59521, 100, 0, 1, 3, 1, 1, 'T3 Shoulder - Hunter ref'),
-(59322, 4, 59522, 100, 0, 1, 4, 1, 1, 'T3 Shoulder - Rogue ref'),
-(59322, 5, 59523, 100, 0, 1, 5, 1, 1, 'T3 Shoulder - Priest ref'),
-(59322, 6, 59524, 100, 0, 1, 6, 1, 1, 'T3 Shoulder - Shaman ref'),
-(59322, 7, 59525, 100, 0, 1, 7, 1, 1, 'T3 Shoulder - Mage ref'),
-(59322, 8, 59526, 100, 0, 1, 8, 1, 1, 'T3 Shoulder - Warlock ref'),
-(59322, 9, 59527, 100, 0, 1, 9, 1, 1, 'T3 Shoulder - Druid ref'),
--- Chest Cache (59323) - refs 59528-59536
-(59323, 1, 59528, 100, 0, 1, 1, 1, 1, 'T3 Chest - Warrior ref'),
-(59323, 2, 59529, 100, 0, 1, 2, 1, 1, 'T3 Chest - Paladin ref'),
-(59323, 3, 59530, 100, 0, 1, 3, 1, 1, 'T3 Chest - Hunter ref'),
-(59323, 4, 59531, 100, 0, 1, 4, 1, 1, 'T3 Chest - Rogue ref'),
-(59323, 5, 59532, 100, 0, 1, 5, 1, 1, 'T3 Chest - Priest ref'),
-(59323, 6, 59533, 100, 0, 1, 6, 1, 1, 'T3 Chest - Shaman ref'),
-(59323, 7, 59534, 100, 0, 1, 7, 1, 1, 'T3 Chest - Mage ref'),
-(59323, 8, 59535, 100, 0, 1, 8, 1, 1, 'T3 Chest - Warlock ref'),
-(59323, 9, 59536, 100, 0, 1, 9, 1, 1, 'T3 Chest - Druid ref'),
--- Legs Cache (59324) - refs 59537-59545
-(59324, 1, 59537, 100, 0, 1, 1, 1, 1, 'T3 Legs - Warrior ref'),
-(59324, 2, 59538, 100, 0, 1, 2, 1, 1, 'T3 Legs - Paladin ref'),
-(59324, 3, 59539, 100, 0, 1, 3, 1, 1, 'T3 Legs - Hunter ref'),
-(59324, 4, 59540, 100, 0, 1, 4, 1, 1, 'T3 Legs - Rogue ref'),
-(59324, 5, 59541, 100, 0, 1, 5, 1, 1, 'T3 Legs - Priest ref'),
-(59324, 6, 59542, 100, 0, 1, 6, 1, 1, 'T3 Legs - Shaman ref'),
-(59324, 7, 59543, 100, 0, 1, 7, 1, 1, 'T3 Legs - Mage ref'),
-(59324, 8, 59544, 100, 0, 1, 8, 1, 1, 'T3 Legs - Warlock ref'),
-(59324, 9, 59545, 100, 0, 1, 9, 1, 1, 'T3 Legs - Druid ref'),
--- Boots Cache (59325) - refs 59546-59554
-(59325, 1, 59546, 100, 0, 1, 1, 1, 1, 'T3 Boots - Warrior ref'),
-(59325, 2, 59547, 100, 0, 1, 2, 1, 1, 'T3 Boots - Paladin ref'),
-(59325, 3, 59548, 100, 0, 1, 3, 1, 1, 'T3 Boots - Hunter ref'),
-(59325, 4, 59549, 100, 0, 1, 4, 1, 1, 'T3 Boots - Rogue ref'),
-(59325, 5, 59550, 100, 0, 1, 5, 1, 1, 'T3 Boots - Priest ref'),
-(59325, 6, 59551, 100, 0, 1, 6, 1, 1, 'T3 Boots - Shaman ref'),
-(59325, 7, 59552, 100, 0, 1, 7, 1, 1, 'T3 Boots - Mage ref'),
-(59325, 8, 59553, 100, 0, 1, 8, 1, 1, 'T3 Boots - Warlock ref'),
-(59325, 9, 59554, 100, 0, 1, 9, 1, 1, 'T3 Boots - Druid ref'),
--- Bracers Cache (59326) - refs 59555-59563
-(59326, 1, 59555, 100, 0, 1, 1, 1, 1, 'T3 Bracers - Warrior ref'),
-(59326, 2, 59556, 100, 0, 1, 2, 1, 1, 'T3 Bracers - Paladin ref'),
-(59326, 3, 59557, 100, 0, 1, 3, 1, 1, 'T3 Bracers - Hunter ref'),
-(59326, 4, 59558, 100, 0, 1, 4, 1, 1, 'T3 Bracers - Rogue ref'),
-(59326, 5, 59559, 100, 0, 1, 5, 1, 1, 'T3 Bracers - Priest ref'),
-(59326, 6, 59560, 100, 0, 1, 6, 1, 1, 'T3 Bracers - Shaman ref'),
-(59326, 7, 59561, 100, 0, 1, 7, 1, 1, 'T3 Bracers - Mage ref'),
-(59326, 8, 59562, 100, 0, 1, 8, 1, 1, 'T3 Bracers - Warlock ref'),
-(59326, 9, 59563, 100, 0, 1, 9, 1, 1, 'T3 Bracers - Druid ref'),
--- Gloves Cache (59327) - refs 59564-59572
-(59327, 1, 59564, 100, 0, 1, 1, 1, 1, 'T3 Gloves - Warrior ref'),
-(59327, 2, 59565, 100, 0, 1, 2, 1, 1, 'T3 Gloves - Paladin ref'),
-(59327, 3, 59566, 100, 0, 1, 3, 1, 1, 'T3 Gloves - Hunter ref'),
-(59327, 4, 59567, 100, 0, 1, 4, 1, 1, 'T3 Gloves - Rogue ref'),
-(59327, 5, 59568, 100, 0, 1, 5, 1, 1, 'T3 Gloves - Priest ref'),
-(59327, 6, 59569, 100, 0, 1, 6, 1, 1, 'T3 Gloves - Shaman ref'),
-(59327, 7, 59570, 100, 0, 1, 7, 1, 1, 'T3 Gloves - Mage ref'),
-(59327, 8, 59571, 100, 0, 1, 8, 1, 1, 'T3 Gloves - Warlock ref'),
-(59327, 9, 59572, 100, 0, 1, 9, 1, 1, 'T3 Gloves - Druid ref'),
--- Belt Cache (59328) - refs 59573-59581
-(59328, 1, 59573, 100, 0, 1, 1, 1, 1, 'T3 Belt - Warrior ref'),
-(59328, 2, 59574, 100, 0, 1, 2, 1, 1, 'T3 Belt - Paladin ref'),
-(59328, 3, 59575, 100, 0, 1, 3, 1, 1, 'T3 Belt - Hunter ref'),
-(59328, 4, 59576, 100, 0, 1, 4, 1, 1, 'T3 Belt - Rogue ref'),
-(59328, 5, 59577, 100, 0, 1, 5, 1, 1, 'T3 Belt - Priest ref'),
-(59328, 6, 59578, 100, 0, 1, 6, 1, 1, 'T3 Belt - Shaman ref'),
-(59328, 7, 59579, 100, 0, 1, 7, 1, 1, 'T3 Belt - Mage ref'),
-(59328, 8, 59580, 100, 0, 1, 8, 1, 1, 'T3 Belt - Warlock ref'),
-(59328, 9, 59581, 100, 0, 1, 9, 1, 1, 'T3 Belt - Druid ref');
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 1,
+    `Reference` = 59510,
+    `GroupId` = 1,
+    `Comment` = 'T3 Helm - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 2,
+    `Reference` = 59511,
+    `GroupId` = 2,
+    `Comment` = 'T3 Helm - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 3,
+    `Reference` = 59512,
+    `GroupId` = 3,
+    `Comment` = 'T3 Helm - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 4,
+    `Reference` = 59513,
+    `GroupId` = 4,
+    `Comment` = 'T3 Helm - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 5,
+    `Reference` = 59514,
+    `GroupId` = 5,
+    `Comment` = 'T3 Helm - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 6,
+    `Reference` = 59515,
+    `GroupId` = 6,
+    `Comment` = 'T3 Helm - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 7,
+    `Reference` = 59516,
+    `GroupId` = 7,
+    `Comment` = 'T3 Helm - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 8,
+    `Reference` = 59517,
+    `GroupId` = 8,
+    `Comment` = 'T3 Helm - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59321,
+    `Item` = 9,
+    `Reference` = 59518,
+    `GroupId` = 9,
+    `Comment` = 'T3 Helm - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 1,
+    `Reference` = 59519,
+    `GroupId` = 1,
+    `Comment` = 'T3 Shoulder - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 2,
+    `Reference` = 59520,
+    `GroupId` = 2,
+    `Comment` = 'T3 Shoulder - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 3,
+    `Reference` = 59521,
+    `GroupId` = 3,
+    `Comment` = 'T3 Shoulder - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 4,
+    `Reference` = 59522,
+    `GroupId` = 4,
+    `Comment` = 'T3 Shoulder - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 5,
+    `Reference` = 59523,
+    `GroupId` = 5,
+    `Comment` = 'T3 Shoulder - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 6,
+    `Reference` = 59524,
+    `GroupId` = 6,
+    `Comment` = 'T3 Shoulder - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 7,
+    `Reference` = 59525,
+    `GroupId` = 7,
+    `Comment` = 'T3 Shoulder - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 8,
+    `Reference` = 59526,
+    `GroupId` = 8,
+    `Comment` = 'T3 Shoulder - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59322,
+    `Item` = 9,
+    `Reference` = 59527,
+    `GroupId` = 9,
+    `Comment` = 'T3 Shoulder - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 1,
+    `Reference` = 59528,
+    `GroupId` = 1,
+    `Comment` = 'T3 Chest - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 2,
+    `Reference` = 59529,
+    `GroupId` = 2,
+    `Comment` = 'T3 Chest - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 3,
+    `Reference` = 59530,
+    `GroupId` = 3,
+    `Comment` = 'T3 Chest - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 4,
+    `Reference` = 59531,
+    `GroupId` = 4,
+    `Comment` = 'T3 Chest - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 5,
+    `Reference` = 59532,
+    `GroupId` = 5,
+    `Comment` = 'T3 Chest - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 6,
+    `Reference` = 59533,
+    `GroupId` = 6,
+    `Comment` = 'T3 Chest - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 7,
+    `Reference` = 59534,
+    `GroupId` = 7,
+    `Comment` = 'T3 Chest - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 8,
+    `Reference` = 59535,
+    `GroupId` = 8,
+    `Comment` = 'T3 Chest - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59323,
+    `Item` = 9,
+    `Reference` = 59536,
+    `GroupId` = 9,
+    `Comment` = 'T3 Chest - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 1,
+    `Reference` = 59537,
+    `GroupId` = 1,
+    `Comment` = 'T3 Legs - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 2,
+    `Reference` = 59538,
+    `GroupId` = 2,
+    `Comment` = 'T3 Legs - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 3,
+    `Reference` = 59539,
+    `GroupId` = 3,
+    `Comment` = 'T3 Legs - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 4,
+    `Reference` = 59540,
+    `GroupId` = 4,
+    `Comment` = 'T3 Legs - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 5,
+    `Reference` = 59541,
+    `GroupId` = 5,
+    `Comment` = 'T3 Legs - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 6,
+    `Reference` = 59542,
+    `GroupId` = 6,
+    `Comment` = 'T3 Legs - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 7,
+    `Reference` = 59543,
+    `GroupId` = 7,
+    `Comment` = 'T3 Legs - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 8,
+    `Reference` = 59544,
+    `GroupId` = 8,
+    `Comment` = 'T3 Legs - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59324,
+    `Item` = 9,
+    `Reference` = 59545,
+    `GroupId` = 9,
+    `Comment` = 'T3 Legs - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 1,
+    `Reference` = 59546,
+    `GroupId` = 1,
+    `Comment` = 'T3 Boots - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 2,
+    `Reference` = 59547,
+    `GroupId` = 2,
+    `Comment` = 'T3 Boots - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 3,
+    `Reference` = 59548,
+    `GroupId` = 3,
+    `Comment` = 'T3 Boots - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 4,
+    `Reference` = 59549,
+    `GroupId` = 4,
+    `Comment` = 'T3 Boots - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 5,
+    `Reference` = 59550,
+    `GroupId` = 5,
+    `Comment` = 'T3 Boots - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 6,
+    `Reference` = 59551,
+    `GroupId` = 6,
+    `Comment` = 'T3 Boots - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 7,
+    `Reference` = 59552,
+    `GroupId` = 7,
+    `Comment` = 'T3 Boots - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 8,
+    `Reference` = 59553,
+    `GroupId` = 8,
+    `Comment` = 'T3 Boots - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59325,
+    `Item` = 9,
+    `Reference` = 59554,
+    `GroupId` = 9,
+    `Comment` = 'T3 Boots - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 1,
+    `Reference` = 59555,
+    `GroupId` = 1,
+    `Comment` = 'T3 Bracers - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 2,
+    `Reference` = 59556,
+    `GroupId` = 2,
+    `Comment` = 'T3 Bracers - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 3,
+    `Reference` = 59557,
+    `GroupId` = 3,
+    `Comment` = 'T3 Bracers - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 4,
+    `Reference` = 59558,
+    `GroupId` = 4,
+    `Comment` = 'T3 Bracers - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 5,
+    `Reference` = 59559,
+    `GroupId` = 5,
+    `Comment` = 'T3 Bracers - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 6,
+    `Reference` = 59560,
+    `GroupId` = 6,
+    `Comment` = 'T3 Bracers - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 7,
+    `Reference` = 59561,
+    `GroupId` = 7,
+    `Comment` = 'T3 Bracers - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 8,
+    `Reference` = 59562,
+    `GroupId` = 8,
+    `Comment` = 'T3 Bracers - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59326,
+    `Item` = 9,
+    `Reference` = 59563,
+    `GroupId` = 9,
+    `Comment` = 'T3 Bracers - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 1,
+    `Reference` = 59564,
+    `GroupId` = 1,
+    `Comment` = 'T3 Gloves - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 2,
+    `Reference` = 59565,
+    `GroupId` = 2,
+    `Comment` = 'T3 Gloves - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 3,
+    `Reference` = 59566,
+    `GroupId` = 3,
+    `Comment` = 'T3 Gloves - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 4,
+    `Reference` = 59567,
+    `GroupId` = 4,
+    `Comment` = 'T3 Gloves - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 5,
+    `Reference` = 59568,
+    `GroupId` = 5,
+    `Comment` = 'T3 Gloves - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 6,
+    `Reference` = 59569,
+    `GroupId` = 6,
+    `Comment` = 'T3 Gloves - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 7,
+    `Reference` = 59570,
+    `GroupId` = 7,
+    `Comment` = 'T3 Gloves - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 8,
+    `Reference` = 59571,
+    `GroupId` = 8,
+    `Comment` = 'T3 Gloves - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59327,
+    `Item` = 9,
+    `Reference` = 59572,
+    `GroupId` = 9,
+    `Comment` = 'T3 Gloves - Druid ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 1,
+    `Reference` = 59573,
+    `GroupId` = 1,
+    `Comment` = 'T3 Belt - Warrior ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 2,
+    `Reference` = 59574,
+    `GroupId` = 2,
+    `Comment` = 'T3 Belt - Paladin ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 3,
+    `Reference` = 59575,
+    `GroupId` = 3,
+    `Comment` = 'T3 Belt - Hunter ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 4,
+    `Reference` = 59576,
+    `GroupId` = 4,
+    `Comment` = 'T3 Belt - Rogue ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 5,
+    `Reference` = 59577,
+    `GroupId` = 5,
+    `Comment` = 'T3 Belt - Priest ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 6,
+    `Reference` = 59578,
+    `GroupId` = 6,
+    `Comment` = 'T3 Belt - Shaman ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 7,
+    `Reference` = 59579,
+    `GroupId` = 7,
+    `Comment` = 'T3 Belt - Mage ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 8,
+    `Reference` = 59580,
+    `GroupId` = 8,
+    `Comment` = 'T3 Belt - Warlock ref';
+
+INSERT INTO `item_loot_template` SET
+    `Entry` = 59328,
+    `Item` = 9,
+    `Reference` = 59581,
+    `GroupId` = 9,
+    `Comment` = 'T3 Belt - Druid ref';
 
 -- ============================================================================
 -- SECTION 3: REFERENCE LOOT TEMPLATE (Class-specific items)
 -- ============================================================================
 -- GroupId MUST match parent GroupId in item_loot_template
-
 DELETE FROM `reference_loot_template` WHERE `Entry` BETWEEN 59510 AND 59581;
-INSERT INTO `reference_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
--- HELM refs (59510-59518)
-(59510, 22418, 0, 0, 0, 1, 1, 1, 1, 'T3 Helm - Warrior: Dreadnaught Helmet'),
-(59511, 22428, 0, 0, 0, 1, 2, 1, 1, 'T3 Helm - Paladin: Redemption Headpiece'),
-(59512, 22438, 0, 0, 0, 1, 3, 1, 1, 'T3 Helm - Hunter: Cryptstalker Headpiece'),
-(59513, 22478, 0, 0, 0, 1, 4, 1, 1, 'T3 Helm - Rogue: Bonescythe Helmet'),
-(59514, 22514, 0, 0, 0, 1, 5, 1, 1, 'T3 Helm - Priest: Circlet of Faith'),
-(59515, 22466, 0, 0, 0, 1, 6, 1, 1, 'T3 Helm - Shaman: Earthshatter Headpiece'),
-(59516, 22498, 0, 0, 0, 1, 7, 1, 1, 'T3 Helm - Mage: Frostfire Circlet'),
-(59517, 22506, 0, 0, 0, 1, 8, 1, 1, 'T3 Helm - Warlock: Plagueheart Circlet'),
-(59518, 22490, 0, 0, 0, 1, 9, 1, 1, 'T3 Helm - Druid: Dreamwalker Headpiece'),
--- SHOULDER refs (59519-59527)
-(59519, 22419, 0, 0, 0, 1, 1, 1, 1, 'T3 Shoulder - Warrior: Dreadnaught Pauldrons'),
-(59520, 22429, 0, 0, 0, 1, 2, 1, 1, 'T3 Shoulder - Paladin: Redemption Spaulders'),
-(59521, 22439, 0, 0, 0, 1, 3, 1, 1, 'T3 Shoulder - Hunter: Cryptstalker Spaulders'),
-(59522, 22479, 0, 0, 0, 1, 4, 1, 1, 'T3 Shoulder - Rogue: Bonescythe Pauldrons'),
-(59523, 22515, 0, 0, 0, 1, 5, 1, 1, 'T3 Shoulder - Priest: Shoulderpads of Faith'),
-(59524, 22467, 0, 0, 0, 1, 6, 1, 1, 'T3 Shoulder - Shaman: Earthshatter Spaulders'),
-(59525, 22499, 0, 0, 0, 1, 7, 1, 1, 'T3 Shoulder - Mage: Frostfire Shoulderpads'),
-(59526, 22507, 0, 0, 0, 1, 8, 1, 1, 'T3 Shoulder - Warlock: Plagueheart Shoulderpads'),
-(59527, 22491, 0, 0, 0, 1, 9, 1, 1, 'T3 Shoulder - Druid: Dreamwalker Spaulders'),
--- CHEST refs (59528-59536)
-(59528, 22416, 0, 0, 0, 1, 1, 1, 1, 'T3 Chest - Warrior: Dreadnaught Breastplate'),
-(59529, 22425, 0, 0, 0, 1, 2, 1, 1, 'T3 Chest - Paladin: Redemption Tunic'),
-(59530, 22436, 0, 0, 0, 1, 3, 1, 1, 'T3 Chest - Hunter: Cryptstalker Tunic'),
-(59531, 22476, 0, 0, 0, 1, 4, 1, 1, 'T3 Chest - Rogue: Bonescythe Breastplate'),
-(59532, 22512, 0, 0, 0, 1, 5, 1, 1, 'T3 Chest - Priest: Robe of Faith'),
-(59533, 22464, 0, 0, 0, 1, 6, 1, 1, 'T3 Chest - Shaman: Earthshatter Tunic'),
-(59534, 22496, 0, 0, 0, 1, 7, 1, 1, 'T3 Chest - Mage: Frostfire Robe'),
-(59535, 22504, 0, 0, 0, 1, 8, 1, 1, 'T3 Chest - Warlock: Plagueheart Robe'),
-(59536, 22488, 0, 0, 0, 1, 9, 1, 1, 'T3 Chest - Druid: Dreamwalker Tunic'),
--- LEGS refs (59537-59545)
-(59537, 22417, 0, 0, 0, 1, 1, 1, 1, 'T3 Legs - Warrior: Dreadnaught Legplates'),
-(59538, 22427, 0, 0, 0, 1, 2, 1, 1, 'T3 Legs - Paladin: Redemption Legguards'),
-(59539, 22437, 0, 0, 0, 1, 3, 1, 1, 'T3 Legs - Hunter: Cryptstalker Legguards'),
-(59540, 22477, 0, 0, 0, 1, 4, 1, 1, 'T3 Legs - Rogue: Bonescythe Legplates'),
-(59541, 22513, 0, 0, 0, 1, 5, 1, 1, 'T3 Legs - Priest: Leggings of Faith'),
-(59542, 22465, 0, 0, 0, 1, 6, 1, 1, 'T3 Legs - Shaman: Earthshatter Legguards'),
-(59543, 22497, 0, 0, 0, 1, 7, 1, 1, 'T3 Legs - Mage: Frostfire Leggings'),
-(59544, 22505, 0, 0, 0, 1, 8, 1, 1, 'T3 Legs - Warlock: Plagueheart Leggings'),
-(59545, 22489, 0, 0, 0, 1, 9, 1, 1, 'T3 Legs - Druid: Dreamwalker Legguards'),
--- BOOTS refs (59546-59554)
-(59546, 22420, 0, 0, 0, 1, 1, 1, 1, 'T3 Boots - Warrior: Dreadnaught Sabatons'),
-(59547, 22430, 0, 0, 0, 1, 2, 1, 1, 'T3 Boots - Paladin: Redemption Boots'),
-(59548, 22440, 0, 0, 0, 1, 3, 1, 1, 'T3 Boots - Hunter: Cryptstalker Boots'),
-(59549, 22480, 0, 0, 0, 1, 4, 1, 1, 'T3 Boots - Rogue: Bonescythe Sabatons'),
-(59550, 22516, 0, 0, 0, 1, 5, 1, 1, 'T3 Boots - Priest: Sandals of Faith'),
-(59551, 22468, 0, 0, 0, 1, 6, 1, 1, 'T3 Boots - Shaman: Earthshatter Boots'),
-(59552, 22500, 0, 0, 0, 1, 7, 1, 1, 'T3 Boots - Mage: Frostfire Sandals'),
-(59553, 22508, 0, 0, 0, 1, 8, 1, 1, 'T3 Boots - Warlock: Plagueheart Sandals'),
-(59554, 22492, 0, 0, 0, 1, 9, 1, 1, 'T3 Boots - Druid: Dreamwalker Boots'),
--- BRACERS refs (59555-59563)
-(59555, 22423, 0, 0, 0, 1, 1, 1, 1, 'T3 Bracers - Warrior: Dreadnaught Bracers'),
-(59556, 22424, 0, 0, 0, 1, 2, 1, 1, 'T3 Bracers - Paladin: Redemption Wristguards'),
-(59557, 22443, 0, 0, 0, 1, 3, 1, 1, 'T3 Bracers - Hunter: Cryptstalker Wristguards'),
-(59558, 22483, 0, 0, 0, 1, 4, 1, 1, 'T3 Bracers - Rogue: Bonescythe Bracers'),
-(59559, 22519, 0, 0, 0, 1, 5, 1, 1, 'T3 Bracers - Priest: Bindings of Faith'),
-(59560, 22471, 0, 0, 0, 1, 6, 1, 1, 'T3 Bracers - Shaman: Earthshatter Wristguards'),
-(59561, 22503, 0, 0, 0, 1, 7, 1, 1, 'T3 Bracers - Mage: Frostfire Bindings'),
-(59562, 22511, 0, 0, 0, 1, 8, 1, 1, 'T3 Bracers - Warlock: Plagueheart Bindings'),
-(59563, 22495, 0, 0, 0, 1, 9, 1, 1, 'T3 Bracers - Druid: Dreamwalker Wristguards'),
--- GLOVES refs (59564-59572)
-(59564, 22421, 0, 0, 0, 1, 1, 1, 1, 'T3 Gloves - Warrior: Dreadnaught Gauntlets'),
-(59565, 22426, 0, 0, 0, 1, 2, 1, 1, 'T3 Gloves - Paladin: Redemption Handguards'),
-(59566, 22441, 0, 0, 0, 1, 3, 1, 1, 'T3 Gloves - Hunter: Cryptstalker Handguards'),
-(59567, 22481, 0, 0, 0, 1, 4, 1, 1, 'T3 Gloves - Rogue: Bonescythe Gauntlets'),
-(59568, 22517, 0, 0, 0, 1, 5, 1, 1, 'T3 Gloves - Priest: Gloves of Faith'),
-(59569, 22469, 0, 0, 0, 1, 6, 1, 1, 'T3 Gloves - Shaman: Earthshatter Handguards'),
-(59570, 22501, 0, 0, 0, 1, 7, 1, 1, 'T3 Gloves - Mage: Frostfire Gloves'),
-(59571, 22509, 0, 0, 0, 1, 8, 1, 1, 'T3 Gloves - Warlock: Plagueheart Gloves'),
-(59572, 22493, 0, 0, 0, 1, 9, 1, 1, 'T3 Gloves - Druid: Dreamwalker Handguards'),
--- BELT refs (59573-59581)
-(59573, 22422, 0, 0, 0, 1, 1, 1, 1, 'T3 Belt - Warrior: Dreadnaught Waistguard'),
-(59574, 22431, 0, 0, 0, 1, 2, 1, 1, 'T3 Belt - Paladin: Redemption Girdle'),
-(59575, 22442, 0, 0, 0, 1, 3, 1, 1, 'T3 Belt - Hunter: Cryptstalker Girdle'),
-(59576, 22482, 0, 0, 0, 1, 4, 1, 1, 'T3 Belt - Rogue: Bonescythe Waistguard'),
-(59577, 22518, 0, 0, 0, 1, 5, 1, 1, 'T3 Belt - Priest: Belt of Faith'),
-(59578, 22470, 0, 0, 0, 1, 6, 1, 1, 'T3 Belt - Shaman: Earthshatter Girdle'),
-(59579, 22502, 0, 0, 0, 1, 7, 1, 1, 'T3 Belt - Mage: Frostfire Belt'),
-(59580, 22510, 0, 0, 0, 1, 8, 1, 1, 'T3 Belt - Warlock: Plagueheart Belt'),
-(59581, 22494, 0, 0, 0, 1, 9, 1, 1, 'T3 Belt - Druid: Dreamwalker Girdle');
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59510,
+    `Item` = 22418,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Helm - Warrior: Dreadnaught Helmet';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59511,
+    `Item` = 22428,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Helm - Paladin: Redemption Headpiece';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59512,
+    `Item` = 22438,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Helm - Hunter: Cryptstalker Headpiece';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59513,
+    `Item` = 22478,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Helm - Rogue: Bonescythe Helmet';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59514,
+    `Item` = 22514,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Helm - Priest: Circlet of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59515,
+    `Item` = 22466,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Helm - Shaman: Earthshatter Headpiece';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59516,
+    `Item` = 22498,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Helm - Mage: Frostfire Circlet';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59517,
+    `Item` = 22506,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Helm - Warlock: Plagueheart Circlet';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59518,
+    `Item` = 22490,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Helm - Druid: Dreamwalker Headpiece';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59519,
+    `Item` = 22419,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Shoulder - Warrior: Dreadnaught Pauldrons';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59520,
+    `Item` = 22429,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Shoulder - Paladin: Redemption Spaulders';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59521,
+    `Item` = 22439,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Shoulder - Hunter: Cryptstalker Spaulders';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59522,
+    `Item` = 22479,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Shoulder - Rogue: Bonescythe Pauldrons';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59523,
+    `Item` = 22515,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Shoulder - Priest: Shoulderpads of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59524,
+    `Item` = 22467,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Shoulder - Shaman: Earthshatter Spaulders';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59525,
+    `Item` = 22499,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Shoulder - Mage: Frostfire Shoulderpads';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59526,
+    `Item` = 22507,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Shoulder - Warlock: Plagueheart Shoulderpads';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59527,
+    `Item` = 22491,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Shoulder - Druid: Dreamwalker Spaulders';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59528,
+    `Item` = 22416,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Chest - Warrior: Dreadnaught Breastplate';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59529,
+    `Item` = 22425,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Chest - Paladin: Redemption Tunic';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59530,
+    `Item` = 22436,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Chest - Hunter: Cryptstalker Tunic';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59531,
+    `Item` = 22476,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Chest - Rogue: Bonescythe Breastplate';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59532,
+    `Item` = 22512,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Chest - Priest: Robe of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59533,
+    `Item` = 22464,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Chest - Shaman: Earthshatter Tunic';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59534,
+    `Item` = 22496,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Chest - Mage: Frostfire Robe';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59535,
+    `Item` = 22504,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Chest - Warlock: Plagueheart Robe';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59536,
+    `Item` = 22488,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Chest - Druid: Dreamwalker Tunic';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59537,
+    `Item` = 22417,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Legs - Warrior: Dreadnaught Legplates';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59538,
+    `Item` = 22427,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Legs - Paladin: Redemption Legguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59539,
+    `Item` = 22437,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Legs - Hunter: Cryptstalker Legguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59540,
+    `Item` = 22477,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Legs - Rogue: Bonescythe Legplates';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59541,
+    `Item` = 22513,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Legs - Priest: Leggings of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59542,
+    `Item` = 22465,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Legs - Shaman: Earthshatter Legguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59543,
+    `Item` = 22497,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Legs - Mage: Frostfire Leggings';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59544,
+    `Item` = 22505,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Legs - Warlock: Plagueheart Leggings';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59545,
+    `Item` = 22489,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Legs - Druid: Dreamwalker Legguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59546,
+    `Item` = 22420,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Boots - Warrior: Dreadnaught Sabatons';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59547,
+    `Item` = 22430,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Boots - Paladin: Redemption Boots';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59548,
+    `Item` = 22440,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Boots - Hunter: Cryptstalker Boots';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59549,
+    `Item` = 22480,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Boots - Rogue: Bonescythe Sabatons';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59550,
+    `Item` = 22516,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Boots - Priest: Sandals of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59551,
+    `Item` = 22468,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Boots - Shaman: Earthshatter Boots';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59552,
+    `Item` = 22500,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Boots - Mage: Frostfire Sandals';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59553,
+    `Item` = 22508,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Boots - Warlock: Plagueheart Sandals';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59554,
+    `Item` = 22492,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Boots - Druid: Dreamwalker Boots';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59555,
+    `Item` = 22423,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Bracers - Warrior: Dreadnaught Bracers';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59556,
+    `Item` = 22424,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Bracers - Paladin: Redemption Wristguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59557,
+    `Item` = 22443,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Bracers - Hunter: Cryptstalker Wristguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59558,
+    `Item` = 22483,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Bracers - Rogue: Bonescythe Bracers';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59559,
+    `Item` = 22519,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Bracers - Priest: Bindings of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59560,
+    `Item` = 22471,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Bracers - Shaman: Earthshatter Wristguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59561,
+    `Item` = 22503,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Bracers - Mage: Frostfire Bindings';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59562,
+    `Item` = 22511,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Bracers - Warlock: Plagueheart Bindings';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59563,
+    `Item` = 22495,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Bracers - Druid: Dreamwalker Wristguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59564,
+    `Item` = 22421,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Gloves - Warrior: Dreadnaught Gauntlets';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59565,
+    `Item` = 22426,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Gloves - Paladin: Redemption Handguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59566,
+    `Item` = 22441,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Gloves - Hunter: Cryptstalker Handguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59567,
+    `Item` = 22481,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Gloves - Rogue: Bonescythe Gauntlets';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59568,
+    `Item` = 22517,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Gloves - Priest: Gloves of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59569,
+    `Item` = 22469,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Gloves - Shaman: Earthshatter Handguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59570,
+    `Item` = 22501,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Gloves - Mage: Frostfire Gloves';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59571,
+    `Item` = 22509,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Gloves - Warlock: Plagueheart Gloves';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59572,
+    `Item` = 22493,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Gloves - Druid: Dreamwalker Handguards';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59573,
+    `Item` = 22422,
+    `Chance` = 0.0,
+    `GroupId` = 1,
+    `Comment` = 'T3 Belt - Warrior: Dreadnaught Waistguard';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59574,
+    `Item` = 22431,
+    `Chance` = 0.0,
+    `GroupId` = 2,
+    `Comment` = 'T3 Belt - Paladin: Redemption Girdle';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59575,
+    `Item` = 22442,
+    `Chance` = 0.0,
+    `GroupId` = 3,
+    `Comment` = 'T3 Belt - Hunter: Cryptstalker Girdle';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59576,
+    `Item` = 22482,
+    `Chance` = 0.0,
+    `GroupId` = 4,
+    `Comment` = 'T3 Belt - Rogue: Bonescythe Waistguard';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59577,
+    `Item` = 22518,
+    `Chance` = 0.0,
+    `GroupId` = 5,
+    `Comment` = 'T3 Belt - Priest: Belt of Faith';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59578,
+    `Item` = 22470,
+    `Chance` = 0.0,
+    `GroupId` = 6,
+    `Comment` = 'T3 Belt - Shaman: Earthshatter Girdle';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59579,
+    `Item` = 22502,
+    `Chance` = 0.0,
+    `GroupId` = 7,
+    `Comment` = 'T3 Belt - Mage: Frostfire Belt';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59580,
+    `Item` = 22510,
+    `Chance` = 0.0,
+    `GroupId` = 8,
+    `Comment` = 'T3 Belt - Warlock: Plagueheart Belt';
+
+INSERT INTO `reference_loot_template` SET
+    `Entry` = 59581,
+    `Item` = 22494,
+    `Chance` = 0.0,
+    `GroupId` = 9,
+    `Comment` = 'T3 Belt - Druid: Dreamwalker Girdle';
 
 -- ============================================================================
 -- SECTION 4: CONDITIONS (Class Filtering)
@@ -217,89 +1228,583 @@ INSERT INTO `reference_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `
 -- SourceType 10 = Reference Loot
 -- ConditionType 15 = Class Check
 -- Class Masks: War=1, Pal=2, Hun=4, Rog=8, Pri=16, Sha=64, Mag=128, Loc=256, Dru=1024
-
 DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 10 AND `SourceGroup` BETWEEN 59510 AND 59581;
-INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
--- HELM (59510-59518)
-(10, 59510, 22418, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Helm - Warrior'),
-(10, 59511, 22428, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Helm - Paladin'),
-(10, 59512, 22438, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Helm - Hunter'),
-(10, 59513, 22478, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Helm - Rogue'),
-(10, 59514, 22514, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Helm - Priest'),
-(10, 59515, 22466, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Helm - Shaman'),
-(10, 59516, 22498, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Helm - Mage'),
-(10, 59517, 22506, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Helm - Warlock'),
-(10, 59518, 22490, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Helm - Druid'),
--- SHOULDER (59519-59527)
-(10, 59519, 22419, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Shoulder - Warrior'),
-(10, 59520, 22429, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Shoulder - Paladin'),
-(10, 59521, 22439, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Shoulder - Hunter'),
-(10, 59522, 22479, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Shoulder - Rogue'),
-(10, 59523, 22515, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Shoulder - Priest'),
-(10, 59524, 22467, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Shoulder - Shaman'),
-(10, 59525, 22499, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Shoulder - Mage'),
-(10, 59526, 22507, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Shoulder - Warlock'),
-(10, 59527, 22491, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Shoulder - Druid'),
--- CHEST (59528-59536)
-(10, 59528, 22416, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Chest - Warrior'),
-(10, 59529, 22425, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Chest - Paladin'),
-(10, 59530, 22436, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Chest - Hunter'),
-(10, 59531, 22476, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Chest - Rogue'),
-(10, 59532, 22512, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Chest - Priest'),
-(10, 59533, 22464, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Chest - Shaman'),
-(10, 59534, 22496, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Chest - Mage'),
-(10, 59535, 22504, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Chest - Warlock'),
-(10, 59536, 22488, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Chest - Druid'),
--- LEGS (59537-59545)
-(10, 59537, 22417, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Legs - Warrior'),
-(10, 59538, 22427, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Legs - Paladin'),
-(10, 59539, 22437, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Legs - Hunter'),
-(10, 59540, 22477, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Legs - Rogue'),
-(10, 59541, 22513, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Legs - Priest'),
-(10, 59542, 22465, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Legs - Shaman'),
-(10, 59543, 22497, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Legs - Mage'),
-(10, 59544, 22505, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Legs - Warlock'),
-(10, 59545, 22489, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Legs - Druid'),
--- BOOTS (59546-59554)
-(10, 59546, 22420, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Boots - Warrior'),
-(10, 59547, 22430, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Boots - Paladin'),
-(10, 59548, 22440, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Boots - Hunter'),
-(10, 59549, 22480, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Boots - Rogue'),
-(10, 59550, 22516, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Boots - Priest'),
-(10, 59551, 22468, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Boots - Shaman'),
-(10, 59552, 22500, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Boots - Mage'),
-(10, 59553, 22508, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Boots - Warlock'),
-(10, 59554, 22492, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Boots - Druid'),
--- BRACERS (59555-59563)
-(10, 59555, 22423, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Bracers - Warrior'),
-(10, 59556, 22424, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Bracers - Paladin'),
-(10, 59557, 22443, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Bracers - Hunter'),
-(10, 59558, 22483, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Bracers - Rogue'),
-(10, 59559, 22519, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Bracers - Priest'),
-(10, 59560, 22471, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Bracers - Shaman'),
-(10, 59561, 22503, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Bracers - Mage'),
-(10, 59562, 22511, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Bracers - Warlock'),
-(10, 59563, 22495, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Bracers - Druid'),
--- GLOVES (59564-59572)
-(10, 59564, 22421, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Gloves - Warrior'),
-(10, 59565, 22426, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Gloves - Paladin'),
-(10, 59566, 22441, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Gloves - Hunter'),
-(10, 59567, 22481, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Gloves - Rogue'),
-(10, 59568, 22517, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Gloves - Priest'),
-(10, 59569, 22469, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Gloves - Shaman'),
-(10, 59570, 22501, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Gloves - Mage'),
-(10, 59571, 22509, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Gloves - Warlock'),
-(10, 59572, 22493, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Gloves - Druid'),
--- BELT (59573-59581)
-(10, 59573, 22422, 0, 0, 15, 0, 1,    0, 0, 0, 0, 0, '', 'T3 Belt - Warrior'),
-(10, 59574, 22431, 0, 0, 15, 0, 2,    0, 0, 0, 0, 0, '', 'T3 Belt - Paladin'),
-(10, 59575, 22442, 0, 0, 15, 0, 4,    0, 0, 0, 0, 0, '', 'T3 Belt - Hunter'),
-(10, 59576, 22482, 0, 0, 15, 0, 8,    0, 0, 0, 0, 0, '', 'T3 Belt - Rogue'),
-(10, 59577, 22518, 0, 0, 15, 0, 16,   0, 0, 0, 0, 0, '', 'T3 Belt - Priest'),
-(10, 59578, 22470, 0, 0, 15, 0, 64,   0, 0, 0, 0, 0, '', 'T3 Belt - Shaman'),
-(10, 59579, 22502, 0, 0, 15, 0, 128,  0, 0, 0, 0, 0, '', 'T3 Belt - Mage'),
-(10, 59580, 22510, 0, 0, 15, 0, 256,  0, 0, 0, 0, 0, '', 'T3 Belt - Warlock'),
-(10, 59581, 22494, 0, 0, 15, 0, 1024, 0, 0, 0, 0, 0, '', 'T3 Belt - Druid');
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59510,
+    `SourceEntry` = 22418,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Helm - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59511,
+    `SourceEntry` = 22428,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Helm - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59512,
+    `SourceEntry` = 22438,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Helm - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59513,
+    `SourceEntry` = 22478,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Helm - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59514,
+    `SourceEntry` = 22514,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Helm - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59515,
+    `SourceEntry` = 22466,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Helm - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59516,
+    `SourceEntry` = 22498,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Helm - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59517,
+    `SourceEntry` = 22506,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Helm - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59518,
+    `SourceEntry` = 22490,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Helm - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59519,
+    `SourceEntry` = 22419,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Shoulder - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59520,
+    `SourceEntry` = 22429,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Shoulder - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59521,
+    `SourceEntry` = 22439,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Shoulder - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59522,
+    `SourceEntry` = 22479,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Shoulder - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59523,
+    `SourceEntry` = 22515,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Shoulder - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59524,
+    `SourceEntry` = 22467,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Shoulder - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59525,
+    `SourceEntry` = 22499,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Shoulder - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59526,
+    `SourceEntry` = 22507,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Shoulder - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59527,
+    `SourceEntry` = 22491,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Shoulder - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59528,
+    `SourceEntry` = 22416,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Chest - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59529,
+    `SourceEntry` = 22425,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Chest - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59530,
+    `SourceEntry` = 22436,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Chest - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59531,
+    `SourceEntry` = 22476,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Chest - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59532,
+    `SourceEntry` = 22512,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Chest - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59533,
+    `SourceEntry` = 22464,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Chest - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59534,
+    `SourceEntry` = 22496,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Chest - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59535,
+    `SourceEntry` = 22504,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Chest - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59536,
+    `SourceEntry` = 22488,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Chest - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59537,
+    `SourceEntry` = 22417,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Legs - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59538,
+    `SourceEntry` = 22427,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Legs - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59539,
+    `SourceEntry` = 22437,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Legs - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59540,
+    `SourceEntry` = 22477,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Legs - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59541,
+    `SourceEntry` = 22513,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Legs - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59542,
+    `SourceEntry` = 22465,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Legs - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59543,
+    `SourceEntry` = 22497,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Legs - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59544,
+    `SourceEntry` = 22505,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Legs - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59545,
+    `SourceEntry` = 22489,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Legs - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59546,
+    `SourceEntry` = 22420,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Boots - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59547,
+    `SourceEntry` = 22430,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Boots - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59548,
+    `SourceEntry` = 22440,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Boots - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59549,
+    `SourceEntry` = 22480,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Boots - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59550,
+    `SourceEntry` = 22516,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Boots - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59551,
+    `SourceEntry` = 22468,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Boots - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59552,
+    `SourceEntry` = 22500,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Boots - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59553,
+    `SourceEntry` = 22508,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Boots - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59554,
+    `SourceEntry` = 22492,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Boots - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59555,
+    `SourceEntry` = 22423,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Bracers - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59556,
+    `SourceEntry` = 22424,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Bracers - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59557,
+    `SourceEntry` = 22443,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Bracers - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59558,
+    `SourceEntry` = 22483,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Bracers - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59559,
+    `SourceEntry` = 22519,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Bracers - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59560,
+    `SourceEntry` = 22471,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Bracers - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59561,
+    `SourceEntry` = 22503,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Bracers - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59562,
+    `SourceEntry` = 22511,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Bracers - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59563,
+    `SourceEntry` = 22495,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Bracers - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59564,
+    `SourceEntry` = 22421,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Gloves - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59565,
+    `SourceEntry` = 22426,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Gloves - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59566,
+    `SourceEntry` = 22441,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Gloves - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59567,
+    `SourceEntry` = 22481,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Gloves - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59568,
+    `SourceEntry` = 22517,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Gloves - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59569,
+    `SourceEntry` = 22469,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Gloves - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59570,
+    `SourceEntry` = 22501,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Gloves - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59571,
+    `SourceEntry` = 22509,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Gloves - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59572,
+    `SourceEntry` = 22493,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Gloves - Druid';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59573,
+    `SourceEntry` = 22422,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1,
+    `Comment` = 'T3 Belt - Warrior';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59574,
+    `SourceEntry` = 22431,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 2,
+    `Comment` = 'T3 Belt - Paladin';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59575,
+    `SourceEntry` = 22442,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 4,
+    `Comment` = 'T3 Belt - Hunter';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59576,
+    `SourceEntry` = 22482,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 8,
+    `Comment` = 'T3 Belt - Rogue';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59577,
+    `SourceEntry` = 22518,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 16,
+    `Comment` = 'T3 Belt - Priest';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59578,
+    `SourceEntry` = 22470,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 64,
+    `Comment` = 'T3 Belt - Shaman';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59579,
+    `SourceEntry` = 22502,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 128,
+    `Comment` = 'T3 Belt - Mage';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59580,
+    `SourceEntry` = 22510,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 256,
+    `Comment` = 'T3 Belt - Warlock';
+
+INSERT INTO `conditions` SET
+    `SourceTypeOrReferenceId` = 10,
+    `SourceGroup` = 59581,
+    `SourceEntry` = 22494,
+    `ConditionTypeOrReference` = 15,
+    `ConditionValue1` = 1024,
+    `Comment` = 'T3 Belt - Druid';
 
 -- ============================================================================
 -- SECTION 5: BOSS LOOT MODIFICATIONS
@@ -307,57 +1812,140 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- Replace Desecrated token drops with satchels and boss artifacts
 -- Custom Naxx40 boss entries: 351xxx
 
+-- Cleanup: Remove all satchel and artifact items first for idempotency
+DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 59321 AND 59336;
+
 -- Thaddius (351000) - Helm Cache + Power Core
-DELETE FROM `creature_loot_template` WHERE `Entry` = 351000 AND `Item` IN (22360, 59321, 59329);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351000, 59321, 0, 100, 0, 1, 0, 2, 2, 'Thaddius - Naxxramas Armor Cache - Helm (F-025)'),
-(351000, 59329, 0, 100, 0, 1, 0, 1, 1, "Thaddius - Thaddius's Power Core (F-025)");
+DELETE FROM `creature_loot_template` WHERE `Entry` = 351000 AND `Item` IN (22360);
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351000,
+    `Item` = 59321,
+    `MinCount` = 2,
+    `MaxCount` = 2,
+    `Comment` = 'Thaddius - Naxxramas Armor Cache - Helm (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351000,
+    `Item` = 59329,
+    `Comment` = '"Thaddius - Thaddiuss Power Core (F-025)"';
 
 -- Grobbulus (351003) + Patchwerk (351028) - Shoulder Cache + Injection Vial
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (351003, 351028) AND `Item` IN (22361, 59322, 59330);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351003, 59322, 0, 100, 0, 1, 0, 1, 1, 'Grobbulus - Naxxramas Armor Cache - Shoulder (F-025)'),
-(351003, 59330, 0, 100, 0, 1, 0, 1, 1, "Grobbulus - Grobbulus's Injection Vial (F-025)"),
-(351028, 59322, 0, 100, 0, 1, 0, 1, 1, 'Patchwerk - Naxxramas Armor Cache - Shoulder (F-025)');
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351003,
+    `Item` = 59322,
+    `Comment` = 'Grobbulus - Naxxramas Armor Cache - Shoulder (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351003,
+    `Item` = 59330,
+    `Comment` = '"Grobbulus - Grobbuluss Injection Vial (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351028,
+    `Item` = 59322,
+    `Comment` = 'Patchwerk - Naxxramas Armor Cache - Shoulder (F-025)';
 
 -- Kel'Thuzad (351019) - Chest Cache + Phylactery Fragment
 DELETE FROM `creature_loot_template` WHERE `Entry` = 351019 AND `Item` IN (22350, 59323, 59331);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351019, 59323, 0, 100, 0, 1, 0, 2, 2, "Kel'Thuzad - Naxxramas Armor Cache - Chest (F-025)"),
-(351019, 59331, 0, 100, 0, 1, 0, 1, 1, "Kel'Thuzad - Kel'Thuzad's Phylactery Fragment (F-025)");
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351019,
+    `Item` = 59323,
+    `MinCount` = 2,
+    `MaxCount` = 2,
+    `Comment` = '"KelThuzad - Naxxramas Armor Cache - Chest (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351019,
+    `Item` = 59331,
+    `Comment` = '"KelThuzad - KelThuzads Phylactery Fragment (F-025)"';
 
 -- Loatheb (351020) - Legs Cache + Spore Essence
 DELETE FROM `creature_loot_template` WHERE `Entry` = 351020 AND `Item` IN (22359, 59324, 59332);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351020, 59324, 0, 100, 0, 1, 0, 2, 2, 'Loatheb - Naxxramas Armor Cache - Legs (F-025)'),
-(351020, 59332, 0, 100, 0, 1, 0, 1, 1, "Loatheb - Loatheb's Spore Essence (F-025)");
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351020,
+    `Item` = 59324,
+    `MinCount` = 2,
+    `MaxCount` = 2,
+    `Comment` = 'Loatheb - Naxxramas Armor Cache - Legs (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351020,
+    `Item` = 59332,
+    `Comment` = '"Loatheb - Loathebs Spore Essence (F-025)"';
 
 -- Gothik (351035) + Razuvious (351036) - Boots Cache + Unholy Sigil
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (351035, 351036) AND `Item` IN (22365, 59325, 59333);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351035, 59325, 0, 100, 0, 1, 0, 1, 1, 'Gothik the Harvester - Naxxramas Armor Cache - Boots (F-025)'),
-(351035, 59333, 0, 100, 0, 1, 0, 1, 1, "Gothik the Harvester - Gothik's Unholy Sigil (F-025)"),
-(351036, 59325, 0, 100, 0, 1, 0, 1, 1, 'Instructor Razuvious - Naxxramas Armor Cache - Boots (F-025)');
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351035,
+    `Item` = 59325,
+    `Comment` = 'Gothik the Harvester - Naxxramas Armor Cache - Boots (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351035,
+    `Item` = 59333,
+    `Comment` = '"Gothik the Harvester - Gothiks Unholy Sigil (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351036,
+    `Item` = 59325,
+    `Comment` = 'Instructor Razuvious - Naxxramas Armor Cache - Boots (F-025)';
 
 -- Faerlina (351007) + Anub'Rekhan (351009) - Bracers Cache + Webbing
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (351007, 351009) AND `Item` IN (22362, 59326, 59334);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351007, 59326, 0, 100, 0, 1, 0, 1, 1, 'Grand Widow Faerlina - Naxxramas Armor Cache - Bracers (F-025)'),
-(351007, 59334, 0, 100, 0, 1, 0, 1, 1, "Grand Widow Faerlina - Faerlina's Webbing (F-025)"),
-(351009, 59326, 0, 100, 0, 1, 0, 1, 1, "Anub'Rekhan - Naxxramas Armor Cache - Bracers (F-025)");
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351007,
+    `Item` = 59326,
+    `Comment` = 'Grand Widow Faerlina - Naxxramas Armor Cache - Bracers (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351007,
+    `Item` = 59334,
+    `Comment` = '"Grand Widow Faerlina - Faerlinas Webbing (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351009,
+    `Item` = 59326,
+    `Comment` = '"AnubRekhan - Naxxramas Armor Cache - Bracers (F-025)"';
 
 -- Maexxna (351006) - Gloves Cache + Fang
 DELETE FROM `creature_loot_template` WHERE `Entry` = 351006 AND `Item` IN (22364, 59327, 59335);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351006, 59327, 0, 100, 0, 1, 0, 2, 2, "Maexxna - Naxxramas Armor Cache - Gloves (F-025)"),
-(351006, 59335, 0, 100, 0, 1, 0, 1, 1, "Maexxna - Maexxna's Fang (F-025)");
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351006,
+    `Item` = 59327,
+    `MinCount` = 2,
+    `MaxCount` = 2,
+    `Comment` = '"Maexxna - Naxxramas Armor Cache - Gloves (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351006,
+    `Item` = 59335,
+    `Comment` = '"Maexxna - Maexxnas Fang (F-025)"';
 
 -- Heigan (351005) + Noth (351008) - Belt Cache + Plague Vial
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (351005, 351008) AND `Item` IN (22363, 59328, 59336);
-INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
-(351005, 59328, 0, 100, 0, 1, 0, 1, 1, 'Heigan the Unclean - Naxxramas Armor Cache - Belt (F-025)'),
-(351005, 59336, 0, 100, 0, 1, 0, 1, 1, "Heigan the Unclean - Heigan's Plague Vial (F-025)"),
-(351008, 59328, 0, 100, 0, 1, 0, 1, 1, 'Noth the Plaguebringer - Naxxramas Armor Cache - Belt (F-025)');
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351005,
+    `Item` = 59328,
+    `Comment` = 'Heigan the Unclean - Naxxramas Armor Cache - Belt (F-025)';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351005,
+    `Item` = 59336,
+    `Comment` = '"Heigan the Unclean - Heigans Plague Vial (F-025)"';
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 351008,
+    `Item` = 59328,
+    `Comment` = 'Noth the Plaguebringer - Naxxramas Armor Cache - Belt (F-025)';
 
 -- ============================================================================
 -- SECTION 6: QUEST MODIFICATIONS (Light's Hope Chapel)
@@ -365,7 +1953,6 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 -- Replace Desecrated tokens with Boss Artifacts in quest requirements
 -- Remove all material requirements (Wartorn Scraps, Arcanite Bars, etc.)
 -- Quest rewards changed from tier gear to gold/rep (artifact-only turn-in)
-
 -- Helm Quests (all classes) - Artifact-only: 59329 (Thaddius's Power Core)
 UPDATE `quest_template` SET
     `RequiredItemId1` = 59329, `RequiredItemCount1` = 1,
@@ -444,70 +2031,163 @@ WHERE `ID` IN (9041, 9049, 9060, 9068, 9078, 9087, 9096, 9107, 9115);
 -- Create rotating daily quest pool for Wartorn Scrap turn-ins
 -- Quest IDs: 100010-100013
 -- Pool offers 1 random quest per day
-
 DELETE FROM `quest_template` WHERE `ID` BETWEEN 100010 AND 100013;
-INSERT INTO `quest_template` (
-    `ID`, `QuestType`, `QuestLevel`, `MinLevel`, `QuestSortID`, `QuestInfoID`,
-    `Flags`, `RewardMoney`, `RewardFactionID1`, `RewardFactionValue1`, `RewardFactionOverride1`,
-    `RequiredItemId1`, `RequiredItemCount1`,
-    `LogTitle`, `LogDescription`, `QuestDescription`, `QuestCompletionLog`
-) VALUES
--- Wartorn Plate Scrap (Warrior/Paladin)
-(100010, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22375, 20,
- 'Remnants of the Scourge - Plate',
- 'Bring 20 Wartorn Plate Scraps to Korfax at Light''s Hope Chapel.',
- 'The Scourge war machine leaves behind fragments of armor from fallen knights and paladins. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Plate Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
- 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
--- Wartorn Chain Scrap (Rogue/Shaman)
-(100011, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22374, 20,
- 'Remnants of the Scourge - Chain',
- 'Bring 20 Wartorn Chain Scraps to Korfax at Light''s Hope Chapel.',
- 'The Scourge war machine leaves behind fragments of armor from fallen rogues and shaman. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Chain Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
- 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
--- Wartorn Leather Scrap (Hunter/Druid)
-(100012, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22373, 20,
- 'Remnants of the Scourge - Leather',
- 'Bring 20 Wartorn Leather Scraps to Korfax at Light''s Hope Chapel.',
- 'The Scourge war machine leaves behind fragments of armor from fallen hunters and druids. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Leather Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
- 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.'),
--- Wartorn Cloth Scrap (Mage/Warlock/Priest)
-(100013, 2, 60, 60, 3456, 62, 4096, 200000, 529, 5, 0, 22376, 20,
- 'Remnants of the Scourge - Cloth',
- 'Bring 20 Wartorn Cloth Scraps to Korfax at Light''s Hope Chapel.',
- 'The Scourge war machine leaves behind fragments of armor from fallen mages, warlocks, and priests. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Cloth Scraps you recover, and I will see that they are properly consecrated and put to rest. The Argent Dawn rewards those who help cleanse the land of Scourge remnants.',
- 'Return to Korfax at Light''s Hope Chapel in Eastern Plaguelands.');
+
+INSERT INTO `quest_template` SET
+    `ID` = 100010,
+    `QuestLevel` = 60,
+    `MinLevel` = 60,
+    `QuestSortID` = 3456,
+    `QuestInfoID` = 62,
+    `Flags` = 4096,
+    `RewardMoney` = 200000,
+    `RewardFactionID1` = 529,
+    `RewardFactionValue1` = 5,
+    `RequiredItemId1` = 22375,
+    `RequiredItemCount1` = 20,
+    `LogTitle` = 'Remnants of the Scourge - Plate',
+    `LogDescription` = 'Bring 20 Wartorn Plate Scraps to Korfax at Lights Hope Chapel.',
+    `QuestDescription` = 'The Scourge war machine leaves behind fragments of armor from fallen knights and paladins. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Plate Scraps you recover',
+    `QuestCompletionLog` = 'Return to Korfax at Lights Hope Chapel in Eastern Plaguelands.';
+
+INSERT INTO `quest_template` SET
+    `ID` = 100011,
+    `QuestLevel` = 60,
+    `MinLevel` = 60,
+    `QuestSortID` = 3456,
+    `QuestInfoID` = 62,
+    `Flags` = 4096,
+    `RewardMoney` = 200000,
+    `RewardFactionID1` = 529,
+    `RewardFactionValue1` = 5,
+    `RequiredItemId1` = 22374,
+    `RequiredItemCount1` = 20,
+    `LogTitle` = 'Remnants of the Scourge - Chain',
+    `LogDescription` = 'Bring 20 Wartorn Chain Scraps to Korfax at Lights Hope Chapel.',
+    `QuestDescription` = 'The Scourge war machine leaves behind fragments of armor from fallen rogues and shaman. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Chain Scraps you recover',
+    `QuestCompletionLog` = 'Return to Korfax at Lights Hope Chapel in Eastern Plaguelands.';
+
+INSERT INTO `quest_template` SET
+    `ID` = 100012,
+    `QuestLevel` = 60,
+    `MinLevel` = 60,
+    `QuestSortID` = 3456,
+    `QuestInfoID` = 62,
+    `Flags` = 4096,
+    `RewardMoney` = 200000,
+    `RewardFactionID1` = 529,
+    `RewardFactionValue1` = 5,
+    `RequiredItemId1` = 22373,
+    `RequiredItemCount1` = 20,
+    `LogTitle` = 'Remnants of the Scourge - Leather',
+    `LogDescription` = 'Bring 20 Wartorn Leather Scraps to Korfax at Lights Hope Chapel.',
+    `QuestDescription` = 'The Scourge war machine leaves behind fragments of armor from fallen hunters and druids. These scraps serve as grim reminders of the battles fought in Naxxramas.$B$BBring me any Wartorn Leather Scraps you recover',
+    `QuestCompletionLog` = 'Return to Korfax at Lights Hope Chapel in Eastern Plaguelands.';
+
+INSERT INTO `quest_template` SET
+    `ID` = 100013,
+    `QuestLevel` = 60,
+    `MinLevel` = 60,
+    `QuestSortID` = 3456,
+    `QuestInfoID` = 62,
+    `Flags` = 4096,
+    `RewardMoney` = 200000,
+    `RewardFactionID1` = 529,
+    `RewardFactionValue1` = 5,
+    `RequiredItemId1` = 22376,
+    `RequiredItemCount1` = 20,
+    `LogTitle` = 'Remnants of the Scourge - Cloth',
+    `LogDescription` = 'Bring 20 Wartorn Cloth Scraps to Korfax at Lights Hope Chapel.',
+    `QuestDescription` = 'The Scourge war machine leaves behind fragments of armor from fallen mages',
+    `QuestCompletionLog` = 'Return to Korfax at Lights Hope Chapel in Eastern Plaguelands.';
 
 -- Mark quests as daily repeatable
 DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 100010 AND 100013;
-INSERT INTO `quest_template_addon` (`ID`, `MaxLevel`, `AllowableClasses`, `SourceSpellID`, `PrevQuestID`, `NextQuestID`, `ExclusiveGroup`, `RewardMailTemplateID`, `RewardMailDelay`, `RequiredSkillID`, `RequiredSkillPoints`, `RequiredMinRepFaction`, `RequiredMaxRepFaction`, `RequiredMinRepValue`, `RequiredMaxRepValue`, `ProvidedItemCount`, `SpecialFlags`) VALUES
-(100010, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag (SpecialFlags = 1)
-(100011, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag + same exclusive group
-(100012, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1), -- Daily flag + same exclusive group
-(100013, 0, 0, 0, 0, 0, -100010, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1); -- Daily flag + same exclusive group
+
+INSERT INTO `quest_template_addon` SET
+    `ID` = 100010,
+    `ExclusiveGroup` = -100010,
+    `SpecialFlags` = 1;
+
+INSERT INTO `quest_template_addon` SET
+    `ID` = 100011,
+    `ExclusiveGroup` = -100010,
+    `SpecialFlags` = 1;
+
+INSERT INTO `quest_template_addon` SET
+    `ID` = 100012,
+    `ExclusiveGroup` = -100010,
+    `SpecialFlags` = 1;
+
+INSERT INTO `quest_template_addon` SET
+    `ID` = 100013,
+    `ExclusiveGroup` = -100010,
+    `SpecialFlags` = 1;
 
 -- Add quests to Korfax (16112)
 DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 100010 AND 100013;
+
 DELETE FROM `creature_questender` WHERE `quest` BETWEEN 100010 AND 100013;
-INSERT INTO `creature_queststarter` (`id`, `quest`) VALUES
-(16112, 100010),
-(16112, 100011),
-(16112, 100012),
-(16112, 100013);
-INSERT INTO `creature_questender` (`id`, `quest`) VALUES
-(16112, 100010),
-(16112, 100011),
-(16112, 100012),
-(16112, 100013);
+
+INSERT INTO `creature_queststarter` SET
+    `id` = 16112,
+    `quest` = 100010;
+
+INSERT INTO `creature_queststarter` SET
+    `id` = 16112,
+    `quest` = 100011;
+
+INSERT INTO `creature_queststarter` SET
+    `id` = 16112,
+    `quest` = 100012;
+
+INSERT INTO `creature_queststarter` SET
+    `id` = 16112,
+    `quest` = 100013;
+
+INSERT INTO `creature_questender` SET
+    `id` = 16112,
+    `quest` = 100010;
+
+INSERT INTO `creature_questender` SET
+    `id` = 16112,
+    `quest` = 100011;
+
+INSERT INTO `creature_questender` SET
+    `id` = 16112,
+    `quest` = 100012;
+
+INSERT INTO `creature_questender` SET
+    `id` = 16112,
+    `quest` = 100013;
 
 -- Create daily quest pool (offers 1 random quest per day)
 DELETE FROM `pool_template` WHERE `entry` = 39010;
-INSERT INTO `pool_template` (`entry`, `max_limit`, `description`) VALUES
-(39010, 1, 'Light''s Hope Chapel - Wartorn Scrap Daily Quest Pool (F-025)');
+
+INSERT INTO `pool_template` SET
+    `entry` = 39010,
+    `max_limit` = 1,
+    `description` = 'Lights Hope Chapel - Wartorn Scrap Daily Quest Pool (F-025)';
 
 -- Add quests to pool
 DELETE FROM `pool_quest` WHERE `pool_entry` = 39010;
-INSERT INTO `pool_quest` (`entry`, `pool_entry`, `description`) VALUES
-(100010, 39010, 'Remnants of the Scourge - Plate'),
-(100011, 39010, 'Remnants of the Scourge - Chain'),
-(100012, 39010, 'Remnants of the Scourge - Leather'),
-(100013, 39010, 'Remnants of the Scourge - Cloth');
+
+INSERT INTO `pool_quest` SET
+    `entry` = 100010,
+    `pool_entry` = 39010,
+    `description` = 'Remnants of the Scourge - Plate';
+
+INSERT INTO `pool_quest` SET
+    `entry` = 100011,
+    `pool_entry` = 39010,
+    `description` = 'Remnants of the Scourge - Chain';
+
+INSERT INTO `pool_quest` SET
+    `entry` = 100012,
+    `pool_entry` = 39010,
+    `description` = 'Remnants of the Scourge - Leather';
+
+INSERT INTO `pool_quest` SET
+    `entry` = 100013,
+    `pool_entry` = 39010,
+    `description` = 'Remnants of the Scourge - Cloth';
