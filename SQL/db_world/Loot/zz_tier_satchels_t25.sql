@@ -1109,8 +1109,9 @@ INSERT INTO `conditions` SET
 -- ============================================================================
 -- Add satchels, remove duplicate tokens, add artifacts
 
--- Cleanup: Remove all satchel items first for idempotency
-DELETE FROM `creature_loot_template` WHERE `Item` IN (59314, 59315, 59316, 59317, 59318, 59319, 59320);
+-- Cleanup: Remove all satchel/artifact items and references first for idempotency
+DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 59314 AND 59320;
+DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 59459 AND 59503;
 
 -- Twin Emperors - Vek'nilash (15275): Keep Circlet, add Helm Cache
 DELETE FROM `creature_loot_template` WHERE `Entry` = 15275 AND `Item` = 20926;

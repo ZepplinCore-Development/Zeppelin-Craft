@@ -1812,8 +1812,9 @@ INSERT INTO `conditions` SET
 -- Replace Desecrated token drops with satchels and boss artifacts
 -- Custom Naxx40 boss entries: 351xxx
 
--- Cleanup: Remove all satchel and artifact items first for idempotency
+-- Cleanup: Remove all satchel/artifact items and references first for idempotency
 DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 59321 AND 59336;
+DELETE FROM `creature_loot_template` WHERE `Item` BETWEEN 59510 AND 59581;
 
 -- Thaddius (351000) - Helm Cache + Power Core
 DELETE FROM `creature_loot_template` WHERE `Entry` = 351000 AND `Item` IN (22360);

@@ -97,7 +97,7 @@ DELETE FROM reference_loot_template WHERE Entry BETWEEN 59310 AND 59370;
 
 DELETE FROM item_loot_template WHERE Entry BETWEEN 59300 AND 59305;
 
-DELETE FROM creature_loot_template WHERE Item IN (59300, 59301, 59302, 59303, 59304, 59305);
+DELETE FROM creature_loot_template WHERE Item BETWEEN 59300 AND 59370;
 
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEEN 59310 AND 59370;
 
