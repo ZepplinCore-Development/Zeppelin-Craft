@@ -195,6 +195,53 @@ def get_localization_columns(columns: List[str]) -> Set[str]:
     return localization_cols
 
 
+def normalize_string_value(value) -> str:
+    """
+    Normalize string values for comparison to filter out insignificant differences.
+
+    Handles:
+    - Quote escaping differences: "" vs " (some DBC editors escape quotes differently)
+    - Whitespace normalization: trailing spaces
+
+    Returns normalized string for comparison purposes.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        return value
+
+    normalized = value
+    # Normalize double-double-quotes to single double-quotes
+    # Some DBC editors use "" to escape quotes, others use "
+    normalized = normalized.replace('""', '"')
+
+    # Normalize trailing whitespace
+    normalized = normalized.rstrip()
+
+    return normalized
+
+
+def values_are_equivalent(val1, val2) -> bool:
+    """
+    Check if two values are equivalent after normalization.
+
+    Returns True if values are the same or differ only in insignificant ways
+    (quote escaping, trailing whitespace, etc.)
+    """
+    # Handle None
+    if val1 is None and val2 is None:
+        return True
+    if val1 is None or val2 is None:
+        return False
+
+    # For non-strings, use direct comparison
+    if not isinstance(val1, str) or not isinstance(val2, str):
+        return val1 == val2
+
+    # For strings, compare normalized versions
+    return normalize_string_value(val1) == normalize_string_value(val2)
+
+
 def compare_databases(db1_name: str, db2_name: str, verbose: bool = False) -> Dict:
     """
     Compare two databases and return differences.
@@ -303,7 +350,9 @@ def get_table_diff(table: str, db1_name: str, db2_name: str, primary_key: str = 
             # Skip localization columns
             if col in skipped_columns:
                 continue
-            if row1[col] != row2[col]:
+            # Use normalized comparison to filter out insignificant differences
+            # (quote escaping, trailing whitespace, etc.)
+            if not values_are_equivalent(row1[col], row2[col]):
                 changed_cols.append((col, row1[col], row2[col]))
         if changed_cols:
             modified.append((pk, changed_cols))
@@ -782,14 +831,14 @@ def cmd_rebuild(args):
     print(f"\n{Colors.CYAN}Step 2: Resetting {LIVE_DBC} from {ORIGINAL_DBC}...{Colors.RESET}")
 
     try:
-        conn = get_connection(ORIGINAL_DBC, use_root=True)
+        conn = get_connection(ORIGINAL_DBC, use_root=False)
         cursor = conn.cursor()
 
         # Get all tables
         tables = get_tables(conn)
 
         # For each table, copy from original to live
-        live_conn = get_connection(LIVE_DBC, use_root=True)
+        live_conn = get_connection(LIVE_DBC, use_root=False)
         live_cursor = live_conn.cursor()
 
         for table in tables:
@@ -865,11 +914,11 @@ def cmd_rebuild(args):
     print(f"\n{Colors.CYAN}Step 4: Updating {EXPECTED_DBC}...{Colors.RESET}")
 
     try:
-        conn = get_connection(LIVE_DBC, use_root=True)
+        conn = get_connection(LIVE_DBC, use_root=False)
         tables = get_tables(conn)
         conn.close()
 
-        expected_conn = get_connection(EXPECTED_DBC, use_root=True)
+        expected_conn = get_connection(EXPECTED_DBC, use_root=False)
         expected_cursor = expected_conn.cursor()
 
         for table in tables:
@@ -948,7 +997,7 @@ def cmd_import_module(args):
         orig_conn.close()
 
         # Connect to scratch_dbc and drop all existing tables
-        scratch_conn = get_connection(SCRATCH_DBC, use_root=True)
+        scratch_conn = get_connection(SCRATCH_DBC, use_root=False)
         scratch_cursor = scratch_conn.cursor()
 
         # Get existing tables in scratch_dbc
@@ -1080,7 +1129,7 @@ def cmd_import_module(args):
     if result["identical"]:
         print(f"  {Colors.YELLOW}No differences found - nothing to extract{Colors.RESET}")
         # Clean up scratch_dbc (drop all tables)
-        conn = get_connection(SCRATCH_DBC, use_root=True)
+        conn = get_connection(SCRATCH_DBC, use_root=False)
         cursor = conn.cursor()
         cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
         cursor.execute("SHOW TABLES")
@@ -1157,7 +1206,7 @@ def cmd_import_module(args):
     # Step 6: Clean up scratch_dbc (drop all tables)
     print(f"\n{Colors.CYAN}Step 5: Cleaning up...{Colors.RESET}")
     try:
-        conn = get_connection(SCRATCH_DBC, use_root=True)
+        conn = get_connection(SCRATCH_DBC, use_root=False)
         cursor = conn.cursor()
         cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
         cursor.execute("SHOW TABLES")
