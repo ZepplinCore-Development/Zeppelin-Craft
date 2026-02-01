@@ -45,9 +45,9 @@ else
     echo -e "  No orphaned acore images found"
 fi
 
-# Clean Docker build cache (all of it - will rebuild)
-echo -e "${YELLOW}Cleaning build cache...${NC}"
-docker builder prune -f --all 2>&1 | tail -1 || true
+# Clean Docker build cache older than 8 hours (keeps recent cache for faster rebuilds)
+echo -e "${YELLOW}Cleaning build cache older than 8 hours...${NC}"
+docker builder prune -f --filter "until=8h" 2>&1 | tail -1 || true
 
 # Clean orphaned volumes (not attached to any container)
 echo -e "${YELLOW}Cleaning orphaned volumes...${NC}"
@@ -62,7 +62,7 @@ if [ ! -f "$ZEPPELIN_CORE/acore.sh" ]; then
 fi
 
 # Images to manage
-IMAGES=(authserver worldserver db-import client-data)
+IMAGES=(authserver worldserver db-import client-data tools)
 
 # Step 1: Clean up existing master images (pre-build)
 echo -e "${YELLOW}Removing old :master images...${NC}"
@@ -74,6 +74,10 @@ done
 echo -e "${YELLOW}Building Docker images (this takes a while)...${NC}"
 cd "$ZEPPELIN_CORE"
 ./acore.sh docker build . 2>&1 | tee "$ZEPPELIN_CORE/build.log"
+
+# Step 2b: Build tools image (separate profile)
+echo -e "${YELLOW}Building tools image...${NC}"
+docker compose --profile tools build ac-tools 2>&1 | tee -a "$ZEPPELIN_CORE/build.log"
 
 # Step 3: Tag images as :latest_local
 echo -e "${YELLOW}Tagging images as :latest_local...${NC}"
