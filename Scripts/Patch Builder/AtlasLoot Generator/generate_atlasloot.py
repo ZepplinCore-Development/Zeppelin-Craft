@@ -134,9 +134,9 @@ def get_display_name(section_name: str, boss_name: str = None) -> str:
     is_heroic = section_name.endswith('HEROIC')
     base_section = section_name[:-6] if is_heroic else section_name
 
-    # Find matching instance prefix
+    # Find matching instance prefix (sort by length descending so SMT matches before SM)
     instance_name = None
-    for prefix, name in INSTANCE_PREFIXES.items():
+    for prefix, name in sorted(INSTANCE_PREFIXES.items(), key=lambda x: len(x[0]), reverse=True):
         if base_section.startswith(prefix):
             instance_name = name
             break
