@@ -8,6 +8,39 @@
     "expected_dbc": "Safety baseline - catches uncommitted changes"
   },
   "sources": {
+    "worgoblin": {
+      "type": "module",
+      "file": "modules/worgoblin.sql",
+      "priority": 20,
+      "enabled": true,
+      "tables": [
+        "achievement",
+        "achievement_criteria",
+        "animationdata",
+        "barbershopstyle",
+        "characterfacialhairstyles",
+        "charbaseinfo",
+        "charhairgeosets",
+        "charhairtextures",
+        "charsections",
+        "charstartoutfit",
+        "chrraces",
+        "creaturedisplayinfo",
+        "creaturedisplayinfoextra",
+        "creaturemodeldata",
+        "creaturesounddata",
+        "item",
+        "itemdisplayinfo",
+        "skillline",
+        "skilllineability",
+        "skillraceclassinfo",
+        "soundentries",
+        "spell",
+        "spellicon",
+        "talenttab"
+      ],
+      "description": "Imported from /workspace/project/Zeppelin-Core/modules/mod-worgoblin/data/patch/DBFilesClient on 2026-02-01"
+    }
   },
   "conflict_resolution": "priority_wins",
   "notes": {
