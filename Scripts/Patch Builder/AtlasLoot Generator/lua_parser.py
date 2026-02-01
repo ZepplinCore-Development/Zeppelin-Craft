@@ -3,6 +3,7 @@ Lua Parser Module for AtlasLoot Files
 Extracts boss names and identifies sections in AtlasLoot Lua files
 """
 
+import os
 import re
 from typing import List, Tuple, Optional
 
@@ -168,6 +169,9 @@ class AtlasLootParser:
             # Write modified content (silently - caller handles success message)
             with open(self.lua_file_path, 'w', encoding='utf-8') as f:
                 f.writelines(self.content)
+
+            # Set permissions to 666 for cross-platform compatibility (Windows/Linux shares)
+            os.chmod(self.lua_file_path, 0o666)
             return True
 
         except Exception as e:
