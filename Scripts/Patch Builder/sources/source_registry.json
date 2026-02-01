@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "description": "DBC source registry - tracks modules and features that modify DBC databases",
+  "databases": {
+    "original_dbc": "Pristine 3.3.5a stock (never modified)",
+    "scratch_dbc": "Temp workspace during imports/rebuilds (created/dropped as needed)",
+    "dbc": "Live database - Spell Editor and dbc.py work here",
+    "expected_dbc": "Safety baseline - catches uncommitted changes"
+  },
+  "sources": {
+  },
+  "conflict_resolution": "priority_wins",
+  "notes": {
+    "priority": "Lower numbers = applied first. Features (100+) override modules (10-50).",
+    "enabled": "Set to false to exclude a source from rebuild without deleting it.",
+    "tables": "List of DBC tables this source modifies (for conflict detection)."
+  }
+}
