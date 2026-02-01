@@ -23,6 +23,7 @@ Usage:
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -132,6 +133,68 @@ def get_primary_key(conn, table: str) -> str:
     return columns[0] if columns else "ID"
 
 
+def get_localization_columns(columns: List[str]) -> Set[str]:
+    """
+    Identify localization columns to exclude from diffs.
+
+    WoW 3.3.5a DBC files have localized strings using locale suffixes:
+    - spell_name_enus (English US - KEEP)
+    - spell_name_kokr (Korean - skip)
+    - spell_name_frfr (French - skip)
+    - spell_name_dede (German - skip)
+    - spell_name_zhcn (Chinese Simplified - skip)
+    - spell_name_zhtw (Chinese Traditional - skip)
+    - spell_name_eses (Spanish Spain - skip)
+    - spell_name_esmx (Spanish Mexico - skip)
+    - spell_name_ruru (Russian - skip)
+    - spell_name_jajp (Japanese - skip)
+    - spell_name_ptpt (Portuguese - skip)
+    - spell_name_itit (Italian - skip)
+    - spell_name_unused_* (unused slots - skip)
+    - spell_name_flags (flags field - KEEP)
+
+    We keep enus (English) and flags columns, exclude all other locales.
+    """
+    # Non-English locale suffixes to exclude
+    NON_ENGLISH_LOCALES = {
+        'kokr',   # Korean
+        'frfr',   # French
+        'dede',   # German
+        'zhcn',   # Chinese Simplified
+        'zhtw',   # Chinese Traditional
+        'eses',   # Spanish (Spain)
+        'esmx',   # Spanish (Mexico)
+        'ruru',   # Russian
+        'jajp',   # Japanese
+        'ptpt',   # Portuguese
+        'itit',   # Italian
+        'ptbr',   # Portuguese (Brazil)
+        'engb',   # English (UK) - if different from enus
+    }
+
+    # Also exclude unused locale slots
+    UNUSED_PATTERNS = ['unused_1', 'unused_2', 'unused_3', 'unused_4']
+
+    localization_cols = set()
+
+    for col in columns:
+        col_lower = col.lower()
+
+        # Check for non-English locale suffixes
+        for locale in NON_ENGLISH_LOCALES:
+            if col_lower.endswith(f'_{locale}'):
+                localization_cols.add(col)
+                break
+
+        # Check for unused locale slots
+        for unused in UNUSED_PATTERNS:
+            if col_lower.endswith(f'_{unused}'):
+                localization_cols.add(col)
+                break
+
+    return localization_cols
+
+
 def compare_databases(db1_name: str, db2_name: str, verbose: bool = False) -> Dict:
     """
     Compare two databases and return differences.
@@ -178,15 +241,24 @@ def compare_databases(db1_name: str, db2_name: str, verbose: bool = False) -> Di
     }
 
 
-def get_table_diff(table: str, db1_name: str, db2_name: str, primary_key: str = None) -> Dict:
+def get_table_diff(table: str, db1_name: str, db2_name: str, primary_key: str = None,
+                   skip_localization: bool = True) -> Dict:
     """
     Get detailed row-level differences between two tables.
+
+    Args:
+        table: Table name to compare
+        db1_name: Source database name
+        db2_name: Target database name
+        primary_key: Optional primary key column (auto-detected if None)
+        skip_localization: If True, ignore localization columns (1-15) in comparisons
 
     Returns dict with:
       - only_in_db1: list of primary key values
       - only_in_db2: list of primary key values
       - modified: list of (pk, changed_columns)
       - primary_key: the detected primary key column name
+      - skipped_columns: set of columns that were ignored (for reference)
     """
     conn1 = get_connection(db1_name)
     conn2 = get_connection(db2_name)
@@ -216,12 +288,21 @@ def get_table_diff(table: str, db1_name: str, db2_name: str, primary_key: str = 
     only_in_db1 = sorted(pks1 - pks2)
     only_in_db2 = sorted(pks2 - pks1)
 
+    # Determine which columns to skip
+    skipped_columns = set()
+    if skip_localization and rows1:
+        sample_row = next(iter(rows1.values()))
+        skipped_columns = get_localization_columns(list(sample_row.keys()))
+
     modified = []
     for pk in sorted(pks1 & pks2):
         row1 = rows1[pk]
         row2 = rows2[pk]
         changed_cols = []
         for col in row1.keys():
+            # Skip localization columns
+            if col in skipped_columns:
+                continue
             if row1[col] != row2[col]:
                 changed_cols.append((col, row1[col], row2[col]))
         if changed_cols:
@@ -231,20 +312,29 @@ def get_table_diff(table: str, db1_name: str, db2_name: str, primary_key: str = 
         "only_in_db1": only_in_db1,
         "only_in_db2": only_in_db2,
         "modified": modified,
-        "primary_key": primary_key
+        "primary_key": primary_key,
+        "skipped_columns": skipped_columns
     }
 
 
-def generate_diff_sql(table: str, db_source: str, db_target: str) -> str:
+def generate_diff_sql(table: str, db_source: str, db_target: str,
+                      skip_localization: bool = True) -> str:
     """
     Generate SQL to transform db_target to match db_source for a single table.
 
     This generates INSERT/UPDATE/DELETE statements that would make db_target
     match db_source when executed against db_target.
+
+    Args:
+        table: Table name
+        db_source: Source database (what we want)
+        db_target: Target database (what we're changing)
+        skip_localization: If True, exclude localization columns (1-15) from output
     """
     conn = get_connection(db_source)
-    diff = get_table_diff(table, db_source, db_target)
+    diff = get_table_diff(table, db_source, db_target, skip_localization=skip_localization)
     pk = diff["primary_key"]
+    skipped_columns = diff.get("skipped_columns", set())
 
     sql_lines = []
     sql_lines.append(f"-- {table}: {len(diff['only_in_db1'])} inserts, {len(diff['modified'])} updates, {len(diff['only_in_db2'])} deletes")
@@ -252,8 +342,11 @@ def generate_diff_sql(table: str, db_source: str, db_target: str) -> str:
     # Get column info for the table
     cursor = conn.cursor()
     cursor.execute(f"SHOW COLUMNS FROM `{table}`")
-    columns = [row[0] for row in cursor.fetchall()]
+    all_columns = [row[0] for row in cursor.fetchall()]
     cursor.close()
+
+    # Filter out localization columns
+    columns = [c for c in all_columns if c not in skipped_columns]
 
     # Generate DELETEs for rows only in target (need to remove them)
     if diff["only_in_db2"]:
@@ -285,6 +378,7 @@ def generate_diff_sql(table: str, db_source: str, db_target: str) -> str:
         cursor.close()
 
     # Generate UPDATEs for modified rows
+    # (localization columns already filtered by get_table_diff)
     if diff["modified"]:
         for pk_val, changes in diff["modified"]:
             set_clauses = []
@@ -303,7 +397,8 @@ def generate_diff_sql(table: str, db_source: str, db_target: str) -> str:
     return "\n".join(sql_lines)
 
 
-def generate_full_diff_sql(db_source: str, db_target: str) -> str:
+def generate_full_diff_sql(db_source: str, db_target: str,
+                           skip_localization: bool = True) -> str:
     """Generate SQL for all differences between two databases."""
     result = compare_databases(db_source, db_target)
 
@@ -313,11 +408,14 @@ def generate_full_diff_sql(db_source: str, db_target: str) -> str:
     sql_parts = []
     sql_parts.append(f"-- DBC Diff: {db_source} vs {db_target}")
     sql_parts.append(f"-- Generated by dbc-mgr")
+    if skip_localization:
+        sql_parts.append(f"-- Localization columns (1-15) excluded")
     sql_parts.append("")
 
     for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
         sql_parts.append(f"\n-- ============ {table} ============")
-        sql_parts.append(generate_diff_sql(table, db_source, db_target))
+        sql_parts.append(generate_diff_sql(table, db_source, db_target,
+                                          skip_localization=skip_localization))
 
     return "\n".join(sql_parts)
 
@@ -453,29 +551,45 @@ def cmd_show(args):
         return 1
 
     source = registry["sources"][source_name]
-    source_file = SOURCES_DIR / source["file"]
+    # Support both "file" (single file) and "path" (directory)
+    source_path = SOURCES_DIR / source.get("path", source.get("file", ""))
 
     print(f"{Colors.BOLD}Source: {source_name}{Colors.RESET}")
     print(f"  Type: {source.get('type', 'unknown')}")
-    print(f"  File: {source_file}")
+    print(f"  Path: {source_path}")
     print(f"  Priority: {source.get('priority', 'N/A')}")
     print(f"  Enabled: {source.get('enabled', True)}")
     print(f"  Tables: {', '.join(source.get('tables', [])) or '(not specified)'}")
     print()
 
-    if source_file.exists():
-        print(f"{Colors.CYAN}SQL Content:{Colors.RESET}")
-        print("-" * 60)
-        with open(source_file) as f:
-            content = f.read()
-            # Show first 50 lines
-            lines = content.split("\n")
-            for line in lines[:50]:
-                print(line)
-            if len(lines) > 50:
-                print(f"\n... ({len(lines) - 50} more lines)")
+    if source_path.exists():
+        if source_path.is_dir():
+            # Directory with multiple files
+            sql_files = sorted(source_path.glob("*.sql"))
+            print(f"{Colors.CYAN}SQL Files ({len(sql_files)}):{Colors.RESET}")
+            print("-" * 60)
+            total_lines = 0
+            for sql_file in sql_files:
+                with open(sql_file) as f:
+                    line_count = len(f.readlines())
+                total_lines += line_count
+                print(f"  {sql_file.name}: {line_count} lines")
+            print("-" * 60)
+            print(f"  Total: {total_lines} lines")
+        else:
+            # Single file
+            print(f"{Colors.CYAN}SQL Content:{Colors.RESET}")
+            print("-" * 60)
+            with open(source_path) as f:
+                content = f.read()
+                # Show first 50 lines
+                lines = content.split("\n")
+                for line in lines[:50]:
+                    print(line)
+                if len(lines) > 50:
+                    print(f"\n... ({len(lines) - 50} more lines)")
     else:
-        print(f"{Colors.RED}Source file not found: {source_file}{Colors.RESET}")
+        print(f"{Colors.RED}Source path not found: {source_path}{Colors.RESET}")
 
     return 0
 
@@ -703,32 +817,45 @@ def cmd_rebuild(args):
     conflicts = []
 
     for name, src in enabled_sources:
-        source_file = SOURCES_DIR / src["file"]
-        if not source_file.exists():
-            print(f"  {Colors.YELLOW}⚠ Skipping {name}: file not found{Colors.RESET}")
+        # Support both "file" (single file) and "path" (directory with multiple files)
+        source_path = SOURCES_DIR / src.get("path", src.get("file", ""))
+
+        if not source_path.exists():
+            print(f"  {Colors.YELLOW}⚠ Skipping {name}: path not found{Colors.RESET}")
             continue
 
         print(f"  Applying {name}...")
 
+        # Collect SQL files to apply
+        sql_files = []
+        if source_path.is_dir():
+            # Directory: apply all .sql files in sorted order
+            sql_files = sorted(source_path.glob("*.sql"))
+        else:
+            # Single file
+            sql_files = [source_path]
+
         try:
-            with open(source_file) as f:
-                sql = f.read()
+            conn = get_connection(LIVE_DBC)
+            cursor = conn.cursor()
 
-            if sql.strip():
-                conn = get_connection(LIVE_DBC)
-                cursor = conn.cursor()
+            for sql_file in sql_files:
+                with open(sql_file) as f:
+                    sql = f.read()
 
-                # Execute each statement
-                for statement in sql.split(";"):
-                    statement = statement.strip()
-                    if statement:
-                        cursor.execute(statement)
+                if sql.strip():
+                    # Execute each statement
+                    for statement in sql.split(";"):
+                        statement = statement.strip()
+                        if statement:
+                            cursor.execute(statement)
 
-                conn.commit()
-                cursor.close()
-                conn.close()
+            conn.commit()
+            cursor.close()
+            conn.close()
 
-            print(f"    {Colors.GREEN}✓ Applied{Colors.RESET}")
+            file_count = len(sql_files)
+            print(f"    {Colors.GREEN}✓ Applied ({file_count} file{'s' if file_count != 1 else ''}){Colors.RESET}")
 
         except Exception as e:
             print(f"    {Colors.RED}Error: {e}{Colors.RESET}")
@@ -976,27 +1103,49 @@ def cmd_import_module(args):
             tables_with_changes.append(table)
             print(f"    {table}: +{adds} ~{mods} -{dels}")
 
-    # Step 4: Generate SQL
-    print(f"\n{Colors.CYAN}Step 4: Generating SQL...{Colors.RESET}")
-    sql = generate_full_diff_sql(SCRATCH_DBC, ORIGINAL_DBC)
+    # Step 4: Generate per-table SQL files
+    print(f"\n{Colors.CYAN}Step 4: Generating per-table SQL files...{Colors.RESET}")
 
-    # Determine output path
-    output_dir = SOURCES_DIR / "modules"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / f"{name}.sql"
+    # Create module directory
+    module_dir = SOURCES_DIR / "modules" / name
+    module_dir.mkdir(parents=True, exist_ok=True)
 
-    # Write SQL file
-    with open(output_path, "w") as f:
-        f.write(sql)
-    print(f"  Wrote: {output_path}")
+    # Generate SQL for each changed table
+    total_lines = 0
+    for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
+        diff = get_table_diff(table, SCRATCH_DBC, ORIGINAL_DBC, skip_localization=True)
+        adds = len(diff["only_in_db1"])
+        mods = len(diff["modified"])
+        dels = len(diff["only_in_db2"])
 
-    # Step 5: Update registry
+        # Skip tables with no actual changes (after localization filtering)
+        if adds == 0 and mods == 0 and dels == 0:
+            continue
+
+        # Generate SQL for this table
+        sql = generate_diff_sql(table, SCRATCH_DBC, ORIGINAL_DBC, skip_localization=True)
+
+        # Write to per-table file
+        table_file = module_dir / f"{table}.sql"
+        with open(table_file, "w") as f:
+            f.write(f"-- {name}: {table}\n")
+            f.write(f"-- Generated by dbc-mgr import-module\n\n")
+            f.write(sql)
+
+        line_count = sql.count('\n') + 1
+        total_lines += line_count
+        print(f"    {table}.sql (+{adds} ~{mods} -{dels}) - {line_count} lines")
+
+    print(f"  Wrote {len(tables_with_changes)} files to {module_dir}")
+    print(f"  Total: {total_lines} lines")
+
+    # Step 5: Update registry (directory path, not single file)
     registry = load_registry()
-    relative_path = f"modules/{name}.sql"
+    relative_path = f"modules/{name}"  # Directory, not file
 
     registry["sources"][name] = {
         "type": "module",
-        "file": relative_path,
+        "path": relative_path,  # Changed from "file" to "path" for directories
         "priority": priority,
         "enabled": True,
         "tables": tables_with_changes,
@@ -1023,7 +1172,7 @@ def cmd_import_module(args):
         print(f"  {Colors.YELLOW}Warning: Could not clean scratch database: {e}{Colors.RESET}")
 
     print(f"\n{Colors.GREEN}✓ Import complete: {name}{Colors.RESET}")
-    print(f"  File: {output_path}")
+    print(f"  Path: {module_dir}")
     print(f"  Priority: {priority}")
     print(f"  Tables: {', '.join(tables_with_changes)}")
 

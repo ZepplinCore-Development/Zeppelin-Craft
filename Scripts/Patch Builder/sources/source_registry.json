@@ -10,7 +10,7 @@
   "sources": {
     "worgoblin": {
       "type": "module",
-      "file": "modules/worgoblin.sql",
+      "path": "modules/worgoblin",
       "priority": 20,
       "enabled": true,
       "tables": [
