@@ -77,7 +77,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59310,
     `class` = 15,
-    `name` = '"Firelords Armor Cache - Legs"',
+    `name` = 'Firelord''s Armor Cache - Legs',
     `displayid` = 135477,
     `Quality` = 4,
     `Flags` = 4,
@@ -1815,7 +1815,7 @@ INSERT INTO `creature_loot_template` SET
     `Item` = 59310,
     `MinCount` = 2,
     `MaxCount` = 2,
-    `Comment` = '"Ragnaros - Firelords Armor Cache - Legs (F-025)"';
+    `Comment` = 'Ragnaros - Firelord''s Armor Cache - Legs (F-025)';
 
 -- BROODLORD LASHLAYER (12017) - Boots satchel
 -- Current T2 ref: 30346 (all 9 boots), MinCount=2, MaxCount=2

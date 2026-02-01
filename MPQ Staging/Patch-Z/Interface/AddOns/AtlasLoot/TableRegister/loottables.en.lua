@@ -441,6 +441,7 @@ end
 	AtlasLoot_TableNames["AuchSethekkRavenGod"] = { BabbleBoss["Anzu"].." ("..AL["Heroic"]..")", "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["AuchSethekkTalonKing"] = { BabbleBoss["Talon King Ikiss"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["AuchSethekkTalonKingHEROIC"] = { BabbleBoss["Talon King Ikiss"].." ("..AL["Heroic"]..")", "AtlasLootBurningCrusade" };
+	AtlasLoot_TableNames["AuchSethekkTalonKingCoffer"] = { "The Talon King's Coffer", "AtlasLootBurningCrusade" };
   -- Auch: Shadow Labyrinth
 	AtlasLoot_TableNames["AuchShadowHellmaw"] = { BabbleBoss["Ambassador Hellmaw"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["AuchShadowHellmawHEROIC"] = { BabbleBoss["Ambassador Hellmaw"].." ("..AL["Heroic"]..")", "AtlasLootBurningCrusade" };

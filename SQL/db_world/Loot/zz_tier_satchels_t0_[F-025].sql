@@ -23,7 +23,7 @@ DELETE FROM item_template WHERE entry BETWEEN 59000 AND 59002;
 INSERT INTO `item_template` SET
     `entry` = 59000,
     `class` = 15,
-    `name` = '"Gandlings Armor Cache - Helm"',
+    `name` = 'Gandling''s Armor Cache - Helm',
     `displayid` = 135453,
     `Quality` = 3,
     `Flags` = 4,
@@ -36,7 +36,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59001,
     `class` = 15,
-    `name` = '"Drakkisaths Armor Cache - Chest"',
+    `name` = 'Drakkisath''s Armor Cache - Chest',
     `displayid` = 135477,
     `Quality` = 3,
     `Flags` = 4,
@@ -49,7 +49,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59002,
     `class` = 15,
-    `name` = '"Rivendares Armor Cache - Legs"',
+    `name` = 'Rivendare''s Armor Cache - Legs',
     `displayid` = 134455,
     `Quality` = 3,
     `Flags` = 4,

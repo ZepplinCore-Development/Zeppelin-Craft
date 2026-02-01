@@ -75,7 +75,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59319,
     `class` = 12,
-    `name` = '"Visciduss Crystalline Heart"',
+    `name` = 'Viscidus''s Crystalline Heart',
     `displayid` = 136478,
     `Quality` = 4,
     `ItemLevel` = 88,
@@ -86,7 +86,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59320,
     `class` = 12,
-    `name` = '"Huhurans Stinger"',
+    `name` = 'Huhuran''s Stinger',
     `displayid` = 137882,
     `Quality` = 4,
     `ItemLevel` = 88,

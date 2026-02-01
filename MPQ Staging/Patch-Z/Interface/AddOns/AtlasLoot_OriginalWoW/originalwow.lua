@@ -103,152 +103,95 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["AQ20Kurinnaxx"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Kurinnaxx", "=q5=ALL WILL DROP"};
     { 2, 22217, "", "=q1=Kurinnaxx's Venom Sac", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Kurinnaxx", "=q5=CHANCE TO DROP"};
-    { 5, 21302, "", "=q3=Handbook of Deadly Poison V", "=ds=#e2#", "", "3.85%" };
-    { 7, 0, "AO_Unknown", "=q6=Kurinnaxx", "=q5=ONE WILL DROP"};
-    { 8, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "25.0%" };
-    { 9, 20885, "", "=q3=Qiraji Martial Drape", "=ds=#m3#", "", "25.0%" };
-    { 10, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "25.0%" };
-    { 11, 20889, "", "=q3=Qiraji Regal Drape", "=ds=#m3#", "", "25.0%" };
-    { 13, 0, "AO_Unknown", "=q6=Kurinnaxx", "=q5=ONE WILL DROP"};
-    { 14, 21500, "", "=q3=Belt of the Inquisition", "=ds=#a1#", "", "20.0%" };
-    { 15, 21501, "", "=q3=Toughened Silithid Hide Gloves", "=ds=#a2#", "", "20.0%" };
-    { 16, 21502, "", "=q3=Sand Reaver Wristguards", "=ds=#a3#", "", "20.0%" };
-    { 17, 21503, "", "=q3=Belt of the Sand Reaver", "=ds=#a4#", "", "20.0%" };
-    { 18, 21498, "", "=q4=Qiraji Sacrificial Dagger", "=ds=#w4#", "", "10.0%" };
-    { 19, 21499, "", "=q4=Vestments of the Shifting Sands", "=ds=#a1#", "", "10.0%" };
-    { 21, 0, "AO_Unknown", "=q6=Kurinnaxx", "=q5=ONE WILL DROP"};
-    { 22, 20727, "", "=q3=Formula: Enchant Gloves - Shadow Power", "=ds=#e2#", "", "14.3%" };
-    { 23, 20728, "", "=q3=Formula: Enchant Gloves - Frost Power", "=ds=#e2#", "", "14.3%" };
-    { 24, 20729, "", "=q3=Formula: Enchant Gloves - Fire Power", "=ds=#e2#", "", "14.3%" };
-    { 25, 20730, "", "=q3=Formula: Enchant Gloves - Healing Power", "=ds=#e2#", "", "14.3%" };
-    { 26, 20731, "", "=q3=Formula: Enchant Gloves - Superior Agility", "=ds=#e2#", "", "14.3%" };
-    { 27, 20734, "", "=q3=Formula: Enchant Cloak - Stealth", "=ds=#e2#", "", "14.3%" };
-    { 28, 20736, "", "=q3=Formula: Enchant Cloak - Dodge", "=ds=#e2#", "", "14.3%" };
+    { 4, 0, "AO_Unknown", "=q6=Kurinnaxx", "=q5=ONE WILL DROP"};
+    { 5, 21498, "", "=q4=Qiraji Sacrificial Dagger", "=ds=#w4#", "", "16.7%" };
+    { 6, 21499, "", "=q4=Vestments of the Shifting Sands", "=ds=#a1#", "", "16.7%" };
+    { 7, 21500, "", "=q3=Belt of the Inquisition", "=ds=#a1#", "", "16.7%" };
+    { 8, 21501, "", "=q3=Toughened Silithid Hide Gloves", "=ds=#a2#", "", "16.7%" };
+    { 9, 21502, "", "=q3=Sand Reaver Wristguards", "=ds=#a3#", "", "16.7%" };
+    { 10, 21503, "", "=q3=Belt of the Sand Reaver", "=ds=#a4#", "", "16.7%" };
 	};
 
 	AtlasLoot_Data["AQ20Rajaxx"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=General Rajaxx", "=q5=CHANCE TO DROP"};
-    { 2, 21302, "", "=q3=Handbook of Deadly Poison V", "=ds=#e2#", "", "3.85%" };
-    { 4, 0, "AO_Unknown", "=q6=General Rajaxx", "=q5=ONE WILL DROP"};
-    { 5, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "25.0%" };
-    { 6, 20885, "", "=q3=Qiraji Martial Drape", "=ds=#m3#", "", "25.0%" };
-    { 7, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "25.0%" };
-    { 8, 20889, "", "=q3=Qiraji Regal Drape", "=ds=#m3#", "", "25.0%" };
-    { 10, 0, "AO_Unknown", "=q6=General Rajaxx", "=q5=ONE WILL DROP"};
-    { 11, 21494, "", "=q3=Southwind's Grasp", "=ds=#a2#", "", "20.0%" };
-    { 12, 21495, "", "=q3=Legplates of the Qiraji Command", "=ds=#a4#", "", "20.0%" };
-    { 13, 21496, "", "=q3=Bracers of Qiraji Command", "=ds=#a1#", "", "20.0%" };
-    { 14, 21497, "", "=q3=Boots of the Qiraji General", "=ds=#a3#", "", "20.0%" };
-    { 15, 21492, "", "=q4=Manslayer of the Qiraji", "=ds=#w10#", "", "10.0%" };
-    { 16, 21493, "", "=q4=Boots of the Vanguard", "=ds=#a2#", "", "10.0%" };
-    { 18, 0, "AO_Unknown", "=q6=General Rajaxx", "=q5=ONE WILL DROP"};
-    { 19, 20727, "", "=q3=Formula: Enchant Gloves - Shadow Power", "=ds=#e2#", "", "14.3%" };
-    { 20, 20728, "", "=q3=Formula: Enchant Gloves - Frost Power", "=ds=#e2#", "", "14.3%" };
-    { 21, 20729, "", "=q3=Formula: Enchant Gloves - Fire Power", "=ds=#e2#", "", "14.3%" };
-    { 22, 20730, "", "=q3=Formula: Enchant Gloves - Healing Power", "=ds=#e2#", "", "14.3%" };
-    { 23, 20731, "", "=q3=Formula: Enchant Gloves - Superior Agility", "=ds=#e2#", "", "14.3%" };
-    { 24, 20734, "", "=q3=Formula: Enchant Cloak - Stealth", "=ds=#e2#", "", "14.3%" };
-    { 25, 20736, "", "=q3=Formula: Enchant Cloak - Dodge", "=ds=#e2#", "", "14.3%" };
+    { 1, 0, "AO_Unknown", "=q6=General Rajaxx", "=q5=ONE WILL DROP"};
+    { 2, 21492, "", "=q4=Manslayer of the Qiraji", "=ds=#w10#", "", "16.7%" };
+    { 3, 21493, "", "=q4=Boots of the Vanguard", "=ds=#a2#", "", "16.7%" };
+    { 4, 21494, "", "=q3=Southwind's Grasp", "=ds=#a2#", "", "16.7%" };
+    { 5, 21495, "", "=q3=Legplates of the Qiraji Command", "=ds=#a4#", "", "16.7%" };
+    { 6, 21496, "", "=q3=Bracers of Qiraji Command", "=ds=#a1#", "", "16.7%" };
+    { 7, 21497, "", "=q3=Boots of the Qiraji General", "=ds=#a3#", "", "16.7%" };
 	};
 
 	AtlasLoot_Data["AQ20Moam"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Moam", "=q5=CHANCE TO DROP"};
-    { 2, 22220, "", "=q3=Plans: Black Grasp of the Destroyer", "=ds=#e2#", "", "15.0%" };
-    { 3, 21302, "", "=q3=Handbook of Deadly Poison V", "=ds=#e2#", "", "3.85%" };
-    { 5, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
-    { 6, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "50.0%" };
-    { 7, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "50.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
-    { 10, 21467, "", "=q4=Thick Silithid Chestguard", "=ds=#a2#", "", "25.0%" };
-    { 11, 21471, "", "=q4=Talon of Furious Concentration", "=ds=#s15#", "", "25.0%" };
-    { 12, 21472, "", "=q4=Dustwind Turban", "=ds=#a1#", "", "25.0%" };
-    { 13, 21479, "", "=q4=Gauntlets of the Immovable", "=ds=#a4#", "", "25.0%" };
-    { 15, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
-    { 16, 21455, "", "=q3=Southwind Helm", "=ds=#a2#", "", "11.1%" };
-    { 17, 21468, "", "=q3=Mantle of Maz'Nadir", "=ds=#a1#", "", "11.1%" };
-    { 18, 21469, "", "=q3=Gauntlets of Southwind", "=ds=#a2#", "", "11.1%" };
-    { 19, 21470, "", "=q3=Cloak of the Savior", "=ds=#a1#", "", "11.1%" };
-    { 20, 21473, "", "=q3=Eye of Moam", "=ds=#s14#", "", "11.1%" };
-    { 21, 21474, "", "=q3=Chitinous Shoulderguards", "=ds=#a2#", "", "11.1%" };
-    { 22, 21475, "", "=q3=Legplates of the Destroyer", "=ds=#a4#", "", "11.1%" };
-    { 23, 21476, "", "=q3=Obsidian Scaled Leggings", "=ds=#a3#", "", "11.1%" };
-    { 24, 21477, "", "=q3=Ring of Fury", "=ds=#s13#", "", "11.1%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Moam", "=q5=ALL WILL DROP"};
+    { 2, 59337, "", "=q4=Qiraji Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Moam", "=q5=CHANCE TO DROP"};
+    { 5, 22220, "", "=q3=Plans: Black Grasp of the Destroyer", "=ds=#e2#", "", "15.0%" };
+    { 7, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
+    { 8, 21455, "", "=q3=Southwind Helm", "=ds=#a2#", "", "11.1%" };
+    { 9, 21468, "", "=q3=Mantle of Maz'Nadir", "=ds=#a1#", "", "11.1%" };
+    { 10, 21469, "", "=q3=Gauntlets of Southwind", "=ds=#a2#", "", "11.1%" };
+    { 11, 21470, "", "=q3=Cloak of the Savior", "=ds=#a1#", "", "11.1%" };
+    { 12, 21473, "", "=q3=Eye of Moam", "=ds=#s14#", "", "11.1%" };
+    { 13, 21474, "", "=q3=Chitinous Shoulderguards", "=ds=#a2#", "", "11.1%" };
+    { 14, 21475, "", "=q3=Legplates of the Destroyer", "=ds=#a4#", "", "11.1%" };
+    { 15, 21476, "", "=q3=Obsidian Scaled Leggings", "=ds=#a3#", "", "11.1%" };
+    { 16, 21477, "", "=q3=Ring of Fury", "=ds=#s13#", "", "11.1%" };
+    { 18, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
+    { 19, 21467, "", "=q4=Thick Silithid Chestguard", "=ds=#a2#", "", "25.0%" };
+    { 20, 21471, "", "=q4=Talon of Furious Concentration", "=ds=#s15#", "", "25.0%" };
+    { 21, 21472, "", "=q4=Dustwind Turban", "=ds=#a1#", "", "25.0%" };
+    { 22, 21479, "", "=q4=Gauntlets of the Immovable", "=ds=#a4#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["AQ20Buru"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Buru the Gorger", "=q5=CHANCE TO DROP"};
-    { 2, 21302, "", "=q3=Handbook of Deadly Poison V", "=ds=#e2#", "", "3.85%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Buru the Gorger", "=q5=ALL WILL DROP"};
+    { 2, 59337, "", "=q4=Qiraji Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Buru the Gorger", "=q5=ONE WILL DROP"};
-    { 5, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "25.0%" };
-    { 6, 20885, "", "=q3=Qiraji Martial Drape", "=ds=#m3#", "", "25.0%" };
-    { 7, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "25.0%" };
-    { 8, 20889, "", "=q3=Qiraji Regal Drape", "=ds=#m3#", "", "25.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Buru the Gorger", "=q5=ONE WILL DROP"};
-    { 11, 21488, "", "=q3=Fetish of Chitinous Spikes", "=ds=#s14#", "", "20.0%" };
-    { 12, 21489, "", "=q3=Quicksand Waders", "=ds=#a1#", "", "20.0%" };
-    { 13, 21490, "", "=q3=Slime Kickers", "=ds=#a4#", "", "20.0%" };
-    { 14, 21491, "", "=q3=Scaled Bracers of the Gorger", "=ds=#a2#", "", "20.0%" };
-    { 15, 21485, "", "=q4=Buru's Skull Fragment", "=ds=#w8#", "", "6.67%" };
-    { 16, 21486, "", "=q4=Gloves of the Swarm", "=ds=#a4#", "", "6.67%" };
-    { 17, 21487, "", "=q4=Slimy Scaled Gauntlets", "=ds=#a3#", "", "6.67%" };
-    { 19, 0, "AO_Unknown", "=q6=Buru the Gorger", "=q5=ONE WILL DROP"};
-    { 20, 20727, "", "=q3=Formula: Enchant Gloves - Shadow Power", "=ds=#e2#", "", "14.3%" };
-    { 21, 20728, "", "=q3=Formula: Enchant Gloves - Frost Power", "=ds=#e2#", "", "14.3%" };
-    { 22, 20729, "", "=q3=Formula: Enchant Gloves - Fire Power", "=ds=#e2#", "", "14.3%" };
-    { 23, 20730, "", "=q3=Formula: Enchant Gloves - Healing Power", "=ds=#e2#", "", "14.3%" };
-    { 24, 20731, "", "=q3=Formula: Enchant Gloves - Superior Agility", "=ds=#e2#", "", "14.3%" };
-    { 25, 20734, "", "=q3=Formula: Enchant Cloak - Stealth", "=ds=#e2#", "", "14.3%" };
-    { 26, 20736, "", "=q3=Formula: Enchant Cloak - Dodge", "=ds=#e2#", "", "14.3%" };
+    { 5, 21485, "", "=q4=Buru's Skull Fragment", "=ds=#w8#", "", "14.3%" };
+    { 6, 21486, "", "=q4=Gloves of the Swarm", "=ds=#a4#", "", "14.3%" };
+    { 7, 21487, "", "=q4=Slimy Scaled Gauntlets", "=ds=#a3#", "", "14.3%" };
+    { 8, 21488, "", "=q3=Fetish of Chitinous Spikes", "=ds=#s14#", "", "14.3%" };
+    { 9, 21489, "", "=q3=Quicksand Waders", "=ds=#a1#", "", "14.3%" };
+    { 10, 21490, "", "=q3=Slime Kickers", "=ds=#a4#", "", "14.3%" };
+    { 11, 21491, "", "=q3=Scaled Bracers of the Gorger", "=ds=#a2#", "", "14.3%" };
 	};
 
 	AtlasLoot_Data["AQ20Ayamiss"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Ayamiss the Hunter", "=q5=CHANCE TO DROP"};
-    { 2, 21302, "", "=q3=Handbook of Deadly Poison V", "=ds=#e2#", "", "3.85%" };
+    { 1, 0, "AO_ChestWithTreasures", "=q6=Ayamiss the Hunter", "=q5=ALL WILL DROP"};
+    { 2, 59337, "", "=q4=Qiraji Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Ayamiss the Hunter", "=q5=ONE WILL DROP"};
-    { 5, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "25.0%" };
-    { 6, 20885, "", "=q3=Qiraji Martial Drape", "=ds=#m3#", "", "25.0%" };
-    { 7, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "25.0%" };
-    { 8, 20889, "", "=q3=Qiraji Regal Drape", "=ds=#m3#", "", "25.0%" };
-    { 10, 0, "AO_Unknown", "=q6=Ayamiss the Hunter", "=q5=ONE WILL DROP"};
-    { 11, 21480, "", "=q3=Scaled Silithid Gauntlets", "=ds=#a3#", "", "16.0%" };
-    { 12, 21481, "", "=q3=Boots of the Desert Protector", "=ds=#a4#", "", "16.0%" };
-    { 13, 21482, "", "=q3=Boots of the Fiery Sands", "=ds=#a3#", "", "16.0%" };
-    { 14, 21483, "", "=q3=Ring of the Desert Winds", "=ds=#s13#", "", "16.0%" };
-    { 15, 21484, "", "=q3=Helm of Regrowth", "=ds=#a2#", "", "16.0%" };
-    { 16, 21466, "", "=q4=Stinger of Ayamiss", "=ds=#w6#", "", "6.67%" };
-    { 17, 21478, "", "=q4=Bow of Taut Sinew", "=ds=#w2#", "", "6.67%" };
-    { 18, 21479, "", "=q4=Gauntlets of the Immovable", "=ds=#a4#", "", "6.67%" };
-    { 20, 0, "AO_Unknown", "=q6=Ayamiss the Hunter", "=q5=ONE WILL DROP"};
-    { 21, 20727, "", "=q3=Formula: Enchant Gloves - Shadow Power", "=ds=#e2#", "", "14.3%" };
-    { 22, 20728, "", "=q3=Formula: Enchant Gloves - Frost Power", "=ds=#e2#", "", "14.3%" };
-    { 23, 20729, "", "=q3=Formula: Enchant Gloves - Fire Power", "=ds=#e2#", "", "14.3%" };
-    { 24, 20730, "", "=q3=Formula: Enchant Gloves - Healing Power", "=ds=#e2#", "", "14.3%" };
-    { 25, 20731, "", "=q3=Formula: Enchant Gloves - Superior Agility", "=ds=#e2#", "", "14.3%" };
-    { 26, 20734, "", "=q3=Formula: Enchant Cloak - Stealth", "=ds=#e2#", "", "14.3%" };
-    { 27, 20736, "", "=q3=Formula: Enchant Cloak - Dodge", "=ds=#e2#", "", "14.3%" };
+    { 5, 21466, "", "=q4=Stinger of Ayamiss", "=ds=#w6#", "", "12.5%" };
+    { 6, 21478, "", "=q4=Bow of Taut Sinew", "=ds=#w2#", "", "12.5%" };
+    { 7, 21479, "", "=q4=Gauntlets of the Immovable", "=ds=#a4#", "", "12.5%" };
+    { 8, 21480, "", "=q3=Scaled Silithid Gauntlets", "=ds=#a3#", "", "12.5%" };
+    { 9, 21481, "", "=q3=Boots of the Desert Protector", "=ds=#a4#", "", "12.5%" };
+    { 10, 21482, "", "=q3=Boots of the Fiery Sands", "=ds=#a3#", "", "12.5%" };
+    { 11, 21483, "", "=q3=Ring of the Desert Winds", "=ds=#s13#", "", "12.5%" };
+    { 12, 21484, "", "=q3=Helm of Regrowth", "=ds=#a2#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["AQ20Ossirian"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Ossirian the Unscarred", "=q5=ALL WILL DROP"};
     { 2, 21220, "", "=q4=Head of Ossirian the Unscarred", "=ds=#m3#", "", "100%" };
     { 3, 57604, "", "=q3=Pattern: Drums of Intellect", "=ds=#e2#", "", "100%" };
-    { 5, 0, "AO_Unknown", "=q6=Ossirian the Unscarred", "=q5=ONE WILL DROP"};
-    { 6, 20884, "", "=q3=Qiraji Magisterial Ring", "=ds=#m3#", "", "50.0%" };
-    { 7, 20888, "", "=q3=Qiraji Ceremonial Ring", "=ds=#m3#", "", "50.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Ossirian the Unscarred", "=q5=ONE WILL DROP"};
-    { 10, 20886, "", "=q4=Qiraji Spiked Hilt", "=ds=#m3#", "", "50.0%" };
-    { 11, 20890, "", "=q4=Qiraji Ornate Hilt", "=ds=#m3#", "", "50.0%" };
-    { 13, 0, "AO_Unknown", "=q6=Ossirian the Unscarred", "=q5=ONE WILL DROP"};
-    { 14, 21214, "", "=q3=Tome of Frostbolt XI", "=ds=#e2#", "", "11.1%" };
-    { 15, 21279, "", "=q3=Tome of Fireball XII", "=ds=#e2#", "", "11.1%" };
-    { 16, 21280, "", "=q3=Tome of Arcane Missiles VIII", "=ds=#e2#", "", "11.1%" };
-    { 17, 21281, "", "=q3=Grimoire of Shadow Bolt X", "=ds=#e2#", "", "11.1%" };
-    { 18, 21282, "", "=q3=Grimoire of Immolate VIII", "=ds=#e2#", "", "11.1%" };
-    { 19, 21283, "", "=q3=Grimoire of Corruption VII", "=ds=#e2#", "", "11.1%" };
-    { 20, 21288, "", "=q3=Libram: Blessing of Wisdom VI", "=ds=#e2#", "", "11.1%" };
-    { 21, 21291, "", "=q3=Tablet of Healing Wave X", "=ds=#e2#", "", "11.1%" };
-    { 22, 21297, "", "=q3=Manual of Heroic Strike IX", "=ds=#e2#", "", "11.1%" };
+    { 4, 59337, "", "=q4=Qiraji Weapon Cache", "=ds=#e10#", "", "100%" };
+    { 6, 0, "AO_Unknown", "=q6=Ossirian the Unscarred", "=q5=ONE WILL DROP"};
+    { 7, 20727, "", "=q3=Formula: Enchant Gloves - Shadow Power", "=ds=#e2#", "", "14.3%" };
+    { 8, 20728, "", "=q3=Formula: Enchant Gloves - Frost Power", "=ds=#e2#", "", "14.3%" };
+    { 9, 20729, "", "=q3=Formula: Enchant Gloves - Fire Power", "=ds=#e2#", "", "14.3%" };
+    { 10, 20730, "", "=q3=Formula: Enchant Gloves - Healing Power", "=ds=#e2#", "", "14.3%" };
+    { 11, 20731, "", "=q3=Formula: Enchant Gloves - Superior Agility", "=ds=#e2#", "", "14.3%" };
+    { 12, 20734, "", "=q3=Formula: Enchant Cloak - Stealth", "=ds=#e2#", "", "14.3%" };
+    { 13, 20736, "", "=q3=Formula: Enchant Cloak - Dodge", "=ds=#e2#", "", "14.3%" };
+    { 16, 0, "AO_Unknown", "=q6=Ossirian the Unscarred", "=q5=ONE WILL DROP"};
+    { 17, 21457, "", "=q4=Bracers of Brutality", "=ds=#a4#", "", "15.0%" };
+    { 18, 21460, "", "=q4=Helm of Domination", "=ds=#a4#", "", "15.0%" };
+    { 19, 21461, "", "=q4=Leggings of the Black Blizzard", "=ds=#a1#", "", "15.0%" };
+    { 20, 21462, "", "=q4=Gloves of Dark Wisdom", "=ds=#a1#", "", "15.0%" };
+    { 21, 21463, "", "=q4=Ossirian's Binding", "=ds=#a3#", "", "15.0%" };
+    { 22, 21464, "", "=q4=Shackles of the Unscarred", "=ds=#a1#", "", "15.0%" };
+    { 23, 21459, "", "=q4=Crossbow of Imminent Doom", "=ds=#w3#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["AQ20Trash"] = {
@@ -538,9 +481,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		-------------------------
 
 	AtlasLoot_Data["BFDGhamoora"] = {
-    { 1, 0, "AO_Unknown", "=q6=Ghamoo-ra", "=q5=ONE WILL DROP"};
-    { 2, 6908, "", "=q2=Ghamoo-ra's Bind", "=ds=#a1#", "", "60.0%" };
-    { 3, 6907, "", "=q3=Tortoise Armor", "=ds=#a3#", "", "40.0%" };
+    { 1, 0, "RoM_stellar_dice", "=q6=Ghamoo-ra", "=q5=CHANCE TO DROP"};
+    { 2, 23720, "", "=q3=Riding Turtle", "=ds=#e10#", "", "50.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Ghamoo-ra", "=q5=ONE WILL DROP"};
+    { 5, 6908, "", "=q2=Ghamoo-ra's Bind", "=ds=#a1#", "", "60.0%" };
+    { 6, 6907, "", "=q3=Tortoise Armor", "=ds=#a3#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["BFDSarevess"] = {
@@ -955,17 +900,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSOmokk"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Highlord Omokk", "=q5=ALL WILL DROP"};
-    { 2, 12336, "", "=q2=Gemstone of Spirestone", "=ds=#m3#", "", "100%" };
-    { 3, 12534, "", "=q1=Omokk's Head", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Highlord Omokk", "=q5=CHANCE TO DROP"};
-    { 6, 21982, "", "=q1=Ogre Warbeads", "=ds=#m3#", "", "80.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Highlord Omokk", "=q5=ONE WILL DROP"};
-    { 9, 13166, "", "=q3=Slamshot Shoulders", "=ds=#a4#", "", "16.7%" };
-    { 10, 13167, "", "=q3=Fist of Omokk", "=ds=#w6#", "", "16.7%" };
-    { 11, 13168, "", "=q3=Plate of the Shaman King", "=ds=#a4#", "", "16.7%" };
-    { 12, 13169, "", "=q3=Tressermane Leggings", "=ds=#a2#", "", "16.7%" };
-    { 13, 13170, "", "=q3=Skyshroud Leggings", "=ds=#a1#", "", "16.7%" };
-    { 14, 16670, "", "=q3=Boots of Elements", "=ds=#a3#", "", "16.7%" };
+    { 2, 12534, "", "=q1=Omokk's Head", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Highlord Omokk", "=q5=CHANCE TO DROP"};
+    { 5, 21982, "", "=q1=Ogre Warbeads", "=ds=#m3#", "", "80.0%" };
+    { 7, 0, "AO_Unknown", "=q6=Highlord Omokk", "=q5=ONE WILL DROP"};
+    { 8, 13166, "", "=q3=Slamshot Shoulders", "=ds=#a4#", "", "16.7%" };
+    { 9, 13167, "", "=q3=Fist of Omokk", "=ds=#w6#", "", "16.7%" };
+    { 10, 13168, "", "=q3=Plate of the Shaman King", "=ds=#a4#", "", "16.7%" };
+    { 11, 13169, "", "=q3=Tressermane Leggings", "=ds=#a2#", "", "16.7%" };
+    { 12, 13170, "", "=q3=Skyshroud Leggings", "=ds=#a1#", "", "16.7%" };
+    { 13, 16670, "", "=q3=Boots of Elements", "=ds=#a3#", "", "16.7%" };
 	};
 
 	AtlasLoot_Data["LBRSSpirestoneLord"] = {
@@ -997,14 +941,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSVoone"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=War Master Voone", "=q5=ALL WILL DROP"};
-    { 2, 12335, "", "=q2=Gemstone of Smolderthorn", "=ds=#m3#", "", "100%" };
-    { 3, 28972, "", "=q3=Flightblade Throwing Axe", "=ds=#w11#", "", "100%" };
-    { 5, 0, "AO_Unknown", "=q6=War Master Voone", "=q5=ONE WILL DROP"};
-    { 6, 12582, "", "=q3=Keris of Zul'Serak", "=ds=#w4#", "", "20.0%" };
-    { 7, 13177, "", "=q3=Talisman of Evasion", "=ds=#s2#", "", "20.0%" };
-    { 8, 13179, "", "=q3=Brazecore Armguards", "=ds=#a3#", "", "20.0%" };
-    { 9, 16676, "", "=q3=Beaststalker's Gloves", "=ds=#a3#", "", "20.0%" };
-    { 10, 22231, "", "=q3=Kayser's Boots of Precision", "=ds=#a1#", "", "20.0%" };
+    { 2, 28972, "", "=q3=Flightblade Throwing Axe", "=ds=#w11#", "", "100%" };
+    { 4, 0, "AO_Unknown", "=q6=War Master Voone", "=q5=ONE WILL DROP"};
+    { 5, 12582, "", "=q3=Keris of Zul'Serak", "=ds=#w4#", "", "20.0%" };
+    { 6, 13177, "", "=q3=Talisman of Evasion", "=ds=#s2#", "", "20.0%" };
+    { 7, 13179, "", "=q3=Brazecore Armguards", "=ds=#a3#", "", "20.0%" };
+    { 8, 16676, "", "=q3=Beaststalker's Gloves", "=ds=#a3#", "", "20.0%" };
+    { 9, 22231, "", "=q3=Kayser's Boots of Precision", "=ds=#a1#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["LBRSGrayhoof"] = {
@@ -1090,18 +1033,17 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["LBRSWyrmthalak"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Overlord Wyrmthalak", "=q5=ALL WILL DROP"};
-    { 2, 12337, "", "=q2=Gemstone of Bloodaxe", "=ds=#m3#", "", "100%" };
-    { 3, 12780, "", "=q1=General Drakkisath's Command", "=ds=#m3#", "", "100%" };
-    { 4, 901715, "", "=q1=Wyrmthalak's War Horn", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Overlord Wyrmthalak", "=q5=CHANCE TO DROP"};
-    { 7, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
-    { 8, 13143, "", "=q4=Mark of the Dragon Lord", "=ds=#s13#", "", "2.00%" };
-    { 10, 0, "AO_Unknown", "=q6=Overlord Wyrmthalak", "=q5=ONE WILL DROP"};
-    { 11, 13161, "", "=q3=Trindlehaven Staff", "=ds=#w9#", "", "20.0%" };
-    { 12, 13162, "", "=q3=Reiver Claws", "=ds=#a4#", "", "20.0%" };
-    { 13, 13163, "", "=q3=Relentless Scythe", "=ds=#w10#", "", "20.0%" };
-    { 14, 16679, "", "=q3=Beaststalker's Mantle", "=ds=#a3#", "", "20.0%" };
-    { 15, 22321, "", "=q3=Heart of Wyrmthalak", "=ds=#s14#", "", "20.0%" };
+    { 2, 12780, "", "=q1=General Drakkisath's Command", "=ds=#m3#", "", "100%" };
+    { 3, 901715, "", "=q1=Wyrmthalak's War Horn", "=ds=#m3#", "", "100%" };
+    { 5, 0, "RoM_stellar_dice", "=q6=Overlord Wyrmthalak", "=q5=CHANCE TO DROP"};
+    { 6, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
+    { 7, 13143, "", "=q4=Mark of the Dragon Lord", "=ds=#s13#", "", "2.00%" };
+    { 9, 0, "AO_Unknown", "=q6=Overlord Wyrmthalak", "=q5=ONE WILL DROP"};
+    { 10, 13161, "", "=q3=Trindlehaven Staff", "=ds=#w9#", "", "20.0%" };
+    { 11, 13162, "", "=q3=Reiver Claws", "=ds=#a4#", "", "20.0%" };
+    { 12, 13163, "", "=q3=Relentless Scythe", "=ds=#w10#", "", "20.0%" };
+    { 13, 16679, "", "=q3=Beaststalker's Mantle", "=ds=#a3#", "", "20.0%" };
+    { 14, 22321, "", "=q3=Heart of Wyrmthalak", "=ds=#s14#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["LBRSFelguard"] = {
@@ -1272,12 +1214,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MCLucifron"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Lucifron", "=q5=ALL WILL DROP"};
-    { 2, 16665, "", "=q2=Tome of Tranquilizing Shot", "=ds=#e2#", "", "100%" };
-    { 3, 17329, "", "=q1=Hand of Lucifron", "=ds=#m3#", "", "100%" };
-    { 4, 59303, "", "=q4=Flamewaker Armor Cache - Gloves", "=ds=#e10#", "", "100%" };
-    { 5, 59305, "", "=q4=Flamewaker Armor Cache - Boots", "=ds=#e10#", "", "100%" };
-    { 7, 0, "RoM_stellar_dice", "=q6=Lucifron", "=q5=CHANCE TO DROP"};
-    { 8, 7078, "", "=q2=Essence of Fire", "=ds=#e7#", "", "40.0%" };
+    { 2, 17329, "", "=q1=Hand of Lucifron", "=ds=#m3#", "", "100%" };
+    { 3, 59303, "", "=q4=Flamewaker Armor Cache - Gloves", "=ds=#e10#", "", "100%" };
+    { 4, 59305, "", "=q4=Flamewaker Armor Cache - Boots", "=ds=#e10#", "", "100%" };
+    { 6, 0, "RoM_stellar_dice", "=q6=Lucifron", "=q5=CHANCE TO DROP"};
+    { 7, 7078, "", "=q2=Essence of Fire", "=ds=#e7#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["MCMagmadar"] = {
@@ -1333,20 +1274,23 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["MCShazzrah"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Shazzrah", "=q5=ALL WILL DROP"};
-    { 2, 59303, "", "=q4=Flamewaker Armor Cache - Gloves", "=ds=#e10#", "", "100%" };
-    { 3, 59305, "", "=q4=Flamewaker Armor Cache - Boots", "=ds=#e10#", "", "100%" };
-    { 4, 57100, "", "=q4=Formula: Mystic Resonator", "=ds=#e2#", "", "100%" };
-    { 6, 0, "AO_Unknown", "=q6=Shazzrah", "=q5=ONE WILL DROP"};
-    { 7, 17077, "", "=q4=Crimson Shocker", "=ds=#w12#", "", "10.0%" };
-    { 8, 18861, "", "=q4=Flamewaker Legplates", "=ds=#a4#", "", "10.0%" };
-    { 9, 18870, "", "=q4=Helm of the Lifegiver", "=ds=#a3#", "", "10.0%" };
-    { 10, 18872, "", "=q4=Manastorm Leggings", "=ds=#a1#", "", "10.0%" };
-    { 11, 18875, "", "=q4=Salamander Scale Pants", "=ds=#a2#", "", "10.0%" };
-    { 12, 18878, "", "=q4=Sorcerous Dagger", "=ds=#w4#", "", "10.0%" };
-    { 13, 18879, "", "=q4=Heavy Dark Iron Ring", "=ds=#s13#", "", "10.0%" };
-    { 14, 19145, "", "=q4=Robe of Volatile Power", "=ds=#a1#", "", "10.0%" };
-    { 15, 19146, "", "=q4=Wristguards of Stability", "=ds=#a2#", "", "10.0%" };
-    { 16, 19147, "", "=q4=Ring of Spell Power", "=ds=#s13#", "", "10.0%" };
+    { 2, 17332, "", "=q1=Hand of Shazzrah", "=ds=#m3#", "", "100%" };
+    { 3, 59303, "", "=q4=Flamewaker Armor Cache - Gloves", "=ds=#e10#", "", "100%" };
+    { 4, 59305, "", "=q4=Flamewaker Armor Cache - Boots", "=ds=#e10#", "", "100%" };
+    { 6, 0, "RoM_stellar_dice", "=q6=Shazzrah", "=q5=CHANCE TO DROP"};
+    { 7, 7078, "", "=q2=Essence of Fire", "=ds=#e7#", "", "40.0%" };
+    { 8, 57100, "", "=q4=Formula: Mystic Resonator", "=ds=#e2#", "", "5.00%" };
+    { 16, 0, "AO_Unknown", "=q6=Shazzrah", "=q5=ONE WILL DROP"};
+    { 17, 17077, "", "=q4=Crimson Shocker", "=ds=#w12#", "", "10.0%" };
+    { 18, 18861, "", "=q4=Flamewaker Legplates", "=ds=#a4#", "", "10.0%" };
+    { 19, 18870, "", "=q4=Helm of the Lifegiver", "=ds=#a3#", "", "10.0%" };
+    { 20, 18872, "", "=q4=Manastorm Leggings", "=ds=#a1#", "", "10.0%" };
+    { 21, 18875, "", "=q4=Salamander Scale Pants", "=ds=#a2#", "", "10.0%" };
+    { 22, 18878, "", "=q4=Sorcerous Dagger", "=ds=#w4#", "", "10.0%" };
+    { 23, 18879, "", "=q4=Heavy Dark Iron Ring", "=ds=#s13#", "", "10.0%" };
+    { 24, 19145, "", "=q4=Robe of Volatile Power", "=ds=#a1#", "", "10.0%" };
+    { 25, 19146, "", "=q4=Wristguards of Stability", "=ds=#a2#", "", "10.0%" };
+    { 26, 19147, "", "=q4=Ring of Spell Power", "=ds=#s13#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["MCGeddon"] = {
@@ -1625,22 +1569,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 21138, "", "=q1=Red Scepter Shard", "=ds=#m3#", "", "100%" };
     { 5, 58309, "", "=q3=Nefarian's Massive Sack", "=ds=#e10#", "", "100%" };
     { 6, 59308, "", "=q4=Blackwing Armor Cache - Chest", "=ds=#e10#", "", "100%" };
-    { 8, 0, "RoM_stellar_dice", "=q6=Nefarian", "=q5=CHANCE TO DROP"};
-    { 9, 100002, "", "=q3=Tome: Greater Blessing of Kings", "=ds=#e2#", "", "15.0%" };
+    { 8, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
+    { 9, 19375, "", "=q4=Mish'undare, Circlet of the Mind Flayer", "=ds=#a1#", "", "20.0%" };
+    { 10, 19376, "", "=q4=Archimtiros' Ring of Reckoning", "=ds=#s13#", "", "20.0%" };
+    { 11, 19377, "", "=q4=Prestor's Talisman of Connivery", "=ds=#s2#", "", "20.0%" };
+    { 12, 19378, "", "=q4=Cloak of the Brood Lord", "=ds=#a1#", "", "20.0%" };
+    { 13, 19360, "", "=q4=Lok'amir il Romathis", "=ds=#w6#", "", "10.0%" };
+    { 14, 19363, "", "=q4=Crul'shorukh, Edge of Chaos", "=ds=#w1#", "", "10.0%" };
     { 16, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
-    { 17, 19375, "", "=q4=Mish'undare, Circlet of the Mind Flayer", "=ds=#a1#", "", "20.0%" };
-    { 18, 19376, "", "=q4=Archimtiros' Ring of Reckoning", "=ds=#s13#", "", "20.0%" };
-    { 19, 19377, "", "=q4=Prestor's Talisman of Connivery", "=ds=#s2#", "", "20.0%" };
-    { 20, 19378, "", "=q4=Cloak of the Brood Lord", "=ds=#a1#", "", "20.0%" };
-    { 21, 19360, "", "=q4=Lok'amir il Romathis", "=ds=#w6#", "", "10.0%" };
-    { 22, 19363, "", "=q4=Crul'shorukh, Edge of Chaos", "=ds=#w1#", "", "10.0%" };
-    { 24, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
-    { 25, 19379, "", "=q4=Neltharion's Tear", "=ds=#s14#", "", "20.0%" };
-    { 26, 19380, "", "=q4=Therazane's Link", "=ds=#a3#", "", "20.0%" };
-    { 27, 19381, "", "=q4=Boots of the Shadow Flame", "=ds=#a2#", "", "20.0%" };
-    { 28, 19382, "", "=q4=Pure Elementium Band", "=ds=#s13#", "", "20.0%" };
-    { 29, 19356, "", "=q4=Staff of the Shadow Flame", "=ds=#w9#", "", "10.0%" };
-    { 30, 19364, "", "=q4=Ashkandi, Greatsword of the Brotherhood", "=ds=#w10#", "", "10.0%" };
+    { 17, 19379, "", "=q4=Neltharion's Tear", "=ds=#s14#", "", "20.0%" };
+    { 18, 19380, "", "=q4=Therazane's Link", "=ds=#a3#", "", "20.0%" };
+    { 19, 19381, "", "=q4=Boots of the Shadow Flame", "=ds=#a2#", "", "20.0%" };
+    { 20, 19382, "", "=q4=Pure Elementium Band", "=ds=#s13#", "", "20.0%" };
+    { 21, 19356, "", "=q4=Staff of the Shadow Flame", "=ds=#w9#", "", "10.0%" };
+    { 22, 19364, "", "=q4=Ashkandi, Greatsword of the Brotherhood", "=ds=#w10#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["BWLNefarian2"] = {
@@ -1650,22 +1592,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 4, 21138, "", "=q1=Red Scepter Shard", "=ds=#m3#", "", "100%" };
     { 5, 58309, "", "=q3=Nefarian's Massive Sack", "=ds=#e10#", "", "100%" };
     { 6, 59308, "", "=q4=Blackwing Armor Cache - Chest", "=ds=#e10#", "", "100%" };
-    { 8, 0, "RoM_stellar_dice", "=q6=Nefarian", "=q5=CHANCE TO DROP"};
-    { 9, 100002, "", "=q3=Tome: Greater Blessing of Kings", "=ds=#e2#", "", "15.0%" };
+    { 8, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
+    { 9, 19375, "", "=q4=Mish'undare, Circlet of the Mind Flayer", "=ds=#a1#", "", "20.0%" };
+    { 10, 19376, "", "=q4=Archimtiros' Ring of Reckoning", "=ds=#s13#", "", "20.0%" };
+    { 11, 19377, "", "=q4=Prestor's Talisman of Connivery", "=ds=#s2#", "", "20.0%" };
+    { 12, 19378, "", "=q4=Cloak of the Brood Lord", "=ds=#a1#", "", "20.0%" };
+    { 13, 19360, "", "=q4=Lok'amir il Romathis", "=ds=#w6#", "", "10.0%" };
+    { 14, 19363, "", "=q4=Crul'shorukh, Edge of Chaos", "=ds=#w1#", "", "10.0%" };
     { 16, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
-    { 17, 19375, "", "=q4=Mish'undare, Circlet of the Mind Flayer", "=ds=#a1#", "", "20.0%" };
-    { 18, 19376, "", "=q4=Archimtiros' Ring of Reckoning", "=ds=#s13#", "", "20.0%" };
-    { 19, 19377, "", "=q4=Prestor's Talisman of Connivery", "=ds=#s2#", "", "20.0%" };
-    { 20, 19378, "", "=q4=Cloak of the Brood Lord", "=ds=#a1#", "", "20.0%" };
-    { 21, 19360, "", "=q4=Lok'amir il Romathis", "=ds=#w6#", "", "10.0%" };
-    { 22, 19363, "", "=q4=Crul'shorukh, Edge of Chaos", "=ds=#w1#", "", "10.0%" };
-    { 24, 0, "AO_Unknown", "=q6=Nefarian", "=q5=ONE WILL DROP"};
-    { 25, 19379, "", "=q4=Neltharion's Tear", "=ds=#s14#", "", "20.0%" };
-    { 26, 19380, "", "=q4=Therazane's Link", "=ds=#a3#", "", "20.0%" };
-    { 27, 19381, "", "=q4=Boots of the Shadow Flame", "=ds=#a2#", "", "20.0%" };
-    { 28, 19382, "", "=q4=Pure Elementium Band", "=ds=#s13#", "", "20.0%" };
-    { 29, 19356, "", "=q4=Staff of the Shadow Flame", "=ds=#w9#", "", "10.0%" };
-    { 30, 19364, "", "=q4=Ashkandi, Greatsword of the Brotherhood", "=ds=#w10#", "", "10.0%" };
+    { 17, 19379, "", "=q4=Neltharion's Tear", "=ds=#s14#", "", "20.0%" };
+    { 18, 19380, "", "=q4=Therazane's Link", "=ds=#a3#", "", "20.0%" };
+    { 19, 19381, "", "=q4=Boots of the Shadow Flame", "=ds=#a2#", "", "20.0%" };
+    { 20, 19382, "", "=q4=Pure Elementium Band", "=ds=#s13#", "", "20.0%" };
+    { 21, 19356, "", "=q4=Staff of the Shadow Flame", "=ds=#w9#", "", "10.0%" };
+    { 22, 19364, "", "=q4=Ashkandi, Greatsword of the Brotherhood", "=ds=#w10#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["BWLTrashMobs"] = {
@@ -2500,9 +2440,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCKresh"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Kresh", "=q5=CHANCE TO DROP"};
     { 2, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Kresh", "=q5=ONE WILL DROP"};
-    { 5, 6447, "", "=q3=Worn Turtle Shell Shield", "=ds=#w8#", "", "90.0%" };
-    { 6, 13245, "", "=q3=Kresh's Back", "=ds=#w8#", "", "10.0%" };
+    { 3, 13245, "", "=q3=Kresh's Back", "=ds=#w8#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["WCAnacondra"] = {
@@ -2510,9 +2448,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 9739, "", "=q1=Gem of Anacondra", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Lady Anacondra", "=q5=CHANCE TO DROP"};
     { 5, 57466, "", "=q2=Technique: Scroll of Arcane Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Lady Anacondra", "=q5=ONE WILL DROP"};
-    { 8, 5404, "", "=q3=Serpent's Shoulders", "=ds=#a2#", "", "80.0%" };
-    { 9, 10412, "", "=q2=Belt of the Fang", "=ds=#a2#", "", "10.0%" };
+    { 6, 10412, "", "=q2=Belt of the Fang", "=ds=#a2#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["WCCobrahn"] = {
@@ -3447,7 +3383,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 100003, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
     { 10, 13340, "", "=q3=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
-    { 11, 13335, "", "=q3=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
+    { 11, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
     { 16, 0, "AO_Unknown", "=q6=Baron Rivendare", "=q5=ONE WILL DROP"};
     { 17, 13344, "", "=q3=Dracorian Gauntlets", "=ds=#a3#", "", "8.70%" };
     { 18, 13345, "", "=q3=Seal of Rivendare", "=ds=#s13#", "", "8.70%" };
@@ -3508,7 +3444,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Kam Deepfury", "=q5=ALL WILL DROP"};
     { 2, 3640, "", "=q1=Head of Deepfury", "=ds=#m3#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Kam Deepfury", "=q5=ONE WILL DROP"};
-    { 5, 2280, "", "=q2=Walking Stick of Kam", "=ds=#w9#", "", "33.3%" };
+    { 5, 2280, "", "=q3=Walking Stick of Kam", "=ds=#w9#", "", "33.3%" };
     { 6, 901102, "", "=q3=Tim Kam Slam", "=ds=#w6#", "", "33.3%" };
     { 7, 901103, "", "=q3=Deepfury Mantle", "=ds=#a3#", "", "33.3%" };
 	};
@@ -4163,17 +4099,18 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Jin'do the Hexxer", "=q5=ALL WILL DROP"};
     { 2, 22637, "", "=q3=Primal Hakkari Idol", "=ds=#e10#", "", "100%" };
     { 4, 0, "AO_Unknown", "=q6=Jin'do the Hexxer", "=q5=ONE WILL DROP"};
-    { 5, 19884, "", "=q4=Jin'do's Judgement", "=ds=#w9#", "", "9.09%" };
-    { 6, 19885, "", "=q4=Jin'do's Evil Eye", "=ds=#s2#", "", "9.09%" };
-    { 7, 19886, "", "=q3=The Hexxer's Cover", "=ds=#a1#", "", "9.09%" };
-    { 8, 19887, "", "=q3=Bloodstained Legplates", "=ds=#a3#", "", "9.09%" };
-    { 9, 19888, "", "=q3=Overlord's Embrace", "=ds=#a1#", "", "9.09%" };
-    { 10, 19889, "", "=q3=Blooddrenched Leggings", "=ds=#a2#", "", "9.09%" };
-    { 11, 19890, "", "=q4=Jin'do's Hexxer", "=ds=#w6#", "", "9.09%" };
-    { 12, 19891, "", "=q4=Jin'do's Bag of Whammies", "=ds=#s15#", "", "9.09%" };
-    { 13, 19892, "", "=q3=Animist's Boots", "=ds=#a2#", "", "9.09%" };
-    { 14, 19894, "", "=q3=Bloodsoaked Gauntlets", "=ds=#a4#", "", "9.09%" };
-    { 15, 19929, "", "=q3=Bloodtinged Gloves", "=ds=#a1#", "", "9.09%" };
+    { 5, 19875, "", "=q3=Bloodstained Coif", "=ds=#a3#", "", "8.33%" };
+    { 6, 19884, "", "=q4=Jin'do's Judgement", "=ds=#w9#", "", "8.33%" };
+    { 7, 19885, "", "=q4=Jin'do's Evil Eye", "=ds=#s2#", "", "8.33%" };
+    { 8, 19886, "", "=q3=The Hexxer's Cover", "=ds=#a1#", "", "8.33%" };
+    { 9, 19887, "", "=q3=Bloodstained Legplates", "=ds=#a3#", "", "8.33%" };
+    { 10, 19888, "", "=q3=Overlord's Embrace", "=ds=#a1#", "", "8.33%" };
+    { 11, 19889, "", "=q3=Blooddrenched Leggings", "=ds=#a2#", "", "8.33%" };
+    { 12, 19890, "", "=q4=Jin'do's Hexxer", "=ds=#w6#", "", "8.33%" };
+    { 13, 19891, "", "=q4=Jin'do's Bag of Whammies", "=ds=#s15#", "", "8.33%" };
+    { 14, 19892, "", "=q3=Animist's Boots", "=ds=#a2#", "", "8.33%" };
+    { 15, 19894, "", "=q3=Bloodsoaked Gauntlets", "=ds=#a4#", "", "8.33%" };
+    { 16, 19929, "", "=q3=Bloodtinged Gloves", "=ds=#a1#", "", "8.33%" };
 	};
 
 	AtlasLoot_Data["ZGHakkar"] = {

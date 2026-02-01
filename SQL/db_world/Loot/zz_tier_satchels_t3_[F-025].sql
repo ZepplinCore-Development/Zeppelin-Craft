@@ -116,7 +116,7 @@ DELETE FROM `item_template` WHERE `entry` BETWEEN 59329 AND 59336;
 INSERT INTO `item_template` SET
     `entry` = 59329,
     `class` = 12,
-    `name` = '"Thaddiuss Power Core"',
+    `name` = 'Thaddius''s Power Core',
     `displayid` = 135999,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -127,7 +127,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59330,
     `class` = 12,
-    `name` = '"Grobbuluss Injection Vial"',
+    `name` = 'Grobbulus''s Injection Vial',
     `displayid` = 134437,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -138,7 +138,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59331,
     `class` = 12,
-    `name` = '"KelThuzads Phylactery Fragment"',
+    `name` = 'Kel''Thuzad''s Phylactery Fragment',
     `displayid` = 134229,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -149,7 +149,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59332,
     `class` = 12,
-    `name` = '"Loathebs Spore Essence"',
+    `name` = 'Loatheb''s Spore Essence',
     `displayid` = 134206,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -160,7 +160,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59333,
     `class` = 12,
-    `name` = '"Gothiks Unholy Sigil"',
+    `name` = 'Gothik''s Unholy Sigil',
     `displayid` = 133168,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -171,7 +171,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59334,
     `class` = 12,
-    `name` = '"Faerlinas Webbing"',
+    `name` = 'Faerlina''s Webbing',
     `displayid` = 132598,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -182,7 +182,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59335,
     `class` = 12,
-    `name` = '"Maexxnas Fang"',
+    `name` = 'Maexxna''s Fang',
     `displayid` = 135993,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -193,7 +193,7 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 59336,
     `class` = 12,
-    `name` = '"Heigans Plague Vial"',
+    `name` = 'Heigan''s Plague Vial',
     `displayid` = 134799,
     `Quality` = 4,
     `ItemLevel` = 92,
@@ -1829,7 +1829,7 @@ INSERT INTO `creature_loot_template` SET
 INSERT INTO `creature_loot_template` SET
     `Entry` = 351000,
     `Item` = 59329,
-    `Comment` = '"Thaddius - Thaddiuss Power Core (F-025)"';
+    `Comment` = 'Thaddius - Thaddius''s Power Core (F-025)';
 
 -- Grobbulus (351003) + Patchwerk (351028) - Shoulder Cache + Injection Vial
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (351003, 351028) AND `Item` IN (22361, 59322, 59330);
@@ -1842,7 +1842,7 @@ INSERT INTO `creature_loot_template` SET
 INSERT INTO `creature_loot_template` SET
     `Entry` = 351003,
     `Item` = 59330,
-    `Comment` = '"Grobbulus - Grobbuluss Injection Vial (F-025)"';
+    `Comment` = 'Grobbulus - Grobbulus''s Injection Vial (F-025)';
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 351028,
