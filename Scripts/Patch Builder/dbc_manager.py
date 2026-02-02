@@ -2,6 +2,20 @@
 """
 dbc-mgr: DBC Database Manager for Zeppelin Server
 
+DEPRECATED: This script is being replaced by 'zep dbc' commands.
+Use the following instead:
+    zep dbc status              # Check for uncommitted changes
+    zep dbc diff [--sql]        # Show differences between databases
+    zep dbc rebuild [--dry-run] # Rebuild from zpak sources
+    zep dbc query "..."         # Query DBC database
+    zep dbc modify --task F-XXX # Modify with tracking
+    zep dbc import-module       # Import binary DBC files
+    zep dbc export              # Export to binary DBC files
+
+This script will continue to work but will be removed in a future version.
+
+---
+
 Four-database architecture for safe, traceable DBC editing:
   - original_dbc: Pristine 3.3.5a stock (never modified)
   - scratch_dbc: Temp workspace during imports/rebuilds

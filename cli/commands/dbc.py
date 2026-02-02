@@ -809,6 +809,249 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
 
 # =============================================================================
+# Apply Command
+# =============================================================================
+
+@dbc.command('apply')
+@click.argument('target', required=False)
+@click.option('--task', '-t', 'task_id',
+              help='Apply only files for specific task (F-XXX or I-XXX)')
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Apply from specific zpak only')
+@click.option('--dry-run', is_flag=True,
+              help='Preview without applying')
+@click.pass_context
+def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Optional[str],
+              dry_run: bool):
+    """Apply existing zpak DBC files to databases.
+
+    Use this when you've manually created/edited DBC SQL files in a zpak
+    and want to apply them without the modify command's save step.
+
+    Examples:
+        zep dbc apply                           # Apply all zpak DBC files
+        zep dbc apply --task F-212              # Apply only F-212_*.sql files
+        zep dbc apply --zpak mage-tanking       # Apply from specific zpak
+        zep dbc apply zpaks/my-zpak/dbc/F-212_spell.sql  # Apply specific file
+    """
+    craft_root = ctx.obj['craft_root']
+    config = get_dbc_config(ctx)
+
+    files_to_apply = []
+
+    if target:
+        # Apply specific file
+        target_path = Path(target)
+        if not target_path.is_absolute():
+            target_path = craft_root / target
+        if not target_path.exists():
+            raise click.ClickException(f"File not found: {target_path}")
+        files_to_apply.append(target_path)
+    else:
+        # Collect files from zpaks
+        sources = collect_dbc_sources(craft_root)
+
+        for priority, name, dbc_path, sql_files in sources:
+            # Filter by zpak name
+            if zpak_name and name != zpak_name:
+                continue
+
+            for sql_file in sql_files:
+                # Filter by task ID
+                if task_id:
+                    if not sql_file.name.startswith(f"{task_id}_"):
+                        continue
+                files_to_apply.append(sql_file)
+
+    if not files_to_apply:
+        click.echo("No files to apply")
+        return
+
+    click.echo(f"Files to apply ({len(files_to_apply)}):")
+    for f in files_to_apply:
+        click.echo(f"  {f.relative_to(craft_root)}")
+
+    if dry_run:
+        click.echo(click.style("\nDRY RUN - no changes made", fg='yellow'))
+        return
+
+    # Apply to live and expected databases
+    errors = []
+    for sql_file in files_to_apply:
+        click.echo(f"\nApplying {sql_file.name}...")
+
+        with open(sql_file) as f:
+            sql = f.read()
+
+        if not sql.strip():
+            click.echo("  (empty file, skipped)")
+            continue
+
+        # Apply to live
+        success, output = run_sql(sql, config, config.live)
+        if not success:
+            errors.append((sql_file.name, f"live: {output}"))
+            click.echo(click.style(f"  {config.live}: FAILED", fg='red'))
+        else:
+            click.echo(click.style(f"  {config.live}: OK", fg='green'))
+
+        # Apply to expected
+        success, output = run_sql(sql, config, config.expected)
+        if not success:
+            errors.append((sql_file.name, f"expected: {output}"))
+            click.echo(click.style(f"  {config.expected}: FAILED", fg='red'))
+        else:
+            click.echo(click.style(f"  {config.expected}: OK", fg='green'))
+
+    click.echo()
+    if errors:
+        click.echo(click.style("Completed with errors:", fg='yellow'))
+        for name, err in errors:
+            click.echo(f"  {name}: {err[:60]}")
+    else:
+        click.echo(click.style("Apply complete!", fg='green'))
+
+
+# =============================================================================
+# Extract Command
+# =============================================================================
+
+@dbc.command('extract')
+@click.option('--name', '-n', required=True,
+              help='Name for the extracted source (zpak name or feature ID)')
+@click.option('--task', '-t', 'task_id',
+              help='Task ID (F-XXX or I-XXX) - creates feature file prefix')
+@click.option('--priority', '-p', type=int, default=100,
+              help='Priority (default: 100)')
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Add to existing zpak instead of creating new one')
+@click.pass_context
+def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
+                zpak_name: Optional[str]):
+    """Extract current uncommitted DBC changes as SQL files.
+
+    Compares live database against original_dbc and generates SQL files
+    for any differences found.
+
+    Examples:
+        zep dbc extract --name my-customizations
+        zep dbc extract --name mage-tanking --task F-014
+        zep dbc extract --name frost-shield --task F-212 --zpak class-overhauls
+    """
+    craft_root = ctx.obj['craft_root']
+    config = get_dbc_config(ctx)
+    registry = ctx.obj['registry']
+
+    click.echo(click.style(f"Extracting DBC customizations: {name}", bold=True))
+    click.echo(f"  Comparing: {config.live} vs {config.original}")
+    click.echo()
+
+    # Compare databases
+    click.echo("Analyzing differences...")
+    try:
+        with DBCConnection(config) as db_conn:
+            result = compare_databases(db_conn, config.live, config.original)
+
+            if result["identical"]:
+                click.echo(click.style("No differences found - nothing to extract", fg='green'))
+                return
+
+            # Show summary
+            total_tables = len(result["tables_with_differences"])
+            click.echo(f"  Found changes in {total_tables} table(s):")
+
+            tables_with_changes = []
+            for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
+                diff = get_table_diff(db_conn, table, config.live, config.original)
+                adds = len(diff["only_in_db1"])
+                mods = len(diff["modified"])
+                dels = len(diff["only_in_db2"])
+                if adds > 0 or mods > 0 or dels > 0:
+                    tables_with_changes.append(table)
+                    click.echo(f"    {table}: +{adds} ~{mods} -{dels}")
+
+            if not tables_with_changes:
+                click.echo(click.style("No significant differences after filtering", fg='yellow'))
+                return
+
+            # Determine output zpak
+            if zpak_name:
+                # Add to existing zpak
+                zpak_path = None
+                for base in [craft_root / 'zpaks', craft_root / 'external']:
+                    candidate = base / zpak_name
+                    if candidate.exists():
+                        zpak_path = candidate
+                        break
+                if not zpak_path:
+                    raise click.ClickException(f"Zpak '{zpak_name}' not found")
+            else:
+                # Create new zpak
+                zpak_path = craft_root / 'zpaks' / name
+                if zpak_path.exists():
+                    raise click.ClickException(f"Zpak '{name}' already exists")
+
+                zpak_path.mkdir(parents=True)
+                manifest = {
+                    "$schema": "../../schemas/zpak.schema.json",
+                    "name": name,
+                    "version": "0.1.0",
+                    "description": f"Extracted DBC customizations",
+                    "author": "Zeppelin Team",
+                    "type": "native",
+                    "contents": {"dbc": ["dbc/*.sql"]},
+                    "enabled": True,
+                    "priority": priority
+                }
+                if task_id:
+                    manifest["feature_id"] = task_id
+
+                with open(zpak_path / 'zpak.json', 'w') as f:
+                    json.dump(manifest, f, indent=2)
+                    f.write('\n')
+
+                click.echo(f"\nCreated zpak: {zpak_path.relative_to(craft_root)}")
+
+            # Generate per-table SQL files
+            click.echo("\nGenerating SQL files...")
+            dbc_dir = zpak_path / 'dbc'
+            dbc_dir.mkdir(parents=True, exist_ok=True)
+
+            total_lines = 0
+            for table in tables_with_changes:
+                sql = generate_diff_sql(db_conn, table, config.live, config.original)
+
+                # Use feature prefix if task_id provided
+                if task_id:
+                    sql_file = dbc_dir / f"{task_id}_{table}.sql"
+                else:
+                    sql_file = dbc_dir / f"{table}.sql"
+
+                with open(sql_file, 'w') as f:
+                    f.write(f"-- {name}: {table}\n")
+                    f.write(f"-- Extracted by zep dbc extract\n\n")
+                    f.write(sql)
+
+                line_count = sql.count('\n') + 1
+                total_lines += line_count
+                click.echo(f"  {sql_file.name}: {line_count} lines")
+
+            click.echo(f"\nTotal: {total_lines} lines in {len(tables_with_changes)} files")
+
+            # Register feature if task_id provided
+            if task_id:
+                registry.register_feature(task_id, zpak_path.name)
+                registry.save()
+
+            click.echo(click.style(f"\nExtraction complete!", fg='green'))
+            click.echo(f"  Zpak: {zpak_path.relative_to(craft_root)}")
+            click.echo(f"  Tables: {', '.join(tables_with_changes)}")
+
+    except Exception as e:
+        raise click.ClickException(f"Extract failed: {e}")
+
+
+# =============================================================================
 # Import Module Command
 # =============================================================================
 
@@ -823,12 +1066,15 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 def dbc_import_module(ctx, name: str, source: str, priority: int):
     """Import binary DBC files as a new zpak.
 
-    Imports DBC files using DBCTool, compares against original_dbc,
-    and generates SQL files for any differences.
+    Imports DBC files using DBCTool into scratch_dbc, compares against
+    original_dbc, and generates SQL files for any differences.
 
     Examples:
         zep dbc import-module --name worgoblin --source /path/to/dbc/
     """
+    import shutil
+    import tempfile
+
     source_path = Path(source)
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
@@ -842,14 +1088,220 @@ def dbc_import_module(ctx, name: str, source: str, priority: int):
     click.echo(f"  Source: {source_path}")
     click.echo(f"  Priority: {priority}")
     click.echo(f"  DBC files: {len(dbc_files)}")
+    click.echo()
 
     if not DBCTOOL_PATH.exists():
         raise click.ClickException(f"DBCTool not found at {DBCTOOL_PATH}")
 
-    # This is a complex operation - delegate to the existing dbc_manager.py
-    # for now, but we'll refactor later
-    click.echo(click.style("\nNote: Use Scripts/Patch Builder/dbc_manager.py import-module for now", fg='yellow'))
-    click.echo(f"  python3 dbc_manager.py import-module --name {name} --source {source} --priority {priority}")
+    # Step 1: Reset scratch_dbc from original_dbc
+    click.echo(f"Step 1: Resetting {config.scratch} from {config.original}...")
+
+    try:
+        with DBCConnection(config) as db_conn:
+            orig_conn = db_conn.get_connection(config.original)
+            orig_tables = get_tables(orig_conn)
+
+            scratch_conn = db_conn.get_connection(config.scratch)
+            scratch_cursor = scratch_conn.cursor()
+
+            # Drop existing tables
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+            scratch_cursor.execute("SHOW TABLES")
+            for (table,) in scratch_cursor.fetchall():
+                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+
+            # Copy from original
+            for table in orig_tables:
+                if table.startswith("dbc_"):
+                    continue
+                scratch_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.original}`.`{table}`")
+                scratch_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.original}`.`{table}`")
+
+            scratch_conn.commit()
+            scratch_cursor.close()
+
+        click.echo(click.style(f"  Reset with {len(orig_tables)} tables", fg='green'))
+
+    except Exception as e:
+        raise click.ClickException(f"Failed to reset scratch database: {e}")
+
+    # Step 2: Import DBC files via DBCTool
+    click.echo(f"\nStep 2: Importing DBC files via DBCTool...")
+
+    temp_dbc_dir = Path(tempfile.mkdtemp(prefix="dbc_import_"))
+    env_path = CRAFT_ROOT / 'Scripts' / 'Patch Builder' / '.env'
+
+    try:
+        # Build meta file map for case matching
+        meta_dir = DBCTOOL_PATH.parent / "meta"
+        meta_file_map = {}
+        for meta_file in meta_dir.glob("*.meta.json"):
+            try:
+                with open(meta_file) as f:
+                    meta_data = json.load(f)
+                    if "file" in meta_data:
+                        original_file = meta_data["file"]
+                        lowercase_stem = Path(original_file).stem.lower()
+                        meta_file_map[lowercase_stem] = original_file
+            except:
+                pass
+
+        # Create symlinks with correct case
+        for dbc_file in dbc_files:
+            lowercase_stem = dbc_file.stem.lower()
+            if lowercase_stem in meta_file_map:
+                target_name = meta_file_map[lowercase_stem]
+            else:
+                target_name = dbc_file.name
+            symlink_path = temp_dbc_dir / target_name
+            if not symlink_path.exists():
+                symlink_path.symlink_to(dbc_file)
+
+        # Create temp config for DBCTool
+        scratch_config = {
+            "dbc": {
+                "user": config.user,
+                "password": config.password,
+                "host": config.host,
+                "port": str(config.port),
+                "name": config.scratch
+            },
+            "paths": {
+                "base": str(temp_dbc_dir),
+                "export": str(temp_dbc_dir),
+                "meta": str(meta_dir)
+            },
+            "options": {"use_versioning": False}
+        }
+
+        scratch_config_path = craft_root / 'scratch_config.json'
+        with open(scratch_config_path, 'w') as f:
+            json.dump(scratch_config, f, indent=2)
+
+        # Import each DBC file
+        imported_tables = []
+        for dbc_file in sorted(dbc_files):
+            dbc_name = dbc_file.stem.lower()
+            click.echo(f"  Importing {dbc_file.stem}...", nl=False)
+
+            result = subprocess.run(
+                [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(scratch_config_path)],
+                cwd=DBCTOOL_PATH.parent,
+                capture_output=True,
+                text=True
+            )
+
+            if result.returncode == 0:
+                imported_tables.append(dbc_name)
+                click.echo(click.style(" OK", fg='green'))
+            else:
+                click.echo(click.style(f" FAILED: {result.stderr.strip()[:50]}", fg='yellow'))
+
+        scratch_config_path.unlink(missing_ok=True)
+
+    finally:
+        shutil.rmtree(temp_dbc_dir, ignore_errors=True)
+
+    if not imported_tables:
+        raise click.ClickException("No tables were imported successfully")
+
+    click.echo(f"  Imported {len(imported_tables)} table(s)")
+
+    # Step 3: Diff scratch vs original
+    click.echo(f"\nStep 3: Analyzing differences...")
+
+    try:
+        with DBCConnection(config) as db_conn:
+            result = compare_databases(db_conn, config.scratch, config.original)
+
+            if result["identical"]:
+                click.echo(click.style("  No differences found", fg='yellow'))
+                # Clean up scratch
+                scratch_conn = db_conn.get_connection(config.scratch)
+                scratch_cursor = scratch_conn.cursor()
+                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+                scratch_cursor.execute("SHOW TABLES")
+                for (table,) in scratch_cursor.fetchall():
+                    scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                scratch_conn.commit()
+                return
+
+            tables_with_changes = []
+            for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
+                diff = get_table_diff(db_conn, table, config.scratch, config.original)
+                adds = len(diff["only_in_db1"])
+                mods = len(diff["modified"])
+                dels = len(diff["only_in_db2"])
+                if adds > 0 or mods > 0 or dels > 0:
+                    tables_with_changes.append(table)
+                    click.echo(f"    {table}: +{adds} ~{mods} -{dels}")
+
+            # Step 4: Create zpak with SQL files
+            click.echo(f"\nStep 4: Creating zpak...")
+
+            zpak_path = craft_root / 'zpaks' / name
+            if zpak_path.exists():
+                raise click.ClickException(f"Zpak '{name}' already exists")
+
+            zpak_path.mkdir(parents=True)
+            dbc_dir = zpak_path / 'dbc'
+            dbc_dir.mkdir()
+
+            # Create manifest
+            manifest = {
+                "$schema": "../../schemas/zpak.schema.json",
+                "name": name,
+                "version": "1.0.0",
+                "description": f"Imported from {source_path.name}",
+                "author": "Zeppelin Team",
+                "type": "acore-extension",
+                "contents": {"dbc": ["dbc/*.sql"]},
+                "enabled": True,
+                "priority": priority
+            }
+
+            with open(zpak_path / 'zpak.json', 'w') as f:
+                json.dump(manifest, f, indent=2)
+                f.write('\n')
+
+            # Generate per-table SQL files
+            total_lines = 0
+            for table in tables_with_changes:
+                sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
+
+                sql_file = dbc_dir / f"{table}.sql"
+                with open(sql_file, 'w') as f:
+                    f.write(f"-- {name}: {table}\n")
+                    f.write(f"-- Imported by zep dbc import-module\n\n")
+                    f.write(sql)
+
+                line_count = sql.count('\n') + 1
+                total_lines += line_count
+                click.echo(f"  {table}.sql: {line_count} lines")
+
+            click.echo(f"\n  Total: {total_lines} lines")
+
+            # Step 5: Clean up scratch
+            click.echo(f"\nStep 5: Cleaning up...")
+            scratch_conn = db_conn.get_connection(config.scratch)
+            scratch_cursor = scratch_conn.cursor()
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+            scratch_cursor.execute("SHOW TABLES")
+            for (table,) in scratch_cursor.fetchall():
+                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+            scratch_conn.commit()
+            click.echo(click.style("  Cleared scratch database", fg='green'))
+
+    except Exception as e:
+        raise click.ClickException(f"Import failed: {e}")
+
+    click.echo(click.style(f"\nImport complete!", fg='green'))
+    click.echo(f"  Zpak: zpaks/{name}")
+    click.echo(f"  Priority: {priority}")
+    click.echo(f"  Tables: {', '.join(tables_with_changes)}")
 
 
 # =============================================================================
