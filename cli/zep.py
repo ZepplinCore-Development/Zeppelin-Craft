@@ -388,18 +388,9 @@ def sql_format(target):
     click.echo("See F-021 SQL Reformatter")
 
 
-@cli.group()
-def mpq():
-    """MPQ archive operations"""
-    pass
-
-
-@mpq.command('pack')
-@click.argument('name')
-def mpq_pack(name):
-    """Pack package assets to MPQ"""
-    click.echo("TODO: Implement mpq pack (integrate mpqcli)")
-    click.echo("See F-046 CLI MPQ Tool")
+# Import mpq commands from module
+from commands.mpq import mpq
+cli.add_command(mpq)
 
 
 @cli.group()
