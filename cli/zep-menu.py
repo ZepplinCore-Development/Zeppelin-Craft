@@ -30,6 +30,99 @@ import click
 
 # Import the CLI to introspect its commands
 from zep import cli
+from lib.manifest import load_manifest
+
+
+def discover_zpaks(zpak_type: str = None) -> List[Dict[str, str]]:
+    """Discover available zpaks.
+
+    Args:
+        zpak_type: Filter by type (e.g., 'acore-extension', 'mpq', 'hybrid')
+                   None returns all zpaks
+
+    Returns:
+        List of dicts with 'name' and 'description'
+    """
+    craft_root = CLI_DIR.parent
+    zpaks = []
+
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        if not base.exists():
+            continue
+        for pkg_dir in sorted(base.iterdir()):
+            if not pkg_dir.is_dir():
+                continue
+            manifest_path = pkg_dir / 'zpak.json'
+            if not manifest_path.exists():
+                continue
+
+            manifest = load_manifest(manifest_path)
+            if not manifest:
+                continue
+
+            # Filter by type if specified
+            if zpak_type and manifest.get('type') != zpak_type:
+                continue
+
+            zpaks.append({
+                'name': manifest.get('name', pkg_dir.name),
+                'description': manifest.get('description', '')[:50]
+            })
+
+    return zpaks
+
+
+def prompt_zpak_choice(command_name: str, zpak_type: str = None,
+                       allow_all: bool = True) -> Optional[Tuple[str, bool]]:
+    """Prompt user to select a zpak or 'all'.
+
+    Args:
+        command_name: Name of command for display
+        zpak_type: Filter zpaks by type
+        allow_all: Whether to show 'All packages' option
+
+    Returns:
+        Tuple of (zpak_name, is_all) or None if cancelled
+        If is_all is True, zpak_name will be empty
+    """
+    zpaks = discover_zpaks(zpak_type)
+
+    if not zpaks:
+        print(f"\n  No {'acore-extension ' if zpak_type else ''}packages found.")
+        input("  Press Enter to continue...")
+        return None
+
+    # Build menu options
+    options = []
+    if allow_all:
+        options.append("[All packages]")
+
+    for zpak in zpaks:
+        options.append(f"{zpak['name']:<25} {zpak['description']}")
+
+    options.append("[Cancel]")
+
+    menu = TerminalMenu(
+        options,
+        title=f"\n  Select package for: {command_name}\n",
+        menu_cursor="> ",
+        menu_cursor_style=("fg_cyan", "bold"),
+        menu_highlight_style=("fg_cyan", "bold"),
+        cycle_cursor=True,
+        clear_screen=True,
+    )
+
+    result = menu.show()
+
+    if result is None or options[result] == "[Cancel]":
+        return None
+
+    if allow_all and result == 0:
+        return ("", True)  # All packages
+
+    # Adjust index if we have 'all' option
+    zpak_index = result - 1 if allow_all else result
+    return (zpaks[zpak_index]['name'], False)
 
 
 def build_menu_tree(group: click.Group, parent_path: str = "") -> Dict[str, Any]:
@@ -209,6 +302,34 @@ def prompt_args(args: List[str], options: List[Dict], command_path: str) -> Opti
     return arg_values, option_values
 
 
+def execute_command_with_flag(command_path: str, flag: str) -> bool:
+    """Execute a zep command with a flag (no value).
+
+    Args:
+        command_path: Command path (e.g., "forge apply-patch")
+        flag: Flag to add (e.g., "--all")
+
+    Returns:
+        True if should return to menu, False to exit
+    """
+    cmd_parts = ["python3", str(CLI_DIR / "zep.py")] + command_path.split() + [flag]
+    cmd_display = f"zep {command_path} {flag}"
+
+    print(f"\n{'='*60}")
+    print(f" Executing: {cmd_display}")
+    print(f"{'='*60}\n")
+
+    subprocess.run(cmd_parts)
+
+    print(f"\n{'='*60}")
+
+    try:
+        response = input("\n Press Enter to return to menu (q to quit): ").strip().lower()
+        return response != 'q'
+    except (KeyboardInterrupt, EOFError):
+        return False
+
+
 def execute_command(command_path: str, args: List[str] = None,
                     options: List[Tuple[str, str]] = None) -> bool:
     """Execute a zep command.
@@ -330,10 +451,31 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
             # Execute command
             args = selection_data.get('args', [])
             options = selection_data.get('options', [])
+            command_path = selection_data['path']
 
+            # Special handling for forge commands (need zpak selection)
+            if command_path.startswith('forge '):
+                choice = prompt_zpak_choice(
+                    command_path.split()[-1],
+                    zpak_type='acore-extension'
+                )
+                if choice is None:
+                    continue  # Cancelled
+                zpak_name, is_all = choice
+
+                if is_all:
+                    continue_running = execute_command_with_flag(command_path, '--all')
+                else:
+                    continue_running = execute_command(command_path, [zpak_name])
+
+                if not continue_running:
+                    return False
+                continue
+
+            # Standard command handling
             if args or options:
                 # Need to prompt for arguments/options
-                result = prompt_args(args, options, selection_data['path'])
+                result = prompt_args(args, options, command_path)
                 if result is None:
                     continue  # Cancelled, stay in menu
                 arg_values, option_values = result
@@ -341,7 +483,7 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
                 arg_values = []
                 option_values = []
 
-            continue_running = execute_command(selection_data['path'], arg_values, option_values)
+            continue_running = execute_command(command_path, arg_values, option_values)
             if not continue_running:
                 return False
 
