@@ -1,5 +1,20 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "azerothcore_modules_path": "../Zeppelin-Core/modules",
-  "packages": {}
+  "packages": {
+    "worgoblin-zeppelin": {
+      "location": "internal",
+      "path": "zpaks/worgoblin-zeppelin",
+      "enabled": true
+    }
+  },
+  "feature_index": {},
+  "dbc": {
+    "databases": {
+      "original": "original_dbc",
+      "scratch": "scratch_dbc",
+      "live": "dbc",
+      "expected": "expected_dbc"
+    }
+  }
 }

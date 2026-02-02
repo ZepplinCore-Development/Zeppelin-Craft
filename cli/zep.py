@@ -346,32 +346,13 @@ def zpak_validate(ctx, name):
 # Placeholder command groups (to be implemented)
 # =============================================================================
 
-@cli.group()
-def forge():
-    """Fork sync commands (acore-extension packages)"""
-    pass
+# Import forge commands from module
+from commands.forge import forge
+cli.add_command(forge)
 
-
-@forge.command('status')
-@click.argument('name', required=False)
-def forge_status(name):
-    """Check upstream sync status"""
-    click.echo("TODO: Implement forge status (port from fork_sync.py)")
-    click.echo("See F-037 Disposable Forks Architecture")
-
-
-@cli.group()
-def dbc():
-    """DBC database commands"""
-    pass
-
-
-@dbc.command('query')
-@click.argument('sql')
-def dbc_query(sql):
-    """Query DBC database"""
-    click.echo("TODO: Implement dbc query (port from dbc.py)")
-    click.echo("See F-040 DBC Management Framework")
+# Import dbc commands from module
+from commands.dbc import dbc
+cli.add_command(dbc)
 
 
 @cli.group()

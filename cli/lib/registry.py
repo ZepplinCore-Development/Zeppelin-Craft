@@ -154,3 +154,76 @@ class Registry:
             name: info for name, info in self.packages.items()
             if info.get('location') == location
         }
+
+    # =========================================================================
+    # Feature Index Methods (for DBC task tracking)
+    # =========================================================================
+
+    @property
+    def feature_index(self) -> Dict[str, str]:
+        """Feature ID to zpak name mapping."""
+        return self._data.get('feature_index', {})
+
+    def get_zpak_for_feature(self, feature_id: str) -> Optional[str]:
+        """Get zpak name for a feature ID (F-XXX or I-XXX).
+
+        Args:
+            feature_id: Feature or issue ID
+
+        Returns:
+            Zpak name or None if not found
+        """
+        return self.feature_index.get(feature_id)
+
+    def register_feature(self, feature_id: str, zpak_name: str) -> bool:
+        """Register a feature ID to zpak mapping.
+
+        Args:
+            feature_id: Feature or issue ID (F-XXX or I-XXX)
+            zpak_name: Name of the zpak
+
+        Returns:
+            True if registered, False if already exists with different zpak
+        """
+        existing = self.feature_index.get(feature_id)
+        if existing and existing != zpak_name:
+            return False
+
+        self._data.setdefault('feature_index', {})[feature_id] = zpak_name
+        return True
+
+    def unregister_feature(self, feature_id: str) -> bool:
+        """Remove a feature ID mapping.
+
+        Args:
+            feature_id: Feature or issue ID
+
+        Returns:
+            True if removed, False if not found
+        """
+        if feature_id in self._data.get('feature_index', {}):
+            del self._data['feature_index'][feature_id]
+            return True
+        return False
+
+    # =========================================================================
+    # DBC Configuration Methods
+    # =========================================================================
+
+    @property
+    def dbc_config(self) -> Dict[str, Any]:
+        """DBC configuration section."""
+        return self._data.get('dbc', {})
+
+    def get_dbc_databases(self) -> Dict[str, str]:
+        """Get DBC database names from registry.
+
+        Returns:
+            Dict with keys: original, scratch, live, expected
+        """
+        return self.dbc_config.get('databases', {
+            'original': 'original_dbc',
+            'scratch': 'scratch_dbc',
+            'live': 'dbc',
+            'expected': 'expected_dbc'
+        })

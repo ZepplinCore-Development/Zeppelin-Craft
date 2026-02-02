@@ -2,6 +2,16 @@
 """
 DBC Database Tool - Unified interface for DBC database operations.
 
+DEPRECATED: This script is being replaced by 'zep dbc' commands.
+Use the following instead:
+    zep dbc query "..."              # Query DBC database
+    zep dbc modify --task F-XXX "..."  # Modify with tracking
+    zep dbc clone <src> <dst> --task   # Clone spell
+
+This script will continue to work but will be removed in a future version.
+
+---
+
 Automatically detects modifications (INSERT/UPDATE/DELETE) and handles
 Patch Builder + git commit workflow. Query-only operations run directly.
 
