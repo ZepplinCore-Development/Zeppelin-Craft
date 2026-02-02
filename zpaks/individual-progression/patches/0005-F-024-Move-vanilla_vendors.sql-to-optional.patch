@@ -1,0 +1,21 @@
+From 8818041c2d24b3ccd4bdc3df481c70b8bd6a7601 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 04:47:38 +0000
+Subject: [PATCH] F-024: Move vanilla_vendors.sql to optional
+
+Vendor item progression gating is a restrictive mechanic that Zeppelin
+makes optional. Players can choose to enable it if desired.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../sql/world/zz_optional_vanilla_vendors.sql                     | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename data/sql/db-world/base/vanilla_vendors.sql => optional/sql/world/zz_optional_vanilla_vendors.sql (100%)
+
+diff --git a/data/sql/db-world/base/vanilla_vendors.sql b/optional/sql/world/zz_optional_vanilla_vendors.sql
+similarity index 100%
+rename from data/sql/db-world/base/vanilla_vendors.sql
+rename to optional/sql/world/zz_optional_vanilla_vendors.sql
+-- 
+2.34.1
+

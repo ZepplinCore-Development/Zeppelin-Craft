@@ -1,0 +1,48 @@
+From 1f02250e52cb66466c135a81d6d461ea414716bc Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 12:16:40 +0000
+Subject: [PATCH] F-033: Add combo point persistence on target switch and death
+
+- Prevent combo point loss when target dies
+- Preserve combo points when switching targets
+- Cap at 5 combo points during target transitions
+
+Allows rogues/druids to maintain combo points across targets.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Unit/Unit.cpp | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index 7ad99834f..3ec8a27b6 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -14680,7 +14680,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+         CombatStop();
+         GetThreatMgr().ClearAllThreat();
+         getHostileRefMgr().deleteReferences();
+-        ClearComboPointHolders();                           // any combo points pointed to unit lost at it death
++        //ClearComboPointHolders();                           // prevents combo point loss on  death
+ 
+         if (IsNonMeleeSpellCast(false))
+             InterruptNonMeleeSpells(false);
+@@ -17094,9 +17094,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+         {
+             m_comboTarget->RemoveComboPointHolder(this);
+         }
+-
+         m_comboTarget = target;
+-        m_comboPoints = count;
++        if(m_comboPoints + count > 5){ // handles transitions where 5 combo points are present
++            m_comboPoints = 5;
++        }
++        else{
++            m_comboPoints = std::max<int8>(std::min<int8>(m_comboPoints + count, 5), 0); // handles normal transitions
++        }
+         target->AddComboPointHolder(this);
+     }
+     else
+-- 
+2.34.1
+

@@ -1,0 +1,74 @@
+From 2fe1ec3b13f8285115c09a7fde38ae28434a01c9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 10:47:20 +0000
+Subject: [PATCH] F-001: Profession tools - subclass enum and spell group fix
+
+Adds ITEM_SUBCLASS_TOOL for profession tools (hammers, shears, picks)
+to allow proper categorization separate from reagents.
+
+Fixes spelltrigger=5 to respect spell group stack rules. Uses
+CheckSpellGroupStackRules to prevent weaker item obtain spells from
+casting when a stronger spell from the same exclusive group is active.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Item/ItemTemplate.h |  5 ++--
+ src/server/game/Entities/Player/Player.cpp   | 24 +++++++++++++++++++-
+ 2 files changed, 26 insertions(+), 3 deletions(-)
+
+diff --git a/src/server/game/Entities/Item/ItemTemplate.h b/src/server/game/Entities/Item/ItemTemplate.h
+index b41616c11..894db4924 100644
+--- a/src/server/game/Entities/Item/ItemTemplate.h
++++ b/src/server/game/Entities/Item/ItemTemplate.h
+@@ -404,10 +404,11 @@ enum ItemSubclassArmor
+ 
+ enum ItemSubclassReagent
+ {
+-    ITEM_SUBCLASS_REAGENT                       = 0
++    ITEM_SUBCLASS_REAGENT                       = 0,
++    ITEM_SUBCLASS_TOOL                          = 1
+ };
+ 
+-#define MAX_ITEM_SUBCLASS_REAGENT                 1
++#define MAX_ITEM_SUBCLASS_REAGENT                 2
+ 
+ enum ItemSubclassProjectile
+ {
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index a57c06478..49fac979a 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -7029,7 +7029,29 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
+         if (apply)
+         {
+             if (!HasAura(spellId))
+-                CastSpell(this, spellId, true, item);
++            {
++                // Check if a spell from the same exclusive group is already active
++                // This prevents weaker spells from replacing stronger ones in spell groups
++                SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
++                bool skipCast = false;
++                if (spellInfo)
++                {
++                    for (auto const& appliedAura : GetAppliedAuras())
++                    {
++                        SpellInfo const* existingSpell = appliedAura.second->GetBase()->GetSpellInfo();
++                        SpellGroupStackRule rule = sSpellMgr->CheckSpellGroupStackRules(spellInfo, existingSpell);
++                        if (rule == SPELL_GROUP_STACK_RULE_EXCLUSIVE_HIGHEST ||
++                            rule == SPELL_GROUP_STACK_RULE_EXCLUSIVE)
++                        {
++                            // A spell from the same exclusive group is active - skip to preserve it
++                            skipCast = true;
++                            break;
++                        }
++                    }
++                }
++                if (!skipCast)
++                    CastSpell(this, spellId, true, item);
++            }
+         }
+         else
+             RemoveAurasDueToSpell(spellId);
+-- 
+2.34.1
+

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "azerothcore",
+  "version": "0.1.0",
+  "description": "AzerothCore main repository customizations and fixes",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "azerothcore",
+    "source": "https://github.com/azerothcore/azerothcore-wotlk.git",
+    "branch": "master",
+    "patch_mode": "granular"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

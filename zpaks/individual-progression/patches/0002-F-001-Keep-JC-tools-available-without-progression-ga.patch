@@ -1,0 +1,29 @@
+From 21dbf6385f30b9c3fb2308538ad959f8d6cb24fd Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 04:46:21 +0000
+Subject: [PATCH] F-001: Keep JC tools available without progression gating
+
+Remove conditions that gate Jeweler's Kit and Simple Grinder behind
+IPP progression. These profession tools should be available from start.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ data/sql/db-world/base/zz_zeppelin_jc_tools.sql | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 data/sql/db-world/base/zz_zeppelin_jc_tools.sql
+
+diff --git a/data/sql/db-world/base/zz_zeppelin_jc_tools.sql b/data/sql/db-world/base/zz_zeppelin_jc_tools.sql
+new file mode 100644
+index 0000000..4d69896
+--- /dev/null
++++ b/data/sql/db-world/base/zz_zeppelin_jc_tools.sql
+@@ -0,0 +1,6 @@
++-- Zeppelin Customization: Keep Jeweler's Kit and Simple Grinder available without progression gating
++-- These are JC profession tools that should be available from the start
++-- Item 20815 = Jeweler's Kit
++-- Item 20824 = Simple Grinder
++
++DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceEntry` IN (20815, 20824);
+-- 
+2.34.1
+

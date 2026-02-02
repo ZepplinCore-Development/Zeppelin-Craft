@@ -1,0 +1,74 @@
+From 9904c5b6df3afbab6e5e0cb99e1b118d7637a1ab Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 10:56:00 +0000
+Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
+ Attunement
+
+Marks SPELL_AURA_MANA_SHIELD as positive effect alongside MOD_STEALTH.
+Fixes mana shield being treated as negative in certain proc checks.
+
+Adds HandleDummyAuraProc case for Magical Attunement (91056) which
+triggers mana restoration (91055) based on healing received.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Unit/Unit.cpp | 29 ++++++++++++++++++++++++++
+ src/server/game/Spells/SpellInfo.cpp   |  2 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
+index 591488e89..026597daa 100644
+--- a/src/server/game/Entities/Unit/Unit.cpp
++++ b/src/server/game/Entities/Unit/Unit.cpp
+@@ -7337,6 +7337,35 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
+                 }
+                 switch (dummySpell->Id)
+                 {
++                    // Magical Attunement
++                    case 91056:
++                        {
++                            // dont allow non-positive dots to proc
++                            if (!procSpell || !procSpell->IsPositive())
++                                return false;
++
++                            //if healed by another unit (victim)
++                            //if (this == victim)
++                            //    return false;
++
++                            HealInfo const* healInfo = eventInfo.GetHealInfo();
++                            if (!healInfo)
++                            {
++                                return false;
++                            }
++
++                            uint32 effectiveHeal = healInfo->GetEffectiveHeal();
++                            if (effectiveHeal)
++                            {
++                                // heal amount
++                                basepoints0 = int32(CalculatePct(effectiveHeal, triggerAmount));
++                                target = this;
++
++                                if (basepoints0)
++                                    triggered_spell_id = 91055;
++                            }
++                            break;
++                        }
+                     // Glyph of Polymorph
+                     case 56375:
+                         {
+diff --git a/src/server/game/Spells/SpellInfo.cpp b/src/server/game/Spells/SpellInfo.cpp
+index 74b89e99b..d982eb168 100644
+--- a/src/server/game/Spells/SpellInfo.cpp
++++ b/src/server/game/Spells/SpellInfo.cpp
+@@ -2534,7 +2534,7 @@ bool SpellInfo::_IsPositiveEffect(uint8 effIndex, bool deep) const
+     // Special case: effects which determine positivity of whole spell
+     for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+     {
+-        if (Effects[i].IsAura() && Effects[i].ApplyAuraName == SPELL_AURA_MOD_STEALTH)
++        if (Effects[i].IsAura() && (Effects[i].ApplyAuraName == SPELL_AURA_MOD_STEALTH || Effects[i].ApplyAuraName == SPELL_AURA_MANA_SHIELD))
+             return true;
+     }
+ 
+-- 
+2.34.1
+

@@ -300,7 +300,7 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
         zpak_path = craft_root / 'zpaks' / zpak_name
         zpak_path.mkdir(parents=True, exist_ok=True)
 
-        # Create minimal zpak.json with per-feature DBC structure
+        # Create minimal zpak.json
         manifest = {
             "$schema": "../../schemas/zpak.schema.json",
             "name": zpak_name,
@@ -310,7 +310,7 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
             "type": "native",
             "feature_id": task_id,
             "contents": {
-                "dbc": ["dbc/**/*.sql"]  # Glob pattern for per-feature subdirs
+                "dbc": ["dbc/*.sql"]
             },
             "enabled": True,
             "priority": 100
@@ -607,9 +607,10 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str]):
 def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Path]]]:
     """Collect all DBC sources from zpaks, sorted by priority.
 
-    Supports both flat structure and per-feature subdirectories:
-        zpaks/worgoblin/dbc/spell.sql        (flat - modules)
-        zpaks/my-zpak/dbc/F-004/spell.sql    (per-feature - custom)
+    DBC files use flat structure with optional feature prefix:
+        zpaks/worgoblin/dbc/spell.sql           (module - no prefix)
+        zpaks/my-zpak/dbc/F-004_spell.sql       (feature - with prefix)
+        zpaks/my-zpak/dbc/F-004_skillline.sql
 
     Args:
         craft_root: Path to Zeppelin-Craft
@@ -644,9 +645,8 @@ def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Pat
             if not dbc_dir.exists():
                 continue
 
-            # Collect SQL files - both flat and per-feature subdirs
-            # glob('**/*.sql') gets all .sql files recursively
-            sql_files = list(dbc_dir.glob('**/*.sql'))
+            # Collect SQL files (flat structure)
+            sql_files = list(dbc_dir.glob('*.sql'))
             if not sql_files:
                 continue
 

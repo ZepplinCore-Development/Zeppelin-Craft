@@ -1,0 +1,929 @@
+From 36778ecbcea2e6330f46e4f1c3816d45c075363e Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 04:46:08 +0000
+Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import
+
+Rename data/sql/ subfolders to match AzerothCore db-assembler expectations:
+- world -> db-world
+- auth -> db-auth
+- characters -> db-characters
+
+This enables automatic SQL import without docker-compose volume changes.
+The optional/sql/world/ folder is intentionally left unchanged to prevent
+auto-import of optional content.
+
+Reference: IPP Discord (Grimfeather, 2025-11-26)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ data/sql/{auth => db-auth}/updates/.gitkeep                       | 0
+ data/sql/{characters => db-characters}/updates/.gitkeep           | 0
+ data/sql/{world => db-world}/base/.gitignore                      | 0
+ data/sql/{world => db-world}/base/00_cleanup.sql                  | 0
+ data/sql/{world => db-world}/base/adjustment_auras.sql            | 0
+ data/sql/{world => db-world}/base/aq_gate_quest.sql               | 0
+ data/sql/{world => db-world}/base/aq_war.sql                      | 0
+ data/sql/{world => db-world}/base/aq_war_effort.sql               | 0
+ data/sql/{world => db-world}/base/boss_lord_kazzak.sql            | 0
+ data/sql/{world => db-world}/base/class_trainers.sql              | 0
+ data/sql/{world => db-world}/base/cs_individualProgression.sql    | 0
+ data/sql/{world => db-world}/base/dungeon_aq20.sql                | 0
+ data/sql/{world => db-world}/base/dungeon_aq40.sql                | 0
+ data/sql/{world => db-world}/base/dungeon_attunements.sql         | 0
+ data/sql/{world => db-world}/base/dungeon_blackfathom_deeps.sql   | 0
+ data/sql/{world => db-world}/base/dungeon_blackrock_depths.sql    | 0
+ data/sql/{world => db-world}/base/dungeon_blackrock_spire.sql     | 0
+ data/sql/{world => db-world}/base/dungeon_blackwing_lair.sql      | 0
+ data/sql/{world => db-world}/base/dungeon_deadmines.sql           | 0
+ data/sql/{world => db-world}/base/dungeon_dire_maul.sql           | 0
+ data/sql/{world => db-world}/base/dungeon_gnomeregan.sql          | 0
+ data/sql/{world => db-world}/base/dungeon_karazhan.sql            | 0
+ data/sql/{world => db-world}/base/dungeon_maraudon.sql            | 0
+ data/sql/{world => db-world}/base/dungeon_molten_core.sql         | 0
+ data/sql/{world => db-world}/base/dungeon_onyxia.sql              | 0
+ data/sql/{world => db-world}/base/dungeon_ragefire_chasm.sql      | 0
+ data/sql/{world => db-world}/base/dungeon_razorfen_downs.sql      | 0
+ data/sql/{world => db-world}/base/dungeon_razorfen_kraul.sql      | 0
+ data/sql/{world => db-world}/base/dungeon_scarlet_monastery.sql   | 0
+ data/sql/{world => db-world}/base/dungeon_scholomance.sql         | 0
+ data/sql/{world => db-world}/base/dungeon_shadowfang_keep.sql     | 0
+ data/sql/{world => db-world}/base/dungeon_ssc.sql                 | 0
+ data/sql/{world => db-world}/base/dungeon_stockade.sql            | 0
+ data/sql/{world => db-world}/base/dungeon_stratholme.sql          | 0
+ data/sql/{world => db-world}/base/dungeon_sunken_temple.sql       | 0
+ data/sql/{world => db-world}/base/dungeon_uldaman.sql             | 0
+ data/sql/{world => db-world}/base/dungeon_wailing_caverns.sql     | 0
+ data/sql/{world => db-world}/base/dungeon_zulaman.sql             | 0
+ data/sql/{world => db-world}/base/dungeon_zulfarrak.sql           | 0
+ data/sql/{world => db-world}/base/dungeon_zulgurub.sql            | 0
+ data/sql/{world => db-world}/base/ipp_aware_npcs.sql              | 0
+ data/sql/{world => db-world}/base/item_enchantment_rates.sql      | 0
+ data/sql/{world => db-world}/base/mounts_and_riding.sql           | 0
+ data/sql/{world => db-world}/base/naxx40.sql                      | 0
+ data/sql/{world => db-world}/base/naxx40_archmage_tarsis.sql      | 0
+ data/sql/{world => db-world}/base/naxx40_creatures.sql            | 0
+ data/sql/{world => db-world}/base/naxx40_frozen_runes.sql         | 0
+ data/sql/{world => db-world}/base/naxx40_gameobjects.sql          | 0
+ data/sql/{world => db-world}/base/naxx40_omarion.sql              | 0
+ data/sql/{world => db-world}/base/naxx40_quests.sql               | 0
+ data/sql/{world => db-world}/base/naxx40_spells.sql               | 0
+ data/sql/{world => db-world}/base/player_levelstats.sql           | 0
+ data/sql/{world => db-world}/base/player_progression.sql          | 0
+ data/sql/{world => db-world}/base/player_starting_gear.sql        | 0
+ data/sql/{world => db-world}/base/player_starting_skillbars.sql   | 0
+ .../{world => db-world}/base/player_starting_weapon_skills.sql    | 0
+ data/sql/{world => db-world}/base/professions.sql                 | 0
+ data/sql/{world => db-world}/base/pvp_brackets.sql                | 0
+ data/sql/{world => db-world}/base/pvp_quests.sql                  | 0
+ data/sql/{world => db-world}/base/pvp_vendors.sql                 | 0
+ data/sql/{world => db-world}/base/quest_missing_diplomat.sql      | 0
+ data/sql/{world => db-world}/base/quest_the_masquerade.sql        | 0
+ data/sql/{world => db-world}/base/quest_xp_table.sql              | 0
+ data/sql/{world => db-world}/base/restore_achievements.sql        | 0
+ data/sql/{world => db-world}/base/si.sql                          | 0
+ data/sql/{world => db-world}/base/si_creatures.sql                | 0
+ data/sql/{world => db-world}/base/si_gameobjects.sql              | 0
+ data/sql/{world => db-world}/base/spell_restorations.sql          | 0
+ data/sql/{world => db-world}/base/tbc_badges.sql                  | 0
+ data/sql/{world => db-world}/base/tbc_creatures.sql               | 0
+ data/sql/{world => db-world}/base/tbc_item_changes.sql            | 0
+ data/sql/{world => db-world}/base/tbc_loot_fixes.sql              | 0
+ data/sql/{world => db-world}/base/tbc_raid_hp_restoration.sql     | 0
+ data/sql/{world => db-world}/base/tbc_reference_loot.sql          | 0
+ .../sql/{world => db-world}/base/vanilla_creature_reputations.sql | 0
+ data/sql/{world => db-world}/base/vanilla_creatures.sql           | 0
+ data/sql/{world => db-world}/base/vanilla_item_changes.sql        | 0
+ data/sql/{world => db-world}/base/vanilla_mechanic_immunity.sql   | 0
+ .../{world => db-world}/base/vanilla_pooled_treasure_chests.sql   | 0
+ data/sql/{world => db-world}/base/vanilla_quest_levels.sql        | 0
+ data/sql/{world => db-world}/base/vanilla_quest_reputations.sql   | 0
+ .../sql/{world => db-world}/base/vanilla_skinning_adjustments.sql | 0
+ .../{world => db-world}/base/vanilla_spell_school_immunity.sql    | 0
+ .../{world => db-world}/base/vanilla_spell_school_resistances.sql | 0
+ data/sql/{world => db-world}/base/vanilla_vendors.sql             | 0
+ .../{world => db-world}/base/vanilla_world_level_adjustments.sql  | 0
+ data/sql/{world => db-world}/base/vanilla_xp_tables.sql           | 0
+ data/sql/{world => db-world}/base/warlock_pet_stats.sql           | 0
+ data/sql/{world => db-world}/base/wotlk_archmage_timear.sql       | 0
+ data/sql/{world => db-world}/base/wotlk_emblems.sql               | 0
+ data/sql/{world => db-world}/base/wotlk_vendors.sql               | 0
+ data/sql/{world => db-world}/base/zone_alterac_mountains.sql      | 0
+ data/sql/{world => db-world}/base/zone_alterac_valley.sql         | 0
+ data/sql/{world => db-world}/base/zone_arathi_highlands.sql       | 0
+ data/sql/{world => db-world}/base/zone_ashenvale.sql              | 0
+ data/sql/{world => db-world}/base/zone_azshara.sql                | 0
+ data/sql/{world => db-world}/base/zone_badlands.sql               | 0
+ data/sql/{world => db-world}/base/zone_barrens.sql                | 0
+ data/sql/{world => db-world}/base/zone_blades_edge_mountains.sql  | 0
+ data/sql/{world => db-world}/base/zone_blasted_lands.sql          | 0
+ data/sql/{world => db-world}/base/zone_burning_steppes.sql        | 0
+ data/sql/{world => db-world}/base/zone_dalaran.sql                | 0
+ data/sql/{world => db-world}/base/zone_darkshore.sql              | 0
+ data/sql/{world => db-world}/base/zone_darnassus.sql              | 0
+ data/sql/{world => db-world}/base/zone_deadwind_pass.sql          | 0
+ data/sql/{world => db-world}/base/zone_desolace.sql               | 0
+ data/sql/{world => db-world}/base/zone_dun_morogh.sql             | 0
+ data/sql/{world => db-world}/base/zone_durotar.sql                | 0
+ data/sql/{world => db-world}/base/zone_duskwood.sql               | 0
+ data/sql/{world => db-world}/base/zone_dustwallow_marsh.sql       | 0
+ data/sql/{world => db-world}/base/zone_eastern_plaguelands.sql    | 0
+ data/sql/{world => db-world}/base/zone_elwynn_forest.sql          | 0
+ data/sql/{world => db-world}/base/zone_eversong_woods.sql         | 0
+ data/sql/{world => db-world}/base/zone_felwood.sql                | 0
+ data/sql/{world => db-world}/base/zone_feralas.sql                | 0
+ data/sql/{world => db-world}/base/zone_ghostlands.sql             | 0
+ data/sql/{world => db-world}/base/zone_hellfire_peninsula.sql     | 0
+ data/sql/{world => db-world}/base/zone_hillsbrad_foothills.sql    | 0
+ data/sql/{world => db-world}/base/zone_hinterlands.sql            | 0
+ data/sql/{world => db-world}/base/zone_ironforge.sql              | 0
+ data/sql/{world => db-world}/base/zone_loch_modan.sql             | 0
+ data/sql/{world => db-world}/base/zone_mulgore.sql                | 0
+ data/sql/{world => db-world}/base/zone_nagrand.sql                | 0
+ data/sql/{world => db-world}/base/zone_netherstorm.sql            | 0
+ data/sql/{world => db-world}/base/zone_orgrimmar.sql              | 0
+ data/sql/{world => db-world}/base/zone_redridge_mountains.sql     | 0
+ data/sql/{world => db-world}/base/zone_searing_gorge.sql          | 0
+ data/sql/{world => db-world}/base/zone_shadowmoon_valley.sql      | 0
+ data/sql/{world => db-world}/base/zone_shattrath.sql              | 0
+ data/sql/{world => db-world}/base/zone_silithus.sql               | 0
+ data/sql/{world => db-world}/base/zone_silvermoon.sql             | 0
+ data/sql/{world => db-world}/base/zone_silverpine.sql             | 0
+ data/sql/{world => db-world}/base/zone_stonetalon_mountains.sql   | 0
+ data/sql/{world => db-world}/base/zone_stormwind.sql              | 0
+ data/sql/{world => db-world}/base/zone_stranglethorn.sql          | 0
+ data/sql/{world => db-world}/base/zone_swamp_of_sorrows.sql       | 0
+ data/sql/{world => db-world}/base/zone_tanaris.sql                | 0
+ data/sql/{world => db-world}/base/zone_teldrassil.sql             | 0
+ data/sql/{world => db-world}/base/zone_terokkar_forest.sql        | 0
+ data/sql/{world => db-world}/base/zone_thousand_needles.sql       | 0
+ data/sql/{world => db-world}/base/zone_thunder_bluff.sql          | 0
+ data/sql/{world => db-world}/base/zone_tirisfal_glades.sql        | 0
+ data/sql/{world => db-world}/base/zone_undercity.sql              | 0
+ data/sql/{world => db-world}/base/zone_ungoro.sql                 | 0
+ data/sql/{world => db-world}/base/zone_western_plaguelands.sql    | 0
+ data/sql/{world => db-world}/base/zone_westfall.sql               | 0
+ data/sql/{world => db-world}/base/zone_wetlands.sql               | 0
+ data/sql/{world => db-world}/base/zone_winterspring.sql           | 0
+ data/sql/{world => db-world}/base/zone_zangarmarsh.sql            | 0
+ data/sql/{world => db-world}/updates/.gitignore                   | 0
+ data/sql/{world => db-world}/updates/.gitkeep                     | 0
+ 151 files changed, 0 insertions(+), 0 deletions(-)
+ rename data/sql/{auth => db-auth}/updates/.gitkeep (100%)
+ rename data/sql/{characters => db-characters}/updates/.gitkeep (100%)
+ rename data/sql/{world => db-world}/base/.gitignore (100%)
+ rename data/sql/{world => db-world}/base/00_cleanup.sql (100%)
+ rename data/sql/{world => db-world}/base/adjustment_auras.sql (100%)
+ rename data/sql/{world => db-world}/base/aq_gate_quest.sql (100%)
+ rename data/sql/{world => db-world}/base/aq_war.sql (100%)
+ rename data/sql/{world => db-world}/base/aq_war_effort.sql (100%)
+ rename data/sql/{world => db-world}/base/boss_lord_kazzak.sql (100%)
+ rename data/sql/{world => db-world}/base/class_trainers.sql (100%)
+ rename data/sql/{world => db-world}/base/cs_individualProgression.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_aq20.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_aq40.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_attunements.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_blackfathom_deeps.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_blackrock_depths.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_blackrock_spire.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_blackwing_lair.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_deadmines.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_dire_maul.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_gnomeregan.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_karazhan.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_maraudon.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_molten_core.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_onyxia.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_ragefire_chasm.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_razorfen_downs.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_razorfen_kraul.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_scarlet_monastery.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_scholomance.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_shadowfang_keep.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_ssc.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_stockade.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_stratholme.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_sunken_temple.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_uldaman.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_wailing_caverns.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_zulaman.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_zulfarrak.sql (100%)
+ rename data/sql/{world => db-world}/base/dungeon_zulgurub.sql (100%)
+ rename data/sql/{world => db-world}/base/ipp_aware_npcs.sql (100%)
+ rename data/sql/{world => db-world}/base/item_enchantment_rates.sql (100%)
+ rename data/sql/{world => db-world}/base/mounts_and_riding.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_archmage_tarsis.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_creatures.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_frozen_runes.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_gameobjects.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_omarion.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_quests.sql (100%)
+ rename data/sql/{world => db-world}/base/naxx40_spells.sql (100%)
+ rename data/sql/{world => db-world}/base/player_levelstats.sql (100%)
+ rename data/sql/{world => db-world}/base/player_progression.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_gear.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_skillbars.sql (100%)
+ rename data/sql/{world => db-world}/base/player_starting_weapon_skills.sql (100%)
+ rename data/sql/{world => db-world}/base/professions.sql (100%)
+ rename data/sql/{world => db-world}/base/pvp_brackets.sql (100%)
+ rename data/sql/{world => db-world}/base/pvp_quests.sql (100%)
+ rename data/sql/{world => db-world}/base/pvp_vendors.sql (100%)
+ rename data/sql/{world => db-world}/base/quest_missing_diplomat.sql (100%)
+ rename data/sql/{world => db-world}/base/quest_the_masquerade.sql (100%)
+ rename data/sql/{world => db-world}/base/quest_xp_table.sql (100%)
+ rename data/sql/{world => db-world}/base/restore_achievements.sql (100%)
+ rename data/sql/{world => db-world}/base/si.sql (100%)
+ rename data/sql/{world => db-world}/base/si_creatures.sql (100%)
+ rename data/sql/{world => db-world}/base/si_gameobjects.sql (100%)
+ rename data/sql/{world => db-world}/base/spell_restorations.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_badges.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_creatures.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_item_changes.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_loot_fixes.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_raid_hp_restoration.sql (100%)
+ rename data/sql/{world => db-world}/base/tbc_reference_loot.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_creature_reputations.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_creatures.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_item_changes.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_mechanic_immunity.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_pooled_treasure_chests.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_quest_levels.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_quest_reputations.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_skinning_adjustments.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_spell_school_immunity.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_spell_school_resistances.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_vendors.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_world_level_adjustments.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_xp_tables.sql (100%)
+ rename data/sql/{world => db-world}/base/warlock_pet_stats.sql (100%)
+ rename data/sql/{world => db-world}/base/wotlk_archmage_timear.sql (100%)
+ rename data/sql/{world => db-world}/base/wotlk_emblems.sql (100%)
+ rename data/sql/{world => db-world}/base/wotlk_vendors.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_alterac_mountains.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_alterac_valley.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_arathi_highlands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_ashenvale.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_azshara.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_badlands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_barrens.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_blades_edge_mountains.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_blasted_lands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_burning_steppes.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_dalaran.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_darkshore.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_darnassus.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_deadwind_pass.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_desolace.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_dun_morogh.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_durotar.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_duskwood.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_dustwallow_marsh.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_eastern_plaguelands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_elwynn_forest.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_eversong_woods.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_felwood.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_feralas.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_ghostlands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_hellfire_peninsula.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_hillsbrad_foothills.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_hinterlands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_ironforge.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_loch_modan.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_mulgore.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_nagrand.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_netherstorm.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_orgrimmar.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_redridge_mountains.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_searing_gorge.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_shadowmoon_valley.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_shattrath.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_silithus.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_silvermoon.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_silverpine.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_stonetalon_mountains.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_stormwind.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_stranglethorn.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_swamp_of_sorrows.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_tanaris.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_teldrassil.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_terokkar_forest.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_thousand_needles.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_thunder_bluff.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_tirisfal_glades.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_undercity.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_ungoro.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_western_plaguelands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_westfall.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_wetlands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_winterspring.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_zangarmarsh.sql (100%)
+ rename data/sql/{world => db-world}/updates/.gitignore (100%)
+ rename data/sql/{world => db-world}/updates/.gitkeep (100%)
+
+diff --git a/data/sql/auth/updates/.gitkeep b/data/sql/db-auth/updates/.gitkeep
+similarity index 100%
+rename from data/sql/auth/updates/.gitkeep
+rename to data/sql/db-auth/updates/.gitkeep
+diff --git a/data/sql/characters/updates/.gitkeep b/data/sql/db-characters/updates/.gitkeep
+similarity index 100%
+rename from data/sql/characters/updates/.gitkeep
+rename to data/sql/db-characters/updates/.gitkeep
+diff --git a/data/sql/world/base/.gitignore b/data/sql/db-world/base/.gitignore
+similarity index 100%
+rename from data/sql/world/base/.gitignore
+rename to data/sql/db-world/base/.gitignore
+diff --git a/data/sql/world/base/00_cleanup.sql b/data/sql/db-world/base/00_cleanup.sql
+similarity index 100%
+rename from data/sql/world/base/00_cleanup.sql
+rename to data/sql/db-world/base/00_cleanup.sql
+diff --git a/data/sql/world/base/adjustment_auras.sql b/data/sql/db-world/base/adjustment_auras.sql
+similarity index 100%
+rename from data/sql/world/base/adjustment_auras.sql
+rename to data/sql/db-world/base/adjustment_auras.sql
+diff --git a/data/sql/world/base/aq_gate_quest.sql b/data/sql/db-world/base/aq_gate_quest.sql
+similarity index 100%
+rename from data/sql/world/base/aq_gate_quest.sql
+rename to data/sql/db-world/base/aq_gate_quest.sql
+diff --git a/data/sql/world/base/aq_war.sql b/data/sql/db-world/base/aq_war.sql
+similarity index 100%
+rename from data/sql/world/base/aq_war.sql
+rename to data/sql/db-world/base/aq_war.sql
+diff --git a/data/sql/world/base/aq_war_effort.sql b/data/sql/db-world/base/aq_war_effort.sql
+similarity index 100%
+rename from data/sql/world/base/aq_war_effort.sql
+rename to data/sql/db-world/base/aq_war_effort.sql
+diff --git a/data/sql/world/base/boss_lord_kazzak.sql b/data/sql/db-world/base/boss_lord_kazzak.sql
+similarity index 100%
+rename from data/sql/world/base/boss_lord_kazzak.sql
+rename to data/sql/db-world/base/boss_lord_kazzak.sql
+diff --git a/data/sql/world/base/class_trainers.sql b/data/sql/db-world/base/class_trainers.sql
+similarity index 100%
+rename from data/sql/world/base/class_trainers.sql
+rename to data/sql/db-world/base/class_trainers.sql
+diff --git a/data/sql/world/base/cs_individualProgression.sql b/data/sql/db-world/base/cs_individualProgression.sql
+similarity index 100%
+rename from data/sql/world/base/cs_individualProgression.sql
+rename to data/sql/db-world/base/cs_individualProgression.sql
+diff --git a/data/sql/world/base/dungeon_aq20.sql b/data/sql/db-world/base/dungeon_aq20.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_aq20.sql
+rename to data/sql/db-world/base/dungeon_aq20.sql
+diff --git a/data/sql/world/base/dungeon_aq40.sql b/data/sql/db-world/base/dungeon_aq40.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_aq40.sql
+rename to data/sql/db-world/base/dungeon_aq40.sql
+diff --git a/data/sql/world/base/dungeon_attunements.sql b/data/sql/db-world/base/dungeon_attunements.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_attunements.sql
+rename to data/sql/db-world/base/dungeon_attunements.sql
+diff --git a/data/sql/world/base/dungeon_blackfathom_deeps.sql b/data/sql/db-world/base/dungeon_blackfathom_deeps.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_blackfathom_deeps.sql
+rename to data/sql/db-world/base/dungeon_blackfathom_deeps.sql
+diff --git a/data/sql/world/base/dungeon_blackrock_depths.sql b/data/sql/db-world/base/dungeon_blackrock_depths.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_blackrock_depths.sql
+rename to data/sql/db-world/base/dungeon_blackrock_depths.sql
+diff --git a/data/sql/world/base/dungeon_blackrock_spire.sql b/data/sql/db-world/base/dungeon_blackrock_spire.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_blackrock_spire.sql
+rename to data/sql/db-world/base/dungeon_blackrock_spire.sql
+diff --git a/data/sql/world/base/dungeon_blackwing_lair.sql b/data/sql/db-world/base/dungeon_blackwing_lair.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_blackwing_lair.sql
+rename to data/sql/db-world/base/dungeon_blackwing_lair.sql
+diff --git a/data/sql/world/base/dungeon_deadmines.sql b/data/sql/db-world/base/dungeon_deadmines.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_deadmines.sql
+rename to data/sql/db-world/base/dungeon_deadmines.sql
+diff --git a/data/sql/world/base/dungeon_dire_maul.sql b/data/sql/db-world/base/dungeon_dire_maul.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_dire_maul.sql
+rename to data/sql/db-world/base/dungeon_dire_maul.sql
+diff --git a/data/sql/world/base/dungeon_gnomeregan.sql b/data/sql/db-world/base/dungeon_gnomeregan.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_gnomeregan.sql
+rename to data/sql/db-world/base/dungeon_gnomeregan.sql
+diff --git a/data/sql/world/base/dungeon_karazhan.sql b/data/sql/db-world/base/dungeon_karazhan.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_karazhan.sql
+rename to data/sql/db-world/base/dungeon_karazhan.sql
+diff --git a/data/sql/world/base/dungeon_maraudon.sql b/data/sql/db-world/base/dungeon_maraudon.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_maraudon.sql
+rename to data/sql/db-world/base/dungeon_maraudon.sql
+diff --git a/data/sql/world/base/dungeon_molten_core.sql b/data/sql/db-world/base/dungeon_molten_core.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_molten_core.sql
+rename to data/sql/db-world/base/dungeon_molten_core.sql
+diff --git a/data/sql/world/base/dungeon_onyxia.sql b/data/sql/db-world/base/dungeon_onyxia.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_onyxia.sql
+rename to data/sql/db-world/base/dungeon_onyxia.sql
+diff --git a/data/sql/world/base/dungeon_ragefire_chasm.sql b/data/sql/db-world/base/dungeon_ragefire_chasm.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_ragefire_chasm.sql
+rename to data/sql/db-world/base/dungeon_ragefire_chasm.sql
+diff --git a/data/sql/world/base/dungeon_razorfen_downs.sql b/data/sql/db-world/base/dungeon_razorfen_downs.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_razorfen_downs.sql
+rename to data/sql/db-world/base/dungeon_razorfen_downs.sql
+diff --git a/data/sql/world/base/dungeon_razorfen_kraul.sql b/data/sql/db-world/base/dungeon_razorfen_kraul.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_razorfen_kraul.sql
+rename to data/sql/db-world/base/dungeon_razorfen_kraul.sql
+diff --git a/data/sql/world/base/dungeon_scarlet_monastery.sql b/data/sql/db-world/base/dungeon_scarlet_monastery.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_scarlet_monastery.sql
+rename to data/sql/db-world/base/dungeon_scarlet_monastery.sql
+diff --git a/data/sql/world/base/dungeon_scholomance.sql b/data/sql/db-world/base/dungeon_scholomance.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_scholomance.sql
+rename to data/sql/db-world/base/dungeon_scholomance.sql
+diff --git a/data/sql/world/base/dungeon_shadowfang_keep.sql b/data/sql/db-world/base/dungeon_shadowfang_keep.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_shadowfang_keep.sql
+rename to data/sql/db-world/base/dungeon_shadowfang_keep.sql
+diff --git a/data/sql/world/base/dungeon_ssc.sql b/data/sql/db-world/base/dungeon_ssc.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_ssc.sql
+rename to data/sql/db-world/base/dungeon_ssc.sql
+diff --git a/data/sql/world/base/dungeon_stockade.sql b/data/sql/db-world/base/dungeon_stockade.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_stockade.sql
+rename to data/sql/db-world/base/dungeon_stockade.sql
+diff --git a/data/sql/world/base/dungeon_stratholme.sql b/data/sql/db-world/base/dungeon_stratholme.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_stratholme.sql
+rename to data/sql/db-world/base/dungeon_stratholme.sql
+diff --git a/data/sql/world/base/dungeon_sunken_temple.sql b/data/sql/db-world/base/dungeon_sunken_temple.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_sunken_temple.sql
+rename to data/sql/db-world/base/dungeon_sunken_temple.sql
+diff --git a/data/sql/world/base/dungeon_uldaman.sql b/data/sql/db-world/base/dungeon_uldaman.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_uldaman.sql
+rename to data/sql/db-world/base/dungeon_uldaman.sql
+diff --git a/data/sql/world/base/dungeon_wailing_caverns.sql b/data/sql/db-world/base/dungeon_wailing_caverns.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_wailing_caverns.sql
+rename to data/sql/db-world/base/dungeon_wailing_caverns.sql
+diff --git a/data/sql/world/base/dungeon_zulaman.sql b/data/sql/db-world/base/dungeon_zulaman.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_zulaman.sql
+rename to data/sql/db-world/base/dungeon_zulaman.sql
+diff --git a/data/sql/world/base/dungeon_zulfarrak.sql b/data/sql/db-world/base/dungeon_zulfarrak.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_zulfarrak.sql
+rename to data/sql/db-world/base/dungeon_zulfarrak.sql
+diff --git a/data/sql/world/base/dungeon_zulgurub.sql b/data/sql/db-world/base/dungeon_zulgurub.sql
+similarity index 100%
+rename from data/sql/world/base/dungeon_zulgurub.sql
+rename to data/sql/db-world/base/dungeon_zulgurub.sql
+diff --git a/data/sql/world/base/ipp_aware_npcs.sql b/data/sql/db-world/base/ipp_aware_npcs.sql
+similarity index 100%
+rename from data/sql/world/base/ipp_aware_npcs.sql
+rename to data/sql/db-world/base/ipp_aware_npcs.sql
+diff --git a/data/sql/world/base/item_enchantment_rates.sql b/data/sql/db-world/base/item_enchantment_rates.sql
+similarity index 100%
+rename from data/sql/world/base/item_enchantment_rates.sql
+rename to data/sql/db-world/base/item_enchantment_rates.sql
+diff --git a/data/sql/world/base/mounts_and_riding.sql b/data/sql/db-world/base/mounts_and_riding.sql
+similarity index 100%
+rename from data/sql/world/base/mounts_and_riding.sql
+rename to data/sql/db-world/base/mounts_and_riding.sql
+diff --git a/data/sql/world/base/naxx40.sql b/data/sql/db-world/base/naxx40.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40.sql
+rename to data/sql/db-world/base/naxx40.sql
+diff --git a/data/sql/world/base/naxx40_archmage_tarsis.sql b/data/sql/db-world/base/naxx40_archmage_tarsis.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_archmage_tarsis.sql
+rename to data/sql/db-world/base/naxx40_archmage_tarsis.sql
+diff --git a/data/sql/world/base/naxx40_creatures.sql b/data/sql/db-world/base/naxx40_creatures.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_creatures.sql
+rename to data/sql/db-world/base/naxx40_creatures.sql
+diff --git a/data/sql/world/base/naxx40_frozen_runes.sql b/data/sql/db-world/base/naxx40_frozen_runes.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_frozen_runes.sql
+rename to data/sql/db-world/base/naxx40_frozen_runes.sql
+diff --git a/data/sql/world/base/naxx40_gameobjects.sql b/data/sql/db-world/base/naxx40_gameobjects.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_gameobjects.sql
+rename to data/sql/db-world/base/naxx40_gameobjects.sql
+diff --git a/data/sql/world/base/naxx40_omarion.sql b/data/sql/db-world/base/naxx40_omarion.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_omarion.sql
+rename to data/sql/db-world/base/naxx40_omarion.sql
+diff --git a/data/sql/world/base/naxx40_quests.sql b/data/sql/db-world/base/naxx40_quests.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_quests.sql
+rename to data/sql/db-world/base/naxx40_quests.sql
+diff --git a/data/sql/world/base/naxx40_spells.sql b/data/sql/db-world/base/naxx40_spells.sql
+similarity index 100%
+rename from data/sql/world/base/naxx40_spells.sql
+rename to data/sql/db-world/base/naxx40_spells.sql
+diff --git a/data/sql/world/base/player_levelstats.sql b/data/sql/db-world/base/player_levelstats.sql
+similarity index 100%
+rename from data/sql/world/base/player_levelstats.sql
+rename to data/sql/db-world/base/player_levelstats.sql
+diff --git a/data/sql/world/base/player_progression.sql b/data/sql/db-world/base/player_progression.sql
+similarity index 100%
+rename from data/sql/world/base/player_progression.sql
+rename to data/sql/db-world/base/player_progression.sql
+diff --git a/data/sql/world/base/player_starting_gear.sql b/data/sql/db-world/base/player_starting_gear.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_gear.sql
+rename to data/sql/db-world/base/player_starting_gear.sql
+diff --git a/data/sql/world/base/player_starting_skillbars.sql b/data/sql/db-world/base/player_starting_skillbars.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_skillbars.sql
+rename to data/sql/db-world/base/player_starting_skillbars.sql
+diff --git a/data/sql/world/base/player_starting_weapon_skills.sql b/data/sql/db-world/base/player_starting_weapon_skills.sql
+similarity index 100%
+rename from data/sql/world/base/player_starting_weapon_skills.sql
+rename to data/sql/db-world/base/player_starting_weapon_skills.sql
+diff --git a/data/sql/world/base/professions.sql b/data/sql/db-world/base/professions.sql
+similarity index 100%
+rename from data/sql/world/base/professions.sql
+rename to data/sql/db-world/base/professions.sql
+diff --git a/data/sql/world/base/pvp_brackets.sql b/data/sql/db-world/base/pvp_brackets.sql
+similarity index 100%
+rename from data/sql/world/base/pvp_brackets.sql
+rename to data/sql/db-world/base/pvp_brackets.sql
+diff --git a/data/sql/world/base/pvp_quests.sql b/data/sql/db-world/base/pvp_quests.sql
+similarity index 100%
+rename from data/sql/world/base/pvp_quests.sql
+rename to data/sql/db-world/base/pvp_quests.sql
+diff --git a/data/sql/world/base/pvp_vendors.sql b/data/sql/db-world/base/pvp_vendors.sql
+similarity index 100%
+rename from data/sql/world/base/pvp_vendors.sql
+rename to data/sql/db-world/base/pvp_vendors.sql
+diff --git a/data/sql/world/base/quest_missing_diplomat.sql b/data/sql/db-world/base/quest_missing_diplomat.sql
+similarity index 100%
+rename from data/sql/world/base/quest_missing_diplomat.sql
+rename to data/sql/db-world/base/quest_missing_diplomat.sql
+diff --git a/data/sql/world/base/quest_the_masquerade.sql b/data/sql/db-world/base/quest_the_masquerade.sql
+similarity index 100%
+rename from data/sql/world/base/quest_the_masquerade.sql
+rename to data/sql/db-world/base/quest_the_masquerade.sql
+diff --git a/data/sql/world/base/quest_xp_table.sql b/data/sql/db-world/base/quest_xp_table.sql
+similarity index 100%
+rename from data/sql/world/base/quest_xp_table.sql
+rename to data/sql/db-world/base/quest_xp_table.sql
+diff --git a/data/sql/world/base/restore_achievements.sql b/data/sql/db-world/base/restore_achievements.sql
+similarity index 100%
+rename from data/sql/world/base/restore_achievements.sql
+rename to data/sql/db-world/base/restore_achievements.sql
+diff --git a/data/sql/world/base/si.sql b/data/sql/db-world/base/si.sql
+similarity index 100%
+rename from data/sql/world/base/si.sql
+rename to data/sql/db-world/base/si.sql
+diff --git a/data/sql/world/base/si_creatures.sql b/data/sql/db-world/base/si_creatures.sql
+similarity index 100%
+rename from data/sql/world/base/si_creatures.sql
+rename to data/sql/db-world/base/si_creatures.sql
+diff --git a/data/sql/world/base/si_gameobjects.sql b/data/sql/db-world/base/si_gameobjects.sql
+similarity index 100%
+rename from data/sql/world/base/si_gameobjects.sql
+rename to data/sql/db-world/base/si_gameobjects.sql
+diff --git a/data/sql/world/base/spell_restorations.sql b/data/sql/db-world/base/spell_restorations.sql
+similarity index 100%
+rename from data/sql/world/base/spell_restorations.sql
+rename to data/sql/db-world/base/spell_restorations.sql
+diff --git a/data/sql/world/base/tbc_badges.sql b/data/sql/db-world/base/tbc_badges.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_badges.sql
+rename to data/sql/db-world/base/tbc_badges.sql
+diff --git a/data/sql/world/base/tbc_creatures.sql b/data/sql/db-world/base/tbc_creatures.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_creatures.sql
+rename to data/sql/db-world/base/tbc_creatures.sql
+diff --git a/data/sql/world/base/tbc_item_changes.sql b/data/sql/db-world/base/tbc_item_changes.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_item_changes.sql
+rename to data/sql/db-world/base/tbc_item_changes.sql
+diff --git a/data/sql/world/base/tbc_loot_fixes.sql b/data/sql/db-world/base/tbc_loot_fixes.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_loot_fixes.sql
+rename to data/sql/db-world/base/tbc_loot_fixes.sql
+diff --git a/data/sql/world/base/tbc_raid_hp_restoration.sql b/data/sql/db-world/base/tbc_raid_hp_restoration.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_raid_hp_restoration.sql
+rename to data/sql/db-world/base/tbc_raid_hp_restoration.sql
+diff --git a/data/sql/world/base/tbc_reference_loot.sql b/data/sql/db-world/base/tbc_reference_loot.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_reference_loot.sql
+rename to data/sql/db-world/base/tbc_reference_loot.sql
+diff --git a/data/sql/world/base/vanilla_creature_reputations.sql b/data/sql/db-world/base/vanilla_creature_reputations.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_creature_reputations.sql
+rename to data/sql/db-world/base/vanilla_creature_reputations.sql
+diff --git a/data/sql/world/base/vanilla_creatures.sql b/data/sql/db-world/base/vanilla_creatures.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_creatures.sql
+rename to data/sql/db-world/base/vanilla_creatures.sql
+diff --git a/data/sql/world/base/vanilla_item_changes.sql b/data/sql/db-world/base/vanilla_item_changes.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_item_changes.sql
+rename to data/sql/db-world/base/vanilla_item_changes.sql
+diff --git a/data/sql/world/base/vanilla_mechanic_immunity.sql b/data/sql/db-world/base/vanilla_mechanic_immunity.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_mechanic_immunity.sql
+rename to data/sql/db-world/base/vanilla_mechanic_immunity.sql
+diff --git a/data/sql/world/base/vanilla_pooled_treasure_chests.sql b/data/sql/db-world/base/vanilla_pooled_treasure_chests.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_pooled_treasure_chests.sql
+rename to data/sql/db-world/base/vanilla_pooled_treasure_chests.sql
+diff --git a/data/sql/world/base/vanilla_quest_levels.sql b/data/sql/db-world/base/vanilla_quest_levels.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_quest_levels.sql
+rename to data/sql/db-world/base/vanilla_quest_levels.sql
+diff --git a/data/sql/world/base/vanilla_quest_reputations.sql b/data/sql/db-world/base/vanilla_quest_reputations.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_quest_reputations.sql
+rename to data/sql/db-world/base/vanilla_quest_reputations.sql
+diff --git a/data/sql/world/base/vanilla_skinning_adjustments.sql b/data/sql/db-world/base/vanilla_skinning_adjustments.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_skinning_adjustments.sql
+rename to data/sql/db-world/base/vanilla_skinning_adjustments.sql
+diff --git a/data/sql/world/base/vanilla_spell_school_immunity.sql b/data/sql/db-world/base/vanilla_spell_school_immunity.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_spell_school_immunity.sql
+rename to data/sql/db-world/base/vanilla_spell_school_immunity.sql
+diff --git a/data/sql/world/base/vanilla_spell_school_resistances.sql b/data/sql/db-world/base/vanilla_spell_school_resistances.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_spell_school_resistances.sql
+rename to data/sql/db-world/base/vanilla_spell_school_resistances.sql
+diff --git a/data/sql/world/base/vanilla_vendors.sql b/data/sql/db-world/base/vanilla_vendors.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_vendors.sql
+rename to data/sql/db-world/base/vanilla_vendors.sql
+diff --git a/data/sql/world/base/vanilla_world_level_adjustments.sql b/data/sql/db-world/base/vanilla_world_level_adjustments.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_world_level_adjustments.sql
+rename to data/sql/db-world/base/vanilla_world_level_adjustments.sql
+diff --git a/data/sql/world/base/vanilla_xp_tables.sql b/data/sql/db-world/base/vanilla_xp_tables.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_xp_tables.sql
+rename to data/sql/db-world/base/vanilla_xp_tables.sql
+diff --git a/data/sql/world/base/warlock_pet_stats.sql b/data/sql/db-world/base/warlock_pet_stats.sql
+similarity index 100%
+rename from data/sql/world/base/warlock_pet_stats.sql
+rename to data/sql/db-world/base/warlock_pet_stats.sql
+diff --git a/data/sql/world/base/wotlk_archmage_timear.sql b/data/sql/db-world/base/wotlk_archmage_timear.sql
+similarity index 100%
+rename from data/sql/world/base/wotlk_archmage_timear.sql
+rename to data/sql/db-world/base/wotlk_archmage_timear.sql
+diff --git a/data/sql/world/base/wotlk_emblems.sql b/data/sql/db-world/base/wotlk_emblems.sql
+similarity index 100%
+rename from data/sql/world/base/wotlk_emblems.sql
+rename to data/sql/db-world/base/wotlk_emblems.sql
+diff --git a/data/sql/world/base/wotlk_vendors.sql b/data/sql/db-world/base/wotlk_vendors.sql
+similarity index 100%
+rename from data/sql/world/base/wotlk_vendors.sql
+rename to data/sql/db-world/base/wotlk_vendors.sql
+diff --git a/data/sql/world/base/zone_alterac_mountains.sql b/data/sql/db-world/base/zone_alterac_mountains.sql
+similarity index 100%
+rename from data/sql/world/base/zone_alterac_mountains.sql
+rename to data/sql/db-world/base/zone_alterac_mountains.sql
+diff --git a/data/sql/world/base/zone_alterac_valley.sql b/data/sql/db-world/base/zone_alterac_valley.sql
+similarity index 100%
+rename from data/sql/world/base/zone_alterac_valley.sql
+rename to data/sql/db-world/base/zone_alterac_valley.sql
+diff --git a/data/sql/world/base/zone_arathi_highlands.sql b/data/sql/db-world/base/zone_arathi_highlands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_arathi_highlands.sql
+rename to data/sql/db-world/base/zone_arathi_highlands.sql
+diff --git a/data/sql/world/base/zone_ashenvale.sql b/data/sql/db-world/base/zone_ashenvale.sql
+similarity index 100%
+rename from data/sql/world/base/zone_ashenvale.sql
+rename to data/sql/db-world/base/zone_ashenvale.sql
+diff --git a/data/sql/world/base/zone_azshara.sql b/data/sql/db-world/base/zone_azshara.sql
+similarity index 100%
+rename from data/sql/world/base/zone_azshara.sql
+rename to data/sql/db-world/base/zone_azshara.sql
+diff --git a/data/sql/world/base/zone_badlands.sql b/data/sql/db-world/base/zone_badlands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_badlands.sql
+rename to data/sql/db-world/base/zone_badlands.sql
+diff --git a/data/sql/world/base/zone_barrens.sql b/data/sql/db-world/base/zone_barrens.sql
+similarity index 100%
+rename from data/sql/world/base/zone_barrens.sql
+rename to data/sql/db-world/base/zone_barrens.sql
+diff --git a/data/sql/world/base/zone_blades_edge_mountains.sql b/data/sql/db-world/base/zone_blades_edge_mountains.sql
+similarity index 100%
+rename from data/sql/world/base/zone_blades_edge_mountains.sql
+rename to data/sql/db-world/base/zone_blades_edge_mountains.sql
+diff --git a/data/sql/world/base/zone_blasted_lands.sql b/data/sql/db-world/base/zone_blasted_lands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_blasted_lands.sql
+rename to data/sql/db-world/base/zone_blasted_lands.sql
+diff --git a/data/sql/world/base/zone_burning_steppes.sql b/data/sql/db-world/base/zone_burning_steppes.sql
+similarity index 100%
+rename from data/sql/world/base/zone_burning_steppes.sql
+rename to data/sql/db-world/base/zone_burning_steppes.sql
+diff --git a/data/sql/world/base/zone_dalaran.sql b/data/sql/db-world/base/zone_dalaran.sql
+similarity index 100%
+rename from data/sql/world/base/zone_dalaran.sql
+rename to data/sql/db-world/base/zone_dalaran.sql
+diff --git a/data/sql/world/base/zone_darkshore.sql b/data/sql/db-world/base/zone_darkshore.sql
+similarity index 100%
+rename from data/sql/world/base/zone_darkshore.sql
+rename to data/sql/db-world/base/zone_darkshore.sql
+diff --git a/data/sql/world/base/zone_darnassus.sql b/data/sql/db-world/base/zone_darnassus.sql
+similarity index 100%
+rename from data/sql/world/base/zone_darnassus.sql
+rename to data/sql/db-world/base/zone_darnassus.sql
+diff --git a/data/sql/world/base/zone_deadwind_pass.sql b/data/sql/db-world/base/zone_deadwind_pass.sql
+similarity index 100%
+rename from data/sql/world/base/zone_deadwind_pass.sql
+rename to data/sql/db-world/base/zone_deadwind_pass.sql
+diff --git a/data/sql/world/base/zone_desolace.sql b/data/sql/db-world/base/zone_desolace.sql
+similarity index 100%
+rename from data/sql/world/base/zone_desolace.sql
+rename to data/sql/db-world/base/zone_desolace.sql
+diff --git a/data/sql/world/base/zone_dun_morogh.sql b/data/sql/db-world/base/zone_dun_morogh.sql
+similarity index 100%
+rename from data/sql/world/base/zone_dun_morogh.sql
+rename to data/sql/db-world/base/zone_dun_morogh.sql
+diff --git a/data/sql/world/base/zone_durotar.sql b/data/sql/db-world/base/zone_durotar.sql
+similarity index 100%
+rename from data/sql/world/base/zone_durotar.sql
+rename to data/sql/db-world/base/zone_durotar.sql
+diff --git a/data/sql/world/base/zone_duskwood.sql b/data/sql/db-world/base/zone_duskwood.sql
+similarity index 100%
+rename from data/sql/world/base/zone_duskwood.sql
+rename to data/sql/db-world/base/zone_duskwood.sql
+diff --git a/data/sql/world/base/zone_dustwallow_marsh.sql b/data/sql/db-world/base/zone_dustwallow_marsh.sql
+similarity index 100%
+rename from data/sql/world/base/zone_dustwallow_marsh.sql
+rename to data/sql/db-world/base/zone_dustwallow_marsh.sql
+diff --git a/data/sql/world/base/zone_eastern_plaguelands.sql b/data/sql/db-world/base/zone_eastern_plaguelands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_eastern_plaguelands.sql
+rename to data/sql/db-world/base/zone_eastern_plaguelands.sql
+diff --git a/data/sql/world/base/zone_elwynn_forest.sql b/data/sql/db-world/base/zone_elwynn_forest.sql
+similarity index 100%
+rename from data/sql/world/base/zone_elwynn_forest.sql
+rename to data/sql/db-world/base/zone_elwynn_forest.sql
+diff --git a/data/sql/world/base/zone_eversong_woods.sql b/data/sql/db-world/base/zone_eversong_woods.sql
+similarity index 100%
+rename from data/sql/world/base/zone_eversong_woods.sql
+rename to data/sql/db-world/base/zone_eversong_woods.sql
+diff --git a/data/sql/world/base/zone_felwood.sql b/data/sql/db-world/base/zone_felwood.sql
+similarity index 100%
+rename from data/sql/world/base/zone_felwood.sql
+rename to data/sql/db-world/base/zone_felwood.sql
+diff --git a/data/sql/world/base/zone_feralas.sql b/data/sql/db-world/base/zone_feralas.sql
+similarity index 100%
+rename from data/sql/world/base/zone_feralas.sql
+rename to data/sql/db-world/base/zone_feralas.sql
+diff --git a/data/sql/world/base/zone_ghostlands.sql b/data/sql/db-world/base/zone_ghostlands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_ghostlands.sql
+rename to data/sql/db-world/base/zone_ghostlands.sql
+diff --git a/data/sql/world/base/zone_hellfire_peninsula.sql b/data/sql/db-world/base/zone_hellfire_peninsula.sql
+similarity index 100%
+rename from data/sql/world/base/zone_hellfire_peninsula.sql
+rename to data/sql/db-world/base/zone_hellfire_peninsula.sql
+diff --git a/data/sql/world/base/zone_hillsbrad_foothills.sql b/data/sql/db-world/base/zone_hillsbrad_foothills.sql
+similarity index 100%
+rename from data/sql/world/base/zone_hillsbrad_foothills.sql
+rename to data/sql/db-world/base/zone_hillsbrad_foothills.sql
+diff --git a/data/sql/world/base/zone_hinterlands.sql b/data/sql/db-world/base/zone_hinterlands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_hinterlands.sql
+rename to data/sql/db-world/base/zone_hinterlands.sql
+diff --git a/data/sql/world/base/zone_ironforge.sql b/data/sql/db-world/base/zone_ironforge.sql
+similarity index 100%
+rename from data/sql/world/base/zone_ironforge.sql
+rename to data/sql/db-world/base/zone_ironforge.sql
+diff --git a/data/sql/world/base/zone_loch_modan.sql b/data/sql/db-world/base/zone_loch_modan.sql
+similarity index 100%
+rename from data/sql/world/base/zone_loch_modan.sql
+rename to data/sql/db-world/base/zone_loch_modan.sql
+diff --git a/data/sql/world/base/zone_mulgore.sql b/data/sql/db-world/base/zone_mulgore.sql
+similarity index 100%
+rename from data/sql/world/base/zone_mulgore.sql
+rename to data/sql/db-world/base/zone_mulgore.sql
+diff --git a/data/sql/world/base/zone_nagrand.sql b/data/sql/db-world/base/zone_nagrand.sql
+similarity index 100%
+rename from data/sql/world/base/zone_nagrand.sql
+rename to data/sql/db-world/base/zone_nagrand.sql
+diff --git a/data/sql/world/base/zone_netherstorm.sql b/data/sql/db-world/base/zone_netherstorm.sql
+similarity index 100%
+rename from data/sql/world/base/zone_netherstorm.sql
+rename to data/sql/db-world/base/zone_netherstorm.sql
+diff --git a/data/sql/world/base/zone_orgrimmar.sql b/data/sql/db-world/base/zone_orgrimmar.sql
+similarity index 100%
+rename from data/sql/world/base/zone_orgrimmar.sql
+rename to data/sql/db-world/base/zone_orgrimmar.sql
+diff --git a/data/sql/world/base/zone_redridge_mountains.sql b/data/sql/db-world/base/zone_redridge_mountains.sql
+similarity index 100%
+rename from data/sql/world/base/zone_redridge_mountains.sql
+rename to data/sql/db-world/base/zone_redridge_mountains.sql
+diff --git a/data/sql/world/base/zone_searing_gorge.sql b/data/sql/db-world/base/zone_searing_gorge.sql
+similarity index 100%
+rename from data/sql/world/base/zone_searing_gorge.sql
+rename to data/sql/db-world/base/zone_searing_gorge.sql
+diff --git a/data/sql/world/base/zone_shadowmoon_valley.sql b/data/sql/db-world/base/zone_shadowmoon_valley.sql
+similarity index 100%
+rename from data/sql/world/base/zone_shadowmoon_valley.sql
+rename to data/sql/db-world/base/zone_shadowmoon_valley.sql
+diff --git a/data/sql/world/base/zone_shattrath.sql b/data/sql/db-world/base/zone_shattrath.sql
+similarity index 100%
+rename from data/sql/world/base/zone_shattrath.sql
+rename to data/sql/db-world/base/zone_shattrath.sql
+diff --git a/data/sql/world/base/zone_silithus.sql b/data/sql/db-world/base/zone_silithus.sql
+similarity index 100%
+rename from data/sql/world/base/zone_silithus.sql
+rename to data/sql/db-world/base/zone_silithus.sql
+diff --git a/data/sql/world/base/zone_silvermoon.sql b/data/sql/db-world/base/zone_silvermoon.sql
+similarity index 100%
+rename from data/sql/world/base/zone_silvermoon.sql
+rename to data/sql/db-world/base/zone_silvermoon.sql
+diff --git a/data/sql/world/base/zone_silverpine.sql b/data/sql/db-world/base/zone_silverpine.sql
+similarity index 100%
+rename from data/sql/world/base/zone_silverpine.sql
+rename to data/sql/db-world/base/zone_silverpine.sql
+diff --git a/data/sql/world/base/zone_stonetalon_mountains.sql b/data/sql/db-world/base/zone_stonetalon_mountains.sql
+similarity index 100%
+rename from data/sql/world/base/zone_stonetalon_mountains.sql
+rename to data/sql/db-world/base/zone_stonetalon_mountains.sql
+diff --git a/data/sql/world/base/zone_stormwind.sql b/data/sql/db-world/base/zone_stormwind.sql
+similarity index 100%
+rename from data/sql/world/base/zone_stormwind.sql
+rename to data/sql/db-world/base/zone_stormwind.sql
+diff --git a/data/sql/world/base/zone_stranglethorn.sql b/data/sql/db-world/base/zone_stranglethorn.sql
+similarity index 100%
+rename from data/sql/world/base/zone_stranglethorn.sql
+rename to data/sql/db-world/base/zone_stranglethorn.sql
+diff --git a/data/sql/world/base/zone_swamp_of_sorrows.sql b/data/sql/db-world/base/zone_swamp_of_sorrows.sql
+similarity index 100%
+rename from data/sql/world/base/zone_swamp_of_sorrows.sql
+rename to data/sql/db-world/base/zone_swamp_of_sorrows.sql
+diff --git a/data/sql/world/base/zone_tanaris.sql b/data/sql/db-world/base/zone_tanaris.sql
+similarity index 100%
+rename from data/sql/world/base/zone_tanaris.sql
+rename to data/sql/db-world/base/zone_tanaris.sql
+diff --git a/data/sql/world/base/zone_teldrassil.sql b/data/sql/db-world/base/zone_teldrassil.sql
+similarity index 100%
+rename from data/sql/world/base/zone_teldrassil.sql
+rename to data/sql/db-world/base/zone_teldrassil.sql
+diff --git a/data/sql/world/base/zone_terokkar_forest.sql b/data/sql/db-world/base/zone_terokkar_forest.sql
+similarity index 100%
+rename from data/sql/world/base/zone_terokkar_forest.sql
+rename to data/sql/db-world/base/zone_terokkar_forest.sql
+diff --git a/data/sql/world/base/zone_thousand_needles.sql b/data/sql/db-world/base/zone_thousand_needles.sql
+similarity index 100%
+rename from data/sql/world/base/zone_thousand_needles.sql
+rename to data/sql/db-world/base/zone_thousand_needles.sql
+diff --git a/data/sql/world/base/zone_thunder_bluff.sql b/data/sql/db-world/base/zone_thunder_bluff.sql
+similarity index 100%
+rename from data/sql/world/base/zone_thunder_bluff.sql
+rename to data/sql/db-world/base/zone_thunder_bluff.sql
+diff --git a/data/sql/world/base/zone_tirisfal_glades.sql b/data/sql/db-world/base/zone_tirisfal_glades.sql
+similarity index 100%
+rename from data/sql/world/base/zone_tirisfal_glades.sql
+rename to data/sql/db-world/base/zone_tirisfal_glades.sql
+diff --git a/data/sql/world/base/zone_undercity.sql b/data/sql/db-world/base/zone_undercity.sql
+similarity index 100%
+rename from data/sql/world/base/zone_undercity.sql
+rename to data/sql/db-world/base/zone_undercity.sql
+diff --git a/data/sql/world/base/zone_ungoro.sql b/data/sql/db-world/base/zone_ungoro.sql
+similarity index 100%
+rename from data/sql/world/base/zone_ungoro.sql
+rename to data/sql/db-world/base/zone_ungoro.sql
+diff --git a/data/sql/world/base/zone_western_plaguelands.sql b/data/sql/db-world/base/zone_western_plaguelands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_western_plaguelands.sql
+rename to data/sql/db-world/base/zone_western_plaguelands.sql
+diff --git a/data/sql/world/base/zone_westfall.sql b/data/sql/db-world/base/zone_westfall.sql
+similarity index 100%
+rename from data/sql/world/base/zone_westfall.sql
+rename to data/sql/db-world/base/zone_westfall.sql
+diff --git a/data/sql/world/base/zone_wetlands.sql b/data/sql/db-world/base/zone_wetlands.sql
+similarity index 100%
+rename from data/sql/world/base/zone_wetlands.sql
+rename to data/sql/db-world/base/zone_wetlands.sql
+diff --git a/data/sql/world/base/zone_winterspring.sql b/data/sql/db-world/base/zone_winterspring.sql
+similarity index 100%
+rename from data/sql/world/base/zone_winterspring.sql
+rename to data/sql/db-world/base/zone_winterspring.sql
+diff --git a/data/sql/world/base/zone_zangarmarsh.sql b/data/sql/db-world/base/zone_zangarmarsh.sql
+similarity index 100%
+rename from data/sql/world/base/zone_zangarmarsh.sql
+rename to data/sql/db-world/base/zone_zangarmarsh.sql
+diff --git a/data/sql/world/updates/.gitignore b/data/sql/db-world/updates/.gitignore
+similarity index 100%
+rename from data/sql/world/updates/.gitignore
+rename to data/sql/db-world/updates/.gitignore
+diff --git a/data/sql/world/updates/.gitkeep b/data/sql/db-world/updates/.gitkeep
+similarity index 100%
+rename from data/sql/world/updates/.gitkeep
+rename to data/sql/db-world/updates/.gitkeep
+-- 
+2.34.1
+

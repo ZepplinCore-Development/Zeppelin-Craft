@@ -1,4 +1,5 @@
 {
+  "_DEPRECATED": "This file has been migrated to zpaks/*/zpak.json as part of F-044. Use 'zep forge' commands instead of fork_sync.py. This file is retained for reference during the transition period.",
   "forks": {
     "azerothcore": {
       "path": ".",

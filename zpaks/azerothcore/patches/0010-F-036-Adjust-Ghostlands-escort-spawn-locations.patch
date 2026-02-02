@@ -1,0 +1,34 @@
+From a51458c8db2a4a87d4b4d296ded8091bd6940766 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 12:17:36 +0000
+Subject: [PATCH] F-036: Adjust Ghostlands escort spawn locations
+
+Updated NPC spawn coordinates for Ranger Lilatha escort quest
+to match Open Azeroth world modifications.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/EasternKingdoms/zone_ghostlands.cpp | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
+index 13d92bc96..e95975ac4 100644
+--- a/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
++++ b/src/server/scripts/EasternKingdoms/zone_ghostlands.cpp
+@@ -69,8 +69,11 @@ struct npc_ranger_lilatha : public npc_escortAI
+         case 18:
+         {
+             Talk(SAY_PROGRESS3, player);
+-            Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 7627.083984f, -7532.538086f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
+-            Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 7620.432129f, -7532.550293f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            // Adjusted spawn locations for Open Azeroth
++            //Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 7627.083984f, -7532.538086f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            //Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 7620.432129f, -7532.550293f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            Creature* Summ1 = me->SummonCreature(NPC_MUMMIFIED_HEADHUNTER, 5493.750000f, -5399.200000f, 152.128616f, 1.082733f, TEMPSUMMON_DEAD_DESPAWN, 0);
++            Creature* Summ2 = me->SummonCreature(NPC_SHADOWPINE_ORACLE, 5487.090000f, -5399.210000f, 152.454865f, 0.827478f, TEMPSUMMON_DEAD_DESPAWN, 0);
+             if (Summ1 && Summ2)
+             {
+                 Summ1->Attack(me, true);
+-- 
+2.34.1
+

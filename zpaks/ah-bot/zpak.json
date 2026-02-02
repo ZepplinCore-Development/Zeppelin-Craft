@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "ah-bot",
+  "version": "0.1.0",
+  "description": "Auction house bot for market simulation",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-ah-bot",
+    "source": "https://github.com/azerothcore/mod-ah-bot.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

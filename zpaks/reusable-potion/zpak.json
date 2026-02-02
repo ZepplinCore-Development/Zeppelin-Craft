@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "reusable-potion",
+  "version": "0.1.0",
+  "description": "Reusable potion system module",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "ReusablePotion",
+    "source": "https://github.com/AnchyDev/ReusablePotion.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

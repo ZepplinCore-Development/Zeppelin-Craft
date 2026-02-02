@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "worgoblin",
+  "version": "0.1.0",
+  "description": "Worgen and Goblin race support module",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-worgoblin",
+    "source": "https://github.com/heyitsbench/mod-worgoblin.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

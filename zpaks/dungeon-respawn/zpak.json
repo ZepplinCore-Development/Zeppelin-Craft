@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "dungeon-respawn",
+  "version": "0.1.0",
+  "description": "Dungeon respawn customization module",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "DungeonRespawn",
+    "source": "https://github.com/AnchyDev/DungeonRespawn.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

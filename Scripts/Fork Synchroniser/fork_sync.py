@@ -2,6 +2,23 @@
 """
 Fork Sync Tool for Zeppelin Disposable Forks Architecture (F-037)
 
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                              DEPRECATED                                        ║
+║                                                                                ║
+║  This tool has been migrated to the Zeppelin-Craft CLI as part of F-044.      ║
+║                                                                                ║
+║  Please use the new commands instead:                                          ║
+║                                                                                ║
+║    zep forge status [name]       # Show sync status                           ║
+║    zep forge build-patch <name>  # Build patches from current state           ║
+║    zep forge apply-patch <name>  # Reset to upstream and apply patches        ║
+║    zep forge sync <name>         # Full cycle: build, reset, apply            ║
+║                                                                                ║
+║  Patches are now stored in zpaks/<name>/patches/ instead of Patches/<module>/ ║
+║                                                                                ║
+║  This file is retained for reference during the transition period.             ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
 Manages syncing forked modules to upstream and applying Zeppelin patches.
 
 Usage:

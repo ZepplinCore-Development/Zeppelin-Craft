@@ -1,0 +1,161 @@
+From 71936055cbeb1a64fb628097ef58f120cfb6c4a4 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 1 Feb 2026 00:33:21 +0000
+Subject: [PATCH] F-041: Add dynamic patch scanning to map extractors
+
+Replace hardcoded MPQ list with dynamic scanning for:
+- patch.MPQ, patch-2 through patch-99 (numeric)
+- patch-A through patch-Z (uppercase alphabetic)
+- patch-a through patch-z (lowercase alphabetic)
+
+This enables extraction from custom client patches like
+Open Azeroth (patch-O.MPQ) and DBC modifications (patch-Z.MPQ).
+
+Modified files:
+- map_extractor/System.cpp: New dynamic loading in LoadCommonMPQFiles()
+- vmap4_extractor/vmapexport.cpp: Extended scan_patches() with alphabetic ranges
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .gitignore                               |  1 +
+ src/tools/map_extractor/System.cpp       | 47 +++++++++++++++++++-----
+ src/tools/vmap4_extractor/vmapexport.cpp | 32 +++++++++++++++-
+ 3 files changed, 70 insertions(+), 10 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 548213a63..55ce90919 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -11,6 +11,7 @@
+ !/modules/*.h
+ !/modules/*.cmake
+ /build*/
++build.log
+ /var/*
+ !/var/build/.gitkeep
+ !/var/ccache/.gitkeep
+diff --git a/src/tools/map_extractor/System.cpp b/src/tools/map_extractor/System.cpp
+index 4fef9164e..4a45e1383 100644
+--- a/src/tools/map_extractor/System.cpp
++++ b/src/tools/map_extractor/System.cpp
+@@ -99,18 +99,13 @@ float CONF_float_to_int16_limit = 2048.0f;   // Max accuracy = val/65536
+ float CONF_flat_height_delta_limit = 0.005f; // If max - min less this value - surface is flat
+ float CONF_flat_liquid_delta_limit = 0.001f; // If max - min less this value - liquid surface is flat
+ 
+-// List MPQ for extract from
+-const char* CONF_mpq_list[] =
++// Base MPQ archives (patches loaded dynamically)
++const char* CONF_base_mpq_list[] =
+ {
+     "common.MPQ",
+     "common-2.MPQ",
+     "lichking.MPQ",
+     "expansion.MPQ",
+-    "patch.MPQ",
+-    "patch-2.MPQ",
+-    "patch-3.MPQ",
+-    "patch-4.MPQ",
+-    "patch-5.MPQ",
+ };
+ 
+ static const char* const langs[] = {"enGB", "enUS", "deDE", "esES", "frFR", "koKR", "zhCN", "zhTW", "enCN", "enTW", "esMX", "ruRU" };
+@@ -1163,10 +1158,44 @@ void LoadLocaleMPQFiles(int const locale)
+ void LoadCommonMPQFiles()
+ {
+     char filename[512];
+-    int count = sizeof(CONF_mpq_list) / sizeof(char*);
++
++    // Load base archives
++    int count = sizeof(CONF_base_mpq_list) / sizeof(char*);
+     for (int i = 0; i < count; ++i)
+     {
+-        sprintf(filename, "%s/Data/%s", input_path, CONF_mpq_list[i]);
++        sprintf(filename, "%s/Data/%s", input_path, CONF_base_mpq_list[i]);
++        if (FileExists(filename))
++            new MPQArchive(filename);
++    }
++
++    // Load patch archives dynamically
++    // Order: patch.MPQ, patch-2 through patch-99, patch-A through patch-Z, patch-a through patch-z
++    // Later patches override earlier ones
++
++    // Numeric patches: patch.MPQ, patch-2.MPQ through patch-99.MPQ
++    for (int i = 1; i <= 99; ++i)
++    {
++        if (i == 1)
++            sprintf(filename, "%s/Data/patch.MPQ", input_path);
++        else
++            sprintf(filename, "%s/Data/patch-%d.MPQ", input_path, i);
++
++        if (FileExists(filename))
++            new MPQArchive(filename);
++    }
++
++    // Uppercase alphabetic patches: patch-A.MPQ through patch-Z.MPQ
++    for (char c = 'A'; c <= 'Z'; ++c)
++    {
++        sprintf(filename, "%s/Data/patch-%c.MPQ", input_path, c);
++        if (FileExists(filename))
++            new MPQArchive(filename);
++    }
++
++    // Lowercase alphabetic patches: patch-a.MPQ through patch-z.MPQ
++    for (char c = 'a'; c <= 'z'; ++c)
++    {
++        sprintf(filename, "%s/Data/patch-%c.MPQ", input_path, c);
+         if (FileExists(filename))
+             new MPQArchive(filename);
+     }
+diff --git a/src/tools/vmap4_extractor/vmapexport.cpp b/src/tools/vmap4_extractor/vmapexport.cpp
+index 52f4983f8..f7600ef7a 100644
+--- a/src/tools/vmap4_extractor/vmapexport.cpp
++++ b/src/tools/vmap4_extractor/vmapexport.cpp
+@@ -246,6 +246,7 @@ bool scan_patches(char* scanmatch, std::vector<std::string>& pArchiveNames)
+     int i;
+     char path[512];
+ 
++    // Numeric patches: patch.MPQ, patch-2.MPQ through patch-99.MPQ
+     for (i = 1; i <= 99; i++)
+     {
+         if (i != 1)
+@@ -263,7 +264,36 @@ bool scan_patches(char* scanmatch, std::vector<std::string>& pArchiveNames)
+ #endif
+         {
+             fclose(h);
+-            //matches.push_back(path);
++            pArchiveNames.emplace_back(path);
++        }
++    }
++
++    // Uppercase alphabetic patches: patch-A.MPQ through patch-Z.MPQ
++    for (char c = 'A'; c <= 'Z'; ++c)
++    {
++        sprintf(path, "%s-%c.MPQ", scanmatch, c);
++#ifdef __linux__
++        if (FILE* h = fopen64(path, "rb"))
++#else
++        if (FILE* h = fopen(path, "rb"))
++#endif
++        {
++            fclose(h);
++            pArchiveNames.emplace_back(path);
++        }
++    }
++
++    // Lowercase alphabetic patches: patch-a.MPQ through patch-z.MPQ
++    for (char c = 'a'; c <= 'z'; ++c)
++    {
++        sprintf(path, "%s-%c.MPQ", scanmatch, c);
++#ifdef __linux__
++        if (FILE* h = fopen64(path, "rb"))
++#else
++        if (FILE* h = fopen(path, "rb"))
++#endif
++        {
++            fclose(h);
+             pArchiveNames.emplace_back(path);
+         }
+     }
+-- 
+2.34.1
+

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "racial-trait-swap",
+  "version": "0.1.0",
+  "description": "Racial trait customization and swapping",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-racial-trait-swap",
+    "source": "https://github.com/azerothcore/mod-racial-trait-swap.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

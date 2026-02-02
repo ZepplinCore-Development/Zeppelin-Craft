@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "individual-progression",
+  "version": "0.1.0",
+  "description": "Individual progression module customizations for progression gating",
+  "author": "Zeppelin Team",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-individual-progression",
+    "source": "https://github.com/ZhengPeiRu21/mod-individual-progression.git",
+    "branch": "master",
+    "patch_mode": "granular"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

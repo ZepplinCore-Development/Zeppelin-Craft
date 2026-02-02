@@ -1,0 +1,21 @@
+From 305e1db1d3233c2f441e6a65e8b1cfa24e83eee9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Fri, 30 Jan 2026 04:48:02 +0000
+Subject: [PATCH] F-024: Move player_starting_skillbars.sql to optional
+
+Vanilla starting skill changes are a restrictive mechanic that
+Zeppelin makes optional.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../sql/world/zz_optional_player_starting_skillbars.sql           | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename data/sql/db-world/base/player_starting_skillbars.sql => optional/sql/world/zz_optional_player_starting_skillbars.sql (100%)
+
+diff --git a/data/sql/db-world/base/player_starting_skillbars.sql b/optional/sql/world/zz_optional_player_starting_skillbars.sql
+similarity index 100%
+rename from data/sql/db-world/base/player_starting_skillbars.sql
+rename to optional/sql/world/zz_optional_player_starting_skillbars.sql
+-- 
+2.34.1
+
