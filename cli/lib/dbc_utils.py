@@ -11,6 +11,7 @@ Four-database architecture for safe, traceable DBC editing:
 import os
 import re
 import subprocess
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Any
@@ -580,6 +581,8 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
     """
     Execute SQL against a DBC database using mysql CLI.
 
+    Uses --defaults-extra-file to avoid password warning on command line.
+
     Args:
         sql: SQL to execute
         config: Database configuration
@@ -591,21 +594,31 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
     if database is None:
         database = config.live
 
-    mysql_cmd = [
-        'mysql',
-        '-h', config.host,
-        '-P', str(config.port),
-        '-u', config.user,
-        f"-p{config.password}",
-        database
-    ]
+    # Create temp file with credentials to avoid password warning
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.cnf', delete=False) as f:
+        f.write(f"[client]\n")
+        f.write(f"user={config.user}\n")
+        f.write(f"password={config.password}\n")
+        f.write(f"host={config.host}\n")
+        f.write(f"port={config.port}\n")
+        cnf_path = f.name
 
-    result = subprocess.run(
-        mysql_cmd,
-        input=sql,
-        capture_output=True,
-        text=True
-    )
+    try:
+        mysql_cmd = [
+            'mysql',
+            f'--defaults-extra-file={cnf_path}',
+            database
+        ]
+
+        result = subprocess.run(
+            mysql_cmd,
+            input=sql,
+            capture_output=True,
+            text=True
+        )
+    finally:
+        # Clean up temp credentials file
+        os.unlink(cnf_path)
 
     if result.returncode != 0:
         return False, result.stderr

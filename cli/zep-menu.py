@@ -13,7 +13,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Any, Dict, List, Optional, Tuple
 
 # Add cli directory to path
 CLI_DIR = Path(__file__).parent
@@ -67,17 +67,27 @@ def build_menu_tree(group: click.Group, parent_path: str = "") -> Dict[str, Any]
             }
         else:
             # It's a leaf command
-            # Extract required arguments
+            # Extract required arguments AND required options
             args = []
+            options = []
             if hasattr(cmd, 'params'):
                 for param in cmd.params:
                     if isinstance(param, click.Argument) and param.required:
                         args.append(param.name)
+                    elif isinstance(param, click.Option) and param.required:
+                        # Get the option flag (prefer long form)
+                        flag = param.opts[-1] if param.opts else param.name
+                        options.append({
+                            'name': param.name,
+                            'flag': flag,
+                            'help': param.help or ''
+                        })
 
             tree['commands'][name] = {
                 'help': help_text,
                 'path': full_path,
                 'args': args,
+                'options': options,
                 'cmd': cmd
             }
 
@@ -150,54 +160,83 @@ def show_menu(title: str, options: List[str], show_back: bool = True,
     return result
 
 
-def prompt_args(args: List[str], command_path: str) -> Optional[List[str]]:
-    """Prompt user for required arguments.
+def prompt_args(args: List[str], options: List[Dict], command_path: str) -> Optional[Tuple[List[str], List[Tuple[str, str]]]]:
+    """Prompt user for required arguments and options.
 
     Args:
         args: List of argument names
+        options: List of option dicts with 'name', 'flag', 'help'
         command_path: Full command path for display
 
     Returns:
-        List of argument values, or None if cancelled
+        Tuple of (arg_values, option_tuples) or None if cancelled
+        option_tuples are (flag, value) pairs
     """
-    if not args:
-        return []
+    if not args and not options:
+        return [], []
 
     print(f"\n Command: zep {command_path}\n")
 
-    values = []
+    # Collect argument values
+    arg_values = []
     for arg in args:
         try:
-            # Format arg name nicely
             display_name = arg.replace('_', ' ').title()
             value = input(f"  {display_name}: ").strip()
             if not value:
                 print("\n  Cancelled (empty input)")
                 return None
-            values.append(value)
+            arg_values.append(value)
         except (KeyboardInterrupt, EOFError):
             print("\n  Cancelled")
             return None
 
-    return values
+    # Collect required option values
+    option_values = []
+    for opt in options:
+        try:
+            display_name = opt['name'].replace('_', ' ').title()
+            hint = f" ({opt['help']})" if opt['help'] else ""
+            value = input(f"  {display_name}{hint}: ").strip()
+            if not value:
+                print("\n  Cancelled (empty input)")
+                return None
+            option_values.append((opt['flag'], value))
+        except (KeyboardInterrupt, EOFError):
+            print("\n  Cancelled")
+            return None
+
+    return arg_values, option_values
 
 
-def execute_command(command_path: str, args: List[str] = None) -> bool:
+def execute_command(command_path: str, args: List[str] = None,
+                    options: List[Tuple[str, str]] = None) -> bool:
     """Execute a zep command.
 
     Args:
         command_path: Command path (e.g., "zpak list")
         args: Optional list of argument values
+        options: Optional list of (flag, value) tuples for options
 
     Returns:
         True if should return to menu, False to exit
     """
     # Build full command
     cmd_parts = ["python3", str(CLI_DIR / "zep.py")] + command_path.split()
+
+    # Add options first (before positional args)
+    if options:
+        for flag, value in options:
+            cmd_parts.extend([flag, value])
+
+    # Add positional arguments
     if args:
         cmd_parts.extend(args)
 
     cmd_display = f"zep {command_path}"
+    if options:
+        for flag, value in options:
+            cmd_display += f" {flag} {value}"
     if args:
         cmd_display += " " + " ".join(args)
 
@@ -290,16 +329,19 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
         elif selection_type == 'command':
             # Execute command
             args = selection_data.get('args', [])
+            options = selection_data.get('options', [])
 
-            if args:
-                # Need to prompt for arguments
-                arg_values = prompt_args(args, selection_data['path'])
-                if arg_values is None:
+            if args or options:
+                # Need to prompt for arguments/options
+                result = prompt_args(args, options, selection_data['path'])
+                if result is None:
                     continue  # Cancelled, stay in menu
+                arg_values, option_values = result
             else:
                 arg_values = []
+                option_values = []
 
-            continue_running = execute_command(selection_data['path'], arg_values)
+            continue_running = execute_command(selection_data['path'], arg_values, option_values)
             if not continue_running:
                 return False
 
