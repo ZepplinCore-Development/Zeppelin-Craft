@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "PACKAGE_NAME",
+  "version": "0.1.0",
+  "description": "PACKAGE_DESCRIPTION",
+  "author": "Zeppelin Team",
+
+  "type": "acore-extension",
+
+  "acore": {
+    "module": "mod-MODULE_NAME",
+    "source": "https://github.com/UPSTREAM_OWNER/mod-MODULE_NAME.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+
+  "contents": {
+    "patches": ["patches/*.patch"],
+    "sql": ["sql/*.sql"],
+    "dbc": ["dbc/*.sql"]
+  },
+
+  "dependencies": [],
+  "enabled": true,
+  "priority": 50
+}

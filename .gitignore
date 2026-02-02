@@ -31,3 +31,7 @@ temp.txt
 
 # Backup files (use git for versioning)
 *.bak
+
+# External zpaks (separate repos, managed by zep CLI)
+external/
+!external/.gitkeep

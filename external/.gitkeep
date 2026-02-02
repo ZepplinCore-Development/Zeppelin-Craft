@@ -1,0 +1,2 @@
+# External zpaks (gitignored, separate repos)
+# Install external packages with: zep zpak install <url>

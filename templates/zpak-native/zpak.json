@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "PACKAGE_NAME",
+  "version": "0.1.0",
+  "description": "PACKAGE_DESCRIPTION",
+  "author": "Zeppelin Team",
+
+  "type": "native",
+
+  "contents": {
+    "sql": ["sql/*.sql"],
+    "dbc": ["dbc/*.sql"],
+    "mpq": null
+  },
+
+  "dependencies": [],
+  "enabled": true,
+  "priority": 100
+}
