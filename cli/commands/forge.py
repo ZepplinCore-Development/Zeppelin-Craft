@@ -30,7 +30,8 @@ from lib.forge import (
     has_uncommitted_changes,
     reset_to_upstream,
     apply_patches,
-    generate_patches
+    generate_patches,
+    get_patch_commit_count
 )
 
 
@@ -242,12 +243,16 @@ def forge_status(ctx, name: Optional[str]):
 @forge.command('build-patch')
 @click.argument('name', required=False)
 @click.option('--all', '-a', 'process_all', is_flag=True, help='Process all packages')
+@click.option('--force', '-f', is_flag=True, help='Overwrite patches even if repo has fewer commits')
 @click.pass_context
-def forge_build_patch(ctx, name: Optional[str], process_all: bool):
+def forge_build_patch(ctx, name: Optional[str], process_all: bool, force: bool):
     """Build patches from current repo state.
 
     Saves current commits as patches without modifying the repo.
     Use when tuning or cleaning up repos.
+
+    WARNING: If the repo has fewer commits than existing patches, this will
+    lose work. Use --force to override, or run apply-patch first.
     """
     craft_root = ctx.obj['craft_root']
     zpaks = discover_acore_zpaks(craft_root)
@@ -294,6 +299,16 @@ def forge_build_patch(ctx, name: Optional[str], process_all: bool):
             click.echo(f"{Colors.RED}✗{Colors.RESET} {zpak_name}: Failed to fetch upstream")
             results["failed"] += 1
             continue
+
+        # Safety check: warn if repo has fewer commits than existing patches
+        if not force:
+            ahead, _ = get_divergence(module_path, upstream_branch)
+            existing_count = get_patch_commit_count(patch_dir, patch_mode)
+            if existing_count > 0 and ahead is not None and ahead < existing_count:
+                click.echo(f"{Colors.RED}✗{Colors.RESET} {zpak_name}: Repo has {ahead} commits but patches contain {existing_count}")
+                click.echo(f"   This may indicate a partial apply-patch. Run apply-patch first or use --force to overwrite.")
+                results["failed"] += 1
+                continue
 
         # Generate patches
         success, message = generate_patches(module_path, patch_dir, upstream_branch, patch_mode)

@@ -6,6 +6,7 @@ and patch synchronization.
 """
 
 import os
+import re
 import subprocess
 from pathlib import Path
 from typing import List, Optional, Tuple
@@ -207,6 +208,43 @@ def apply_patches(
             return applied, f"Error at {patch_file.name}: {str(e)}"
 
     return applied, None
+
+
+def count_commits_in_patch(patch_file: Path) -> int:
+    """Count the number of commits in a combined patch file.
+
+    Args:
+        patch_file: Path to a patch file (from git format-patch --stdout)
+
+    Returns:
+        Number of commits found in the patch
+    """
+    try:
+        content = patch_file.read_text()
+        # Each commit starts with "From <40-char-hash>"
+        return len(re.findall(r'^From [a-f0-9]{40}', content, re.MULTILINE))
+    except Exception:
+        return 0
+
+
+def get_patch_commit_count(patch_dir: Path, patch_mode: str) -> int:
+    """Get the total number of commits represented by patches.
+
+    Args:
+        patch_dir: Directory containing patch files
+        patch_mode: "single" or "granular"
+
+    Returns:
+        Total commit count across all patches
+    """
+    patches = sorted(patch_dir.glob("*.patch")) if patch_dir.exists() else []
+    if not patches:
+        return 0
+
+    if patch_mode == "granular":
+        return len(patches)
+    else:  # single
+        return count_commits_in_patch(patches[0])
 
 
 def generate_patches(
