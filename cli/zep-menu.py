@@ -203,25 +203,13 @@ def show_menu(title: str, options: List[str], show_back: bool = True,
     Args:
         title: Menu title
         options: List of menu option strings
-        show_back: Whether to show [Back] option
+        show_back: Whether to show [Back] option (ignored, q always works)
         preview_command: Optional preview command for status bar
 
     Returns:
-        Selected index (0-based), or None if quit/back
+        Selected index (0-based), or None if quit/back (q pressed)
     """
     menu_options = list(options)
-    num_real_options = len(menu_options)
-
-    # Track indices for special options
-    back_index = None
-    quit_index = None
-
-    if show_back:
-        back_index = len(menu_options)
-        menu_options.append("[Back]")
-    else:
-        quit_index = len(menu_options)
-        menu_options.append("[Quit]")
 
     menu = TerminalMenu(
         menu_options,
@@ -231,23 +219,13 @@ def show_menu(title: str, options: List[str], show_back: bool = True,
         menu_highlight_style=("fg_cyan", "bold"),
         cycle_cursor=True,
         clear_screen=True,
-        status_bar=preview_command or "Arrow keys: Navigate | Enter: Select | q: Quit",
+        status_bar=preview_command or "Arrow keys: Navigate | Enter: Select | q: Back",
         status_bar_style=("fg_gray",),
     )
 
     result = menu.show()
 
     if result is None:  # Escape or q pressed
-        return None
-
-    # Check for special options
-    if result == back_index:
-        return None
-    if result == quit_index:
-        return -1  # Signal to exit completely
-
-    # Return index in original options list
-    if result >= num_real_options:
         return None
 
     return result
@@ -429,10 +407,10 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
         # Show menu
         result = show_menu(title, options, show_back=not is_root)
 
-        if result is None:  # Back
-            return True
-        if result == -1:  # Quit
-            return False
+        if result is None:  # q/Escape pressed
+            if is_root:
+                return False  # Exit at root level
+            return True  # Go back at submenus
 
         # Handle selection
         selection_type, selection_name, selection_data = option_map[result]
@@ -464,7 +442,11 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
                 zpak_name, is_all = choice
 
                 if is_all:
-                    continue_running = execute_command_with_flag(command_path, '--all')
+                    # forge status takes no arg for "all", others use --all flag
+                    if command_path == 'forge status':
+                        continue_running = execute_command(command_path)
+                    else:
+                        continue_running = execute_command_with_flag(command_path, '--all')
                 else:
                     continue_running = execute_command(command_path, [zpak_name])
 
