@@ -254,28 +254,110 @@ def zpak_info(ctx, name):
 
 
 @zpak.command('create')
-@click.argument('name')
+@click.argument('name', required=False)
 @click.option('--type', '-t', 'pkg_type',
               type=click.Choice(['native', 'acore-extension', 'mpq', 'hybrid']),
-              default='native', help='Package type')
+              help='Package type')
 @click.option('--description', '-d', default='', help='Package description')
 @click.pass_context
 def zpak_create(ctx, name, pkg_type, description):
-    """Create a new internal package"""
+    """Create a new internal package (interactive if no args)"""
     import json
+    import re
 
     craft_root = ctx.obj['craft_root']
+
+    # Interactive mode if no name provided
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Install with: pip install simple-term-menu\n"
+                "Or specify: zep zpak create <name> --type <type>"
+            )
+
+        click.echo("\n  Create New Zpak\n")
+
+        # Get name
+        try:
+            name = input("  Name (lowercase, hyphens ok): ").strip()
+            if not name:
+                click.echo("Cancelled.")
+                return
+        except (KeyboardInterrupt, EOFError):
+            click.echo("\nCancelled.")
+            return
+
+        if not re.match(r'^[a-z0-9-]+$', name):
+            raise click.ClickException("Name must be lowercase alphanumeric with hyphens only")
+
+        # Check if exists
+        pkg_dir = craft_root / 'zpaks' / name
+        if pkg_dir.exists():
+            raise click.ClickException(f"Package '{name}' already exists")
+
+        # Get type
+        if not pkg_type:
+            type_options = [
+                "mpq             Client-side assets (models, textures)",
+                "acore-extension Wraps an AzerothCore module",
+                "native          Pure Zeppelin content (SQL, Lua)",
+                "hybrid          Combination of native + mpq",
+                "─" * 50,
+                "[Cancel]"
+            ]
+
+            click.echo()
+            menu = TerminalMenu(
+                type_options,
+                title="  Select package type:\n",
+                menu_cursor="> ",
+                menu_cursor_style=("fg_cyan", "bold"),
+                menu_highlight_style=("fg_cyan", "bold"),
+            )
+
+            result = menu.show()
+            if result is None or result >= 4:
+                click.echo("Cancelled.")
+                return
+
+            pkg_type = ['mpq', 'acore-extension', 'native', 'hybrid'][result]
+
+        # Get description
+        if not description:
+            try:
+                description = input(f"\n  Description (enter to skip): ").strip()
+            except (KeyboardInterrupt, EOFError):
+                click.echo("\nCancelled.")
+                return
+
+        # Confirm
+        click.echo(f"\n  Creating zpak:")
+        click.echo(f"    Name: {name}")
+        click.echo(f"    Type: {pkg_type}")
+        click.echo(f"    Desc: {description or '(none)'}")
+
+        if not click.confirm("\n  Proceed?"):
+            click.echo("Cancelled.")
+            return
+
+    else:
+        # Non-interactive validation
+        if not re.match(r'^[a-z0-9-]+$', name):
+            click.echo("Error: Package name must be lowercase alphanumeric with hyphens only", err=True)
+            sys.exit(1)
+
+        pkg_dir = craft_root / 'zpaks' / name
+        if pkg_dir.exists():
+            click.echo(f"Error: Package '{name}' already exists", err=True)
+            sys.exit(1)
+
+        if not pkg_type:
+            pkg_type = 'native'
+
     pkg_dir = craft_root / 'zpaks' / name
-
-    if pkg_dir.exists():
-        click.echo(f"Error: Package '{name}' already exists", err=True)
-        sys.exit(1)
-
-    # Validate name
-    import re
-    if not re.match(r'^[a-z0-9-]+$', name):
-        click.echo("Error: Package name must be lowercase alphanumeric with hyphens only", err=True)
-        sys.exit(1)
 
     # Create directory structure
     pkg_dir.mkdir(parents=True)
@@ -405,6 +487,329 @@ def zpak_validate(ctx, name):
 
     if errors > 0:
         sys.exit(1)
+
+
+@zpak.command('toggle')
+@click.argument('name', required=False)
+@click.pass_context
+def zpak_toggle(ctx, name):
+    """Enable or disable a package"""
+    import json
+
+    craft_root = ctx.obj['craft_root']
+
+    # Interactive selection if no name
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Or specify: zep zpak toggle <name>"
+            )
+
+        # Collect zpaks
+        zpaks = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if pkg_dir.is_dir() and (pkg_dir / 'zpak.json').exists():
+                    manifest = load_manifest(pkg_dir / 'zpak.json')
+                    if manifest:
+                        zpaks.append({
+                            'name': manifest.get('name', pkg_dir.name),
+                            'enabled': manifest.get('enabled', True),
+                            'path': pkg_dir
+                        })
+
+        if not zpaks:
+            click.echo("No zpaks found")
+            return
+
+        options = []
+        for z in zpaks:
+            status = "✓ Enabled " if z['enabled'] else "○ Disabled"
+            options.append(f"{status}  {z['name']}")
+
+        options.append("─" * 40)
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to toggle:\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
+
+        selected = zpaks[result]
+        name = selected['name']
+        pkg_path = selected['path']
+    else:
+        # Find by name
+        pkg_path = None
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                pkg_path = candidate
+                break
+
+        if not pkg_path:
+            raise click.ClickException(f"Package '{name}' not found")
+
+    # Load and toggle
+    manifest_path = pkg_path / 'zpak.json'
+    manifest = load_manifest(manifest_path)
+    if not manifest:
+        raise click.ClickException(f"Could not load manifest for '{name}'")
+
+    current = manifest.get('enabled', True)
+    manifest['enabled'] = not current
+
+    with open(manifest_path, 'w') as f:
+        json.dump(manifest, f, indent=2)
+        f.write('\n')
+
+    new_status = "enabled" if manifest['enabled'] else "disabled"
+    click.echo(f"{name}: {new_status}")
+
+
+@zpak.command('edit')
+@click.argument('name', required=False)
+@click.pass_context
+def zpak_edit(ctx, name):
+    """Edit package settings interactively"""
+    import json
+
+    craft_root = ctx.obj['craft_root']
+
+    try:
+        from simple_term_menu import TerminalMenu
+    except ImportError:
+        raise click.ClickException(
+            "This command requires simple-term-menu.\n"
+            "Install with: pip install simple-term-menu"
+        )
+
+    # Select zpak if not provided
+    if not name:
+        zpaks = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if pkg_dir.is_dir() and (pkg_dir / 'zpak.json').exists():
+                    manifest = load_manifest(pkg_dir / 'zpak.json')
+                    if manifest:
+                        zpaks.append({
+                            'name': manifest.get('name', pkg_dir.name),
+                            'path': pkg_dir
+                        })
+
+        if not zpaks:
+            click.echo("No zpaks found")
+            return
+
+        options = [z['name'] for z in zpaks]
+        options.append("─" * 30)
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to edit:\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
+
+        name = zpaks[result]['name']
+        pkg_path = zpaks[result]['path']
+    else:
+        pkg_path = None
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                pkg_path = candidate
+                break
+
+        if not pkg_path:
+            raise click.ClickException(f"Package '{name}' not found")
+
+    manifest_path = pkg_path / 'zpak.json'
+    manifest = load_manifest(manifest_path)
+    if not manifest:
+        raise click.ClickException(f"Could not load manifest for '{name}'")
+
+    # Editable fields
+    editable_fields = [
+        ('description', 'Description', str),
+        ('version', 'Version', str),
+        ('author', 'Author', str),
+        ('priority', 'Priority', int),
+        ('feature_id', 'Feature ID', str),
+        ('dbc_source', 'DBC Source Path', str),
+    ]
+
+    while True:
+        # Build field menu
+        options = []
+        for field, label, _ in editable_fields:
+            current = manifest.get(field, '')
+            display = str(current)[:40] if current else '(not set)'
+            options.append(f"{label:<18} {display}")
+
+        options.append("─" * 50)
+        options.append("[Save & Exit]")
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title=f"\n  Editing: {name}\n  Select field to edit:\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+
+        if result is None or result == len(editable_fields) + 2:  # Cancel
+            click.echo("Cancelled (changes discarded).")
+            return
+
+        if result == len(editable_fields) + 1:  # Save & Exit
+            with open(manifest_path, 'w') as f:
+                json.dump(manifest, f, indent=2)
+                f.write('\n')
+            click.echo(f"Saved: {manifest_path}")
+            return
+
+        if result < len(editable_fields):
+            field, label, field_type = editable_fields[result]
+            current = manifest.get(field, '')
+
+            click.echo(f"\n  {label}")
+            click.echo(f"  Current: {current or '(not set)'}")
+
+            try:
+                new_value = input("  New value (empty to clear): ").strip()
+            except (KeyboardInterrupt, EOFError):
+                continue
+
+            if new_value:
+                if field_type == int:
+                    try:
+                        manifest[field] = int(new_value)
+                    except ValueError:
+                        click.echo("  Invalid number")
+                        input("  Press Enter to continue...")
+                        continue
+                else:
+                    manifest[field] = new_value
+            elif field in manifest:
+                del manifest[field]
+
+
+@zpak.command('delete')
+@click.argument('name', required=False)
+@click.option('--force', '-f', is_flag=True, help='Skip confirmation')
+@click.pass_context
+def zpak_delete(ctx, name, force):
+    """Delete a package"""
+    import shutil
+
+    craft_root = ctx.obj['craft_root']
+
+    # Interactive selection if no name
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Or specify: zep zpak delete <name>"
+            )
+
+        zpaks = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if pkg_dir.is_dir() and (pkg_dir / 'zpak.json').exists():
+                    manifest = load_manifest(pkg_dir / 'zpak.json')
+                    if manifest:
+                        zpaks.append({
+                            'name': manifest.get('name', pkg_dir.name),
+                            'path': pkg_dir,
+                            'type': manifest.get('type', 'unknown')
+                        })
+
+        if not zpaks:
+            click.echo("No zpaks found")
+            return
+
+        options = [f"{z['name']:<25} [{z['type']}]" for z in zpaks]
+        options.append("─" * 40)
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to DELETE:\n  (This cannot be undone!)\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_red", "bold"),
+            menu_highlight_style=("fg_red", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
+
+        name = zpaks[result]['name']
+        pkg_path = zpaks[result]['path']
+    else:
+        pkg_path = None
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                pkg_path = candidate
+                break
+
+        if not pkg_path:
+            raise click.ClickException(f"Package '{name}' not found")
+
+    # Show what will be deleted
+    file_count = sum(1 for _ in pkg_path.rglob('*') if _.is_file())
+    click.echo(f"\nPackage: {name}")
+    click.echo(f"Path: {pkg_path}")
+    click.echo(f"Files: {file_count}")
+
+    if not force:
+        click.echo(click.style("\nThis will permanently delete the package!", fg='red'))
+        if not click.confirm("Are you sure?"):
+            click.echo("Cancelled.")
+            return
+
+    shutil.rmtree(pkg_path)
+    click.echo(f"Deleted: {name}")
 
 
 # =============================================================================
