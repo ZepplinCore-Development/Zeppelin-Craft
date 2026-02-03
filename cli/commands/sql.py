@@ -274,8 +274,13 @@ def sql():
     pass
 
 
-def _get_zpaks_with_sql(craft_root: Path) -> List[Dict]:
-    """Get all zpaks that have SQL files."""
+def _get_zpaks_with_sql(craft_root: Path, count_changed: bool = False) -> List[Dict]:
+    """Get all zpaks that have SQL files.
+
+    Args:
+        craft_root: Path to Zeppelin-Craft root
+        count_changed: If True, also count changed files (slower, requires DB check)
+    """
     zpaks = []
     zpaks_dir = craft_root / 'zpaks'
 
@@ -292,16 +297,30 @@ def _get_zpaks_with_sql(craft_root: Path) -> List[Dict]:
         # Check if zpak has SQL
         paths = get_zpak_sql_paths(craft_root, zpak_dir.name, manifest)
         file_count = 0
+        changed_count = 0
+        sql_files = []
+
         for path, _ in paths:
             if path.exists():
-                file_count += len(list(path.glob('*.sql')))
+                for sql_file in path.glob('*.sql'):
+                    file_count += 1
+                    sql_files.append(sql_file)
+
+        # Count changed files if requested
+        if count_changed and sql_files:
+            for sql_file in sql_files:
+                current_hash = calculate_file_hash(sql_file)
+                stored_hash = get_stored_hash(sql_file.name)
+                if stored_hash != current_hash:
+                    changed_count += 1
 
         if file_count > 0:
             zpaks.append({
                 'name': zpak_dir.name,
                 'enabled': manifest.get('enabled', True),
                 'priority': manifest.get('priority', 100),
-                'file_count': file_count
+                'file_count': file_count,
+                'changed_count': changed_count
             })
 
     # Sort by priority
@@ -352,13 +371,11 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
             "Changed only     Execute new/modified SQL files",
             "All files        Execute all SQL files",
             "Rebuild world    Drop all tables and rebuild (DANGER!)",
-            "─" * 50,
-            "[Cancel]"
         ]
 
         menu = TerminalMenu(
             main_options,
-            title="\n  SQL Execute - Select mode:\n",
+            title="\n  SQL Execute - Select mode (ESC to cancel):\n",
             menu_cursor="> ",
             menu_cursor_style=("fg_cyan", "bold"),
             menu_highlight_style=("fg_cyan", "bold"),
@@ -368,7 +385,7 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
 
         result = menu.show()
 
-        if result is None or result >= 3:
+        if result is None:
             click.echo("Cancelled.")
             return
 
@@ -377,23 +394,32 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
             run_all = True
         else:
             # Show zpak selection submenu
-            zpaks = _get_zpaks_with_sql(craft_root)
+            # For "Changed only" mode, count changed files; for "All" show total
+            is_changed_mode = (result == 0)
+            zpaks = _get_zpaks_with_sql(craft_root, count_changed=is_changed_mode)
 
             if not zpaks:
                 click.echo("No zpaks with SQL files found")
                 return
 
+            # Filter out zpaks with no changed files in "Changed only" mode
+            if is_changed_mode:
+                zpaks = [z for z in zpaks if z['changed_count'] > 0]
+                if not zpaks:
+                    click.echo("No zpaks with changed SQL files")
+                    return
+
             zpak_options = ["[All zpaks]"]
             for z in zpaks:
                 status = "✓" if z['enabled'] else "○"
-                zpak_options.append(f"{status} {z['name']:<25} ({z['file_count']} files)")
-
-            zpak_options.append("─" * 50)
-            zpak_options.append("[Cancel]")
+                if is_changed_mode:
+                    zpak_options.append(f"{status} {z['name']:<25} ({z['changed_count']} changed)")
+                else:
+                    zpak_options.append(f"{status} {z['name']:<25} ({z['file_count']} files)")
 
             menu = TerminalMenu(
                 zpak_options,
-                title="\n  Select zpak (or all):\n",
+                title="\n  Select zpak (ESC to cancel):\n",
                 menu_cursor="> ",
                 menu_cursor_style=("fg_cyan", "bold"),
                 menu_highlight_style=("fg_cyan", "bold"),
@@ -403,7 +429,7 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
 
             zpak_result = menu.show()
 
-            if zpak_result is None or zpak_result > len(zpaks):
+            if zpak_result is None:
                 click.echo("Cancelled.")
                 return
 
@@ -413,7 +439,7 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
             else:
                 zpak_name = zpaks[zpak_result - 1]['name']
 
-            if result == 0:
+            if is_changed_mode:
                 changed = True
             else:
                 run_all = True
@@ -675,13 +701,11 @@ def sql_list(ctx, zpak_name, changed, show_all):
             options = [
                 "All files       List all SQL files in execution order",
                 "Changed only    List new/modified files (hash-based)",
-                "─" * 50,
-                "[Cancel]"
             ]
 
             menu = TerminalMenu(
                 options,
-                title="\n  SQL List - Select mode:\n",
+                title="\n  SQL List - Select mode (ESC to cancel):\n",
                 menu_cursor="> ",
                 menu_cursor_style=("fg_cyan", "bold"),
                 menu_highlight_style=("fg_cyan", "bold"),
@@ -691,7 +715,7 @@ def sql_list(ctx, zpak_name, changed, show_all):
 
             result = menu.show()
 
-            if result is None or result >= 2:
+            if result is None:
                 click.echo("Cancelled.")
                 return
 
