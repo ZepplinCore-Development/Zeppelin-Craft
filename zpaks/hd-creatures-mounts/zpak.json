@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-creatures-mounts",
+  "version": "1.0.0",
+  "description": "HD creature and mount model replacements",
+  "author": "Nexusmods",
+  "type": "mpq",
+  "client_patch": "PATCH-H",
+  "build": {
+    "preprocessor": "resource-parser",
+    "preprocessor_optional": true,
+    "preprocessor_warning": "Resource Parser scans models for texture dependencies."
+  },
+  "source": {
+    "type": "nexusmods",
+    "url": "https://www.nexusmods.com/worldofwarcraft/mods/891"
+  },
+  "feature_id": "F-049",
+  "enabled": true,
+  "priority": 100
+}

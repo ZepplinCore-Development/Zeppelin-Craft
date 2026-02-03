@@ -48,6 +48,9 @@ from lib.dbc_utils import (
 )
 from lib.registry import Registry
 from lib.manifest import load_manifest
+from lib.logging_config import get_logger, log_subprocess, log_sql, log_command
+
+logger = get_logger('cli.dbc')
 
 
 # Paths
@@ -1638,17 +1641,22 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             dbc_name = dbc_file.stem.lower()
             click.echo(f"  Importing {dbc_file.stem}...", nl=False)
 
+            cmd = [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(scratch_config_path)]
             result = subprocess.run(
-                [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(scratch_config_path)],
+                cmd,
                 cwd=DBCTOOL_PATH.parent,
                 capture_output=True,
                 text=True
             )
 
+            # Log full output for debugging
+            log_subprocess(cmd, result.returncode, result.stdout, result.stderr)
+
             if result.returncode == 0:
                 imported_tables.append(dbc_name)
                 click.echo(click.style(" OK", fg='green'))
             else:
+                logger.error(f"DBCTool import failed for {dbc_name}: {result.stderr}")
                 click.echo(click.style(f" FAILED: {result.stderr.strip()[:50]}", fg='yellow'))
 
         scratch_config_path.unlink(missing_ok=True)
@@ -1784,9 +1792,12 @@ def dbc_export(ctx, table_name: Optional[str]):
     if table_name:
         cmd.extend(["--name", table_name])
 
-    result = subprocess.run(cmd, cwd=DBCTOOL_PATH.parent)
+    logger.info(f"Running DBCTool export: {' '.join(cmd)}")
+    result = subprocess.run(cmd, cwd=DBCTOOL_PATH.parent, capture_output=True, text=True)
+    log_subprocess(cmd, result.returncode, result.stdout, result.stderr)
 
     if result.returncode != 0:
+        logger.error(f"Export failed: {result.stderr}")
         raise click.ClickException(f"Export failed with code {result.returncode}")
 
     click.echo(click.style("Export complete", fg='green'))
@@ -1918,18 +1929,23 @@ def dbc_init_original(ctx, source: Optional[str], force: bool):
             dbc_name = dbc_file.stem.lower()
             click.echo(f"  {dbc_file.stem}...", nl=False)
 
+            cmd = [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(temp_config_path)]
             result = subprocess.run(
-                [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(temp_config_path)],
+                cmd,
                 cwd=DBCTOOL_PATH.parent,
                 capture_output=True,
                 text=True
             )
+
+            # Log full output for debugging
+            log_subprocess(cmd, result.returncode, result.stdout, result.stderr)
 
             if result.returncode == 0:
                 imported += 1
                 click.echo(click.style(" OK", fg='green'))
             else:
                 failed += 1
+                logger.error(f"DBCTool import failed for {dbc_name}: {result.stderr}")
                 click.echo(click.style(" FAILED", fg='yellow'))
 
         temp_config_path.unlink(missing_ok=True)

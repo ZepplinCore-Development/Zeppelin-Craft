@@ -1,0 +1,155 @@
+SET @map_id = 530;
+SET @positionx_min = -6930;
+SET @positionx_max = 526;
+SET @positiony_min = -15200;
+SET @positiony_max = -9067;
+SET @WorldMapAreaId_list = JSON_ARRAY(464, 471, 476);
+SET @Points_of_Interest_list =  JSON_ARRAY('Exodar, Auctioneer','Exodar, bank','Exodar, Hippogryph Master','Exodar, Guild Master',
+    'Exodar, Inn','Exodar, Mailbox','Exodar, Stable Master','Exodar, Weapon Master','Exodar, Druid Trainer','Exodar, Hunter Trainers',
+    'Exodar, Mage Trainers','Exodar, Paladin Trainers','Exodar, Priest Trainers','Exodar, Shaman Trainer','Exodar, Warrior Trainers',
+    'Exodar, Alchemist Trainers','Exodar, Blacksmithing Trainers','Exodar, Enchanters','Exodar, Engineering','Exodar, First Aid Trainer',
+    'Exodar, Fishing Trainer','Exodar, Herbalist Trainer','Exodar Inscription','Exodar, Jewelcrafters','Exodar, Leatherworking',
+	 'Exodar, Mining Trainers','Exodar, Skinning Trainer','Exodar, Tailors','Exodar, Cook','Azure Watch, Innkeeper','Azure Watch, Stable Master',
+    'Azure Watch, Hunter Trainer','Azure Watch, Mage Trainer','Azure Watch, Paladin Trainer','Azure Watch, Priest Trainer','Azure Watch, Shaman Trainer',
+    'Azure Watch, Warrior Trainer','Azure Watch, Alchemist','Odesyus'' Landing, Blacksmith','Odesyus'' Landing, Cook','Azure Watch, Engineering Trainer',
+	 'Azure Watch, First Aid Trainer','Ammen Ford, Fisherwoman','Azure Watch, Herbalist','Stillpine Hold, Leatherworker','Azure Watch, Mining Trainer',
+    'Stillpine Hold, Skinner','Odesyus'' Landing, Tailor','Exodar, Battlemasters','Arena Battlemaster Exodar');
+        
+SET @adtdimensions = 533.33333;
+SET @adt_xshift = 18;
+SET @adt_yshift = 34;
+SET @map_id_new = 1;
+        
+ 
+SELECT *
+FROM db_cinematiccamera_12340
+WHERE 
+    -- Model = 'Cameras\FlyByBloodElf.mdx' AND
+    originX BETWEEN @positionx_min AND @positionx_max AND
+    originY BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_cinematiccamera_12340
+SET 
+    originX = originX + (@adt_xshift * @adtdimensions),
+    originY = originY + (@adt_yshift * @adtdimensions)
+WHERE 
+    originX BETWEEN @positionx_min AND @positionx_max AND
+    originY BETWEEN @positiony_min AND @positiony_max;
+             
+SELECT *
+FROM db_areapoi_12340
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_areapoi_12340
+SET 
+    ContinentID = @map_id_new,
+    X = X + (@adt_xshift * @adtdimensions),
+    Y = Y + (@adt_yshift * @adtdimensions)
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;
+    
+SELECT *
+FROM db_areatrigger_12340
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_areatrigger_12340
+SET 
+    ContinentID = @map_id_new,
+    X = X + (@adt_xshift * @adtdimensions),
+    Y = Y + (@adt_yshift * @adtdimensions)
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;
+    
+SELECT *
+FROM db_lfgdungeons_12340
+WHERE 
+    mapid = @map_id;
+
+UPDATE db_lfgdungeons_12340
+SET 
+    mapid = @map_id_new
+WHERE 
+    mapid = @map_id;
+    
+    
+SELECT *
+FROM db_soundemitters_12340
+WHERE 
+    mapid = @map_id AND
+    positionX BETWEEN @positionx_min AND @positionx_max AND
+    positionY BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_soundemitters_12340
+SET 
+    mapid = @map_id_new,
+    positionX = positionX + (@adt_xshift * @adtdimensions),
+    positionY = positionY + (@adt_yshift * @adtdimensions)
+WHERE 
+    mapid = @map_id AND
+    positionX BETWEEN @positionx_min AND @positionx_max AND
+    positionY BETWEEN @positiony_min AND @positiony_max;
+    
+   
+SELECT *
+FROM db_taxinodes_12340
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_taxinodes_12340
+SET 
+    ContinentID = @map_id_new,
+    X = X + (@adt_xshift * @adtdimensions),
+    Y = Y + (@adt_yshift * @adtdimensions)
+WHERE 
+    ContinentID = @map_id AND
+    X BETWEEN @positionx_min AND @positionx_max AND
+    Y BETWEEN @positiony_min AND @positiony_max;    
+    
+    
+SELECT *
+FROM db_taxipathnode_12340
+WHERE 
+    ContinentID = @map_id AND
+    locX BETWEEN @positionx_min AND @positionx_max AND
+    locY BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_taxipathnode_12340
+SET 
+    ContinentID = @map_id_new,
+    locX = locX + (@adt_xshift * @adtdimensions),
+    locY = locY + (@adt_yshift * @adtdimensions)
+WHERE 
+    ContinentID = @map_id AND
+    locX BETWEEN @positionx_min AND @positionx_max AND
+    locY BETWEEN @positiony_min AND @positiony_max;  
+    
+SELECT *
+FROM db_worldsafelocs_12340
+WHERE 
+    Continent = @map_id AND
+    locX BETWEEN @positionx_min AND @positionx_max AND
+    locY BETWEEN @positiony_min AND @positiony_max;
+    
+UPDATE db_worldsafelocs_12340
+SET 
+    Continent = @map_id_new,
+    locX = locX + (@adt_xshift * @adtdimensions),
+    locY = locY + (@adt_yshift * @adtdimensions)
+WHERE 
+    Continent = @map_id AND
+    locX BETWEEN @positionx_min AND @positionx_max AND
+    locY BETWEEN @positiony_min AND @positiony_max;  
+   
+

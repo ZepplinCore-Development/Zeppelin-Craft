@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "clan-centaur",
+  "version": "1.0.0",
+  "description": "Gelkis & Magram Centaur reputation and vendor system for Desolace",
+  "author": "araxiaonline",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-clan-centaur",
+    "source": "https://github.com/araxiaonline/ClanCentaur.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "dbc": ["dbc/*.sql"],
+    "sql": ["sql/*.sql"]
+  },
+  "feature_id": "F-042",
+  "enabled": true,
+  "priority": 25
+}

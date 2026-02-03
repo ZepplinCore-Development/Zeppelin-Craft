@@ -36,6 +36,11 @@ except ImportError:
 
 from lib.registry import Registry
 from lib.manifest import load_manifest, validate_manifest
+from lib.logging_config import setup_logging, get_logger
+
+# Initialize logging at startup
+setup_logging()
+logger = get_logger('cli.main')
 
 # Version info
 __version__ = "0.2.0"
@@ -359,19 +364,50 @@ def zpak_create(ctx, name, pkg_type, description):
 
     pkg_dir = craft_root / 'zpaks' / name
 
-    # Create directory structure
+    # Create directory structure - always create full structure for consistency
     pkg_dir.mkdir(parents=True)
 
-    # Create subdirectories based on type
-    if pkg_type in ['native', 'hybrid']:
-        (pkg_dir / 'sql').mkdir()
-        (pkg_dir / 'dbc').mkdir()
+    # Standard folders (always created)
+    standard_folders = [
+        'mpq/source-binary',
+        'mpq/source-assets',
+        'mpq/parsed-assets',
+        'patches',
+        'sql',
+        'dbc'
+    ]
 
-    if pkg_type in ['acore-extension', 'hybrid']:
-        (pkg_dir / 'patches').mkdir()
+    for folder in standard_folders:
+        folder_path = pkg_dir / folder
+        folder_path.mkdir(parents=True, exist_ok=True)
+        (folder_path / '.gitkeep').touch()
 
-    if pkg_type in ['mpq', 'hybrid']:
-        (pkg_dir / 'assets').mkdir()
+    # Create .gitignore for large binary files
+    gitignore_content = """# Large binary files (not tracked in git)
+*.mpq
+*.MPQ
+*.m2
+*.M2
+*.blp
+*.BLP
+*.skin
+*.anim
+*.bone
+*.wmo
+*.WMO
+*.adt
+*.ADT
+*.wdt
+*.WDT
+*.wdl
+*.WDL
+*.zmp
+*.dbc
+*.DBC
+*.tex
+*.trs
+"""
+    (pkg_dir / '.gitignore').write_text(gitignore_content)
 
     # Create manifest
     manifest = {
@@ -381,15 +417,13 @@ def zpak_create(ctx, name, pkg_type, description):
         "description": description or f"Zeppelin Package: {name}",
         "author": "Zeppelin Team",
         "type": pkg_type,
-        "contents": {}
     }
 
-    # Add type-specific content declarations
+    # Add type-specific settings
     if pkg_type == 'native':
         manifest['contents'] = {
             "sql": ["sql/*.sql"],
-            "dbc": ["dbc/*.sql"],
-            "mpq": None
+            "dbc": ["dbc/*.sql"]
         }
     elif pkg_type == 'acore-extension':
         manifest['contents'] = {
@@ -404,22 +438,15 @@ def zpak_create(ctx, name, pkg_type, description):
             "patch_mode": "single"
         }
     elif pkg_type == 'mpq':
-        manifest['contents'] = {
-            "mpq": {
-                "assets": ["assets/"],
-                "output": f"PATCH-{name[0].upper()}.MPQ"
-            }
-        }
+        # MPQ assets are in mpq/parsed-assets by convention - no need to declare
+        manifest['client_patch'] = "PATCH-X"  # User should update this
     elif pkg_type == 'hybrid':
         manifest['contents'] = {
             "patches": ["patches/*.patch"],
             "sql": ["sql/*.sql"],
-            "dbc": ["dbc/*.sql"],
-            "mpq": {
-                "assets": ["assets/"],
-                "output": f"PATCH-{name[0].upper()}.MPQ"
-            }
+            "dbc": ["dbc/*.sql"]
         }
+        manifest['client_patch'] = "PATCH-X"  # User should update this
 
     manifest['enabled'] = True
     manifest['priority'] = 100
