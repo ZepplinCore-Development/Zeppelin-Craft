@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zepcraft-legacy",
+  "version": "1.0.0",
+  "description": "Legacy custom SQL files pending reorganization into feature zpaks",
+  "author": "Zeppelin Team",
+  "type": "native",
+  "contents": {
+    "sql": ["sql/**/*.sql"]
+  },
+  "enabled": true,
+  "priority": 999
+}

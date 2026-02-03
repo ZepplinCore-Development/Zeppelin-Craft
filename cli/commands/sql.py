@@ -213,8 +213,8 @@ def collect_sql_files_from_paths(paths: List[Tuple[Path, str]]) -> List[Tuple[Pa
             if not path.exists():
                 continue
 
-            # Get SQL files, sorted alphabetically
-            for sql_file in sorted(path.glob('*.sql')):
+            # Get SQL files recursively, sorted alphabetically
+            for sql_file in sorted(path.glob('**/*.sql')):
                 if sql_file not in seen:
                     seen.add(sql_file)
                     files.append((sql_file, folder_type))
@@ -302,7 +302,7 @@ def _get_zpaks_with_sql(craft_root: Path, count_changed: bool = False) -> List[D
 
         for path, _ in paths:
             if path.exists():
-                for sql_file in path.glob('*.sql'):
+                for sql_file in path.glob('**/*.sql'):
                     file_count += 1
                     sql_files.append(sql_file)
 
