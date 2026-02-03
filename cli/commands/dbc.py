@@ -239,23 +239,26 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
 @click.option('--task', '-t', 'task_id', required=True,
               help='Task ID (F-XXX or I-XXX)')
 @click.option('--description', '-d', 'description',
-              help='Commit description')
-@click.option('--no-commit', is_flag=True,
-              help='Skip git commit')
+              help='Commit description (only with --commit)')
+@click.option('--commit', is_flag=True,
+              help='Create git commit (default: no commit)')
 @click.pass_context
 def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
-               description: Optional[str], no_commit: bool):
+               description: Optional[str], commit: bool):
     """Modify DBC database with tracking.
 
     Execute modifications (INSERT/UPDATE/DELETE) with proper tracking:
     - Validates task ID format
-    - Saves SQL to zpak dbc/ folder
+    - Saves SQL to zpak dbc/ folder (F-XXX_table.sql)
     - Applies to live and expected databases
-    - Creates git commit
+
+    History is preserved in the zpak SQL files. Commit when ready with --commit
+    or manually via git.
 
     Examples:
         zep dbc modify --task F-004 "UPDATE spell SET SpellName0='Test' WHERE ID=900001"
         zep dbc modify --task I-015 -f changes.sql
+        zep dbc modify --task F-004 "..." --commit  # Also commit to git
     """
     # Validate task ID
     if not validate_task_id(task_id):
@@ -359,8 +362,8 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
         modified_files.append(sql_file_path)
         click.echo(f"Saved: {sql_file_path.relative_to(craft_root)}")
 
-    # Git commit
-    if not no_commit:
+    # Git commit (only if --commit flag)
+    if commit:
         desc = description or f"DBC: {', '.join(sorted(tables))}"
         if git_commit_changes(craft_root, modified_files + [zpak_path / 'zpak.json'], task_id, desc):
             click.echo(click.style(f"\nCommit created: WIP: {task_id}", fg='green'))
@@ -730,14 +733,20 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
             tables = get_tables(orig_conn)
 
             live_cursor = live_conn.cursor()
+            # Disable foreign key checks for table recreation
+            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+
             for table in tables:
                 if table.startswith("dbc_"):
                     continue
                 click.echo(f"  Copying {table}...", nl=False)
-                live_cursor.execute(f"TRUNCATE TABLE `{table}`")
+                # Drop and recreate table to ensure matching schema
+                live_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+                live_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.original}`.`{table}`")
                 live_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.original}`.`{table}`")
                 click.echo(" OK")
 
+            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
             live_conn.commit()
             live_cursor.close()
 
@@ -784,12 +793,18 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
             tables = get_tables(live_conn)
 
             expected_cursor = expected_conn.cursor()
+            # Disable foreign key checks for table recreation
+            expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+
             for table in tables:
                 if table.startswith("dbc_"):
                     continue
-                expected_cursor.execute(f"TRUNCATE TABLE `{table}`")
+                # Drop and recreate table to ensure matching schema
+                expected_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+                expected_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.live}`.`{table}`")
                 expected_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.live}`.`{table}`")
 
+            expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
             expected_conn.commit()
             expected_cursor.close()
 
@@ -1055,38 +1070,292 @@ def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
 # Import Module Command
 # =============================================================================
 
+def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
+    """Discover available zpaks with additional info.
+
+    Returns:
+        List of dicts with 'name', 'description', 'path', 'has_mpq_dbc'
+    """
+    zpaks = []
+
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        if not base.exists():
+            continue
+        for pkg_dir in sorted(base.iterdir()):
+            if not pkg_dir.is_dir():
+                continue
+            manifest_path = pkg_dir / 'zpak.json'
+            if not manifest_path.exists():
+                continue
+
+            manifest = load_manifest(manifest_path)
+            if not manifest:
+                continue
+
+            # Check for mpq/DBFilesClient directory
+            mpq_dbc_path = pkg_dir / 'mpq' / 'DBFilesClient'
+            has_mpq_dbc = mpq_dbc_path.exists()
+
+            zpaks.append({
+                'name': manifest.get('name', pkg_dir.name),
+                'description': manifest.get('description', '')[:40],
+                'path': pkg_dir,
+                'has_mpq_dbc': has_mpq_dbc,
+                'mpq_dbc_path': mpq_dbc_path if has_mpq_dbc else None
+            })
+
+    return zpaks
+
+
+def _normalize_feature_id(value: str) -> str:
+    """Normalize feature ID input to F-XXX format.
+
+    Accepts: '004', '4', 'F-004', 'f-004', 'F004'
+    Returns: 'F-004'
+    """
+    if not value:
+        return None
+
+    value = value.strip().upper()
+
+    # Already in correct format
+    if value.startswith('F-') or value.startswith('I-'):
+        return value
+
+    # Handle F004 format (no dash)
+    if value.startswith('F') or value.startswith('I'):
+        prefix = value[0]
+        num = value[1:]
+        if num.isdigit():
+            return f"{prefix}-{num.zfill(3)}"
+
+    # Just a number - assume Feature
+    if value.isdigit():
+        return f"F-{value.zfill(3)}"
+
+    return None
+
+
+def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str]) -> List[Path]:
+    """Get existing DBC SQL files for a zpak/feature combo.
+
+    Args:
+        zpak_path: Path to zpak directory
+        feature_id: Feature ID (F-XXX) or None
+
+    Returns:
+        List of existing SQL file paths
+    """
+    dbc_dir = zpak_path / 'dbc'
+    if not dbc_dir.exists():
+        return []
+
+    if feature_id:
+        # Look for feature-prefixed files
+        return list(dbc_dir.glob(f"{feature_id}_*.sql"))
+    else:
+        # Look for non-prefixed files (module-level)
+        files = []
+        for f in dbc_dir.glob("*.sql"):
+            # Skip feature-prefixed files
+            if not (f.stem.startswith('F-') or f.stem.startswith('I-')):
+                files.append(f)
+        return files
+
+
 @dbc.command('import-module')
-@click.option('--name', '-n', required=True,
-              help='Module name for the zpak')
-@click.option('--source', '-s', required=True, type=click.Path(exists=True),
-              help='Path to DBC files directory')
+@click.option('--name', '-n',
+              help='Zpak name (interactive selection if omitted)')
+@click.option('--source', '-s', type=click.Path(),
+              help='Path to DBC files (default: zpaks/<name>/mpq/DBFilesClient)')
+@click.option('--task', '-t', 'task_id',
+              help='Feature ID (just number like 049, or F-049)')
 @click.option('--priority', '-p', type=int, default=50,
               help='Priority (default: 50, lower = applied first)')
+@click.option('--force', '-f', is_flag=True,
+              help='Overwrite existing DBC diff files without confirmation')
 @click.pass_context
-def dbc_import_module(ctx, name: str, source: str, priority: int):
-    """Import binary DBC files as a new zpak.
+def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: Optional[str],
+                      priority: int, force: bool):
+    """Import binary DBC files into an existing zpak.
 
-    Imports DBC files using DBCTool into scratch_dbc, compares against
-    original_dbc, and generates SQL files for any differences.
+    Interactive mode (recommended):
+        zep dbc import-module
 
-    Examples:
-        zep dbc import-module --name worgoblin --source /path/to/dbc/
+    With options:
+        zep dbc import-module --name hd-creatures-mounts --task 049
+        zep dbc import-module --name worgoblin --source /custom/path/to/dbc/
     """
     import shutil
     import tempfile
 
-    source_path = Path(source)
     craft_root = ctx.obj['craft_root']
+
+    # Step 0: Interactive zpak selection if not provided
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Install with: pip install simple-term-menu\n"
+                "Or specify --name directly."
+            )
+
+        zpaks = _discover_zpaks_with_info(craft_root)
+        if not zpaks:
+            raise click.ClickException("No zpaks found in zpaks/ or external/")
+
+        # Build menu options
+        options = []
+        for zpak in zpaks:
+            indicator = "📦" if zpak['has_mpq_dbc'] else "  "
+            options.append(f"{indicator} {zpak['name']:<25} {zpak['description']}")
+
+        options.append("─" * 40)
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to import DBC files into:\n  (📦 = has mpq/DBFilesClient)\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
+
+        selected_zpak = zpaks[result]
+        name = selected_zpak['name']
+        zpak_path = selected_zpak['path']
+
+        click.echo(f"\nSelected: {name}")
+    else:
+        # Find zpak by name
+        zpak_path = None
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                zpak_path = candidate
+                break
+
+        if not zpak_path:
+            raise click.ClickException(f"Zpak '{name}' not found")
+
+    # Step 1: Determine source path
+    default_source = zpak_path / 'mpq' / 'DBFilesClient'
+
+    if not source:
+        try:
+            from simple_term_menu import TerminalMenu
+
+            options = [
+                f"Default: {default_source.relative_to(craft_root)}",
+                "Specify custom path"
+            ]
+
+            click.echo(f"\nDBC source location:")
+            menu = TerminalMenu(
+                options,
+                menu_cursor="> ",
+                menu_cursor_style=("fg_cyan", "bold"),
+                menu_highlight_style=("fg_cyan", "bold"),
+            )
+
+            result = menu.show()
+
+            if result is None:
+                click.echo("Cancelled.")
+                return
+
+            if result == 0:
+                source_path = default_source
+            else:
+                try:
+                    custom_path = input("\n  Enter path to DBC files: ").strip()
+                    if not custom_path:
+                        click.echo("Cancelled.")
+                        return
+                    source_path = Path(custom_path)
+                except (KeyboardInterrupt, EOFError):
+                    click.echo("\nCancelled.")
+                    return
+
+        except ImportError:
+            # Fallback to default
+            source_path = default_source
+    else:
+        source_path = Path(source)
+
+    if not source_path.exists():
+        raise click.ClickException(f"Source path not found: {source_path}")
+
+    # Step 2: Get feature ID (interactive if not provided)
+    if not task_id:
+        try:
+            from simple_term_menu import TerminalMenu
+
+            click.echo(f"\nFeature ID (for tracking in SQL filenames):")
+            click.echo(f"  Enter 3-digit number (e.g., 049) or leave empty for none")
+
+            try:
+                task_input = input("  Feature ID: ").strip()
+            except (KeyboardInterrupt, EOFError):
+                click.echo("\nCancelled.")
+                return
+
+            if task_input:
+                task_id = _normalize_feature_id(task_input)
+                if not task_id:
+                    raise click.ClickException(
+                        f"Invalid feature ID: {task_input}\n"
+                        "Enter a number (e.g., 049) or full ID (F-049)"
+                    )
+        except ImportError:
+            pass  # No feature ID in non-interactive mode
+    else:
+        # Normalize provided task ID
+        task_id = _normalize_feature_id(task_id)
+        if not task_id:
+            raise click.ClickException(
+                f"Invalid feature ID format.\n"
+                "Use a number (049) or full ID (F-049)"
+            )
+
+    # Step 3: Check for existing DBC files and confirm if needed
+    existing_files = _get_existing_dbc_files(zpak_path, task_id)
+    if existing_files and not force:
+        click.echo(click.style(f"\nExisting DBC diff files found ({len(existing_files)}):", fg='yellow'))
+        for f in existing_files[:5]:
+            click.echo(f"  - {f.name}")
+        if len(existing_files) > 5:
+            click.echo(f"  ... and {len(existing_files) - 5} more")
+
+        if not click.confirm("\nOverwrite existing DBC diff files?"):
+            click.echo("Cancelled.")
+            return
+
+    # Get config and registry
     config = get_dbc_config(ctx)
+    registry = ctx.obj['registry']
 
     # Find DBC files
     dbc_files = list(source_path.glob('*.dbc')) + list(source_path.glob('*.DBC'))
     if not dbc_files:
         raise click.ClickException(f"No .dbc files found in {source_path}")
 
-    click.echo(click.style(f"Importing module: {name}", bold=True))
+    click.echo()
+    click.echo(click.style(f"DBC Import: {name}", bold=True))
+    click.echo(f"  Zpak: {zpak_path.relative_to(craft_root)}")
     click.echo(f"  Source: {source_path}")
-    click.echo(f"  Priority: {priority}")
+    if task_id:
+        click.echo(f"  Feature: {task_id}")
     click.echo(f"  DBC files: {len(dbc_files)}")
     click.echo()
 
@@ -1134,7 +1403,8 @@ def dbc_import_module(ctx, name: str, source: str, priority: int):
 
     try:
         # Build meta file map for case matching
-        meta_dir = DBCTOOL_PATH.parent / "meta"
+        # Use spelleditor_meta for WoW Spell Editor compatible column names
+        meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
         meta_file_map = {}
         for meta_file in meta_dir.glob("*.meta.json"):
             try:
@@ -1158,7 +1428,7 @@ def dbc_import_module(ctx, name: str, source: str, priority: int):
             if not symlink_path.exists():
                 symlink_path.symlink_to(dbc_file)
 
-        # Create temp config for DBCTool
+        # Create temp config for DBCTool with spelleditor_meta
         scratch_config = {
             "dbc": {
                 "user": config.user,
@@ -1238,48 +1508,43 @@ def dbc_import_module(ctx, name: str, source: str, priority: int):
                     tables_with_changes.append(table)
                     click.echo(f"    {table}: +{adds} ~{mods} -{dels}")
 
-            # Step 4: Create zpak with SQL files
-            click.echo(f"\nStep 4: Creating zpak...")
+            # Step 4: Write SQL files to zpak
+            click.echo(f"\nStep 4: Writing SQL files to zpak...")
 
-            zpak_path = craft_root / 'zpaks' / name
-            if zpak_path.exists():
-                raise click.ClickException(f"Zpak '{name}' already exists")
-
-            zpak_path.mkdir(parents=True)
             dbc_dir = zpak_path / 'dbc'
-            dbc_dir.mkdir()
 
-            # Create manifest
-            manifest = {
-                "$schema": "../../schemas/zpak.schema.json",
-                "name": name,
-                "version": "1.0.0",
-                "description": f"Imported from {source_path.name}",
-                "author": "Zeppelin Team",
-                "type": "acore-extension",
-                "contents": {"dbc": ["dbc/*.sql"]},
-                "enabled": True,
-                "priority": priority
-            }
+            # Handle existing files - only remove the specific files we'll overwrite
+            if existing_files:
+                for f in existing_files:
+                    f.unlink()
+                click.echo(f"  Removed {len(existing_files)} existing file(s)")
 
-            with open(zpak_path / 'zpak.json', 'w') as f:
-                json.dump(manifest, f, indent=2)
-                f.write('\n')
+            # Ensure dbc directory exists
+            dbc_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate per-table SQL files
             total_lines = 0
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
 
-                sql_file = dbc_dir / f"{table}.sql"
+                # Use task_id prefix if provided
+                if task_id:
+                    sql_filename = f"{task_id}_{table}.sql"
+                else:
+                    sql_filename = f"{table}.sql"
+
+                sql_file = dbc_dir / sql_filename
                 with open(sql_file, 'w') as f:
-                    f.write(f"-- {name}: {table}\n")
+                    if task_id:
+                        f.write(f"-- {task_id}: {table}\n")
+                    else:
+                        f.write(f"-- {name}: {table}\n")
                     f.write(f"-- Imported by zep dbc import-module\n\n")
                     f.write(sql)
 
                 line_count = sql.count('\n') + 1
                 total_lines += line_count
-                click.echo(f"  {table}.sql: {line_count} lines")
+                click.echo(f"  {sql_filename}: {line_count} lines")
 
             click.echo(f"\n  Total: {total_lines} lines")
 
@@ -1298,9 +1563,15 @@ def dbc_import_module(ctx, name: str, source: str, priority: int):
     except Exception as e:
         raise click.ClickException(f"Import failed: {e}")
 
+    # Register feature in registry if task_id provided
+    if task_id:
+        registry.register_feature(task_id, name)
+        registry.save()
+
     click.echo(click.style(f"\nImport complete!", fg='green'))
-    click.echo(f"  Zpak: zpaks/{name}")
-    click.echo(f"  Priority: {priority}")
+    click.echo(f"  Zpak: {zpak_path.relative_to(craft_root)}")
+    if task_id:
+        click.echo(f"  Feature: {task_id}")
     click.echo(f"  Tables: {', '.join(tables_with_changes)}")
 
 
@@ -1336,3 +1607,156 @@ def dbc_export(ctx, table_name: Optional[str]):
         raise click.ClickException(f"Export failed with code {result.returncode}")
 
     click.echo(click.style("Export complete", fg='green'))
+
+
+# =============================================================================
+# Init Original Command
+# =============================================================================
+
+@dbc.command('init-original')
+@click.option('--source', '-s', type=click.Path(exists=True),
+              help='Path to vanilla DBC files (default: from config)')
+@click.option('--force', '-f', is_flag=True,
+              help='Skip confirmation prompt')
+@click.pass_context
+def dbc_init_original(ctx, source: Optional[str], force: bool):
+    """Initialize original_dbc from vanilla DBC files.
+
+    Imports all vanilla DBC files into original_dbc using spelleditor_meta
+    schema (PascalCase columns compatible with WoW Spell Editor).
+
+    This should be run once to set up the baseline database, or when
+    switching meta schemas.
+
+    Examples:
+        zep dbc init-original
+        zep dbc init-original --source /path/to/dbc/files
+        zep dbc init-original --force
+    """
+    import shutil
+    import tempfile
+
+    config = get_dbc_config(ctx)
+
+    # Get source path
+    if source:
+        source_path = Path(source)
+    else:
+        # Default from DBCTool config
+        dbctool_config = DBCTOOL_PATH.parent / "config.json"
+        if dbctool_config.exists():
+            with open(dbctool_config) as f:
+                cfg = json.load(f)
+                source_path = Path(cfg.get("paths", {}).get("base", ""))
+        else:
+            raise click.ClickException("No source specified and no DBCTool config found")
+
+    if not source_path.exists():
+        raise click.ClickException(f"Source path not found: {source_path}")
+
+    dbc_files = list(source_path.glob('*.dbc')) + list(source_path.glob('*.DBC'))
+    if not dbc_files:
+        raise click.ClickException(f"No .dbc files found in {source_path}")
+
+    click.echo(click.style("Initialize original_dbc", bold=True))
+    click.echo(f"  Source: {source_path}")
+    click.echo(f"  Target: {config.original}")
+    click.echo(f"  DBC files: {len(dbc_files)}")
+    click.echo(f"  Meta: spelleditor_meta (PascalCase)")
+    click.echo()
+
+    if not force:
+        click.echo(click.style("WARNING: This will DROP and recreate ALL tables in original_dbc!", fg='yellow'))
+        if not click.confirm("Continue?"):
+            click.echo("Cancelled.")
+            return
+
+    if not DBCTOOL_PATH.exists():
+        raise click.ClickException(f"DBCTool not found at {DBCTOOL_PATH}")
+
+    # Use spelleditor_meta for PascalCase columns
+    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+
+    # Build meta file map for case matching
+    meta_file_map = {}
+    for meta_file in meta_dir.glob("*.meta.json"):
+        try:
+            with open(meta_file) as f:
+                meta_data = json.load(f)
+                if "file" in meta_data:
+                    original_file = meta_data["file"]
+                    lowercase_stem = Path(original_file).stem.lower()
+                    meta_file_map[lowercase_stem] = original_file
+        except:
+            pass
+
+    # Create temp directory with correct file casing
+    temp_dbc_dir = Path(tempfile.mkdtemp(prefix="dbc_init_"))
+
+    try:
+        # Create symlinks with correct case
+        for dbc_file in dbc_files:
+            lowercase_stem = dbc_file.stem.lower()
+            if lowercase_stem in meta_file_map:
+                target_name = meta_file_map[lowercase_stem]
+            else:
+                target_name = dbc_file.name
+            symlink_path = temp_dbc_dir / target_name
+            if not symlink_path.exists():
+                symlink_path.symlink_to(dbc_file)
+
+        # Create temp config for DBCTool targeting original_dbc
+        temp_config = {
+            "dbc": {
+                "user": config.user,
+                "password": config.password,
+                "host": config.host,
+                "port": str(config.port),
+                "name": config.original
+            },
+            "paths": {
+                "base": str(temp_dbc_dir),
+                "export": str(temp_dbc_dir),
+                "meta": str(meta_dir)
+            },
+            "options": {"use_versioning": False}
+        }
+
+        temp_config_path = CRAFT_ROOT / 'temp_init_config.json'
+        with open(temp_config_path, 'w') as f:
+            json.dump(temp_config, f, indent=2)
+
+        # Import each DBC file
+        click.echo("Importing DBC files...")
+        imported = 0
+        failed = 0
+
+        for dbc_file in sorted(dbc_files):
+            dbc_name = dbc_file.stem.lower()
+            click.echo(f"  {dbc_file.stem}...", nl=False)
+
+            result = subprocess.run(
+                [str(DBCTOOL_PATH), "import", "-f", "-n", dbc_name, "--config", str(temp_config_path)],
+                cwd=DBCTOOL_PATH.parent,
+                capture_output=True,
+                text=True
+            )
+
+            if result.returncode == 0:
+                imported += 1
+                click.echo(click.style(" OK", fg='green'))
+            else:
+                failed += 1
+                click.echo(click.style(" FAILED", fg='yellow'))
+
+        temp_config_path.unlink(missing_ok=True)
+
+    finally:
+        shutil.rmtree(temp_dbc_dir, ignore_errors=True)
+
+    click.echo()
+    click.echo(click.style(f"Init complete: {imported} imported, {failed} failed", fg='green' if failed == 0 else 'yellow'))
+    click.echo()
+    click.echo("Next steps:")
+    click.echo("  1. Run 'zep dbc rebuild' to copy original_dbc to dbc/expected_dbc")
+    click.echo("  2. zpak SQL files will be applied during rebuild")
