@@ -396,7 +396,14 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
             # Show zpak selection submenu
             # For "Changed only" mode, count changed files; for "All" show total
             is_changed_mode = (result == 0)
+
+            if is_changed_mode:
+                click.echo("Checking for changed SQL files...", nl=False)
+
             zpaks = _get_zpaks_with_sql(craft_root, count_changed=is_changed_mode)
+
+            if is_changed_mode:
+                click.echo(" done.")
 
             if not zpaks:
                 click.echo("No zpaks with SQL files found")
