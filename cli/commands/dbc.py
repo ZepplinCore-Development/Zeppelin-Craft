@@ -11,6 +11,7 @@ Commands:
     zep dbc clone <src> <dst> --task   Clone spell
     zep dbc status                   Check uncommitted changes
     zep dbc diff [--sql]             Show differences
+    zep dbc sources [-v]             List zpak DBC sources
     zep dbc rebuild [--dry-run]      Rebuild from zpak sources
     zep dbc import-module            Import binary DBC
     zep dbc export                   Export to binary DBC
@@ -154,11 +155,112 @@ def git_commit_changes(craft_root: Path, files: List[Path], task_id: str,
 # Click Command Group
 # =============================================================================
 
-@click.group()
+# Command groupings for interactive menu
+DBC_MENU_GROUPS = {
+    'Search': {
+        'description': 'Query and inspect DBC data',
+        'commands': ['query', 'sources', 'status']
+    },
+    'Edit': {
+        'description': 'Modify DBC database entries',
+        'commands': ['modify', 'clone']
+    },
+    'Database': {
+        'description': 'Database-level operations',
+        'commands': ['rebuild', 'apply', 'diff', 'extract']
+    },
+    'Binary': {
+        'description': 'Binary file import/export',
+        'commands': ['import-module', 'export', 'init-original']
+    }
+}
+
+# Command descriptions for submenu display
+DBC_COMMAND_DESCRIPTIONS = {
+    'query': 'Query DBC database (read-only)',
+    'sources': 'List zpak DBC sources',
+    'status': 'Check for uncommitted changes',
+    'modify': 'Modify DBC database with tracking',
+    'clone': 'Clone a spell to a new ID',
+    'rebuild': 'Rebuild DBC from zpak sources',
+    'apply': 'Apply zpak DBC files to databases',
+    'diff': 'Show differences (live vs expected)',
+    'extract': 'Extract uncommitted changes as SQL',
+    'import-module': 'Import binary DBC files into zpak',
+    'export': 'Export DBC database to binary files',
+    'init-original': 'Initialize original_dbc from vanilla',
+}
+
+
+@click.group(invoke_without_command=True)
 @click.pass_context
 def dbc(ctx):
     """DBC database commands"""
-    pass
+    if ctx.invoked_subcommand is not None:
+        return
+
+    # Interactive menu when no subcommand given
+    try:
+        from simple_term_menu import TerminalMenu
+    except ImportError:
+        click.echo("Available commands: query, modify, clone, status, diff, sources, rebuild, apply, extract, import-module, export, init-original")
+        click.echo("\nRun 'zep dbc <command> --help' for details")
+        return
+
+    # Show category menu
+    group_names = list(DBC_MENU_GROUPS.keys())
+    group_options = []
+    for name in group_names:
+        desc = DBC_MENU_GROUPS[name]['description']
+        group_options.append(f"{name:<12} {desc}")
+
+    menu = TerminalMenu(
+        group_options,
+        title="\n  DBC Operations - Select category (ESC to cancel):\n",
+        menu_cursor="> ",
+        menu_cursor_style=("fg_cyan", "bold"),
+        menu_highlight_style=("fg_cyan", "bold"),
+        cycle_cursor=True,
+        clear_screen=True,
+    )
+
+    result = menu.show()
+
+    if result is None:
+        click.echo("Cancelled.")
+        return
+
+    # Show command submenu for selected category
+    selected_group = group_names[result]
+    commands = DBC_MENU_GROUPS[selected_group]['commands']
+
+    cmd_options = []
+    for cmd in commands:
+        desc = DBC_COMMAND_DESCRIPTIONS.get(cmd, '')
+        cmd_options.append(f"{cmd:<16} {desc}")
+
+    menu = TerminalMenu(
+        cmd_options,
+        title=f"\n  {selected_group} - Select command (ESC to go back):\n",
+        menu_cursor="> ",
+        menu_cursor_style=("fg_cyan", "bold"),
+        menu_highlight_style=("fg_cyan", "bold"),
+        cycle_cursor=True,
+        clear_screen=True,
+    )
+
+    cmd_result = menu.show()
+
+    if cmd_result is None:
+        # Go back to category menu - recurse
+        ctx.invoke(dbc)
+        return
+
+    # Invoke the selected command
+    selected_cmd = commands[cmd_result]
+    cmd_func = dbc.get_command(ctx, selected_cmd)
+    if cmd_func:
+        ctx.invoke(cmd_func)
 
 
 # =============================================================================
@@ -824,6 +926,54 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
 
 # =============================================================================
+# Sources Command
+# =============================================================================
+
+@dbc.command('sources')
+@click.option('--verbose', '-v', is_flag=True,
+              help='Show individual SQL files')
+@click.pass_context
+def dbc_sources(ctx, verbose: bool):
+    """List all zpak DBC sources that would be applied during rebuild.
+
+    Shows all enabled zpaks with DBC content, sorted by priority order.
+    This is exactly what 'zep dbc rebuild' will execute.
+
+    Examples:
+        zep dbc sources          # Summary view
+        zep dbc sources -v       # Show all SQL files
+    """
+    craft_root = ctx.obj['craft_root']
+
+    sources = collect_dbc_sources(craft_root)
+
+    if not sources:
+        click.echo(click.style("No enabled DBC sources found", fg='yellow'))
+        return
+
+    total_files = 0
+    click.echo(click.style("DBC Sources (rebuild order):", bold=True))
+    click.echo()
+
+    for priority, name, dbc_path, sql_files in sources:
+        file_count = len(sql_files)
+        total_files += file_count
+        click.echo(f"  [{priority:3}] {name} ({file_count} files)")
+
+        if verbose:
+            for sql_file in sql_files:
+                # Show relative path from zpak dbc folder
+                rel_path = sql_file.name
+                click.echo(f"         - {rel_path}")
+
+    click.echo()
+    click.echo(f"Total: {len(sources)} zpak(s), {total_files} SQL file(s)")
+    click.echo()
+    click.echo("Run 'zep dbc rebuild' to apply these sources")
+    click.echo("Run 'zep dbc rebuild --dry-run' to preview without changes")
+
+
+# =============================================================================
 # Apply Command
 # =============================================================================
 
@@ -1093,7 +1243,7 @@ def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
                 continue
 
             # Determine DBC source path
-            # Priority: 1) dbc_source from manifest, 2) mpq/DBFilesClient
+            # Priority: 1) dbc_source from manifest, 2) mpq/source-assets/DBFilesClient
             dbc_source = manifest.get('dbc_source')
             if dbc_source:
                 # Resolve relative paths from zpak directory
@@ -1102,8 +1252,8 @@ def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
                     dbc_source_path = (pkg_dir / dbc_source_path).resolve()
                 has_dbc_source = dbc_source_path.exists()
             else:
-                # Fallback to mpq/DBFilesClient
-                dbc_source_path = pkg_dir / 'mpq' / 'DBFilesClient'
+                # Fallback to mpq/source-assets/DBFilesClient
+                dbc_source_path = pkg_dir / 'mpq' / 'source-assets' / 'DBFilesClient'
                 has_dbc_source = dbc_source_path.exists()
 
             zpaks.append({
