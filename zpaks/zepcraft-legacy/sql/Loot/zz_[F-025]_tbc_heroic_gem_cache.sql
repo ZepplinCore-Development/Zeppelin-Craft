@@ -359,6 +359,10 @@ DELETE FROM `creature_loot_template` WHERE `Entry` IN (
 
 -- Add Ornate Gem Cache to END BOSSES ONLY (the ones with 40-46% gem drop rate)
 -- Early/mid bosses don't drop cache - only end boss of each dungeon
+
+-- First remove any existing Ornate Gem Cache entries (idempotency)
+DELETE FROM `creature_loot_template` WHERE `Item` = 59338;
+
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 -- Underbog - The Black Stalker (1)
 (20184, 59338, 0, 40, 0, 1, 0, 1, 1, 'Ornate Gem Cache'),
@@ -401,6 +405,7 @@ INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 -- Loot template ID: 21764, gem reference: 35094
 
 DELETE FROM `gameobject_loot_template` WHERE `Entry` = 21764 AND `Reference` = 35094;
+DELETE FROM `gameobject_loot_template` WHERE `Entry` = 21764 AND `Item` = 59338;
 
 INSERT INTO `gameobject_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (21764, 59338, 0, 30, 0, 1, 0, 1, 1, 'Ornate Gem Cache');
