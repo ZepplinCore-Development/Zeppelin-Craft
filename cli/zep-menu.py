@@ -356,6 +356,90 @@ def execute_command(command_path: str, args: List[str] = None,
         return False
 
 
+# DBC command groupings for category menu
+DBC_MENU_GROUPS = {
+    'Search': {
+        'description': 'Query and inspect DBC data',
+        'commands': ['query', 'sources', 'status']
+    },
+    'Edit': {
+        'description': 'Modify DBC database entries',
+        'commands': ['modify', 'clone']
+    },
+    'Database': {
+        'description': 'Database-level operations',
+        'commands': ['rebuild', 'apply', 'diff', 'extract']
+    },
+    'Binary': {
+        'description': 'Binary file import/export',
+        'commands': ['import-module', 'export', 'init-original']
+    }
+}
+
+
+def run_dbc_menu(dbc_tree: Dict[str, Any]) -> bool:
+    """Navigate the DBC menu with category groupings.
+
+    Args:
+        dbc_tree: DBC command tree from build_menu_tree()
+
+    Returns:
+        True to continue, False to exit completely
+    """
+    while True:
+        # Show category menu
+        group_names = list(DBC_MENU_GROUPS.keys())
+        group_options = []
+        for name in group_names:
+            desc = DBC_MENU_GROUPS[name]['description']
+            group_options.append(f"{name:<12} {desc}")
+
+        result = show_menu("zep > dbc", group_options)
+
+        if result is None:
+            return True  # Go back to main menu
+
+        # Show command submenu for selected category
+        selected_group = group_names[result]
+        commands = DBC_MENU_GROUPS[selected_group]['commands']
+
+        while True:
+            cmd_options = []
+            cmd_data_list = []
+
+            for cmd_name in commands:
+                # Find command in dbc_tree
+                if cmd_name in dbc_tree['commands']:
+                    cmd_data = dbc_tree['commands'][cmd_name]
+                    help_text = cmd_data.get('help', '')
+                    cmd_options.append(f"{cmd_name:<16} {help_text}")
+                    cmd_data_list.append(cmd_data)
+
+            cmd_result = show_menu(f"zep > dbc > {selected_group}", cmd_options)
+
+            if cmd_result is None:
+                break  # Go back to category menu
+
+            # Execute selected command
+            cmd_data = cmd_data_list[cmd_result]
+            args = cmd_data.get('args', [])
+            options = cmd_data.get('options', [])
+            command_path = cmd_data['path']
+
+            if args or options:
+                result = prompt_args(args, options, command_path)
+                if result is None:
+                    continue  # Cancelled, stay in submenu
+                arg_values, option_values = result
+            else:
+                arg_values = []
+                option_values = []
+
+            continue_running = execute_command(command_path, arg_values, option_values)
+            if not continue_running:
+                return False
+
+
 def run_menu(tree: Dict[str, Any], path: List[str] = None,
              is_root: bool = True) -> bool:
     """Navigate the menu tree.
@@ -416,6 +500,13 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
         selection_type, selection_name, selection_data = option_map[result]
 
         if selection_type == 'group':
+            # Special handling for dbc group - show category menu
+            if selection_name == 'dbc':
+                continue_running = run_dbc_menu(selection_data['children'])
+                if not continue_running:
+                    return False
+                continue
+
             # Drill into subgroup
             continue_running = run_menu(
                 selection_data['children'],
