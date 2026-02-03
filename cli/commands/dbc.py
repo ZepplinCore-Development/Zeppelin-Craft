@@ -1074,7 +1074,7 @@ def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
     """Discover available zpaks with additional info.
 
     Returns:
-        List of dicts with 'name', 'description', 'path', 'has_mpq_dbc'
+        List of dicts with 'name', 'description', 'path', 'has_dbc_source', 'dbc_source_path'
     """
     zpaks = []
 
@@ -1092,16 +1092,27 @@ def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
             if not manifest:
                 continue
 
-            # Check for mpq/DBFilesClient directory
-            mpq_dbc_path = pkg_dir / 'mpq' / 'DBFilesClient'
-            has_mpq_dbc = mpq_dbc_path.exists()
+            # Determine DBC source path
+            # Priority: 1) dbc_source from manifest, 2) mpq/DBFilesClient
+            dbc_source = manifest.get('dbc_source')
+            if dbc_source:
+                # Resolve relative paths from zpak directory
+                dbc_source_path = Path(dbc_source)
+                if not dbc_source_path.is_absolute():
+                    dbc_source_path = (pkg_dir / dbc_source_path).resolve()
+                has_dbc_source = dbc_source_path.exists()
+            else:
+                # Fallback to mpq/DBFilesClient
+                dbc_source_path = pkg_dir / 'mpq' / 'DBFilesClient'
+                has_dbc_source = dbc_source_path.exists()
 
             zpaks.append({
                 'name': manifest.get('name', pkg_dir.name),
                 'description': manifest.get('description', '')[:40],
                 'path': pkg_dir,
-                'has_mpq_dbc': has_mpq_dbc,
-                'mpq_dbc_path': mpq_dbc_path if has_mpq_dbc else None
+                'has_dbc_source': has_dbc_source,
+                'dbc_source_path': dbc_source_path,
+                'dbc_source_defined': dbc_source is not None
             })
 
     return zpaks
@@ -1209,7 +1220,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         # Build menu options
         options = []
         for zpak in zpaks:
-            indicator = "📦" if zpak['has_mpq_dbc'] else "  "
+            indicator = "📦" if zpak['has_dbc_source'] else "  "
             options.append(f"{indicator} {zpak['name']:<25} {zpak['description']}")
 
         options.append("─" * 40)
@@ -1217,7 +1228,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 
         menu = TerminalMenu(
             options,
-            title="\n  Select zpak to import DBC files into:\n  (📦 = has mpq/DBFilesClient)\n",
+            title="\n  Select zpak to import DBC files into:\n  (📦 = has DBC source)\n",
             menu_cursor="> ",
             menu_cursor_style=("fg_cyan", "bold"),
             menu_highlight_style=("fg_cyan", "bold"),
@@ -1234,6 +1245,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         selected_zpak = zpaks[result]
         name = selected_zpak['name']
         zpak_path = selected_zpak['path']
+        default_source = selected_zpak['dbc_source_path']
 
         click.echo(f"\nSelected: {name}")
     else:
@@ -1248,15 +1260,36 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         if not zpak_path:
             raise click.ClickException(f"Zpak '{name}' not found")
 
+        # Load manifest to check for dbc_source
+        manifest = load_manifest(zpak_path / 'zpak.json')
+        dbc_source = manifest.get('dbc_source') if manifest else None
+
+        if dbc_source:
+            default_source = Path(dbc_source)
+            if not default_source.is_absolute():
+                default_source = (zpak_path / default_source).resolve()
+        else:
+            default_source = zpak_path / 'mpq' / 'DBFilesClient'
+
     # Step 1: Determine source path
-    default_source = zpak_path / 'mpq' / 'DBFilesClient'
 
     if not source:
         try:
             from simple_term_menu import TerminalMenu
 
+            # Display path - use relative if under craft_root, otherwise show full path
+            try:
+                display_path = default_source.relative_to(craft_root)
+            except ValueError:
+                # Path is outside craft_root (e.g., Zeppelin-Core module)
+                try:
+                    display_path = default_source.relative_to(craft_root.parent)
+                except ValueError:
+                    display_path = default_source
+
+            exists_indicator = "" if default_source.exists() else " (not found)"
             options = [
-                f"Default: {default_source.relative_to(craft_root)}",
+                f"Default: {display_path}{exists_indicator}",
                 "Specify custom path"
             ]
 

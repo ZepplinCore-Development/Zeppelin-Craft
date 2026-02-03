@@ -83,22 +83,12 @@
           "oneOf": [
             {"type": "null"},
             {
-              "type": "object",
-              "properties": {
-                "assets": {
-                  "type": "array",
-                  "items": {"type": "string"},
-                  "description": "Directories containing MPQ assets"
-                },
-                "output": {
-                  "type": "string",
-                  "description": "Output MPQ filename (e.g., PATCH-H.MPQ)"
-                }
-              },
-              "required": ["assets", "output"]
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Glob patterns for MPQ assets (packed into client_patch)"
             }
           ],
-          "description": "MPQ asset configuration"
+          "description": "MPQ asset patterns - contents go to client_patch MPQ"
         }
       }
     },
@@ -108,10 +98,54 @@
       "description": "Other zpaks that must load before this one",
       "default": []
     },
+    "dbc_source": {
+      "type": "string",
+      "description": "Path to DBC files for import (relative to zpak or absolute). Used by 'zep dbc import-module' as default source location."
+    },
     "feature_id": {
       "type": "string",
-      "pattern": "^F-\\d{3}$",
-      "description": "Joplin feature ID (e.g., F-004)"
+      "pattern": "^[FI]-\\d{3}$",
+      "description": "Primary Joplin feature/issue ID (e.g., F-004)"
+    },
+    "feature_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[FI]-\\d{3}$"
+      },
+      "description": "Multiple Joplin feature/issue IDs this zpak implements"
+    },
+    "client_patch": {
+      "type": "string",
+      "enum": ["PATCH-A", "PATCH-H", "PATCH-O", "PATCH-X", "PATCH-Z"],
+      "description": "Client patch this zpak belongs to (for build orchestration)"
+    },
+    "build": {
+      "type": "object",
+      "description": "Build configuration for zpaks with generators or preprocessors",
+      "properties": {
+        "generator": {
+          "type": "string",
+          "description": "Generator to run (e.g., atlasloot-generator)"
+        },
+        "output_dir": {
+          "type": "string",
+          "description": "Output directory for generator (relative to zpak)"
+        },
+        "preprocessor": {
+          "type": "string",
+          "description": "Preprocessor to run before packing (e.g., resource-parser)"
+        },
+        "preprocessor_optional": {
+          "type": "boolean",
+          "description": "If true, preprocessor can be skipped with --quick flag",
+          "default": false
+        },
+        "preprocessor_warning": {
+          "type": "string",
+          "description": "Warning message shown when preprocessor will run"
+        }
+      }
     },
     "enabled": {
       "type": "boolean",

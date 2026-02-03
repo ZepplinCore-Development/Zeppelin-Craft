@@ -1,19 +1,22 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
   "name": "worgoblin",
-  "version": "0.1.0",
-  "description": "Worgen and Goblin race support module",
-  "author": "Zeppelin Team",
+  "version": "1.0.0",
+  "description": "Worgen and Goblin playable races - DBC modifications",
+  "author": "Worgoblin Team",
   "type": "acore-extension",
   "acore": {
     "module": "mod-worgoblin",
-    "source": "https://github.com/heyitsbench/mod-worgoblin.git",
+    "source": "https://github.com/azerothcore/mod-worgoblin.git",
     "branch": "master",
     "patch_mode": "single"
   },
+  "dbc_source": "../../../Zeppelin-Core/modules/mod-worgoblin/data/patch/DBFilesClient",
   "contents": {
-    "patches": ["patches/*.patch"]
+    "dbc": ["dbc/*.sql"],
+    "patches": ["patches/*.patch"],
+    "sql": ["sql/*.sql"]
   },
   "enabled": true,
-  "priority": 100
+  "priority": 20
 }
