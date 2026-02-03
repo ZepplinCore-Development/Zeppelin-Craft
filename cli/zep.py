@@ -6,6 +6,8 @@ Unified interface for managing Zeppelin Packages (zpaks) - self-contained
 customization units for WoW 3.3.5a private server development.
 
 Usage:
+    zep                        Enter interactive shell
+    zep shell                  Enter interactive shell
     zep zpak list              List all packages
     zep zpak info <name>       Show package details
     zep zpak create <name>     Create new package
@@ -36,10 +38,10 @@ from lib.registry import Registry
 from lib.manifest import load_manifest, validate_manifest
 
 # Version info
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
-@click.group()
+@click.group(invoke_without_command=True)
 @click.version_option(version=__version__, prog_name="zep")
 @click.pass_context
 def cli(ctx):
@@ -47,6 +49,11 @@ def cli(ctx):
     ctx.ensure_object(dict)
     ctx.obj['craft_root'] = CRAFT_ROOT
     ctx.obj['registry'] = Registry(CRAFT_ROOT / 'registry.json')
+
+    # If no command provided, enter interactive shell
+    if ctx.invoked_subcommand is None:
+        from commands.shell import run_shell
+        run_shell(cli, ctx)
 
 
 # =============================================================================
@@ -125,11 +132,69 @@ def zpak_list(ctx, show_all):
 
 
 @zpak.command('info')
-@click.argument('name')
+@click.argument('name', required=False)
 @click.pass_context
 def zpak_info(ctx, name):
     """Show detailed package information"""
     craft_root = ctx.obj['craft_root']
+
+    # Interactive selection if no name provided
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Install with: pip install simple-term-menu\n"
+                "Or specify zpak name: zep zpak info <name>"
+            )
+
+        # Collect zpaks
+        zpaks = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if pkg_dir.is_dir() and (pkg_dir / 'zpak.json').exists():
+                    manifest = load_manifest(pkg_dir / 'zpak.json')
+                    if manifest:
+                        zpaks.append({
+                            'name': manifest.get('name', pkg_dir.name),
+                            'type': manifest.get('type', 'unknown'),
+                            'description': manifest.get('description', '')[:35],
+                            'enabled': manifest.get('enabled', True)
+                        })
+
+        if not zpaks:
+            click.echo("No zpaks found")
+            return
+
+        # Build menu
+        options = []
+        for z in zpaks:
+            status = "✓" if z['enabled'] else "○"
+            options.append(f"{status} {z['name']:<25} [{z['type']:<15}] {z['description']}")
+
+        options.append("─" * 60)
+        options.append("[Cancel]")
+
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to view:\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
+
+        result = menu.show()
+
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
+
+        name = zpaks[result]['name']
 
     # Find package
     pkg_path = None
@@ -355,18 +420,9 @@ from commands.dbc import dbc
 cli.add_command(dbc)
 
 
-@cli.group()
-def sql():
-    """SQL operations"""
-    pass
-
-
-@sql.command('format')
-@click.argument('target')
-def sql_format(target):
-    """Format SQL files"""
-    click.echo("TODO: Implement sql format (port from SQL Reformatter)")
-    click.echo("See F-021 SQL Reformatter")
+# Import sql commands from module
+from commands.sql import sql
+cli.add_command(sql)
 
 
 # Import mpq commands from module
@@ -375,15 +431,81 @@ cli.add_command(mpq)
 
 
 @cli.group()
-def build():
+@click.pass_context
+def build(ctx):
     """Build operations"""
     pass
 
 
+@build.command('sql')
+@click.option('--changed', '-c', is_flag=True, help='Only execute changed files (git-based)')
+@click.option('--zpak', '-z', 'zpak_name', help='Execute SQL from specific zpak')
+@click.option('--all', '-a', 'run_all', is_flag=True, help='Execute all zpak SQL files')
+@click.option('--dry-run', '-n', is_flag=True, help='Show what would be executed')
+@click.pass_context
+def build_sql(ctx, changed, zpak_name, run_all, dry_run):
+    """Execute SQL files on acore_world.
+
+    Examples:
+        zep build sql --changed      # Only uncommitted changes
+        zep build sql --zpak core    # Specific zpak
+        zep build sql --all          # All enabled zpaks
+    """
+    from commands.sql import find_zpak_sql_files, execute_sql_file, get_git_changed_files
+
+    craft_root = ctx.obj['craft_root']
+    sql_files = []
+
+    if changed:
+        sql_files = get_git_changed_files(craft_root, ['.sql'])
+        if not sql_files:
+            click.echo("No changed SQL files found")
+            return
+    elif zpak_name:
+        sql_files = find_zpak_sql_files(craft_root, zpak_name)
+        if not sql_files:
+            click.echo(f"No SQL files found in zpak '{zpak_name}'")
+            return
+    elif run_all:
+        sql_files = find_zpak_sql_files(craft_root)
+        if not sql_files:
+            click.echo("No SQL files found in any zpak")
+            return
+    else:
+        click.echo("Specify --changed, --zpak <name>, or --all")
+        return
+
+    click.echo(f"\n{'[DRY RUN] ' if dry_run else ''}Executing {len(sql_files)} SQL file(s)...\n")
+
+    success = 0
+    errors = 0
+    for sql_file in sql_files:
+        try:
+            rel_path = sql_file.relative_to(craft_root)
+        except ValueError:
+            rel_path = sql_file
+
+        ok, msg = execute_sql_file(sql_file, dry_run)
+        if ok:
+            click.echo(f"  {click.style('✓', fg='green')} {rel_path}")
+            success += 1
+        else:
+            click.echo(f"  {click.style('✗', fg='red')} {rel_path}: {msg}")
+            errors += 1
+
+    click.echo()
+    if errors == 0:
+        click.echo(click.style(f"All {success} file(s) executed successfully", fg='green'))
+    else:
+        click.echo(click.style(f"Completed: {success} succeeded, {errors} failed", fg='yellow'))
+
+
 @build.command('all')
-def build_all():
+@click.pass_context
+def build_all(ctx):
     """Build everything (SQL + DBC + MPQ)"""
     click.echo("TODO: Implement build all")
+    click.echo("Will run: build sql, build dbc, build mpq")
 
 
 @cli.command()
@@ -432,6 +554,14 @@ def doctor():
     else:
         click.echo(click.style("Some checks failed. Install missing dependencies.", fg='yellow'))
         sys.exit(1)
+
+
+@cli.command()
+@click.pass_context
+def shell(ctx):
+    """Enter interactive shell mode"""
+    from commands.shell import run_shell
+    run_shell(cli, ctx)
 
 
 if __name__ == '__main__':
