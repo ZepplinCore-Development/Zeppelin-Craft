@@ -567,20 +567,8 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
         sys.exit(1)
 
 
-@sql.command('changed')
-@click.option('--zpak', '-z', 'zpak_name', help='Check specific zpak only')
-@click.pass_context
-def sql_changed(ctx, zpak_name):
-    """List SQL files that have changed (hash-based).
-
-    Compares current file hashes against stored hashes in tracking table.
-
-    Examples:
-        zep sql changed
-        zep sql changed --zpak clan-centaur
-    """
-    craft_root = ctx.obj['craft_root']
-
+def _show_changed_files(craft_root: Path, zpak_name: Optional[str] = None):
+    """Show changed SQL files (helper for sql list --changed)."""
     # Ensure tracking table exists
     ensure_tracking_table()
 
@@ -663,19 +651,65 @@ def sql_history(ctx, zpak_name, limit):
 
 @sql.command('list')
 @click.option('--zpak', '-z', 'zpak_name', help='List SQL for specific zpak')
+@click.option('--changed', '-c', is_flag=True, help='Show only changed files')
+@click.option('--all', '-a', 'show_all', is_flag=True, help='Show all files')
 @click.pass_context
-def sql_list(ctx, zpak_name):
-    """List SQL files that would be executed.
+def sql_list(ctx, zpak_name, changed, show_all):
+    """List SQL files.
 
-    Shows files in execution order (by zpak priority, then alphabetically).
-    Groups files by folder within each zpak.
+    Interactive mode when no flags provided.
 
     Examples:
-        zep sql list
-        zep sql list --zpak clan-centaur
+        zep sql list              # Interactive
+        zep sql list --all        # All files
+        zep sql list --changed    # Changed only
+        zep sql list --zpak name  # Specific zpak
     """
     craft_root = ctx.obj['craft_root']
 
+    # Interactive mode if no flags
+    if not changed and not show_all and not zpak_name:
+        try:
+            from simple_term_menu import TerminalMenu
+
+            options = [
+                "All files       List all SQL files in execution order",
+                "Changed only    List new/modified files (hash-based)",
+                "─" * 50,
+                "[Cancel]"
+            ]
+
+            menu = TerminalMenu(
+                options,
+                title="\n  SQL List - Select mode:\n",
+                menu_cursor="> ",
+                menu_cursor_style=("fg_cyan", "bold"),
+                menu_highlight_style=("fg_cyan", "bold"),
+                cycle_cursor=True,
+                clear_screen=True,
+            )
+
+            result = menu.show()
+
+            if result is None or result >= 2:
+                click.echo("Cancelled.")
+                return
+
+            if result == 1:
+                changed = True
+            else:
+                show_all = True
+
+        except ImportError:
+            # Default to all
+            show_all = True
+
+    # Handle changed mode
+    if changed:
+        _show_changed_files(craft_root, zpak_name)
+        return
+
+    # Show all files
     sql_files = collect_all_sql_files(craft_root, zpak_name)
 
     if not sql_files:
