@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-buildings",
+  "version": "1.0.0",
+  "description": "HD building and structure model replacements",
+  "author": "Classic HD Appletrey",
+  "type": "mpq",
+  "client_patch": "PATCH-H",
+  "build": {
+    "preprocessor": "resource-parser",
+    "preprocessor_optional": true,
+    "preprocessor_warning": "Resource Parser scans models for texture dependencies."
+  },
+  "feature_id": "F-047",
+  "enabled": true,
+  "priority": 100
+}
