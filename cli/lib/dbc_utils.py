@@ -855,6 +855,7 @@ def extract_table_from_filename(filename: str) -> Optional[str]:
     Handles patterns:
         spell.sql -> spell
         [F-004]_spell.sql -> spell
+        [F-004,BASE]_spell.sql -> spell
         [I-099]_skillline.sql -> skillline
 
     Args:
@@ -865,8 +866,9 @@ def extract_table_from_filename(filename: str) -> Optional[str]:
     """
     name = filename.replace('.sql', '')
 
-    # Check for [F-XXX]_ or [I-XXX]_ prefix
-    bracket_match = re.match(r'\[[FI]-\d+\]_(.+)', name)
+    # Check for [F-XXX,BASE]_ or [F-XXX]_ or [I-XXX]_ prefix
+    # Pattern: [F-004,BASE]_table or [F-004]_table
+    bracket_match = re.match(r'\[[^\]]+\]_(.+)', name)
     if bracket_match:
         return bracket_match.group(1).lower()
 

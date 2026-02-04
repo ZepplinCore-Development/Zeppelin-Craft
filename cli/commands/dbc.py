@@ -1736,19 +1736,18 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
         feature_id: Feature ID to look for (e.g., 'F-049')
 
     Returns:
-        List of existing [F-XXX]_*.sql file paths for the feature
+        List of existing [F-XXX,BASE]_*.sql file paths for the feature
     """
     dbc_dir = zpak_path / 'dbc'
     if not dbc_dir.exists():
         return []
 
     if feature_id:
-        # Look for files matching this feature ID: [F-049]_*.sql
-        return list(dbc_dir.glob(f"[{feature_id}]_*.sql"))
+        # Look for BASE files matching this feature ID: [F-049,BASE]_*.sql
+        return list(dbc_dir.glob(f"[{feature_id},BASE]_*.sql"))
     else:
-        # No feature ID - return all bracketed feature files
-        # This catches [F-XXX]_*.sql and [I-XXX]_*.sql patterns
-        return [f for f in dbc_dir.glob("*.sql") if f.name.startswith("[")]
+        # No feature ID - return all BASE-tagged files
+        return list(dbc_dir.glob("[*,BASE]_*.sql"))
 
 
 @dbc.command('import-module')
@@ -2130,16 +2129,18 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             # Ensure dbc directory exists
             dbc_dir.mkdir(parents=True, exist_ok=True)
 
-            # Generate per-table SQL files with [F-XXX]_ prefix for tracking
+            # Generate per-table SQL files with [F-XXX,BASE]_ prefix
+            # BASE tag indicates imported DBC diff - do not edit directly
             total_lines = 0
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
 
-                sql_filename = f"[{task_id}]_{table}.sql"
+                sql_filename = f"[{task_id},BASE]_{table}.sql"
                 sql_file = dbc_dir / sql_filename
                 with open(sql_file, 'w') as f:
-                    f.write(f"-- [{task_id}] {name}: {table}\n")
-                    f.write(f"-- Imported by zep dbc import-module\n\n")
+                    f.write(f"-- [{task_id},BASE] {name}: {table}\n")
+                    f.write(f"-- Imported by zep dbc import-module - DO NOT EDIT\n")
+                    f.write(f"-- To customize, create [{task_id}]_{table}.sql with overrides\n\n")
                     f.write(sql)
 
                 line_count = sql.count('\n') + 1
