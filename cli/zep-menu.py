@@ -357,10 +357,11 @@ def execute_command(command_path: str, args: List[str] = None,
 
 
 # DBC command groupings for category menu
+# Commands with ':flag' suffix get that flag added automatically
 DBC_MENU_GROUPS = {
     'Search': {
         'description': 'Query and inspect DBC data',
-        'commands': ['query', 'sources', 'status']
+        'commands': ['query', 'sources', 'sources:--changed', 'status', 'conflicts']
     },
     'Edit': {
         'description': 'Modify DBC database entries',
@@ -368,7 +369,7 @@ DBC_MENU_GROUPS = {
     },
     'Database': {
         'description': 'Database-level operations',
-        'commands': ['rebuild', 'apply', 'diff', 'extract']
+        'commands': ['rebuild', 'apply', 'apply:--changed', 'diff', 'extract']
     },
     'Binary': {
         'description': 'Binary file import/export',
@@ -407,12 +408,28 @@ def run_dbc_menu(dbc_tree: Dict[str, Any]) -> bool:
             cmd_options = []
             cmd_data_list = []
 
-            for cmd_name in commands:
+            for cmd_entry in commands:
+                # Parse command:flag format
+                if ':' in cmd_entry:
+                    cmd_name, extra_flag = cmd_entry.split(':', 1)
+                else:
+                    cmd_name = cmd_entry
+                    extra_flag = None
+
                 # Find command in dbc_tree
                 if cmd_name in dbc_tree['commands']:
-                    cmd_data = dbc_tree['commands'][cmd_name]
+                    cmd_data = dbc_tree['commands'][cmd_name].copy()
                     help_text = cmd_data.get('help', '')
-                    cmd_options.append(f"{cmd_name:<16} {help_text}")
+
+                    # Modify display and store flag if present
+                    if extra_flag:
+                        display_name = f"{cmd_name} {extra_flag}"
+                        help_text = f"({extra_flag}) {help_text}"
+                        cmd_data['extra_flag'] = extra_flag
+                    else:
+                        display_name = cmd_name
+
+                    cmd_options.append(f"{display_name:<20} {help_text}")
                     cmd_data_list.append(cmd_data)
 
             cmd_result = show_menu(f"zep > dbc > {selected_group}", cmd_options)
@@ -425,6 +442,7 @@ def run_dbc_menu(dbc_tree: Dict[str, Any]) -> bool:
             args = cmd_data.get('args', [])
             options = cmd_data.get('options', [])
             command_path = cmd_data['path']
+            extra_flag = cmd_data.get('extra_flag')
 
             if args or options:
                 result = prompt_args(args, options, command_path)
@@ -435,7 +453,12 @@ def run_dbc_menu(dbc_tree: Dict[str, Any]) -> bool:
                 arg_values = []
                 option_values = []
 
-            continue_running = execute_command(command_path, arg_values, option_values)
+            # Add extra flag if present
+            if extra_flag:
+                continue_running = execute_command_with_flag(command_path, extra_flag)
+            else:
+                continue_running = execute_command(command_path, arg_values, option_values)
+
             if not continue_running:
                 return False
 

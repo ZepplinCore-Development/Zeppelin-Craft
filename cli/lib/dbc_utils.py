@@ -8,6 +8,7 @@ Four-database architecture for safe, traceable DBC editing:
   - expected_dbc: Safety baseline (catches uncommitted changes)
 """
 
+import hashlib
 import os
 import re
 import subprocess
@@ -684,3 +685,195 @@ def validate_task_id(task_id: str) -> bool:
         True if valid format
     """
     return bool(re.match(r'^[FI]-\d+$', task_id))
+
+
+# =============================================================================
+# DBC File Tracking (hash-based change detection)
+# =============================================================================
+
+# Tracking table name (stored in live DBC database)
+DBC_TRACKING_TABLE = "zep_dbc_updates"
+
+
+def ensure_dbc_tracking_table(config: DBCConfig) -> bool:
+    """Create DBC tracking table if it doesn't exist.
+
+    Args:
+        config: Database configuration
+
+    Returns:
+        True if successful
+    """
+    query = f"""
+    CREATE TABLE IF NOT EXISTS `{DBC_TRACKING_TABLE}` (
+        `name` VARCHAR(200) NOT NULL PRIMARY KEY,
+        `hash` CHAR(40) NOT NULL,
+        `zpak` VARCHAR(100),
+        `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        `execution_ms` INT UNSIGNED DEFAULT 0
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    """
+    success, _ = run_sql(query, config, config.live)
+    return success
+
+
+def calculate_file_hash(filepath: Path) -> str:
+    """Calculate SHA1 hash of file contents.
+
+    Args:
+        filepath: Path to file
+
+    Returns:
+        SHA1 hex digest
+    """
+    sha1 = hashlib.sha1()
+    with open(filepath, 'rb') as f:
+        sha1.update(f.read())
+    return sha1.hexdigest()
+
+
+def get_stored_dbc_hash(config: DBCConfig, filename: str) -> Optional[str]:
+    """Get stored hash for a DBC file from tracking table.
+
+    Args:
+        config: Database configuration
+        filename: SQL filename (without path)
+
+    Returns:
+        Stored hash or None if not found
+    """
+    query = f"SELECT hash FROM `{DBC_TRACKING_TABLE}` WHERE name = '{filename}'"
+    success, result = run_sql(query, config, config.live)
+    if success and result:
+        lines = result.strip().split('\n')
+        if len(lines) > 1:  # Has header + data
+            return lines[1].strip()
+    return None
+
+
+def get_all_stored_dbc_hashes(config: DBCConfig) -> Dict[str, Tuple[str, str]]:
+    """Get all stored hashes from tracking table.
+
+    Args:
+        config: Database configuration
+
+    Returns:
+        Dict mapping filename -> (hash, zpak)
+    """
+    query = f"SELECT name, hash, zpak FROM `{DBC_TRACKING_TABLE}`"
+    success, result = run_sql(query, config, config.live)
+
+    hashes = {}
+    if success and result:
+        lines = result.strip().split('\n')
+        for line in lines[1:]:  # Skip header
+            parts = line.split('\t')
+            if len(parts) >= 3:
+                name, file_hash, zpak = parts[0], parts[1], parts[2]
+                hashes[name] = (file_hash, zpak)
+    return hashes
+
+
+def update_dbc_tracking(config: DBCConfig, filename: str, file_hash: str,
+                        zpak: str, execution_ms: int = 0) -> bool:
+    """Update tracking table after successful execution.
+
+    Args:
+        config: Database configuration
+        filename: SQL filename
+        file_hash: SHA1 hash
+        zpak: Zpak name
+        execution_ms: Execution time in milliseconds
+
+    Returns:
+        True if successful
+    """
+    query = f"""
+    REPLACE INTO `{DBC_TRACKING_TABLE}` (name, hash, zpak, applied_at, execution_ms)
+    VALUES ('{filename}', '{file_hash}', '{zpak}', NOW(), {execution_ms})
+    """
+    success, _ = run_sql(query, config, config.live)
+    return success
+
+
+def clear_dbc_tracking(config: DBCConfig) -> bool:
+    """Clear all entries from tracking table.
+
+    Used during rebuild to reset tracking state.
+
+    Args:
+        config: Database configuration
+
+    Returns:
+        True if successful
+    """
+    query = f"TRUNCATE TABLE `{DBC_TRACKING_TABLE}`"
+    success, _ = run_sql(query, config, config.live)
+    return success
+
+
+def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
+    """Parse SQL content to extract affected primary key IDs.
+
+    Handles common patterns:
+        DELETE FROM table WHERE id = X
+        DELETE FROM `table` WHERE `id` = X
+        INSERT INTO table (...) VALUES (X, ...)
+        UPDATE table SET ... WHERE id = X
+
+    Args:
+        sql_content: SQL file content
+        table_name: Table name (for matching)
+
+    Returns:
+        Set of primary key values (usually integers)
+    """
+    affected_ids = set()
+    table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
+
+    # DELETE FROM table WHERE id = X or WHERE `id` = X
+    delete_pattern = rf'DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
+        affected_ids.add(int(match.group(1)))
+
+    # INSERT INTO table (...) VALUES (X, ...) - ID is first value
+    insert_pattern = rf'INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)'
+    for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
+        affected_ids.add(int(match.group(1)))
+
+    # UPDATE table SET ... WHERE id = X
+    update_pattern = rf'UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
+        affected_ids.add(int(match.group(1)))
+
+    return affected_ids
+
+
+def extract_table_from_filename(filename: str) -> Optional[str]:
+    """Extract table name from DBC SQL filename.
+
+    Handles patterns:
+        spell.sql -> spell
+        [F-004]_spell.sql -> spell
+        [I-099]_skillline.sql -> skillline
+
+    Args:
+        filename: SQL filename (without path)
+
+    Returns:
+        Table name or None
+    """
+    name = filename.replace('.sql', '')
+
+    # Check for [F-XXX]_ or [I-XXX]_ prefix
+    bracket_match = re.match(r'\[[FI]-\d+\]_(.+)', name)
+    if bracket_match:
+        return bracket_match.group(1).lower()
+
+    # Check for legacy F-XXX_ prefix (no brackets)
+    if '_' in name:
+        parts = name.split('_', 1)
+        if parts[0].startswith(('F-', 'I-')) or parts[0].isdigit():
+            return parts[1].lower()
+
+    return name.lower()

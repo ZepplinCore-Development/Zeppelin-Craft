@@ -46,6 +46,15 @@ from lib.dbc_utils import (
     get_tables,
     get_row_count,
     get_primary_key,
+    # DBC tracking functions
+    ensure_dbc_tracking_table,
+    calculate_file_hash,
+    get_stored_dbc_hash,
+    get_all_stored_dbc_hashes,
+    update_dbc_tracking,
+    clear_dbc_tracking,
+    parse_sql_affected_ids,
+    extract_table_from_filename,
 )
 from lib.registry import Registry
 from lib.manifest import load_manifest
@@ -778,13 +787,16 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
     """Rebuild DBC database from zpak sources.
 
     Resets live and expected databases from original_dbc, then applies
-    all enabled zpak DBC sources in priority order.
+    all enabled zpak DBC sources in priority order. Also resets the
+    file tracking table so --changed starts fresh.
 
     Examples:
         zep dbc rebuild --dry-run   # Preview what would be applied
         zep dbc rebuild             # Rebuild databases
         zep dbc rebuild --force     # Skip confirmation
     """
+    import time
+
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
 
@@ -822,8 +834,10 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
         return
 
     click.echo(f"\nStep 1: Sources to apply ({len(sources)}):")
+    total_files = 0
     for priority, name, dbc_path, sql_files in sources:
         click.echo(f"  [{priority:3}] {name} ({len(sql_files)} files)")
+        total_files += len(sql_files)
 
     if dry_run:
         click.echo(click.style("\nDRY RUN - no changes made", fg='yellow'))
@@ -844,7 +858,8 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
             live_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
             for table in tables:
-                if table.startswith("dbc_"):
+                # Skip internal tables but preserve tracking table
+                if table.startswith("dbc_") or table == "zep_dbc_updates":
                     continue
                 click.echo(f"  Copying {table}...", nl=False)
                 # Drop and recreate table to ensure matching schema
@@ -862,9 +877,15 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
     click.echo(click.style("  Reset complete", fg='green'))
 
-    # Apply sources
+    # Clear and recreate tracking table
+    click.echo("  Resetting file tracking...")
+    ensure_dbc_tracking_table(config)
+    clear_dbc_tracking(config)
+
+    # Apply sources with tracking
     click.echo(f"\nStep 3: Applying sources...")
     errors = []
+    applied_count = 0
 
     for priority, name, dbc_path, sql_files in sources:
         click.echo(f"  Applying {name}...")
@@ -875,14 +896,22 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
                     sql = f.read()
 
                 if sql.strip():
+                    start_time = time.time()
                     success, output = run_sql(sql, config, config.live)
+                    exec_ms = int((time.time() - start_time) * 1000)
+
                     # Show relative path from dbc_path for readability
                     rel_path = sql_file.relative_to(dbc_path)
                     if not success:
                         errors.append((name, str(rel_path), output))
                         click.echo(click.style(f"    {rel_path}: FAILED", fg='red'))
                     else:
-                        click.echo(f"    {rel_path}: OK")
+                        click.echo(f"    {rel_path}: OK ({exec_ms}ms)")
+                        applied_count += 1
+
+                        # Track the applied file
+                        file_hash = calculate_file_hash(sql_file)
+                        update_dbc_tracking(config, sql_file.name, file_hash, name, exec_ms)
 
             except Exception as e:
                 rel_path = sql_file.relative_to(dbc_path)
@@ -904,7 +933,8 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
             expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
             for table in tables:
-                if table.startswith("dbc_"):
+                # Skip internal tables
+                if table.startswith("dbc_") or table == "zep_dbc_updates":
                     continue
                 # Drop and recreate table to ensure matching schema
                 expected_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
@@ -923,11 +953,13 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
     # Summary
     click.echo()
     if errors:
-        click.echo(click.style("Rebuild completed with errors:", fg='yellow'))
-        for name, file, err in errors:
+        click.echo(click.style(f"Rebuild completed with errors: {applied_count}/{total_files} applied", fg='yellow'))
+        for name, file, err in errors[:5]:
             click.echo(f"  {name}/{file}: {err[:80]}")
+        if len(errors) > 5:
+            click.echo(f"  ... and {len(errors) - 5} more errors")
     else:
-        click.echo(click.style("Rebuild complete!", fg='green'))
+        click.echo(click.style(f"Rebuild complete! {applied_count} files applied and tracked", fg='green'))
 
 
 # =============================================================================
@@ -937,18 +969,24 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 @dbc.command('sources')
 @click.option('--verbose', '-v', is_flag=True,
               help='Show individual SQL files')
+@click.option('--changed', '-c', is_flag=True,
+              help='Show only new/modified files (hash-based)')
 @click.pass_context
-def dbc_sources(ctx, verbose: bool):
+def dbc_sources(ctx, verbose: bool, changed: bool):
     """List all zpak DBC sources that would be applied during rebuild.
 
     Shows all enabled zpaks with DBC content, sorted by priority order.
     This is exactly what 'zep dbc rebuild' will execute.
 
+    With --changed, shows only files that have been modified since last apply.
+
     Examples:
         zep dbc sources          # Summary view
         zep dbc sources -v       # Show all SQL files
+        zep dbc sources -c       # Show only changed files
     """
     craft_root = ctx.obj['craft_root']
+    config = get_dbc_config(ctx)
 
     sources = collect_dbc_sources(craft_root)
 
@@ -956,94 +994,97 @@ def dbc_sources(ctx, verbose: bool):
         click.echo(click.style("No enabled DBC sources found", fg='yellow'))
         return
 
+    # Get stored hashes if checking for changes
+    stored_hashes = {}
+    if changed:
+        ensure_dbc_tracking_table(config)
+        stored_hashes = get_all_stored_dbc_hashes(config)
+
     total_files = 0
-    click.echo(click.style("DBC Sources (rebuild order):", bold=True))
+    changed_files = 0
+    new_files = 0
+
+    if changed:
+        click.echo(click.style("DBC Changed Files:", bold=True))
+    else:
+        click.echo(click.style("DBC Sources (rebuild order):", bold=True))
     click.echo()
 
     for priority, name, dbc_path, sql_files in sources:
         file_count = len(sql_files)
         total_files += file_count
-        click.echo(f"  [{priority:3}] {name} ({file_count} files)")
 
-        if verbose:
+        if changed:
+            # Check each file for changes
+            zpak_new = []
+            zpak_modified = []
+
             for sql_file in sql_files:
-                # Show relative path from zpak dbc folder
-                rel_path = sql_file.name
-                click.echo(f"         - {rel_path}")
+                current_hash = calculate_file_hash(sql_file)
+                stored = stored_hashes.get(sql_file.name)
+
+                if stored is None:
+                    zpak_new.append(sql_file.name)
+                    new_files += 1
+                elif stored[0] != current_hash:
+                    zpak_modified.append(sql_file.name)
+                    changed_files += 1
+
+            if zpak_new or zpak_modified:
+                click.echo(f"  [{priority:3}] {name}")
+
+                if zpak_new:
+                    click.echo(click.style(f"         New ({len(zpak_new)}):", fg='green'))
+                    for f in zpak_new:
+                        click.echo(f"           + {f}")
+
+                if zpak_modified:
+                    click.echo(click.style(f"         Modified ({len(zpak_modified)}):", fg='yellow'))
+                    for f in zpak_modified:
+                        click.echo(f"           ~ {f}")
+        else:
+            click.echo(f"  [{priority:3}] {name} ({file_count} files)")
+
+            if verbose:
+                for sql_file in sql_files:
+                    rel_path = sql_file.name
+
+                    # Show change status if we have stored hashes
+                    if stored_hashes:
+                        current_hash = calculate_file_hash(sql_file)
+                        stored = stored_hashes.get(sql_file.name)
+
+                        if stored is None:
+                            status = click.style(" [NEW]", fg='green')
+                        elif stored[0] != current_hash:
+                            status = click.style(" [MODIFIED]", fg='yellow')
+                        else:
+                            status = ""
+                    else:
+                        status = ""
+
+                    click.echo(f"         - {rel_path}{status}")
 
     click.echo()
-    click.echo(f"Total: {len(sources)} zpak(s), {total_files} SQL file(s)")
-    click.echo()
-    click.echo("Run 'zep dbc rebuild' to apply these sources")
-    click.echo("Run 'zep dbc rebuild --dry-run' to preview without changes")
+
+    if changed:
+        total_changed = new_files + changed_files
+        if total_changed == 0:
+            click.echo(click.style("No new or modified DBC files", fg='green'))
+        else:
+            click.echo(f"Summary: {new_files} new, {changed_files} modified ({total_changed} total)")
+            click.echo()
+            click.echo("Run 'zep dbc apply --changed' to apply these files")
+    else:
+        click.echo(f"Total: {len(sources)} zpak(s), {total_files} SQL file(s)")
+        click.echo()
+        click.echo("Run 'zep dbc rebuild' to apply these sources")
+        click.echo("Run 'zep dbc sources --changed' to see pending changes")
 
 
 # =============================================================================
 # Conflicts Command
 # =============================================================================
-
-def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
-    """Parse SQL content to extract affected primary key IDs.
-
-    Handles common patterns:
-        DELETE FROM table WHERE id = X
-        DELETE FROM `table` WHERE `id` = X
-        INSERT INTO table (...) VALUES (X, ...)
-        UPDATE table SET ... WHERE id = X
-
-    Args:
-        sql_content: SQL file content
-        table_name: Table name (for matching)
-
-    Returns:
-        Set of primary key values (usually integers)
-    """
-    affected_ids = set()
-    table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
-
-    # DELETE FROM table WHERE id = X or WHERE `id` = X
-    delete_pattern = rf'DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
-    for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
-        affected_ids.add(int(match.group(1)))
-
-    # INSERT INTO table (...) VALUES (X, ...) - ID is first value
-    # Matches both single and multi-row inserts
-    insert_pattern = rf'INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)'
-    for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
-        affected_ids.add(int(match.group(1)))
-
-    # UPDATE table SET ... WHERE id = X
-    update_pattern = rf'UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
-    for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
-        affected_ids.add(int(match.group(1)))
-
-    return affected_ids
-
-
-def extract_table_from_filename(filename: str) -> Optional[str]:
-    """Extract table name from DBC SQL filename.
-
-    Handles patterns:
-        spell.sql -> spell
-        F-004_spell.sql -> spell
-        I-099_skillline.sql -> skillline
-
-    Args:
-        filename: SQL filename (without path)
-
-    Returns:
-        Table name or None
-    """
-    name = filename.replace('.sql', '')
-
-    # Check for feature/issue prefix
-    if '_' in name:
-        parts = name.split('_', 1)
-        if parts[0].startswith(('F-', 'I-')) or parts[0].isdigit():
-            return parts[1].lower()
-
-    return name.lower()
-
 
 @dbc.command('conflicts')
 @click.option('--table', '-t', 'filter_table',
@@ -1171,30 +1212,143 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
 # Apply Command
 # =============================================================================
 
+def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
+                           applied_hashes: Dict[str, Tuple[str, str]],
+                           craft_root: Path) -> List[Dict]:
+    """Check for row conflicts between changed files and already-applied files.
+
+    Args:
+        changed_files: List of (filepath, zpak_name, hash) for files to be applied
+        applied_hashes: Dict of filename -> (hash, zpak) for already-applied files
+        craft_root: Path to Zeppelin-Craft
+
+    Returns:
+        List of conflict dicts with table, id, changed_file, applied_file info
+    """
+    conflicts = []
+
+    # Build map of table -> {id -> [(zpak, filename, priority)]} for changed files
+    changed_modifications: Dict[str, Dict[int, List[Tuple[str, str, int]]]] = {}
+
+    # Get all sources to find priorities
+    sources = collect_dbc_sources(craft_root)
+    zpak_priorities = {name: priority for priority, name, _, _ in sources}
+
+    for filepath, zpak_name, _ in changed_files:
+        table_name = extract_table_from_filename(filepath.name)
+        if not table_name:
+            continue
+
+        try:
+            sql_content = filepath.read_text()
+            affected_ids = parse_sql_affected_ids(sql_content, table_name)
+
+            if affected_ids:
+                if table_name not in changed_modifications:
+                    changed_modifications[table_name] = {}
+
+                priority = zpak_priorities.get(zpak_name, 100)
+                for row_id in affected_ids:
+                    if row_id not in changed_modifications[table_name]:
+                        changed_modifications[table_name][row_id] = []
+                    changed_modifications[table_name][row_id].append(
+                        (zpak_name, filepath.name, priority)
+                    )
+        except Exception:
+            continue
+
+    # Now check applied files for overlapping IDs
+    for applied_filename, (applied_hash, applied_zpak) in applied_hashes.items():
+        # Skip if this file is in the changed set (will be re-applied)
+        if any(f.name == applied_filename for f, _, _ in changed_files):
+            continue
+
+        table_name = extract_table_from_filename(applied_filename)
+        if not table_name or table_name not in changed_modifications:
+            continue
+
+        # Find the actual file path
+        applied_path = None
+        for priority, name, dbc_path, sql_files in sources:
+            if name == applied_zpak:
+                for sf in sql_files:
+                    if sf.name == applied_filename:
+                        applied_path = sf
+                        break
+                break
+
+        if not applied_path or not applied_path.exists():
+            continue
+
+        try:
+            sql_content = applied_path.read_text()
+            affected_ids = parse_sql_affected_ids(sql_content, table_name)
+            applied_priority = zpak_priorities.get(applied_zpak, 100)
+
+            for row_id in affected_ids:
+                if row_id in changed_modifications[table_name]:
+                    # Conflict found - check priority
+                    for changed_zpak, changed_filename, changed_priority in changed_modifications[table_name][row_id]:
+                        # Only warn if applied file has HIGHER priority (applied later in rebuild)
+                        # because applying changed file would overwrite higher-priority changes
+                        if applied_priority > changed_priority:
+                            conflicts.append({
+                                'table': table_name,
+                                'id': row_id,
+                                'changed_file': changed_filename,
+                                'changed_zpak': changed_zpak,
+                                'changed_priority': changed_priority,
+                                'applied_file': applied_filename,
+                                'applied_zpak': applied_zpak,
+                                'applied_priority': applied_priority,
+                            })
+        except Exception:
+            continue
+
+    return conflicts
+
+
 @dbc.command('apply')
 @click.argument('target', required=False)
 @click.option('--task', '-t', 'task_id',
               help='Apply only files for specific task (F-XXX or I-XXX)')
 @click.option('--zpak', '-z', 'zpak_name',
               help='Apply from specific zpak only')
-@click.option('--dry-run', is_flag=True,
+@click.option('--changed', '-c', is_flag=True,
+              help='Only apply new/modified files (hash-based)')
+@click.option('--all', '-a', 'run_all', is_flag=True,
+              help='Apply all files regardless of state')
+@click.option('--dry-run', '-n', is_flag=True,
               help='Preview without applying')
+@click.option('--force', '-f', is_flag=True,
+              help='Apply despite conflicts (no confirmation)')
 @click.pass_context
 def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Optional[str],
-              dry_run: bool):
+              changed: bool, run_all: bool, dry_run: bool, force: bool):
     """Apply existing zpak DBC files to databases.
 
     Use this when you've manually created/edited DBC SQL files in a zpak
     and want to apply them without the modify command's save step.
 
+    With --changed, only applies files that have been modified since last apply.
+    Before applying, checks for row conflicts with higher-priority already-applied
+    files and warns if applying would overwrite those changes.
+
     Examples:
-        zep dbc apply                           # Apply all zpak DBC files
-        zep dbc apply --task F-212              # Apply only F-212_*.sql files
-        zep dbc apply --zpak mage-tanking       # Apply from specific zpak
-        zep dbc apply zpaks/my-zpak/dbc/F-212_spell.sql  # Apply specific file
+        zep dbc apply                           # Interactive or apply all
+        zep dbc apply --changed                 # Only new/modified files
+        zep dbc apply --task F-212              # Only [F-212]_*.sql files
+        zep dbc apply --zpak mage-tanking       # From specific zpak
+        zep dbc apply zpaks/my-zpak/dbc/[F-212]_spell.sql  # Specific file
     """
+    import time
+
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
+
+    # Ensure tracking table exists
+    if not dry_run:
+        ensure_dbc_tracking_table(config)
 
     # Build list of (priority, zpak_name, sql_files) tuples
     zpak_groups = []
@@ -1224,59 +1378,133 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
             if sql_files:
                 zpak_groups.append((priority, name, sql_files))
 
-    # Count total files
+    # Count total files before filtering
     total_files = sum(len(files) for _, _, files in zpak_groups)
 
     if total_files == 0:
         click.echo("No files to apply")
         return
 
-    click.echo(f"Applying DBC sources ({total_files} files from {len(zpak_groups)} zpak(s))")
+    # Filter by hash if --changed
+    files_to_apply: List[Tuple[Path, str, int, str]] = []  # (path, zpak, priority, hash)
+
+    if changed and not run_all:
+        click.echo("Checking for changed files...")
+        stored_hashes = get_all_stored_dbc_hashes(config)
+
+        for priority, zpak, sql_files in zpak_groups:
+            for sql_file in sql_files:
+                current_hash = calculate_file_hash(sql_file)
+                stored = stored_hashes.get(sql_file.name)
+                stored_hash = stored[0] if stored else None
+
+                if stored_hash != current_hash:
+                    files_to_apply.append((sql_file, zpak, priority, current_hash))
+
+        if not files_to_apply:
+            click.echo(click.style("No new or modified DBC files to apply", fg='green'))
+            return
+
+        # Check for conflicts before applying
+        changed_for_conflict = [(f, z, h) for f, z, p, h in files_to_apply]
+        conflicts = _check_apply_conflicts(changed_for_conflict, stored_hashes, craft_root)
+
+        if conflicts:
+            click.echo(click.style(f"\nConflict warning: {len(conflicts)} row(s) affected", fg='yellow'))
+            click.echo("These changed files modify rows that were also modified by higher-priority")
+            click.echo("already-applied files. Applying will overwrite those changes.\n")
+
+            # Group by table
+            by_table: Dict[str, List] = {}
+            for c in conflicts:
+                if c['table'] not in by_table:
+                    by_table[c['table']] = []
+                by_table[c['table']].append(c)
+
+            for table, table_conflicts in by_table.items():
+                click.echo(f"  {table}:")
+                shown = 0
+                for c in table_conflicts[:5]:
+                    click.echo(f"    ID {c['id']}: [{c['changed_priority']}] {c['changed_zpak']} vs [{c['applied_priority']}] {c['applied_zpak']}")
+                    shown += 1
+                if len(table_conflicts) > 5:
+                    click.echo(f"    ... and {len(table_conflicts) - 5} more")
+
+            click.echo()
+            if not dry_run and not force:
+                if not click.confirm("Apply anyway?"):
+                    click.echo("Cancelled.")
+                    return
+
+        click.echo(f"\nApplying {len(files_to_apply)} changed file(s)...")
+    else:
+        # Apply all - build flat list with hashes
+        for priority, zpak, sql_files in zpak_groups:
+            for sql_file in sql_files:
+                file_hash = calculate_file_hash(sql_file)
+                files_to_apply.append((sql_file, zpak, priority, file_hash))
+
+        click.echo(f"Applying {len(files_to_apply)} DBC file(s) from {len(zpak_groups)} zpak(s)")
 
     if dry_run:
         # Show preview grouped by zpak
-        for priority, name, sql_files in zpak_groups:
-            click.echo(f"\n[{priority}] {name} ({len(sql_files)} files)")
-            for f in sql_files:
-                click.echo(f"  {f.stem}")
+        current_zpak = None
+        for sql_file, zpak, priority, _ in files_to_apply:
+            if zpak != current_zpak:
+                current_zpak = zpak
+                click.echo(f"\n[{priority}] {zpak}")
+            click.echo(f"  {sql_file.name}")
         click.echo(click.style("\nDRY RUN - no changes made", fg='yellow'))
         return
 
-    # Apply to live and expected databases, grouped by zpak
+    # Apply files in priority order (already sorted by collect_dbc_sources)
     errors = []
-    for priority, name, sql_files in zpak_groups:
-        click.echo(f"\n[{priority}] {click.style(name, bold=True)} ({len(sql_files)} files)")
+    success_count = 0
+    current_zpak = None
 
-        for sql_file in sql_files:
-            with open(sql_file) as f:
-                sql = f.read()
+    for sql_file, zpak, priority, file_hash in files_to_apply:
+        if zpak != current_zpak:
+            current_zpak = zpak
+            click.echo(f"\n[{priority}] {click.style(zpak, bold=True)}")
 
-            if not sql.strip():
-                click.echo(f"  {sql_file.stem:<30} (empty, skipped)")
-                continue
+        with open(sql_file) as f:
+            sql = f.read()
 
-            # Apply to both databases
-            live_ok, live_out = run_sql(sql, config, config.live)
-            exp_ok, exp_out = run_sql(sql, config, config.expected)
+        if not sql.strip():
+            click.echo(f"  {sql_file.name:<40} (empty, skipped)")
+            continue
 
-            # Build status string
-            live_status = click.style("OK", fg='green') if live_ok else click.style("FAIL", fg='red')
-            exp_status = click.style("OK", fg='green') if exp_ok else click.style("FAIL", fg='red')
+        # Apply to both databases
+        start_time = time.time()
+        live_ok, live_out = run_sql(sql, config, config.live)
+        exp_ok, exp_out = run_sql(sql, config, config.expected)
+        exec_ms = int((time.time() - start_time) * 1000)
 
-            click.echo(f"  {sql_file.stem:<30} dbc: {live_status}  expected: {exp_status}")
+        # Build status string
+        live_status = click.style("OK", fg='green') if live_ok else click.style("FAIL", fg='red')
+        exp_status = click.style("OK", fg='green') if exp_ok else click.style("FAIL", fg='red')
 
-            if not live_ok:
-                errors.append((name, sql_file.stem, f"dbc: {live_out}"))
-            if not exp_ok:
-                errors.append((name, sql_file.stem, f"expected: {exp_out}"))
+        click.echo(f"  {sql_file.name:<40} dbc: {live_status}  expected: {exp_status}  ({exec_ms}ms)")
+
+        if live_ok:
+            # Update tracking
+            update_dbc_tracking(config, sql_file.name, file_hash, zpak, exec_ms)
+            success_count += 1
+        else:
+            errors.append((zpak, sql_file.name, f"dbc: {live_out}"))
+
+        if not exp_ok:
+            errors.append((zpak, sql_file.name, f"expected: {exp_out}"))
 
     click.echo()
     if errors:
-        click.echo(click.style("Completed with errors:", fg='yellow'))
-        for zpak, file, err in errors:
+        click.echo(click.style(f"Completed: {success_count} succeeded, {len(errors)} errors", fg='yellow'))
+        for zpak, file, err in errors[:5]:
             click.echo(f"  [{zpak}] {file}: {err[:50]}")
+        if len(errors) > 5:
+            click.echo(f"  ... and {len(errors) - 5} more errors")
     else:
-        click.echo(click.style("Apply complete!", fg='green'))
+        click.echo(click.style(f"Apply complete! {success_count} file(s) applied", fg='green'))
 
 
 # =============================================================================
@@ -1505,17 +1733,22 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
 
     Args:
         zpak_path: Path to zpak directory
-        feature_id: Unused, kept for compatibility
+        feature_id: Feature ID to look for (e.g., 'F-049')
 
     Returns:
-        List of existing [IMP]_*.sql file paths
+        List of existing [F-XXX]_*.sql file paths for the feature
     """
     dbc_dir = zpak_path / 'dbc'
     if not dbc_dir.exists():
         return []
 
-    # Look for import-prefixed files [IMP]_*.sql
-    return list(dbc_dir.glob("[IMP]_*.sql"))
+    if feature_id:
+        # Look for files matching this feature ID: [F-049]_*.sql
+        return list(dbc_dir.glob(f"[{feature_id}]_*.sql"))
+    else:
+        # No feature ID - return all bracketed feature files
+        # This catches [F-XXX]_*.sql and [I-XXX]_*.sql patterns
+        return [f for f in dbc_dir.glob("*.sql") if f.name.startswith("[")]
 
 
 @dbc.command('import-module')
@@ -1677,7 +1910,8 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         raise click.ClickException(f"Source path not found: {source_path}")
 
     # Step 2: Determine feature ID
-    # Priority: CLI --task > zpak.json feature_id > none
+    # Priority: CLI --task > zpak.json feature_id > error
+    # Feature ID is REQUIRED for file naming to enable change tracking
     if task_id:
         # Normalize CLI-provided task ID
         task_id = _normalize_feature_id(task_id)
@@ -1690,6 +1924,12 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         # Use feature_id from zpak.json
         task_id = manifest_feature_id
         click.echo(f"  Using feature_id from zpak.json: {task_id}")
+    else:
+        raise click.ClickException(
+            f"No feature_id found in zpak.json and no --task provided.\n"
+            "Feature ID is required for file naming (enables change tracking).\n"
+            "Either add 'feature_id' to zpak.json or use --task F-XXX"
+        )
 
     # Step 3: Check for existing DBC files and confirm if needed
     existing_files = _get_existing_dbc_files(zpak_path, task_id)
@@ -1890,15 +2130,15 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             # Ensure dbc directory exists
             dbc_dir.mkdir(parents=True, exist_ok=True)
 
-            # Generate per-table SQL files with [IMP] prefix for imports
+            # Generate per-table SQL files with [F-XXX]_ prefix for tracking
             total_lines = 0
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
 
-                sql_filename = f"[IMP]_{table}.sql"
+                sql_filename = f"[{task_id}]_{table}.sql"
                 sql_file = dbc_dir / sql_filename
                 with open(sql_file, 'w') as f:
-                    f.write(f"-- [IMP] {name}: {table}\n")
+                    f.write(f"-- [{task_id}] {name}: {table}\n")
                     f.write(f"-- Imported by zep dbc import-module\n\n")
                     f.write(sql)
 
