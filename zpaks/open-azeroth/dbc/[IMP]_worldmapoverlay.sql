@@ -1,4 +1,4 @@
--- open-azeroth: worldmapoverlay
+-- [IMP] open-azeroth: worldmapoverlay
 -- Imported by zep dbc import-module
 
 -- worldmapoverlay: 177 inserts, 8 updates, 0 deletes

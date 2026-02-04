@@ -1513,23 +1513,22 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
 
 @dbc.command('extract')
 @click.option('--name', '-n', required=True,
-              help='Name for the extracted source (zpak name or feature ID)')
-@click.option('--task', '-t', 'task_id',
-              help='Task ID (F-XXX or I-XXX) - creates feature file prefix')
+              help='Name for the extracted source (zpak name)')
+@click.option('--task', '-t', 'task_id', required=True,
+              help='Task ID (F-XXX or I-XXX) - REQUIRED for file naming')
 @click.option('--priority', '-p', type=int, default=100,
               help='Priority (default: 100)')
 @click.option('--zpak', '-z', 'zpak_name',
               help='Add to existing zpak instead of creating new one')
 @click.pass_context
-def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
+def dbc_extract(ctx, name: str, task_id: str, priority: int,
                 zpak_name: Optional[str]):
     """Extract current uncommitted DBC changes as SQL files.
 
     Compares live database against original_dbc and generates SQL files
-    for any differences found.
+    for any differences found. Requires --task for file naming.
 
     Examples:
-        zep dbc extract --name my-customizations
         zep dbc extract --name mage-tanking --task F-014
         zep dbc extract --name frost-shield --task F-212 --zpak class-overhauls
     """
@@ -1616,14 +1615,11 @@ def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.live, config.original)
 
-                # Use [F-XXX]_ prefix for custom changes if task_id provided
-                if task_id:
-                    sql_file = dbc_dir / f"[{task_id}]_{table}.sql"
-                else:
-                    sql_file = dbc_dir / f"{table}.sql"
+                # All DBC files require feature ID prefix
+                sql_file = dbc_dir / f"[{task_id}]_{table}.sql"
 
                 with open(sql_file, 'w') as f:
-                    f.write(f"-- {name}: {table}\n")
+                    f.write(f"-- [{task_id}] {name}: {table}\n")
                     f.write(f"-- Extracted by zep dbc extract\n\n")
                     f.write(sql)
 
@@ -1633,10 +1629,9 @@ def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
 
             click.echo(f"\nTotal: {total_lines} lines in {len(tables_with_changes)} files")
 
-            # Register feature if task_id provided
-            if task_id:
-                registry.register_feature(task_id, zpak_path.name)
-                registry.save()
+            # Register feature
+            registry.register_feature(task_id, zpak_path.name)
+            registry.save()
 
             click.echo(click.style(f"\nExtraction complete!", fg='green'))
             click.echo(f"  Zpak: {zpak_path.relative_to(craft_root)}")
@@ -1736,18 +1731,18 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
         feature_id: Feature ID to look for (e.g., 'F-049')
 
     Returns:
-        List of existing [F-XXX,BASE]_*.sql file paths for the feature
+        List of existing [BASE,F-XXX]_*.sql file paths for the feature
     """
     dbc_dir = zpak_path / 'dbc'
     if not dbc_dir.exists():
         return []
 
     if feature_id:
-        # Look for BASE files matching this feature ID: [F-049,BASE]_*.sql
-        return list(dbc_dir.glob(f"[{feature_id},BASE]_*.sql"))
+        # Look for BASE files matching this feature ID: [BASE,F-049]_*.sql
+        return list(dbc_dir.glob(f"[BASE,{feature_id}]_*.sql"))
     else:
         # No feature ID - return all BASE-tagged files
-        return list(dbc_dir.glob("[*,BASE]_*.sql"))
+        return list(dbc_dir.glob("[BASE,*]_*.sql"))
 
 
 @dbc.command('import-module')
@@ -2129,16 +2124,16 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             # Ensure dbc directory exists
             dbc_dir.mkdir(parents=True, exist_ok=True)
 
-            # Generate per-table SQL files with [F-XXX,BASE]_ prefix
-            # BASE tag indicates imported DBC diff - do not edit directly
+            # Generate per-table SQL files with [BASE,F-XXX]_ prefix
+            # BASE first ensures imports sort before custom edits
             total_lines = 0
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
 
-                sql_filename = f"[{task_id},BASE]_{table}.sql"
+                sql_filename = f"[BASE,{task_id}]_{table}.sql"
                 sql_file = dbc_dir / sql_filename
                 with open(sql_file, 'w') as f:
-                    f.write(f"-- [{task_id},BASE] {name}: {table}\n")
+                    f.write(f"-- [BASE,{task_id}] {name}: {table}\n")
                     f.write(f"-- Imported by zep dbc import-module - DO NOT EDIT\n")
                     f.write(f"-- To customize, create [{task_id}]_{table}.sql with overrides\n\n")
                     f.write(sql)

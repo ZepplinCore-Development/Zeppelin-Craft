@@ -1,4 +1,4 @@
--- open-azeroth: lightparams
+-- [IMP] open-azeroth: lightparams
 -- Imported by zep dbc import-module
 
 -- lightparams: 77 inserts, 0 updates, 0 deletes

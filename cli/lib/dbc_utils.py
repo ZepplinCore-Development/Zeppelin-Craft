@@ -632,16 +632,13 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
 
 
 def append_to_zpak_dbc(zpak_path: Path, table: str, sql: str,
-                       feature_id: Optional[str] = None) -> Path:
+                       feature_id: str) -> Path:
     """
     Append SQL to a zpak's dbc/[feature]_<table>.sql file.
 
-    If feature_id is provided, prefixes the filename with brackets:
+    All DBC files REQUIRE a feature_id prefix:
         zpaks/my-zpak/dbc/[F-004]_spell.sql
         zpaks/my-zpak/dbc/[F-004]_skillline.sql
-
-    If feature_id is None, uses table name only:
-        zpaks/my-zpak/dbc/spell.sql
 
     This enables easy reorganization - moving [F-004] to another zpak
     is simply: mv '[F-004]_*.sql' ../other-zpak/dbc/
@@ -650,18 +647,21 @@ def append_to_zpak_dbc(zpak_path: Path, table: str, sql: str,
         zpak_path: Path to zpak directory
         table: Table name
         sql: SQL to append
-        feature_id: Optional feature ID (F-XXX or I-XXX)
+        feature_id: Feature ID (F-XXX or I-XXX) - REQUIRED
 
     Returns:
         Path to the modified SQL file
+
+    Raises:
+        ValueError: If feature_id is not provided
     """
+    if not feature_id:
+        raise ValueError("feature_id is required for DBC files")
+
     dbc_dir = zpak_path / 'dbc'
     dbc_dir.mkdir(parents=True, exist_ok=True)
 
-    if feature_id:
-        sql_file = dbc_dir / f"[{feature_id}]_{table}.sql"
-    else:
-        sql_file = dbc_dir / f"{table}.sql"
+    sql_file = dbc_dir / f"[{feature_id}]_{table}.sql"
 
     # Append with newline separation
     with open(sql_file, 'a') as f:

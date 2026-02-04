@@ -1,4 +1,4 @@
--- open-azeroth: worldmaparea
+-- [IMP] open-azeroth: worldmaparea
 -- Imported by zep dbc import-module
 
 -- worldmaparea: 77 inserts, 8 updates, 0 deletes

@@ -1,4 +1,4 @@
--- open-azeroth: groundeffecttexture
+-- [IMP] open-azeroth: groundeffecttexture
 -- Imported by zep dbc import-module
 
 -- groundeffecttexture: 173 inserts, 7 updates, 0 deletes

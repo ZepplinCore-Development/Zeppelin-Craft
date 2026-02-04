@@ -1,4 +1,4 @@
--- open-azeroth: wmoareatable
+-- [IMP] open-azeroth: wmoareatable
 -- Imported by zep dbc import-module
 
 -- wmoareatable: 26 inserts, 21 updates, 0 deletes

@@ -1,4 +1,4 @@
--- open-azeroth: lightintband
+-- [IMP] open-azeroth: lightintband
 -- Imported by zep dbc import-module
 
 -- lightintband: 1385 inserts, 0 updates, 0 deletes

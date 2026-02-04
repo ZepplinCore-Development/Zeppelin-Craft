@@ -1,4 +1,4 @@
--- open-azeroth: loadingscreens
+-- [IMP] open-azeroth: loadingscreens
 -- Imported by zep dbc import-module
 
 -- loadingscreens: 8 inserts, 0 updates, 0 deletes

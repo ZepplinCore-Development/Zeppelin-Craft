@@ -1,4 +1,4 @@
--- open-azeroth: areapoi
+-- [IMP] open-azeroth: areapoi
 -- Imported by zep dbc import-module
 
 -- areapoi: 1 inserts, 1 updates, 0 deletes

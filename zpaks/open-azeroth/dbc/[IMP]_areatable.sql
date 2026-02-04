@@ -1,4 +1,4 @@
--- open-azeroth: areatable
+-- [IMP] open-azeroth: areatable
 -- Imported by zep dbc import-module
 
 -- areatable: 484 inserts, 2307 updates, 0 deletes

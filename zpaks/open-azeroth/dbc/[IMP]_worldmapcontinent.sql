@@ -1,4 +1,4 @@
--- open-azeroth: worldmapcontinent
+-- [IMP] open-azeroth: worldmapcontinent
 -- Imported by zep dbc import-module
 
 -- worldmapcontinent: 1 inserts, 3 updates, 0 deletes

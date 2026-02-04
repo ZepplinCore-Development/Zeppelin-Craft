@@ -1,4 +1,4 @@
--- open-azeroth: map
+-- [IMP] open-azeroth: map
 -- Imported by zep dbc import-module
 
 -- map: 950 inserts, 69 updates, 0 deletes

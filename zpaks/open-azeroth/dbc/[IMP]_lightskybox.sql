@@ -1,4 +1,4 @@
--- open-azeroth: lightskybox
+-- [IMP] open-azeroth: lightskybox
 -- Imported by zep dbc import-module
 
 -- lightskybox: 9 inserts, 0 updates, 0 deletes

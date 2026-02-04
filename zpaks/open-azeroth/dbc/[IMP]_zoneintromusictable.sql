@@ -1,4 +1,4 @@
--- open-azeroth: zoneintromusictable
+-- [IMP] open-azeroth: zoneintromusictable
 -- Imported by zep dbc import-module
 
 -- zoneintromusictable: 82 inserts, 0 updates, 0 deletes

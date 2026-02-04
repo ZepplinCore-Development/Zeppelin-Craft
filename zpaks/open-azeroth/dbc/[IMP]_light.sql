@@ -1,4 +1,4 @@
--- open-azeroth: light
+-- [IMP] open-azeroth: light
 -- Imported by zep dbc import-module
 
 -- light: 245 inserts, 1 updates, 4 deletes
