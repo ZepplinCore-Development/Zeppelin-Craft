@@ -10,6 +10,7 @@
     "preprocessor": "resource-parser",
     "preprocessor_warning": "Resource Parser extracts custom assets and dependencies. This may take 10-15 minutes."
   },
+  "feature_id": "F-136",
   "enabled": true,
   "priority": 50
 }

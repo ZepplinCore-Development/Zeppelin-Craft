@@ -1,4 +1,4 @@
--- F-049: creaturedisplayinfo
+-- hd-creatures-mounts: creaturedisplayinfo
 -- Imported by zep dbc import-module
 
 -- creaturedisplayinfo: 24 inserts, 2416 updates, 0 deletes

@@ -19,10 +19,11 @@ Commands:
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Tuple
+from typing import Optional, List, Dict, Any, Tuple, Set
 
 import click
 
@@ -162,7 +163,7 @@ def git_commit_changes(craft_root: Path, files: List[Path], task_id: str,
 DBC_MENU_GROUPS = {
     'Search': {
         'description': 'Query and inspect DBC data',
-        'commands': ['query', 'sources', 'status']
+        'commands': ['query', 'sources', 'status', 'conflicts']
     },
     'Edit': {
         'description': 'Modify DBC database entries',
@@ -183,6 +184,7 @@ DBC_COMMAND_DESCRIPTIONS = {
     'query': 'Query DBC database (read-only)',
     'sources': 'List zpak DBC sources',
     'status': 'Check for uncommitted changes',
+    'conflicts': 'Scan zpaks for conflicting DBC edits',
     'modify': 'Modify DBC database with tracking',
     'clone': 'Clone a spell to a new ID',
     'rebuild': 'Rebuild DBC from zpak sources',
@@ -977,6 +979,195 @@ def dbc_sources(ctx, verbose: bool):
 
 
 # =============================================================================
+# Conflicts Command
+# =============================================================================
+
+def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
+    """Parse SQL content to extract affected primary key IDs.
+
+    Handles common patterns:
+        DELETE FROM table WHERE id = X
+        DELETE FROM `table` WHERE `id` = X
+        INSERT INTO table (...) VALUES (X, ...)
+        UPDATE table SET ... WHERE id = X
+
+    Args:
+        sql_content: SQL file content
+        table_name: Table name (for matching)
+
+    Returns:
+        Set of primary key values (usually integers)
+    """
+    affected_ids = set()
+    table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
+
+    # DELETE FROM table WHERE id = X or WHERE `id` = X
+    delete_pattern = rf'DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
+        affected_ids.add(int(match.group(1)))
+
+    # INSERT INTO table (...) VALUES (X, ...) - ID is first value
+    # Matches both single and multi-row inserts
+    insert_pattern = rf'INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)'
+    for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
+        affected_ids.add(int(match.group(1)))
+
+    # UPDATE table SET ... WHERE id = X
+    update_pattern = rf'UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
+        affected_ids.add(int(match.group(1)))
+
+    return affected_ids
+
+
+def extract_table_from_filename(filename: str) -> Optional[str]:
+    """Extract table name from DBC SQL filename.
+
+    Handles patterns:
+        spell.sql -> spell
+        F-004_spell.sql -> spell
+        I-099_skillline.sql -> skillline
+
+    Args:
+        filename: SQL filename (without path)
+
+    Returns:
+        Table name or None
+    """
+    name = filename.replace('.sql', '')
+
+    # Check for feature/issue prefix
+    if '_' in name:
+        parts = name.split('_', 1)
+        if parts[0].startswith(('F-', 'I-')) or parts[0].isdigit():
+            return parts[1].lower()
+
+    return name.lower()
+
+
+@dbc.command('conflicts')
+@click.option('--table', '-t', 'filter_table',
+              help='Check only specific table')
+@click.option('--verbose', '-v', is_flag=True,
+              help='Show detailed conflict info')
+@click.pass_context
+def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
+    """Scan zpaks for conflicting DBC edits.
+
+    Detects when multiple zpaks modify the same row in a DBC table.
+    This is an intensive operation that parses all DBC SQL files.
+
+    During rebuild, zpaks are applied in priority order (lower first),
+    so higher-priority zpaks will overwrite lower-priority changes
+    to the same rows.
+
+    Examples:
+        zep dbc conflicts              # Scan all tables
+        zep dbc conflicts -t spell     # Check only spell table
+        zep dbc conflicts -v           # Show all conflicting IDs
+    """
+    craft_root = ctx.obj['craft_root']
+
+    click.echo(click.style("DBC Conflict Scanner", bold=True))
+    click.echo()
+
+    # Collect all DBC sources
+    sources = collect_dbc_sources(craft_root)
+
+    if not sources:
+        click.echo("No DBC sources found in zpaks")
+        return
+
+    click.echo(f"Scanning {len(sources)} zpak(s) for conflicts...")
+    click.echo()
+
+    # Build mapping: table -> { id -> [(zpak_name, priority, file)] }
+    # This tracks which zpaks modify which rows
+    table_modifications: Dict[str, Dict[int, List[Tuple[str, int, str]]]] = {}
+
+    for priority, zpak_name, dbc_path, sql_files in sources:
+        for sql_file in sql_files:
+            table_name = extract_table_from_filename(sql_file.name)
+            if not table_name:
+                continue
+
+            # Skip if filtering to specific table
+            if filter_table and table_name != filter_table.lower():
+                continue
+
+            # Read and parse SQL file
+            try:
+                sql_content = sql_file.read_text()
+                affected_ids = parse_sql_affected_ids(sql_content, table_name)
+
+                if affected_ids:
+                    if table_name not in table_modifications:
+                        table_modifications[table_name] = {}
+
+                    for row_id in affected_ids:
+                        if row_id not in table_modifications[table_name]:
+                            table_modifications[table_name][row_id] = []
+                        table_modifications[table_name][row_id].append(
+                            (zpak_name, priority, sql_file.name)
+                        )
+
+            except Exception as e:
+                logger.warning(f"Failed to parse {sql_file}: {e}")
+                continue
+
+    # Find conflicts (rows modified by 2+ zpaks)
+    conflicts_found = False
+    total_conflicts = 0
+    tables_with_conflicts = 0
+
+    for table_name in sorted(table_modifications.keys()):
+        table_conflicts = []
+
+        for row_id, modifiers in table_modifications[table_name].items():
+            if len(modifiers) > 1:
+                table_conflicts.append((row_id, modifiers))
+
+        if table_conflicts:
+            conflicts_found = True
+            tables_with_conflicts += 1
+            total_conflicts += len(table_conflicts)
+
+            click.echo(click.style(f"{table_name}", fg='yellow', bold=True) +
+                      f" ({len(table_conflicts)} conflict{'s' if len(table_conflicts) != 1 else ''})")
+
+            # Sort conflicts by ID
+            table_conflicts.sort(key=lambda x: x[0])
+
+            # Show conflicts (limit unless verbose)
+            display_limit = len(table_conflicts) if verbose else 5
+            for row_id, modifiers in table_conflicts[:display_limit]:
+                # Sort modifiers by priority (lower first = applied first)
+                modifiers.sort(key=lambda x: x[1])
+
+                click.echo(f"  ID {row_id}:")
+                for zpak_name, priority, filename in modifiers:
+                    click.echo(f"    [{priority:3}] {zpak_name} ({filename})")
+
+            if not verbose and len(table_conflicts) > display_limit:
+                click.echo(f"  ... and {len(table_conflicts) - display_limit} more conflicts")
+
+            click.echo()
+
+    # Summary
+    if conflicts_found:
+        click.echo(click.style("Summary:", bold=True))
+        click.echo(f"  Tables with conflicts: {tables_with_conflicts}")
+        click.echo(f"  Total conflicting rows: {total_conflicts}")
+        click.echo()
+        click.echo("Note: During rebuild, higher priority zpaks overwrite lower priority changes.")
+        click.echo("      Lower priority number = applied first, higher = wins.")
+    else:
+        click.echo(click.style("No conflicts detected", fg='green'))
+        click.echo()
+        click.echo(f"Scanned {len(table_modifications)} table(s) across {len(sources)} zpak(s)")
+
+
+# =============================================================================
 # Apply Command
 # =============================================================================
 
@@ -1005,7 +1196,8 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
 
-    files_to_apply = []
+    # Build list of (priority, zpak_name, sql_files) tuples
+    zpak_groups = []
 
     if target:
         # Apply specific file
@@ -1014,9 +1206,10 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
             target_path = craft_root / target
         if not target_path.exists():
             raise click.ClickException(f"File not found: {target_path}")
-        files_to_apply.append(target_path)
+        # Single file goes into a "manual" group
+        zpak_groups.append((0, "(file)", [target_path]))
     else:
-        # Collect files from zpaks
+        # Collect files from zpaks, preserving grouping
         sources = collect_dbc_sources(craft_root)
 
         for priority, name, dbc_path, sql_files in sources:
@@ -1024,58 +1217,64 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
             if zpak_name and name != zpak_name:
                 continue
 
-            for sql_file in sql_files:
-                # Filter by task ID
-                if task_id:
-                    if not sql_file.name.startswith(f"{task_id}_"):
-                        continue
-                files_to_apply.append(sql_file)
+            # Filter by task ID if specified (uses [F-XXX]_ format)
+            if task_id:
+                sql_files = [f for f in sql_files if f.name.startswith(f"[{task_id}]_")]
 
-    if not files_to_apply:
+            if sql_files:
+                zpak_groups.append((priority, name, sql_files))
+
+    # Count total files
+    total_files = sum(len(files) for _, _, files in zpak_groups)
+
+    if total_files == 0:
         click.echo("No files to apply")
         return
 
-    click.echo(f"Files to apply ({len(files_to_apply)}):")
-    for f in files_to_apply:
-        click.echo(f"  {f.relative_to(craft_root)}")
+    click.echo(f"Applying DBC sources ({total_files} files from {len(zpak_groups)} zpak(s))")
 
     if dry_run:
+        # Show preview grouped by zpak
+        for priority, name, sql_files in zpak_groups:
+            click.echo(f"\n[{priority}] {name} ({len(sql_files)} files)")
+            for f in sql_files:
+                click.echo(f"  {f.stem}")
         click.echo(click.style("\nDRY RUN - no changes made", fg='yellow'))
         return
 
-    # Apply to live and expected databases
+    # Apply to live and expected databases, grouped by zpak
     errors = []
-    for sql_file in files_to_apply:
-        click.echo(f"\nApplying {sql_file.name}...")
+    for priority, name, sql_files in zpak_groups:
+        click.echo(f"\n[{priority}] {click.style(name, bold=True)} ({len(sql_files)} files)")
 
-        with open(sql_file) as f:
-            sql = f.read()
+        for sql_file in sql_files:
+            with open(sql_file) as f:
+                sql = f.read()
 
-        if not sql.strip():
-            click.echo("  (empty file, skipped)")
-            continue
+            if not sql.strip():
+                click.echo(f"  {sql_file.stem:<30} (empty, skipped)")
+                continue
 
-        # Apply to live
-        success, output = run_sql(sql, config, config.live)
-        if not success:
-            errors.append((sql_file.name, f"live: {output}"))
-            click.echo(click.style(f"  {config.live}: FAILED", fg='red'))
-        else:
-            click.echo(click.style(f"  {config.live}: OK", fg='green'))
+            # Apply to both databases
+            live_ok, live_out = run_sql(sql, config, config.live)
+            exp_ok, exp_out = run_sql(sql, config, config.expected)
 
-        # Apply to expected
-        success, output = run_sql(sql, config, config.expected)
-        if not success:
-            errors.append((sql_file.name, f"expected: {output}"))
-            click.echo(click.style(f"  {config.expected}: FAILED", fg='red'))
-        else:
-            click.echo(click.style(f"  {config.expected}: OK", fg='green'))
+            # Build status string
+            live_status = click.style("OK", fg='green') if live_ok else click.style("FAIL", fg='red')
+            exp_status = click.style("OK", fg='green') if exp_ok else click.style("FAIL", fg='red')
+
+            click.echo(f"  {sql_file.stem:<30} dbc: {live_status}  expected: {exp_status}")
+
+            if not live_ok:
+                errors.append((name, sql_file.stem, f"dbc: {live_out}"))
+            if not exp_ok:
+                errors.append((name, sql_file.stem, f"expected: {exp_out}"))
 
     click.echo()
     if errors:
         click.echo(click.style("Completed with errors:", fg='yellow'))
-        for name, err in errors:
-            click.echo(f"  {name}: {err[:60]}")
+        for zpak, file, err in errors:
+            click.echo(f"  [{zpak}] {file}: {err[:50]}")
     else:
         click.echo(click.style("Apply complete!", fg='green'))
 
@@ -1189,9 +1388,9 @@ def dbc_extract(ctx, name: str, task_id: Optional[str], priority: int,
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.live, config.original)
 
-                # Use feature prefix if task_id provided
+                # Use [F-XXX]_ prefix for custom changes if task_id provided
                 if task_id:
-                    sql_file = dbc_dir / f"{task_id}_{table}.sql"
+                    sql_file = dbc_dir / f"[{task_id}]_{table}.sql"
                 else:
                     sql_file = dbc_dir / f"{table}.sql"
 
@@ -1265,7 +1464,8 @@ def _discover_zpaks_with_info(craft_root: Path) -> List[Dict[str, Any]]:
                 'path': pkg_dir,
                 'has_dbc_source': has_dbc_source,
                 'dbc_source_path': dbc_source_path,
-                'dbc_source_defined': dbc_source is not None
+                'dbc_source_defined': dbc_source is not None,
+                'feature_id': manifest.get('feature_id')
             })
 
     return zpaks
@@ -1300,31 +1500,22 @@ def _normalize_feature_id(value: str) -> str:
     return None
 
 
-def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str]) -> List[Path]:
-    """Get existing DBC SQL files for a zpak/feature combo.
+def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -> List[Path]:
+    """Get existing imported DBC SQL files for a zpak.
 
     Args:
         zpak_path: Path to zpak directory
-        feature_id: Feature ID (F-XXX) or None
+        feature_id: Unused, kept for compatibility
 
     Returns:
-        List of existing SQL file paths
+        List of existing [IMP]_*.sql file paths
     """
     dbc_dir = zpak_path / 'dbc'
     if not dbc_dir.exists():
         return []
 
-    if feature_id:
-        # Look for feature-prefixed files
-        return list(dbc_dir.glob(f"{feature_id}_*.sql"))
-    else:
-        # Look for non-prefixed files (module-level)
-        files = []
-        for f in dbc_dir.glob("*.sql"):
-            # Skip feature-prefixed files
-            if not (f.stem.startswith('F-') or f.stem.startswith('I-')):
-                files.append(f)
-        return files
+    # Look for import-prefixed files [IMP]_*.sql
+    return list(dbc_dir.glob("[IMP]_*.sql"))
 
 
 @dbc.command('import-module')
@@ -1333,7 +1524,7 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str]) -> List[
 @click.option('--source', '-s', type=click.Path(),
               help='Path to DBC files (default: zpaks/<name>/mpq/DBFilesClient)')
 @click.option('--task', '-t', 'task_id',
-              help='Feature ID (just number like 049, or F-049)')
+              help='Override feature ID (default: uses feature_id from zpak.json)')
 @click.option('--priority', '-p', type=int, default=50,
               help='Priority (default: 50, lower = applied first)')
 @click.option('--force', '-f', is_flag=True,
@@ -1343,17 +1534,19 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
                       priority: int, force: bool):
     """Import binary DBC files into an existing zpak.
 
-    Interactive mode (recommended):
-        zep dbc import-module
+    Feature ID is read from zpak.json 'feature_id' field automatically.
+    Use --task to override if needed.
 
-    With options:
-        zep dbc import-module --name hd-creatures-mounts --task 049
-        zep dbc import-module --name worgoblin --source /custom/path/to/dbc/
+    Examples:
+        zep dbc import-module                              # Interactive
+        zep dbc import-module --name open-azeroth          # Uses zpak's feature_id
+        zep dbc import-module --name worgoblin --task 050  # Override feature_id
     """
     import shutil
     import tempfile
 
     craft_root = ctx.obj['craft_root']
+    manifest_feature_id = None  # Will be set from zpak.json if available
 
     # Step 0: Interactive zpak selection if not provided
     if not name:
@@ -1376,9 +1569,6 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             indicator = "📦" if zpak['has_dbc_source'] else "  "
             options.append(f"{indicator} {zpak['name']:<25} {zpak['description']}")
 
-        options.append("─" * 40)
-        options.append("[Cancel]")
-
         menu = TerminalMenu(
             options,
             title="\n  Select zpak to import DBC files into:\n  (📦 = has DBC source)\n",
@@ -1387,11 +1577,13 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             menu_highlight_style=("fg_cyan", "bold"),
             cycle_cursor=True,
             clear_screen=True,
+            status_bar="↑/↓: Navigate | Enter: Select | q: Cancel",
+            status_bar_style=("fg_gray",),
         )
 
         result = menu.show()
 
-        if result is None or result >= len(zpaks):
+        if result is None:
             click.echo("Cancelled.")
             return
 
@@ -1399,6 +1591,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         name = selected_zpak['name']
         zpak_path = selected_zpak['path']
         default_source = selected_zpak['dbc_source_path']
+        manifest_feature_id = selected_zpak.get('feature_id')
 
         click.echo(f"\nSelected: {name}")
     else:
@@ -1413,9 +1606,10 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         if not zpak_path:
             raise click.ClickException(f"Zpak '{name}' not found")
 
-        # Load manifest to check for dbc_source
+        # Load manifest to check for dbc_source and feature_id
         manifest = load_manifest(zpak_path / 'zpak.json')
         dbc_source = manifest.get('dbc_source') if manifest else None
+        manifest_feature_id = manifest.get('feature_id') if manifest else None
 
         if dbc_source:
             default_source = Path(dbc_source)
@@ -1482,37 +1676,20 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
     if not source_path.exists():
         raise click.ClickException(f"Source path not found: {source_path}")
 
-    # Step 2: Get feature ID (interactive if not provided)
-    if not task_id:
-        try:
-            from simple_term_menu import TerminalMenu
-
-            click.echo(f"\nFeature ID (for tracking in SQL filenames):")
-            click.echo(f"  Enter 3-digit number (e.g., 049) or leave empty for none")
-
-            try:
-                task_input = input("  Feature ID: ").strip()
-            except (KeyboardInterrupt, EOFError):
-                click.echo("\nCancelled.")
-                return
-
-            if task_input:
-                task_id = _normalize_feature_id(task_input)
-                if not task_id:
-                    raise click.ClickException(
-                        f"Invalid feature ID: {task_input}\n"
-                        "Enter a number (e.g., 049) or full ID (F-049)"
-                    )
-        except ImportError:
-            pass  # No feature ID in non-interactive mode
-    else:
-        # Normalize provided task ID
+    # Step 2: Determine feature ID
+    # Priority: CLI --task > zpak.json feature_id > none
+    if task_id:
+        # Normalize CLI-provided task ID
         task_id = _normalize_feature_id(task_id)
         if not task_id:
             raise click.ClickException(
                 f"Invalid feature ID format.\n"
                 "Use a number (049) or full ID (F-049)"
             )
+    elif manifest_feature_id:
+        # Use feature_id from zpak.json
+        task_id = manifest_feature_id
+        click.echo(f"  Using feature_id from zpak.json: {task_id}")
 
     # Step 3: Check for existing DBC files and confirm if needed
     existing_files = _get_existing_dbc_files(zpak_path, task_id)
@@ -1713,23 +1890,15 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             # Ensure dbc directory exists
             dbc_dir.mkdir(parents=True, exist_ok=True)
 
-            # Generate per-table SQL files
+            # Generate per-table SQL files with [IMP] prefix for imports
             total_lines = 0
             for table in tables_with_changes:
                 sql = generate_diff_sql(db_conn, table, config.scratch, config.original)
 
-                # Use task_id prefix if provided
-                if task_id:
-                    sql_filename = f"{task_id}_{table}.sql"
-                else:
-                    sql_filename = f"{table}.sql"
-
+                sql_filename = f"[IMP]_{table}.sql"
                 sql_file = dbc_dir / sql_filename
                 with open(sql_file, 'w') as f:
-                    if task_id:
-                        f.write(f"-- {task_id}: {table}\n")
-                    else:
-                        f.write(f"-- {name}: {table}\n")
+                    f.write(f"-- [IMP] {name}: {table}\n")
                     f.write(f"-- Imported by zep dbc import-module\n\n")
                     f.write(sql)
 

@@ -12,6 +12,7 @@
     "patch_mode": "single"
   },
   "dbc_source": "../../../Zeppelin-Core/modules/mod-worgoblin/data/patch/DBFilesClient",
+  "feature_id": "F-030",
   "contents": {
     "dbc": ["dbc/*.sql"],
     "patches": ["patches/*.patch"],

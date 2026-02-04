@@ -1,3 +1,4 @@
+-- F-005: Remove mount-not-allowed-in-combat flag from mounted spells
 UPDATE `dbc`.`spell`
 SET `AttributesEx4` = `AttributesEx4` & ~67108864
 WHERE (`EffectApplyAuraName1` = 78

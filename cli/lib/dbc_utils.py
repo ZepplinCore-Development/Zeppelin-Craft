@@ -129,7 +129,8 @@ class DBCConnection:
                 port=self.config.port,
                 user=self.config.user,
                 password=self.config.password,
-                database=database
+                database=database,
+                consume_results=True  # Auto-consume unread results to prevent cursor errors
             )
 
         return self._connections[database]
@@ -503,13 +504,14 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
         for pk_val in diff["only_in_db2"]:
             sql_lines.append(f"DELETE FROM `{table}` WHERE `{pk}` = {pk_val};")
 
-    # INSERTs
+    # INSERTs (with DELETE first for idempotency)
     if diff["only_in_db1"]:
         cursor = conn.cursor(dictionary=True)
         pk_list = ",".join(str(pk_val) for pk_val in diff["only_in_db1"])
         cursor.execute(f"SELECT * FROM `{table}` WHERE `{pk}` IN ({pk_list})")
 
         for row in cursor.fetchall():
+            pk_val = row[pk]
             cols = ", ".join(f"`{c}`" for c in columns)
             vals = []
             for c in columns:
@@ -522,6 +524,8 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
                     escaped = str(v).replace("\\", "\\\\").replace("'", "\\'")
                     vals.append(f"'{escaped}'")
             vals_str = ", ".join(vals)
+            # DELETE first for idempotency, then INSERT
+            sql_lines.append(f"DELETE FROM `{table}` WHERE `{pk}` = {pk_val};")
             sql_lines.append(f"INSERT INTO `{table}` ({cols}) VALUES ({vals_str});")
 
         cursor.close()
@@ -629,17 +633,17 @@ def run_sql(sql: str, config: DBCConfig, database: str = None) -> Tuple[bool, st
 def append_to_zpak_dbc(zpak_path: Path, table: str, sql: str,
                        feature_id: Optional[str] = None) -> Path:
     """
-    Append SQL to a zpak's dbc/<feature>_<table>.sql file.
+    Append SQL to a zpak's dbc/[feature]_<table>.sql file.
 
-    If feature_id is provided, prefixes the filename:
-        zpaks/my-zpak/dbc/F-004_spell.sql
-        zpaks/my-zpak/dbc/F-004_skillline.sql
+    If feature_id is provided, prefixes the filename with brackets:
+        zpaks/my-zpak/dbc/[F-004]_spell.sql
+        zpaks/my-zpak/dbc/[F-004]_skillline.sql
 
     If feature_id is None, uses table name only:
         zpaks/my-zpak/dbc/spell.sql
 
-    This enables easy reorganization - moving F-004 to another zpak
-    is simply: mv F-004_*.sql ../other-zpak/dbc/
+    This enables easy reorganization - moving [F-004] to another zpak
+    is simply: mv '[F-004]_*.sql' ../other-zpak/dbc/
 
     Args:
         zpak_path: Path to zpak directory
@@ -654,7 +658,7 @@ def append_to_zpak_dbc(zpak_path: Path, table: str, sql: str,
     dbc_dir.mkdir(parents=True, exist_ok=True)
 
     if feature_id:
-        sql_file = dbc_dir / f"{feature_id}_{table}.sql"
+        sql_file = dbc_dir / f"[{feature_id}]_{table}.sql"
     else:
         sql_file = dbc_dir / f"{table}.sql"
 
