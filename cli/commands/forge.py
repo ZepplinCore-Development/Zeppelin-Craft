@@ -128,7 +128,7 @@ def get_patch_files(zpak_path: Path) -> List[Path]:
     return sorted(patch_dir.glob("*.patch"))
 
 
-def normalize_zpak_name(name: str) -> Optional[str]:
+def normalize_zpak_name(name: str) -> str:
     """Normalize a name to zpak name format.
 
     Accepts both zpak names (e.g., 'accountbound') and old module names
@@ -138,9 +138,11 @@ def normalize_zpak_name(name: str) -> Optional[str]:
         name: Input name
 
     Returns:
-        Normalized zpak name, or None if not found
+        Normalized zpak name. If name matches an old module name in
+        ZPAK_TO_MODULE, returns the corresponding zpak name. Otherwise
+        returns the input name as-is (validation happens later).
     """
-    # Check if it's already a valid zpak name
+    # Check if it's already a valid zpak name in legacy mapping
     if name in ZPAK_TO_MODULE:
         return name
 
@@ -149,7 +151,8 @@ def normalize_zpak_name(name: str) -> Optional[str]:
         if name == module_name:
             return zpak_name
 
-    return None
+    # Return name as-is - validation happens when matching against discovered zpaks
+    return name
 
 
 @click.group()
@@ -266,9 +269,6 @@ def forge_build_patch(ctx, name: Optional[str], process_all: bool, force: bool):
         targets = zpaks
     elif name:
         normalized = normalize_zpak_name(name)
-        if not normalized:
-            click.echo(click.style(f"Error: Unknown package '{name}'", fg='red'))
-            sys.exit(1)
         targets = [(n, p, m) for n, p, m in zpaks if n == normalized]
         if not targets:
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
@@ -348,9 +348,6 @@ def forge_apply_patch(ctx, name: Optional[str], process_all: bool):
         targets = zpaks
     elif name:
         normalized = normalize_zpak_name(name)
-        if not normalized:
-            click.echo(click.style(f"Error: Unknown package '{name}'", fg='red'))
-            sys.exit(1)
         targets = [(n, p, m) for n, p, m in zpaks if n == normalized]
         if not targets:
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
@@ -431,9 +428,6 @@ def forge_sync(ctx, name: Optional[str], process_all: bool):
         targets = zpaks
     elif name:
         normalized = normalize_zpak_name(name)
-        if not normalized:
-            click.echo(click.style(f"Error: Unknown package '{name}'", fg='red'))
-            sys.exit(1)
         targets = [(n, p, m) for n, p, m in zpaks if n == normalized]
         if not targets:
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
