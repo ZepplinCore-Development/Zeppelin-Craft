@@ -54,6 +54,8 @@ from lib.dbc_utils import (
     update_dbc_tracking,
     clear_dbc_tracking,
     parse_sql_affected_ids,
+    parse_sql_modifications,
+    compare_modifications,
     extract_table_from_filename,
 )
 from lib.registry import Registry
@@ -1096,7 +1098,9 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
     """Scan zpaks for conflicting DBC edits.
 
     Detects when multiple zpaks modify the same row in a DBC table.
-    This is an intensive operation that parses all DBC SQL files.
+    Classifies conflicts as:
+      - REDUNDANT: Same change in multiple files (can consolidate)
+      - CONFLICT: Different changes to same row (order matters)
 
     During rebuild, zpaks are applied in priority order (lower first),
     so higher-priority zpaks will overwrite lower-priority changes
@@ -1122,9 +1126,9 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
     click.echo(f"Scanning {len(sources)} zpak(s) for conflicts...")
     click.echo()
 
-    # Build mapping: table -> { id -> [(zpak_name, priority, file)] }
-    # This tracks which zpaks modify which rows
-    table_modifications: Dict[str, Dict[int, List[Tuple[str, int, str]]]] = {}
+    # Build mapping: table -> { id -> [(zpak_name, priority, filename, filepath)] }
+    # This tracks which zpaks modify which rows, with paths for redundancy check
+    table_modifications: Dict[str, Dict[int, List[Tuple[str, int, str, Path]]]] = {}
 
     for priority, zpak_name, dbc_path, sql_files in sources:
         for sql_file in sql_files:
@@ -1149,56 +1153,106 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
                         if row_id not in table_modifications[table_name]:
                             table_modifications[table_name][row_id] = []
                         table_modifications[table_name][row_id].append(
-                            (zpak_name, priority, sql_file.name)
+                            (zpak_name, priority, sql_file.name, sql_file)
                         )
 
             except Exception as e:
                 logger.warning(f"Failed to parse {sql_file}: {e}")
                 continue
 
-    # Find conflicts (rows modified by 2+ zpaks)
-    conflicts_found = False
+    # Find conflicts (rows modified by 2+ zpaks) and classify as redundant vs real conflict
     total_conflicts = 0
-    tables_with_conflicts = 0
+    total_redundants = 0
+    tables_with_issues = 0
 
     for table_name in sorted(table_modifications.keys()):
-        table_conflicts = []
+        table_conflicts = []  # Real conflicts (different values)
+        table_redundants = []  # Redundant (same values)
 
         for row_id, modifiers in table_modifications[table_name].items():
             if len(modifiers) > 1:
-                table_conflicts.append((row_id, modifiers))
+                # Second pass: check if redundant or real conflict
+                # Compare each pair of modifications
+                is_redundant = True
+                try:
+                    # Get modifications from each file for this row
+                    all_mods = []
+                    for zpak_name, priority, filename, filepath in modifiers:
+                        sql_content = filepath.read_text()
+                        file_mods = parse_sql_modifications(sql_content, table_name)
+                        if row_id in file_mods:
+                            all_mods.append((zpak_name, priority, filename, file_mods[row_id]))
 
-        if table_conflicts:
-            conflicts_found = True
-            tables_with_conflicts += 1
+                    # Compare all pairs - if any differ, it's a real conflict
+                    if len(all_mods) >= 2:
+                        base_mods = all_mods[0][3]
+                        for _, _, _, other_mods in all_mods[1:]:
+                            if not compare_modifications(base_mods, other_mods):
+                                is_redundant = False
+                                break
+                except Exception:
+                    is_redundant = False  # Assume conflict if we can't parse
+
+                if is_redundant:
+                    table_redundants.append((row_id, modifiers))
+                else:
+                    table_conflicts.append((row_id, modifiers))
+
+        if table_conflicts or table_redundants:
+            tables_with_issues += 1
             total_conflicts += len(table_conflicts)
+            total_redundants += len(table_redundants)
 
-            click.echo(click.style(f"{table_name}", fg='yellow', bold=True) +
-                      f" ({len(table_conflicts)} conflict{'s' if len(table_conflicts) != 1 else ''})")
+            # Show table header
+            conflict_str = f"{len(table_conflicts)} conflict" if table_conflicts else ""
+            if table_conflicts and len(table_conflicts) != 1:
+                conflict_str += "s"
+            redundant_str = f"{len(table_redundants)} redundant" if table_redundants else ""
+            parts = [p for p in [conflict_str, redundant_str] if p]
 
-            # Sort conflicts by ID
-            table_conflicts.sort(key=lambda x: x[0])
+            click.echo(click.style(f"{table_name}", fg='yellow' if table_conflicts else 'cyan', bold=True) +
+                      f" ({', '.join(parts)})")
 
-            # Show conflicts (limit unless verbose)
-            display_limit = len(table_conflicts) if verbose else 5
-            for row_id, modifiers in table_conflicts[:display_limit]:
-                # Sort modifiers by priority (lower first = applied first)
-                modifiers.sort(key=lambda x: x[1])
+            # Show real conflicts first
+            if table_conflicts:
+                table_conflicts.sort(key=lambda x: x[0])
+                display_limit = len(table_conflicts) if verbose else 5
 
-                click.echo(f"  ID {row_id}:")
-                for zpak_name, priority, filename in modifiers:
-                    click.echo(f"    [{priority:3}] {zpak_name} ({filename})")
+                for row_id, modifiers in table_conflicts[:display_limit]:
+                    modifiers.sort(key=lambda x: x[1])
+                    click.echo(click.style(f"  ID {row_id}:", fg='yellow') + " (CONFLICT)")
+                    for zpak_name, priority, filename, _ in modifiers:
+                        click.echo(f"    [{priority:3}] {zpak_name} ({filename})")
 
-            if not verbose and len(table_conflicts) > display_limit:
-                click.echo(f"  ... and {len(table_conflicts) - display_limit} more conflicts")
+                if not verbose and len(table_conflicts) > display_limit:
+                    click.echo(f"  ... and {len(table_conflicts) - display_limit} more conflicts")
+
+            # Show redundants
+            if table_redundants:
+                table_redundants.sort(key=lambda x: x[0])
+                display_limit = len(table_redundants) if verbose else 3
+
+                for row_id, modifiers in table_redundants[:display_limit]:
+                    modifiers.sort(key=lambda x: x[1])
+                    click.echo(click.style(f"  ID {row_id}:", fg='cyan') + " (REDUNDANT)")
+                    for zpak_name, priority, filename, _ in modifiers:
+                        click.echo(f"    [{priority:3}] {zpak_name} ({filename})")
+
+                if not verbose and len(table_redundants) > display_limit:
+                    click.echo(f"  ... and {len(table_redundants) - display_limit} more redundants")
 
             click.echo()
 
     # Summary
-    if conflicts_found:
+    if total_conflicts or total_redundants:
         click.echo(click.style("Summary:", bold=True))
-        click.echo(f"  Tables with conflicts: {tables_with_conflicts}")
-        click.echo(f"  Total conflicting rows: {total_conflicts}")
+        click.echo(f"  Tables with issues: {tables_with_issues}")
+        if total_conflicts:
+            click.echo(click.style(f"  Real conflicts: {total_conflicts}", fg='yellow') +
+                      " (different values, order matters)")
+        if total_redundants:
+            click.echo(click.style(f"  Redundant: {total_redundants}", fg='cyan') +
+                      " (identical changes, can consolidate)")
         click.echo()
         click.echo("Note: During rebuild, higher priority zpaks overwrite lower priority changes.")
         click.echo("      Lower priority number = applied first, higher = wins.")
@@ -1214,8 +1268,13 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
 
 def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
                            applied_hashes: Dict[str, Tuple[str, str]],
-                           craft_root: Path) -> List[Dict]:
+                           craft_root: Path) -> Tuple[List[Dict], List[Dict]]:
     """Check for row conflicts between changed files and already-applied files.
+
+    Two-pass approach:
+    1. First pass: Find row IDs that appear in multiple files
+    2. Second pass: For conflicting IDs, compare values to classify as
+       redundant (same change) vs legitimate conflict (different change)
 
     Args:
         changed_files: List of (filepath, zpak_name, hash) for files to be applied
@@ -1223,12 +1282,14 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
         craft_root: Path to Zeppelin-Craft
 
     Returns:
-        List of conflict dicts with table, id, changed_file, applied_file info
+        Tuple of (conflicts, redundants) where each is a list of dicts with
+        table, id, changed_file, applied_file info
     """
     conflicts = []
+    redundants = []
 
-    # Build map of table -> {id -> [(zpak, filename, priority)]} for changed files
-    changed_modifications: Dict[str, Dict[int, List[Tuple[str, str, int]]]] = {}
+    # Build map of table -> {id -> [(zpak, filename, priority, filepath)]} for changed files
+    changed_modifications: Dict[str, Dict[int, List[Tuple[str, str, int, Path]]]] = {}
 
     # Get all sources to find priorities
     sources = collect_dbc_sources(craft_root)
@@ -1252,7 +1313,7 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
                     if row_id not in changed_modifications[table_name]:
                         changed_modifications[table_name][row_id] = []
                     changed_modifications[table_name][row_id].append(
-                        (zpak_name, filepath.name, priority)
+                        (zpak_name, filepath.name, priority, filepath)
                     )
         except Exception:
             continue
@@ -1285,14 +1346,31 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
             affected_ids = parse_sql_affected_ids(sql_content, table_name)
             applied_priority = zpak_priorities.get(applied_zpak, 100)
 
+            # Parse full modifications for redundancy check
+            applied_mods = parse_sql_modifications(sql_content, table_name)
+
             for row_id in affected_ids:
                 if row_id in changed_modifications[table_name]:
                     # Conflict found - check priority
-                    for changed_zpak, changed_filename, changed_priority in changed_modifications[table_name][row_id]:
+                    for changed_zpak, changed_filename, changed_priority, changed_path in changed_modifications[table_name][row_id]:
                         # Only warn if applied file has HIGHER priority (applied later in rebuild)
                         # because applying changed file would overwrite higher-priority changes
                         if applied_priority > changed_priority:
-                            conflicts.append({
+                            # Second pass: check if redundant (same values) or real conflict
+                            is_redundant = False
+                            try:
+                                changed_sql = changed_path.read_text()
+                                changed_mods = parse_sql_modifications(changed_sql, table_name)
+
+                                if row_id in changed_mods and row_id in applied_mods:
+                                    is_redundant = compare_modifications(
+                                        changed_mods[row_id],
+                                        applied_mods[row_id]
+                                    )
+                            except Exception:
+                                pass
+
+                            conflict_info = {
                                 'table': table_name,
                                 'id': row_id,
                                 'changed_file': changed_filename,
@@ -1301,11 +1379,16 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
                                 'applied_file': applied_filename,
                                 'applied_zpak': applied_zpak,
                                 'applied_priority': applied_priority,
-                            })
+                            }
+
+                            if is_redundant:
+                                redundants.append(conflict_info)
+                            else:
+                                conflicts.append(conflict_info)
         except Exception:
             continue
 
-    return conflicts
+    return conflicts, redundants
 
 
 @dbc.command('apply')
@@ -1407,8 +1490,27 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
 
         # Check for conflicts before applying
         changed_for_conflict = [(f, z, h) for f, z, p, h in files_to_apply]
-        conflicts = _check_apply_conflicts(changed_for_conflict, stored_hashes, craft_root)
+        conflicts, redundants = _check_apply_conflicts(changed_for_conflict, stored_hashes, craft_root)
 
+        # Show redundants first (informational)
+        if redundants:
+            click.echo(click.style(f"\nRedundant changes: {len(redundants)} row(s)", fg='cyan'))
+            click.echo("These files make identical changes to already-applied files (can be consolidated):\n")
+
+            by_table: Dict[str, List] = {}
+            for r in redundants:
+                if r['table'] not in by_table:
+                    by_table[r['table']] = []
+                by_table[r['table']].append(r)
+
+            for table, table_redundants in by_table.items():
+                click.echo(f"  {table}:")
+                for r in table_redundants[:3]:
+                    click.echo(f"    ID {r['id']}: {r['changed_zpak']}/{r['changed_file']} = {r['applied_zpak']}/{r['applied_file']}")
+                if len(table_redundants) > 3:
+                    click.echo(f"    ... and {len(table_redundants) - 3} more")
+
+        # Show real conflicts (warnings)
         if conflicts:
             click.echo(click.style(f"\nConflict warning: {len(conflicts)} row(s) affected", fg='yellow'))
             click.echo("These changed files modify rows that were also modified by higher-priority")

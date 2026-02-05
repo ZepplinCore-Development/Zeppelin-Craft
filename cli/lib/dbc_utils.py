@@ -849,6 +849,81 @@ def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
     return affected_ids
 
 
+@dataclass
+class SqlModification:
+    """Represents a single SQL modification to a row."""
+    row_id: int
+    mod_type: str  # 'INSERT', 'UPDATE', 'DELETE'
+    statement: str  # Normalized statement for comparison
+
+
+def parse_sql_modifications(sql_content: str, table_name: str) -> Dict[int, List[SqlModification]]:
+    """Parse SQL content to extract full modifications per row ID.
+
+    Used for redundancy detection - comparing if two files make the same change.
+
+    Args:
+        sql_content: SQL file content
+        table_name: Table name (for matching)
+
+    Returns:
+        Dict mapping row_id -> list of SqlModification objects
+    """
+    modifications: Dict[int, List[SqlModification]] = {}
+    table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
+
+    def add_mod(row_id: int, mod_type: str, statement: str):
+        if row_id not in modifications:
+            modifications[row_id] = []
+        # Normalize: lowercase, collapse whitespace, strip
+        normalized = ' '.join(statement.lower().split())
+        modifications[row_id].append(SqlModification(row_id, mod_type, normalized))
+
+    # DELETE FROM table WHERE id = X
+    delete_pattern = rf'(DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)\s*;?)'
+    for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
+        row_id = int(match.group(2))
+        add_mod(row_id, 'DELETE', match.group(1))
+
+    # INSERT INTO table (...) VALUES (...) - capture full statement
+    insert_pattern = rf'(INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)[^;]*;?)'
+    for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
+        row_id = int(match.group(2))
+        add_mod(row_id, 'INSERT', match.group(1))
+
+    # UPDATE table SET ... WHERE id = X - capture full statement
+    update_pattern = rf'(UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)\s*;?)'
+    for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
+        row_id = int(match.group(2))
+        add_mod(row_id, 'UPDATE', match.group(1))
+
+    return modifications
+
+
+def compare_modifications(mods1: List[SqlModification], mods2: List[SqlModification]) -> bool:
+    """Check if two lists of modifications are equivalent (redundant).
+
+    Args:
+        mods1: Modifications from first file
+        mods2: Modifications from second file
+
+    Returns:
+        True if modifications are redundant (same changes)
+    """
+    if len(mods1) != len(mods2):
+        return False
+
+    # Sort by mod_type then statement for consistent comparison
+    sorted1 = sorted(mods1, key=lambda m: (m.mod_type, m.statement))
+    sorted2 = sorted(mods2, key=lambda m: (m.mod_type, m.statement))
+
+    for m1, m2 in zip(sorted1, sorted2):
+        if m1.mod_type != m2.mod_type or m1.statement != m2.statement:
+            return False
+
+    return True
+
+
 def extract_table_from_filename(filename: str) -> Optional[str]:
     """Extract table name from DBC SQL filename.
 
