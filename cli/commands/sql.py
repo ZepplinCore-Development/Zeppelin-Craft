@@ -686,11 +686,12 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
 
     elif changed or run_all:
         sql_files = collect_all_sql_files(craft_root)
-        # Exclude azerothcore base/updates - those are handled by 'zep sql reset'
-        # Only include azerothcore's 'zpak' folder (custom overrides)
+        # Exclude azerothcore BASE files - those are handled by 'zep sql reset'
+        # Include azerothcore UPDATES (so new AC updates get applied via --changed)
+        # Include azerothcore 'zpak' folder (custom overrides)
         sql_files = [
             (f, z, s) for f, z, s in sql_files
-            if z != 'azerothcore' or s == 'zpak'
+            if z != 'azerothcore' or s in ('updates', 'zpak')
         ]
 
     else:
@@ -789,12 +790,12 @@ def _show_changed_files(craft_root: Path, zpak_name: Optional[str] = None):
     # Collect all SQL files
     sql_files = collect_all_sql_files(craft_root, zpak_name)
 
-    # Exclude azerothcore base/updates unless specifically requested
-    # Those are handled by 'zep sql reset', not 'zep sql execute'
+    # Exclude azerothcore BASE unless specifically requested (handled by reset)
+    # Include azerothcore UPDATES (so new AC updates show as changed)
     if zpak_name != 'azerothcore':
         sql_files = [
             (f, z, s) for f, z, s in sql_files
-            if z != 'azerothcore' or s == 'zpak'
+            if z != 'azerothcore' or s in ('updates', 'zpak')
         ]
 
     if not sql_files:
