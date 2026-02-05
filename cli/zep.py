@@ -847,6 +847,10 @@ def zpak_delete(ctx, name, force):
 from commands.forge import forge
 cli.add_command(forge)
 
+# Import config commands under zpak group
+from commands.config import config
+zpak.add_command(config)
+
 # Import dbc commands from module
 from commands.dbc import dbc
 cli.add_command(dbc)

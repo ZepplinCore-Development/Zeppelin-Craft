@@ -46,7 +46,7 @@ ZPAK_TO_MODULE = {
     "dungeon-respawn": "DungeonRespawn",
     "reusable-potion": "ReusablePotion",
     "autobalance": "mod-autobalance",
-    "ah-bot": "mod-ah-bot",
+    "ah-bot": "mod-ah-bot-plus",
     "starter-guild": "mod-starter-guild"
 }
 

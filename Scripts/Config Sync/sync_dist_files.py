@@ -46,7 +46,7 @@ DIST_SOURCES = {
     "modules/dungeonrespawn.conf.dist": ZEPPELIN_CORE / "modules/DungeonRespawn/conf/dungeonrespawn.conf.dist",
     "modules/individualProgression.conf.dist": ZEPPELIN_CORE / "modules/mod-individual-progression/conf/individualProgression.conf.dist",
     "modules/mod_accountbound.conf.dist": ZEPPELIN_CORE / "modules/mod-accountbound/conf/mod_accountbound.conf.dist",
-    "modules/mod_ahbot.conf.dist": ZEPPELIN_CORE / "modules/mod-ah-bot/conf/mod_ahbot.conf.dist",
+    "modules/mod_ahbot.conf.dist": ZEPPELIN_CORE / "modules/mod-ah-bot-plus/conf/mod_ahbot.conf.dist",
     "modules/mod_ale.conf.dist": ZEPPELIN_CORE / "modules/mod-ale/conf/mod_ale.conf.dist",
     "modules/mod_eluna.conf.dist": ZEPPELIN_CORE / "modules/mod-eluna/conf/mod_eluna.conf.dist",
     "modules/mod_starterguild.conf.dist": ZEPPELIN_CORE / "modules/mod-starter-guild/conf/mod_starterguild.conf.dist",

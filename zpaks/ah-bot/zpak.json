@@ -6,8 +6,8 @@
   "author": "Zeppelin Team",
   "type": "acore-extension",
   "acore": {
-    "module": "mod-ah-bot",
-    "source": "https://github.com/azerothcore/mod-ah-bot.git",
+    "module": "mod-ah-bot-plus",
+    "source": "https://github.com/NathanHandley/mod-ah-bot-plus.git",
     "branch": "master",
     "patch_mode": "single"
   },
