@@ -4,8 +4,8 @@ SQL operations for Zeppelin-Craft CLI.
 Commands:
     zep sql execute --changed      Execute new/modified SQL files (hash-based)
     zep sql execute --all          Execute all SQL files
-    zep sql execute --rebuildworld Drop and rebuild world database
-    zep sql changed                List SQL files with hash changes
+    zep sql drop                   Drop world database and clear tracking
+    zep sql reset                  Drop + execute azerothcore zpak
     zep sql format <target>        Format SQL files
     zep sql validate <target>      Validate SQL syntax
     zep sql history                Show execution history
@@ -13,8 +13,10 @@ Commands:
 
 import hashlib
 import json
+import os
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -32,22 +34,53 @@ DB_NAME = "acore_world"
 TRACKING_TABLE = "zep_sql_updates"
 
 
-def get_mysql_command(database: str = DB_NAME) -> List[str]:
-    """Get base MySQL command with connection settings."""
-    return [
-        "mysql",
-        "-h", DB_HOST,
-        "-P", DB_PORT,
-        "-u", DB_USER,
-        f"-p{DB_PASS}",
-        database
-    ]
+def _create_mysql_config() -> str:
+    """Create a temporary MySQL config file with credentials.
+
+    Uses --defaults-extra-file to avoid password warning on command line.
+    Returns the path to the temp file (caller must delete).
+    """
+    fd, path = tempfile.mkstemp(suffix='.cnf')
+    with os.fdopen(fd, 'w') as f:
+        f.write("[client]\n")
+        f.write(f"user={DB_USER}\n")
+        f.write(f"password={DB_PASS}\n")
+        f.write(f"host={DB_HOST}\n")
+        f.write(f"port={DB_PORT}\n")
+    return path
+
+
+def get_mysql_command(database: str = DB_NAME, cnf_path: str = None) -> List[str]:
+    """Get base MySQL command with connection settings.
+
+    If cnf_path is provided, uses --defaults-extra-file (no password warning).
+    Otherwise falls back to command line args (shows warning).
+    """
+    if cnf_path:
+        return [
+            "mysql",
+            f"--defaults-extra-file={cnf_path}",
+            database
+        ]
+    else:
+        return [
+            "mysql",
+            "-h", DB_HOST,
+            "-P", DB_PORT,
+            "-u", DB_USER,
+            f"-p{DB_PASS}",
+            database
+        ]
 
 
 def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
-    """Run a MySQL query and return result."""
+    """Run a MySQL query and return result.
+
+    Uses temp config file to avoid password warning.
+    """
+    cnf_path = _create_mysql_config()
     try:
-        cmd = get_mysql_command(database)
+        cmd = get_mysql_command(database, cnf_path)
         result = subprocess.run(
             cmd + ["-e", query],
             capture_output=True,
@@ -58,6 +91,8 @@ def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
         return True, result.stdout.strip()
     except Exception as e:
         return False, str(e)
+    finally:
+        os.unlink(cnf_path)
 
 
 def ensure_tracking_table() -> bool:
@@ -106,6 +141,8 @@ def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int)
 def execute_sql_file(sql_file: Path, dry_run: bool = False) -> Tuple[bool, str, int]:
     """Execute a SQL file against the database.
 
+    Uses temp config file to avoid password warning.
+
     Returns:
         Tuple of (success, message, execution_ms)
     """
@@ -115,9 +152,10 @@ def execute_sql_file(sql_file: Path, dry_run: bool = False) -> Tuple[bool, str, 
     if dry_run:
         return True, "Would execute", 0
 
+    cnf_path = _create_mysql_config()
     try:
         start_time = time.time()
-        cmd = get_mysql_command()
+        cmd = get_mysql_command(DB_NAME, cnf_path)
         with open(sql_file, 'r') as f:
             result = subprocess.run(
                 cmd,
@@ -128,7 +166,7 @@ def execute_sql_file(sql_file: Path, dry_run: bool = False) -> Tuple[bool, str, 
         execution_ms = int((time.time() - start_time) * 1000)
 
         if result.returncode != 0:
-            error = result.stderr.strip().split('\n')[0] if result.stderr else "Unknown error"
+            error = result.stderr.strip() if result.stderr else "Unknown error"
             return False, f"Error: {error}", execution_ms
 
         return True, "OK", execution_ms
@@ -137,6 +175,8 @@ def execute_sql_file(sql_file: Path, dry_run: bool = False) -> Tuple[bool, str, 
         return False, "MySQL client not found", 0
     except Exception as e:
         return False, f"Error: {str(e)}", 0
+    finally:
+        os.unlink(cnf_path)
 
 
 def load_zpak_manifest(zpak_dir: Path) -> Optional[Dict]:
@@ -243,8 +283,15 @@ def get_enabled_zpaks_by_priority(craft_root: Path) -> List[Tuple[str, Dict]]:
     return [(name, manifest) for name, manifest, _ in zpaks]
 
 
-def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None) -> List[Tuple[Path, str, str]]:
+def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
+                          source_filter: Optional[List[str]] = None) -> List[Tuple[Path, str, str]]:
     """Collect all SQL files across zpaks in priority order.
+
+    Args:
+        craft_root: Path to Zeppelin-Craft root
+        zpak_name: Optional specific zpak to collect from
+        source_filter: Optional list of source types to include (e.g., ['base'] for base only)
+                      If None, includes all source types.
 
     Returns list of (filepath, zpak_name, source_type) tuples.
     """
@@ -257,13 +304,17 @@ def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None) -> 
         if manifest:
             paths = get_zpak_sql_paths(craft_root, zpak_name, manifest)
             files = collect_sql_files_from_paths(paths)
-            all_files.extend((f, zpak_name, src) for f, src in files)
+            for f, src in files:
+                if source_filter is None or src in source_filter:
+                    all_files.append((f, zpak_name, src))
     else:
         # All zpaks by priority
         for name, manifest in get_enabled_zpaks_by_priority(craft_root):
             paths = get_zpak_sql_paths(craft_root, name, manifest)
             files = collect_sql_files_from_paths(paths)
-            all_files.extend((f, name, src) for f, src in files)
+            for f, src in files:
+                if source_filter is None or src in source_filter:
+                    all_files.append((f, name, src))
 
     return all_files
 
@@ -757,102 +808,203 @@ def sql_history(ctx, zpak_name, limit):
     click.echo(result)
 
 
-@sql.command('wipe')
-@click.argument('table', required=False)
-@click.option('--database', '-d', default='world',
-              type=click.Choice(['world', 'characters', 'auth']),
-              help='Database to wipe (default: world)')
+def _drop_world_database() -> Tuple[int, bool]:
+    """Drop all tables in acore_world and clear tracking table.
+
+    Returns:
+        Tuple of (tables_dropped, success)
+    """
+    # Drop all tables
+    success, result = run_mysql_query("SHOW TABLES")
+    if not success:
+        return 0, False
+
+    tables = [line.strip() for line in result.split('\n')[1:] if line.strip()]
+    if tables:
+        run_mysql_query("SET FOREIGN_KEY_CHECKS = 0")
+        for table in tables:
+            run_mysql_query(f"DROP TABLE IF EXISTS `{table}`")
+        run_mysql_query("SET FOREIGN_KEY_CHECKS = 1")
+
+    # Recreate and clear tracking table
+    ensure_tracking_table()
+    run_mysql_query(f"TRUNCATE TABLE `{TRACKING_TABLE}`")
+
+    return len(tables), True
+
+
+@sql.command('drop')
 @click.option('--force', '-f', is_flag=True,
               help='Skip confirmation prompt')
 @click.pass_context
-def sql_wipe(ctx, table: str, database: str, force: bool):
-    """Reset acore database table(s) to stock state.
+def sql_drop(ctx, force: bool):
+    """Drop all tables in acore_world and clear SQL tracking.
 
-    Drops and recreates table(s) from the azerothcore source. Useful for
-    reverting custom changes without a full database rebuild.
+    This command:
+    1. Drops ALL tables in acore_world
+    2. Clears the SQL tracking table (zep_sql_updates)
 
-    WARNING: This requires the stock acore_* databases to exist as reference.
-    Typically these are acore_world_stock, acore_characters_stock, etc.
+    Use 'zep sql execute --zpak azerothcore' after to rebuild the
+    base database, then 'zep sql execute --all' for custom zpaks.
 
-    If TABLE is specified, only that table is reset. Otherwise prompts for
-    confirmation before resetting all tables (dangerous!).
+    NOTE: This command only works on the world database. Characters and
+    auth databases cannot be dropped to prevent accidental data loss.
 
     Examples:
-        zep sql wipe creature_template     # Reset creature_template
-        zep sql wipe item_template -f      # Reset without confirmation
-        zep sql wipe -d characters account # Reset account table in characters
+        zep sql drop           # Drop world DB (with confirmation)
+        zep sql drop -f        # Drop without confirmation
     """
-    # Map short names to full database names
-    db_map = {
-        'world': ('acore_world', 'acore_world_stock'),
-        'characters': ('acore_characters', 'acore_characters_stock'),
-        'auth': ('acore_auth', 'acore_auth_stock'),
-    }
+    click.echo(click.style("\n⚠️  WARNING: This will DROP ALL TABLES in acore_world!", fg='red', bold=True))
+    click.echo("All data will be lost. Characters and auth are NOT affected.\n")
 
-    live_db, stock_db = db_map[database]
-
-    # Check if stock database exists
-    check_query = f"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{stock_db}'"
-    success, result = run_mysql_query(check_query, "information_schema")
-    if not success or stock_db not in result:
-        click.echo(click.style(f"Stock database '{stock_db}' not found!", fg='red'))
-        click.echo(f"To use wipe, you need a reference database with stock AzerothCore data.")
-        click.echo(f"Create one with: mysqldump {live_db} | mysql {stock_db}")
-        return
-
-    if table:
-        click.echo(f"Resetting {live_db}.{table} from {stock_db}...")
-    else:
-        click.echo(click.style(f"WARNING: About to reset ALL tables in {live_db}!", fg='red'))
-        if not force:
-            if not click.confirm("This will DESTROY all custom data. Are you absolutely sure?"):
-                click.echo("Cancelled.")
-                return
-
-    if not force and table:
-        if not click.confirm(f"Reset {table}? This will lose all custom data in that table."):
+    if not force:
+        if not click.confirm("Are you sure you want to continue?"):
             click.echo("Cancelled.")
             return
 
-    try:
-        if table:
-            # Reset single table
-            tables_to_reset = [table]
+    click.echo("Dropping all tables in acore_world...")
+    tables_dropped, success = _drop_world_database()
+
+    if success:
+        click.echo(click.style(f"✓ Dropped {tables_dropped} tables, tracking cleared", fg='green'))
+        click.echo("\nTo rebuild, run:")
+        click.echo("  zep sql execute --zpak azerothcore  # Base AC database")
+        click.echo("  zep sql execute --all               # All zpaks")
+    else:
+        raise click.ClickException("Failed to drop database")
+
+
+@sql.command('reset')
+@click.option('--force', '-f', is_flag=True,
+              help='Skip confirmation prompt')
+@click.pass_context
+def sql_reset(ctx, force: bool):
+    """Reset acore_world database to stock AzerothCore state.
+
+    This command:
+    1. Drops ALL tables in acore_world (zep sql drop)
+    2. Executes the azerothcore zpak SQL files (zep sql execute --zpak azerothcore)
+
+    This effectively resets the world database to vanilla AzerothCore,
+    removing all custom zpak changes. Use 'zep sql execute --all' after
+    to re-apply your zpak customizations.
+
+    NOTE: This command only works on the world database. Characters and
+    auth databases cannot be reset to prevent accidental data loss.
+
+    Examples:
+        zep sql reset           # Reset world DB to stock AC (with confirmation)
+        zep sql reset -f        # Reset without confirmation
+    """
+    craft_root = ctx.obj['craft_root']
+
+    click.echo(click.style("\n⚠️  WARNING: This will reset acore_world to stock AzerothCore!", fg='red', bold=True))
+    click.echo("All custom SQL changes will be lost.")
+    click.echo("Characters and auth databases are NOT affected.\n")
+
+    if not force:
+        if not click.confirm("Are you sure you want to continue?"):
+            click.echo("Cancelled.")
+            return
+
+    # Step 1: Drop database
+    click.echo("\n[1/3] Dropping all tables in acore_world...")
+    tables_dropped, success = _drop_world_database()
+    if not success:
+        raise click.ClickException("Failed to drop database")
+    click.echo(f"  Dropped {tables_dropped} tables, tracking cleared")
+
+    # Step 2: Execute BASE files
+    click.echo("\n[2/3] Executing base SQL files...")
+
+    base_files = collect_all_sql_files(craft_root, 'azerothcore', source_filter=['base'])
+
+    if not base_files:
+        raise click.ClickException(
+            "No base SQL files found in azerothcore zpak!\n"
+            "Check that zpaks/azerothcore/zpak.json has correct sql_path settings."
+        )
+
+    click.echo(f"  Found {len(base_files)} base SQL files to execute\n")
+
+    base_success = 0
+    base_errors = 0
+    current_folder = None
+
+    for sql_file, zpak, source in base_files:
+        file_hash = calculate_file_hash(sql_file)
+        folder = sql_file.parent.name
+        if folder != current_folder:
+            current_folder = folder
+            click.echo(f"  {folder}/")
+
+        success, message, exec_ms = execute_sql_file(sql_file)
+
+        if success:
+            base_success += 1
+            update_tracking(sql_file.name, file_hash, zpak, exec_ms)
+            if exec_ms > 1000:
+                click.echo(f"    {sql_file.name} ({exec_ms}ms)")
         else:
-            # Get all tables from stock
-            query = f"SHOW TABLES FROM `{stock_db}`"
-            success, result = run_mysql_query(query, stock_db)
-            if not success:
-                raise click.ClickException(f"Failed to list tables: {result}")
-            tables_to_reset = [line for line in result.strip().split('\n')[1:] if line]
+            icon = click.style("✗", fg='red')
+            click.echo(f"    {icon} {sql_file.name}: {message}")
+            base_errors += 1
 
-        # Disable FK checks
-        run_mysql_query("SET FOREIGN_KEY_CHECKS = 0", live_db)
+    if base_errors > 0:
+        click.echo(click.style(f"\nReset failed: {base_success} succeeded, {base_errors} failed", fg='red'))
+        return
 
-        reset_count = 0
-        for tbl in tables_to_reset:
-            # Skip tracking table
-            if tbl == TRACKING_TABLE:
-                continue
+    # Step 3: Execute UPDATE files (some may have duplicate data due to AC repo inconsistencies)
+    click.echo("\n[3/3] Executing update SQL files...")
 
-            click.echo(f"  {tbl}...", nl=False)
-            try:
-                # Drop and recreate from stock
-                run_mysql_query(f"DROP TABLE IF EXISTS `{tbl}`", live_db)
-                run_mysql_query(f"CREATE TABLE `{tbl}` LIKE `{stock_db}`.`{tbl}`", live_db)
-                run_mysql_query(f"INSERT INTO `{tbl}` SELECT * FROM `{stock_db}`.`{tbl}`", live_db)
-                click.echo(" OK")
-                reset_count += 1
-            except Exception as e:
-                click.echo(click.style(f" FAILED: {e}", fg='red'))
+    update_files = collect_all_sql_files(craft_root, 'azerothcore', source_filter=['updates'])
+    click.echo(f"  Found {len(update_files)} update SQL files to execute\n")
 
-        # Re-enable FK checks
-        run_mysql_query("SET FOREIGN_KEY_CHECKS = 1", live_db)
+    update_success = 0
+    update_skipped = 0
+    update_errors = 0
+    current_folder = None
 
-        click.echo(click.style(f"\nWipe complete! {reset_count} table(s) reset to stock", fg='green'))
+    for sql_file, zpak, source in update_files:
+        file_hash = calculate_file_hash(sql_file)
+        folder = sql_file.parent.name
+        if folder != current_folder:
+            current_folder = folder
+            click.echo(f"  {folder}/")
 
-    except Exception as e:
-        raise click.ClickException(f"Wipe failed: {e}")
+        success, message, exec_ms = execute_sql_file(sql_file)
+
+        if success:
+            update_success += 1
+            update_tracking(sql_file.name, file_hash, zpak, exec_ms)
+        else:
+            # Duplicate key errors are tolerated (AC repo may have inconsistencies
+            # where update data was absorbed into base but update file wasn't removed)
+            if 'Duplicate entry' in message or 'already exists' in message.lower():
+                update_skipped += 1
+                update_tracking(sql_file.name, file_hash, zpak, 0)
+                icon = click.style("~", fg='yellow')
+                click.echo(f"    {icon} {sql_file.name}: skipped (data already in base)")
+            else:
+                icon = click.style("✗", fg='red')
+                click.echo(f"    {icon} {sql_file.name}: {message}")
+                update_errors += 1
+
+    # Summary
+    click.echo()
+    if update_errors == 0:
+        msg = f"✓ Reset complete! {base_success} base + {update_success} updates executed"
+        if update_skipped > 0:
+            msg += f", {update_skipped} skipped (duplicates)"
+        click.echo(click.style(msg, fg='green'))
+        click.echo("\nTo apply your custom zpak changes, run:")
+        click.echo("  zep sql execute --all")
+    else:
+        click.echo(click.style(
+            f"Reset completed with errors: {base_success} base, {update_success} updates OK, "
+            f"{update_skipped} skipped, {update_errors} failed",
+            fg='yellow'
+        ))
 
 
 @sql.command('list')
