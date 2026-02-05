@@ -1,54 +1,14 @@
-UPDATE `dbc`.`skillline` SET 
-    `category` = 9 /* was 7 */
-WHERE `id` = 633;
+-- [BASE,F-044] zepcraft-legacy: skillline
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_skillline.sql with overrides
 
-DELETE FROM `dbc`.`skillline` WHERE `id` = 789;
-INSERT INTO `dbc`.`skillline` SET 
-    `id` = 789,
-    `category` = 7,
-    `name_1` = 'Racial - Worgen',
-    `name_flags` = 16712190,
-    `descriptionFlags` = 16712172,
-    `tooltipFlags` = 16712172;
-
-DELETE FROM `dbc`.`skillline` WHERE `id` = 790;
-INSERT INTO `dbc`.`skillline` SET 
-    `id` = 790,
-    `category` = 9,
-    `name_1` = 'Racial - Goblin',
-    `name_flags` = 16712190,
-    `descriptionFlags` = 16712172,
-    `spellIcon` = 133032,
-    `tooltipFlags` = 16712172;
-
-DELETE FROM `dbc`.`skillline` WHERE `id` = 791;
-INSERT INTO `dbc`.`skillline` SET 
-    `id` = 791,
-    `category` = 7,
-    `name_1` = '.Professions',
-    `name_flags` = 16712190,
-    `descriptionFlags` = 16712190,
-    `spellIcon` = 162,
-    `tooltip1` = 'Modify',
-    `tooltipFlags` = 16712190;
-
-DELETE FROM `dbc`.`skillline` WHERE `id` = 792;
-INSERT INTO `dbc`.`skillline` SET 
-    `id` = 792,
-    `category` = 7,
-    `name_1` = '.Perks',
-    `name_flags` = 16712190,
-    `descriptionFlags` = 16712190,
-    `spellIcon` = 5585,
-    `tooltip1` = 'Modify',
-    `tooltipFlags` = 16712190;
-
-DELETE FROM `dbc`.`skillline` WHERE `id` = 900;
-INSERT INTO `dbc`.`skillline` SET 
-    `id` = 900,
-    `category` = 7,
-    `name_1` = 'Pet - Cloud Serpent',
-    `name_flags` = 16712190,
-    `descriptionFlags` = 16712172,
-    `tooltipFlags` = 16712172;
-
+-- skillline: 5 inserts, 1 updates, 0 deletes
+DELETE FROM `skillline` WHERE `id` = 789;
+INSERT INTO `skillline` (`id`, `category`, `cost_id`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `spell_icon`, `tooltip_1`, `tooltip_2`, `tooltip_3`, `tooltip_4`, `tooltip_5`, `tooltip_6`, `tooltip_7`, `tooltip_8`, `tooltip_9`, `tooltip_10`, `tooltip_11`, `tooltip_12`, `tooltip_13`, `tooltip_14`, `tooltip_15`, `tooltip_16`, `tooltip_flags`, `can_link`) VALUES (789, 7, 0, 'Racial - Worgen', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 0);
+DELETE FROM `skillline` WHERE `id` = 791;
+INSERT INTO `skillline` (`id`, `category`, `cost_id`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `spell_icon`, `tooltip_1`, `tooltip_2`, `tooltip_3`, `tooltip_4`, `tooltip_5`, `tooltip_6`, `tooltip_7`, `tooltip_8`, `tooltip_9`, `tooltip_10`, `tooltip_11`, `tooltip_12`, `tooltip_13`, `tooltip_14`, `tooltip_15`, `tooltip_16`, `tooltip_flags`, `can_link`) VALUES (791, 7, 0, '.Professions', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 162, 'Modify', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 0);
+DELETE FROM `skillline` WHERE `id` = 792;
+INSERT INTO `skillline` (`id`, `category`, `cost_id`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `spell_icon`, `tooltip_1`, `tooltip_2`, `tooltip_3`, `tooltip_4`, `tooltip_5`, `tooltip_6`, `tooltip_7`, `tooltip_8`, `tooltip_9`, `tooltip_10`, `tooltip_11`, `tooltip_12`, `tooltip_13`, `tooltip_14`, `tooltip_15`, `tooltip_16`, `tooltip_flags`, `can_link`) VALUES (792, 7, 0, '.Perks', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 5585, 'Modify', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 0);
+DELETE FROM `skillline` WHERE `id` = 900;
+INSERT INTO `skillline` (`id`, `category`, `cost_id`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `spell_icon`, `tooltip_1`, `tooltip_2`, `tooltip_3`, `tooltip_4`, `tooltip_5`, `tooltip_6`, `tooltip_7`, `tooltip_8`, `tooltip_9`, `tooltip_10`, `tooltip_11`, `tooltip_12`, `tooltip_13`, `tooltip_14`, `tooltip_15`, `tooltip_16`, `tooltip_flags`, `can_link`) VALUES (900, 7, 0, 'Pet - Cloud Serpent', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 0);
+UPDATE `skillline` SET `category` = 9 WHERE `id` = 633;

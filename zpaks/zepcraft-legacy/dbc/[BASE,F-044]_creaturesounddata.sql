@@ -1,12 +1,5 @@
-DELETE FROM `dbc`.`creaturesounddata` WHERE `id` = 3110;
-INSERT INTO `dbc`.`creaturesounddata` SET 
-    `id` = 3110,
-    `SoundExertionID` = 18064,
-    `SoundExertionCriticalID` = 18065,
-    `SoundInjuryID` = 18068,
-    `SoundInjuryCriticalID` = 18069,
-    `SoundDeathID` = 18066,
-    `SoundFootstepID` = 7,
-    `SoundAggroID` = 18063,
-    `SoundAlertID` = 18067;
+-- [BASE,F-044] zepcraft-legacy: creaturesounddata
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_creaturesounddata.sql with overrides
 
+-- creaturesounddata: 1 inserts, 0 updates, 0 deletes

@@ -1,666 +1,87 @@
-UPDATE `dbc`.`achievement` SET 
-    `description_1` = 'Defeat Jergosh the Invoker.' /* was 'Defeat Taragaman the Hungerer.' */
-WHERE `id` = 629;
+-- [BASE,F-044] zepcraft-legacy: achievement
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_achievement.sql with overrides
 
-UPDATE `dbc`.`achievement` SET 
-    `description_1` = 'Defeat Verdan the Everliving.' /* was 'Defeat Mutanus the Devourer.' */
-WHERE `id` = 630;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 1429;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 1429,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Realm First! Level 80 Goblin',
-    `name_flags` = 16712190,
-    `description_1` = 'First goblin on the realm to achieve level 80.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 81,
-    `orderInCategory` = 161,
-    `flags` = 256,
-    `icon` = 463874,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 1430;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 1430,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Realm First! Level 80 Worgen',
-    `name_flags` = 16712190,
-    `description_1` = 'First worgen on the realm to achieve level 80.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 81,
-    `orderInCategory` = 162,
-    `flags` = 256,
-    `icon` = 463876,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5000;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5000,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Shadowfang Keep',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Archmage Arugal.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 4,
-    `icon` = 3822,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5001;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5001,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Stormwind Stockade',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Bazil Thredd.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 6,
-    `icon` = 3652,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5002;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5002,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Razorfen Downs',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Amnennar the Coldbringer.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 9,
-    `icon` = 3655,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5003;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5003,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Razorfen Kraul',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Charlga Razorflank.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 7,
-    `icon` = 3686,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5004;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5004,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Wailing Caverns',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Verdan the Everliving.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 3,
-    `icon` = 3654,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5005;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5005,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Ragefire Chasm',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Jergosh the Invoker.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 1,
-    `icon` = 1983,
-    `titleRewardFlags` = 16712172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5006;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5006,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Deadmines',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Edwin VanCleef.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 2,
-    `icon` = 3627,
-    `titleRewardFlags` = 16712172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5007;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5007,
-    `required_faction` = -1,
-    `map_id` = 209,
-    `name_1` = 'Heroic: Zul''Farrak',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Chief Ukorz Sandscalp.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 12,
-    `icon` = 3687,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5008;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5008,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Gnomeregan',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Mekgineer Thermaplugg.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 8,
-    `icon` = 3641,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5009;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5009,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Blackrock Depths',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Emperor Dagran Thaurissan.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 15,
-    `icon` = 3662,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5010;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5010,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Upper Blackrock Spire',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat General Drakkisath.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 17,
-    `icon` = 3821,
-    `titleRewardFlags` = 2113864172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5011;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5011,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Lower Blackrock Spire',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Overlord Wyrmthalak.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 16,
-    `icon` = 3650,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5012;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5012,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Blackfathom Deeps',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Aku''mai.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 5,
-    `icon` = 3653,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5013;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5013,
-    `required_faction` = -1,
-    `map_id` = 189,
-    `name_1` = 'Heroic: Scarlet Monastery',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the Scarlet Crusade within the Scarlet Monastery.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 10,
-    `icon` = 2792,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5014;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5014,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Uldaman',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Archaedas.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 11,
-    `icon` = 3656,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5015;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5015,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Maraudon',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Princess Theradras.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 13,
-    `icon` = 3689,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5016;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5016,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Heroic: Sunken Temple',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Shade of Eranikus.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 14,
-    `icon` = 3690,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5017;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5017,
-    `required_faction` = -1,
-    `map_id` = 289,
-    `name_1` = 'Heroic: Scholomance',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the leaders of Scholomance.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 19,
-    `icon` = 308,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5018;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5018,
-    `required_faction` = -1,
-    `map_id` = 329,
-    `name_1` = 'Heroic: Stratholme',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the evil masterminds inhabiting Stratholme.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 20,
-    `icon` = 2718,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5019;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5019,
-    `required_faction` = -1,
-    `map_id` = 429,
-    `name_1` = 'Heroic: King of Dire Maul',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat each wing of Dire Maul.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 18,
-    `icon` = 559,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5100;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5100,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Deadmines',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Edwin VanCleef.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 2,
-    `icon` = 3627,
-    `titleRewardFlags` = 16712172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5101;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5101,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Gnomeregan',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Mekgineer Thermaplugg.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 8,
-    `icon` = 3641,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5102;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5102,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Shadowfang Keep',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Archmage Arugal.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 4,
-    `icon` = 3822,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5103;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5103,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Ragefire Chasm',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Jergosh the Invoker.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 1,
-    `icon` = 1983,
-    `titleRewardFlags` = 16712172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5104;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5104,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Razorfen Downs',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Amnennar the Coldbringer.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 9,
-    `icon` = 3655,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5105;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5105,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Razorfen Kraul',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Charlga Razorflank.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 7,
-    `icon` = 3686,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5106;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5106,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Stormwind Stockade',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Bazil Thredd.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 6,
-    `icon` = 3652,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5107;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5107,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Wailing Caverns',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Verdan the Everliving.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 3,
-    `icon` = 3654,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5108;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5108,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Blackrock Depths',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Emperor Dagran Thaurissan.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 15,
-    `icon` = 3662,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5109;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5109,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Upper Blackrock Spire',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat General Drakkisath.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 17,
-    `icon` = 3821,
-    `titleRewardFlags` = 2113864172,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5110;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5110,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Lower Blackrock Spire',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Overlord Wyrmthalak.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 16,
-    `icon` = 3650,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5111;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5111,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Blackfathom Deeps',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Aku''mai.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 5,
-    `icon` = 3653,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5112;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5112,
-    `required_faction` = -1,
-    `map_id` = 189,
-    `name_1` = 'Mythic: Scarlet Monastery',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the Scarlet Crusade within the Scarlet Monastery.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 10,
-    `icon` = 2792,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5113;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5113,
-    `required_faction` = -1,
-    `map_id` = 209,
-    `name_1` = 'Mythic: Zul''Farrak',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Chief Ukorz Sandscalp.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 12,
-    `icon` = 3687,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5114;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5114,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Uldaman',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Archaedas.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 11,
-    `icon` = 3656,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5115;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5115,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Maraudon',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Princess Theradras.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 13,
-    `icon` = 3689,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5116;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5116,
-    `required_faction` = -1,
-    `map_id` = -1,
-    `name_1` = 'Mythic: Sunken Temple',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat Shade of Eranikus.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 14,
-    `icon` = 3690,
-    `titleRewardFlags` = 16712174,
-    `count` = 1;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5117;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5117,
-    `required_faction` = -1,
-    `map_id` = 289,
-    `name_1` = 'Mythic: Scholomance',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the leaders of Scholomance.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 19,
-    `icon` = 308,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5118;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5118,
-    `required_faction` = -1,
-    `map_id` = 329,
-    `name_1` = 'Mythic: Stratholme',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat the evil masterminds inhabiting Stratholme.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 20,
-    `icon` = 2718,
-    `titleRewardFlags` = 16712174;
-
-DELETE FROM `dbc`.`achievement` WHERE `id` = 5119;
-INSERT INTO `dbc`.`achievement` SET 
-    `id` = 5119,
-    `required_faction` = -1,
-    `map_id` = 429,
-    `name_1` = 'Mythic: King of Dire Maul',
-    `name_flags` = 16712190,
-    `description_1` = 'Defeat each wing of Dire Maul.',
-    `descriptionFlags` = 16712190,
-    `categoryId` = 14808,
-    `points` = 10,
-    `orderInCategory` = 18,
-    `icon` = 559,
-    `titleRewardFlags` = 16712174;
-
+-- achievement: 42 inserts, 2 updates, 0 deletes
+DELETE FROM `achievement` WHERE `id` = 5000;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5000, -1, -1, 0, 'Heroic: Shadowfang Keep', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Archmage Arugal.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 4, 0, 3822, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5001;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5001, -1, -1, 0, 'Heroic: Stormwind Stockade', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Bazil Thredd.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 6, 0, 3652, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5002;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5002, -1, -1, 0, 'Heroic: Razorfen Downs', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Amnennar the Coldbringer.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 9, 0, 3655, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5003;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5003, -1, -1, 0, 'Heroic: Razorfen Kraul', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Charlga Razorflank.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 7, 0, 3686, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5004;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5004, -1, -1, 0, 'Heroic: Wailing Caverns', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Verdan the Everliving.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 3, 0, 3654, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5005;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5005, -1, -1, 0, 'Heroic: Ragefire Chasm', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Jergosh the Invoker.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 1, 0, 1983, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5006;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5006, -1, -1, 0, 'Heroic: Deadmines', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Edwin VanCleef.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 2, 0, 3627, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5007;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5007, -1, 209, 0, 'Heroic: Zul\'Farrak', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Chief Ukorz Sandscalp.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 12, 0, 3687, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5008;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5008, -1, -1, 0, 'Heroic: Gnomeregan', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Mekgineer Thermaplugg.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 8, 0, 3641, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5009;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5009, -1, -1, 0, 'Heroic: Blackrock Depths', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Emperor Dagran Thaurissan.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 15, 0, 3662, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5010;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5010, -1, -1, 0, 'Heroic: Upper Blackrock Spire', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat General Drakkisath.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 17, 0, 3821, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2113864172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5011;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5011, -1, -1, 0, 'Heroic: Lower Blackrock Spire', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Overlord Wyrmthalak.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 16, 0, 3650, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5012;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5012, -1, -1, 0, 'Heroic: Blackfathom Deeps', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Aku\'mai.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 5, 0, 3653, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5013;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5013, -1, 189, 0, 'Heroic: Scarlet Monastery', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the Scarlet Crusade within the Scarlet Monastery.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 10, 0, 2792, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5014;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5014, -1, -1, 0, 'Heroic: Uldaman', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Archaedas.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 11, 0, 3656, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5015;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5015, -1, -1, 0, 'Heroic: Maraudon', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Princess Theradras.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 13, 0, 3689, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5016;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5016, -1, -1, 0, 'Heroic: Sunken Temple', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Shade of Eranikus.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 14, 0, 3690, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5017;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5017, -1, 289, 0, 'Heroic: Scholomance', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the leaders of Scholomance.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 19, 0, 308, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5018;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5018, -1, 329, 0, 'Heroic: Stratholme', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the evil masterminds inhabiting Stratholme.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 20, 0, 2718, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5019;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5019, -1, 429, 0, 'Heroic: King of Dire Maul', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat each wing of Dire Maul.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 18, 0, 559, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5100;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5100, -1, -1, 0, 'Mythic: Deadmines', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Edwin VanCleef.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 2, 0, 3627, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5101;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5101, -1, -1, 0, 'Mythic: Gnomeregan', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Mekgineer Thermaplugg.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 8, 0, 3641, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5102;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5102, -1, -1, 0, 'Mythic: Shadowfang Keep', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Archmage Arugal.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 4, 0, 3822, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5103;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5103, -1, -1, 0, 'Mythic: Ragefire Chasm', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Jergosh the Invoker.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 1, 0, 1983, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5104;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5104, -1, -1, 0, 'Mythic: Razorfen Downs', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Amnennar the Coldbringer.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 9, 0, 3655, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5105;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5105, -1, -1, 0, 'Mythic: Razorfen Kraul', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Charlga Razorflank.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 7, 0, 3686, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5106;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5106, -1, -1, 0, 'Mythic: Stormwind Stockade', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Bazil Thredd.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 6, 0, 3652, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5107;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5107, -1, -1, 0, 'Mythic: Wailing Caverns', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Verdan the Everliving.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 3, 0, 3654, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5108;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5108, -1, -1, 0, 'Mythic: Blackrock Depths', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Emperor Dagran Thaurissan.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 15, 0, 3662, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5109;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5109, -1, -1, 0, 'Mythic: Upper Blackrock Spire', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat General Drakkisath.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 17, 0, 3821, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 2113864172, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5110;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5110, -1, -1, 0, 'Mythic: Lower Blackrock Spire', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Overlord Wyrmthalak.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 16, 0, 3650, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5111;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5111, -1, -1, 0, 'Mythic: Blackfathom Deeps', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Aku\'mai.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 5, 0, 3653, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5112;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5112, -1, 189, 0, 'Mythic: Scarlet Monastery', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the Scarlet Crusade within the Scarlet Monastery.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 10, 0, 2792, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5113;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5113, -1, 209, 0, 'Mythic: Zul\'Farrak', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Chief Ukorz Sandscalp.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 12, 0, 3687, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5114;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5114, -1, -1, 0, 'Mythic: Uldaman', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Archaedas.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 11, 0, 3656, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5115;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5115, -1, -1, 0, 'Mythic: Maraudon', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Princess Theradras.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 13, 0, 3689, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5116;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5116, -1, -1, 0, 'Mythic: Sunken Temple', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat Shade of Eranikus.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 14, 0, 3690, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 1, 0);
+DELETE FROM `achievement` WHERE `id` = 5117;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5117, -1, 289, 0, 'Mythic: Scholomance', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the leaders of Scholomance.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 19, 0, 308, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5118;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5118, -1, 329, 0, 'Mythic: Stratholme', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat the evil masterminds inhabiting Stratholme.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 20, 0, 2718, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+DELETE FROM `achievement` WHERE `id` = 5119;
+INSERT INTO `achievement` (`id`, `required_faction`, `map_id`, `parent_achievement`, `name_1`, `name_2`, `name_3`, `name_4`, `name_5`, `name_6`, `name_7`, `name_8`, `name_9`, `name_10`, `name_11`, `name_12`, `name_13`, `name_14`, `name_15`, `name_16`, `name_flags`, `description_1`, `description_2`, `description_3`, `description_4`, `description_5`, `description_6`, `description_7`, `description_8`, `description_9`, `description_10`, `description_11`, `description_12`, `description_13`, `description_14`, `description_15`, `description_16`, `description_flags`, `category_id`, `points`, `order_in_category`, `flags`, `icon`, `title_reward_1`, `title_reward_2`, `title_reward_3`, `title_reward_4`, `title_reward_5`, `title_reward_6`, `title_reward_7`, `title_reward_8`, `title_reward_9`, `title_reward_10`, `title_reward_11`, `title_reward_12`, `title_reward_13`, `title_reward_14`, `title_reward_15`, `title_reward_16`, `title_reward_flags`, `count`, `ref_achievement`) VALUES (5119, -1, 429, 0, 'Mythic: King of Dire Maul', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Defeat each wing of Dire Maul.', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 14808, 10, 18, 0, 559, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712174, 0, 0);
+UPDATE `achievement` SET `description_1` = 'Defeat Jergosh the Invoker.' WHERE `id` = 629;
+UPDATE `achievement` SET `description_1` = 'Defeat Verdan the Everliving.' WHERE `id` = 630;

@@ -673,12 +673,27 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
             # Maybe it's a zpak name
             zpak_dir = craft_root / 'zpaks' / target
             if zpak_dir.exists():
+                # Block azerothcore - use 'zep sql reset' for that
+                if target == 'azerothcore':
+                    click.echo("Error: Use 'zep sql reset' for azerothcore, not 'execute'", err=True)
+                    click.echo("\nThe azerothcore zpak requires special handling:")
+                    click.echo("  zep sql reset         # Drop + recreate + load AC base/updates")
+                    click.echo("  zep sql execute --all # Then apply other zpak SQL")
+                    sys.exit(1)
                 sql_files = collect_all_sql_files(craft_root, target)
             else:
                 click.echo(f"Error: '{target}' is not a file, directory, or zpak name", err=True)
                 sys.exit(1)
 
     elif zpak_name:
+        # Block --zpak azerothcore - use 'zep sql reset' for that
+        if zpak_name == 'azerothcore':
+            click.echo("Error: Use 'zep sql reset' for azerothcore, not 'execute --zpak'", err=True)
+            click.echo("\nThe azerothcore zpak requires special handling:")
+            click.echo("  zep sql reset         # Drop + recreate + load AC base/updates")
+            click.echo("  zep sql execute --all # Then apply other zpak SQL")
+            sys.exit(1)
+
         sql_files = collect_all_sql_files(craft_root, zpak_name)
         if not sql_files:
             click.echo(f"No SQL files found for zpak '{zpak_name}'", err=True)

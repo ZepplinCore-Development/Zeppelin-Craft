@@ -1,6 +1,5 @@
-DELETE FROM `dbc`.`summonproperties` WHERE `id` = 2421;
-INSERT INTO `dbc`.`summonproperties` SET 
-    `id` = 2421,
-    `Control` = 1,
-    `flags` = 2320;
+-- [BASE,F-044] zepcraft-legacy: summonproperties
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_summonproperties.sql with overrides
 
+-- summonproperties: 1 inserts, 0 updates, 0 deletes
