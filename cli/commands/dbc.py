@@ -2260,34 +2260,28 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
 @dbc_bin.command('import-module')
 @click.option('--name', '-n',
               help='Zpak name (interactive selection if omitted)')
-@click.option('--source', '-s', type=click.Path(),
-              help='Path to DBC files (default: zpaks/<name>/mpq/DBFilesClient)')
-@click.option('--task', '-t', 'task_id',
-              help='Override feature ID (default: uses feature_id from zpak.json)')
 @click.option('--priority', '-p', type=int, default=50,
               help='Priority (default: 50, lower = applied first)')
 @click.option('--force', '-f', is_flag=True,
               help='Overwrite existing DBC diff files without confirmation')
 @click.pass_context
-def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: Optional[str],
-                      priority: int, force: bool):
+def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
     """Import binary DBC files into an existing zpak.
 
-    Feature ID is read from zpak.json 'feature_id' field automatically.
-    Use --task to override if needed.
+    Reads configuration from zpak.json:
+      - feature_id: Required. Used for output file naming.
+      - dbc_source: Optional. Path to DBC files (default: mpq/source-assets/DBFilesClient)
 
     Examples:
-        zep dbc import-module                              # Interactive
-        zep dbc import-module --name open-azeroth          # Uses zpak's feature_id
-        zep dbc import-module --name worgoblin --task 050  # Override feature_id
+        zep dbc bin import-module                    # Interactive zpak selection
+        zep dbc bin import-module --name worgoblin   # Import specific zpak
     """
     import shutil
     import tempfile
 
     craft_root = ctx.obj['craft_root']
-    manifest_feature_id = None  # Will be set from zpak.json if available
 
-    # Step 0: Interactive zpak selection if not provided
+    # Find zpak (interactive or by name)
     if not name:
         try:
             from simple_term_menu import TerminalMenu
@@ -2336,8 +2330,6 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         selected_zpak = zpaks[result]
         name = selected_zpak['name']
         zpak_path = selected_zpak['path']
-        default_source = selected_zpak['dbc_source_path']
-        manifest_feature_id = selected_zpak.get('feature_id')
 
         click.echo(f"\nSelected: {name}")
     else:
@@ -2352,99 +2344,46 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
         if not zpak_path:
             raise click.ClickException(f"Zpak '{name}' not found")
 
-        # Load manifest to check for dbc_source and feature_id
-        manifest = load_manifest(zpak_path / 'zpak.json')
-        dbc_source = manifest.get('dbc_source') if manifest else None
-        manifest_feature_id = manifest.get('feature_id') if manifest else None
+    # Load zpak.json and validate required fields
+    manifest = load_manifest(zpak_path / 'zpak.json')
+    if not manifest:
+        raise click.ClickException(f"Failed to load zpak.json for '{name}'")
 
-        if dbc_source:
-            default_source = Path(dbc_source)
-            if not default_source.is_absolute():
-                default_source = (zpak_path / default_source).resolve()
-        else:
-            default_source = zpak_path / 'mpq' / 'source-assets' / 'DBFilesClient'
-
-    # Step 1: Determine source path
-
-    if not source:
-        try:
-            from simple_term_menu import TerminalMenu
-
-            # Display path - use relative if under craft_root, otherwise show full path
-            try:
-                display_path = default_source.relative_to(craft_root)
-            except ValueError:
-                # Path is outside craft_root (e.g., Zeppelin-Core module)
-                try:
-                    display_path = default_source.relative_to(craft_root.parent)
-                except ValueError:
-                    display_path = default_source
-
-            exists_indicator = "" if default_source.exists() else " (not found)"
-            options = [
-                f"Default: {display_path}{exists_indicator}",
-                "Specify custom path"
-            ]
-
-            click.echo(f"\nDBC source location:")
-            menu = TerminalMenu(
-                options,
-                menu_cursor="> ",
-                menu_cursor_style=("fg_cyan", "bold"),
-                menu_highlight_style=("fg_cyan", "bold"),
-            )
-
-            result = menu.show()
-
-            if result is None:
-                click.echo("Cancelled.")
-                return
-
-            if result == 0:
-                source_path = default_source
-            else:
-                try:
-                    custom_path = input("\n  Enter path to DBC files: ").strip()
-                    if not custom_path:
-                        click.echo("Cancelled.")
-                        return
-                    source_path = Path(custom_path)
-                except (KeyboardInterrupt, EOFError):
-                    click.echo("\nCancelled.")
-                    return
-
-        except ImportError:
-            # Fallback to default
-            source_path = default_source
-    else:
-        source_path = Path(source)
-
-    if not source_path.exists():
-        raise click.ClickException(f"Source path not found: {source_path}")
-
-    # Step 2: Determine feature ID
-    # Priority: CLI --task > zpak.json feature_id > error
-    # Feature ID is REQUIRED for file naming to enable change tracking
-    if task_id:
-        # Normalize CLI-provided task ID
-        task_id = _normalize_feature_id(task_id)
-        if not task_id:
-            raise click.ClickException(
-                f"Invalid feature ID format.\n"
-                "Use a number (049) or full ID (F-049)"
-            )
-    elif manifest_feature_id:
-        # Use feature_id from zpak.json
-        task_id = manifest_feature_id
-        click.echo(f"  Using feature_id from zpak.json: {task_id}")
-    else:
+    # Feature ID is REQUIRED
+    task_id = manifest.get('feature_id')
+    if not task_id:
         raise click.ClickException(
-            f"No feature_id found in zpak.json and no --task provided.\n"
-            "Feature ID is required for file naming (enables change tracking).\n"
-            "Either add 'feature_id' to zpak.json or use --task F-XXX"
+            f"Missing 'feature_id' in zpak.json for '{name}'.\n"
+            "Add a feature_id field to zpak.json, e.g.:\n"
+            '  "feature_id": "F-049"'
         )
 
-    # Step 3: Check for existing DBC files and confirm if needed
+    # DBC source path (optional in zpak.json, default to standard location)
+    dbc_source = manifest.get('dbc_source')
+    if dbc_source:
+        source_path = Path(dbc_source)
+        if not source_path.is_absolute():
+            source_path = (zpak_path / source_path).resolve()
+    else:
+        source_path = zpak_path / 'mpq' / 'source-assets' / 'DBFilesClient'
+
+    # Validate source path exists and has DBC files
+    if not source_path.exists():
+        raise click.ClickException(
+            f"DBC source path not found: {source_path}\n"
+            "Either create the directory with DBC files, or add 'dbc_source' to zpak.json\n"
+            "to specify a custom path."
+        )
+
+    dbc_files = list(source_path.glob('*.dbc')) + list(source_path.glob('*.DBC'))
+    if not dbc_files:
+        raise click.ClickException(
+            f"No DBC files found in: {source_path}\n"
+            "Add .dbc files to this directory, or specify a different path using\n"
+            "'dbc_source' in zpak.json."
+        )
+
+    # Check for existing DBC files and confirm if needed
     existing_files = _get_existing_dbc_files(zpak_path, task_id)
     if existing_files and not force:
         click.echo(click.style(f"\nExisting DBC diff files found ({len(existing_files)}):", fg='yellow'))
@@ -2461,24 +2400,18 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
     config = get_dbc_config(ctx)
     registry = ctx.obj['registry']
 
-    # Find DBC files
-    dbc_files = list(source_path.glob('*.dbc')) + list(source_path.glob('*.DBC'))
-    if not dbc_files:
-        raise click.ClickException(f"No .dbc files found in {source_path}")
-
     click.echo()
     click.echo(click.style(f"DBC Import: {name}", bold=True))
     click.echo(f"  Zpak: {zpak_path.relative_to(craft_root)}")
     click.echo(f"  Source: {source_path}")
-    if task_id:
-        click.echo(f"  Feature: {task_id}")
+    click.echo(f"  Feature: {task_id}")
     click.echo(f"  DBC files: {len(dbc_files)}")
     click.echo()
 
     if not DBCTOOL_PATH.exists():
         raise click.ClickException(f"DBCTool not found at {DBCTOOL_PATH}")
 
-    # Step 1: Reset only the specific tables being imported (not all 193 tables)
+    # Reset only the specific tables being imported (not all 193 tables)
     # Get table names from DBC files (lowercase)
     tables_to_reset = [dbc_file.stem.lower() for dbc_file in dbc_files]
     click.echo(f"Step 1: Resetting {len(tables_to_reset)} table(s) in {config.scratch}...")
@@ -2515,7 +2448,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
     except Exception as e:
         raise click.ClickException(f"Failed to reset scratch database: {e}")
 
-    # Step 2: Import DBC files via DBCTool
+    # Import DBC files via DBCTool
     click.echo(f"\nStep 2: Importing DBC files via DBCTool...")
 
     meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
@@ -2574,7 +2507,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 
     click.echo(f"  Imported {len(imported_tables)} table(s)")
 
-    # Step 3: Diff scratch vs original
+    # Diff scratch vs original
     click.echo(f"\nStep 3: Analyzing differences...")
 
     try:
@@ -2603,7 +2536,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
                     tables_with_changes.append(table)
                     click.echo(f"    {table}: +{adds} ~{mods} -{dels}")
 
-            # Step 4: Write SQL files to zpak
+            # Write SQL files to zpak
             click.echo(f"\nStep 4: Writing SQL files to zpak...")
 
             dbc_dir = zpak_path / 'dbc'
@@ -2637,7 +2570,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 
             click.echo(f"\n  Total: {total_lines} lines")
 
-            # Step 5: Clean up only the tables we imported
+            # Clean up only the tables we imported
             click.echo(f"\nStep 5: Cleaning up...")
             scratch_conn = db_conn.get_connection(config.scratch)
             scratch_cursor = scratch_conn.cursor()

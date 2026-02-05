@@ -9,6 +9,7 @@ Four-database architecture for safe, traceable DBC editing:
 """
 
 import hashlib
+import json
 import os
 import re
 import subprocess
@@ -17,10 +18,42 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Any
 
+# Cached localization config
+_localization_config: Optional[Dict] = None
+
 try:
     import mysql.connector
 except ImportError:
     mysql.connector = None
+
+
+def load_localization_config() -> Dict:
+    """Load the DBC localization config file.
+
+    The config defines per-table localization field rules for WoW 3.3.5a DBC files.
+    Each table entry specifies:
+        - localized_prefixes: Field name prefixes that have locale suffixes
+        - keep_suffixes: Suffixes to keep (English locale, flags, etc.)
+
+    Returns:
+        Config dict with 'tables' mapping
+    """
+    global _localization_config
+
+    if _localization_config is not None:
+        return _localization_config
+
+    # Config file location relative to this module
+    config_path = Path(__file__).parent.parent / 'config' / 'dbc_localization.json'
+
+    if config_path.exists():
+        with open(config_path, 'r', encoding='utf-8') as f:
+            _localization_config = json.load(f)
+    else:
+        # Fallback to empty config
+        _localization_config = {'tables': {}}
+
+    return _localization_config
 
 
 @dataclass
@@ -195,68 +228,95 @@ def detect_modified_tables(sql: str) -> Set[str]:
     return tables
 
 
-def get_localization_columns(columns: List[str]) -> Set[str]:
+def get_localization_columns(columns: List[str], table_name: Optional[str] = None) -> Set[str]:
     """
     Identify localization columns to exclude from diffs.
 
-    WoW 3.3.5a DBC files have localized strings using numeric suffixes:
-      _0 or _1 = English (enUS) - KEEP
-      _2 = Korean (koKR)
-      _3 = French (frFR)
-      _4 = German (deDE)
-      _5 = Chinese Simplified (zhCN)
-      _6 = Chinese Traditional (zhTW)
-      _7 = Spanish Spain (esES)
-      _8 = Spanish Mexico (esMX)
-      _9 = Russian (ruRU)
-      _10+ = Other locales (some tables have up to 16)
+    Uses per-table configuration from dbc_localization.json when available.
+    Each table defines:
+        - localized_prefixes: Field prefixes that have locale suffixes (e.g., 'spell_name')
+        - keep_suffixes: Suffixes to keep (e.g., '_0' for English in spell table)
 
-    We keep _0, _1 (English) and _flags columns, exclude _2 through _16.
+    For tables not in config, falls back to generic rules:
+        - Keep _0, _1 (English) and _flags columns
+        - Exclude _2 through _16 (non-English locales)
+
+    WoW 3.3.5a locale indices:
+        Spell table (0-indexed): _0 = English, _1-15 = other locales
+        Other tables (1-indexed): _1 = English, _2-16 = other locales
 
     Args:
         columns: List of column names
+        table_name: Optional table name for per-table rules
 
     Returns:
         Set of column names to exclude
     """
-    import re
-
-    # Non-English numeric suffixes (2-16)
-    NON_ENGLISH_SUFFIXES = set(range(2, 17))
-
-    # Legacy locale code suffixes (some tools use these)
-    NON_ENGLISH_LOCALES = {
-        'kokr', 'frfr', 'dede', 'zhcn', 'zhtw',
-        'eses', 'esmx', 'ruru', 'jajp', 'ptpt',
-        'itit', 'ptbr', 'engb',
-    }
-
-    UNUSED_PATTERNS = ['unused_1', 'unused_2', 'unused_3', 'unused_4']
-
     localization_cols = set()
+    config = load_localization_config()
+    table_config = None
 
-    for col in columns:
-        col_lower = col.lower()
+    if table_name:
+        table_config = config.get('tables', {}).get(table_name.lower())
 
-        # Check for numeric suffix pattern like _2, _3, ..., _16
-        match = re.search(r'_(\d+)$', col_lower)
-        if match:
-            suffix_num = int(match.group(1))
-            if suffix_num in NON_ENGLISH_SUFFIXES:
-                localization_cols.add(col)
-                continue
+    if table_config:
+        # Use per-table rules from config
+        prefixes = table_config.get('localized_prefixes', [])
+        keep_suffixes = set(table_config.get('keep_suffixes', []))
 
-        # Check for legacy locale code suffixes
-        for locale in NON_ENGLISH_LOCALES:
-            if col_lower.endswith(f'_{locale}'):
-                localization_cols.add(col)
-                break
+        for col in columns:
+            col_lower = col.lower()
 
-        # Check for unused patterns
-        for unused in UNUSED_PATTERNS:
-            if col_lower.endswith(f'_{unused}'):
-                localization_cols.add(col)
-                break
+            # Check if this column matches any localized prefix
+            for prefix in prefixes:
+                if col_lower.startswith(prefix.lower()):
+                    # Extract suffix (everything after the prefix)
+                    suffix = col_lower[len(prefix):]
+
+                    # Keep if suffix is in keep list
+                    if suffix in keep_suffixes:
+                        continue
+
+                    # Check if it's a numeric locale suffix
+                    if re.match(r'^_\d+$', suffix):
+                        localization_cols.add(col)
+                        break
+    else:
+        # Fallback: generic numeric suffix matching
+        # Non-English numeric suffixes (2-16)
+        NON_ENGLISH_SUFFIXES = set(range(2, 17))
+
+        # Legacy locale code suffixes (some tools use these)
+        NON_ENGLISH_LOCALES = {
+            'kokr', 'frfr', 'dede', 'zhcn', 'zhtw',
+            'eses', 'esmx', 'ruru', 'jajp', 'ptpt',
+            'itit', 'ptbr', 'engb',
+        }
+
+        UNUSED_PATTERNS = ['unused_1', 'unused_2', 'unused_3', 'unused_4']
+
+        for col in columns:
+            col_lower = col.lower()
+
+            # Check for numeric suffix pattern like _2, _3, ..., _16
+            match = re.search(r'_(\d+)$', col_lower)
+            if match:
+                suffix_num = int(match.group(1))
+                if suffix_num in NON_ENGLISH_SUFFIXES:
+                    localization_cols.add(col)
+                    continue
+
+            # Check for legacy locale code suffixes
+            for locale in NON_ENGLISH_LOCALES:
+                if col_lower.endswith(f'_{locale}'):
+                    localization_cols.add(col)
+                    break
+
+            # Check for unused patterns
+            for unused in UNUSED_PATTERNS:
+                if col_lower.endswith(f'_{unused}'):
+                    localization_cols.add(col)
+                    break
 
     return localization_cols
 
@@ -473,7 +533,7 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
     skipped_columns = set()
     if skip_localization and rows1:
         sample_row = next(iter(rows1.values()))
-        skipped_columns = get_localization_columns(list(sample_row.keys()))
+        skipped_columns = get_localization_columns(list(sample_row.keys()), table)
 
     modified = []
     for pk in sorted(pks1 & pks2):

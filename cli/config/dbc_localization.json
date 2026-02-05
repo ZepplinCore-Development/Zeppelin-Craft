@@ -1,0 +1,177 @@
+{
+  "$schema": "../schemas/dbc_localization.schema.json",
+  "description": "DBC table localization field blacklist. Fields listed here are excluded from diffs to avoid locale-only changes.",
+  "version": "1.0.0",
+  "locale_index": {
+    "comment": "WoW 3.3.5a locale indices - _1 or _0 is typically English",
+    "english_suffixes": ["_0", "_1"],
+    "non_english_suffixes": ["_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_12", "_13", "_14", "_15", "_16"]
+  },
+  "tables": {
+    "achievement": {
+      "localized_prefixes": ["name", "description"],
+      "keep_suffixes": ["_1", "_flags"],
+      "comment": "name_1=English, name_2-16=other locales"
+    },
+    "achievement_criteria": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "areatable": {
+      "localized_prefixes": ["area_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "barbershopstyle": {
+      "localized_prefixes": ["display_name", "description"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "chrclasses": {
+      "localized_prefixes": ["name", "name_female", "name_male"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "chrraces": {
+      "localized_prefixes": ["name", "name_female", "name_male"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "creaturefamily": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "dungeonencounter": {
+      "localized_prefixes": ["encounter_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "emotestextsound": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "No text fields, only sound IDs"
+    },
+    "faction": {
+      "localized_prefixes": ["name", "description"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "factiongroup": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "gametips": {
+      "localized_prefixes": ["text"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "itemclass": {
+      "localized_prefixes": ["class_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "itemlimitcategory": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "itemsubclass": {
+      "localized_prefixes": ["display_name", "verbose_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "languages": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "lfgdungeongroup": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "lfgdungeons": {
+      "localized_prefixes": ["name", "description"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "loadingscreens": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Contains file paths, not localized text"
+    },
+    "locktype": {
+      "localized_prefixes": ["name", "resource_name", "verb"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "map": {
+      "localized_prefixes": ["map_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "mapdifficulty": {
+      "localized_prefixes": ["message"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "namegen": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Name generation data, not localized display text"
+    },
+    "questsort": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "skillline": {
+      "localized_prefixes": ["name", "description", "alternate_verb"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "soundentries": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Sound file paths, not localized text"
+    },
+    "spell": {
+      "localized_prefixes": ["spell_name", "spell_rank", "spell_description", "spell_tool_tip"],
+      "keep_suffixes": ["_0", "_flags", "_flag_7", "_flags_7", "_variable_id"],
+      "comment": "spell_name_0=English, spell_name_1-15=other locales (0-indexed)"
+    },
+    "spelldispeltype": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "spellfocusobject": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "spellicon": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Icon paths, not localized text"
+    },
+    "spellmechanic": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "spellrange": {
+      "localized_prefixes": ["name", "short_name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "spellshapeshiftform": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "talenttab": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "totemcategory": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "vocaluisounds": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Sound IDs, not text"
+    },
+    "wmoareatable": {
+      "localized_prefixes": ["name"],
+      "keep_suffixes": ["_1", "_flags"]
+    },
+    "worldmaparea": {
+      "localized_prefixes": [],
+      "keep_suffixes": [],
+      "comment": "Contains area references, not localized text"
+    },
+    "worldstateui": {
+      "localized_prefixes": ["icon", "text", "tooltip"],
+      "keep_suffixes": ["_1", "_flags"]
+    }
+  }
+}

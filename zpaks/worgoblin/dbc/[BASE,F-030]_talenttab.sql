@@ -2,34 +2,37 @@
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-030]_talenttab.sql with overrides
 
--- talenttab: 0 inserts, 30 updates, 0 deletes
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 41;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 61;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 81;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 161;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 163;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 164;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 181;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 182;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 183;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 201;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 202;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 203;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 261;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 262;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 263;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 281;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 282;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 283;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 301;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 302;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 303;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 361;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 362;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 363;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 381;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 382;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 383;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 398;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 399;
-UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 400;
+-- talenttab: 0 inserts, 33 updates, 0 deletes
+UPDATE `talenttab` SET `name_kokr` = '화염', `name_frfr` = 'Feu', `name_dede` = 'Feuer', `name_zhcn` = '火焰', `name_zhtw` = '火焰', `name_eses` = 'Fuego', `name_esmx` = 'Fuego', `name_ruru` = 'Огонь', `race_mask` = 4095 WHERE `id` = 41;
+UPDATE `talenttab` SET `name_kokr` = '냉기', `name_frfr` = 'Givre', `name_dede` = 'Frost', `name_zhcn` = '冰霜', `name_zhtw` = '冰霜', `name_eses` = 'Escarcha', `name_esmx` = 'Escarcha', `name_ruru` = 'Лед', `race_mask` = 4095 WHERE `id` = 61;
+UPDATE `talenttab` SET `name_kokr` = '비전', `name_frfr` = 'Arcanes', `name_dede` = 'Arkan', `name_zhcn` = '奥术', `name_zhtw` = '秘法', `name_eses` = 'Arcano', `name_esmx` = 'Arcano', `name_ruru` = 'Тайная магия', `race_mask` = 4095 WHERE `id` = 81;
+UPDATE `talenttab` SET `name_kokr` = '무기', `name_frfr` = 'Armes', `name_dede` = 'Waffen', `name_zhcn` = '武器', `name_zhtw` = '武器', `name_eses` = 'Armas', `name_esmx` = 'Armas', `name_ruru` = 'Оружие', `race_mask` = 4095 WHERE `id` = 161;
+UPDATE `talenttab` SET `name_kokr` = '방어', `name_frfr` = 'Protection', `name_dede` = 'Schutz', `name_zhcn` = '防护', `name_zhtw` = '防護', `name_eses` = 'Protección', `name_esmx` = 'Protección', `name_ruru` = 'Защита', `race_mask` = 4095 WHERE `id` = 163;
+UPDATE `talenttab` SET `name_kokr` = '분노', `name_frfr` = 'Fureur', `name_dede` = 'Furor', `name_zhcn` = '狂怒', `name_zhtw` = '狂怒', `name_eses` = 'Furia', `name_esmx` = 'Furia', `name_ruru` = 'Неистовство', `race_mask` = 4095 WHERE `id` = 164;
+UPDATE `talenttab` SET `name_kokr` = '전투', `name_frfr` = 'Combat', `name_dede` = 'Kampf', `name_zhcn` = '战斗', `name_zhtw` = '戰鬥', `name_eses` = 'Combate', `name_esmx` = 'Combate', `name_ruru` = 'Бой', `race_mask` = 4095 WHERE `id` = 181;
+UPDATE `talenttab` SET `name_kokr` = '암살', `name_frfr` = 'Assassinat', `name_dede` = 'Meucheln', `name_zhcn` = '刺杀', `name_zhtw` = '刺殺', `name_eses` = 'Asesinato', `name_esmx` = 'Asesinato', `name_ruru` = 'Ликвидация', `race_mask` = 4095 WHERE `id` = 182;
+UPDATE `talenttab` SET `name_kokr` = '잠행', `name_frfr` = 'Finesse', `name_dede` = 'Täuschung', `name_zhcn` = '敏锐', `name_zhtw` = '敏銳', `name_eses` = 'Sutileza', `name_esmx` = 'Sutileza', `name_ruru` = 'Скрытность', `race_mask` = 4095 WHERE `id` = 183;
+UPDATE `talenttab` SET `name_kokr` = '수양', `name_frfr` = 'Discipline', `name_dede` = 'Disziplin', `name_zhcn` = '戒律', `name_zhtw` = '戒律', `name_eses` = 'Disciplina', `name_esmx` = 'Disciplina', `name_ruru` = 'Послушание', `race_mask` = 4095 WHERE `id` = 201;
+UPDATE `talenttab` SET `name_kokr` = '신성', `name_frfr` = 'Sacré', `name_dede` = 'Heilig', `name_zhcn` = '神圣', `name_zhtw` = '神聖', `name_eses` = 'Sagrado', `name_esmx` = 'Sagrado', `name_ruru` = 'Свет', `race_mask` = 4095 WHERE `id` = 202;
+UPDATE `talenttab` SET `name_kokr` = '암흑', `name_frfr` = 'Ombre', `name_dede` = 'Schatten', `name_zhcn` = '暗影', `name_zhtw` = '暗影', `name_eses` = 'Sombra', `name_esmx` = 'Sombra', `name_ruru` = 'Тьма', `race_mask` = 4095 WHERE `id` = 203;
+UPDATE `talenttab` SET `name_kokr` = '정기', `name_frfr` = 'Elémentaire', `name_dede` = 'Elementar', `name_zhcn` = '元素', `name_zhtw` = '元素', `name_eses` = 'Elemental', `name_esmx` = 'Elemental', `name_ruru` = 'Стихии', `race_mask` = 4095 WHERE `id` = 261;
+UPDATE `talenttab` SET `name_kokr` = '복원', `name_frfr` = 'Restauration', `name_dede` = 'Wiederherst.', `name_zhcn` = '恢复', `name_zhtw` = '恢復', `name_eses` = 'Restauración', `name_esmx` = 'Restauración', `name_ruru` = 'Исцеление', `race_mask` = 4095 WHERE `id` = 262;
+UPDATE `talenttab` SET `name_kokr` = '고양', `name_frfr` = 'Amélioration', `name_dede` = 'Verstärk.', `name_zhcn` = '增强', `name_zhtw` = '增強', `name_eses` = 'Mejora', `name_esmx` = 'Mejora', `name_ruru` = 'Совершенствование', `race_mask` = 4095 WHERE `id` = 263;
+UPDATE `talenttab` SET `name_kokr` = '야성', `name_frfr` = 'Combat farouche', `name_dede` = 'Wilder Kampf', `name_zhcn` = '野性战斗', `name_zhtw` = '野性戰鬥', `name_eses` = 'Combate feral', `name_esmx` = 'Combate feral', `name_ruru` = 'Сила зверя', `race_mask` = 4095 WHERE `id` = 281;
+UPDATE `talenttab` SET `name_kokr` = '회복', `name_frfr` = 'Restauration', `name_dede` = 'Wiederherst.', `name_zhcn` = '恢复', `name_zhtw` = '恢復', `name_eses` = 'Restauración', `name_esmx` = 'Restauración', `name_ruru` = 'Исцеление', `race_mask` = 4095 WHERE `id` = 282;
+UPDATE `talenttab` SET `name_kokr` = '조화', `name_frfr` = 'Equilibre', `name_dede` = 'Gleichgewicht', `name_zhcn` = '平衡', `name_zhtw` = '平衡', `name_eses` = 'Equilibrio', `name_esmx` = 'Equilibrio', `name_ruru` = 'Баланс', `race_mask` = 4095 WHERE `id` = 283;
+UPDATE `talenttab` SET `name_kokr` = '파괴', `name_frfr` = 'Destruction', `name_dede` = 'Zerstörung', `name_zhcn` = '毁灭', `name_zhtw` = '毀滅', `name_eses` = 'Destrucción', `name_esmx` = 'Destrucción', `name_ruru` = 'Разрушение', `race_mask` = 4095 WHERE `id` = 301;
+UPDATE `talenttab` SET `name_kokr` = '고통', `name_frfr` = 'Affliction', `name_dede` = 'Gebrechen', `name_zhcn` = '痛苦', `name_zhtw` = '痛苦', `name_eses` = 'Aflicción', `name_esmx` = 'Aflicción', `name_ruru` = 'Колдовство', `race_mask` = 4095 WHERE `id` = 302;
+UPDATE `talenttab` SET `name_kokr` = '악마', `name_frfr` = 'Démonologie', `name_dede` = 'Dämonologie', `name_zhcn` = '恶魔学识', `name_zhtw` = '惡魔學識', `name_eses` = 'Demonología', `name_esmx` = 'Demonología', `name_ruru` = 'Демонология', `race_mask` = 4095 WHERE `id` = 303;
+UPDATE `talenttab` SET `name_kokr` = '야수', `name_frfr` = 'Maîtrise des bêtes', `name_dede` = 'Tierherrschaft', `name_zhcn` = '野兽控制', `name_zhtw` = '野獸控制', `name_eses` = 'Bestias', `name_esmx` = 'Bestias', `name_ruru` = 'Повелитель зверей', `race_mask` = 4095 WHERE `id` = 361;
+UPDATE `talenttab` SET `name_kokr` = '생존', `name_frfr` = 'Survie', `name_dede` = 'Überleben', `name_zhcn` = '生存', `name_zhtw` = '生存', `name_eses` = 'Supervivencia', `name_esmx` = 'Supervivencia', `name_ruru` = 'Выживание', `race_mask` = 4095 WHERE `id` = 362;
+UPDATE `talenttab` SET `name_kokr` = '사격', `name_frfr` = 'Précision', `name_dede` = 'Treffsicherheit', `name_zhcn` = '射击', `name_zhtw` = '射擊', `name_eses` = 'Puntería', `name_esmx` = 'Puntería', `name_ruru` = 'Стрельба', `race_mask` = 4095 WHERE `id` = 363;
+UPDATE `talenttab` SET `name_kokr` = '징벌', `name_frfr` = 'Vindicte', `name_dede` = 'Vergeltung', `name_zhcn` = '惩戒', `name_zhtw` = '懲戒', `name_eses` = 'Reprensión', `name_esmx` = 'Reprensión', `name_ruru` = 'Воздаяние', `race_mask` = 4095 WHERE `id` = 381;
+UPDATE `talenttab` SET `name_kokr` = '신성', `name_frfr` = 'Sacré', `name_dede` = 'Heilig', `name_zhcn` = '神圣', `name_zhtw` = '神聖', `name_eses` = 'Sagrado', `name_esmx` = 'Sagrado', `name_ruru` = 'Свет', `race_mask` = 4095 WHERE `id` = 382;
+UPDATE `talenttab` SET `name_kokr` = '보호', `name_frfr` = 'Protection', `name_dede` = 'Schutz', `name_zhcn` = '防护', `name_zhtw` = '防護', `name_eses` = 'Protección', `name_esmx` = 'Protección', `name_ruru` = 'Защита', `race_mask` = 4095 WHERE `id` = 383;
+UPDATE `talenttab` SET `name_kokr` = '혈기', `name_frfr` = 'Sang', `name_dede` = 'Blut', `name_zhcn` = '鲜血', `name_zhtw` = '血魄', `name_eses` = 'Sangre', `name_esmx` = 'Sangre', `name_ruru` = 'Кровь', `race_mask` = 4095 WHERE `id` = 398;
+UPDATE `talenttab` SET `name_kokr` = '냉기', `name_frfr` = 'Givre', `name_dede` = 'Frost', `name_zhcn` = '冰霜', `name_zhtw` = '冰霜', `name_eses` = 'Escarcha', `name_esmx` = 'Escarcha', `name_ruru` = 'Лед', `race_mask` = 4095 WHERE `id` = 399;
+UPDATE `talenttab` SET `name_kokr` = '부정', `name_frfr` = 'Impie', `name_dede` = 'Unheilig', `name_zhcn` = '邪恶', `name_zhtw` = '穢邪', `name_eses` = 'Profano', `name_esmx` = 'Profano', `name_ruru` = 'Нечестивость', `race_mask` = 4095 WHERE `id` = 400;
+UPDATE `talenttab` SET `name_kokr` = '끈기', `name_frfr` = 'Ténacité', `name_dede` = 'Hartnäckigkeit', `name_zhcn` = '坚韧', `name_zhtw` = '堅毅', `name_eses` = 'Tenacidad', `name_esmx` = 'Tenacidad', `name_ruru` = 'Упорство' WHERE `id` = 409;
+UPDATE `talenttab` SET `name_kokr` = '야성', `name_frfr` = 'Férocité', `name_dede` = 'Wildheit', `name_zhcn` = '狂野', `name_zhtw` = '兇暴', `name_eses` = 'Ferocidad', `name_esmx` = 'Ferocidad', `name_ruru` = 'Свирепость' WHERE `id` = 410;
+UPDATE `talenttab` SET `name_kokr` = '교활', `name_frfr` = 'Ruse', `name_dede` = 'Gerissenheit', `name_zhcn` = '狡诈', `name_zhtw` = '靈巧', `name_eses` = 'Astucia', `name_esmx` = 'Astucia', `name_ruru` = 'Хитрость' WHERE `id` = 411;
