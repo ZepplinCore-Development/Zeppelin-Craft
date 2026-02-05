@@ -13,7 +13,7 @@
   },
   "contents": {
     "dbc": ["dbc/*.sql"],
-    "sql": ["sql/*.sql"]
+    "sql": ["../../../Zeppelin-Core/modules/mod-clan-centaur/SQL/*.sql"]
   },
   "feature_id": "F-042",
   "enabled": true,
