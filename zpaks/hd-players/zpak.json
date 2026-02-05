@@ -5,7 +5,7 @@
   "description": "HD player character model replacements",
   "author": "Unknown",
   "type": "mpq",
-  "client_patch": "PATCH-H",
+  "client_patch": "PATCH-P",
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_optional": true,
@@ -16,6 +16,9 @@
     "url": "https://www.nexusmods.com/worldofwarcraft"
   },
   "feature_id": "F-050",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
   "enabled": true,
   "priority": 100
 }

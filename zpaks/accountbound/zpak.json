@@ -12,7 +12,9 @@
     "patch_mode": "single"
   },
   "contents": {
-    "patches": ["patches/*.patch"]
+    "patches": [
+      "patches/*.patch"
+    ]
   },
   "enabled": true,
   "priority": 100

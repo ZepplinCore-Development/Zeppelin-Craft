@@ -1,46 +1,14 @@
-UPDATE `dbc`.`spellvisualeffectname` SET 
-    `FilePath` = 'spells\\arcaneforceshield_purple.mdx' /* was 'Spells\\ManaShield_State_Base.mdx' */,
-    `AreaEffectSize` = 1.0 /* was 0.0 */,
-    `Scale` = 1.2 /* was 1.0 */
-WHERE `id` = 718;
+-- [BASE,F-044] zepcraft-legacy: spellvisualeffectname
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_spellvisualeffectname.sql with overrides
 
-DELETE FROM `dbc`.`spellvisualeffectname` WHERE `id` = 7100;
-INSERT INTO `dbc`.`spellvisualeffectname` SET 
-    `id` = 7100,
-    `Name` = 'Divine Fury',
-    `FilePath` = 'spells\\shadowfury_impact_base_yellow.mdx',
-    `AreaEffectSize` = 1.0,
-    `Scale` = 1.0,
-    `MinAllowedScale` = 0.01,
-    `MaxAllowedScale` = 100.0;
-
-DELETE FROM `dbc`.`spellvisualeffectname` WHERE `id` = 7101;
-INSERT INTO `dbc`.`spellvisualeffectname` SET 
-    `id` = 7101,
-    `Name` = 'Mana Shield State Base',
-    `FilePath` = 'Spells\\ShadowWard_Impact_Chest.mdx',
-    `AreaEffectSize` = 1.0,
-    `Scale` = 1.0,
-    `MinAllowedScale` = 0.01,
-    `MaxAllowedScale` = 100.0;
-
-DELETE FROM `dbc`.`spellvisualeffectname` WHERE `id` = 7102;
-INSERT INTO `dbc`.`spellvisualeffectname` SET 
-    `id` = 7102,
-    `Name` = 'Mana Shield State Base',
-    `FilePath` = 'spells\\banish_chest_purple.mdx',
-    `AreaEffectSize` = 1.0,
-    `Scale` = 1.0,
-    `MinAllowedScale` = 0.01,
-    `MaxAllowedScale` = 100.0;
-
-DELETE FROM `dbc`.`spellvisualeffectname` WHERE `id` = 7103;
-INSERT INTO `dbc`.`spellvisualeffectname` SET 
-    `id` = 7103,
-    `Name` = 'Mana Shield State Base',
-    `FilePath` = 'spells\\ArcaneForceShield_Purple.mdx',
-    `AreaEffectSize` = 1.0,
-    `Scale` = 1.0,
-    `MinAllowedScale` = 0.01,
-    `MaxAllowedScale` = 100.0;
-
+-- spellvisualeffectname: 4 inserts, 1 updates, 0 deletes
+DELETE FROM `spellvisualeffectname` WHERE `id` = 7100;
+INSERT INTO `spellvisualeffectname` (`id`, `name`, `file_path`, `area_effect_size`, `scale`, `min_allowed_scale`, `max_allowed_scale`) VALUES (7100, 'Divine Fury', 'spells\\shadowfury_impact_base_yellow.mdx', '1.0000000000000000', '1.0000000000000000', '0.0099999997764826', '100.0000000000000000');
+DELETE FROM `spellvisualeffectname` WHERE `id` = 7101;
+INSERT INTO `spellvisualeffectname` (`id`, `name`, `file_path`, `area_effect_size`, `scale`, `min_allowed_scale`, `max_allowed_scale`) VALUES (7101, 'Mana Shield State Base', 'Spells\\ShadowWard_Impact_Chest.mdx', '1.0000000000000000', '1.0000000000000000', '0.0099999997764826', '100.0000000000000000');
+DELETE FROM `spellvisualeffectname` WHERE `id` = 7102;
+INSERT INTO `spellvisualeffectname` (`id`, `name`, `file_path`, `area_effect_size`, `scale`, `min_allowed_scale`, `max_allowed_scale`) VALUES (7102, 'Mana Shield State Base', 'spells\\banish_chest_purple.mdx', '1.0000000000000000', '1.0000000000000000', '0.0099999997764826', '100.0000000000000000');
+DELETE FROM `spellvisualeffectname` WHERE `id` = 7103;
+INSERT INTO `spellvisualeffectname` (`id`, `name`, `file_path`, `area_effect_size`, `scale`, `min_allowed_scale`, `max_allowed_scale`) VALUES (7103, 'Mana Shield State Base', 'spells\\ArcaneForceShield_Purple.mdx', '1.0000000000000000', '1.0000000000000000', '0.0099999997764826', '100.0000000000000000');
+UPDATE `spellvisualeffectname` SET `file_path` = 'spells\\arcaneforceshield_purple.mdx', `area_effect_size` = '1.0000000000000000', `scale` = '1.2000000476837158' WHERE `id` = 718;

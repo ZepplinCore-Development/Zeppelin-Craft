@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "custom-icons",
+  "feature_id": "F-142",
+  "version": "0.1.0",
+  "description": "Custom Icons - enhanced spell, item, and ability icons",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-I",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

@@ -5,6 +5,7 @@
   "description": "Legacy custom SQL and DBC files pending reorganization into feature zpaks",
   "author": "Zeppelin Team",
   "type": "native",
+  "client_patch": "PATCH-Z",
   "feature_id": "F-044",
   "contents": {
     "sql": ["sql/**/*.sql"],

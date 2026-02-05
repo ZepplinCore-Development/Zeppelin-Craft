@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "solo-lfg",
+  "version": "1.0.0",
+  "description": "Solo dungeon finder queue support",
+  "author": "AzerothCore",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-solo-lfg",
+    "source": "https://github.com/azerothcore/mod-solo-lfg.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

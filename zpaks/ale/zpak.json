@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "ale",
+  "version": "1.0.0",
+  "description": "AzerothCore Lua Engine - Eluna scripting support",
+  "author": "AzerothCore",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-ale",
+    "source": "https://github.com/azerothcore/mod-ale.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 10
+}

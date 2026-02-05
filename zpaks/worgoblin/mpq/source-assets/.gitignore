@@ -1,0 +1,29 @@
+# WoW asset files - tracked via MPQ binaries, not individual files
+*.blp
+*.BLP
+*.m2
+*.M2
+*.skin
+*.SKIN
+*.anim
+*.ANIM
+*.bone
+*.BONE
+*.wmo
+*.WMO
+*.adt
+*.ADT
+*.wdt
+*.WDT
+*.wdl
+*.WDL
+*.ogg
+*.mp3
+*.wav
+
+# MPQ metadata files
+(listfile)
+(attributes)
+
+# Keep directory structure
+!.gitkeep

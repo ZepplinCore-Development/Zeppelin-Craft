@@ -2298,19 +2298,26 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
                 "Or specify --name directly."
             )
 
-        zpaks = _discover_zpaks_with_info(craft_root)
-        if not zpaks:
+        all_zpaks = _discover_zpaks_with_info(craft_root)
+        if not all_zpaks:
             raise click.ClickException("No zpaks found in zpaks/ or external/")
+
+        # Filter to only show zpaks with DBC source files
+        zpaks = [z for z in all_zpaks if z['has_dbc_source']]
+        if not zpaks:
+            raise click.ClickException(
+                "No zpaks with DBC files found.\n"
+                "DBC files should be in: zpak/mpq/source-assets/DBFilesClient/"
+            )
 
         # Build menu options
         options = []
         for zpak in zpaks:
-            indicator = "📦" if zpak['has_dbc_source'] else "  "
-            options.append(f"{indicator} {zpak['name']:<25} {zpak['description']}")
+            options.append(f"📦 {zpak['name']:<25} {zpak['description']}")
 
         menu = TerminalMenu(
             options,
-            title="\n  Select zpak to import DBC files into:\n  (📦 = has DBC source)\n",
+            title=f"\n  Select zpak to import DBC files from ({len(zpaks)} with DBC):\n",
             menu_cursor="> ",
             menu_cursor_style=("fg_cyan", "bold"),
             menu_highlight_style=("fg_cyan", "bold"),
@@ -2355,7 +2362,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
             if not default_source.is_absolute():
                 default_source = (zpak_path / default_source).resolve()
         else:
-            default_source = zpak_path / 'mpq' / 'DBFilesClient'
+            default_source = zpak_path / 'mpq' / 'source-assets' / 'DBFilesClient'
 
     # Step 1: Determine source path
 
@@ -2471,35 +2478,39 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
     if not DBCTOOL_PATH.exists():
         raise click.ClickException(f"DBCTool not found at {DBCTOOL_PATH}")
 
-    # Step 1: Reset scratch_dbc from original_dbc
-    click.echo(f"Step 1: Resetting {config.scratch} from {config.original}...")
+    # Step 1: Reset only the specific tables being imported (not all 193 tables)
+    # Get table names from DBC files (lowercase)
+    tables_to_reset = [dbc_file.stem.lower() for dbc_file in dbc_files]
+    click.echo(f"Step 1: Resetting {len(tables_to_reset)} table(s) in {config.scratch}...")
 
     try:
         with DBCConnection(config) as db_conn:
             orig_conn = db_conn.get_connection(config.original)
             orig_tables = get_tables(orig_conn)
+            orig_tables_lower = {t.lower(): t for t in orig_tables}
 
             scratch_conn = db_conn.get_connection(config.scratch)
             scratch_cursor = scratch_conn.cursor()
 
-            # Drop existing tables
             scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-            scratch_cursor.execute("SHOW TABLES")
-            for (table,) in scratch_cursor.fetchall():
-                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+
+            reset_count = 0
+            for table_name in tables_to_reset:
+                # Find the actual table name (case-insensitive match)
+                if table_name in orig_tables_lower:
+                    actual_table = orig_tables_lower[table_name]
+                    scratch_cursor.execute(f"DROP TABLE IF EXISTS `{actual_table}`")
+                    scratch_cursor.execute(f"CREATE TABLE `{actual_table}` LIKE `{config.original}`.`{actual_table}`")
+                    scratch_cursor.execute(f"INSERT INTO `{actual_table}` SELECT * FROM `{config.original}`.`{actual_table}`")
+                    reset_count += 1
+                else:
+                    click.echo(click.style(f"  Warning: Table '{table_name}' not found in {config.original}", fg='yellow'))
+
             scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
-
-            # Copy from original
-            for table in orig_tables:
-                if table.startswith("dbc_"):
-                    continue
-                scratch_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.original}`.`{table}`")
-                scratch_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.original}`.`{table}`")
-
             scratch_conn.commit()
             scratch_cursor.close()
 
-        click.echo(click.style(f"  Reset with {len(orig_tables)} tables", fg='green'))
+        click.echo(click.style(f"  Reset {reset_count} table(s)", fg='green'))
 
     except Exception as e:
         raise click.ClickException(f"Failed to reset scratch database: {e}")
@@ -2507,57 +2518,30 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
     # Step 2: Import DBC files via DBCTool
     click.echo(f"\nStep 2: Importing DBC files via DBCTool...")
 
-    temp_dbc_dir = Path(tempfile.mkdtemp(prefix="dbc_import_"))
-    env_path = CRAFT_ROOT / 'Scripts' / 'Patch Builder' / '.env'
+    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+
+    # Create config for DBCTool pointing directly at source path
+    scratch_config = {
+        "dbc": {
+            "user": config.user,
+            "password": config.password,
+            "host": config.host,
+            "port": str(config.port),
+            "name": config.scratch
+        },
+        "paths": {
+            "base": str(source_path),
+            "export": str(source_path.parent),
+            "meta": str(meta_dir)
+        },
+        "options": {"use_versioning": False}
+    }
+
+    scratch_config_path = craft_root / 'scratch_config.json'
+    with open(scratch_config_path, 'w') as f:
+        json.dump(scratch_config, f, indent=2)
 
     try:
-        # Build meta file map for case matching
-        # Use spelleditor_meta for WoW Spell Editor compatible column names
-        meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
-        meta_file_map = {}
-        for meta_file in meta_dir.glob("*.meta.json"):
-            try:
-                with open(meta_file) as f:
-                    meta_data = json.load(f)
-                    if "file" in meta_data:
-                        original_file = meta_data["file"]
-                        lowercase_stem = Path(original_file).stem.lower()
-                        meta_file_map[lowercase_stem] = original_file
-            except:
-                pass
-
-        # Create symlinks with correct case
-        for dbc_file in dbc_files:
-            lowercase_stem = dbc_file.stem.lower()
-            if lowercase_stem in meta_file_map:
-                target_name = meta_file_map[lowercase_stem]
-            else:
-                target_name = dbc_file.name
-            symlink_path = temp_dbc_dir / target_name
-            if not symlink_path.exists():
-                symlink_path.symlink_to(dbc_file)
-
-        # Create temp config for DBCTool with spelleditor_meta
-        scratch_config = {
-            "dbc": {
-                "user": config.user,
-                "password": config.password,
-                "host": config.host,
-                "port": str(config.port),
-                "name": config.scratch
-            },
-            "paths": {
-                "base": str(temp_dbc_dir),
-                "export": str(temp_dbc_dir),
-                "meta": str(meta_dir)
-            },
-            "options": {"use_versioning": False}
-        }
-
-        scratch_config_path = craft_root / 'scratch_config.json'
-        with open(scratch_config_path, 'w') as f:
-            json.dump(scratch_config, f, indent=2)
-
         # Import each DBC file
         imported_tables = []
         for dbc_file in sorted(dbc_files):
@@ -2582,10 +2566,8 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
                 logger.error(f"DBCTool import failed for {dbc_name}: {result.stderr}")
                 click.echo(click.style(f" FAILED: {result.stderr.strip()[:50]}", fg='yellow'))
 
-        scratch_config_path.unlink(missing_ok=True)
-
     finally:
-        shutil.rmtree(temp_dbc_dir, ignore_errors=True)
+        scratch_config_path.unlink(missing_ok=True)
 
     if not imported_tables:
         raise click.ClickException("No tables were imported successfully")
@@ -2601,13 +2583,12 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 
             if result["identical"]:
                 click.echo(click.style("  No differences found", fg='yellow'))
-                # Clean up scratch
+                # Clean up only the tables we imported
                 scratch_conn = db_conn.get_connection(config.scratch)
                 scratch_cursor = scratch_conn.cursor()
                 scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-                scratch_cursor.execute("SHOW TABLES")
-                for (table,) in scratch_cursor.fetchall():
-                    scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+                for table_name in imported_tables:
+                    scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
                 scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
                 scratch_conn.commit()
                 return
@@ -2656,17 +2637,16 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 
             click.echo(f"\n  Total: {total_lines} lines")
 
-            # Step 5: Clean up scratch
+            # Step 5: Clean up only the tables we imported
             click.echo(f"\nStep 5: Cleaning up...")
             scratch_conn = db_conn.get_connection(config.scratch)
             scratch_cursor = scratch_conn.cursor()
             scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-            scratch_cursor.execute("SHOW TABLES")
-            for (table,) in scratch_cursor.fetchall():
-                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
+            for table_name in imported_tables:
+                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
             scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
             scratch_conn.commit()
-            click.echo(click.style("  Cleared scratch database", fg='green'))
+            click.echo(click.style(f"  Cleaned up {len(imported_tables)} table(s)", fg='green'))
 
     except Exception as e:
         raise click.ClickException(f"Import failed: {e}")
@@ -2788,54 +2768,28 @@ def dbc_init_original(ctx, source: Optional[str], force: bool):
     # Use spelleditor_meta for PascalCase columns
     meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
 
-    # Build meta file map for case matching
-    meta_file_map = {}
-    for meta_file in meta_dir.glob("*.meta.json"):
-        try:
-            with open(meta_file) as f:
-                meta_data = json.load(f)
-                if "file" in meta_data:
-                    original_file = meta_data["file"]
-                    lowercase_stem = Path(original_file).stem.lower()
-                    meta_file_map[lowercase_stem] = original_file
-        except:
-            pass
+    # Create config for DBCTool pointing directly at source path
+    temp_config = {
+        "dbc": {
+            "user": config.user,
+            "password": config.password,
+            "host": config.host,
+            "port": str(config.port),
+            "name": config.original
+        },
+        "paths": {
+            "base": str(source_path),
+            "export": str(source_path.parent),
+            "meta": str(meta_dir)
+        },
+        "options": {"use_versioning": False}
+    }
 
-    # Create temp directory with correct file casing
-    temp_dbc_dir = Path(tempfile.mkdtemp(prefix="dbc_init_"))
+    temp_config_path = CRAFT_ROOT / 'temp_init_config.json'
+    with open(temp_config_path, 'w') as f:
+        json.dump(temp_config, f, indent=2)
 
     try:
-        # Create symlinks with correct case
-        for dbc_file in dbc_files:
-            lowercase_stem = dbc_file.stem.lower()
-            if lowercase_stem in meta_file_map:
-                target_name = meta_file_map[lowercase_stem]
-            else:
-                target_name = dbc_file.name
-            symlink_path = temp_dbc_dir / target_name
-            if not symlink_path.exists():
-                symlink_path.symlink_to(dbc_file)
-
-        # Create temp config for DBCTool targeting original_dbc
-        temp_config = {
-            "dbc": {
-                "user": config.user,
-                "password": config.password,
-                "host": config.host,
-                "port": str(config.port),
-                "name": config.original
-            },
-            "paths": {
-                "base": str(temp_dbc_dir),
-                "export": str(temp_dbc_dir),
-                "meta": str(meta_dir)
-            },
-            "options": {"use_versioning": False}
-        }
-
-        temp_config_path = CRAFT_ROOT / 'temp_init_config.json'
-        with open(temp_config_path, 'w') as f:
-            json.dump(temp_config, f, indent=2)
 
         # Import each DBC file
         click.echo("Importing DBC files...")
@@ -2865,10 +2819,8 @@ def dbc_init_original(ctx, source: Optional[str], force: bool):
                 logger.error(f"DBCTool import failed for {dbc_name}: {result.stderr}")
                 click.echo(click.style(" FAILED", fg='yellow'))
 
-        temp_config_path.unlink(missing_ok=True)
-
     finally:
-        shutil.rmtree(temp_dbc_dir, ignore_errors=True)
+        temp_config_path.unlink(missing_ok=True)
 
     click.echo()
     click.echo(click.style(f"Init complete: {imported} imported, {failed} failed", fg='green' if failed == 0 else 'yellow'))

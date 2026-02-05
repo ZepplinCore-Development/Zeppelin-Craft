@@ -5,7 +5,7 @@ Wraps mpqcli to provide MPQ archive management for zpaks.
 
 Commands:
     zep mpq pack <zpak>           Pack zpak assets to MPQ
-    zep mpq extract <mpq> <dest>  Extract MPQ contents
+    zep mpq extract <mpq> <dest>  Extract MPQ contents (or interactive zpak selection)
     zep mpq list <mpq>            List MPQ contents
     zep mpq info <mpq>            Show MPQ archive info
 """
@@ -13,12 +13,62 @@ Commands:
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 import click
 
+from lib.manifest import load_manifest
+
 # mpqcli binary location
 MPQCLI_PATH = Path('/workspace/project/Zeppelin-Tools/mpqcli/mpqcli')
+
+# CLI directory for path resolution
+CLI_DIR = Path(__file__).parent.parent
+
+
+def _discover_zpaks_with_mpq_info(craft_root: Path) -> List[Dict[str, Any]]:
+    """Discover available zpaks with MPQ binary info.
+
+    Returns:
+        List of dicts with 'name', 'description', 'path', 'has_mpq_binary', 'mpq_binary_path', 'mpq_filename'
+    """
+    zpaks = []
+
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        if not base.exists():
+            continue
+        for pkg_dir in sorted(base.iterdir()):
+            if not pkg_dir.is_dir():
+                continue
+            manifest_path = pkg_dir / 'zpak.json'
+            if not manifest_path.exists():
+                continue
+
+            manifest = load_manifest(manifest_path)
+            if not manifest:
+                continue
+
+            # Check for MPQ binary in mpq/source-binary/
+            mpq_binary_dir = pkg_dir / 'mpq' / 'source-binary'
+            mpq_files = list(mpq_binary_dir.glob('*.MPQ')) if mpq_binary_dir.exists() else []
+            has_mpq_binary = len(mpq_files) > 0
+            mpq_binary_path = mpq_files[0] if mpq_files else None
+            mpq_filename = mpq_binary_path.name if mpq_binary_path else None
+
+            # Get client_patch for display
+            client_patch = manifest.get('client_patch', '')
+
+            zpaks.append({
+                'name': manifest.get('name', pkg_dir.name),
+                'description': manifest.get('description', '')[:35],
+                'path': pkg_dir,
+                'has_mpq_binary': has_mpq_binary,
+                'mpq_binary_path': mpq_binary_path,
+                'mpq_filename': mpq_filename,
+                'client_patch': client_patch,
+            })
+
+    return zpaks
 
 
 def get_mpqcli() -> Path:
@@ -158,24 +208,117 @@ def mpq_pack(ctx, name: str, output: Optional[str], version: str):
 
 
 @mpq.command('extract')
-@click.argument('mpq_file', type=click.Path(exists=True))
+@click.argument('mpq_file', type=click.Path(exists=True), required=False)
 @click.argument('destination', type=click.Path(), required=False)
+@click.option('--name', '-n', 'zpak_name', help='Zpak name (interactive selection if omitted)')
 @click.option('--file', '-f', 'target_file', help='Extract specific file only')
 @click.option('--keep-structure', '-k', is_flag=True, help='Keep folder structure')
-def mpq_extract(mpq_file: str, destination: Optional[str], target_file: Optional[str], keep_structure: bool):
+@click.pass_context
+def mpq_extract(ctx, mpq_file: Optional[str], destination: Optional[str],
+                zpak_name: Optional[str], target_file: Optional[str], keep_structure: bool):
     """Extract files from an MPQ archive.
 
+    Can extract from a direct MPQ file path or interactively select a zpak
+    with an MPQ binary in its source-binary directory.
+
     Examples:
-        zep mpq extract patch-z.mpq ./output/
+        zep mpq extract                           # Interactive zpak selection
+        zep mpq extract --name hd-water           # Extract specific zpak's MPQ
+        zep mpq extract patch-z.mpq ./output/     # Direct file extraction
         zep mpq extract patch.mpq -f "DBFilesClient/Spell.dbc"
     """
-    mpq_path = Path(mpq_file)
+    craft_root = ctx.obj['craft_root']
 
-    # Default destination is mpq name without extension
-    if not destination:
-        destination = str(mpq_path.stem) + '_extracted'
+    # If no MPQ file provided, use interactive zpak selection
+    if not mpq_file:
+        # Check if --name was provided
+        if not zpak_name:
+            # Interactive selection
+            try:
+                from simple_term_menu import TerminalMenu
+            except ImportError:
+                raise click.ClickException(
+                    "Interactive mode requires simple-term-menu.\n"
+                    "Install with: pip install simple-term-menu"
+                )
 
-    dest_path = Path(destination)
+            all_zpaks = _discover_zpaks_with_mpq_info(craft_root)
+            if not all_zpaks:
+                raise click.ClickException("No zpaks found in zpaks/ or external/")
+
+            # Filter to only show zpaks with MPQ binaries
+            zpaks = [z for z in all_zpaks if z['has_mpq_binary']]
+            if not zpaks:
+                raise click.ClickException(
+                    "No zpaks with MPQ binaries found.\n"
+                    "MPQ files should be in: zpak/mpq/source-binary/*.MPQ"
+                )
+
+            # Build menu options
+            options = []
+            for zpak in zpaks:
+                patch_info = f"[{zpak['client_patch']}]" if zpak['client_patch'] else ""
+                options.append(f"📦 {zpak['name']:<22} {patch_info:<10} {zpak['description']}")
+
+            menu = TerminalMenu(
+                options,
+                title=f"\n  Select zpak to extract MPQ from ({len(zpaks)} with MPQ):\n",
+                menu_cursor="> ",
+                menu_cursor_style=("fg_cyan", "bold"),
+                menu_highlight_style=("fg_cyan", "bold"),
+                cycle_cursor=True,
+                clear_screen=True,
+            )
+
+            result = menu.show()
+
+            if result is None:
+                click.echo("Cancelled")
+                return
+
+            selected_zpak = zpaks[result]
+            zpak_name = selected_zpak['name']
+            mpq_path = selected_zpak['mpq_binary_path']
+            zpak_path = selected_zpak['path']
+
+            click.echo(f"\nSelected: {zpak_name}")
+        else:
+            # Find zpak by name
+            zpaks = _discover_zpaks_with_mpq_info(craft_root)
+            selected_zpak = None
+            for zpak in zpaks:
+                if zpak['name'] == zpak_name:
+                    selected_zpak = zpak
+                    break
+
+            if not selected_zpak:
+                raise click.ClickException(f"Zpak '{zpak_name}' not found")
+
+            mpq_path = selected_zpak['mpq_binary_path']
+            zpak_path = selected_zpak['path']
+
+            if not mpq_path:
+                raise click.ClickException(
+                    f"Zpak '{zpak_name}' has no MPQ binary in mpq/source-binary/"
+                )
+
+        # Default destination is zpak's mpq/source-assets
+        if not destination:
+            dest_path = zpak_path / 'mpq' / 'source-assets'
+        else:
+            dest_path = Path(destination)
+    else:
+        # Direct MPQ file path provided
+        mpq_path = Path(mpq_file)
+        if not mpq_path.exists():
+            raise click.ClickException(f"MPQ file not found: {mpq_path}")
+
+        # Default destination is mpq name without extension
+        if not destination:
+            dest_path = Path(str(mpq_path.stem) + '_extracted')
+        else:
+            dest_path = Path(destination)
+
     dest_path.mkdir(parents=True, exist_ok=True)
 
     click.echo(f"Extracting {mpq_path.name}...")

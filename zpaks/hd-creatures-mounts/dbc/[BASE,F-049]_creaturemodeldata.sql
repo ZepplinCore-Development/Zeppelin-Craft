@@ -1,5 +1,6 @@
--- hd-creatures-mounts: creaturemodeldata
--- Imported by zep dbc import-module
+-- [BASE,F-049] hd-creatures-mounts: creaturemodeldata
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-049]_creaturemodeldata.sql with overrides
 
 -- creaturemodeldata: 129 inserts, 324 updates, 0 deletes
 DELETE FROM `creaturemodeldata` WHERE `id` = 3139;

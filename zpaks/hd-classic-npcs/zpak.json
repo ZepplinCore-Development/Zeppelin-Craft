@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-classic-npcs",
+  "feature_id": "F-139",
+  "version": "0.1.0",
+  "description": "HD Classic NPC Models",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-8",
+  "contents": {
+    "mpq": [
+      "mpq/**/*"
+    ]
+  },
+  "enabled": false,
+  "priority": 100
+}

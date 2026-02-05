@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "item-vault",
+  "version": "1.0.0",
+  "description": "Personal item vault storage system",
+  "author": "ShatteredDawn",
+  "type": "acore-extension",
+  "acore": {
+    "module": "mod-item-vault",
+    "source": "https://github.com/ShatteredDawn/item-vault.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

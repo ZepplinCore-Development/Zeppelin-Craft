@@ -1,5 +1,6 @@
--- worgoblin: skillraceclassinfo
--- Imported by zep dbc import-module
+-- [BASE,F-030] worgoblin: skillraceclassinfo
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-030]_skillraceclassinfo.sql with overrides
 
 -- skillraceclassinfo: 2 inserts, 30 updates, 0 deletes
 DELETE FROM `skillraceclassinfo` WHERE `id` = 971;

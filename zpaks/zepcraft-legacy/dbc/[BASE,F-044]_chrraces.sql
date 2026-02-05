@@ -1,25 +1,7 @@
-UPDATE `dbc`.`chrraces` SET 
-    `flags` = 4 /* was 1 */,
-    `FactionId` = 2 /* was 1 */,
-    `ExploreationSoundId` = 4141 /* was 0 */,
-    `BaseLanguage` = 1 /* was 7 */,
-    `CinematicSequenceId` = 141 /* was 0 */,
-    `Alliance` = 1 /* was 2 */,
-    `FacialHairCustom1` = 'PIERCINGS' /* was 'NORMAL' */,
-    `FacialHairCustom2` = 'PIERCINGS' /* was 'NONE' */
-WHERE `id` = 9;
+-- [BASE,F-044] zepcraft-legacy: chrraces
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_chrraces.sql with overrides
 
-UPDATE `dbc`.`chrraces` SET 
-    `flags` = 6 /* was 5 */,
-    `ExploreationSoundId` = 4143 /* was 0 */,
-    `MaleDisplayId` = 29422 /* was 16981 */,
-    `FemaleDisplayId` = 29423 /* was 16980 */,
-    `ClientPrefix` = 'Wo' /* was 'Fo' */,
-    `ClientFileString` = 'Worgen' /* was 'FelOrc' */,
-    `CinematicSequenceId` = 61 /* was 0 */,
-    `Alliance` = 0 /* was 2 */,
-    `name_1` = 'Worgen' /* was 'Fel Orc' */,
-    `FacialHairCustom1` = 'FEATURES' /* was 'NORMAL' */,
-    `FacialHairCustom2` = 'EARS' /* was 'NORMAL' */
-WHERE `id` = 12;
-
+-- chrraces: 0 inserts, 2 updates, 0 deletes
+UPDATE `chrraces` SET `flags` = 4, `faction_id` = 2, `exploreation_sound_id` = 4141, `base_language` = 1, `cinematic_sequence_id` = 141, `alliance` = 1, `facial_hair_custom_1` = 'PIERCINGS', `facial_hair_custom_2` = 'PIERCINGS' WHERE `id` = 9;
+UPDATE `chrraces` SET `flags` = 6, `exploreation_sound_id` = 4143, `male_display_id` = 29422, `female_display_id` = 29423, `client_prefix` = 'Wo', `client_file_string` = 'Worgen', `cinematic_sequence_id` = 61, `alliance` = 0, `name_1` = 'Worgen', `facial_hair_custom_1` = 'FEATURES', `facial_hair_custom_2` = 'EARS' WHERE `id` = 12;

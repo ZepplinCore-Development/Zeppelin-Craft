@@ -5,13 +5,16 @@
   "description": "HD building and structure model replacements",
   "author": "Classic HD Appletrey",
   "type": "mpq",
-  "client_patch": "PATCH-H",
+  "client_patch": "PATCH-B",
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_optional": true,
     "preprocessor_warning": "Resource Parser scans models for texture dependencies."
   },
   "feature_id": "F-047",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
   "enabled": true,
   "priority": 100
 }

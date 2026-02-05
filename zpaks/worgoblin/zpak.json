@@ -5,6 +5,7 @@
   "description": "Worgen and Goblin playable races - DBC modifications",
   "author": "Worgoblin Team",
   "type": "acore-extension",
+  "client_patch": "PATCH-G",
   "acore": {
     "module": "mod-worgoblin",
     "source": "https://github.com/azerothcore/mod-worgoblin.git",

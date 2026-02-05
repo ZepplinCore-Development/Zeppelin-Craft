@@ -1,5 +1,6 @@
--- worgoblin: spellicon
--- Imported by zep dbc import-module
+-- [BASE,F-030] worgoblin: spellicon
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-030]_spellicon.sql with overrides
 
 -- spellicon: 10 inserts, 0 updates, 0 deletes
 DELETE FROM `spellicon` WHERE `id` = 4331;

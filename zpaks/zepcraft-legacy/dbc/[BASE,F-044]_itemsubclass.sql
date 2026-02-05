@@ -1,14 +1,66 @@
-DELETE FROM `dbc`.`itemsubclass` WHERE `class` = 5 AND `sub_class` = 1;
-INSERT INTO `dbc`.`itemsubclass` SET 
-    `class` = 5,
-    `sub_class` = 1,
-    `prerequisite_proficiency` = 4294967295,
-    `postrequisite_proficiency` = 4294967295,
-    `display_flags` = 1,
-    `weapon_parry_seq` = 3,
-    `weapon_ready_seq` = 2,
-    `weapon_attack_seq` = 3,
-    `display_name_1` = 'Tool',
-    `display_name_flag` = 16712190,
-    `verbose_name_flag` = 16712188;
+-- [BASE,F-044] zepcraft-legacy: itemsubclass
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_itemsubclass.sql with overrides
 
+-- itemsubclass: 1 inserts, 59 updates, 0 deletes
+DELETE FROM `itemsubclass` WHERE `auto_id` = 120;
+INSERT INTO `itemsubclass` (`auto_id`, `class`, `sub_class`, `prerequisite_proficiency`, `postrequisite_proficiency`, `flags`, `display_flags`, `weapon_parry_seq`, `weapon_ready_seq`, `weapon_attack_seq`, `weapon_swing_size`, `display_name_1`, `display_name_2`, `display_name_3`, `display_name_4`, `display_name_5`, `display_name_6`, `display_name_7`, `display_name_8`, `display_name_9`, `display_name_10`, `display_name_11`, `display_name_12`, `display_name_13`, `display_name_14`, `display_name_15`, `display_name_16`, `display_name_flag`, `verbose_name_1`, `verbose_name_2`, `verbose_name_3`, `verbose_name_4`, `verbose_name_5`, `verbose_name_6`, `verbose_name_7`, `verbose_name_8`, `verbose_name_9`, `verbose_name_10`, `verbose_name_11`, `verbose_name_12`, `verbose_name_13`, `verbose_name_14`, `verbose_name_15`, `verbose_name_16`, `verbose_name_flag`) VALUES (120, 16, 11, -1, -1, 0, 0, 0, 0, 0, 0, 'Druid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190, 'Druid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 16712190);
+UPDATE `itemsubclass` SET `class` = 5, `sub_class` = 1, `display_flags` = 1, `weapon_parry_seq` = 3, `weapon_ready_seq` = 2, `display_name_1` = 'Tool' WHERE `auto_id` = 61;
+UPDATE `itemsubclass` SET `sub_class` = 0, `display_flags` = 3, `display_name_1` = 'Wand(OBSOLETE)' WHERE `auto_id` = 62;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_flags` = 2, `display_name_1` = 'Bolt(OBSOLETE)' WHERE `auto_id` = 63;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Arrow' WHERE `auto_id` = 64;
+UPDATE `itemsubclass` SET `sub_class` = 3, `flags` = 0, `display_flags` = 0, `weapon_parry_seq` = 0, `weapon_ready_seq` = 0, `display_name_1` = 'Bullet' WHERE `auto_id` = 65;
+UPDATE `itemsubclass` SET `class` = 6, `sub_class` = 4, `flags` = 64, `display_flags` = 2, `display_name_1` = 'Thrown(OBSOLETE)' WHERE `auto_id` = 66;
+UPDATE `itemsubclass` SET `sub_class` = 0, `display_flags` = 3, `display_name_1` = 'Trade Goods', `verbose_name_flag` = 16712188 WHERE `auto_id` = 67;
+UPDATE `itemsubclass` SET `sub_class` = 10, `display_name_1` = 'Elemental' WHERE `auto_id` = 68;
+UPDATE `itemsubclass` SET `sub_class` = 5, `display_name_1` = 'Cloth' WHERE `auto_id` = 69;
+UPDATE `itemsubclass` SET `sub_class` = 6, `display_name_1` = 'Leather' WHERE `auto_id` = 70;
+UPDATE `itemsubclass` SET `sub_class` = 7, `display_name_1` = 'Metal & Stone' WHERE `auto_id` = 71;
+UPDATE `itemsubclass` SET `sub_class` = 8, `display_name_1` = 'Meat' WHERE `auto_id` = 72;
+UPDATE `itemsubclass` SET `sub_class` = 9, `display_name_1` = 'Herb' WHERE `auto_id` = 73;
+UPDATE `itemsubclass` SET `sub_class` = 12, `display_name_1` = 'Enchanting' WHERE `auto_id` = 74;
+UPDATE `itemsubclass` SET `sub_class` = 4, `display_name_1` = 'Jewelcrafting', `verbose_name_flag` = 16712172 WHERE `auto_id` = 75;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_name_1` = 'Parts' WHERE `auto_id` = 76;
+UPDATE `itemsubclass` SET `sub_class` = 3, `display_name_1` = 'Devices' WHERE `auto_id` = 77;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Explosives', `verbose_name_flag` = 16712188 WHERE `auto_id` = 78;
+UPDATE `itemsubclass` SET `sub_class` = 13, `display_name_1` = 'Materials' WHERE `auto_id` = 79;
+UPDATE `itemsubclass` SET `sub_class` = 11, `display_name_1` = 'Other', `verbose_name_1` = '', `verbose_name_flag` = 16712172 WHERE `auto_id` = 80;
+UPDATE `itemsubclass` SET `sub_class` = 14, `display_name_1` = 'Armor Enchantment', `verbose_name_1` = 'Armor Enchantment' WHERE `auto_id` = 81;
+UPDATE `itemsubclass` SET `class` = 7, `sub_class` = 15, `display_name_1` = 'Weapon Enchantment', `verbose_name_1` = 'Weapon Enchantment', `verbose_name_flag` = 16712190 WHERE `auto_id` = 82;
+UPDATE `itemsubclass` SET `class` = 8, `display_name_1` = 'Generic(OBSOLETE)' WHERE `auto_id` = 83;
+UPDATE `itemsubclass` SET `sub_class` = 0, `display_name_1` = 'Book' WHERE `auto_id` = 84;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_name_1` = 'Leatherworking' WHERE `auto_id` = 85;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Tailoring' WHERE `auto_id` = 86;
+UPDATE `itemsubclass` SET `sub_class` = 3, `display_name_1` = 'Engineering' WHERE `auto_id` = 87;
+UPDATE `itemsubclass` SET `sub_class` = 4, `display_name_1` = 'Blacksmithing' WHERE `auto_id` = 88;
+UPDATE `itemsubclass` SET `sub_class` = 5, `display_name_1` = 'Cooking' WHERE `auto_id` = 89;
+UPDATE `itemsubclass` SET `sub_class` = 6, `display_name_1` = 'Alchemy' WHERE `auto_id` = 90;
+UPDATE `itemsubclass` SET `sub_class` = 7, `display_name_1` = 'First Aid' WHERE `auto_id` = 91;
+UPDATE `itemsubclass` SET `sub_class` = 8, `display_name_1` = 'Enchanting' WHERE `auto_id` = 92;
+UPDATE `itemsubclass` SET `sub_class` = 9, `display_name_1` = 'Fishing', `verbose_name_flag` = 16712188 WHERE `auto_id` = 93;
+UPDATE `itemsubclass` SET `sub_class` = 10, `display_name_1` = 'Jewelcrafting', `verbose_name_1` = '', `verbose_name_flag` = 16712172 WHERE `auto_id` = 94;
+UPDATE `itemsubclass` SET `class` = 9, `sub_class` = 11, `display_name_1` = 'Inscription', `verbose_name_1` = 'Inscription', `verbose_name_flag` = 16712190 WHERE `auto_id` = 95;
+UPDATE `itemsubclass` SET `class` = 10, `display_flags` = 1, `weapon_parry_seq` = 3, `weapon_ready_seq` = 2, `display_name_1` = 'Money(OBSOLETE)' WHERE `auto_id` = 96;
+UPDATE `itemsubclass` SET `sub_class` = 0 WHERE `auto_id` = 97;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_flags` = 7, `display_name_1` = 'Quiver(OBSOLETE)' WHERE `auto_id` = 98;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Quiver' WHERE `auto_id` = 99;
+UPDATE `itemsubclass` SET `class` = 11, `sub_class` = 3, `display_flags` = 4, `weapon_parry_seq` = 0, `weapon_ready_seq` = 0, `display_name_1` = 'Ammo Pouch' WHERE `auto_id` = 100;
+UPDATE `itemsubclass` SET `class` = 12, `display_name_1` = 'Quest' WHERE `auto_id` = 101;
+UPDATE `itemsubclass` SET `sub_class` = 0, `display_name_1` = 'Key' WHERE `auto_id` = 102;
+UPDATE `itemsubclass` SET `class` = 13, `sub_class` = 1, `display_name_1` = 'Lockpick' WHERE `auto_id` = 103;
+UPDATE `itemsubclass` SET `class` = 14, `display_name_1` = 'Permanent' WHERE `auto_id` = 104;
+UPDATE `itemsubclass` SET `sub_class` = 0, `display_name_1` = 'Junk', `verbose_name_flag` = 16712188 WHERE `auto_id` = 105;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_name_1` = 'Reagent' WHERE `auto_id` = 106;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Pet' WHERE `auto_id` = 107;
+UPDATE `itemsubclass` SET `sub_class` = 3, `display_name_1` = 'Holiday' WHERE `auto_id` = 108;
+UPDATE `itemsubclass` SET `sub_class` = 4, `display_flags` = 1, `display_name_1` = 'Other', `verbose_name_1` = '', `verbose_name_flag` = 16712172 WHERE `auto_id` = 109;
+UPDATE `itemsubclass` SET `class` = 15, `sub_class` = 5, `weapon_parry_seq` = 3, `weapon_ready_seq` = 2, `weapon_attack_seq` = 3, `display_name_1` = 'Mount', `verbose_name_1` = 'Mount' WHERE `auto_id` = 110;
+UPDATE `itemsubclass` SET `sub_class` = 1, `display_name_1` = 'Warrior', `verbose_name_1` = 'Warrior' WHERE `auto_id` = 111;
+UPDATE `itemsubclass` SET `sub_class` = 2, `display_name_1` = 'Paladin', `verbose_name_1` = 'Paladin' WHERE `auto_id` = 112;
+UPDATE `itemsubclass` SET `sub_class` = 3, `display_name_1` = 'Hunter', `verbose_name_1` = 'Hunter' WHERE `auto_id` = 113;
+UPDATE `itemsubclass` SET `sub_class` = 4, `display_name_1` = 'Rogue', `verbose_name_1` = 'Rogue' WHERE `auto_id` = 114;
+UPDATE `itemsubclass` SET `sub_class` = 5, `display_name_1` = 'Priest', `verbose_name_1` = 'Priest' WHERE `auto_id` = 115;
+UPDATE `itemsubclass` SET `sub_class` = 6, `display_name_1` = 'Death Knight', `verbose_name_1` = 'Death Knight' WHERE `auto_id` = 116;
+UPDATE `itemsubclass` SET `sub_class` = 7, `display_name_1` = 'Shaman', `verbose_name_1` = 'Shaman' WHERE `auto_id` = 117;
+UPDATE `itemsubclass` SET `sub_class` = 8, `display_name_1` = 'Mage', `verbose_name_1` = 'Mage' WHERE `auto_id` = 118;
+UPDATE `itemsubclass` SET `sub_class` = 9, `display_name_1` = 'Warlock', `verbose_name_1` = 'Warlock' WHERE `auto_id` = 119;

@@ -199,8 +199,19 @@ def get_localization_columns(columns: List[str]) -> Set[str]:
     """
     Identify localization columns to exclude from diffs.
 
-    WoW 3.3.5a DBC files have localized strings using locale suffixes.
-    We keep enus (English) and flags columns, exclude all other locales.
+    WoW 3.3.5a DBC files have localized strings using numeric suffixes:
+      _0 or _1 = English (enUS) - KEEP
+      _2 = Korean (koKR)
+      _3 = French (frFR)
+      _4 = German (deDE)
+      _5 = Chinese Simplified (zhCN)
+      _6 = Chinese Traditional (zhTW)
+      _7 = Spanish Spain (esES)
+      _8 = Spanish Mexico (esMX)
+      _9 = Russian (ruRU)
+      _10+ = Other locales (some tables have up to 16)
+
+    We keep _0, _1 (English) and _flags columns, exclude _2 through _16.
 
     Args:
         columns: List of column names
@@ -208,6 +219,12 @@ def get_localization_columns(columns: List[str]) -> Set[str]:
     Returns:
         Set of column names to exclude
     """
+    import re
+
+    # Non-English numeric suffixes (2-16)
+    NON_ENGLISH_SUFFIXES = set(range(2, 17))
+
+    # Legacy locale code suffixes (some tools use these)
     NON_ENGLISH_LOCALES = {
         'kokr', 'frfr', 'dede', 'zhcn', 'zhtw',
         'eses', 'esmx', 'ruru', 'jajp', 'ptpt',
@@ -221,11 +238,21 @@ def get_localization_columns(columns: List[str]) -> Set[str]:
     for col in columns:
         col_lower = col.lower()
 
+        # Check for numeric suffix pattern like _2, _3, ..., _16
+        match = re.search(r'_(\d+)$', col_lower)
+        if match:
+            suffix_num = int(match.group(1))
+            if suffix_num in NON_ENGLISH_SUFFIXES:
+                localization_cols.add(col)
+                continue
+
+        # Check for legacy locale code suffixes
         for locale in NON_ENGLISH_LOCALES:
             if col_lower.endswith(f'_{locale}'):
                 localization_cols.add(col)
                 break
 
+        # Check for unused patterns
         for unused in UNUSED_PATTERNS:
             if col_lower.endswith(f'_{unused}'):
                 localization_cols.add(col)

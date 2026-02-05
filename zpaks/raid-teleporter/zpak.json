@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "raid-teleporter",
+  "version": "1.0.0",
+  "description": "Teleport to raid instances via NPC",
+  "author": "ZepplinCore-Development",
+  "type": "acore-extension",
+  "acore": {
+    "module": "RaidTeleporter",
+    "source": "https://github.com/ZepplinCore-Development/RaidTeleporter.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "enabled": true,
+  "priority": 100
+}

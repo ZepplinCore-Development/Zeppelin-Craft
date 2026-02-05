@@ -2,18 +2,26 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "azerothcore",
   "version": "0.1.0",
-  "description": "AzerothCore main repository customizations and fixes",
+  "description": "AzerothCore main repository - base SQL and customization patches. Contains vanilla WOTLK 3.3.5a DBC files as baseline.",
   "author": "Zeppelin Team",
   "type": "acore-extension",
+  "dbc_source": "mpq/source-assets/DBFilesClient",
   "acore": {
     "module": "azerothcore",
     "source": "https://github.com/azerothcore/azerothcore-wotlk.git",
     "branch": "master",
     "patch_mode": "granular"
   },
+  "sql_path": "../Zeppelin-Core/data/sql/base/db_world",
+  "sql_updates_path": "../Zeppelin-Core/data/sql/updates/db_world",
   "contents": {
-    "patches": ["patches/*.patch"]
+    "patches": [
+      "patches/*.patch"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ]
   },
   "enabled": true,
-  "priority": 100
+  "priority": 1
 }

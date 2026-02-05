@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "music",
+  "feature_id": "F-144",
+  "version": "0.1.0",
+  "description": "Music - additional music tracks and improved audio",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-M",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "modern-trees",
+  "feature_id": "F-146",
+  "version": "0.1.0",
+  "description": "Modern Trees - updated tree models and foliage",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-T",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

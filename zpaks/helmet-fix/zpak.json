@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "helmet-fix",
+  "feature_id": "F-141",
+  "version": "0.1.0",
+  "description": "Modern Human Male Helmet Fix - fixes helmet positioning for modern human male models",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-H",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

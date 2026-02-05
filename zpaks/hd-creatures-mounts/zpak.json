@@ -5,7 +5,7 @@
   "description": "HD creature and mount model replacements",
   "author": "Nexusmods",
   "type": "mpq",
-  "client_patch": "PATCH-H",
+  "client_patch": "PATCH-C",
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_optional": true,
@@ -16,6 +16,9 @@
     "url": "https://www.nexusmods.com/worldofwarcraft/mods/891"
   },
   "feature_id": "F-049",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
   "enabled": true,
   "priority": 100
 }

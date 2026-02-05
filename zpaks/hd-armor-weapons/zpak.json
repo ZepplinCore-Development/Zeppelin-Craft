@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-armor-weapons",
+  "feature_id": "F-138",
+  "version": "0.1.0",
+  "description": "HD Armor and Weapons",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-7",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

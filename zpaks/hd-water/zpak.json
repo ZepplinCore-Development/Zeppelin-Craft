@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-water",
+  "feature_id": "F-147",
+  "version": "0.1.0",
+  "description": "HD Water - high-definition water effects and reflections",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-W",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

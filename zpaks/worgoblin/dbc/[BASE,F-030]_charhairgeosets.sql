@@ -1,5 +1,6 @@
--- worgoblin: charhairgeosets
--- Imported by zep dbc import-module
+-- [BASE,F-030] worgoblin: charhairgeosets
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-030]_charhairgeosets.sql with overrides
 
 -- charhairgeosets: 62 inserts, 0 updates, 6 deletes
 DELETE FROM `charhairgeosets` WHERE `id` = 241;

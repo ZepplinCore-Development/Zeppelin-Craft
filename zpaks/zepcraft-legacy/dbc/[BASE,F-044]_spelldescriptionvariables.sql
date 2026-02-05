@@ -1,7 +1,10 @@
-DELETE FROM `dbc`.`spelldescriptionvariables` WHERE `id` = 182;
-INSERT INTO `dbc`.`spelldescriptionvariables` SET 
-    `id` = 182,
-    `Formula` = '$crop1=$?a100010[${$100010m1}][${0}]
+-- [BASE,F-044] zepcraft-legacy: spelldescriptionvariables
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-044]_spelldescriptionvariables.sql with overrides
+
+-- spelldescriptionvariables: 2 inserts, 0 updates, 0 deletes
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 182;
+INSERT INTO `spelldescriptionvariables` (`id`, `formula`) VALUES (182, '$crop1=$?a100010[${$100010m1}][${0}]
 $crop2=$?a100011[${$100011m1}][$<crop1>]
 $crop3=$?a100012[${$100012m1}][$<crop2>]
 $crop4=$?a100013[${$100013m1}][$<crop3>]
@@ -13,16 +16,12 @@ $flyingspeed2=${$m2+$<crop5>}
 $swimspeed=${$m3+$<crop5>}
 $swimspeed2=${$m3+($pl-20)*2+$<crop5>}
 $speed=${$m2+$<crop5>}
-$speed2=${$m2+($pl-20)*2+$<crop5>}';
-
-DELETE FROM `dbc`.`spelldescriptionvariables` WHERE `id` = 183;
-INSERT INTO `dbc`.`spelldescriptionvariables` SET 
-    `id` = 183,
-    `Formula` = '$mortar=$?a91203[${1+0.01*($91203m2+1)}][$?a91202[${1+0.01*($91202m2+1)}][$?a91201[${1+0.01*($91201m2+1)}][$?a91200[${1+0.01*($91200m2+1)}][${1}]]]]
+$speed2=${$m2+($pl-20)*2+$<crop5>}');
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 183;
+INSERT INTO `spelldescriptionvariables` (`id`, `formula`) VALUES (183, '$mortar=$?a91203[${1+0.01*($91203m2+1)}][$?a91202[${1+0.01*($91202m2+1)}][$?a91201[${1+0.01*($91201m2+1)}][$?a91200[${1+0.01*($91200m2+1)}][${1}]]]]
 $stone=$?a17619[${1+0.01*($17619m1+1)}][${1}]
 $m=${$<mortar>*$<stone>}
 $potion1=${$s1*$<m>}
 $potion1max=${$S1*$<m>}
 $potion2=${$s2*$<m>}
-$potion2max=${$S2*$<m>}';
-
+$potion2max=${$S2*$<m>}');

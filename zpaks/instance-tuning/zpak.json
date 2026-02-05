@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "instance-tuning",
+  "version": "1.0.0",
+  "description": "Dungeon and raid difficulty tuning, boss adjustments, and autobalance integration",
+  "author": "Zeppelin Team",
+
+  "type": "acore-extension",
+
+  "acore": {
+    "module": "mod-autobalance",
+    "source": "https://github.com/azerothcore/mod-autobalance.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+
+  "contents": {
+    "patches": ["patches/*.patch"],
+    "sql": ["sql/*.sql"],
+    "dbc": null
+  },
+
+  "dependencies": [],
+  "feature_ids": ["F-034", "F-035"],
+  "enabled": true,
+  "priority": 100
+}

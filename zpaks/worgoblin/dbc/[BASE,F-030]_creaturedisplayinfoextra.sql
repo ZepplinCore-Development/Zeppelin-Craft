@@ -1,5 +1,6 @@
--- worgoblin: creaturedisplayinfoextra
--- Imported by zep dbc import-module
+-- [BASE,F-030] worgoblin: creaturedisplayinfoextra
+-- Imported by zep dbc import-module - DO NOT EDIT
+-- To customize, create [F-030]_creaturedisplayinfoextra.sql with overrides
 
 -- creaturedisplayinfoextra: 2 inserts, 0 updates, 0 deletes
 DELETE FROM `creaturedisplayinfoextra` WHERE `id` = 24081;
