@@ -41,9 +41,6 @@ DB_NAME = "acore_world"  # Always acore_world for this module
 DB_ROOT_USER = os.getenv('DB_ROOT_USER', 'root')
 DB_ROOT_PASS = os.getenv('DB_ROOT_PASS', '')
 
-# Tracking table name
-TRACKING_TABLE = "zep_sql_updates"
-
 
 def _create_mysql_config() -> str:
     """Create a temporary MySQL config file with credentials.
@@ -141,44 +138,47 @@ def run_mysql_query_as_root(query: str, database: str = None) -> Tuple[bool, str
 
 
 def ensure_tracking_table() -> bool:
-    """Create tracking table if it doesn't exist."""
-    query = f"""
-    CREATE TABLE IF NOT EXISTS `{TRACKING_TABLE}` (
-        `name` VARCHAR(200) NOT NULL PRIMARY KEY,
-        `hash` CHAR(40) NOT NULL,
-        `zpak` VARCHAR(100),
-        `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        `execution_ms` INT UNSIGNED DEFAULT 0
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    """Check that AC's updates table exists.
+
+    We use AC's native `updates` table instead of our own tracking table.
+    This ensures compatibility with ac-db-import and avoids duplicate tracking.
     """
+    query = "SELECT 1 FROM `updates` LIMIT 1"
     success, _ = run_mysql_query(query)
     return success
 
 
 def calculate_file_hash(filepath: Path) -> str:
-    """Calculate SHA1 hash of file contents."""
+    """Calculate SHA1 hash of file contents (uppercase, matching AC format)."""
     sha1 = hashlib.sha1()
     with open(filepath, 'rb') as f:
         sha1.update(f.read())
-    return sha1.hexdigest()
+    return sha1.hexdigest().upper()
 
 
 def get_stored_hash(filename: str) -> Optional[str]:
-    """Get stored hash for a file from tracking table."""
-    query = f"SELECT hash FROM `{TRACKING_TABLE}` WHERE name = '{filename}'"
+    """Get stored hash for a file from AC's updates table."""
+    query = f"SELECT hash FROM `updates` WHERE name = '{filename}'"
     success, result = run_mysql_query(query)
     if success and result:
         lines = result.strip().split('\n')
         if len(lines) > 1:  # Has header + data
-            return lines[1].strip()
+            return lines[1].strip().upper()
     return None
 
 
 def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int):
-    """Update tracking table after successful execution."""
+    """Record applied SQL in AC's updates table.
+
+    Uses 'MODULE' state for acore-extension zpaks, 'CUSTOM' for others.
+    This mirrors AC's own tracking and ensures compatibility with ac-db-import.
+    """
+    # Determine state based on zpak type (MODULE for AC modules, CUSTOM for our SQL)
+    state = 'CUSTOM'
+
     query = f"""
-    REPLACE INTO `{TRACKING_TABLE}` (name, hash, zpak, applied_at, execution_ms)
-    VALUES ('{filename}', '{file_hash}', '{zpak}', NOW(), {execution_ms})
+    REPLACE INTO `updates` (name, hash, state, timestamp, speed)
+    VALUES ('{filename}', '{file_hash}', '{state}', NOW(), {execution_ms})
     """
     run_mysql_query(query)
 
@@ -686,6 +686,12 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
 
     elif changed or run_all:
         sql_files = collect_all_sql_files(craft_root)
+        # Exclude azerothcore base/updates - those are handled by 'zep sql reset'
+        # Only include azerothcore's 'zpak' folder (custom overrides)
+        sql_files = [
+            (f, z, s) for f, z, s in sql_files
+            if z != 'azerothcore' or s == 'zpak'
+        ]
 
     else:
         click.echo("Error: Specify a target, --zpak, --changed, --all, or --rebuildworld", err=True)
@@ -776,10 +782,20 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
 def _show_changed_files(craft_root: Path, zpak_name: Optional[str] = None):
     """Show changed SQL files (helper for sql list --changed)."""
     # Ensure tracking table exists
-    ensure_tracking_table()
+    if not ensure_tracking_table():
+        click.echo("Error: updates table not found. Run 'zep sql reset' first.", err=True)
+        return
 
     # Collect all SQL files
     sql_files = collect_all_sql_files(craft_root, zpak_name)
+
+    # Exclude azerothcore base/updates unless specifically requested
+    # Those are handled by 'zep sql reset', not 'zep sql execute'
+    if zpak_name != 'azerothcore':
+        sql_files = [
+            (f, z, s) for f, z, s in sql_files
+            if z != 'azerothcore' or s == 'zpak'
+        ]
 
     if not sql_files:
         click.echo("No SQL files found")
@@ -819,25 +835,33 @@ def _show_changed_files(craft_root: Path, zpak_name: Optional[str] = None):
 
 
 @sql.command('history')
-@click.option('--zpak', '-z', 'zpak_name', help='Filter by zpak')
+@click.option('--state', '-s', 'state_filter',
+              type=click.Choice(['all', 'custom', 'module', 'released']),
+              default='all', help='Filter by state (default: all)')
 @click.option('--limit', '-l', default=50, help='Number of records to show')
 @click.pass_context
-def sql_history(ctx, zpak_name, limit):
-    """Show SQL execution history.
+def sql_history(ctx, state_filter, limit):
+    """Show SQL execution history from AC's updates table.
 
     Examples:
         zep sql history
-        zep sql history --zpak worgoblin
+        zep sql history --state custom
+        zep sql history --state module
         zep sql history --limit 20
     """
-    ensure_tracking_table()
+    if not ensure_tracking_table():
+        click.echo("Error: updates table not found. Run ac-db-import first.", err=True)
+        sys.exit(1)
 
-    where_clause = f"WHERE zpak = '{zpak_name}'" if zpak_name else ""
+    where_clause = ""
+    if state_filter != 'all':
+        where_clause = f"WHERE state = '{state_filter.upper()}'"
+
     query = f"""
-    SELECT name, zpak, applied_at, execution_ms
-    FROM `{TRACKING_TABLE}`
+    SELECT name, state, timestamp, speed as ms
+    FROM `updates`
     {where_clause}
-    ORDER BY applied_at DESC
+    ORDER BY timestamp DESC
     LIMIT {limit}
     """
 
@@ -1007,19 +1031,37 @@ def sql_reset(ctx, force: bool):
         click.echo(click.style(f"\nReset failed: {base_success} succeeded, {base_errors} failed", fg='red'))
         return
 
-    # Step 3: Execute UPDATE files (some may have duplicate data due to AC repo inconsistencies)
+    # Step 3: Execute UPDATE files (skip files already registered in updates table from base)
+    # This mirrors AC's db-import logic: base/updates.sql pre-registers squashed updates,
+    # so we only execute updates newer than the base cutoff date.
     click.echo("\n[3/3] Executing update SQL files...")
 
     update_files = collect_all_sql_files(craft_root, 'azerothcore', source_filter=['updates'])
-    click.echo(f"  Found {len(update_files)} update SQL files to execute\n")
+    click.echo(f"  Found {len(update_files)} update SQL files")
+
+    # Filter to only files not already in updates table (or with changed hash)
+    updates_to_apply = []
+    updates_skipped = 0
+    for sql_file, zpak, source in update_files:
+        current_hash = calculate_file_hash(sql_file)
+        stored_hash = get_stored_hash(sql_file.name)
+        if stored_hash is None:
+            # New file, not in updates table
+            updates_to_apply.append((sql_file, zpak, source, current_hash))
+        elif stored_hash != current_hash:
+            # File changed since last apply
+            updates_to_apply.append((sql_file, zpak, source, current_hash))
+        else:
+            # Already applied with same hash
+            updates_skipped += 1
+
+    click.echo(f"  Skipping {updates_skipped} (already in base), applying {len(updates_to_apply)}\n")
 
     update_success = 0
-    update_skipped = 0
     update_errors = 0
     current_folder = None
 
-    for sql_file, zpak, source in update_files:
-        file_hash = calculate_file_hash(sql_file)
+    for sql_file, zpak, source, file_hash in updates_to_apply:
         folder = sql_file.parent.name
         if folder != current_folder:
             current_folder = folder
@@ -1031,31 +1073,23 @@ def sql_reset(ctx, force: bool):
             update_success += 1
             update_tracking(sql_file.name, file_hash, zpak, exec_ms)
         else:
-            # Duplicate key errors are tolerated (AC repo may have inconsistencies
-            # where update data was absorbed into base but update file wasn't removed)
-            if 'Duplicate entry' in message or 'already exists' in message.lower():
-                update_skipped += 1
-                update_tracking(sql_file.name, file_hash, zpak, 0)
-                icon = click.style("~", fg='yellow')
-                click.echo(f"    {icon} {sql_file.name}: skipped (data already in base)")
-            else:
-                icon = click.style("✗", fg='red')
-                click.echo(f"    {icon} {sql_file.name}: {message}")
-                update_errors += 1
+            icon = click.style("✗", fg='red')
+            click.echo(f"    {icon} {sql_file.name}: {message}")
+            update_errors += 1
 
     # Summary
     click.echo()
     if update_errors == 0:
         msg = f"✓ Reset complete! {base_success} base + {update_success} updates executed"
-        if update_skipped > 0:
-            msg += f", {update_skipped} skipped (duplicates)"
+        if updates_skipped > 0:
+            msg += f", {updates_skipped} skipped (already in base)"
         click.echo(click.style(msg, fg='green'))
         click.echo("\nTo apply your custom zpak changes, run:")
         click.echo("  zep sql execute --all")
     else:
         click.echo(click.style(
             f"Reset completed with errors: {base_success} base, {update_success} updates OK, "
-            f"{update_skipped} skipped, {update_errors} failed",
+            f"{updates_skipped} skipped, {update_errors} failed",
             fg='yellow'
         ))
 
