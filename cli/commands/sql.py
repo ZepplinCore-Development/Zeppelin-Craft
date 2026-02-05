@@ -201,25 +201,19 @@ def load_zpak_manifest(zpak_dir: Path) -> Optional[Dict]:
 
 
 def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List[Tuple[Path, str]]:
-    """Get SQL paths for a zpak based on type and manifest."""
+    """Get SQL paths for a zpak based on type and manifest.
+
+    For acore-extension type zpaks, checks in order:
+    1. Module's data/sql/db-world/ (base/ and updates/ subfolders)
+    2. SQL path specified in contents.sql from zpak.json
+    3. zpak/sql/ folder
+    """
     sql_paths = []
     zpak_dir = craft_root / 'zpaks' / zpak_name
     zpak_type = manifest.get('type', 'native')
-    has_explicit_paths = False
 
-    if 'sql_path' in manifest:
-        override_path = craft_root / manifest['sql_path']
-        if override_path.exists():
-            sql_paths.append((override_path, 'base'))
-            has_explicit_paths = True
-
-    if 'sql_updates_path' in manifest:
-        updates_override = craft_root / manifest['sql_updates_path']
-        if updates_override.exists():
-            sql_paths.append((updates_override, 'updates'))
-            has_explicit_paths = True
-
-    if zpak_type == 'acore-extension' and 'acore' in manifest and not has_explicit_paths:
+    # 1. For acore-extension, check module's standard SQL location first
+    if zpak_type == 'acore-extension' and 'acore' in manifest:
         module_name = manifest['acore'].get('module', '')
         if module_name and module_name != 'azerothcore':
             module_sql = craft_root / '..' / 'Zeppelin-Core' / 'modules' / module_name / 'data' / 'sql' / 'db-world'
@@ -233,6 +227,31 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
                 if not base_path.exists() and not updates_path.exists():
                     sql_paths.append((module_sql, 'root'))
 
+    # 2. Check contents.sql paths from zpak.json (supports globs relative to zpak dir)
+    contents = manifest.get('contents', {})
+    if 'sql' in contents:
+        sql_globs = contents['sql']
+        if isinstance(sql_globs, str):
+            sql_globs = [sql_globs]
+        for glob_pattern in sql_globs:
+            # Resolve path relative to zpak directory
+            if glob_pattern.startswith('../'):
+                # Relative path outside zpak - resolve from zpak dir
+                resolved = (zpak_dir / glob_pattern).resolve()
+                if resolved.is_dir():
+                    sql_paths.append((resolved, 'contents'))
+                elif '*' in glob_pattern:
+                    # It's a glob pattern - get the parent directory
+                    parent = (zpak_dir / Path(glob_pattern).parent).resolve()
+                    if parent.exists():
+                        sql_paths.append((parent, 'contents'))
+            else:
+                # Path inside zpak
+                resolved = zpak_dir / glob_pattern.replace('/*.sql', '').replace('/**/*.sql', '')
+                if resolved.exists() and resolved.is_dir():
+                    sql_paths.append((resolved, 'contents'))
+
+    # 3. Check zpak's own sql/ folder
     zpak_sql = zpak_dir / 'sql'
     if zpak_sql.exists():
         sql_paths.append((zpak_sql, 'zpak'))
@@ -241,11 +260,11 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
 
 
 def collect_sql_files_from_paths(paths: List[Tuple[Path, str]]) -> List[Tuple[Path, str]]:
-    """Collect SQL files from paths, respecting order: base -> updates -> root/zpak."""
+    """Collect SQL files from paths, respecting order: base -> updates -> root -> contents -> zpak."""
     files = []
     seen = set()
 
-    for folder_type in ['base', 'updates', 'root', 'zpak']:
+    for folder_type in ['base', 'updates', 'root', 'contents', 'zpak']:
         for path, ptype in paths:
             if ptype != folder_type or not path.exists():
                 continue
@@ -354,37 +373,39 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         click.echo(f"No new or modified SQL files to execute ({skipped} unchanged)")
         return 0, 0
 
-    click.echo(f"\n{'[DRY RUN] ' if dry_run else ''}Executing {len(files_to_execute)} file(s) ({skipped} unchanged)...\n")
+    click.echo(f"\n{'[DRY RUN] ' if dry_run else ''}Executing {len(files_to_execute)} file(s) ({skipped} unchanged)...")
 
     success_count = 0
     error_count = 0
-    current_zpak = None
+    current_folder = None
 
     for sql_file, zpak, source, file_hash in files_to_execute:
-        if zpak != current_zpak:
-            current_zpak = zpak
-            click.echo(f"\n  [{zpak}]")
-
+        # Get folder path relative to craft_root or its parent
         try:
-            rel_path = sql_file.relative_to(craft_root)
+            rel_folder = sql_file.parent.relative_to(craft_root)
         except ValueError:
             try:
-                rel_path = sql_file.relative_to(craft_root.parent)
+                rel_folder = sql_file.parent.relative_to(craft_root.parent)
             except ValueError:
-                rel_path = sql_file.name
+                rel_folder = sql_file.parent
+
+        # Print folder header when it changes
+        if str(rel_folder) != current_folder:
+            current_folder = str(rel_folder)
+            click.echo(f"\n  {rel_folder}/")
 
         success, message, exec_ms = execute_sql_file(sql_file, dry_run)
 
         if success:
             icon = click.style("✓", fg='green')
             time_str = f" ({exec_ms}ms)" if exec_ms > 0 else ""
-            click.echo(f"    {icon} {rel_path}{time_str}")
+            click.echo(f"    {icon} {sql_file.name}{time_str}")
             success_count += 1
             if not dry_run:
                 update_tracking(sql_file.name, file_hash, zpak, exec_ms)
         else:
             icon = click.style("✗", fg='red')
-            click.echo(f"    {icon} {rel_path}: {message}")
+            click.echo(f"    {icon} {sql_file.name}: {message}")
             error_count += 1
             if not continue_on_error and not dry_run:
                 click.echo(f"\nStopped due to error. Use -k to continue on errors.")
