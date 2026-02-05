@@ -58,12 +58,12 @@ class DBCConfig:
                         key, value = line.split('=', 1)
                         env_vars[key.strip()] = value.strip()
 
-        # Fall back to environment variables
+        # Fall back to environment variables (DBC_ prefixed keys for DBC database)
         return cls(
-            host=env_vars.get('DB_HOST', os.getenv('DB_HOST', '192.168.0.55')),
-            port=int(env_vars.get('DB_PORT', os.getenv('DB_PORT', '3306'))),
-            user=env_vars.get('DB_USER', os.getenv('DB_USER', 'spell-editor')),
-            password=env_vars.get('DB_PASSWORD', os.getenv('DB_PASSWORD', '')),
+            host=env_vars.get('DBC_HOST', os.getenv('DBC_HOST', '192.168.0.55')),
+            port=int(env_vars.get('DBC_PORT', os.getenv('DBC_PORT', '3306'))),
+            user=env_vars.get('DBC_USER', os.getenv('DBC_USER', 'spell-editor')),
+            password=env_vars.get('DBC_PASS', os.getenv('DBC_PASS', '')),
             original=env_vars.get('BACKUP_DBC_NAME', os.getenv('BACKUP_DBC_NAME', 'original_dbc')),
             scratch=env_vars.get('SCRATCH_DBC_NAME', os.getenv('SCRATCH_DBC_NAME', 'scratch_dbc')),
             live=env_vars.get('LIVE_DBC_NAME', os.getenv('LIVE_DBC_NAME', 'dbc')),

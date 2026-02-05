@@ -22,13 +22,24 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import click
+from dotenv import load_dotenv
 
-# Database connection settings
-DB_HOST = "192.168.0.55"
-DB_PORT = "3306"
-DB_USER = "acore"
-DB_PASS = "acore"
-DB_NAME = "acore_world"
+# Load .env from cli directory
+_cli_dir = Path(__file__).parent.parent
+_env_file = _cli_dir / '.env'
+if _env_file.exists():
+    load_dotenv(_env_file)
+
+# Database connection settings (from .env or defaults)
+DB_HOST = os.getenv('DB_HOST', '192.168.0.55')
+DB_PORT = os.getenv('DB_PORT', '3306')
+DB_USER = os.getenv('DB_USER', 'acore')
+DB_PASS = os.getenv('DB_PASS', 'acore')
+DB_NAME = "acore_world"  # Always acore_world for this module
+
+# Root credentials for privileged operations (DROP/CREATE DATABASE)
+DB_ROOT_USER = os.getenv('DB_ROOT_USER', 'root')
+DB_ROOT_PASS = os.getenv('DB_ROOT_PASS', '')
 
 # Tracking table name
 TRACKING_TABLE = "zep_sql_updates"
@@ -55,22 +66,27 @@ def get_mysql_command(database: str = DB_NAME, cnf_path: str = None) -> List[str
 
     If cnf_path is provided, uses --defaults-extra-file (no password warning).
     Otherwise falls back to command line args (shows warning).
+    If database is None, connects without selecting a database.
     """
     if cnf_path:
-        return [
+        cmd = [
             "mysql",
             f"--defaults-extra-file={cnf_path}",
-            database
         ]
+        if database:
+            cmd.append(database)
+        return cmd
     else:
-        return [
+        cmd = [
             "mysql",
             "-h", DB_HOST,
             "-P", DB_PORT,
             "-u", DB_USER,
             f"-p{DB_PASS}",
-            database
         ]
+        if database:
+            cmd.append(database)
+        return cmd
 
 
 def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
@@ -86,6 +102,35 @@ def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
             capture_output=True,
             text=True
         )
+        if result.returncode != 0:
+            return False, result.stderr.strip()
+        return True, result.stdout.strip()
+    except Exception as e:
+        return False, str(e)
+    finally:
+        os.unlink(cnf_path)
+
+
+def run_mysql_query_as_root(query: str, database: str = None) -> Tuple[bool, str]:
+    """Run a MySQL query as root user for privileged operations.
+
+    Used for DROP DATABASE, CREATE DATABASE, etc.
+    """
+    fd, cnf_path = tempfile.mkstemp(suffix='.cnf')
+    try:
+        with os.fdopen(fd, 'w') as f:
+            f.write("[client]\n")
+            f.write(f"user={DB_ROOT_USER}\n")
+            f.write(f"password={DB_ROOT_PASS}\n")
+            f.write(f"host={DB_HOST}\n")
+            f.write(f"port={DB_PORT}\n")
+
+        cmd = ["mysql", f"--defaults-extra-file={cnf_path}"]
+        if database:
+            cmd.append(database)
+        cmd.extend(["-e", query])
+
+        result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             return False, result.stderr.strip()
         return True, result.stdout.strip()
@@ -585,25 +630,27 @@ def sql_execute(ctx, target, zpak_name, changed, run_all, rebuildworld, dry_run,
     # Handle --rebuildworld
     if rebuildworld:
         if not dry_run:
-            click.echo(click.style("\n⚠️  WARNING: This will DROP ALL TABLES in acore_world!", fg='red', bold=True))
-            click.echo("All data will be lost and rebuilt from SQL files.\n")
+            click.echo(click.style("\n⚠️  WARNING: This will DROP the acore_world database!", fg='red', bold=True))
+            click.echo("All world data will be lost and rebuilt from SQL files.\n")
             if not click.confirm("Are you sure you want to continue?"):
                 click.echo("Aborted.")
                 return
 
-            click.echo("\nDropping all tables...")
-            # Get all tables and drop them
-            success, result = run_mysql_query("SHOW TABLES")
-            if success and result:
-                tables = [line.strip() for line in result.split('\n')[1:] if line.strip()]
-                if tables:
-                    run_mysql_query("SET FOREIGN_KEY_CHECKS = 0")
-                    for table in tables:
-                        run_mysql_query(f"DROP TABLE IF EXISTS `{table}`")
-                    run_mysql_query("SET FOREIGN_KEY_CHECKS = 1")
-                    click.echo(f"Dropped {len(tables)} tables")
+            click.echo("\nDropping acore_world database...")
+            success, message = _drop_world_database()
+            if not success:
+                raise click.ClickException(message)
+            click.echo(message)
 
-            # Clear tracking table (will be recreated)
+            # Recreate empty database for our SQL execution
+            click.echo("Recreating empty database...")
+            success, result = run_mysql_query_as_root(
+                f"CREATE DATABASE `{DB_NAME}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+            )
+            if not success:
+                raise click.ClickException(f"Failed to create database: {result}")
+
+            # Ensure tracking table exists
             ensure_tracking_table()
 
         # Now execute all files
@@ -808,29 +855,25 @@ def sql_history(ctx, zpak_name, limit):
     click.echo(result)
 
 
-def _drop_world_database() -> Tuple[int, bool]:
-    """Drop all tables in acore_world and clear tracking table.
+def _drop_world_database() -> Tuple[bool, str]:
+    """Drop the entire acore_world database.
+
+    Dropping the entire database (not just tables) allows AC's db-import
+    tool to properly recreate it with all required base tables (updates,
+    updates_include, version, etc).
 
     Returns:
-        Tuple of (tables_dropped, success)
+        Tuple of (success, message)
     """
-    # Drop all tables
-    success, result = run_mysql_query("SHOW TABLES")
+    # Use root credentials for DROP DATABASE (requires elevated privileges)
+    success, result = run_mysql_query_as_root(
+        f"DROP DATABASE IF EXISTS `{DB_NAME}`"
+    )
+
     if not success:
-        return 0, False
+        return False, f"Failed to drop database: {result}"
 
-    tables = [line.strip() for line in result.split('\n')[1:] if line.strip()]
-    if tables:
-        run_mysql_query("SET FOREIGN_KEY_CHECKS = 0")
-        for table in tables:
-            run_mysql_query(f"DROP TABLE IF EXISTS `{table}`")
-        run_mysql_query("SET FOREIGN_KEY_CHECKS = 1")
-
-    # Recreate and clear tracking table
-    ensure_tracking_table()
-    run_mysql_query(f"TRUNCATE TABLE `{TRACKING_TABLE}`")
-
-    return len(tables), True
+    return True, "Database dropped"
 
 
 @sql.command('drop')
@@ -838,14 +881,15 @@ def _drop_world_database() -> Tuple[int, bool]:
               help='Skip confirmation prompt')
 @click.pass_context
 def sql_drop(ctx, force: bool):
-    """Drop all tables in acore_world and clear SQL tracking.
+    """Drop the acore_world database entirely.
 
-    This command:
-    1. Drops ALL tables in acore_world
-    2. Clears the SQL tracking table (zep_sql_updates)
+    This command drops the ENTIRE acore_world database (not just tables).
+    This allows AC's db-import tool to properly recreate it with all
+    required base tables (updates, updates_include, version, etc).
 
-    Use 'zep sql execute --zpak azerothcore' after to rebuild the
-    base database, then 'zep sql execute --all' for custom zpaks.
+    Workflow after dropping:
+    1. Run ac-db-import to recreate base AC database
+    2. Run 'zep sql execute --all' to apply custom zpak SQL
 
     NOTE: This command only works on the world database. Characters and
     auth databases cannot be dropped to prevent accidental data loss.
@@ -854,24 +898,24 @@ def sql_drop(ctx, force: bool):
         zep sql drop           # Drop world DB (with confirmation)
         zep sql drop -f        # Drop without confirmation
     """
-    click.echo(click.style("\n⚠️  WARNING: This will DROP ALL TABLES in acore_world!", fg='red', bold=True))
-    click.echo("All data will be lost. Characters and auth are NOT affected.\n")
+    click.echo(click.style("\n⚠️  WARNING: This will DROP the acore_world database!", fg='red', bold=True))
+    click.echo("All world data will be lost. Characters and auth are NOT affected.\n")
 
     if not force:
         if not click.confirm("Are you sure you want to continue?"):
             click.echo("Cancelled.")
             return
 
-    click.echo("Dropping all tables in acore_world...")
-    tables_dropped, success = _drop_world_database()
+    click.echo("Dropping acore_world database...")
+    success, message = _drop_world_database()
 
     if success:
-        click.echo(click.style(f"✓ Dropped {tables_dropped} tables, tracking cleared", fg='green'))
+        click.echo(click.style(f"✓ {message}", fg='green'))
         click.echo("\nTo rebuild, run:")
-        click.echo("  zep sql execute --zpak azerothcore  # Base AC database")
-        click.echo("  zep sql execute --all               # All zpaks")
+        click.echo("  1. ac-db-import        # Recreate base AC database")
+        click.echo("  2. zep sql execute --all  # Apply custom zpak SQL")
     else:
-        raise click.ClickException("Failed to drop database")
+        raise click.ClickException(message)
 
 
 @sql.command('reset')
@@ -908,11 +952,20 @@ def sql_reset(ctx, force: bool):
             return
 
     # Step 1: Drop database
-    click.echo("\n[1/3] Dropping all tables in acore_world...")
-    tables_dropped, success = _drop_world_database()
+    click.echo("\n[1/3] Dropping acore_world database...")
+    success, message = _drop_world_database()
     if not success:
-        raise click.ClickException("Failed to drop database")
-    click.echo(f"  Dropped {tables_dropped} tables, tracking cleared")
+        raise click.ClickException(message)
+    click.echo(f"  {message}")
+
+    # Step 1b: Recreate empty database for our SQL execution
+    click.echo("  Recreating empty database...")
+    success, result = run_mysql_query_as_root(
+        f"CREATE DATABASE `{DB_NAME}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+    )
+    if not success:
+        raise click.ClickException(f"Failed to create database: {result}")
+    click.echo("  Database recreated")
 
     # Step 2: Execute BASE files
     click.echo("\n[2/3] Executing base SQL files...")
