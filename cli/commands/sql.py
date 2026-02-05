@@ -6,6 +6,7 @@ Main Commands:
     zep sql rebuild    Full rebuild (reset + apply all zpak SQL)
     zep sql changed    Apply new/modified SQL files
     zep sql query      Run read-only SQL queries
+    zep sql modify     Execute SQL modifications
 
 Tool Commands:
     zep sql tool list           List SQL files
@@ -543,11 +544,11 @@ def sql_query(ctx, sql_query: Optional[str], sql_file: Optional[str], database: 
     if not sql_query.strip():
         raise click.ClickException("Empty SQL provided")
 
-    # Block modifications
+    # Block modifications - use 'zep sql modify' instead
     sql_upper = sql_query.upper()
     for keyword in ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE', 'REPLACE']:
         if keyword in sql_upper:
-            raise click.ClickException(f"Modification detected ({keyword}). Use appropriate command for modifications.")
+            raise click.ClickException(f"Modification detected ({keyword}). Use 'zep sql modify' for write operations.")
 
     db_map = {'world': 'acore_world', 'characters': 'acore_characters', 'auth': 'acore_auth'}
     success, output = run_mysql_query(sql_query, db_map[database])
@@ -556,6 +557,42 @@ def sql_query(ctx, sql_query: Optional[str], sql_file: Optional[str], database: 
         raise click.ClickException(f"Query failed: {output}")
 
     click.echo(output if output.strip() else "Query completed (no results)")
+
+
+@sql.command('modify')
+@click.argument('sql_query', required=False, metavar='SQL')
+@click.option('--file', '-f', 'sql_file', type=click.Path(exists=True), help='SQL file to execute')
+@click.option('--database', '-d', 'database',
+              type=click.Choice(['world', 'characters', 'auth']),
+              default='world', help='Target database (default: world)')
+@click.pass_context
+def sql_modify(ctx, sql_query: Optional[str], sql_file: Optional[str], database: str):
+    """Execute SQL modifications (INSERT, UPDATE, DELETE, etc).
+
+    Examples:
+        zep sql modify "UPDATE creature_template SET name='Test' WHERE entry=1234"
+        zep sql modify -f changes.sql
+        zep sql modify "DELETE FROM character_spell WHERE guid=123" -d characters
+    """
+    if sql_file:
+        with open(sql_file) as f:
+            sql_query = f.read()
+    elif not sql_query:
+        if not sys.stdin.isatty():
+            sql_query = sys.stdin.read()
+        else:
+            raise click.ClickException("No SQL provided. Use: zep sql modify \"UPDATE ...\" or -f file.sql")
+
+    if not sql_query.strip():
+        raise click.ClickException("Empty SQL provided")
+
+    db_map = {'world': 'acore_world', 'characters': 'acore_characters', 'auth': 'acore_auth'}
+    success, output = run_mysql_query(sql_query, db_map[database])
+
+    if not success:
+        raise click.ClickException(f"Query failed: {output}")
+
+    click.echo(output if output.strip() else "Query completed successfully")
 
 
 @sql.command('reset')
