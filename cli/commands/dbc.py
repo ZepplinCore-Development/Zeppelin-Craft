@@ -167,123 +167,56 @@ def git_commit_changes(craft_root: Path, files: List[Path], task_id: str,
 
 
 # =============================================================================
-# Click Command Group
+# Click Command Groups
 # =============================================================================
 
-# Command groupings for interactive menu
-DBC_MENU_GROUPS = {
-    'Search': {
-        'description': 'Query and inspect DBC data',
-        'commands': ['query', 'sources', 'status', 'conflicts']
-    },
-    'Edit': {
-        'description': 'Modify DBC database entries',
-        'commands': ['modify', 'clone']
-    },
-    'Database': {
-        'description': 'Database-level operations',
-        'commands': ['rebuild', 'apply', 'diff', 'extract']
-    },
-    'Binary': {
-        'description': 'Binary file import/export',
-        'commands': ['import-module', 'export', 'init-original']
-    }
-}
-
-# Command descriptions for submenu display
-DBC_COMMAND_DESCRIPTIONS = {
-    'query': 'Query DBC database (read-only)',
-    'sources': 'List zpak DBC sources',
-    'status': 'Check for uncommitted changes',
-    'conflicts': 'Scan zpaks for conflicting DBC edits',
-    'modify': 'Modify DBC database with tracking',
-    'clone': 'Clone a spell to a new ID',
-    'rebuild': 'Rebuild DBC from zpak sources',
-    'apply': 'Apply zpak DBC files to databases',
-    'diff': 'Show differences (live vs expected)',
-    'extract': 'Extract uncommitted changes as SQL',
-    'import-module': 'Import binary DBC files into zpak',
-    'export': 'Export DBC database to binary files',
-    'init-original': 'Initialize original_dbc from vanilla',
-}
-
-
-@click.group(invoke_without_command=True)
+@click.group()
 @click.pass_context
 def dbc(ctx):
-    """DBC database commands"""
-    if ctx.invoked_subcommand is not None:
-        return
+    """DBC database commands.
 
-    # Interactive menu when no subcommand given
-    try:
-        from simple_term_menu import TerminalMenu
-    except ImportError:
-        click.echo("Available commands: query, modify, clone, status, diff, sources, rebuild, apply, extract, import-module, export, init-original")
-        click.echo("\nRun 'zep dbc <command> --help' for details")
-        return
+    Subcommands organized by category:
+      info  - Query and inspect DBC data
+      edit  - Modify DBC database entries
+      db    - Database-level operations
+      bin   - Binary file import/export
+    """
+    pass
 
-    # Show category menu
-    group_names = list(DBC_MENU_GROUPS.keys())
-    group_options = []
-    for name in group_names:
-        desc = DBC_MENU_GROUPS[name]['description']
-        group_options.append(f"{name:<12} {desc}")
 
-    menu = TerminalMenu(
-        group_options,
-        title="\n  DBC Operations - Select category (ESC to cancel):\n",
-        menu_cursor="> ",
-        menu_cursor_style=("fg_cyan", "bold"),
-        menu_highlight_style=("fg_cyan", "bold"),
-        cycle_cursor=True,
-        clear_screen=True,
-    )
+@dbc.group()
+@click.pass_context
+def info(ctx):
+    """Query and inspect DBC data."""
+    pass
 
-    result = menu.show()
 
-    if result is None:
-        click.echo("Cancelled.")
-        return
+@dbc.group()
+@click.pass_context
+def edit(ctx):
+    """Modify DBC database entries."""
+    pass
 
-    # Show command submenu for selected category
-    selected_group = group_names[result]
-    commands = DBC_MENU_GROUPS[selected_group]['commands']
 
-    cmd_options = []
-    for cmd in commands:
-        desc = DBC_COMMAND_DESCRIPTIONS.get(cmd, '')
-        cmd_options.append(f"{cmd:<16} {desc}")
+@dbc.group()
+@click.pass_context
+def db(ctx):
+    """Database-level operations."""
+    pass
 
-    menu = TerminalMenu(
-        cmd_options,
-        title=f"\n  {selected_group} - Select command (ESC to go back):\n",
-        menu_cursor="> ",
-        menu_cursor_style=("fg_cyan", "bold"),
-        menu_highlight_style=("fg_cyan", "bold"),
-        cycle_cursor=True,
-        clear_screen=True,
-    )
 
-    cmd_result = menu.show()
-
-    if cmd_result is None:
-        # Go back to category menu - recurse
-        ctx.invoke(dbc)
-        return
-
-    # Invoke the selected command
-    selected_cmd = commands[cmd_result]
-    cmd_func = dbc.get_command(ctx, selected_cmd)
-    if cmd_func:
-        ctx.invoke(cmd_func)
+@dbc.group('bin')
+@click.pass_context
+def dbc_bin(ctx):
+    """Binary file import/export."""
+    pass
 
 
 # =============================================================================
 # Query Command
 # =============================================================================
 
-@dbc.command('query')
+@info.command('query')
 @click.argument('sql', required=False)
 @click.option('--file', '-f', 'sql_file', type=click.Path(exists=True),
               help='SQL file to execute')
@@ -350,7 +283,7 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
 # Modify Command
 # =============================================================================
 
-@dbc.command('modify')
+@edit.command('modify')
 @click.argument('sql', required=False)
 @click.option('--file', '-f', 'sql_file', type=click.Path(exists=True),
               help='SQL file to execute')
@@ -495,7 +428,7 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
 # Clone Command
 # =============================================================================
 
-@dbc.command('clone')
+@edit.command('clone')
 @click.argument('source_id', type=int)
 @click.argument('new_id', type=int)
 @click.option('--task', '-t', 'task_id', required=True,
@@ -576,7 +509,7 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
 # Status Command
 # =============================================================================
 
-@dbc.command('status')
+@info.command('status')
 @click.pass_context
 def dbc_status(ctx):
     """Check for uncommitted DBC changes.
@@ -632,7 +565,7 @@ def dbc_status(ctx):
 # Diff Command
 # =============================================================================
 
-@dbc.command('diff')
+@db.command('diff')
 @click.option('--sql', 'output_sql', is_flag=True,
               help='Output SQL statements')
 @click.option('--table', '-t', 'table_name',
@@ -779,7 +712,7 @@ def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Pat
     return sources
 
 
-@dbc.command('rebuild')
+@db.command('rebuild')
 @click.option('--dry-run', is_flag=True,
               help='Preview without applying')
 @click.option('--force', '-f', is_flag=True,
@@ -968,7 +901,7 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 # Wipe Command
 # =============================================================================
 
-@dbc.command('wipe')
+@db.command('wipe')
 @click.argument('table', required=False)
 @click.option('--force', '-f', is_flag=True,
               help='Skip confirmation prompt')
@@ -1040,7 +973,7 @@ def dbc_wipe(ctx, table: Optional[str], force: bool):
 # Squash Command
 # =============================================================================
 
-@dbc.command('squash')
+@db.command('squash')
 @click.argument('target', required=False)
 @click.option('--zpak', '-z', 'zpak_name',
               help='Squash all DBC files in zpak')
@@ -1220,7 +1153,7 @@ def dbc_squash(ctx, target: Optional[str], zpak_name: Optional[str], dry_run: bo
 # Sources Command
 # =============================================================================
 
-@dbc.command('sources')
+@info.command('sources')
 @click.option('--verbose', '-v', is_flag=True,
               help='Show individual SQL files')
 @click.option('--changed', '-c', is_flag=True,
@@ -1340,7 +1273,7 @@ def dbc_sources(ctx, verbose: bool, changed: bool):
 # Conflicts Command
 # =============================================================================
 
-@dbc.command('conflicts')
+@info.command('conflicts')
 @click.option('--table', '-t', 'filter_table',
               help='Check only specific table')
 @click.option('--zpak', '-z', 'filter_zpak',
@@ -1653,7 +1586,7 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
     return conflicts, redundants
 
 
-@dbc.command('apply')
+@db.command('apply')
 @click.argument('target', required=False)
 @click.option('--task', '-t', 'task_id',
               help='Apply only files for specific task (F-XXX or I-XXX)')
@@ -1875,7 +1808,7 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
 # Extract Command
 # =============================================================================
 
-@dbc.command('extract')
+@db.command('extract')
 @click.option('--name', '-n', required=True,
               help='Name for the extracted source (zpak name)')
 @click.option('--task', '-t', 'task_id', required=True,
@@ -2109,7 +2042,7 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
         return list(dbc_dir.glob("[BASE,*]_*.sql"))
 
 
-@dbc.command('import-module')
+@dbc_bin.command('import-module')
 @click.option('--name', '-n',
               help='Zpak name (interactive selection if omitted)')
 @click.option('--source', '-s', type=click.Path(),
@@ -2539,7 +2472,7 @@ def dbc_import_module(ctx, name: Optional[str], source: Optional[str], task_id: 
 # Export Command
 # =============================================================================
 
-@dbc.command('export')
+@dbc_bin.command('export')
 @click.option('--table', '-t', 'table_name',
               help='Export specific table only')
 @click.pass_context
@@ -2576,7 +2509,7 @@ def dbc_export(ctx, table_name: Optional[str]):
 # Init Original Command
 # =============================================================================
 
-@dbc.command('init-original')
+@dbc_bin.command('init-original')
 @click.option('--source', '-s', type=click.Path(exists=True),
               help='Path to vanilla DBC files (default: from config)')
 @click.option('--force', '-f', is_flag=True,
