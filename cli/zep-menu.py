@@ -454,6 +454,18 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
                     return False
                 continue
 
+            # Special handling for dbc db clean (needs zpak selection)
+            if command_path == 'dbc db clean':
+                choice = prompt_zpak_choice('dbc db clean', allow_all=False)
+                if choice is None:
+                    continue  # Cancelled
+                zpak_name, _ = choice
+
+                continue_running = execute_command(command_path, [zpak_name])
+                if not continue_running:
+                    return False
+                continue
+
             # Standard command handling
             if args or options:
                 # Need to prompt for arguments/options
