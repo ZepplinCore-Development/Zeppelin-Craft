@@ -1289,11 +1289,12 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
       - REDUNDANT: Same change in multiple files (can consolidate)
       - CONFLICT: Different changes to same row (order matters)
 
-    Use --output to write full results to a log file for CC to work through.
+    Auto-logs to cli/logs/dbc_conflicts.log (overwritten each run).
+    Use --output to write to a custom location instead.
 
     Examples:
         zep dbc info conflicts                    # Scan all zpaks
-        zep dbc info conflicts -o conflicts.log  # Write to log file
+        zep dbc info conflicts -o conflicts.log  # Write to custom file
         zep dbc info conflicts -z worgoblin      # Check specific zpak
         zep dbc info conflicts -t spell          # Check only spell table
     """
@@ -1301,35 +1302,34 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
 
     craft_root = ctx.obj['craft_root']
 
-    # Open output file if specified
-    log_file = None
-    if output_file:
-        log_file = open(output_file, 'w')
+    # Auto-log to default location unless custom output specified
+    log_dir = craft_root / 'cli' / 'logs'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    default_log = log_dir / 'dbc_conflicts.log'
+
+    log_path = Path(output_file) if output_file else default_log
+    log_file = open(log_path, 'w')
 
     def log(msg: str, console: bool = True):
         """Write to both console and log file."""
         if console:
             click.echo(msg)
-        if log_file:
-            # Strip ANSI codes for log file
-            import re
-            clean_msg = re.sub(r'\x1b\[[0-9;]*m', '', msg)
-            log_file.write(clean_msg + '\n')
+        # Strip ANSI codes for log file
+        import re
+        clean_msg = re.sub(r'\x1b\[[0-9;]*m', '', msg)
+        log_file.write(clean_msg + '\n')
 
     def log_only(msg: str):
         """Write to log file only."""
-        if log_file:
-            log_file.write(msg + '\n')
+        log_file.write(msg + '\n')
 
     log(click.style("DBC Conflict Scanner", bold=True))
-    if output_file:
-        log(f"Writing full results to: {output_file}")
+    log(f"Log: {log_path}")
     log("")
 
-    if log_file:
-        log_only(f"# DBC Conflict Report")
-        log_only(f"# Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        log_only("")
+    log_only(f"# DBC Conflict Report")
+    log_only(f"# Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log_only("")
 
     # Collect all DBC sources
     sources = collect_dbc_sources(craft_root)
@@ -1339,20 +1339,20 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         zpak_filter = set(z.strip() for z in filter_zpak.split(','))
         sources = [s for s in sources if s[1] in zpak_filter]
         if not sources:
-            if log_file:
-                log_file.close()
+            log_file.close()
             raise click.ClickException(f"No zpaks found matching: {filter_zpak}")
 
     if not sources:
         log("No DBC sources found in zpaks")
-        if log_file:
-            log_file.close()
+        log_file.close()
         return
 
     # Phase 1: Scan files and find potential conflicts (IDs in multiple files)
     log(f"[1/3] Scanning {len(sources)} zpak(s) for shared row IDs...")
 
     table_modifications: Dict[str, Dict[int, List[Tuple[str, int, str, Path]]]] = {}
+    # Cache parsed modifications to avoid re-reading files in Phase 2
+    parsed_mods_cache: Dict[Path, Dict[str, Dict[int, List]]] = {}
     files_scanned = 0
 
     for priority, zpak_name, dbc_path, sql_files in sources:
@@ -1366,7 +1366,10 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
 
             try:
                 sql_content = sql_file.read_text()
-                affected_ids = parse_sql_affected_ids(sql_content, table_name)
+                # Parse modifications once and cache for Phase 2
+                file_mods = parse_sql_modifications(sql_content, table_name)
+                parsed_mods_cache[sql_file] = {table_name: file_mods}
+                affected_ids = set(file_mods.keys())
 
                 if affected_ids:
                     if table_name not in table_modifications:
@@ -1397,15 +1400,14 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
 
     if not potential_conflicts:
         log(click.style("\nNo conflicts detected", fg='green'))
-        if log_file:
-            log_file.close()
+        log_file.close()
         return
 
-    # Phase 2: Check for redundants (same values)
+    # Phase 2: Check for redundants (same values) using cached parsed modifications
     log(f"\n[2/3] Checking {total_potential} shared rows for redundancy...")
 
-    all_conflicts = []  # (table, row_id, modifiers)
-    all_redundants = []  # (table, row_id, modifiers)
+    all_conflicts = []  # (table, row_id, mods_with_values)
+    all_redundants = []  # (table, row_id, mods_with_values)
     checked = 0
 
     for table_name in sorted(potential_conflicts.keys()):
@@ -1419,10 +1421,10 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
             try:
                 all_mods = []
                 for zpak_name, priority, filename, filepath in modifiers:
-                    sql_content = filepath.read_text()
-                    file_mods = parse_sql_modifications(sql_content, table_name)
-                    if row_id in file_mods:
-                        all_mods.append((zpak_name, priority, filename, file_mods[row_id]))
+                    # Use cached parsed modifications instead of re-reading file
+                    cached = parsed_mods_cache.get(filepath, {}).get(table_name, {})
+                    if row_id in cached:
+                        all_mods.append((zpak_name, priority, filename, cached[row_id]))
 
                 if len(all_mods) >= 2:
                     base_mods = all_mods[0][3]
@@ -1433,10 +1435,11 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
             except Exception:
                 is_redundant = False
 
+            # Store all_mods (with parsed values) instead of modifiers
             if is_redundant:
-                all_redundants.append((table_name, row_id, modifiers))
+                all_redundants.append((table_name, row_id, all_mods))
             else:
-                all_conflicts.append((table_name, row_id, modifiers))
+                all_conflicts.append((table_name, row_id, all_mods))
 
     log(f"      Checked {total_potential}/{total_potential} rows                    ")
 
@@ -1478,17 +1481,23 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         if table_conflicts:
             table_conflicts.sort(key=lambda x: x[0])
 
-            for i, (row_id, modifiers) in enumerate(table_conflicts):
-                modifiers.sort(key=lambda x: x[1])
+            for i, (row_id, mods_with_values) in enumerate(table_conflicts):
+                mods_with_values.sort(key=lambda x: x[1])
                 if i < 5:  # Show first 5 on console
                     log(click.style(f"  ID {row_id}:", fg='yellow') + " (CONFLICT)")
-                    for zpak_name, priority, filename, _ in modifiers:
+                    for zpak_name, priority, filename, sql_mods in mods_with_values:
                         log(f"    [{priority:3}] {zpak_name} ({filename})")
+                        # Show the SQL statement diff
+                        for sql_mod in sql_mods:
+                            stmt_preview = sql_mod.statement[:100] + '...' if len(sql_mod.statement) > 100 else sql_mod.statement
+                            log(f"           {sql_mod.mod_type}: {stmt_preview}")
                 else:
-                    # Log file only
+                    # Log file only (show full statements)
                     log_only(f"  ID {row_id}: (CONFLICT)")
-                    for zpak_name, priority, filename, _ in modifiers:
+                    for zpak_name, priority, filename, sql_mods in mods_with_values:
                         log_only(f"    [{priority:3}] {zpak_name} ({filename})")
+                        for sql_mod in sql_mods:
+                            log_only(f"           {sql_mod.mod_type}: {sql_mod.statement}")
 
             if len(table_conflicts) > 5:
                 log(f"  ... and {len(table_conflicts) - 5} more conflicts (see log file)")
@@ -1497,16 +1506,16 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         if table_redundants:
             table_redundants.sort(key=lambda x: x[0])
 
-            for i, (row_id, modifiers) in enumerate(table_redundants):
-                modifiers.sort(key=lambda x: x[1])
+            for i, (row_id, mods_with_values) in enumerate(table_redundants):
+                mods_with_values.sort(key=lambda x: x[1])
                 if i < 3:  # Show first 3 on console
                     log(click.style(f"  ID {row_id}:", fg='cyan') + " (REDUNDANT)")
-                    for zpak_name, priority, filename, _ in modifiers:
+                    for zpak_name, priority, filename, sql_mods in mods_with_values:
                         log(f"    [{priority:3}] {zpak_name} ({filename})")
                 else:
                     # Log file only
                     log_only(f"  ID {row_id}: (REDUNDANT)")
-                    for zpak_name, priority, filename, _ in modifiers:
+                    for zpak_name, priority, filename, sql_mods in mods_with_values:
                         log_only(f"    [{priority:3}] {zpak_name} ({filename})")
 
             if len(table_redundants) > 3:
@@ -1528,11 +1537,9 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
     log("Note: During rebuild, higher priority zpaks overwrite lower priority changes.")
     log("      Lower priority number = applied first, higher = wins.")
 
-    if log_file:
-        log_file.close()
-        log(f"\nFull results written to: {output_file}")
-        click.echo()
-        click.echo(f"Scanned {len(table_modifications)} table(s) across {len(sources)} zpak(s)")
+    log_file.close()
+    click.echo()
+    click.echo(f"Scanned {len(table_modifications)} table(s) across {len(sources)} zpak(s)")
 
 
 # =============================================================================
