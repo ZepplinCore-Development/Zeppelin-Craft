@@ -274,6 +274,81 @@ def sql():
     pass
 
 
+# =============================================================================
+# Query Command
+# =============================================================================
+
+def is_modification(sql: str) -> bool:
+    """Detect if SQL contains modification statements."""
+    sql_upper = sql.upper()
+    # Simple check for common modification keywords at statement start
+    for keyword in ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE', 'REPLACE']:
+        if keyword in sql_upper:
+            return True
+    return False
+
+
+@sql.command('query')
+@click.argument('sql_query', required=False, metavar='SQL')
+@click.option('--file', '-f', 'sql_file', type=click.Path(exists=True),
+              help='SQL file to execute')
+@click.option('--database', '-d', 'database',
+              type=click.Choice(['world', 'characters', 'auth']),
+              default='world', help='Target database (default: world)')
+@click.pass_context
+def sql_query(ctx, sql_query: Optional[str], sql_file: Optional[str], database: str):
+    """Query AzerothCore database (read-only).
+
+    Run read-only SQL queries against AzerothCore databases without
+    exposing credentials on the command line.
+
+    Examples:
+        zep sql query "SELECT entry, name FROM creature_template LIMIT 5"
+        zep sql query -f query.sql
+        zep sql query "SELECT * FROM characters" -d characters
+        echo "SELECT COUNT(*) FROM item_template" | zep sql query
+    """
+    # Get SQL from argument, file, or stdin
+    if sql_file:
+        with open(sql_file) as f:
+            sql_query = f.read()
+    elif not sql_query:
+        if not sys.stdin.isatty():
+            sql_query = sys.stdin.read()
+        else:
+            raise click.ClickException(
+                "No SQL provided. Use: zep sql query \"SELECT ...\" or -f file.sql"
+            )
+
+    if not sql_query.strip():
+        raise click.ClickException("Empty SQL provided")
+
+    # Block modification queries
+    if is_modification(sql_query):
+        raise click.ClickException(
+            "Modification detected (INSERT/UPDATE/DELETE/etc).\n"
+            "Use 'zep sql execute' for modifications."
+        )
+
+    # Map database choice to actual database name
+    db_map = {
+        'world': 'acore_world',
+        'characters': 'acore_characters',
+        'auth': 'acore_auth',
+    }
+    target_db = db_map[database]
+
+    success, output = run_mysql_query(sql_query, target_db)
+
+    if not success:
+        raise click.ClickException(f"Query failed: {output}")
+
+    if output.strip():
+        click.echo(output)
+    else:
+        click.echo("Query completed (no results)")
+
+
 def _get_zpaks_with_sql(craft_root: Path, count_changed: bool = False) -> List[Dict]:
     """Get all zpaks that have SQL files.
 
@@ -680,6 +755,104 @@ def sql_history(ctx, zpak_name, limit):
 
     click.echo(f"\nSQL Execution History (last {limit}):\n")
     click.echo(result)
+
+
+@sql.command('wipe')
+@click.argument('table', required=False)
+@click.option('--database', '-d', default='world',
+              type=click.Choice(['world', 'characters', 'auth']),
+              help='Database to wipe (default: world)')
+@click.option('--force', '-f', is_flag=True,
+              help='Skip confirmation prompt')
+@click.pass_context
+def sql_wipe(ctx, table: str, database: str, force: bool):
+    """Reset acore database table(s) to stock state.
+
+    Drops and recreates table(s) from the azerothcore source. Useful for
+    reverting custom changes without a full database rebuild.
+
+    WARNING: This requires the stock acore_* databases to exist as reference.
+    Typically these are acore_world_stock, acore_characters_stock, etc.
+
+    If TABLE is specified, only that table is reset. Otherwise prompts for
+    confirmation before resetting all tables (dangerous!).
+
+    Examples:
+        zep sql wipe creature_template     # Reset creature_template
+        zep sql wipe item_template -f      # Reset without confirmation
+        zep sql wipe -d characters account # Reset account table in characters
+    """
+    # Map short names to full database names
+    db_map = {
+        'world': ('acore_world', 'acore_world_stock'),
+        'characters': ('acore_characters', 'acore_characters_stock'),
+        'auth': ('acore_auth', 'acore_auth_stock'),
+    }
+
+    live_db, stock_db = db_map[database]
+
+    # Check if stock database exists
+    check_query = f"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{stock_db}'"
+    success, result = run_mysql_query(check_query, "information_schema")
+    if not success or stock_db not in result:
+        click.echo(click.style(f"Stock database '{stock_db}' not found!", fg='red'))
+        click.echo(f"To use wipe, you need a reference database with stock AzerothCore data.")
+        click.echo(f"Create one with: mysqldump {live_db} | mysql {stock_db}")
+        return
+
+    if table:
+        click.echo(f"Resetting {live_db}.{table} from {stock_db}...")
+    else:
+        click.echo(click.style(f"WARNING: About to reset ALL tables in {live_db}!", fg='red'))
+        if not force:
+            if not click.confirm("This will DESTROY all custom data. Are you absolutely sure?"):
+                click.echo("Cancelled.")
+                return
+
+    if not force and table:
+        if not click.confirm(f"Reset {table}? This will lose all custom data in that table."):
+            click.echo("Cancelled.")
+            return
+
+    try:
+        if table:
+            # Reset single table
+            tables_to_reset = [table]
+        else:
+            # Get all tables from stock
+            query = f"SHOW TABLES FROM `{stock_db}`"
+            success, result = run_mysql_query(query, stock_db)
+            if not success:
+                raise click.ClickException(f"Failed to list tables: {result}")
+            tables_to_reset = [line for line in result.strip().split('\n')[1:] if line]
+
+        # Disable FK checks
+        run_mysql_query("SET FOREIGN_KEY_CHECKS = 0", live_db)
+
+        reset_count = 0
+        for tbl in tables_to_reset:
+            # Skip tracking table
+            if tbl == TRACKING_TABLE:
+                continue
+
+            click.echo(f"  {tbl}...", nl=False)
+            try:
+                # Drop and recreate from stock
+                run_mysql_query(f"DROP TABLE IF EXISTS `{tbl}`", live_db)
+                run_mysql_query(f"CREATE TABLE `{tbl}` LIKE `{stock_db}`.`{tbl}`", live_db)
+                run_mysql_query(f"INSERT INTO `{tbl}` SELECT * FROM `{stock_db}`.`{tbl}`", live_db)
+                click.echo(" OK")
+                reset_count += 1
+            except Exception as e:
+                click.echo(click.style(f" FAILED: {e}", fg='red'))
+
+        # Re-enable FK checks
+        run_mysql_query("SET FOREIGN_KEY_CHECKS = 1", live_db)
+
+        click.echo(click.style(f"\nWipe complete! {reset_count} table(s) reset to stock", fg='green'))
+
+    except Exception as e:
+        raise click.ClickException(f"Wipe failed: {e}")
 
 
 @sql.command('list')

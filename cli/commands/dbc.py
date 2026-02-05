@@ -965,6 +965,258 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
 
 # =============================================================================
+# Wipe Command
+# =============================================================================
+
+@dbc.command('wipe')
+@click.argument('table', required=False)
+@click.option('--force', '-f', is_flag=True,
+              help='Skip confirmation prompt')
+@click.pass_context
+def dbc_wipe(ctx, table: Optional[str], force: bool):
+    """Reset live DBC database to original (stock) state.
+
+    Copies data from original_dbc to live dbc database. Useful for testing
+    or reverting changes without a full rebuild.
+
+    If TABLE is specified, only that table is reset. Otherwise all tables
+    are reset (excluding tracking tables).
+
+    Examples:
+        zep dbc wipe                # Reset all tables to stock
+        zep dbc wipe spell          # Reset only spell table
+        zep dbc wipe -f             # Skip confirmation
+    """
+    config = get_dbc_config(ctx)
+
+    if table:
+        click.echo(f"Resetting {config.live}.{table} from {config.original}...")
+    else:
+        click.echo(f"Resetting ALL tables in {config.live} from {config.original}...")
+
+    if not force:
+        msg = f"Reset {table if table else 'ALL tables'}? This will lose uncommitted changes."
+        if not click.confirm(msg):
+            click.echo("Cancelled.")
+            return
+
+    try:
+        with DBCConnection(config) as db_conn:
+            orig_conn = db_conn.get_connection(config.original)
+            live_conn = db_conn.get_connection(config.live)
+
+            if table:
+                # Reset single table
+                tables_to_reset = [table]
+            else:
+                # Reset all tables except tracking
+                tables_to_reset = [t for t in get_tables(orig_conn)
+                                   if not t.startswith('dbc_') and t != 'zep_dbc_updates']
+
+            live_cursor = live_conn.cursor()
+            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+            for tbl in tables_to_reset:
+                click.echo(f"  {tbl}...", nl=False)
+                try:
+                    live_cursor.execute(f"DROP TABLE IF EXISTS `{tbl}`")
+                    live_cursor.execute(f"CREATE TABLE `{tbl}` LIKE `{config.original}`.`{tbl}`")
+                    live_cursor.execute(f"INSERT INTO `{tbl}` SELECT * FROM `{config.original}`.`{tbl}`")
+                    click.echo(" OK")
+                except Exception as e:
+                    click.echo(click.style(f" FAILED: {e}", fg='red'))
+
+            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+            live_conn.commit()
+            live_cursor.close()
+
+        click.echo(click.style(f"\nWipe complete! {len(tables_to_reset)} table(s) reset to stock", fg='green'))
+
+    except Exception as e:
+        raise click.ClickException(f"Wipe failed: {e}")
+
+
+# =============================================================================
+# Squash Command
+# =============================================================================
+
+@dbc.command('squash')
+@click.argument('target', required=False)
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Squash all DBC files in zpak')
+@click.option('--dry-run', '-n', is_flag=True,
+              help='Preview without modifying files')
+@click.option('--force', '-f', is_flag=True,
+              help='Skip confirmation prompt')
+@click.pass_context
+def dbc_squash(ctx, target: Optional[str], zpak_name: Optional[str], dry_run: bool, force: bool):
+    """Squash DBC SQL file(s) by re-diffing through scratch database.
+
+    Removes redundant edits within a file (e.g., multiple updates to same row
+    become single final value). Useful after iterative development where you
+    have commits like: damage=10, damage=20, damage=30 -> squashes to damage=30.
+
+    Process per file:
+      1. Reset scratch from original_dbc
+      2. Apply the single SQL file to scratch
+      3. Diff scratch vs original
+      4. Rewrite file with squashed SQL
+
+    Examples:
+        zep dbc squash zpaks/my-zpak/dbc/[F-049]_spell.sql  # Single file
+        zep dbc squash --zpak mage-tanking                   # All files in zpak
+        zep dbc squash --zpak mage-tanking --dry-run         # Preview only
+    """
+    craft_root = ctx.obj['craft_root']
+    config = get_dbc_config(ctx)
+
+    # Collect files to squash
+    files_to_squash: List[Path] = []
+
+    if target:
+        # Single file
+        target_path = Path(target)
+        if not target_path.is_absolute():
+            target_path = craft_root / target
+        if not target_path.exists():
+            raise click.ClickException(f"File not found: {target_path}")
+        if not target_path.suffix == '.sql':
+            raise click.ClickException(f"Not a SQL file: {target_path}")
+        files_to_squash.append(target_path)
+
+    elif zpak_name:
+        # All files in zpak
+        sources = collect_dbc_sources(craft_root)
+        for priority, name, dbc_path, sql_files in sources:
+            if name == zpak_name:
+                files_to_squash.extend(sql_files)
+                break
+        if not files_to_squash:
+            raise click.ClickException(f"No DBC files found in zpak: {zpak_name}")
+    else:
+        raise click.ClickException("Specify a file path or use --zpak")
+
+    click.echo(click.style(f"DBC Squash{' (DRY RUN)' if dry_run else ''}", bold=True))
+    click.echo(f"  Files to process: {len(files_to_squash)}")
+    click.echo()
+
+    if not force and not dry_run:
+        if not click.confirm(f"Squash {len(files_to_squash)} file(s)? This will rewrite them."):
+            click.echo("Cancelled.")
+            return
+
+    squashed_count = 0
+    unchanged_count = 0
+    error_count = 0
+
+    for sql_file in files_to_squash:
+        table_name = extract_table_from_filename(sql_file.name)
+        if not table_name:
+            click.echo(click.style(f"  {sql_file.name}: SKIP (can't determine table)", fg='yellow'))
+            continue
+
+        click.echo(f"  {sql_file.name}...", nl=False)
+
+        try:
+            # Read original file
+            original_sql = sql_file.read_text()
+            original_lines = len(original_sql.strip().split('\n'))
+
+            # Step 1: Reset scratch from original
+            with DBCConnection(config) as db_conn:
+                orig_conn = db_conn.get_connection(config.original)
+                scratch_conn = db_conn.get_connection(config.scratch)
+                scratch_cursor = scratch_conn.cursor()
+
+                # Only reset the specific table we need
+                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
+                scratch_cursor.execute(f"CREATE TABLE `{table_name}` LIKE `{config.original}`.`{table_name}`")
+                scratch_cursor.execute(f"INSERT INTO `{table_name}` SELECT * FROM `{config.original}`.`{table_name}`")
+                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                scratch_conn.commit()
+                scratch_cursor.close()
+
+            # Step 2: Apply file to scratch
+            success, output = run_sql(original_sql, config, config.scratch)
+            if not success:
+                click.echo(click.style(f" FAILED (apply): {output[:50]}", fg='red'))
+                error_count += 1
+                continue
+
+            # Step 3: Diff scratch vs original
+            with DBCConnection(config) as db_conn:
+                diff = get_table_diff(db_conn, table_name, config.scratch, config.original)
+
+                adds = len(diff["only_in_db1"])
+                mods = len(diff["modified"])
+                dels = len(diff["only_in_db2"])
+
+                if adds == 0 and mods == 0 and dels == 0:
+                    click.echo(click.style(" (no changes)", fg='cyan'))
+                    unchanged_count += 1
+                    continue
+
+                # Step 4: Generate squashed SQL
+                squashed_sql = generate_diff_sql(db_conn, table_name, config.scratch, config.original)
+
+            # Preserve header comments from original file
+            header_lines = []
+            for line in original_sql.split('\n'):
+                if line.startswith('--'):
+                    header_lines.append(line)
+                elif line.strip():
+                    break  # Stop at first non-comment, non-empty line
+
+            squashed_lines = len(squashed_sql.strip().split('\n'))
+
+            if dry_run:
+                reduction = original_lines - squashed_lines
+                click.echo(f" {original_lines} -> {squashed_lines} lines ({reduction:+d})")
+            else:
+                # Write squashed file
+                with open(sql_file, 'w') as f:
+                    if header_lines:
+                        f.write('\n'.join(header_lines) + '\n\n')
+                    f.write(squashed_sql)
+                    if not squashed_sql.endswith('\n'):
+                        f.write('\n')
+
+                reduction = original_lines - squashed_lines
+                click.echo(f" {original_lines} -> {squashed_lines} lines ({reduction:+d})")
+                squashed_count += 1
+
+        except Exception as e:
+            click.echo(click.style(f" ERROR: {e}", fg='red'))
+            error_count += 1
+
+    # Clean up scratch
+    try:
+        with DBCConnection(config) as db_conn:
+            scratch_conn = db_conn.get_connection(config.scratch)
+            scratch_cursor = scratch_conn.cursor()
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+            scratch_cursor.execute("SHOW TABLES")
+            for (tbl,) in scratch_cursor.fetchall():
+                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{tbl}`")
+            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+            scratch_conn.commit()
+    except Exception:
+        pass
+
+    # Summary
+    click.echo()
+    if dry_run:
+        click.echo(click.style("DRY RUN - no files modified", fg='yellow'))
+    else:
+        click.echo(click.style(f"Squash complete! {squashed_count} file(s) rewritten", fg='green'))
+    if unchanged_count:
+        click.echo(f"  Unchanged: {unchanged_count}")
+    if error_count:
+        click.echo(click.style(f"  Errors: {error_count}", fg='red'))
+
+
+# =============================================================================
 # Sources Command
 # =============================================================================
 
@@ -1091,10 +1343,12 @@ def dbc_sources(ctx, verbose: bool, changed: bool):
 @dbc.command('conflicts')
 @click.option('--table', '-t', 'filter_table',
               help='Check only specific table')
+@click.option('--zpak', '-z', 'filter_zpak',
+              help='Check only specific zpak (or comma-separated list)')
 @click.option('--verbose', '-v', is_flag=True,
               help='Show detailed conflict info')
 @click.pass_context
-def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
+def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], verbose: bool):
     """Scan zpaks for conflicting DBC edits.
 
     Detects when multiple zpaks modify the same row in a DBC table.
@@ -1107,7 +1361,8 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
     to the same rows.
 
     Examples:
-        zep dbc conflicts              # Scan all tables
+        zep dbc conflicts              # Scan all zpaks
+        zep dbc conflicts -z worgoblin # Check single zpak against others
         zep dbc conflicts -t spell     # Check only spell table
         zep dbc conflicts -v           # Show all conflicting IDs
     """
@@ -1118,6 +1373,13 @@ def dbc_conflicts(ctx, filter_table: Optional[str], verbose: bool):
 
     # Collect all DBC sources
     sources = collect_dbc_sources(craft_root)
+
+    # Filter by zpak if specified
+    if filter_zpak:
+        zpak_filter = set(z.strip() for z in filter_zpak.split(','))
+        sources = [s for s in sources if s[1] in zpak_filter]
+        if not sources:
+            raise click.ClickException(f"No zpaks found matching: {filter_zpak}")
 
     if not sources:
         click.echo("No DBC sources found in zpaks")
