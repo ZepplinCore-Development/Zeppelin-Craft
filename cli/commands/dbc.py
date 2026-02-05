@@ -970,6 +970,136 @@ def dbc_wipe(ctx, table: Optional[str], force: bool):
 
 
 # =============================================================================
+# Clean Command
+# =============================================================================
+
+@db.command('clean')
+@click.argument('zpak', required=True)
+@click.option('--dry-run', '-n', is_flag=True,
+              help='Preview without modifying files')
+@click.pass_context
+def dbc_clean(ctx, zpak: str, dry_run: bool):
+    """Remove redundant DBC rows from a zpak.
+
+    Removes rows from the target zpak that are exact duplicates of rows
+    in higher-priority zpaks. Requires running 'zep dbc info conflicts'
+    first to generate the conflicts log.
+
+    Examples:
+        zep dbc info conflicts           # Generate conflicts log first
+        zep dbc db clean zepcraft-legacy --dry-run   # Preview cleanup
+        zep dbc db clean zepcraft-legacy             # Remove duplicates
+    """
+    from lib.dbc_utils import (
+        parse_conflicts_log,
+        remove_ids_from_dbc_file,
+        extract_table_from_filename,
+        COMPOSITE_KEY_TABLES,
+    )
+
+    craft_root = ctx.obj['craft_root']
+
+    # Find conflicts log
+    conflicts_log = craft_root / 'cli' / 'logs' / 'dbc_conflicts.log'
+    if not conflicts_log.exists():
+        raise click.ClickException(
+            f"Conflicts log not found at {conflicts_log}\n"
+            "Run 'zep dbc info conflicts' first to generate it."
+        )
+
+    # Find target zpak
+    zpak_path = None
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        candidate = base / zpak
+        if candidate.exists():
+            zpak_path = candidate
+            break
+
+    if not zpak_path:
+        raise click.ClickException(f"Zpak not found: {zpak}")
+
+    dbc_dir = zpak_path / 'dbc'
+    if not dbc_dir.exists():
+        raise click.ClickException(f"No dbc directory in zpak: {zpak}")
+
+    if dry_run:
+        click.echo(click.style("=== DRY RUN MODE ===\n", fg='yellow'))
+
+    click.echo(f"Parsing conflicts log: {conflicts_log}")
+    redundant_data = parse_conflicts_log(conflicts_log)
+
+    # Filter to only IDs in the target zpak
+    total_redundant = 0
+    tables_to_clean = {}
+
+    for table_name, zpak_ids in redundant_data.items():
+        if zpak in zpak_ids:
+            ids = zpak_ids[zpak]
+            if ids:
+                tables_to_clean[table_name] = set(ids)
+                total_redundant += len(ids)
+
+    click.echo(f"Found {total_redundant} redundant rows in {len(tables_to_clean)} tables for {zpak}\n")
+
+    if not tables_to_clean:
+        click.echo(click.style("No redundant rows to clean.", fg='green'))
+        return
+
+    total_removed = 0
+    files_modified = 0
+    skipped_tables = []
+
+    for table_name in sorted(tables_to_clean.keys()):
+        ids = tables_to_clean[table_name]
+
+        # Skip composite key tables
+        if table_name in COMPOSITE_KEY_TABLES:
+            skipped_tables.append((table_name, len(ids)))
+            continue
+
+        # Find the SQL file for this table
+        pattern = f"*_{table_name}.sql"
+        matches = list(dbc_dir.glob(pattern))
+
+        if not matches:
+            click.echo(f"  {table_name}: No file found, skipping")
+            continue
+
+        file_path = matches[0]
+        lines_before, lines_after, removed = remove_ids_from_dbc_file(
+            file_path, ids, dry_run
+        )
+
+        if removed > 0:
+            files_modified += 1
+            total_removed += removed
+            action = "Would remove" if dry_run else "Removed"
+            click.echo(f"  {table_name}: {action} {removed} rows ({lines_before} -> {lines_after} lines)")
+        else:
+            click.echo(f"  {table_name}: No matching rows found in file")
+
+    click.echo("")
+    action = "Would modify" if dry_run else "Modified"
+    click.echo(f"{action} {files_modified} files")
+    action = "Would remove" if dry_run else "Removed"
+    click.echo(f"{action} {total_removed} redundant rows total")
+
+    if skipped_tables:
+        skipped_count = sum(count for _, count in skipped_tables)
+        click.echo(click.style(
+            f"\nSkipped {len(skipped_tables)} composite-key tables ({skipped_count} rows) - see I-113:",
+            fg='yellow'
+        ))
+        for table_name, count in skipped_tables:
+            click.echo(f"  {table_name}: {count} rows")
+
+    if dry_run:
+        click.echo(click.style("\nRun without --dry-run to apply changes.", fg='cyan'))
+    elif total_removed > 0:
+        click.echo(click.style(f"\nCleanup complete!", fg='green'))
+
+
+# =============================================================================
 # Squash Command
 # =============================================================================
 

@@ -954,3 +954,118 @@ def extract_table_from_filename(filename: str) -> Optional[str]:
             return parts[1].lower()
 
     return name.lower()
+
+
+# =============================================================================
+# DBC Duplicate Cleaning
+# =============================================================================
+
+# Tables to skip - these use composite keys that the diff builder can't handle
+# See I-113 for details on fixing the diff builder for these tables
+COMPOSITE_KEY_TABLES = {
+    'characterfacialhairstyles',  # composite key: (race_id, sex_id, variation_id)
+    'charbaseinfo',               # composite key: (race_id, class_id)
+}
+
+
+def parse_conflicts_log(log_path: Path) -> Dict[str, Dict[str, List[int]]]:
+    """
+    Parse dbc_conflicts.log and extract redundant IDs grouped by table and zpak.
+
+    Returns:
+        dict mapping table_name -> {zpak_name -> list of redundant IDs}
+    """
+    from collections import defaultdict
+
+    redundant_ids: Dict[str, Dict[str, List[int]]] = defaultdict(lambda: defaultdict(list))
+    current_table = None
+    current_id = None
+
+    with open(log_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            # Match table header: "tablename (X conflicts, Y redundant)"
+            table_match = re.match(r'^(\w+) \(\d+ conflicts?,? ?\d* ?redundant?\)', line)
+            if not table_match:
+                # Also match tables with only redundant: "tablename (X redundant)"
+                table_match = re.match(r'^(\w+) \((\d+) redundant\)', line)
+
+            if table_match:
+                current_table = table_match.group(1)
+                current_id = None
+                continue
+
+            # Match redundant ID: "  ID 12345: (REDUNDANT)"
+            id_match = re.match(r'^\s+ID (\d+): \(REDUNDANT\)', line)
+            if id_match and current_table:
+                current_id = int(id_match.group(1))
+                continue
+
+            # Match zpak line under a redundant ID: "    [999] zepcraft-legacy (...)"
+            if current_id is not None and current_table:
+                zpak_match = re.match(r'^\s+\[\s*\d+\]\s+(\S+)\s+\(', line)
+                if zpak_match:
+                    zpak_name = zpak_match.group(1)
+                    redundant_ids[current_table][zpak_name].append(current_id)
+
+    # Convert defaultdicts to regular dicts
+    return {table: dict(zpaks) for table, zpaks in redundant_ids.items()}
+
+
+def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set[int],
+                              dry_run: bool = False) -> Tuple[int, int, int]:
+    """
+    Remove DELETE+INSERT pairs for specified IDs from a DBC SQL file.
+
+    Args:
+        file_path: Path to SQL file
+        ids_to_remove: Set of IDs to remove
+        dry_run: If True, don't modify the file
+
+    Returns:
+        Tuple of (lines_before, lines_after, removed_count)
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    original_count = len(lines)
+    new_lines = []
+    removed_count = 0
+
+    # Common DBC primary key column patterns
+    id_pattern = r"`(?:id|ID|Id|entry|item_id)`"
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Check for DELETE statement with an ID we want to remove
+        delete_match = re.match(rf"^DELETE FROM `\w+` WHERE {id_pattern} = (\d+);",
+                                line, re.IGNORECASE)
+
+        if delete_match:
+            row_id = int(delete_match.group(1))
+            if row_id in ids_to_remove:
+                removed_count += 1
+                i += 1
+                # Check if next line is the corresponding INSERT
+                if i < len(lines) and lines[i].upper().startswith('INSERT'):
+                    i += 1
+                continue
+
+        # Check for UPDATE statement with an ID we want to remove
+        update_match = re.search(rf"WHERE {id_pattern} = (\d+);$", line, re.IGNORECASE)
+        if update_match and line.upper().strip().startswith('UPDATE'):
+            row_id = int(update_match.group(1))
+            if row_id in ids_to_remove:
+                removed_count += 1
+                i += 1
+                continue
+
+        new_lines.append(line)
+        i += 1
+
+    if not dry_run and removed_count > 0:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.writelines(new_lines)
+
+    return original_count, len(new_lines), removed_count
