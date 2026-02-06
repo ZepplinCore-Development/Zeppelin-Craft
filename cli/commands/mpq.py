@@ -192,8 +192,8 @@ def mpq():
               help='Package name (interactive selection if omitted)')
 @click.option('--output', '-o', type=click.Path(),
               help='Output path for MPQ file (default: from zpak.json)')
-@click.option('--version', '-v', type=click.Choice(['1', '2']), default='1',
-              help='MPQ version (1 for classic, 2 for WotLK)')
+@click.option('--version', '-v', type=click.Choice(['1', '2']), default='2',
+              help='MPQ version (1 for classic/pre-TBC, 2 for TBC+ including WotLK)')
 @click.pass_context
 def mpq_pack(ctx, name: Optional[str], output: Optional[str], version: str):
     """Pack zpak assets into an MPQ archive.

@@ -294,18 +294,19 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
     patch_name = f'PATCH-{letter}.MPQ'
     output_path = get_patch_output_path(nginx_path, patch_name, register)
 
-    # Run preprocessor if requested
+    # Run resource parser if requested — any zpak with source-assets gets parsed
     if parse or parse_only:
         for zpak in zpaks:
-            build_info = get_zpak_build_info(zpak['manifest'])
-            preprocessor = build_info.get('preprocessor')
-            if preprocessor:
-                print(f"  Running preprocessor '{preprocessor}' for {zpak['name']}...")
+            source_dir = Path(zpak['path']) / 'mpq' / 'source-assets'
+            if source_dir.exists():
+                print(f"  Running resource-parser for {zpak['name']}...")
                 if dry_run:
-                    print(f"    [DRY RUN] Would run {preprocessor}")
-                elif not _run_preprocessor(preprocessor, zpak):
-                    print(f"    Preprocessor failed for {zpak['name']}")
+                    print(f"    [DRY RUN] Would run resource-parser")
+                elif not _run_resource_parser(zpak):
+                    print(f"    Resource parser failed for {zpak['name']}")
                     return False
+            else:
+                print(f"    {zpak['name']}: no source-assets directory, skipping parse")
 
     # Parse only: stop after preprocessing
     if parse_only:
@@ -320,11 +321,11 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
         if parsed:
             buildable.append((zpak, parsed))
         else:
-            build_info = get_zpak_build_info(zpak['manifest'])
-            if build_info.get('preprocessor') and not parse:
+            source_dir = Path(zpak['path']) / 'mpq' / 'source-assets'
+            if source_dir.exists() and not parse:
                 print(f"    {zpak['name']}: parsed-assets empty "
-                      f"(use --parse to run '{build_info['preprocessor']}' first)")
-            elif not build_info.get('preprocessor'):
+                      f"(use --parse to run resource-parser first)")
+            else:
                 print(f"    {zpak['name']}: no parsed-assets found, skipping")
 
     if dry_run:
@@ -382,58 +383,55 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
 # Tool Wrappers
 # =============================================================================
 
-def _run_preprocessor(preprocessor: str, zpak: Dict[str, Any]) -> bool:
-    """Run a preprocessor for a zpak before building.
+def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
+    """Run resource parser on a zpak's source-assets directory.
 
-    Currently supports 'resource-parser' which extracts custom assets
-    from source data into the zpak's parsed-assets directory.
+    Copies source-assets to parsed-assets and resolves missing
+    dependencies (textures, skins, animations) from the Asset Library.
+
+    Mode is determined by zpak manifest build.preprocessor_mode
+    (default: model-scan). Full mode runs the ADT workflow.
 
     Args:
-        preprocessor: Preprocessor identifier (e.g. 'resource-parser').
         zpak: Zpak info dict with 'name', 'path', 'manifest'.
 
     Returns:
-        True if preprocessing succeeded.
+        True if parsing succeeded.
     """
-    if preprocessor == 'resource-parser':
-        from lib.resource_parser import ResourceParser
-        from lib.env import ASSET_LIBRARY_PATH
+    from lib.resource_parser import ResourceParser
+    from lib.env import ASSET_LIBRARY_PATH
 
-        manifest = zpak.get('manifest', {})
-        build_config = manifest.get('build', {})
-        mode = build_config.get('preprocessor_mode', 'model-scan')
+    manifest = zpak.get('manifest', {})
+    build_config = manifest.get('build', {})
+    mode = build_config.get('preprocessor_mode', 'model-scan')
 
-        zpak_path = Path(zpak['path'])
-        source_dir = zpak_path / 'mpq' / 'source-assets'
-        output_dir = zpak_path / 'mpq' / 'parsed-assets'
+    zpak_path = Path(zpak['path'])
+    source_dir = zpak_path / 'mpq' / 'source-assets'
+    output_dir = zpak_path / 'mpq' / 'parsed-assets'
 
-        rp = ResourceParser(mode=mode, assets_source=ASSET_LIBRARY_PATH)
+    rp = ResourceParser(mode=mode, assets_source=ASSET_LIBRARY_PATH)
 
-        logger.info(f"Running resource parser for {zpak['name']} (mode={mode})")
-        print(f"    This may take several minutes...")
+    logger.info(f"Running resource parser for {zpak['name']} (mode={mode})")
+    print(f"    This may take several minutes...")
 
-        try:
-            if mode == 'model-scan':
-                print(f"    Mode: model-scan")
-                rp.run_model_scan(source_dir, output_dir)
+    try:
+        if mode == 'model-scan':
+            print(f"    Mode: model-scan")
+            rp.run_model_scan(source_dir, output_dir)
+        else:
+            patch_o = build_config.get('patch_o_source')
+            if patch_o:
+                patch_o = zpak_path / patch_o
             else:
-                patch_o = build_config.get('patch_o_source')
-                if patch_o:
-                    patch_o = zpak_path / patch_o
-                else:
-                    patch_o = source_dir
-                print(f"    Mode: full (ADT workflow)")
-                rp.run(patch_o, output_dir)
+                patch_o = source_dir
+            print(f"    Mode: full (ADT workflow)")
+            rp.run(patch_o, output_dir)
 
-            print(f"    Resource parser completed for {zpak['name']}")
-            return True
-        except Exception as e:
-            print(f"    Resource parser failed: {e}")
-            logger.error(f"Resource parser failed for {zpak['name']}: {e}")
-            return False
-    else:
-        print(f"    Unknown preprocessor: {preprocessor}")
-        logger.warning(f"Unknown preprocessor '{preprocessor}' for {zpak['name']}")
+        print(f"    Resource parser completed for {zpak['name']}")
+        return True
+    except Exception as e:
+        print(f"    Resource parser failed: {e}")
+        logger.error(f"Resource parser failed for {zpak['name']}: {e}")
         return False
 
 
@@ -545,7 +543,7 @@ def _pack_mpq(source_dir: Path, output_path: Path) -> bool:
         str(MPQCLI_PATH), 'create',
         str(source_dir),
         '-o', tmp_path,
-        '-v', '1',
+        '-v', '2',
     ]
 
     logger.info(f"Packing MPQ: {' '.join(cmd)}")
