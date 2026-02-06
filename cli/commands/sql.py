@@ -227,6 +227,16 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
                 if not base_path.exists() and not updates_path.exists():
                     sql_paths.append((module_sql, 'root'))
 
+    # 1b. Check explicit sql_path / sql_updates_path from manifest (used by azerothcore zpak)
+    if 'sql_path' in manifest:
+        base_dir = (craft_root / manifest['sql_path']).resolve()
+        if base_dir.exists():
+            sql_paths.append((base_dir, 'base'))
+    if 'sql_updates_path' in manifest:
+        updates_dir = (craft_root / manifest['sql_updates_path']).resolve()
+        if updates_dir.exists():
+            sql_paths.append((updates_dir, 'updates'))
+
     # 2. Check contents.sql paths from zpak.json (supports globs relative to zpak dir)
     contents = manifest.get('contents', {})
     if 'sql' in contents:
