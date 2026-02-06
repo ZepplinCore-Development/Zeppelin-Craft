@@ -41,6 +41,7 @@ from lib.dbc_utils import (
     get_table_diff,
     generate_diff_sql,
     generate_full_diff_sql,
+    _format_pk_display,
     run_sql,
     append_to_zpak_dbc,
     get_tables,
@@ -62,13 +63,14 @@ from lib.registry import Registry
 from lib.manifest import load_manifest
 from lib.logging_config import get_logger, log_subprocess, log_sql, log_command
 
+from lib.env import DBCTOOL_PATH
+
 logger = get_logger('cli.dbc')
 
 
 # Paths
 CRAFT_ROOT = CLI_DIR.parent
 ENV_PATH = CRAFT_ROOT / 'Scripts' / 'Patch Builder' / '.env'
-DBCTOOL_PATH = Path('/workspace/project/Zeppelin-Tools/DBCTool/dbctool')
 
 
 def get_dbc_config(ctx) -> DBCConfig:
@@ -616,26 +618,26 @@ def dbc_diff(ctx, output_sql: bool, table_name: Optional[str]):
 
                 try:
                     diff = get_table_diff(db_conn, table, config.live, config.expected)
-                    pk = diff["primary_key"]
+                    pk_cols = diff["primary_key"]
 
                     if diff["only_in_db1"]:
                         click.echo(click.style(f"  Added in live ({len(diff['only_in_db1'])}):", fg='green'))
-                        for pk_val in diff["only_in_db1"][:5]:
-                            click.echo(f"    + {pk}={pk_val}")
+                        for pk_vals in diff["only_in_db1"][:5]:
+                            click.echo(f"    + {_format_pk_display(pk_cols, pk_vals)}")
                         if len(diff["only_in_db1"]) > 5:
                             click.echo(f"    ... and {len(diff['only_in_db1']) - 5} more")
 
                     if diff["only_in_db2"]:
                         click.echo(click.style(f"  Removed from live ({len(diff['only_in_db2'])}):", fg='red'))
-                        for pk_val in diff["only_in_db2"][:5]:
-                            click.echo(f"    - {pk}={pk_val}")
+                        for pk_vals in diff["only_in_db2"][:5]:
+                            click.echo(f"    - {_format_pk_display(pk_cols, pk_vals)}")
                         if len(diff["only_in_db2"]) > 5:
                             click.echo(f"    ... and {len(diff['only_in_db2']) - 5} more")
 
                     if diff["modified"]:
                         click.echo(click.style(f"  Modified ({len(diff['modified'])}):", fg='yellow'))
-                        for pk_val, changes in diff["modified"][:3]:
-                            click.echo(f"    ~ {pk}={pk_val}:")
+                        for pk_vals, changes in diff["modified"][:3]:
+                            click.echo(f"    ~ {_format_pk_display(pk_cols, pk_vals)}:")
                             for col, old_val, new_val in changes[:3]:
                                 old_str = str(old_val)[:50] + "..." if len(str(old_val)) > 50 else str(old_val)
                                 new_str = str(new_val)[:50] + "..." if len(str(new_val)) > 50 else str(new_val)
@@ -974,72 +976,100 @@ def dbc_wipe(ctx, table: Optional[str], force: bool):
 # =============================================================================
 
 @db.command('clean')
-@click.argument('zpak', required=True)
-@click.option('--dry-run', '-n', is_flag=True,
+@click.option('--name', '-n',
+              help='Zpak name (interactive selection if omitted)')
+@click.option('--dry-run', is_flag=True,
               help='Preview without modifying files')
 @click.pass_context
-def dbc_clean(ctx, zpak: str, dry_run: bool):
+def dbc_clean(ctx, name: Optional[str], dry_run: bool):
     """Remove redundant DBC rows from a zpak.
 
-    Removes rows from the target zpak that are exact duplicates of rows
-    in higher-priority zpaks. Requires running 'zep dbc info conflicts'
-    first to generate the conflicts log.
+    Scans all zpaks for conflicts, then removes rows from the target zpak
+    that are exact duplicates of rows in other zpaks.
 
     Examples:
-        zep dbc info conflicts           # Generate conflicts log first
-        zep dbc db clean zepcraft-legacy --dry-run   # Preview cleanup
-        zep dbc db clean zepcraft-legacy             # Remove duplicates
+        zep dbc db clean --name zepcraft-legacy --dry-run   # Preview cleanup
+        zep dbc db clean --name zepcraft-legacy              # Remove duplicates
     """
     from lib.dbc_utils import (
-        parse_conflicts_log,
+        detect_dbc_conflicts,
         remove_ids_from_dbc_file,
-        extract_table_from_filename,
-        COMPOSITE_KEY_TABLES,
     )
 
     craft_root = ctx.obj['craft_root']
 
-    # Find conflicts log
-    conflicts_log = craft_root / 'cli' / 'logs' / 'dbc_conflicts.log'
-    if not conflicts_log.exists():
-        raise click.ClickException(
-            f"Conflicts log not found at {conflicts_log}\n"
-            "Run 'zep dbc info conflicts' first to generate it."
-        )
+    # Interactive zpak selection if not specified
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Specify --name <zpak> or install simple-term-menu for interactive selection"
+            )
+
+        candidates = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if not pkg_dir.is_dir():
+                    continue
+                if not (pkg_dir / 'dbc').exists():
+                    continue
+                manifest = load_manifest(pkg_dir / 'zpak.json')
+                if manifest:
+                    candidates.append((manifest.get('name', pkg_dir.name), pkg_dir))
+
+        if not candidates:
+            raise click.ClickException("No zpaks with DBC files found")
+
+        options = [c[0] for c in candidates] + ["[Cancel]"]
+        menu = TerminalMenu(options, title="\n  Select zpak to clean:\n")
+        result = menu.show()
+        if result is None or options[result] == "[Cancel]":
+            return
+        name = candidates[result][0]
 
     # Find target zpak
     zpak_path = None
     for base in [craft_root / 'zpaks', craft_root / 'external']:
-        candidate = base / zpak
+        candidate = base / name
         if candidate.exists():
             zpak_path = candidate
             break
 
     if not zpak_path:
-        raise click.ClickException(f"Zpak not found: {zpak}")
+        raise click.ClickException(f"Zpak not found: {name}")
 
     dbc_dir = zpak_path / 'dbc'
     if not dbc_dir.exists():
-        raise click.ClickException(f"No dbc directory in zpak: {zpak}")
+        raise click.ClickException(f"No dbc directory in zpak: {name}")
 
     if dry_run:
         click.echo(click.style("=== DRY RUN MODE ===\n", fg='yellow'))
 
-    click.echo(f"Parsing conflicts log: {conflicts_log}")
-    redundant_data = parse_conflicts_log(conflicts_log)
+    # Run conflict detection
+    sources = collect_dbc_sources(craft_root)
+    if not sources:
+        click.echo("No DBC sources found in zpaks")
+        return
 
-    # Filter to only IDs in the target zpak
-    total_redundant = 0
-    tables_to_clean = {}
+    click.echo(f"Scanning {len(sources)} zpak(s) for redundant rows...")
+    _, all_redundants = detect_dbc_conflicts(sources)
 
-    for table_name, zpak_ids in redundant_data.items():
-        if zpak in zpak_ids:
-            ids = zpak_ids[zpak]
-            if ids:
-                tables_to_clean[table_name] = set(ids)
-                total_redundant += len(ids)
+    # Build tables_to_clean from redundants that involve the target zpak
+    # Convert string row_keys ("123" or "1|2|3") to int tuples for remove_ids_from_dbc_file
+    tables_to_clean: Dict[str, set] = {}
+    for table_name, row_key, mods_with_values in all_redundants:
+        zpak_names = {m[0] for m in mods_with_values}
+        if name in zpak_names:
+            if table_name not in tables_to_clean:
+                tables_to_clean[table_name] = set()
+            key_tuple = tuple(int(v) for v in row_key.split("|"))
+            tables_to_clean[table_name].add(key_tuple)
 
-    click.echo(f"Found {total_redundant} redundant rows in {len(tables_to_clean)} tables for {zpak}\n")
+    total_redundant = sum(len(ids) for ids in tables_to_clean.values())
+    click.echo(f"Found {total_redundant} redundant rows in {len(tables_to_clean)} tables for {name}\n")
 
     if not tables_to_clean:
         click.echo(click.style("No redundant rows to clean.", fg='green'))
@@ -1047,15 +1077,9 @@ def dbc_clean(ctx, zpak: str, dry_run: bool):
 
     total_removed = 0
     files_modified = 0
-    skipped_tables = []
 
     for table_name in sorted(tables_to_clean.keys()):
         ids = tables_to_clean[table_name]
-
-        # Skip composite key tables
-        if table_name in COMPOSITE_KEY_TABLES:
-            skipped_tables.append((table_name, len(ids)))
-            continue
 
         # Find the SQL file for this table
         pattern = f"*_{table_name}.sql"
@@ -1084,19 +1108,12 @@ def dbc_clean(ctx, zpak: str, dry_run: bool):
     action = "Would remove" if dry_run else "Removed"
     click.echo(f"{action} {total_removed} redundant rows total")
 
-    if skipped_tables:
-        skipped_count = sum(count for _, count in skipped_tables)
-        click.echo(click.style(
-            f"\nSkipped {len(skipped_tables)} composite-key tables ({skipped_count} rows) - see I-113:",
-            fg='yellow'
-        ))
-        for table_name, count in skipped_tables:
-            click.echo(f"  {table_name}: {count} rows")
-
     if dry_run:
         click.echo(click.style("\nRun without --dry-run to apply changes.", fg='cyan'))
     elif total_removed > 0:
         click.echo(click.style(f"\nCleanup complete!", fg='green'))
+
+dbc_clean.zpak_filter = 'has_dbc'
 
 
 # =============================================================================
@@ -1429,6 +1446,7 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         zep dbc info conflicts -t spell          # Check only spell table
     """
     from datetime import datetime
+    from lib.dbc_utils import detect_dbc_conflicts
 
     craft_root = ctx.obj['craft_root']
 
@@ -1477,104 +1495,23 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         log_file.close()
         return
 
-    # Phase 1: Scan files and find potential conflicts (IDs in multiple files)
-    log(f"[1/3] Scanning {len(sources)} zpak(s) for shared row IDs...")
+    log(f"[1/2] Scanning {len(sources)} zpak(s) for conflicts...")
 
-    table_modifications: Dict[str, Dict[int, List[Tuple[str, int, str, Path]]]] = {}
-    # Cache parsed modifications to avoid re-reading files in Phase 2
-    parsed_mods_cache: Dict[Path, Dict[str, Dict[int, List]]] = {}
-    files_scanned = 0
+    def progress(checked, total):
+        click.echo(f"      Checked {checked}/{total}...", nl=False)
+        click.echo('\r', nl=False)
 
-    for priority, zpak_name, dbc_path, sql_files in sources:
-        for sql_file in sql_files:
-            table_name = extract_table_from_filename(sql_file.name)
-            if not table_name:
-                continue
+    all_conflicts, all_redundants = detect_dbc_conflicts(
+        sources, filter_table=filter_table, progress_callback=progress
+    )
 
-            if filter_table and table_name != filter_table.lower():
-                continue
-
-            try:
-                sql_content = sql_file.read_text()
-                # Parse modifications once and cache for Phase 2
-                file_mods = parse_sql_modifications(sql_content, table_name)
-                parsed_mods_cache[sql_file] = {table_name: file_mods}
-                affected_ids = set(file_mods.keys())
-
-                if affected_ids:
-                    if table_name not in table_modifications:
-                        table_modifications[table_name] = {}
-
-                    for row_id in affected_ids:
-                        if row_id not in table_modifications[table_name]:
-                            table_modifications[table_name][row_id] = []
-                        table_modifications[table_name][row_id].append(
-                            (zpak_name, priority, sql_file.name, sql_file)
-                        )
-
-                files_scanned += 1
-
-            except Exception as e:
-                logger.warning(f"Failed to parse {sql_file}: {e}")
-                continue
-
-    # Count potential conflicts
-    potential_conflicts = {}
-    for table_name, rows in table_modifications.items():
-        conflicts = [(rid, mods) for rid, mods in rows.items() if len(mods) > 1]
-        if conflicts:
-            potential_conflicts[table_name] = conflicts
-
-    total_potential = sum(len(c) for c in potential_conflicts.values())
-    log(f"      Scanned {files_scanned} files, found {total_potential} shared rows in {len(potential_conflicts)} tables")
-
-    if not potential_conflicts:
+    if not all_conflicts and not all_redundants:
         log(click.style("\nNo conflicts detected", fg='green'))
         log_file.close()
         return
 
-    # Phase 2: Check for redundants (same values) using cached parsed modifications
-    log(f"\n[2/3] Checking {total_potential} shared rows for redundancy...")
-
-    all_conflicts = []  # (table, row_id, mods_with_values)
-    all_redundants = []  # (table, row_id, mods_with_values)
-    checked = 0
-
-    for table_name in sorted(potential_conflicts.keys()):
-        for row_id, modifiers in potential_conflicts[table_name]:
-            checked += 1
-            if checked % 100 == 0:
-                click.echo(f"      Checked {checked}/{total_potential}...", nl=False)
-                click.echo('\r', nl=False)
-
-            is_redundant = True
-            try:
-                all_mods = []
-                for zpak_name, priority, filename, filepath in modifiers:
-                    # Use cached parsed modifications instead of re-reading file
-                    cached = parsed_mods_cache.get(filepath, {}).get(table_name, {})
-                    if row_id in cached:
-                        all_mods.append((zpak_name, priority, filename, cached[row_id]))
-
-                if len(all_mods) >= 2:
-                    base_mods = all_mods[0][3]
-                    for _, _, _, other_mods in all_mods[1:]:
-                        if not compare_modifications(base_mods, other_mods):
-                            is_redundant = False
-                            break
-            except Exception:
-                is_redundant = False
-
-            # Store all_mods (with parsed values) instead of modifiers
-            if is_redundant:
-                all_redundants.append((table_name, row_id, all_mods))
-            else:
-                all_conflicts.append((table_name, row_id, all_mods))
-
-    log(f"      Checked {total_potential}/{total_potential} rows                    ")
-
-    # Phase 3: Report results
-    log(f"\n[3/3] Results:")
+    # Report results
+    log(f"\n[2/2] Results:")
     log("")
 
     # Group by table for display
@@ -1669,7 +1606,7 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
 
     log_file.close()
     click.echo()
-    click.echo(f"Scanned {len(table_modifications)} table(s) across {len(sources)} zpak(s)")
+    click.echo(f"Found issues in {len(all_tables)} table(s) across {len(sources)} zpak(s)")
 
 
 # =============================================================================
@@ -2257,106 +2194,30 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
         return list(dbc_dir.glob("[BASE,*]_*.sql"))
 
 
-@dbc_bin.command('import-module')
-@click.option('--name', '-n',
-              help='Zpak name (interactive selection if omitted)')
-@click.option('--priority', '-p', type=int, default=50,
-              help='Priority (default: 50, lower = applied first)')
-@click.option('--force', '-f', is_flag=True,
-              help='Overwrite existing DBC diff files without confirmation')
-@click.pass_context
-def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
-    """Import binary DBC files into an existing zpak.
+def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
+    """Import binary DBC files for a single zpak.
 
-    Reads configuration from zpak.json:
-      - feature_id: Required. Used for output file naming.
-      - dbc_source: Optional. Path to DBC files (default: mpq/source-assets/DBFilesClient)
+    Args:
+        ctx: Click context
+        zpak_path: Path to the zpak directory
+        craft_root: Path to Zeppelin-Craft
 
-    Examples:
-        zep dbc bin import-module                    # Interactive zpak selection
-        zep dbc bin import-module --name worgoblin   # Import specific zpak
+    Returns:
+        True if import succeeded, False if skipped or failed
     """
-    import shutil
-    import tempfile
-
-    craft_root = ctx.obj['craft_root']
-
-    # Find zpak (interactive or by name)
-    if not name:
-        try:
-            from simple_term_menu import TerminalMenu
-        except ImportError:
-            raise click.ClickException(
-                "Interactive mode requires simple-term-menu.\n"
-                "Install with: pip install simple-term-menu\n"
-                "Or specify --name directly."
-            )
-
-        all_zpaks = _discover_zpaks_with_info(craft_root)
-        if not all_zpaks:
-            raise click.ClickException("No zpaks found in zpaks/ or external/")
-
-        # Filter to only show zpaks with DBC source files
-        zpaks = [z for z in all_zpaks if z['has_dbc_source']]
-        if not zpaks:
-            raise click.ClickException(
-                "No zpaks with DBC files found.\n"
-                "DBC files should be in: zpak/mpq/source-assets/DBFilesClient/"
-            )
-
-        # Build menu options
-        options = []
-        for zpak in zpaks:
-            options.append(f"📦 {zpak['name']:<25} {zpak['description']}")
-
-        menu = TerminalMenu(
-            options,
-            title=f"\n  Select zpak to import DBC files from ({len(zpaks)} with DBC):\n",
-            menu_cursor="> ",
-            menu_cursor_style=("fg_cyan", "bold"),
-            menu_highlight_style=("fg_cyan", "bold"),
-            cycle_cursor=True,
-            clear_screen=True,
-            status_bar="↑/↓: Navigate | Enter: Select | q: Cancel",
-            status_bar_style=("fg_gray",),
-        )
-
-        result = menu.show()
-
-        if result is None:
-            click.echo("Cancelled.")
-            return
-
-        selected_zpak = zpaks[result]
-        name = selected_zpak['name']
-        zpak_path = selected_zpak['path']
-
-        click.echo(f"\nSelected: {name}")
-    else:
-        # Find zpak by name
-        zpak_path = None
-        for base in [craft_root / 'zpaks', craft_root / 'external']:
-            candidate = base / name
-            if candidate.exists() and (candidate / 'zpak.json').exists():
-                zpak_path = candidate
-                break
-
-        if not zpak_path:
-            raise click.ClickException(f"Zpak '{name}' not found")
+    name = zpak_path.name
 
     # Load zpak.json and validate required fields
     manifest = load_manifest(zpak_path / 'zpak.json')
     if not manifest:
-        raise click.ClickException(f"Failed to load zpak.json for '{name}'")
+        click.echo(click.style(f"  {name}: Failed to load zpak.json, skipping", fg='yellow'))
+        return False
 
     # Feature ID is REQUIRED
     task_id = manifest.get('feature_id')
     if not task_id:
-        raise click.ClickException(
-            f"Missing 'feature_id' in zpak.json for '{name}'.\n"
-            "Add a feature_id field to zpak.json, e.g.:\n"
-            '  "feature_id": "F-049"'
-        )
+        click.echo(click.style(f"  {name}: Missing 'feature_id' in zpak.json, skipping", fg='yellow'))
+        return False
 
     # DBC source path (optional in zpak.json, default to standard location)
     dbc_source = manifest.get('dbc_source')
@@ -2369,32 +2230,15 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
 
     # Validate source path exists and has DBC files
     if not source_path.exists():
-        raise click.ClickException(
-            f"DBC source path not found: {source_path}\n"
-            "Either create the directory with DBC files, or add 'dbc_source' to zpak.json\n"
-            "to specify a custom path."
-        )
+        click.echo(click.style(f"  {name}: DBC source path not found, skipping", fg='yellow'))
+        return False
 
     dbc_files = list(source_path.glob('*.dbc')) + list(source_path.glob('*.DBC'))
     if not dbc_files:
-        raise click.ClickException(
-            f"No DBC files found in: {source_path}\n"
-            "Add .dbc files to this directory, or specify a different path using\n"
-            "'dbc_source' in zpak.json."
-        )
+        click.echo(click.style(f"  {name}: No DBC files found, skipping", fg='yellow'))
+        return False
 
-    # Check for existing DBC files and confirm if needed
     existing_files = _get_existing_dbc_files(zpak_path, task_id)
-    if existing_files and not force:
-        click.echo(click.style(f"\nExisting DBC diff files found ({len(existing_files)}):", fg='yellow'))
-        for f in existing_files[:5]:
-            click.echo(f"  - {f.name}")
-        if len(existing_files) > 5:
-            click.echo(f"  ... and {len(existing_files) - 5} more")
-
-        if not click.confirm("\nOverwrite existing DBC diff files?"):
-            click.echo("Cancelled.")
-            return
 
     # Get config and registry
     config = get_dbc_config(ctx)
@@ -2446,7 +2290,8 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
         click.echo(click.style(f"  Reset {reset_count} table(s)", fg='green'))
 
     except Exception as e:
-        raise click.ClickException(f"Failed to reset scratch database: {e}")
+        click.echo(click.style(f"  Failed to reset scratch database: {e}", fg='red'))
+        return False
 
     # Import DBC files via DBCTool
     click.echo(f"\nStep 2: Importing DBC files via DBCTool...")
@@ -2503,7 +2348,8 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
         scratch_config_path.unlink(missing_ok=True)
 
     if not imported_tables:
-        raise click.ClickException("No tables were imported successfully")
+        click.echo(click.style(f"  No tables were imported successfully for {name}", fg='red'))
+        return False
 
     click.echo(f"  Imported {len(imported_tables)} table(s)")
 
@@ -2524,7 +2370,7 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
                     scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
                 scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
                 scratch_conn.commit()
-                return
+                return True
 
             tables_with_changes = []
             for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
@@ -2582,7 +2428,8 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
             click.echo(click.style(f"  Cleaned up {len(imported_tables)} table(s)", fg='green'))
 
     except Exception as e:
-        raise click.ClickException(f"Import failed: {e}")
+        click.echo(click.style(f"  Import failed: {e}", fg='red'))
+        return False
 
     # Register feature in registry if task_id provided
     if task_id:
@@ -2594,6 +2441,128 @@ def dbc_import_module(ctx, name: Optional[str], priority: int, force: bool):
     if task_id:
         click.echo(f"  Feature: {task_id}")
     click.echo(f"  Tables: {', '.join(tables_with_changes)}")
+    return True
+
+
+@dbc_bin.command('import')
+@click.option('--name', '-n',
+              help='Zpak name (interactive selection if omitted)')
+@click.option('--all', '-a', 'import_all', is_flag=True,
+              help='Import all zpaks with DBC source files')
+@click.option('--priority', '-p', type=int, default=50,
+              help='Priority (default: 50, lower = applied first)')
+@click.pass_context
+def dbc_import_module(ctx, name: Optional[str], import_all: bool, priority: int):
+    """Import binary DBC files into an existing zpak.
+
+    Reads configuration from zpak.json:
+      - feature_id: Required. Used for output file naming.
+      - dbc_source: Optional. Path to DBC files (default: mpq/source-assets/DBFilesClient)
+
+    Examples:
+        zep dbc bin import                    # Interactive zpak selection
+        zep dbc bin import --name worgoblin   # Import specific zpak
+        zep dbc bin import --all              # Re-import all zpaks
+    """
+    craft_root = ctx.obj['craft_root']
+
+    if import_all:
+        # Import all zpaks with DBC source files
+        all_zpaks = _discover_zpaks_with_info(craft_root)
+        zpaks_with_dbc = [z for z in all_zpaks if z['has_dbc_source'] and z.get('feature_id')]
+        if not zpaks_with_dbc:
+            raise click.ClickException(
+                "No zpaks with DBC source files and feature_id found.\n"
+                "DBC files should be in: zpak/mpq/source-assets/DBFilesClient/"
+            )
+
+        click.echo(click.style(f"Importing all {len(zpaks_with_dbc)} zpak(s) with DBC sources", bold=True))
+        click.echo()
+
+        succeeded = 0
+        failed = 0
+        skipped = 0
+        for zpak_info in zpaks_with_dbc:
+            try:
+                if _import_single_module(ctx, zpak_info['path'], craft_root):
+                    succeeded += 1
+                else:
+                    skipped += 1
+            except Exception as e:
+                click.echo(click.style(f"  {zpak_info['name']}: Error - {e}", fg='red'))
+                failed += 1
+            click.echo()
+
+        click.echo(click.style("=" * 50, bold=True))
+        click.echo(f"Results: {succeeded} imported, {skipped} skipped, {failed} failed")
+        return
+
+    # Single zpak mode
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Install with: pip install simple-term-menu\n"
+                "Or specify --name directly."
+            )
+
+        all_zpaks = _discover_zpaks_with_info(craft_root)
+        if not all_zpaks:
+            raise click.ClickException("No zpaks found in zpaks/ or external/")
+
+        # Filter to only show zpaks with DBC source files
+        zpaks = [z for z in all_zpaks if z['has_dbc_source']]
+        if not zpaks:
+            raise click.ClickException(
+                "No zpaks with DBC files found.\n"
+                "DBC files should be in: zpak/mpq/source-assets/DBFilesClient/"
+            )
+
+        # Build menu options
+        options = []
+        for zpak in zpaks:
+            options.append(f"  {zpak['name']:<25} {zpak['description']}")
+
+        menu = TerminalMenu(
+            options,
+            title=f"\n  Select zpak to import DBC files from ({len(zpaks)} with DBC):\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+            status_bar="  Navigate | Enter: Select | q: Cancel",
+            status_bar_style=("fg_gray",),
+        )
+
+        result = menu.show()
+
+        if result is None:
+            click.echo("Cancelled.")
+            return
+
+        selected_zpak = zpaks[result]
+        name = selected_zpak['name']
+        zpak_path = selected_zpak['path']
+
+        click.echo(f"\nSelected: {name}")
+    else:
+        # Find zpak by name
+        zpak_path = None
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                zpak_path = candidate
+                break
+
+        if not zpak_path:
+            raise click.ClickException(f"Zpak '{name}' not found")
+
+    _import_single_module(ctx, zpak_path, craft_root)
+
+dbc_import_module.zpak_filter = 'has_dbc_source'
 
 
 # =============================================================================

@@ -896,12 +896,11 @@ def doctor():
     checks.append(('MySQL client', mysql_path or 'NOT FOUND', bool(mysql_path)))
 
     # Check mpqcli
-    mpqcli_path = Path('/workspace/project/Zeppelin-Tools/mpqcli/mpqcli')
-    checks.append(('mpqcli', str(mpqcli_path) if mpqcli_path.exists() else 'NOT FOUND', mpqcli_path.exists()))
+    from lib.env import MPQCLI_PATH as _mpqcli_path, DBCTOOL_PATH as _dbctool_path
+    checks.append(('mpqcli', str(_mpqcli_path) if _mpqcli_path.exists() else 'NOT FOUND', _mpqcli_path.exists()))
 
     # Check DBCTool
-    dbctool_path = Path('/workspace/project/Zeppelin-Tools/DBCTool/dbctool')
-    checks.append(('DBCTool', str(dbctool_path) if dbctool_path.exists() else 'NOT FOUND', dbctool_path.exists()))
+    checks.append(('DBCTool', str(_dbctool_path) if _dbctool_path.exists() else 'NOT FOUND', _dbctool_path.exists()))
 
     # Print results
     all_ok = True

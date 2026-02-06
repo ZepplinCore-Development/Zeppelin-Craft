@@ -17,13 +17,8 @@ from typing import Any, Dict, List, Optional
 
 import click
 
+from lib.env import MPQCLI_PATH, NGINX_PATH
 from lib.manifest import load_manifest
-
-# mpqcli binary location
-MPQCLI_PATH = Path('/workspace/project/Zeppelin-Tools/mpqcli/mpqcli')
-
-# CLI directory for path resolution
-CLI_DIR = Path(__file__).parent.parent
 
 
 def _discover_zpaks_with_mpq_info(craft_root: Path, mpq_capable_only: bool = False) -> List[Dict[str, Any]]:
@@ -549,7 +544,6 @@ def mpq_info(ctx):
 
             zpak_patches.setdefault(letter, []).append({
                 'name': manifest.get('name', pkg_dir.name),
-                'type': manifest.get('type', ''),
                 'enabled': manifest.get('enabled', True),
                 'priority': manifest.get('priority', 100),
                 'has_binary': len(mpq_files) > 0,
@@ -557,7 +551,7 @@ def mpq_info(ctx):
 
     # Load patch register for build metadata
     register = {}
-    register_path = craft_root / 'Scripts' / 'Patch Builder' / 'patch_register.json'
+    register_path = NGINX_PATH / 'patch_register.json'
     if register_path.exists():
         try:
             with open(register_path) as f:
@@ -584,8 +578,8 @@ def mpq_info(ctx):
     click.echo()
 
     # Header
-    click.echo(f"  {'Patch':<10} {'Zpak':<24} {'Type':<8} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
-    click.echo(f"  {'─' * 10} {'─' * 24} {'─' * 8} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
+    click.echo(f"  {'Patch':<10} {'Zpak':<24} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
+    click.echo(f"  {'─' * 10} {'─' * 24} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
 
     for letter in sorted_letters:
         patch_key = f"PATCH-{letter}.MPQ"
@@ -600,14 +594,13 @@ def mpq_info(ctx):
         if not zpaks_for_letter:
             # Register-only entry (no zpak, e.g. generated patches)
             status = click.style("generated", fg='cyan')
-            click.echo(f"  {click.style(f'PATCH-{letter}', bold=True):<20} {'—':<24} {'—':<8} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+            click.echo(f"  {'PATCH-' + letter:<10} {'—':<24} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
         else:
             # Sort by priority within same letter
             zpaks_for_letter.sort(key=lambda z: z['priority'])
             for i, zpak in enumerate(zpaks_for_letter):
                 patch_pad = f"PATCH-{letter}" if i == 0 else " " * 7
                 name = zpak['name']
-                ztype = zpak['type']
 
                 if not zpak['enabled']:
                     status = click.style("disabled", fg='red')
@@ -616,7 +609,7 @@ def mpq_info(ctx):
                 else:
                     status = click.style("no binary", fg='yellow')
 
-                click.echo(f"  {patch_pad:<10} {name:<24} {ztype:<8} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+                click.echo(f"  {patch_pad:<10} {name:<24} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
 
                 # Only show size/source on first row for multi-zpak patches
                 size_str = ""

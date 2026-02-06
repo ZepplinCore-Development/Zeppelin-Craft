@@ -17,6 +17,14 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from lib.env import (
+    DBCTOOL_PATH,
+    DBC_EXPORT_PATH,
+    DBC_REORDER_PATH,
+    MPQCLI_PATH,
+    RESOURCE_PARSER_PATH,
+    SERVER_DBC_PATH,
+)
 from lib.logging_config import get_logger
 from lib.manifest import load_manifest
 from lib.patch_register import (
@@ -28,19 +36,11 @@ from lib.patch_register import (
 
 logger = get_logger('lib.patch_builder')
 
-# Tool paths
-DBCTOOL_PATH = Path('/workspace/project/Zeppelin-Tools/DBCTool/dbctool')
-MPQCLI_PATH = Path('/workspace/project/Zeppelin-Tools/mpqcli/mpqcli')
-
-# DBC export paths (from DBCTool config)
-DBC_EXPORT_DIR = Path('/workspace/project/Zeppelin-Tools/WoW Spell Editor/HeadlessExporter/Export')
-SERVER_DBC_DIR = Path('/workspace/project/data/dbc')
-
-# CharSections reorder module
-DBC_REORDER_DIR = Path('/workspace/project/Zeppelin-Craft/Scripts/Patch Builder')
-
-# Resource parser
-RESOURCE_PARSER_DIR = Path('/workspace/project/Zeppelin-Craft/Scripts/Resource Parser')
+# Aliases for internal use
+DBC_EXPORT_DIR = DBC_EXPORT_PATH
+SERVER_DBC_DIR = SERVER_DBC_PATH
+DBC_REORDER_DIR = DBC_REORDER_PATH
+RESOURCE_PARSER_DIR = RESOURCE_PARSER_PATH
 RESOURCE_PARSER_SCRIPT = RESOURCE_PARSER_DIR / 'resource_parser.py'
 
 # Backup directory
@@ -258,7 +258,7 @@ def build_patch_z(craft_root: Path, nginx_path: Path,
     # Step 6: Update register
     bump_build_number(register)
     bump_dbc_version(register)
-    update_patch_entry(register, patch_name, output_path)
+    update_patch_entry(register, patch_name, output_path, zpak_name='zepcraft-legacy')
 
     elapsed = time.time() - start
     size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0
@@ -370,8 +370,9 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
                 return False
 
     # Update register
+    zpak_names = ', '.join(z['name'] for z, _ in buildable)
     bump_build_number(register)
-    update_patch_entry(register, patch_name, output_path)
+    update_patch_entry(register, patch_name, output_path, zpak_name=zpak_names)
 
     elapsed = time.time() - start
     size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0
@@ -406,6 +407,23 @@ def _run_preprocessor(preprocessor: str, zpak: Dict[str, Any]) -> bool:
         config_path = RESOURCE_PARSER_DIR / 'config.conf'
         if config_path.exists():
             cmd.extend(['--config', str(config_path)])
+
+        # Determine preprocessor mode from zpak manifest (default: model-scan)
+        manifest = zpak.get('manifest', {})
+        build_config = manifest.get('build', {})
+        mode = build_config.get('preprocessor_mode', 'model-scan')
+
+        if mode == 'model-scan':
+            zpak_path = Path(zpak['path'])
+            source_dir = zpak_path / 'mpq' / 'source-assets'
+            output_dir = zpak_path / 'mpq' / 'parsed-assets'
+            cmd.extend(['--mode', 'model-scan',
+                        '--source-dir', str(source_dir),
+                        '--output-dir', str(output_dir)])
+            print(f"    Mode: model-scan (source: {source_dir.name})")
+        else:
+            cmd.extend(['--mode', 'full'])
+            print(f"    Mode: full (ADT workflow)")
 
         logger.info(f"Running resource parser for {zpak['name']}: {' '.join(cmd)}")
         print(f"    This may take several minutes...")

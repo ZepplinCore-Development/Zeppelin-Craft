@@ -14,12 +14,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+from lib.env import NGINX_PATH as DEFAULT_NGINX_PATH
 from lib.logging_config import get_logger
 
 logger = get_logger('lib.patch_register')
 
-# Default register path
-DEFAULT_NGINX_PATH = Path('/workspace/project/nginx')
 REGISTER_FILENAME = 'patch_register.json'
 
 
@@ -78,7 +77,8 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
 
 
 def update_patch_entry(register: Dict[str, Any], patch_name: str,
-                       mpq_path: Path) -> Dict[str, Any]:
+                       mpq_path: Path,
+                       zpak_name: Optional[str] = None) -> Dict[str, Any]:
     """Update metadata for a single patch after building.
 
     Increments version, recalculates checksum and size, updates timestamp.
@@ -87,12 +87,16 @@ def update_patch_entry(register: Dict[str, Any], patch_name: str,
         register: The full register dict (modified in place).
         patch_name: Patch key (e.g. "PATCH-Z.MPQ").
         mpq_path: Path to the built MPQ file.
+        zpak_name: Zpak name to store (keeps existing if not provided).
 
     Returns:
         The updated patch entry dict.
     """
     patches = register.setdefault('patches', {})
     entry = patches.get(patch_name, {})
+
+    if zpak_name:
+        entry['name'] = zpak_name
 
     # Increment version
     entry['version'] = entry.get('version', 0) + 1
@@ -177,34 +181,45 @@ def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -
     patches = register.get('patches', {})
 
     lines = []
-    lines.append(f"Build #{metadata.get('build_number', '?')}  "
+    lines.append(f"  Build #{metadata.get('build_number', '?')}  "
                  f"DBC v{metadata.get('dbc_version', '?')}  "
                  f"Updated: {register.get('last_updated', 'never')[:19]}")
     lines.append("")
 
-    # Sort patches by name
-    for name in sorted(patches.keys()):
-        entry = patches[name]
-        mpq_path = get_patch_output_path(nginx_path, name, register)
+    # Header
+    lines.append(f"  {'Patch':<10} {'Name':<24} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
+    lines.append(f"  {'─' * 10} {'─' * 24} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
+
+    # Sort: numeric first, then alpha
+    sorted_names = sorted(patches.keys(),
+                          key=lambda n: (not n.replace('PATCH-', '').replace('.MPQ', '').isdigit(),
+                                         n.replace('PATCH-', '').replace('.MPQ', '')))
+
+    for patch_key in sorted_names:
+        entry = patches[patch_key]
+        letter = patch_key.replace('PATCH-', '').replace('.MPQ', '')
+        mpq_path = get_patch_output_path(nginx_path, patch_key, register)
         exists = mpq_path.exists()
 
-        # Format size
+        name = entry.get('name', '—')
+        mandatory = "yes" if entry.get('is_mandatory') else "no"
+        source = entry.get('build_source', '—')
+
         size = entry.get('size_mb', 0)
-        if size >= 1024:
-            size_str = f"{size/1024:.1f} GB"
-        elif size > 0:
-            size_str = f"{size:.0f} MB"
+        size_str = f"{size:.0f} MB" if size else "—"
+
+        if exists:
+            status = "ready"
         else:
-            size_str = "-- MB"
+            status = "missing"
 
-        # Status indicator
-        mandatory = "M" if entry.get('is_mandatory') else "O"
-        source = entry.get('build_source', 'unknown')[:8]
-        exists_mark = "+" if exists else "-"
+        lines.append(f"  {'PATCH-' + letter:<10} {name:<24} {mandatory:<11} {size_str:<10} {source:<16} {status}")
 
-        lines.append(f"  [{exists_mark}] {name:<16} v{entry.get('version', '?'):<4} "
-                     f"{size_str:>8}  [{mandatory}] {source:<10} "
-                     f"{entry.get('name', '')[:35]}")
+    # Summary
+    mandatory_count = sum(1 for e in patches.values() if e.get('is_mandatory'))
+    optional_count = len(patches) - mandatory_count
+    lines.append("")
+    lines.append(f"  {len(patches)} patches ({mandatory_count} mandatory, {optional_count} optional)")
 
     return '\n'.join(lines)
 
