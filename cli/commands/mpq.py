@@ -447,14 +447,30 @@ def mpq_extract(ctx, mpq_file: Optional[str], destination: Optional[str],
     if keep_structure:
         args.append('-k')
 
-    result = run_mpqcli(args)
+    # Stream output and show periodic progress instead of dumping every filename
+    mpqcli = get_mpqcli()
+    cmd = [str(mpqcli)] + args
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    except FileNotFoundError:
+        raise click.ClickException(f"Failed to execute mpqcli: {mpqcli}")
 
-    if result.returncode != 0:
-        if result.stderr:
-            click.echo(result.stderr, err=True)
-        raise click.ClickException(f"mpqcli extract failed with code {result.returncode}")
+    extracted = 0
+    PROGRESS_INTERVAL = 500
+    for line in proc.stdout:
+        extracted += 1
+        if extracted % PROGRESS_INTERVAL == 0:
+            click.echo(f"  Extracted {extracted:,} files...")
 
-    click.echo(click.style("Extraction complete", fg='green'))
+    proc.wait()
+
+    if proc.returncode != 0:
+        stderr = proc.stderr.read()
+        if stderr:
+            click.echo(stderr, err=True)
+        raise click.ClickException(f"mpqcli extract failed with code {proc.returncode}")
+
+    click.echo(click.style(f"  Extraction complete — {extracted:,} files", fg='green'))
 
 mpq_extract.zpak_filter = 'mpq_capable'
 
@@ -781,28 +797,6 @@ def mpq_duplicates(ctx, verbose: bool):
     ))
     click.echo()
 
-    # ── Summary table ──
-    click.echo(click.style("  Conflict Breakdown", bold=True))
-    click.echo()
-    click.echo(f"  {'Zpak':<24} {'Patch':<10} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With")
-    click.echo(f"  {'─' * 24} {'─' * 10} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}")
-
-    for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
-        stats = zpak_stats[name]
-        patch = zpak_patches.get(name, '')
-        diff = stats['different']
-        ident = stats['identical']
-        total = diff + ident
-        top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
-        rival_str = f"{top_rival} ({top_count:,})"
-
-        diff_str = f"{diff:>9,}"
-        if diff:
-            diff_str = click.style(diff_str, fg='red')
-        click.echo(f"  {name:<24} {patch:<10} {diff_str} {ident:>9,} {total:>7,}  {rival_str}")
-
-    click.echo()
-
     # ── Per-zpak sample conflicts (up to 5 different per zpak) ──
     click.echo(click.style("  Sample Conflicts (up to 5 different per zpak)", bold=True))
     click.echo()
@@ -832,6 +826,29 @@ def mpq_duplicates(ctx, verbose: bool):
             click.echo(click.style(f"    ... and {remaining:,} more (see log file)", dim=True))
         click.echo()
 
+    # ── Summary table ──
+    click.echo(click.style("  Conflict Breakdown", bold=True))
+    click.echo()
+    click.echo(f"  {'Zpak':<24} {'Patch':<10} {'Assets':>6} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With")
+    click.echo(f"  {'─' * 24} {'─' * 10} {'─' * 6} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}")
+
+    for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
+        stats = zpak_stats[name]
+        patch = zpak_patches.get(name, '')
+        assets = zpak_counts.get(name, 0)
+        diff = stats['different']
+        ident = stats['identical']
+        total = diff + ident
+        top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
+        rival_str = f"{top_rival} ({top_count:,})"
+
+        diff_str = f"{diff:>9,}"
+        if diff:
+            diff_str = click.style(diff_str, fg='red')
+        click.echo(f"  {name:<24} {patch:<10} {assets:>6,} {diff_str} {ident:>9,} {total:>7,}  {rival_str}")
+
+    click.echo()
+
     # ── Write full report to log file ──
     log_dir = craft_root / 'logs'
     log_dir.mkdir(exist_ok=True)
@@ -843,23 +860,6 @@ def mpq_duplicates(ctx, verbose: bool):
         f.write(f"{'=' * 60}\n\n")
         f.write(f"Scanned {scanned} zpaks ({total_assets:,} assets)\n")
         f.write(f"Found {len(conflicts):,} conflicts: {diverged_count:,} different, {identical_count:,} identical\n\n")
-
-        # Summary table in log
-        f.write(f"{'─' * 96}\n")
-        f.write(f"CONFLICT BREAKDOWN\n")
-        f.write(f"{'─' * 96}\n\n")
-        f.write(f"  {'Zpak':<24} {'Patch':<10} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With\n")
-        f.write(f"  {'─' * 24} {'─' * 10} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}\n")
-        for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
-            stats = zpak_stats[name]
-            patch = zpak_patches.get(name, '')
-            diff = stats['different']
-            ident = stats['identical']
-            total = diff + ident
-            top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
-            rival_str = f"{top_rival} ({top_count:,})"
-            f.write(f"  {name:<24} {patch:<10} {diff:>9,} {ident:>9,} {total:>7,}  {rival_str}\n")
-        f.write("\n")
 
         if diverged_count:
             f.write(f"{'─' * 60}\n")
@@ -885,6 +885,24 @@ def mpq_duplicates(ctx, verbose: bool):
                 zpak_names = ', '.join(e[0] for e in entries)
                 f.write(f"  {display_path}  ({size_str})\n")
                 f.write(f"    → {zpak_names}\n\n")
+
+        # Conflict breakdown table in log
+        f.write(f"{'─' * 102}\n")
+        f.write(f"CONFLICT BREAKDOWN\n")
+        f.write(f"{'─' * 102}\n\n")
+        f.write(f"  {'Zpak':<24} {'Patch':<10} {'Assets':>6} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With\n")
+        f.write(f"  {'─' * 24} {'─' * 10} {'─' * 6} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}\n")
+        for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
+            stats = zpak_stats[name]
+            patch = zpak_patches.get(name, '')
+            assets = zpak_counts.get(name, 0)
+            diff = stats['different']
+            ident = stats['identical']
+            total = diff + ident
+            top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
+            rival_str = f"{top_rival} ({top_count:,})"
+            f.write(f"  {name:<24} {patch:<10} {assets:>6,} {diff:>9,} {ident:>9,} {total:>7,}  {rival_str}\n")
+        f.write("\n")
 
     click.echo(f"  Full report: {click.style(str(log_path), fg='cyan')}")
     click.echo()
