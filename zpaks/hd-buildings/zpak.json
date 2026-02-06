@@ -11,6 +11,12 @@
     "preprocessor_optional": true,
     "preprocessor_warning": "Resource Parser scans models for texture dependencies."
   },
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": false,
+    "auto_update": false,
+    "requires": []
+  },
   "feature_id": "F-047",
   "contents": {
     "mpq": ["mpq/**/*"]

@@ -7,6 +7,12 @@
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-L",
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
   "contents": {
     "mpq": ["mpq/**/*"]
   },

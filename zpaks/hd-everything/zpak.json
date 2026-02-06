@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-everything",
+  "version": "1.0.0",
+  "description": "All-in-one HD overhaul - 2x AI upscaled textures for creatures, mounts, armor, weapons, world, water, NPCs, plus retro-ported tree models for 32 zones and extended fog distance",
+  "author": "Maribeth (Odyssey Mods)",
+  "type": "mpq",
+  "client_patch": "PATCH-8",
+  "source": {
+    "type": "nexusmods",
+    "url": "https://www.nexusmods.com/worldofwarcraft/mods/850"
+  },
+  "feature_id": "F-049",
+  "feature_ids": ["F-049", "F-137", "F-138", "F-139", "F-140", "F-145", "F-146", "F-147"],
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": false,
+    "auto_update": false,
+    "requires": []
+  },
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}

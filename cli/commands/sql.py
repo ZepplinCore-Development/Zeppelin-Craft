@@ -29,6 +29,8 @@ from typing import Dict, List, Optional, Tuple
 import click
 from dotenv import load_dotenv
 
+from lib.manifest import is_feature_disabled
+
 # Load .env from cli directory
 _cli_dir = Path(__file__).parent.parent
 _env_file = _cli_dir / '.env'
@@ -315,18 +317,22 @@ def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
         zpak_dir = craft_root / 'zpaks' / zpak_name
         manifest = load_zpak_manifest(zpak_dir)
         if manifest:
+            disabled = set(manifest.get('disabled_features', []))
             paths = get_zpak_sql_paths(craft_root, zpak_name, manifest)
             files = collect_sql_files_from_paths(paths)
             for f, src in files:
                 if source_filter is None or src in source_filter:
-                    all_files.append((f, zpak_name, src))
+                    if not is_feature_disabled(f.name, disabled):
+                        all_files.append((f, zpak_name, src))
     else:
         for name, manifest in get_enabled_zpaks_by_priority(craft_root):
+            disabled = set(manifest.get('disabled_features', []))
             paths = get_zpak_sql_paths(craft_root, name, manifest)
             files = collect_sql_files_from_paths(paths)
             for f, src in files:
                 if source_filter is None or src in source_filter:
-                    all_files.append((f, name, src))
+                    if not is_feature_disabled(f.name, disabled):
+                        all_files.append((f, name, src))
 
     return all_files
 
@@ -796,19 +802,43 @@ def tool_list(ctx, zpak_name, changed):
         click.echo(f"\nSummary: {len(new_files)} new, {len(modified_files)} modified, {unchanged_count} unchanged")
         return
 
-    # Show all files
-    sql_files = collect_all_sql_files(craft_root, zpak_name)
+    # Show all files (including disabled, with markers)
+    # Collect without feature filtering so we can show disabled markers
+    all_files_raw = []
+    disabled_map = {}  # zpak_name -> set of disabled feature IDs
 
-    if not sql_files:
+    if zpak_name:
+        zpak_dir = craft_root / 'zpaks' / zpak_name
+        manifest = load_zpak_manifest(zpak_dir)
+        if manifest:
+            disabled_map[zpak_name] = set(manifest.get('disabled_features', []))
+            paths = get_zpak_sql_paths(craft_root, zpak_name, manifest)
+            files = collect_sql_files_from_paths(paths)
+            for f, src in files:
+                all_files_raw.append((f, zpak_name, src))
+    else:
+        for name, manifest in get_enabled_zpaks_by_priority(craft_root):
+            disabled_map[name] = set(manifest.get('disabled_features', []))
+            paths = get_zpak_sql_paths(craft_root, name, manifest)
+            files = collect_sql_files_from_paths(paths)
+            for f, src in files:
+                all_files_raw.append((f, name, src))
+
+    if not all_files_raw:
         click.echo("No SQL files found")
         return
 
-    click.echo(f"\nSQL files ({len(sql_files)} total):\n")
+    disabled_count = sum(
+        1 for f, z, s in all_files_raw
+        if is_feature_disabled(f.name, disabled_map.get(z, set()))
+    )
+    active_count = len(all_files_raw) - disabled_count
+    click.echo(f"\nSQL files ({active_count} active, {disabled_count} disabled, {len(all_files_raw)} total):\n")
 
     current_zpak = None
     current_folder = None
 
-    for sql_file, zpak, source in sql_files:
+    for sql_file, zpak, source in all_files_raw:
         if zpak != current_zpak:
             current_zpak = zpak
             current_folder = None
@@ -830,7 +860,10 @@ def tool_list(ctx, zpak_name, changed):
             source_tag = f" ({source})" if source in ['base', 'updates'] else ""
             click.echo(f"  {rel_folder}/{source_tag}")
 
-        click.echo(f"    {sql_file.name}")
+        if is_feature_disabled(sql_file.name, disabled_map.get(zpak, set())):
+            click.echo(f"    {sql_file.name}  {click.style('[DISABLED]', fg='yellow')}")
+        else:
+            click.echo(f"    {sql_file.name}")
 
 
 @sql_tool.command('history')

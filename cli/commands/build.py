@@ -18,7 +18,6 @@ from lib.patch_builder import (
     build_generic_patch,
     build_patch_z,
     discover_patches,
-    get_zpak_build_info,
     get_zpak_parsed_assets,
 )
 from lib.patch_register import (
@@ -26,6 +25,7 @@ from lib.patch_register import (
     format_register_summary,
     get_patch_output_path,
     load_register,
+    regenerate_register,
     save_register,
     update_patch_entry,
 )
@@ -159,12 +159,18 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
         else:
             failed += 1
 
-    # Save register
+    # Save register and regenerate to keep in sync with manifests
     if not dry_run and built > 0:
         if save_register(register, nginx_path):
             click.echo(f"\nPatch register updated")
         else:
             click.echo(click.style("\nWarning: Failed to save patch register", fg='yellow'))
+
+        # Auto-regenerate to sync metadata from zpak manifests
+        regen = regenerate_register(craft_root, nginx_path)
+        orphans = regen.get('orphans', [])
+        if orphans:
+            click.echo(f"  Cleaned {len(orphans)} orphan register entries")
 
     # Summary
     elapsed = time.time() - start
@@ -294,12 +300,12 @@ def _build_mode_menu(letter: str, patches: dict, register: dict,
             {'quick': True, 'parse': False},
         ]
     else:
-        has_preprocessor = any(
-            get_zpak_build_info(z['manifest']).get('preprocessor')
+        has_source_assets = any(
+            (Path(z['path']) / 'mpq' / 'source-assets').exists()
             for z in zpaks
         )
 
-        if has_preprocessor:
+        if has_source_assets:
             options = [
                 "Build            Pack existing parsed-assets",
                 "Parse            Run preprocessor only (no pack)",
@@ -343,8 +349,8 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
     except ImportError:
         return {'quick': False, 'parse': False}
 
-    has_preprocessor = any(
-        get_zpak_build_info(z['manifest']).get('preprocessor')
+    has_source_assets = any(
+        (Path(z['path']) / 'mpq' / 'source-assets').exists()
         for zpaks in patches.values()
         for z in zpaks
     )
@@ -352,7 +358,7 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
     options = []
     modes = []
 
-    if has_preprocessor:
+    if has_source_assets:
         options = [
             "Build            Pack all patches from existing parsed-assets",
             "Parse + Build    Run preprocessors first, then pack all",
@@ -393,18 +399,30 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
 @click.option('--show', '-s', is_flag=True, help='Show current patch versions')
 @click.option('--update', '-u', is_flag=True,
               help='Recalculate checksums and sizes for all existing patches')
+@click.option('--regenerate', '-r', is_flag=True,
+              help='Regenerate register from zpak manifests, removing orphan entries')
+@click.option('--dry-run', '-n', is_flag=True,
+              help='Preview changes without modifying files (use with --regenerate)')
 @click.pass_context
-def build_register(ctx, show, update):
+def build_register(ctx, show, update, regenerate, dry_run):
     """Manage the patch register.
 
     The patch register tracks version, checksum, and size metadata
     for each MPQ patch file. The launcher uses this for update detection.
 
     Examples:
-        zep build register --show     # Show current state
-        zep build register --update   # Recalculate all checksums
+        zep build register --show              # Show current state
+        zep build register --update            # Recalculate all checksums
+        zep build register --regenerate        # Sync register with zpak manifests
+        zep build register -r --dry-run        # Preview regeneration
     """
+    craft_root = ctx.obj['craft_root']
     nginx_path = DEFAULT_NGINX_PATH
+
+    if regenerate:
+        _run_regenerate(craft_root, nginx_path, dry_run)
+        return
+
     register = load_register(nginx_path)
 
     if show or (not show and not update):
@@ -430,5 +448,56 @@ def build_register(ctx, show, update):
             click.echo(click.style(f"\nUpdated {updated} patch(es)", fg='green'))
         else:
             click.echo(click.style("\nFailed to save register", fg='red'))
+
+
+def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
+    """Execute register regeneration and display results."""
+    prefix = "[DRY RUN] " if dry_run else ""
+
+    click.echo(f"\n{prefix}Regenerating patch register from zpak manifests...\n")
+
+    result = regenerate_register(craft_root, nginx_path, dry_run=dry_run)
+
+    synced = result['synced']
+    orphans = result['orphans']
+    deleted_files = result['deleted_files']
+
+    # Show synced entries
+    if synced:
+        click.echo(f"  {prefix}Synced {len(synced)} patch(es) from zpak manifests:")
+        for key in synced:
+            entry = result['register']['patches'][key]
+            mpq_path = nginx_path / ('mandatory' if entry.get('is_mandatory') else 'optional') / key
+            status = "ready" if mpq_path.exists() else "missing"
+            click.echo(f"    {key:<16} {entry.get('name', '?'):<24} {status}")
+
+    # Show orphans
+    if orphans:
+        click.echo(f"\n  {prefix}Removed {len(orphans)} orphan(s) (no matching zpak):")
+        for key in orphans:
+            click.echo(f"    {key}")
+
+    # Show deleted files
+    if deleted_files:
+        click.echo(f"\n  {prefix}Deleted {len(deleted_files)} orphan MPQ file(s):")
+        for path in deleted_files:
+            click.echo(f"    {path}")
+    elif orphans:
+        click.echo(f"\n  No orphan MPQ files found on disk")
+
+    # Summary
+    click.echo()
+    if dry_run:
+        click.echo(click.style(
+            f"[DRY RUN] Would sync {len(synced)} entries, "
+            f"remove {len(orphans)} orphans, "
+            f"delete {len(deleted_files)} MPQ files",
+            fg='yellow'))
+    else:
+        click.echo(click.style(
+            f"Register regenerated: {len(synced)} entries synced, "
+            f"{len(orphans)} orphans removed, "
+            f"{len(deleted_files)} MPQ files deleted",
+            fg='green'))
 
 

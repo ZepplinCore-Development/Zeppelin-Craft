@@ -35,7 +35,7 @@ except ImportError:
     sys.exit(1)
 
 from lib.registry import Registry
-from lib.manifest import load_manifest, validate_manifest
+from lib.manifest import load_manifest, save_manifest, validate_manifest, extract_feature_ids, is_feature_disabled
 from lib.logging_config import setup_logging, get_logger
 
 # Initialize logging at startup
@@ -254,6 +254,11 @@ def zpak_info(ctx, name):
     # Show feature ID
     if manifest.get('feature_id'):
         click.echo(f"\nFeature: {manifest['feature_id']}")
+
+    # Show disabled features
+    disabled = manifest.get('disabled_features', [])
+    if disabled:
+        click.echo(f"\nDisabled Features ({len(disabled)}): {', '.join(sorted(disabled))}")
 
     click.echo()
 
@@ -751,6 +756,274 @@ def zpak_edit(ctx, name):
                     manifest[field] = new_value
             elif field in manifest:
                 del manifest[field]
+
+
+## =============================================================================
+# zpak feature subgroup
+# =============================================================================
+
+@zpak.group('feature')
+@click.pass_context
+def zpak_feature(ctx):
+    """Per-feature enable/disable within zpaks"""
+    pass
+
+
+def _find_zpak_path(craft_root, name):
+    """Find zpak directory by name."""
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        candidate = base / name
+        if candidate.exists() and (candidate / 'zpak.json').exists():
+            return candidate
+    return None
+
+
+def _collect_zpak_feature_files(craft_root, zpak_path, manifest):
+    """Collect all SQL/DBC files and their feature IDs for a zpak.
+
+    Returns dict mapping feature_id -> {'sql': [filenames], 'dbc': [filenames]}
+    """
+    from commands.sql import get_zpak_sql_paths, collect_sql_files_from_paths
+
+    features = {}  # feature_id -> {'sql': [], 'dbc': []}
+
+    # Collect SQL files
+    zpak_name = manifest.get('name', zpak_path.name)
+    sql_paths = get_zpak_sql_paths(craft_root, zpak_name, manifest)
+    sql_files = collect_sql_files_from_paths(sql_paths)
+    for f, src in sql_files:
+        for fid in extract_feature_ids(f.name):
+            features.setdefault(fid, {'sql': [], 'dbc': []})
+            features[fid]['sql'].append(f.name)
+
+    # Collect DBC files
+    dbc_dir = zpak_path / 'dbc'
+    if dbc_dir.exists():
+        for f in sorted(dbc_dir.glob('*.sql')):
+            for fid in extract_feature_ids(f.name):
+                features.setdefault(fid, {'sql': [], 'dbc': []})
+                features[fid]['dbc'].append(f.name)
+
+    return features
+
+
+def _find_zpak_for_feature(craft_root, feature_id):
+    """Find which zpak(s) contain a given feature ID. Returns list of (name, path)."""
+    results = []
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        if not base.exists():
+            continue
+        for pkg_dir in sorted(base.iterdir()):
+            if not pkg_dir.is_dir():
+                continue
+            manifest_path = pkg_dir / 'zpak.json'
+            if not manifest_path.exists():
+                continue
+            manifest = load_manifest(manifest_path)
+            if not manifest or not manifest.get('enabled', True):
+                continue
+            features = _collect_zpak_feature_files(craft_root, pkg_dir, manifest)
+            if feature_id in features:
+                results.append((manifest.get('name', pkg_dir.name), pkg_dir))
+    return results
+
+
+@zpak_feature.command('list')
+@click.argument('name', required=False)
+@click.pass_context
+def feature_list(ctx, name):
+    """List feature IDs in a zpak with enabled/disabled status.
+
+    Examples:
+        zep zpak feature list zepcraft-legacy
+    """
+    craft_root = ctx.obj['craft_root']
+
+    if not name:
+        raise click.ClickException("Zpak name required: zep zpak feature list <zpak-name>")
+
+    zpak_path = _find_zpak_path(craft_root, name)
+    if not zpak_path:
+        raise click.ClickException(f"Package '{name}' not found")
+
+    manifest = load_manifest(zpak_path / 'zpak.json')
+    if not manifest:
+        raise click.ClickException(f"Could not load manifest for '{name}'")
+
+    features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
+    if not features:
+        click.echo(f"No feature IDs found in {name}")
+        return
+
+    disabled = set(manifest.get('disabled_features', []))
+
+    click.echo(f"\nFeatures in {name}:\n")
+
+    disabled_count = 0
+    enabled_count = 0
+
+    for fid in sorted(features.keys()):
+        info = features[fid]
+        sql_count = len(info['sql'])
+        dbc_count = len(info['dbc'])
+
+        parts = []
+        if sql_count:
+            parts.append(f"{sql_count} sql")
+        if dbc_count:
+            parts.append(f"{dbc_count} dbc")
+        total = sql_count + dbc_count
+        file_desc = f"({total} file{'s' if total != 1 else ''}: {', '.join(parts)})"
+
+        if fid in disabled:
+            icon = click.style("○", fg='yellow')
+            marker = click.style("  [DISABLED]", fg='yellow')
+            click.echo(f"  {icon} {fid}  {file_desc}{marker}")
+            disabled_count += 1
+        else:
+            icon = click.style("✓", fg='green')
+            click.echo(f"  {icon} {fid}  {file_desc}")
+            enabled_count += 1
+
+    click.echo(f"\n{disabled_count} feature{'s' if disabled_count != 1 else ''} disabled, "
+               f"{enabled_count} enabled")
+
+
+@zpak_feature.command('disable')
+@click.argument('feature_id')
+@click.option('--zpak', '-z', 'zpak_name', help='Target zpak (auto-detected if omitted)')
+@click.pass_context
+def feature_disable(ctx, feature_id, zpak_name):
+    """Disable a feature ID in a zpak.
+
+    Files tagged with this feature ID will be skipped during SQL/DBC execution.
+
+    Examples:
+        zep zpak feature disable F-005 --zpak zepcraft-legacy
+        zep zpak feature disable F-005
+    """
+    craft_root = ctx.obj['craft_root']
+
+    # Validate feature ID format
+    import re
+    if not re.match(r'^[FI]-\d{3}$', feature_id):
+        raise click.ClickException(f"Invalid feature ID format: {feature_id} (expected F-XXX or I-XXX)")
+
+    # Find zpak
+    if zpak_name:
+        zpak_path = _find_zpak_path(craft_root, zpak_name)
+        if not zpak_path:
+            raise click.ClickException(f"Package '{zpak_name}' not found")
+    else:
+        matches = _find_zpak_for_feature(craft_root, feature_id)
+        if not matches:
+            raise click.ClickException(f"No enabled zpak contains feature {feature_id}")
+        if len(matches) > 1:
+            names = ', '.join(n for n, _ in matches)
+            raise click.ClickException(
+                f"Feature {feature_id} found in multiple zpaks: {names}\n"
+                f"Use --zpak to specify which one."
+            )
+        zpak_name, zpak_path = matches[0]
+
+    manifest_path = zpak_path / 'zpak.json'
+    manifest = load_manifest(manifest_path)
+    if not manifest:
+        raise click.ClickException(f"Could not load manifest for '{zpak_name}'")
+
+    # Check feature exists in zpak
+    features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
+    if feature_id not in features:
+        raise click.ClickException(f"Feature {feature_id} not found in {zpak_name}")
+
+    # Add to disabled_features
+    disabled = manifest.get('disabled_features', [])
+    if feature_id in disabled:
+        click.echo(f"{feature_id} is already disabled in {zpak_name}")
+        return
+
+    disabled.append(feature_id)
+    disabled.sort()
+    manifest['disabled_features'] = disabled
+
+    if not save_manifest(manifest_path, manifest):
+        raise click.ClickException(f"Failed to save manifest for '{zpak_name}'")
+
+    info = features[feature_id]
+    total = len(info['sql']) + len(info['dbc'])
+    click.echo(f"Disabled {feature_id} in {zpak_name} ({total} file{'s' if total != 1 else ''} will be skipped)")
+
+
+@zpak_feature.command('enable')
+@click.argument('feature_id')
+@click.option('--zpak', '-z', 'zpak_name', help='Target zpak (auto-detected if omitted)')
+@click.pass_context
+def feature_enable(ctx, feature_id, zpak_name):
+    """Re-enable a previously disabled feature ID.
+
+    Examples:
+        zep zpak feature enable F-005 --zpak zepcraft-legacy
+        zep zpak feature enable F-005
+    """
+    craft_root = ctx.obj['craft_root']
+
+    # Validate feature ID format
+    import re
+    if not re.match(r'^[FI]-\d{3}$', feature_id):
+        raise click.ClickException(f"Invalid feature ID format: {feature_id} (expected F-XXX or I-XXX)")
+
+    # Find zpak
+    if zpak_name:
+        zpak_path = _find_zpak_path(craft_root, zpak_name)
+        if not zpak_path:
+            raise click.ClickException(f"Package '{zpak_name}' not found")
+    else:
+        # Search zpaks that have this feature disabled
+        found = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if not pkg_dir.is_dir():
+                    continue
+                mp = pkg_dir / 'zpak.json'
+                if not mp.exists():
+                    continue
+                m = load_manifest(mp)
+                if m and feature_id in m.get('disabled_features', []):
+                    found.append((m.get('name', pkg_dir.name), pkg_dir))
+
+        if not found:
+            raise click.ClickException(f"No zpak has {feature_id} disabled")
+        if len(found) > 1:
+            names = ', '.join(n for n, _ in found)
+            raise click.ClickException(
+                f"Feature {feature_id} is disabled in multiple zpaks: {names}\n"
+                f"Use --zpak to specify which one."
+            )
+        zpak_name, zpak_path = found[0]
+
+    manifest_path = zpak_path / 'zpak.json'
+    manifest = load_manifest(manifest_path)
+    if not manifest:
+        raise click.ClickException(f"Could not load manifest for '{zpak_name}'")
+
+    disabled = manifest.get('disabled_features', [])
+    if feature_id not in disabled:
+        click.echo(f"{feature_id} is not disabled in {zpak_name}")
+        return
+
+    disabled.remove(feature_id)
+    if disabled:
+        manifest['disabled_features'] = disabled
+    else:
+        # Remove empty list from manifest for cleanliness
+        manifest.pop('disabled_features', None)
+
+    if not save_manifest(manifest_path, manifest):
+        raise click.ClickException(f"Failed to save manifest for '{zpak_name}'")
+
+    click.echo(f"Enabled {feature_id} in {zpak_name}")
 
 
 @zpak.command('delete')

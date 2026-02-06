@@ -12,6 +12,12 @@
     "patch_o_source": "mpq/source-assets",
     "preprocessor_warning": "Resource Parser extracts custom assets and dependencies. This may take 10-15 minutes."
   },
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
   "feature_id": "F-136",
   "contents": {
     "mpq": ["mpq/**/*"]

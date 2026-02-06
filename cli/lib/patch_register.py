@@ -12,7 +12,7 @@ import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from lib.env import NGINX_PATH as DEFAULT_NGINX_PATH
 from lib.logging_config import get_logger
@@ -222,6 +222,136 @@ def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -
     lines.append(f"  {len(patches)} patches ({mandatory_count} mandatory, {optional_count} optional)")
 
     return '\n'.join(lines)
+
+
+def regenerate_register(craft_root: Path, nginx_path: Path = None,
+                        dry_run: bool = False) -> Dict[str, Any]:
+    """Regenerate the patch register from zpak manifests.
+
+    Scans all zpaks with client_patch assignments and rebuilds the register
+    entries from their manifests + launcher metadata. Preserves version counters
+    and file metadata from existing entries. Removes orphan entries and deletes
+    orphan MPQ files.
+
+    Args:
+        craft_root: Path to Zeppelin-Craft root.
+        nginx_path: Path to NGINX root directory.
+        dry_run: If True, report changes without modifying files.
+
+    Returns:
+        Dict with keys: register, synced, orphans, deleted_files.
+    """
+    from lib.patch_builder import discover_patches
+
+    nginx_path = nginx_path or DEFAULT_NGINX_PATH
+    register = load_register(nginx_path)
+    old_patches = register.get('patches', {})
+
+    # Discover all zpaks with client_patch assignments
+    patch_groups = discover_patches(craft_root)
+
+    # Build new patches dict from zpak manifests
+    new_patches = {}
+    synced = []
+
+    for letter, zpaks in sorted(patch_groups.items()):
+        patch_key = f"PATCH-{letter}.MPQ"
+        # Use the first (usually only) zpak for this patch letter
+        zpak = zpaks[0]
+        manifest = zpak['manifest']
+        launcher = manifest.get('launcher', {})
+
+        # Determine build_source
+        build = manifest.get('build', {})
+        if build.get('preprocessor'):
+            build_source = 'resource_parser'
+        elif letter == 'Z':
+            build_source = 'generated'
+        else:
+            build_source = 'static'
+
+        # Preserve existing version and file metadata
+        old_entry = old_patches.get(patch_key, {})
+
+        entry = {
+            'name': manifest.get('name', zpak['name']),
+            'description': manifest.get('description', ''),
+            'is_mandatory': launcher.get('mandatory', False),
+            'is_enabled_by_default': launcher.get('enabled_by_default', False),
+            'auto_update': launcher.get('auto_update', False),
+            'requires': launcher.get('requires', []),
+            'required_for': [],  # computed below
+            'build_source': build_source,
+            'version': old_entry.get('version', 0),
+            'size_mb': old_entry.get('size_mb', 0),
+            'checksum': old_entry.get('checksum', ''),
+            'last_modified': old_entry.get('last_modified', ''),
+        }
+
+        # Update file metadata from MPQ on disk if it exists
+        mpq_path = _resolve_mpq_path(nginx_path, patch_key, entry.get('is_mandatory', False))
+        if mpq_path.exists():
+            current_size = round(mpq_path.stat().st_size / (1024 * 1024), 1)
+            entry['size_mb'] = current_size
+            entry['last_modified'] = datetime.fromtimestamp(
+                mpq_path.stat().st_mtime, tz=timezone.utc
+            ).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
+            # Only recompute checksum if size changed or missing
+            old_size = old_entry.get('size_mb', 0)
+            if not old_entry.get('checksum') or current_size != old_size:
+                entry['checksum'] = _calculate_checksum(mpq_path)
+
+        new_patches[patch_key] = entry
+        synced.append(patch_key)
+
+    # Compute required_for (inverse of requires)
+    for patch_key, entry in new_patches.items():
+        for req in entry.get('requires', []):
+            if req in new_patches:
+                new_patches[req].setdefault('required_for', [])
+                if patch_key not in new_patches[req]['required_for']:
+                    new_patches[req]['required_for'].append(patch_key)
+
+    # Identify orphans: old entries with no matching zpak
+    orphan_keys = [k for k in old_patches if k not in new_patches]
+    deleted_files = []
+
+    for orphan_key in orphan_keys:
+        orphan_entry = old_patches[orphan_key]
+        is_mandatory = orphan_entry.get('is_mandatory', False)
+        mpq_path = _resolve_mpq_path(nginx_path, orphan_key, is_mandatory)
+
+        if mpq_path.exists():
+            if dry_run:
+                deleted_files.append(str(mpq_path))
+            else:
+                try:
+                    mpq_path.unlink()
+                    deleted_files.append(str(mpq_path))
+                    logger.info(f"Deleted orphan MPQ: {mpq_path}")
+                except OSError as e:
+                    logger.error(f"Failed to delete orphan MPQ {mpq_path}: {e}")
+
+    # Update register
+    if not dry_run:
+        register['patches'] = new_patches
+        save_register(register, nginx_path)
+
+    return {
+        'register': register if dry_run else {**register, 'patches': new_patches},
+        'synced': synced,
+        'orphans': orphan_keys,
+        'deleted_files': deleted_files,
+    }
+
+
+def _resolve_mpq_path(nginx_path: Path, patch_key: str, is_mandatory: bool) -> Path:
+    """Resolve the expected path for a patch MPQ file."""
+    if is_mandatory:
+        return nginx_path / 'mandatory' / patch_key
+    else:
+        return nginx_path / 'optional' / patch_key
 
 
 # --- Private helpers ---

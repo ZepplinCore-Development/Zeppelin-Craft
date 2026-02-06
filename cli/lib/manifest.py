@@ -5,8 +5,9 @@ Provides loading, validation, and manipulation of zpak.json files.
 """
 
 import json
+import re
 from pathlib import Path
-from typing import Optional, Tuple, Dict, Any
+from typing import Optional, Tuple, Dict, Any, List, Set
 
 
 def load_manifest(path: Path) -> Optional[Dict[str, Any]]:
@@ -122,3 +123,47 @@ def get_manifest_path(craft_root: Path, name: str) -> Optional[Path]:
         if candidate.exists():
             return candidate
     return None
+
+
+# Feature ID pattern: F-001, I-002, etc. inside brackets
+_FEATURE_ID_RE = re.compile(r'[FI]-\d{3}')
+
+
+def extract_feature_ids(filename: str) -> Set[str]:
+    """Extract feature/issue IDs from a filename.
+
+    Handles patterns like:
+      zz_[F-034]_cthun.sql           -> {'F-034'}
+      zz_[F-061,F-064]_lfg.sql       -> {'F-061', 'F-064'}
+      [BASE,F-044]_spell.sql         -> {'F-044'}
+      [F-001]_spell.sql              -> {'F-001'}
+      zz_riding_crops_[F-005].sql    -> {'F-005'}
+
+    Args:
+        filename: The filename (not full path) to extract from
+
+    Returns:
+        Set of feature IDs found, e.g. {'F-034', 'F-064'}
+    """
+    return set(_FEATURE_ID_RE.findall(filename))
+
+
+def is_feature_disabled(filename: str, disabled_features: Set[str]) -> bool:
+    """Check if a file should be skipped based on disabled features.
+
+    A file is disabled only if ALL of its feature IDs are in the disabled set.
+    Files with no feature IDs are never disabled.
+
+    Args:
+        filename: The filename to check
+        disabled_features: Set of disabled feature IDs
+
+    Returns:
+        True if the file should be skipped
+    """
+    if not disabled_features:
+        return False
+    ids = extract_feature_ids(filename)
+    if not ids:
+        return False
+    return ids.issubset(disabled_features)

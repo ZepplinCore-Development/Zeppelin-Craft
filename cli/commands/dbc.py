@@ -60,7 +60,7 @@ from lib.dbc_utils import (
     extract_table_from_filename,
 )
 from lib.registry import Registry
-from lib.manifest import load_manifest
+from lib.manifest import load_manifest, is_feature_disabled
 from lib.logging_config import get_logger, log_subprocess, log_sql, log_command
 
 from lib.env import DBCTOOL_PATH
@@ -703,6 +703,12 @@ def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Pat
 
             # Collect SQL files (flat structure)
             sql_files = list(dbc_dir.glob('*.sql'))
+            if not sql_files:
+                continue
+
+            # Filter out files with disabled feature IDs
+            disabled = set(manifest.get('disabled_features', []))
+            sql_files = [f for f in sql_files if not is_feature_disabled(f.name, disabled)]
             if not sql_files:
                 continue
 
@@ -1591,8 +1597,54 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         log("")
         log_only("")
 
-    # Summary
-    log(click.style("Summary:", bold=True))
+    # ── Per-zpak breakdown table ──
+    from collections import Counter
+    zpak_stats: Dict[str, Dict] = {}
+
+    def _tally(entries, kind):
+        zpak_names = [zpak_name for zpak_name, _, _, _ in entries]
+        for zpak_name, priority, _, _ in entries:
+            if zpak_name not in zpak_stats:
+                zpak_stats[zpak_name] = {
+                    'priority': priority,
+                    'conflicts': 0,
+                    'redundants': 0,
+                    'rivals': Counter(),
+                }
+            zpak_stats[zpak_name][kind] += 1
+            for other in zpak_names:
+                if other != zpak_name:
+                    zpak_stats[zpak_name]['rivals'][other] += 1
+
+    for _, _, mods in all_conflicts:
+        _tally(mods, 'conflicts')
+    for _, _, mods in all_redundants:
+        _tally(mods, 'redundants')
+
+    log(click.style("  Conflict Breakdown", bold=True))
+    log("")
+    log(f"  {'Zpak':<24} {'Pri':>3} {'Conflicts':>9} {'Redundant':>9} {'Total':>7}  Most Conflicted With")
+    log(f"  {'─' * 24} {'─' * 3} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}")
+
+    for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['conflicts'], reverse=True):
+        stats = zpak_stats[name]
+        pri = stats['priority']
+        conf = stats['conflicts']
+        redn = stats['redundants']
+        total = conf + redn
+        top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
+        rival_str = f"{top_rival} ({top_count})"
+
+        conf_str = f"{conf:>9}"
+        if conf:
+            conf_str = click.style(conf_str, fg='yellow')
+        redn_str = f"{redn:>9}"
+        if redn:
+            redn_str = click.style(redn_str, fg='cyan')
+
+        log(f"  {name:<24} {pri:>3} {conf_str} {redn_str} {total:>7}  {rival_str}")
+
+    log("")
     log(f"  Tables with issues: {len(all_tables)}")
     if all_conflicts:
         log(click.style(f"  Real conflicts: {len(all_conflicts)}", fg='yellow') +
@@ -1601,8 +1653,8 @@ def dbc_conflicts(ctx, filter_table: Optional[str], filter_zpak: Optional[str], 
         log(click.style(f"  Redundant: {len(all_redundants)}", fg='cyan') +
             " (identical changes, can consolidate)")
     log("")
-    log("Note: During rebuild, higher priority zpaks overwrite lower priority changes.")
-    log("      Lower priority number = applied first, higher = wins.")
+    log("  Note: Higher priority zpaks overwrite lower priority changes.")
+    log("        Lower priority number = applied first, higher = wins.")
 
     log_file.close()
     click.echo()

@@ -162,6 +162,42 @@
         }
       }
     },
+    "launcher": {
+      "type": "object",
+      "description": "Client launcher metadata for patch register and distribution",
+      "properties": {
+        "mandatory": {
+          "type": "boolean",
+          "description": "Whether this patch is mandatory for all clients",
+          "default": false
+        },
+        "enabled_by_default": {
+          "type": "boolean",
+          "description": "Whether this patch is enabled by default in the launcher",
+          "default": false
+        },
+        "auto_update": {
+          "type": "boolean",
+          "description": "Whether this patch auto-updates when new builds are available",
+          "default": false
+        },
+        "requires": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of other patch MPQ filenames this patch depends on",
+          "default": []
+        }
+      }
+    },
+    "disabled_features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[FI]-\\d{3}$"
+      },
+      "description": "Feature IDs to exclude from SQL/DBC execution",
+      "default": []
+    },
     "enabled": {
       "type": "boolean",
       "description": "Whether package is active",
