@@ -8,6 +8,7 @@ Commands:
     zep mpq extract <mpq> <dest>  Extract MPQ contents (or interactive zpak selection)
     zep mpq list [mpq|--name]     List MPQ contents
     zep mpq info                  Show client patch map and load order
+    zep mpq duplicates            Scan for conflicting assets across zpaks
 """
 
 import subprocess
@@ -623,4 +624,267 @@ def mpq_info(ctx):
 
     click.echo()
     click.echo(f"  {len(all_letters)} patches ({mandatory_count} mandatory, {optional_count} optional) from {total_zpaks} zpaks")
+    click.echo()
+
+
+@mpq.command('duplicates')
+@click.option('--verbose', '-v', is_flag=True, help='Show per-zpak asset counts')
+@click.pass_context
+def mpq_duplicates(ctx, verbose: bool):
+    """Scan for conflicting assets across mpq/hybrid zpaks.
+
+    Walks every zpak's mpq/source-assets/ directory and reports files that
+    appear in more than one zpak. Because the WoW client loads MPQ patches
+    alphanumerically (last-one-wins), duplicate paths mean one zpak silently
+    overrides another.
+
+    Results are written to logs/mpq_duplicates.log for review.
+
+    Example:
+        zep mpq duplicates
+        zep mpq duplicates --verbose
+    """
+    from datetime import datetime
+
+    craft_root = ctx.obj['craft_root']
+    zpaks = _discover_zpaks_with_mpq_info(craft_root, mpq_capable_only=True)
+
+    if not zpaks:
+        raise click.ClickException("No mpq/hybrid zpaks found")
+
+    # Files to skip: MPQ metadata, version control, OS junk
+    SKIP_NAMES = {
+        '(attributes)', '(listfile)', '(signature)', '(user data)',
+        '.gitignore', '.gitkeep', '.ds_store', 'thumbs.db', 'desktop.ini',
+    }
+
+    # Build asset index: normalised_path -> [(zpak_name, zpak_dir, original_path, abs_path)]
+    asset_index: Dict[str, List[tuple]] = {}
+    zpak_counts: Dict[str, int] = {}
+    total_assets = 0
+
+    for zpak in zpaks:
+        source_assets = zpak['path'] / 'mpq' / 'source-assets'
+        if not source_assets.exists():
+            continue
+
+        # Determine short display path (zpaks/name or external/name)
+        try:
+            rel_to_craft = str(zpak['path'].relative_to(craft_root))
+        except ValueError:
+            rel_to_craft = str(zpak['path'])
+
+        count = 0
+        for file_path in source_assets.rglob('*'):
+            if not file_path.is_file():
+                continue
+            if file_path.name.lower() in SKIP_NAMES:
+                continue
+            count += 1
+
+            relative = file_path.relative_to(source_assets)
+            # Normalise: forward slashes, lowercase (MPQ paths are case-insensitive)
+            normalised = str(relative).replace('\\', '/').lower()
+            original = str(relative).replace('\\', '/')
+
+            entry = (zpak['name'], rel_to_craft, original, file_path)
+            asset_index.setdefault(normalised, []).append(entry)
+
+        zpak_counts[zpak['name']] = count
+        total_assets += count
+
+    scanned = len(zpak_counts)
+
+    # Find conflicts
+    conflicts = {path: entries for path, entries in asset_index.items() if len(entries) > 1}
+
+    click.echo()
+    click.echo(click.style("  MPQ Asset Duplicate Scan", bold=True))
+    click.echo()
+    click.echo(f"  Scanned {scanned} zpaks ({total_assets:,} assets)")
+
+    if verbose:
+        click.echo()
+        for name in sorted(zpak_counts):
+            click.echo(f"    {name:<30} {zpak_counts[name]:>6} assets")
+
+    click.echo()
+
+    if not conflicts:
+        click.echo(click.style("  No conflicts found.", fg='green'))
+        click.echo()
+        return
+
+    # Build zpak name -> client_patch lookup
+    zpak_patches = {z['name']: z.get('client_patch', '') for z in zpaks}
+
+    # Classify conflicts: identical (same size) vs diverged (different sizes)
+    identical_count = 0
+    diverged_count = 0
+
+    def _format_size(size_bytes: int) -> str:
+        """Format byte size to human-readable string."""
+        if size_bytes < 1024:
+            return f"{size_bytes} B"
+        elif size_bytes < 1024 * 1024:
+            return f"{size_bytes / 1024:.1f} KB"
+        else:
+            return f"{size_bytes / (1024 * 1024):.1f} MB"
+
+    # Per-zpak conflict tracking: zpak_name -> {different: int, identical: int, rivals: Counter}
+    from collections import Counter
+    zpak_stats: Dict[str, Dict] = {}
+
+    # Build conflict lines for both terminal and log
+    conflict_lines = []
+    for normalised_path in sorted(conflicts):
+        entries = conflicts[normalised_path]
+        display_path = entries[0][2]
+
+        # Get file sizes
+        sizes = []
+        for _, _, _, abs_path in entries:
+            try:
+                sizes.append(abs_path.stat().st_size)
+            except OSError:
+                sizes.append(-1)
+
+        all_same = len(set(sizes)) == 1 and sizes[0] != -1
+        if all_same:
+            identical_count += 1
+            tag = "identical"
+            tag_styled = click.style("identical", fg='green')
+        else:
+            diverged_count += 1
+            tag = "DIFFERENT"
+            tag_styled = click.style("DIFFERENT", fg='red')
+
+        # Track per-zpak stats
+        involved = [e[0] for e in entries]
+        for name in involved:
+            if name not in zpak_stats:
+                zpak_stats[name] = {'different': 0, 'identical': 0, 'rivals': Counter()}
+            if all_same:
+                zpak_stats[name]['identical'] += 1
+            else:
+                zpak_stats[name]['different'] += 1
+            for other in involved:
+                if other != name:
+                    zpak_stats[name]['rivals'][other] += 1
+
+        conflict_lines.append((display_path, tag_styled, tag, entries, sizes))
+
+    click.echo(click.style(
+        f"  Found {len(conflicts):,} conflict{'s' if len(conflicts) != 1 else ''}: "
+        f"{diverged_count:,} different, {identical_count:,} identical",
+        fg='red' if diverged_count else 'yellow',
+    ))
+    click.echo()
+
+    # ── Summary table ──
+    click.echo(click.style("  Conflict Breakdown", bold=True))
+    click.echo()
+    click.echo(f"  {'Zpak':<24} {'Patch':<10} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With")
+    click.echo(f"  {'─' * 24} {'─' * 10} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}")
+
+    for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
+        stats = zpak_stats[name]
+        patch = zpak_patches.get(name, '')
+        diff = stats['different']
+        ident = stats['identical']
+        total = diff + ident
+        top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
+        rival_str = f"{top_rival} ({top_count:,})"
+
+        diff_str = f"{diff:>9,}"
+        if diff:
+            diff_str = click.style(diff_str, fg='red')
+        click.echo(f"  {name:<24} {patch:<10} {diff_str} {ident:>9,} {total:>7,}  {rival_str}")
+
+    click.echo()
+
+    # ── Per-zpak sample conflicts (up to 5 different per zpak) ──
+    click.echo(click.style("  Sample Conflicts (up to 5 different per zpak)", bold=True))
+    click.echo()
+
+    # Group conflicts by zpak
+    zpak_samples: Dict[str, List[tuple]] = {}
+    for display_path, tag_styled, tag, entries, sizes in conflict_lines:
+        if tag != "DIFFERENT":
+            continue
+        for zpak_name, _, _, _ in entries:
+            if zpak_name not in zpak_samples:
+                zpak_samples[zpak_name] = []
+            if len(zpak_samples[zpak_name]) < 5:
+                zpak_samples[zpak_name].append((display_path, entries, sizes))
+
+    for zpak_name in sorted(zpak_samples):
+        stats = zpak_stats[zpak_name]
+        click.echo(f"  {click.style(zpak_name, bold=True)} ({stats['different']:,} different)")
+        for display_path, entries, sizes in zpak_samples[zpak_name]:
+            click.echo(f"    {display_path}")
+            for (name, zpak_dir, _, _), size in zip(entries, sizes):
+                size_str = _format_size(size) if size >= 0 else "?"
+                marker = "  ◄" if name == zpak_name else ""
+                click.echo(f"      → {name}  {size_str}{marker}")
+        remaining = stats['different'] - len(zpak_samples[zpak_name])
+        if remaining > 0:
+            click.echo(click.style(f"    ... and {remaining:,} more (see log file)", dim=True))
+        click.echo()
+
+    # ── Write full report to log file ──
+    log_dir = craft_root / 'logs'
+    log_dir.mkdir(exist_ok=True)
+    log_path = log_dir / 'mpq_duplicates.log'
+
+    with open(log_path, 'w') as f:
+        f.write(f"MPQ Asset Duplicate Scan\n")
+        f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"{'=' * 60}\n\n")
+        f.write(f"Scanned {scanned} zpaks ({total_assets:,} assets)\n")
+        f.write(f"Found {len(conflicts):,} conflicts: {diverged_count:,} different, {identical_count:,} identical\n\n")
+
+        # Summary table in log
+        f.write(f"{'─' * 96}\n")
+        f.write(f"CONFLICT BREAKDOWN\n")
+        f.write(f"{'─' * 96}\n\n")
+        f.write(f"  {'Zpak':<24} {'Patch':<10} {'Different':>9} {'Identical':>9} {'Total':>7}  Most Conflicted With\n")
+        f.write(f"  {'─' * 24} {'─' * 10} {'─' * 9} {'─' * 9} {'─' * 7}  {'─' * 28}\n")
+        for name in sorted(zpak_stats, key=lambda n: zpak_stats[n]['different'], reverse=True):
+            stats = zpak_stats[name]
+            patch = zpak_patches.get(name, '')
+            diff = stats['different']
+            ident = stats['identical']
+            total = diff + ident
+            top_rival, top_count = stats['rivals'].most_common(1)[0] if stats['rivals'] else ('—', 0)
+            rival_str = f"{top_rival} ({top_count:,})"
+            f.write(f"  {name:<24} {patch:<10} {diff:>9,} {ident:>9,} {total:>7,}  {rival_str}\n")
+        f.write("\n")
+
+        if diverged_count:
+            f.write(f"{'─' * 60}\n")
+            f.write(f"DIFFERENT FILES (sizes don't match)\n")
+            f.write(f"{'─' * 60}\n\n")
+            for display_path, _, tag, entries, sizes in conflict_lines:
+                if tag != "DIFFERENT":
+                    continue
+                f.write(f"  {display_path}\n")
+                for (zpak_name, zpak_dir, _, _), size in zip(entries, sizes):
+                    size_str = _format_size(size) if size >= 0 else "?"
+                    f.write(f"    → {zpak_name} ({zpak_dir}/)  {size_str}\n")
+                f.write("\n")
+
+        if identical_count:
+            f.write(f"{'─' * 60}\n")
+            f.write(f"IDENTICAL FILES (same size — likely same content)\n")
+            f.write(f"{'─' * 60}\n\n")
+            for display_path, _, tag, entries, sizes in conflict_lines:
+                if tag != "identical":
+                    continue
+                size_str = _format_size(sizes[0]) if sizes[0] >= 0 else "?"
+                zpak_names = ', '.join(e[0] for e in entries)
+                f.write(f"  {display_path}  ({size_str})\n")
+                f.write(f"    → {zpak_names}\n\n")
+
+    click.echo(f"  Full report: {click.style(str(log_path), fg='cyan')}")
     click.echo()
