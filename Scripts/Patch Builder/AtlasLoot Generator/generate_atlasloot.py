@@ -39,7 +39,7 @@ def _get_base_directory():
     return _env_base if _env_base else _linux_base
 
 BASE_DIRECTORY = _get_base_directory()
-ADDON_BASE_DIR = os.path.join(BASE_DIRECTORY, 'Zeppelin-Craft', 'MPQ Staging', 'Patch-Z', 'Interface', 'AddOns')
+ADDON_BASE_DIR = os.path.join(BASE_DIRECTORY, 'Zeppelin-Craft', 'zpaks', 'atlasloot', 'mpq', 'source-assets', 'Interface', 'AddOns')
 
 VANILLA_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_OriginalWoW', 'originalwow.lua')
 TBC_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_BurningCrusade', 'burningcrusade.lua')
@@ -857,8 +857,14 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
 
 def main():
     """Main entry point for the script."""
+    global ADDON_BASE_DIR, VANILLA_LUA_FILE, TBC_LUA_FILE, TABLE_REGISTRY_FILE
+
     parser = argparse.ArgumentParser(
         description='Generate AtlasLoot tables from AzerothCore database'
+    )
+    parser.add_argument(
+        '--addon-dir',
+        help='Override AddOns base directory (used by build system)'
     )
     parser.add_argument(
         '--all',
@@ -914,6 +920,16 @@ def main():
     )
 
     args = parser.parse_args()
+
+    # Override AddOns base directory if --addon-dir provided (build system uses this)
+    if args.addon_dir:
+        ADDON_BASE_DIR = args.addon_dir
+        VANILLA_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_OriginalWoW', 'originalwow.lua')
+        TBC_LUA_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot_BurningCrusade', 'burningcrusade.lua')
+        TABLE_REGISTRY_FILE = os.path.join(ADDON_BASE_DIR, 'AtlasLoot', 'TableRegister', 'loottables.en.lua')
+        # Also update --lua-file default if it wasn't explicitly set
+        if args.lua_file == parser.get_default('lua_file'):
+            args.lua_file = VANILLA_LUA_FILE
 
     # Default to --all if no arguments specified (for Patch Builder compatibility)
     if not args.all and not args.dungeon and not args.raid and not args.tbc and not args.chest and not args.section:
