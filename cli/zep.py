@@ -759,15 +759,8 @@ def zpak_edit(ctx, name):
 
 
 ## =============================================================================
-# zpak feature subgroup
+# zpak feature command
 # =============================================================================
-
-@zpak.group('feature')
-@click.pass_context
-def zpak_feature(ctx):
-    """Per-feature enable/disable within zpaks"""
-    pass
-
 
 def _find_zpak_path(craft_root, name):
     """Find zpak directory by name."""
@@ -807,29 +800,8 @@ def _collect_zpak_feature_files(craft_root, zpak_path, manifest):
     return features
 
 
-def _find_zpak_for_feature(craft_root, feature_id):
-    """Find which zpak(s) contain a given feature ID. Returns list of (name, path)."""
-    results = []
-    for base in [craft_root / 'zpaks', craft_root / 'external']:
-        if not base.exists():
-            continue
-        for pkg_dir in sorted(base.iterdir()):
-            if not pkg_dir.is_dir():
-                continue
-            manifest_path = pkg_dir / 'zpak.json'
-            if not manifest_path.exists():
-                continue
-            manifest = load_manifest(manifest_path)
-            if not manifest or not manifest.get('enabled', True):
-                continue
-            features = _collect_zpak_feature_files(craft_root, pkg_dir, manifest)
-            if feature_id in features:
-                results.append((manifest.get('name', pkg_dir.name), pkg_dir))
-    return results
-
-
-def _format_feature_line(fid, info, is_disabled):
-    """Format a feature line for display (non-interactive)."""
+def _format_feature_file_desc(info):
+    """Format file count description for a feature."""
     sql_count = len(info['sql'])
     dbc_count = len(info['dbc'])
     parts = []
@@ -838,87 +810,142 @@ def _format_feature_line(fid, info, is_disabled):
     if dbc_count:
         parts.append(f"{dbc_count} dbc")
     total = sql_count + dbc_count
-    file_desc = f"({total} file{'s' if total != 1 else ''}: {', '.join(parts)})"
-    return fid, file_desc
+    return f"({total} file{'s' if total != 1 else ''}: {', '.join(parts)})"
 
 
-def _interactive_zpak_picker_for_features(craft_root):
-    """Show zpak picker filtered to zpaks that have feature-tagged files.
+@zpak.command('feature')
+@click.argument('name', required=False)
+@click.pass_context
+def zpak_feature(ctx, name):
+    """Toggle features within a zpak.
 
-    Returns (zpak_name, zpak_path) or None if cancelled.
+    Interactive zpak picker and feature toggle when run without arguments.
+
+    Examples:
+        zep zpak feature                    # Interactive
+        zep zpak feature zepcraft-legacy    # Toggle features in specific zpak
     """
-    from simple_term_menu import TerminalMenu
+    craft_root = ctx.obj['craft_root']
 
-    zpaks = []
-    for base in [craft_root / 'zpaks', craft_root / 'external']:
-        if not base.exists():
-            continue
-        for pkg_dir in sorted(base.iterdir()):
-            if not pkg_dir.is_dir():
+    # Interactive zpak selection if no name provided
+    if not name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Interactive mode requires simple-term-menu.\n"
+                "Or specify zpak name: zep zpak feature <zpak-name>"
+            )
+
+        # Collect zpaks that have feature-tagged files
+        zpaks = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
                 continue
-            manifest_path = pkg_dir / 'zpak.json'
-            if not manifest_path.exists():
-                continue
-            manifest = load_manifest(manifest_path)
-            if not manifest or not manifest.get('enabled', True):
-                continue
-            features = _collect_zpak_feature_files(craft_root, pkg_dir, manifest)
-            if features:
-                disabled_count = len(set(manifest.get('disabled_features', [])) & set(features.keys()))
-                zpaks.append({
-                    'name': manifest.get('name', pkg_dir.name),
-                    'path': pkg_dir,
-                    'feature_count': len(features),
-                    'disabled_count': disabled_count,
-                })
+            for pkg_dir in sorted(base.iterdir()):
+                if not pkg_dir.is_dir():
+                    continue
+                manifest_path = pkg_dir / 'zpak.json'
+                if not manifest_path.exists():
+                    continue
+                manifest = load_manifest(manifest_path)
+                if not manifest or not manifest.get('enabled', True):
+                    continue
+                features = _collect_zpak_feature_files(craft_root, pkg_dir, manifest)
+                if features:
+                    disabled_count = len(set(manifest.get('disabled_features', [])) & set(features.keys()))
+                    zpaks.append({
+                        'name': manifest.get('name', pkg_dir.name),
+                        'path': pkg_dir,
+                        'feature_count': len(features),
+                        'disabled_count': disabled_count,
+                    })
 
-    if not zpaks:
-        click.echo("No zpaks with feature-tagged files found")
-        return None
+        if not zpaks:
+            click.echo("No zpaks with feature-tagged files found")
+            return
 
-    options = []
-    for z in zpaks:
-        disabled_tag = f"  ({z['disabled_count']} disabled)" if z['disabled_count'] else ""
-        options.append(f"{z['name']:<25} {z['feature_count']} features{disabled_tag}")
+        options = []
+        for z in zpaks:
+            disabled_tag = f"  ({z['disabled_count']} disabled)" if z['disabled_count'] else ""
+            options.append(f"{z['name']:<25} {z['feature_count']} features{disabled_tag}")
 
-    options.append("─" * 50)
-    options.append("[Cancel]")
+        options.append("─" * 50)
+        options.append("[Cancel]")
 
-    menu = TerminalMenu(
-        options,
-        title="\n  Select zpak to manage features:\n",
-        menu_cursor="> ",
-        menu_cursor_style=("fg_cyan", "bold"),
-        menu_highlight_style=("fg_cyan", "bold"),
-        cycle_cursor=True,
-        clear_screen=True,
-    )
+        menu = TerminalMenu(
+            options,
+            title="\n  Select zpak to manage features:\n",
+            menu_cursor="> ",
+            menu_cursor_style=("fg_cyan", "bold"),
+            menu_highlight_style=("fg_cyan", "bold"),
+            cycle_cursor=True,
+            clear_screen=True,
+        )
 
-    result = menu.show()
-    if result is None or result >= len(zpaks):
-        return None
+        result = menu.show()
+        if result is None or result >= len(zpaks):
+            click.echo("Cancelled.")
+            return
 
-    selected = zpaks[result]
-    return selected['name'], selected['path']
+        selected = zpaks[result]
+        name = selected['name']
+        zpak_path = selected['path']
+    else:
+        zpak_path = _find_zpak_path(craft_root, name)
+        if not zpak_path:
+            raise click.ClickException(f"Package '{name}' not found")
 
+    # Check if we have TerminalMenu + TTY for interactive toggle
+    can_interactive = sys.stdin.isatty()
+    if can_interactive:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            can_interactive = False
 
-def _interactive_feature_toggle(craft_root, zpak_name, zpak_path):
-    """Show interactive feature toggle menu for a zpak.
-
-    Loops until user presses back/cancel.
-    """
-    from simple_term_menu import TerminalMenu
-
-    while True:
-        # Reload manifest each iteration (may have changed)
+    if not can_interactive:
+        # Fallback: print feature list (non-interactive)
         manifest = load_manifest(zpak_path / 'zpak.json')
         if not manifest:
-            click.echo(f"Could not load manifest for '{zpak_name}'")
+            raise click.ClickException(f"Could not load manifest for '{name}'")
+
+        features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
+        if not features:
+            click.echo(f"No feature IDs found in {name}")
+            return
+
+        disabled = set(manifest.get('disabled_features', []))
+        click.echo(f"\nFeatures in {name}:\n")
+
+        disabled_count = 0
+        enabled_count = 0
+        for fid in sorted(features.keys()):
+            file_desc = _format_feature_file_desc(features[fid])
+            if fid in disabled:
+                icon = click.style("○", fg='yellow')
+                marker = click.style("  [DISABLED]", fg='yellow')
+                click.echo(f"  {icon} {fid}  {file_desc}{marker}")
+                disabled_count += 1
+            else:
+                icon = click.style("✓", fg='green')
+                click.echo(f"  {icon} {fid}  {file_desc}")
+                enabled_count += 1
+
+        click.echo(f"\n{disabled_count} feature{'s' if disabled_count != 1 else ''} disabled, "
+                   f"{enabled_count} enabled")
+        return
+
+    # Interactive feature toggle loop
+    while True:
+        manifest = load_manifest(zpak_path / 'zpak.json')
+        if not manifest:
+            click.echo(f"Could not load manifest for '{name}'")
             return
 
         features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
         if not features:
-            click.echo(f"No feature IDs found in {zpak_name}")
+            click.echo(f"No feature IDs found in {name}")
             return
 
         disabled = set(manifest.get('disabled_features', []))
@@ -926,12 +953,8 @@ def _interactive_feature_toggle(craft_root, zpak_name, zpak_path):
 
         options = []
         for fid in feature_ids:
-            info = features[fid]
-            _, file_desc = _format_feature_line(fid, info, fid in disabled)
-            if fid in disabled:
-                status = "○ Disabled"
-            else:
-                status = "✓ Enabled "
+            file_desc = _format_feature_file_desc(features[fid])
+            status = "○ Disabled" if fid in disabled else "✓ Enabled "
             options.append(f"{status}  {fid}  {file_desc}")
 
         options.append("─" * 50)
@@ -942,7 +965,7 @@ def _interactive_feature_toggle(craft_root, zpak_name, zpak_path):
 
         menu = TerminalMenu(
             options,
-            title=f"\n  {zpak_name} — Features ({enabled_count} enabled, {disabled_count} disabled)\n  Select to toggle:\n",
+            title=f"\n  {name} — Features ({enabled_count} enabled, {disabled_count} disabled)\n  Select to toggle:\n",
             menu_cursor="> ",
             menu_cursor_style=("fg_cyan", "bold"),
             menu_highlight_style=("fg_cyan", "bold"),
@@ -962,228 +985,17 @@ def _interactive_feature_toggle(craft_root, zpak_name, zpak_path):
 
         disabled_list = manifest.get('disabled_features', [])
         if selected_fid in disabled_list:
-            # Enable it
             disabled_list.remove(selected_fid)
             if disabled_list:
                 manifest['disabled_features'] = disabled_list
             else:
                 manifest.pop('disabled_features', None)
-            save_manifest(manifest_path, manifest)
         else:
-            # Disable it
             disabled_list.append(selected_fid)
             disabled_list.sort()
             manifest['disabled_features'] = disabled_list
-            save_manifest(manifest_path, manifest)
 
-
-@zpak_feature.command('list')
-@click.argument('name', required=False)
-@click.pass_context
-def feature_list(ctx, name):
-    """List feature IDs in a zpak with enabled/disabled status.
-
-    Interactive mode when no name given (zpak picker + toggle menu).
-
-    Examples:
-        zep zpak feature list                  # Interactive
-        zep zpak feature list zepcraft-legacy   # Print list
-    """
-    craft_root = ctx.obj['craft_root']
-
-    # Interactive mode: zpak picker → feature toggle menu
-    if not name:
-        try:
-            from simple_term_menu import TerminalMenu
-        except ImportError:
-            raise click.ClickException(
-                "Interactive mode requires simple-term-menu.\n"
-                "Or specify zpak name: zep zpak feature list <zpak-name>"
-            )
-
-        result = _interactive_zpak_picker_for_features(craft_root)
-        if result is None:
-            click.echo("Cancelled.")
-            return
-
-        zpak_name, zpak_path = result
-        _interactive_feature_toggle(craft_root, zpak_name, zpak_path)
-        return
-
-    # Non-interactive: print feature list
-    zpak_path = _find_zpak_path(craft_root, name)
-    if not zpak_path:
-        raise click.ClickException(f"Package '{name}' not found")
-
-    manifest = load_manifest(zpak_path / 'zpak.json')
-    if not manifest:
-        raise click.ClickException(f"Could not load manifest for '{name}'")
-
-    features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
-    if not features:
-        click.echo(f"No feature IDs found in {name}")
-        return
-
-    disabled = set(manifest.get('disabled_features', []))
-
-    click.echo(f"\nFeatures in {name}:\n")
-
-    disabled_count = 0
-    enabled_count = 0
-
-    for fid in sorted(features.keys()):
-        info = features[fid]
-        _, file_desc = _format_feature_line(fid, info, fid in disabled)
-
-        if fid in disabled:
-            icon = click.style("○", fg='yellow')
-            marker = click.style("  [DISABLED]", fg='yellow')
-            click.echo(f"  {icon} {fid}  {file_desc}{marker}")
-            disabled_count += 1
-        else:
-            icon = click.style("✓", fg='green')
-            click.echo(f"  {icon} {fid}  {file_desc}")
-            enabled_count += 1
-
-    click.echo(f"\n{disabled_count} feature{'s' if disabled_count != 1 else ''} disabled, "
-               f"{enabled_count} enabled")
-
-
-@zpak_feature.command('disable')
-@click.argument('feature_id')
-@click.option('--zpak', '-z', 'zpak_name', help='Target zpak (auto-detected if omitted)')
-@click.pass_context
-def feature_disable(ctx, feature_id, zpak_name):
-    """Disable a feature ID in a zpak.
-
-    Files tagged with this feature ID will be skipped during SQL/DBC execution.
-
-    Examples:
-        zep zpak feature disable F-005 --zpak zepcraft-legacy
-        zep zpak feature disable F-005
-    """
-    craft_root = ctx.obj['craft_root']
-
-    # Validate feature ID format
-    import re
-    if not re.match(r'^[FI]-\d{3}$', feature_id):
-        raise click.ClickException(f"Invalid feature ID format: {feature_id} (expected F-XXX or I-XXX)")
-
-    # Find zpak
-    if zpak_name:
-        zpak_path = _find_zpak_path(craft_root, zpak_name)
-        if not zpak_path:
-            raise click.ClickException(f"Package '{zpak_name}' not found")
-    else:
-        matches = _find_zpak_for_feature(craft_root, feature_id)
-        if not matches:
-            raise click.ClickException(f"No enabled zpak contains feature {feature_id}")
-        if len(matches) > 1:
-            names = ', '.join(n for n, _ in matches)
-            raise click.ClickException(
-                f"Feature {feature_id} found in multiple zpaks: {names}\n"
-                f"Use --zpak to specify which one."
-            )
-        zpak_name, zpak_path = matches[0]
-
-    manifest_path = zpak_path / 'zpak.json'
-    manifest = load_manifest(manifest_path)
-    if not manifest:
-        raise click.ClickException(f"Could not load manifest for '{zpak_name}'")
-
-    # Check feature exists in zpak
-    features = _collect_zpak_feature_files(craft_root, zpak_path, manifest)
-    if feature_id not in features:
-        raise click.ClickException(f"Feature {feature_id} not found in {zpak_name}")
-
-    # Add to disabled_features
-    disabled = manifest.get('disabled_features', [])
-    if feature_id in disabled:
-        click.echo(f"{feature_id} is already disabled in {zpak_name}")
-        return
-
-    disabled.append(feature_id)
-    disabled.sort()
-    manifest['disabled_features'] = disabled
-
-    if not save_manifest(manifest_path, manifest):
-        raise click.ClickException(f"Failed to save manifest for '{zpak_name}'")
-
-    info = features[feature_id]
-    total = len(info['sql']) + len(info['dbc'])
-    click.echo(f"Disabled {feature_id} in {zpak_name} ({total} file{'s' if total != 1 else ''} will be skipped)")
-
-
-@zpak_feature.command('enable')
-@click.argument('feature_id')
-@click.option('--zpak', '-z', 'zpak_name', help='Target zpak (auto-detected if omitted)')
-@click.pass_context
-def feature_enable(ctx, feature_id, zpak_name):
-    """Re-enable a previously disabled feature ID.
-
-    Examples:
-        zep zpak feature enable F-005 --zpak zepcraft-legacy
-        zep zpak feature enable F-005
-    """
-    craft_root = ctx.obj['craft_root']
-
-    # Validate feature ID format
-    import re
-    if not re.match(r'^[FI]-\d{3}$', feature_id):
-        raise click.ClickException(f"Invalid feature ID format: {feature_id} (expected F-XXX or I-XXX)")
-
-    # Find zpak
-    if zpak_name:
-        zpak_path = _find_zpak_path(craft_root, zpak_name)
-        if not zpak_path:
-            raise click.ClickException(f"Package '{zpak_name}' not found")
-    else:
-        # Search zpaks that have this feature disabled
-        found = []
-        for base in [craft_root / 'zpaks', craft_root / 'external']:
-            if not base.exists():
-                continue
-            for pkg_dir in sorted(base.iterdir()):
-                if not pkg_dir.is_dir():
-                    continue
-                mp = pkg_dir / 'zpak.json'
-                if not mp.exists():
-                    continue
-                m = load_manifest(mp)
-                if m and feature_id in m.get('disabled_features', []):
-                    found.append((m.get('name', pkg_dir.name), pkg_dir))
-
-        if not found:
-            raise click.ClickException(f"No zpak has {feature_id} disabled")
-        if len(found) > 1:
-            names = ', '.join(n for n, _ in found)
-            raise click.ClickException(
-                f"Feature {feature_id} is disabled in multiple zpaks: {names}\n"
-                f"Use --zpak to specify which one."
-            )
-        zpak_name, zpak_path = found[0]
-
-    manifest_path = zpak_path / 'zpak.json'
-    manifest = load_manifest(manifest_path)
-    if not manifest:
-        raise click.ClickException(f"Could not load manifest for '{zpak_name}'")
-
-    disabled = manifest.get('disabled_features', [])
-    if feature_id not in disabled:
-        click.echo(f"{feature_id} is not disabled in {zpak_name}")
-        return
-
-    disabled.remove(feature_id)
-    if disabled:
-        manifest['disabled_features'] = disabled
-    else:
-        # Remove empty list from manifest for cleanliness
-        manifest.pop('disabled_features', None)
-
-    if not save_manifest(manifest_path, manifest):
-        raise click.ClickException(f"Failed to save manifest for '{zpak_name}'")
-
-    click.echo(f"Enabled {feature_id} in {zpak_name}")
+        save_manifest(manifest_path, manifest)
 
 
 @zpak.command('delete')
