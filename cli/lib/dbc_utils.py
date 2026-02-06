@@ -18,8 +18,24 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Any
 
-# Cached localization config
+# Cached localization config (fallback)
 _localization_config: Optional[Dict] = None
+
+# Cached spelleditor_meta Loc field lookups:
+#   {table_name: dict mapping base_name -> english_suffix ('_0' or '_1')}
+_meta_loc_fields: Dict[str, Optional[Dict[str, str]]] = {}
+
+# Non-English locale suffixes for blacklisting in the dbc_localization.json fallback path.
+# The primary meta path builds its own blacklist dynamically from field detection.
+_LOC_BLACKLIST_SUFFIXES = (
+    # Locale code format (Loc type expansion by meta/ schema)
+    '_kokr', '_frfr', '_dede', '_zhcn', '_zhtw',
+    '_eses', '_esmx', '_ruru', '_jajp', '_ptpt', '_itit',
+    '_unused_1', '_unused_2', '_unused_3', '_unused_4',
+    # Numeric format (used by fallback and generic paths)
+    '_1', '_2', '_3', '_4', '_5', '_6', '_7',
+    '_8', '_9', '_10', '_11', '_12', '_13', '_14', '_15', '_16',
+)
 
 try:
     import mysql.connector
@@ -228,22 +244,72 @@ def detect_modified_tables(sql: str) -> Set[str]:
     return tables
 
 
+def _get_meta_loc_fields(table_name: str) -> Optional[Dict[str, str]]:
+    """Get Loc field base names from DBCTool spelleditor_meta for a table.
+
+    Reads spelleditor_meta/{table}.meta.json and detects Loc field groups by
+    finding sequences of 16 string-typed fields with the same prefix and
+    sequential numeric suffixes (_0.._15 or _1.._16).
+
+    Uses spelleditor_meta (not meta/) because that's the schema used for DB
+    import — its column names match the actual database columns.
+
+    Returns:
+        Dict mapping base_name -> english_suffix ('_0' or '_1'), or None.
+    """
+    table_lower = table_name.lower()
+    if table_lower in _meta_loc_fields:
+        return _meta_loc_fields[table_lower]
+
+    # Find DBCTool spelleditor_meta directory via DBCTOOL_PATH
+    try:
+        from .env import DBCTOOL_PATH
+        meta_path = DBCTOOL_PATH.parent / 'spelleditor_meta' / f'{table_lower}.meta.json'
+    except (ImportError, AttributeError):
+        meta_path = None
+
+    if not meta_path or not meta_path.exists():
+        _meta_loc_fields[table_lower] = None
+        return None
+
+    try:
+        with open(meta_path, 'r', encoding='utf-8') as f:
+            meta = json.load(f)
+
+        # Collect all string field names for fast lookup
+        string_fields = {f['name'].lower() for f in meta.get('fields', [])
+                         if f.get('type') == 'string'}
+
+        loc_fields = {}
+        for name in string_fields:
+            # 0-indexed: {base}_0 through {base}_15 (English = _0)
+            if name.endswith('_0'):
+                base = name[:-2]
+                if f'{base}_1' in string_fields and f'{base}_15' in string_fields:
+                    loc_fields[base] = '_0'
+            # 1-indexed: {base}_1 through {base}_16 (English = _1)
+            elif name.endswith('_1') and not name.endswith('_11'):
+                base = name[:-2]
+                if f'{base}_2' in string_fields and f'{base}_16' in string_fields:
+                    loc_fields[base] = '_1'
+
+        _meta_loc_fields[table_lower] = loc_fields if loc_fields else None
+        return _meta_loc_fields[table_lower]
+    except Exception:
+        _meta_loc_fields[table_lower] = None
+        return None
+
+
 def get_localization_columns(columns: List[str], table_name: Optional[str] = None) -> Set[str]:
     """
     Identify localization columns to exclude from diffs.
 
-    Uses per-table configuration from dbc_localization.json when available.
-    Each table defines:
-        - localized_prefixes: Field prefixes that have locale suffixes (e.g., 'spell_name')
-        - keep_suffixes: Suffixes to keep (e.g., '_0' for English in spell table)
+    Primary source: DBCTool spelleditor_meta files. Loc field groups are
+    detected by finding 16 sequential string fields ({base}_0.._15 or
+    {base}_1.._16). We keep the English locale (_0 or _1) and flags,
+    blacklist all other locale suffixes.
 
-    For tables not in config, falls back to generic rules:
-        - Keep _0, _1 (English) and _flags columns
-        - Exclude _2 through _16 (non-English locales)
-
-    WoW 3.3.5a locale indices:
-        Spell table (0-indexed): _0 = English, _1-15 = other locales
-        Other tables (1-indexed): _1 = English, _2-16 = other locales
+    Fallback: dbc_localization.json config for tables without meta files.
 
     Args:
         columns: List of column names
@@ -253,52 +319,52 @@ def get_localization_columns(columns: List[str], table_name: Optional[str] = Non
         Set of column names to exclude
     """
     localization_cols = set()
-    config = load_localization_config()
-    table_config = None
 
+    # Primary: use spelleditor_meta Loc fields (base_name -> english_suffix)
     if table_name:
-        table_config = config.get('tables', {}).get(table_name.lower())
+        loc_fields = _get_meta_loc_fields(table_name)
+        if loc_fields is not None:
+            for col in columns:
+                col_lower = col.lower()
+                for field_name, english_suffix in loc_fields.items():
+                    if col_lower.startswith(field_name):
+                        suffix = col_lower[len(field_name):]
+                        # Keep English locale and non-numeric suffixes (flags, etc.)
+                        if suffix == english_suffix:
+                            break
+                        if re.match(r'^_\d+$', suffix):
+                            localization_cols.add(col)
+                            break
+            return localization_cols
+
+    # Fallback: dbc_localization.json config
+    config = load_localization_config()
+    table_config = config.get('tables', {}).get(table_name.lower()) if table_name else None
 
     if table_config:
-        # Use per-table rules from config
         prefixes = table_config.get('localized_prefixes', [])
         keep_suffixes = set(table_config.get('keep_suffixes', []))
 
         for col in columns:
             col_lower = col.lower()
-
-            # Check if this column matches any localized prefix
             for prefix in prefixes:
                 if col_lower.startswith(prefix.lower()):
-                    # Extract suffix (everything after the prefix)
                     suffix = col_lower[len(prefix):]
-
-                    # Keep if suffix is in keep list
                     if suffix in keep_suffixes:
                         continue
-
-                    # Check if it's a numeric locale suffix
                     if re.match(r'^_\d+$', suffix):
                         localization_cols.add(col)
                         break
+                    if suffix in _LOC_BLACKLIST_SUFFIXES:
+                        localization_cols.add(col)
+                        break
     else:
-        # Fallback: generic numeric suffix matching
-        # Non-English numeric suffixes (2-16)
+        # Generic fallback for unknown tables
         NON_ENGLISH_SUFFIXES = set(range(2, 17))
-
-        # Legacy locale code suffixes (some tools use these)
-        NON_ENGLISH_LOCALES = {
-            'kokr', 'frfr', 'dede', 'zhcn', 'zhtw',
-            'eses', 'esmx', 'ruru', 'jajp', 'ptpt',
-            'itit', 'ptbr', 'engb',
-        }
-
-        UNUSED_PATTERNS = ['unused_1', 'unused_2', 'unused_3', 'unused_4']
 
         for col in columns:
             col_lower = col.lower()
 
-            # Check for numeric suffix pattern like _2, _3, ..., _16
             match = re.search(r'_(\d+)$', col_lower)
             if match:
                 suffix_num = int(match.group(1))
@@ -306,15 +372,8 @@ def get_localization_columns(columns: List[str], table_name: Optional[str] = Non
                     localization_cols.add(col)
                     continue
 
-            # Check for legacy locale code suffixes
-            for locale in NON_ENGLISH_LOCALES:
-                if col_lower.endswith(f'_{locale}'):
-                    localization_cols.add(col)
-                    break
-
-            # Check for unused patterns
-            for unused in UNUSED_PATTERNS:
-                if col_lower.endswith(f'_{unused}'):
+            for suffix in _LOC_BLACKLIST_SUFFIXES:
+                if col_lower.endswith(suffix):
                     localization_cols.add(col)
                     break
 
@@ -415,23 +474,25 @@ def get_table_checksum(conn, table: str) -> int:
     return result[1] if result else 0
 
 
-def get_primary_key(conn, table: str) -> str:
-    """Get the primary key column for a table.
+def get_primary_key(conn, table: str) -> List[str]:
+    """Get the primary key column(s) for a table.
 
     Args:
         conn: MySQL connection
         table: Table name
 
     Returns:
-        Primary key column name
+        List of primary key column names (supports composite keys)
     """
     cursor = conn.cursor()
     cursor.execute(f"SHOW KEYS FROM `{table}` WHERE Key_name = 'PRIMARY'")
-    result = cursor.fetchone()
+    results = cursor.fetchall()
     cursor.close()
 
-    if result:
-        return result[4]  # Column_name is at index 4
+    if results:
+        # Sort by Seq_in_index (index 3) to get correct column order
+        sorted_results = sorted(results, key=lambda r: r[3])
+        return [r[4] for r in sorted_results]  # Column_name is at index 4
 
     # Fallback: check for common ID column names
     cursor = conn.cursor()
@@ -441,9 +502,9 @@ def get_primary_key(conn, table: str) -> str:
 
     for col in ["ID", "id", "Id", "entry", "Entry"]:
         if col in columns:
-            return col
+            return [col]
 
-    return columns[0] if columns else "ID"
+    return [columns[0]] if columns else ["ID"]
 
 
 def compare_databases(db_conn: DBCConnection, db1_name: str, db2_name: str) -> Dict:
@@ -491,7 +552,7 @@ def compare_databases(db_conn: DBCConnection, db1_name: str, db2_name: str) -> D
 
 
 def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: str,
-                   primary_key: str = None, skip_localization: bool = True) -> Dict:
+                   primary_key: List[str] = None, skip_localization: bool = True) -> Dict:
     """
     Get detailed row-level differences between two tables.
 
@@ -500,7 +561,7 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
         table: Table name to compare
         db1_name: Source database name
         db2_name: Target database name
-        primary_key: Optional primary key column
+        primary_key: Optional list of primary key column(s)
         skip_localization: If True, ignore localization columns
 
     Returns:
@@ -512,14 +573,16 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
     if primary_key is None:
         primary_key = get_primary_key(conn1, table)
 
+    order_clause = ", ".join(f"`{col}`" for col in primary_key)
+
     cursor1 = conn1.cursor(dictionary=True)
     cursor2 = conn2.cursor(dictionary=True)
 
-    cursor1.execute(f"SELECT * FROM `{table}` ORDER BY `{primary_key}`")
-    rows1 = {row[primary_key]: row for row in cursor1.fetchall()}
+    cursor1.execute(f"SELECT * FROM `{table}` ORDER BY {order_clause}")
+    rows1 = {tuple(row[col] for col in primary_key): row for row in cursor1.fetchall()}
 
-    cursor2.execute(f"SELECT * FROM `{table}` ORDER BY `{primary_key}`")
-    rows2 = {row[primary_key]: row for row in cursor2.fetchall()}
+    cursor2.execute(f"SELECT * FROM `{table}` ORDER BY {order_clause}")
+    rows2 = {tuple(row[col] for col in primary_key): row for row in cursor2.fetchall()}
 
     cursor1.close()
     cursor2.close()
@@ -557,6 +620,42 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
     }
 
 
+def _build_where_clause(pk_cols: List[str], pk_vals: tuple) -> str:
+    """Build a WHERE clause for one or more primary key columns.
+
+    Args:
+        pk_cols: List of primary key column names
+        pk_vals: Tuple of primary key values (same order as pk_cols)
+
+    Returns:
+        WHERE clause string (without the WHERE keyword)
+    """
+    conditions = []
+    for col, val in zip(pk_cols, pk_vals):
+        if isinstance(val, (int, float)):
+            conditions.append(f"`{col}` = {val}")
+        else:
+            escaped = str(val).replace("\\", "\\\\").replace("'", "\\'")
+            conditions.append(f"`{col}` = '{escaped}'")
+    return " AND ".join(conditions)
+
+
+def _format_pk_display(pk_cols: List[str], pk_vals: tuple) -> str:
+    """Format primary key values for display output.
+
+    Args:
+        pk_cols: List of primary key column names
+        pk_vals: Tuple of primary key values
+
+    Returns:
+        Display string like 'id=123' or '(race_id=1, class_id=2)'
+    """
+    if len(pk_cols) == 1:
+        return f"{pk_cols[0]}={pk_vals[0]}"
+    parts = ", ".join(f"{col}={val}" for col, val in zip(pk_cols, pk_vals))
+    return f"({parts})"
+
+
 def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_target: str,
                       skip_localization: bool = True) -> str:
     """
@@ -574,7 +673,7 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
     """
     conn = db_conn.get_connection(db_source)
     diff = get_table_diff(db_conn, table, db_source, db_target, skip_localization=skip_localization)
-    pk = diff["primary_key"]
+    pk_cols = diff["primary_key"]
     skipped_columns = diff.get("skipped_columns", set())
 
     sql_lines = []
@@ -589,17 +688,25 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
 
     # DELETEs
     if diff["only_in_db2"]:
-        for pk_val in diff["only_in_db2"]:
-            sql_lines.append(f"DELETE FROM `{table}` WHERE `{pk}` = {pk_val};")
+        for pk_vals in diff["only_in_db2"]:
+            where = _build_where_clause(pk_cols, pk_vals)
+            sql_lines.append(f"DELETE FROM `{table}` WHERE {where};")
 
     # INSERTs (with DELETE first for idempotency)
     if diff["only_in_db1"]:
         cursor = conn.cursor(dictionary=True)
-        pk_list = ",".join(str(pk_val) for pk_val in diff["only_in_db1"])
-        cursor.execute(f"SELECT * FROM `{table}` WHERE `{pk}` IN ({pk_list})")
+        if len(pk_cols) == 1:
+            pk_list = ",".join(str(pk_vals[0]) for pk_vals in diff["only_in_db1"])
+            cursor.execute(f"SELECT * FROM `{table}` WHERE `{pk_cols[0]}` IN ({pk_list})")
+        else:
+            # Composite key: build OR conditions
+            or_parts = []
+            for pk_vals in diff["only_in_db1"]:
+                or_parts.append(f"({_build_where_clause(pk_cols, pk_vals)})")
+            cursor.execute(f"SELECT * FROM `{table}` WHERE {' OR '.join(or_parts)}")
 
         for row in cursor.fetchall():
-            pk_val = row[pk]
+            pk_vals = tuple(row[col] for col in pk_cols)
             cols = ", ".join(f"`{c}`" for c in columns)
             vals = []
             for c in columns:
@@ -613,14 +720,15 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
                     vals.append(f"'{escaped}'")
             vals_str = ", ".join(vals)
             # DELETE first for idempotency, then INSERT
-            sql_lines.append(f"DELETE FROM `{table}` WHERE `{pk}` = {pk_val};")
+            where = _build_where_clause(pk_cols, pk_vals)
+            sql_lines.append(f"DELETE FROM `{table}` WHERE {where};")
             sql_lines.append(f"INSERT INTO `{table}` ({cols}) VALUES ({vals_str});")
 
         cursor.close()
 
     # UPDATEs
     if diff["modified"]:
-        for pk_val, changes in diff["modified"]:
+        for pk_vals, changes in diff["modified"]:
             set_clauses = []
             for col, new_val, old_val in changes:
                 if new_val is None:
@@ -631,7 +739,8 @@ def generate_diff_sql(db_conn: DBCConnection, table: str, db_source: str, db_tar
                     escaped = str(new_val).replace("\\", "\\\\").replace("'", "\\'")
                     set_clauses.append(f"`{col}` = '{escaped}'")
             set_str = ", ".join(set_clauses)
-            sql_lines.append(f"UPDATE `{table}` SET {set_str} WHERE `{pk}` = {pk_val};")
+            where = _build_where_clause(pk_cols, pk_vals)
+            sql_lines.append(f"UPDATE `{table}` SET {set_str} WHERE {where};")
 
     return "\n".join(sql_lines)
 
@@ -902,36 +1011,49 @@ def clear_dbc_tracking(config: DBCConfig) -> bool:
 def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
     """Parse SQL content to extract affected primary key IDs.
 
-    Handles common patterns:
+    Handles both single-column and composite key patterns:
         DELETE FROM table WHERE id = X
-        DELETE FROM `table` WHERE `id` = X
+        DELETE FROM table WHERE `col1` = X AND `col2` = Y
         INSERT INTO table (...) VALUES (X, ...)
         UPDATE table SET ... WHERE id = X
+        UPDATE table SET ... WHERE `col1` = X AND `col2` = Y
 
     Args:
         sql_content: SQL file content
         table_name: Table name (for matching)
 
     Returns:
-        Set of primary key values (usually integers)
+        Set of primary key values. Single-key tables return ints,
+        composite-key tables return tuples of ints.
     """
     affected_ids = set()
     table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
 
-    # DELETE FROM table WHERE id = X or WHERE `id` = X
-    delete_pattern = rf'DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    def _extract_key_from_where(where_str: str):
+        """Extract key value(s) from WHERE clause. Returns int or tuple."""
+        vals = re.findall(r'=\s*(\d+)', where_str)
+        if len(vals) == 1:
+            return int(vals[0])
+        return tuple(int(v) for v in vals)
+
+    # DELETE FROM table WHERE ...
+    delete_pattern = rf'DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+(.+?)\s*;'
     for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
-        affected_ids.add(int(match.group(1)))
+        key = _extract_key_from_where(match.group(1))
+        if key:
+            affected_ids.add(key)
 
     # INSERT INTO table (...) VALUES (X, ...) - ID is first value
     insert_pattern = rf'INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)'
     for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
         affected_ids.add(int(match.group(1)))
 
-    # UPDATE table SET ... WHERE id = X
-    update_pattern = rf'UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)'
+    # UPDATE table SET ... WHERE ...
+    update_pattern = rf'UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+(.+?)\s*;'
     for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
-        affected_ids.add(int(match.group(1)))
+        key = _extract_key_from_where(match.group(1))
+        if key:
+            affected_ids.add(key)
 
     return affected_ids
 
@@ -939,50 +1061,65 @@ def parse_sql_affected_ids(sql_content: str, table_name: str) -> Set[Any]:
 @dataclass
 class SqlModification:
     """Represents a single SQL modification to a row."""
-    row_id: int
+    row_id: str  # Row key: "123" for single pk, "1|2|3" for composite
     mod_type: str  # 'INSERT', 'UPDATE', 'DELETE'
     statement: str  # Normalized statement for comparison
 
 
-def parse_sql_modifications(sql_content: str, table_name: str) -> Dict[int, List[SqlModification]]:
-    """Parse SQL content to extract full modifications per row ID.
+def parse_sql_modifications(sql_content: str, table_name: str) -> Dict[str, List[SqlModification]]:
+    """Parse SQL content to extract full modifications per row key.
 
     Used for redundancy detection - comparing if two files make the same change.
+    Supports both single-column (WHERE `id` = X) and composite key
+    (WHERE `col1` = X AND `col2` = Y) WHERE clauses.
 
     Args:
         sql_content: SQL file content
         table_name: Table name (for matching)
 
     Returns:
-        Dict mapping row_id -> list of SqlModification objects
+        Dict mapping row_key (str) -> list of SqlModification objects.
+        For single keys: "123". For composite: "1|2|3".
     """
-    modifications: Dict[int, List[SqlModification]] = {}
+    modifications: Dict[str, List[SqlModification]] = {}
     table_pattern = rf'[`"]?{re.escape(table_name)}[`"]?'
 
-    def add_mod(row_id: int, mod_type: str, statement: str):
-        if row_id not in modifications:
-            modifications[row_id] = []
+    def add_mod(row_key: str, mod_type: str, statement: str):
+        if row_key not in modifications:
+            modifications[row_key] = []
         # Normalize: lowercase, collapse whitespace, strip
         normalized = ' '.join(statement.lower().split())
-        modifications[row_id].append(SqlModification(row_id, mod_type, normalized))
+        modifications[row_key].append(SqlModification(row_key, mod_type, normalized))
 
-    # DELETE FROM table WHERE id = X
-    delete_pattern = rf'(DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)\s*;?)'
+    def _extract_where_key(where_clause: str) -> str:
+        """Extract a canonical key string from a WHERE clause.
+
+        Handles both 'WHERE `id` = 123' and 'WHERE `col1` = 1 AND `col2` = 2'.
+        Returns values joined by '|' for composite keys.
+        """
+        # Match all `col` = val pairs in the WHERE clause
+        pairs = re.findall(r'[`"]?\w+[`"]?\s*=\s*(\d+)', where_clause)
+        return "|".join(pairs) if pairs else ""
+
+    # DELETE FROM table WHERE ... (single or composite key)
+    delete_pattern = rf'(DELETE\s+FROM\s+{table_pattern}\s+WHERE\s+(.+?)\s*;)'
     for match in re.finditer(delete_pattern, sql_content, re.IGNORECASE):
-        row_id = int(match.group(2))
-        add_mod(row_id, 'DELETE', match.group(1))
+        row_key = _extract_where_key(match.group(2))
+        if row_key:
+            add_mod(row_key, 'DELETE', match.group(1))
 
-    # INSERT INTO table (...) VALUES (...) - capture full statement
+    # INSERT INTO table (...) VALUES (...) - use first N values matching pk column count
     insert_pattern = rf'(INSERT\s+INTO\s+{table_pattern}\s*\([^)]+\)\s*VALUES\s*\((\d+)[^;]*;?)'
     for match in re.finditer(insert_pattern, sql_content, re.IGNORECASE):
-        row_id = int(match.group(2))
-        add_mod(row_id, 'INSERT', match.group(1))
+        row_key = match.group(2)
+        add_mod(row_key, 'INSERT', match.group(1))
 
-    # UPDATE table SET ... WHERE id = X - capture full statement
-    update_pattern = rf'(UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+[`"]?(?:id|ID|Id)[`"]?\s*=\s*(\d+)\s*;?)'
+    # UPDATE table SET ... WHERE ... (single or composite key)
+    update_pattern = rf'(UPDATE\s+{table_pattern}\s+SET\s+.+?\s+WHERE\s+(.+?)\s*;)'
     for match in re.finditer(update_pattern, sql_content, re.IGNORECASE | re.DOTALL):
-        row_id = int(match.group(2))
-        add_mod(row_id, 'UPDATE', match.group(1))
+        row_key = _extract_where_key(match.group(2))
+        if row_key:
+            add_mod(row_key, 'UPDATE', match.group(1))
 
     return modifications
 
@@ -1044,68 +1181,128 @@ def extract_table_from_filename(filename: str) -> Optional[str]:
 
 
 # =============================================================================
+# DBC Conflict Detection
+# =============================================================================
+
+
+def detect_dbc_conflicts(
+    sources: List[Tuple],
+    filter_table: str = None,
+    progress_callback=None,
+) -> Tuple[List[Tuple], List[Tuple]]:
+    """Scan DBC sources for conflicting and redundant row edits.
+
+    Phases:
+      1. Scan all zpak SQL files, find rows modified by multiple zpaks.
+      2. For each shared row, compare the actual SQL modifications to classify
+         as REDUNDANT (identical changes) or CONFLICT (different changes).
+
+    Args:
+        sources: Output of collect_dbc_sources() —
+                 list of (priority, zpak_name, dbc_path, sql_files).
+        filter_table: Optional table name to restrict scanning to.
+        progress_callback: Optional callable(checked, total) for progress display.
+
+    Returns:
+        (conflicts, redundants) where each is a list of:
+        (table_name, row_key, [(zpak_name, priority, filename, [SqlModification, ...]), ...])
+    """
+    # Phase 1: Scan files and find rows modified by multiple zpaks
+    table_modifications: Dict[str, Dict[str, List[Tuple]]] = {}
+    parsed_mods_cache: Dict[Path, Dict[str, Dict]] = {}
+
+    for priority, zpak_name, dbc_path, sql_files in sources:
+        for sql_file in sql_files:
+            table_name = extract_table_from_filename(sql_file.name)
+            if not table_name:
+                continue
+
+            if filter_table and table_name != filter_table.lower():
+                continue
+
+            try:
+                sql_content = sql_file.read_text()
+                file_mods = parse_sql_modifications(sql_content, table_name)
+                parsed_mods_cache[sql_file] = {table_name: file_mods}
+                affected_ids = set(file_mods.keys())
+
+                if affected_ids:
+                    if table_name not in table_modifications:
+                        table_modifications[table_name] = {}
+
+                    for row_id in affected_ids:
+                        if row_id not in table_modifications[table_name]:
+                            table_modifications[table_name][row_id] = []
+                        table_modifications[table_name][row_id].append(
+                            (zpak_name, priority, sql_file.name, sql_file)
+                        )
+            except Exception:
+                continue
+
+    # Find rows with multiple modifiers
+    potential_conflicts = {}
+    for table_name, rows in table_modifications.items():
+        conflicts = [(rid, mods) for rid, mods in rows.items() if len(mods) > 1]
+        if conflicts:
+            potential_conflicts[table_name] = conflicts
+
+    total_potential = sum(len(c) for c in potential_conflicts.values())
+
+    # Phase 2: Classify as redundant or conflicting
+    all_conflicts = []
+    all_redundants = []
+    checked = 0
+
+    for table_name in sorted(potential_conflicts.keys()):
+        for row_id, modifiers in potential_conflicts[table_name]:
+            checked += 1
+            if progress_callback and checked % 100 == 0:
+                progress_callback(checked, total_potential)
+
+            is_redundant = True
+            try:
+                all_mods = []
+                for zpak_name, priority, filename, filepath in modifiers:
+                    cached = parsed_mods_cache.get(filepath, {}).get(table_name, {})
+                    if row_id in cached:
+                        all_mods.append((zpak_name, priority, filename, cached[row_id]))
+
+                if len(all_mods) >= 2:
+                    base_mods = all_mods[0][3]
+                    for _, _, _, other_mods in all_mods[1:]:
+                        if not compare_modifications(base_mods, other_mods):
+                            is_redundant = False
+                            break
+            except Exception:
+                is_redundant = False
+
+            if is_redundant:
+                all_redundants.append((table_name, row_id, all_mods))
+            else:
+                all_conflicts.append((table_name, row_id, all_mods))
+
+    if progress_callback:
+        progress_callback(total_potential, total_potential)
+
+    return all_conflicts, all_redundants
+
+
+# =============================================================================
 # DBC Duplicate Cleaning
 # =============================================================================
 
-# Tables to skip - these use composite keys that the diff builder can't handle
-# See I-113 for details on fixing the diff builder for these tables
-COMPOSITE_KEY_TABLES = {
-    'characterfacialhairstyles',  # composite key: (race_id, sex_id, variation_id)
-    'charbaseinfo',               # composite key: (race_id, class_id)
-}
 
-
-def parse_conflicts_log(log_path: Path) -> Dict[str, Dict[str, List[int]]]:
-    """
-    Parse dbc_conflicts.log and extract redundant IDs grouped by table and zpak.
-
-    Returns:
-        dict mapping table_name -> {zpak_name -> list of redundant IDs}
-    """
-    from collections import defaultdict
-
-    redundant_ids: Dict[str, Dict[str, List[int]]] = defaultdict(lambda: defaultdict(list))
-    current_table = None
-    current_id = None
-
-    with open(log_path, 'r', encoding='utf-8') as f:
-        for line in f:
-            # Match table header: "tablename (X conflicts, Y redundant)"
-            table_match = re.match(r'^(\w+) \(\d+ conflicts?,? ?\d* ?redundant?\)', line)
-            if not table_match:
-                # Also match tables with only redundant: "tablename (X redundant)"
-                table_match = re.match(r'^(\w+) \((\d+) redundant\)', line)
-
-            if table_match:
-                current_table = table_match.group(1)
-                current_id = None
-                continue
-
-            # Match redundant ID: "  ID 12345: (REDUNDANT)"
-            id_match = re.match(r'^\s+ID (\d+): \(REDUNDANT\)', line)
-            if id_match and current_table:
-                current_id = int(id_match.group(1))
-                continue
-
-            # Match zpak line under a redundant ID: "    [999] zepcraft-legacy (...)"
-            if current_id is not None and current_table:
-                zpak_match = re.match(r'^\s+\[\s*\d+\]\s+(\S+)\s+\(', line)
-                if zpak_match:
-                    zpak_name = zpak_match.group(1)
-                    redundant_ids[current_table][zpak_name].append(current_id)
-
-    # Convert defaultdicts to regular dicts
-    return {table: dict(zpaks) for table, zpaks in redundant_ids.items()}
-
-
-def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set[int],
+def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set,
                               dry_run: bool = False) -> Tuple[int, int, int]:
     """
     Remove DELETE+INSERT pairs for specified IDs from a DBC SQL file.
 
+    Supports both single-column keys (WHERE `id` = X) and composite keys
+    (WHERE `col1` = X AND `col2` = Y).
+
     Args:
         file_path: Path to SQL file
-        ids_to_remove: Set of IDs to remove
+        ids_to_remove: Set of IDs (int) or key tuples to remove
         dry_run: If True, don't modify the file
 
     Returns:
@@ -1118,20 +1315,29 @@ def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set[int],
     new_lines = []
     removed_count = 0
 
-    # Common DBC primary key column patterns
-    id_pattern = r"`(?:id|ID|Id|entry|item_id)`"
+    def _extract_where_values(where_str: str) -> tuple:
+        """Extract values from a WHERE clause as a tuple of ints."""
+        vals = re.findall(r'=\s*(\d+)', where_str)
+        return tuple(int(v) for v in vals)
+
+    # Normalize ids_to_remove to a set of tuples for uniform matching
+    normalized_ids = set()
+    for item in ids_to_remove:
+        if isinstance(item, tuple):
+            normalized_ids.add(item)
+        else:
+            normalized_ids.add((int(item),))
 
     i = 0
     while i < len(lines):
         line = lines[i]
 
-        # Check for DELETE statement with an ID we want to remove
-        delete_match = re.match(rf"^DELETE FROM `\w+` WHERE {id_pattern} = (\d+);",
-                                line, re.IGNORECASE)
+        # Check for DELETE statement - match any WHERE clause pattern
+        delete_match = re.match(r"^DELETE FROM `\w+` WHERE (.+);", line, re.IGNORECASE)
 
         if delete_match:
-            row_id = int(delete_match.group(1))
-            if row_id in ids_to_remove:
+            row_key = _extract_where_values(delete_match.group(1))
+            if row_key in normalized_ids:
                 removed_count += 1
                 i += 1
                 # Check if next line is the corresponding INSERT
@@ -1139,11 +1345,11 @@ def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set[int],
                     i += 1
                 continue
 
-        # Check for UPDATE statement with an ID we want to remove
-        update_match = re.search(rf"WHERE {id_pattern} = (\d+);$", line, re.IGNORECASE)
+        # Check for UPDATE statement
+        update_match = re.search(r"WHERE (.+);$", line, re.IGNORECASE)
         if update_match and line.upper().strip().startswith('UPDATE'):
-            row_id = int(update_match.group(1))
-            if row_id in ids_to_remove:
+            row_key = _extract_where_values(update_match.group(1))
+            if row_key in normalized_ids:
                 removed_count += 1
                 i += 1
                 continue
