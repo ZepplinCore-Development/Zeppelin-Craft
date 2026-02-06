@@ -2319,10 +2319,24 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
     with open(scratch_config_path, 'w') as f:
         json.dump(scratch_config, f, indent=2)
 
+    # Standardise DBC filenames to match DBCTool's expected casing from meta files.
+    # Files extracted from MPQs can have arbitrary casing (e.g. Creaturedisplayinfo.dbc)
+    # but DBCTool expects exact filenames from its meta files (e.g. CreatureDisplayInfo.dbc).
+    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+    for dbc_file in dbc_files:
+        meta_path = meta_dir / f"{dbc_file.stem.lower()}.meta.json"
+        if meta_path.exists():
+            with open(meta_path) as mf:
+                expected_name = json.load(mf).get("file", dbc_file.name)
+            if dbc_file.name != expected_name:
+                dbc_file.rename(dbc_file.parent / expected_name)
+    # Re-scan after rename
+    dbc_files = sorted(source_path.glob("*.dbc"))
+
     try:
         # Import each DBC file
         imported_tables = []
-        for dbc_file in sorted(dbc_files):
+        for dbc_file in dbc_files:
             dbc_name = dbc_file.stem.lower()
             click.echo(f"  Importing {dbc_file.stem}...", nl=False)
 
