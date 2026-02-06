@@ -274,6 +274,7 @@ def build_patch_z(craft_root: Path, nginx_path: Path,
 def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
                         nginx_path: Path, register: Dict[str, Any],
                         parse: bool = False,
+                        parse_only: bool = False,
                         dry_run: bool = False) -> bool:
     """Build a non-Z patch MPQ from zpak parsed-assets.
 
@@ -287,6 +288,7 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
         nginx_path: Path to NGINX root directory.
         register: Patch register dict (modified in place).
         parse: Run preprocessor before packing.
+        parse_only: Run preprocessor only, skip packing.
         dry_run: Preview only, don't build.
 
     Returns:
@@ -296,7 +298,7 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
     output_path = get_patch_output_path(nginx_path, patch_name, register)
 
     # Run preprocessor if requested
-    if parse:
+    if parse or parse_only:
         for zpak in zpaks:
             build_info = get_zpak_build_info(zpak['manifest'])
             preprocessor = build_info.get('preprocessor')
@@ -307,6 +309,12 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
                 elif not _run_preprocessor(preprocessor, zpak):
                     print(f"    Preprocessor failed for {zpak['name']}")
                     return False
+
+    # Parse only: stop after preprocessing
+    if parse_only:
+        if not dry_run:
+            print(f"  Parse complete for PATCH-{letter}")
+        return True
 
     # Collect zpaks with actual assets
     buildable = []

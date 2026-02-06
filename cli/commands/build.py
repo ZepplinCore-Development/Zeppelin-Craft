@@ -148,6 +148,7 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
         else:
             ok = build_generic_patch(letter, zpaks, nginx_path, register,
                                      parse=mode.get('parse', False),
+                                     parse_only=mode.get('parse_only', False),
                                      dry_run=dry_run)
 
         if ok:
@@ -294,22 +295,16 @@ def _build_mode_menu(letter: str, patches: dict, register: dict,
             get_zpak_build_info(z['manifest']).get('preprocessor')
             for z in zpaks
         )
-        has_assets = any(get_zpak_parsed_assets(z['path']) for z in zpaks)
 
-        if has_preprocessor and has_assets:
+        if has_preprocessor:
             options = [
                 "Build            Pack existing parsed-assets",
-                "Build + Parse    Run preprocessor first, then pack",
+                "Parse            Run preprocessor only (no pack)",
+                "Parse + Build    Run preprocessor first, then pack",
             ]
             modes = [
                 {'quick': False, 'parse': False},
-                {'quick': False, 'parse': True},
-            ]
-        elif has_preprocessor:
-            options = [
-                "Build + Parse    Run preprocessor first, then pack",
-            ]
-            modes = [
+                {'quick': False, 'parse': True, 'parse_only': True},
                 {'quick': False, 'parse': True},
             ]
         else:
