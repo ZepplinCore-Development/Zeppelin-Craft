@@ -73,7 +73,11 @@ done
 # Step 2: Build Docker images
 echo -e "${YELLOW}Building Docker images (this takes a while)...${NC}"
 cd "$ZEPPELIN_CORE"
-./acore.sh docker build . 2>&1 | tee "$ZEPPELIN_CORE/build.log"
+
+# Ensure all .sh files have execute permission (UNRAID/SMB can strip these)
+echo -e "${YELLOW}Fixing script permissions...${NC}"
+find "$ZEPPELIN_CORE" -name "*.sh" -exec chmod +x {} +
+bash acore.sh docker build . 2>&1 | tee "$ZEPPELIN_CORE/build.log"
 
 # Step 2b: Build tools image (separate profile)
 echo -e "${YELLOW}Building tools image...${NC}"
