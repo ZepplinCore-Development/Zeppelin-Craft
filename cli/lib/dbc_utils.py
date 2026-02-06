@@ -1293,12 +1293,15 @@ def detect_dbc_conflicts(
 
 
 def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set,
-                              dry_run: bool = False) -> Tuple[int, int, int]:
+                              dry_run: bool = False) -> Tuple[int, int, int, bool]:
     """
     Remove DELETE+INSERT pairs for specified IDs from a DBC SQL file.
 
     Supports both single-column keys (WHERE `id` = X) and composite keys
     (WHERE `col1` = X AND `col2` = Y).
+
+    If all SQL content is removed (only comments/blanks remain), the file
+    is deleted to avoid ghost diffs.
 
     Args:
         file_path: Path to SQL file
@@ -1306,7 +1309,8 @@ def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set,
         dry_run: If True, don't modify the file
 
     Returns:
-        Tuple of (lines_before, lines_after, removed_count)
+        Tuple of (lines_before, lines_after, removed_count, content_empty)
+        content_empty is True if no SQL statements remain after removal.
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
@@ -1357,8 +1361,18 @@ def remove_ids_from_dbc_file(file_path: Path, ids_to_remove: Set,
         new_lines.append(line)
         i += 1
 
-    if not dry_run and removed_count > 0:
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.writelines(new_lines)
+    # Check if remaining lines have any actual SQL content
+    # (not just comment headers and blank lines)
+    has_sql_content = any(
+        line.strip() and not line.strip().startswith('--')
+        for line in new_lines
+    )
 
-    return original_count, len(new_lines), removed_count
+    if not dry_run and removed_count > 0:
+        if has_sql_content:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.writelines(new_lines)
+        else:
+            file_path.unlink()
+
+    return original_count, len(new_lines), removed_count, not has_sql_content

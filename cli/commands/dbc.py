@@ -1096,15 +1096,19 @@ def dbc_clean(ctx, name: Optional[str], dry_run: bool):
             continue
 
         file_path = matches[0]
-        lines_before, lines_after, removed = remove_ids_from_dbc_file(
+        lines_before, lines_after, removed, content_empty = remove_ids_from_dbc_file(
             file_path, ids, dry_run
         )
 
         if removed > 0:
             files_modified += 1
             total_removed += removed
-            action = "Would remove" if dry_run else "Removed"
-            click.echo(f"  {table_name}: {action} {removed} rows ({lines_before} -> {lines_after} lines)")
+            if content_empty:
+                action = "Would delete" if dry_run else "Deleted"
+                click.echo(f"  {table_name}: {action} {file_path.name} (all {removed} rows redundant)")
+            else:
+                action = "Would remove" if dry_run else "Removed"
+                click.echo(f"  {table_name}: {action} {removed} rows ({lines_before} -> {lines_after} lines)")
         else:
             click.echo(f"  {table_name}: No matching rows found in file")
 
