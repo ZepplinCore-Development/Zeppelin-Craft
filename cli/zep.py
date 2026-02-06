@@ -870,9 +870,6 @@ def zpak_feature(ctx, name):
             disabled_tag = f"  ({z['disabled_count']} disabled)" if z['disabled_count'] else ""
             options.append(f"{z['name']:<25} {z['feature_count']} features{disabled_tag}")
 
-        options.append("─" * 50)
-        options.append("[Cancel]")
-
         menu = TerminalMenu(
             options,
             title="\n  Select zpak to manage features:\n",
@@ -881,10 +878,12 @@ def zpak_feature(ctx, name):
             menu_highlight_style=("fg_cyan", "bold"),
             cycle_cursor=True,
             clear_screen=True,
+            status_bar="Enter: Select | q: Cancel",
+            status_bar_style=("fg_gray",),
         )
 
         result = menu.show()
-        if result is None or result >= len(zpaks):
+        if result is None:
             click.echo("Cancelled.")
             return
 
@@ -957,9 +956,6 @@ def zpak_feature(ctx, name):
             status = "○ Disabled" if fid in disabled else "✓ Enabled "
             options.append(f"{status}  {fid}  {file_desc}")
 
-        options.append("─" * 50)
-        options.append("[Back]")
-
         disabled_count = len(disabled & set(feature_ids))
         enabled_count = len(feature_ids) - disabled_count
 
@@ -976,7 +972,7 @@ def zpak_feature(ctx, name):
         )
 
         result = menu.show()
-        if result is None or result >= len(feature_ids):
+        if result is None:
             return
 
         # Toggle the selected feature
