@@ -22,7 +22,6 @@ from lib.env import (
     DBC_EXPORT_PATH,
     DBC_REORDER_PATH,
     MPQCLI_PATH,
-    RESOURCE_PARSER_PATH,
     SERVER_DBC_PATH,
 )
 from lib.logging_config import get_logger
@@ -40,8 +39,6 @@ logger = get_logger('lib.patch_builder')
 DBC_EXPORT_DIR = DBC_EXPORT_PATH
 SERVER_DBC_DIR = SERVER_DBC_PATH
 DBC_REORDER_DIR = DBC_REORDER_PATH
-RESOURCE_PARSER_DIR = RESOURCE_PARSER_PATH
-RESOURCE_PARSER_SCRIPT = RESOURCE_PARSER_DIR / 'resource_parser.py'
 
 # Backup directory
 BACKUP_DIR_NAME = 'backup'
@@ -399,53 +396,41 @@ def _run_preprocessor(preprocessor: str, zpak: Dict[str, Any]) -> bool:
         True if preprocessing succeeded.
     """
     if preprocessor == 'resource-parser':
-        if not RESOURCE_PARSER_SCRIPT.exists():
-            print(f"    Resource parser not found at {RESOURCE_PARSER_SCRIPT}")
-            return False
+        from lib.resource_parser import ResourceParser
+        from lib.env import ASSET_LIBRARY_PATH
 
-        cmd = [sys.executable, str(RESOURCE_PARSER_SCRIPT)]
-        config_path = RESOURCE_PARSER_DIR / 'config.conf'
-        if config_path.exists():
-            cmd.extend(['--config', str(config_path)])
-
-        # Determine preprocessor mode from zpak manifest (default: model-scan)
         manifest = zpak.get('manifest', {})
         build_config = manifest.get('build', {})
         mode = build_config.get('preprocessor_mode', 'model-scan')
 
-        if mode == 'model-scan':
-            zpak_path = Path(zpak['path'])
-            source_dir = zpak_path / 'mpq' / 'source-assets'
-            output_dir = zpak_path / 'mpq' / 'parsed-assets'
-            cmd.extend(['--mode', 'model-scan',
-                        '--source-dir', str(source_dir),
-                        '--output-dir', str(output_dir)])
-            print(f"    Mode: model-scan (source: {source_dir.name})")
-        else:
-            cmd.extend(['--mode', 'full'])
-            print(f"    Mode: full (ADT workflow)")
+        zpak_path = Path(zpak['path'])
+        source_dir = zpak_path / 'mpq' / 'source-assets'
+        output_dir = zpak_path / 'mpq' / 'parsed-assets'
 
-        logger.info(f"Running resource parser for {zpak['name']}: {' '.join(cmd)}")
+        rp = ResourceParser(mode=mode, assets_source=ASSET_LIBRARY_PATH)
+
+        logger.info(f"Running resource parser for {zpak['name']} (mode={mode})")
         print(f"    This may take several minutes...")
 
-        result = subprocess.run(
-            cmd,
-            cwd=str(RESOURCE_PARSER_DIR),
-            capture_output=True,
-            text=True,
-            timeout=1800,  # 30 minute timeout
-        )
+        try:
+            if mode == 'model-scan':
+                print(f"    Mode: model-scan")
+                rp.run_model_scan(source_dir, output_dir)
+            else:
+                patch_o = build_config.get('patch_o_source')
+                if patch_o:
+                    patch_o = zpak_path / patch_o
+                else:
+                    patch_o = source_dir
+                print(f"    Mode: full (ADT workflow)")
+                rp.run(patch_o, output_dir)
 
-        if result.returncode != 0:
-            print(f"    Resource parser failed (code {result.returncode})")
-            if result.stderr:
-                for line in result.stderr.strip().split('\n')[:5]:
-                    print(f"      {line}")
-            logger.error(f"Resource parser failed: {result.stderr}")
+            print(f"    Resource parser completed for {zpak['name']}")
+            return True
+        except Exception as e:
+            print(f"    Resource parser failed: {e}")
+            logger.error(f"Resource parser failed for {zpak['name']}: {e}")
             return False
-
-        print(f"    Resource parser completed for {zpak['name']}")
-        return True
     else:
         print(f"    Unknown preprocessor: {preprocessor}")
         logger.warning(f"Unknown preprocessor '{preprocessor}' for {zpak['name']}")

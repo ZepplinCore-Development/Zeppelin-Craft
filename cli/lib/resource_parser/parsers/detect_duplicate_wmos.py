@@ -17,7 +17,7 @@ import sys
 import argparse
 from pathlib import Path
 from typing import Dict, List, Tuple
-from parsers.adt_parser import ADTParser, MODFEntry
+from .adt_parser import ADTParser, MODFEntry
 
 
 class DuplicateWMOReport:

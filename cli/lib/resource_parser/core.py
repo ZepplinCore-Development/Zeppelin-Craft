@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 """
 Open Azeroth Resource Parser
-Extracts custom assets needed for Open Azeroth patches by filtering out stock WotLK assets.
+Extracts custom assets needed for patches by filtering out stock WotLK assets.
 
-Usage:
-    python3 resource_parser.py [--config /path/to/config.conf]
-
-Configuration:
-    Edit config.conf to set all paths and options
+Integrated into the Zeppelin CLI — paths come from cli/.env instead of config.conf.
 """
 
 import os
@@ -15,7 +11,6 @@ import sys
 import shutil
 import subprocess
 import tempfile
-import configparser
 from pathlib import Path
 from datetime import datetime
 from typing import Set, Dict, List, Tuple
@@ -24,30 +19,24 @@ from typing import Set, Dict, List, Tuple
 class ResourceParser:
     """Main parser orchestrator"""
 
-    def __init__(self, config_path: Path = None):
-        # Script directory for relative paths
+    def __init__(self, mode: str = 'full', assets_source=None, options=None, debug: bool = False):
+        self.mode = mode
+        self.debug = debug
+
+        # Script directory for relative paths (data/ files are found via this)
         self.script_dir = Path(__file__).parent
 
-        # Load configuration
-        if config_path is None:
-            config_path = self.script_dir / 'config.conf'
+        # Initialize paths — caller provides what's needed, no config file
+        self.paths = {}
+        if assets_source:
+            self.paths['assets_source'] = Path(assets_source)
 
-        if not config_path.exists():
-            raise FileNotFoundError(f"Config file not found: {config_path}")
-
-        self.config = self._load_conf(config_path)
-
-        # Initialize paths with fallback support
-        self.paths = self._resolve_paths_with_fallback(self.config['paths'])
-        self.options = self.config.get('options', {})
-
-        # Derive paths from patch_o (DBCs, ADTs)
-        patch_o = self.paths.get('patch_o')
-        if patch_o:
-            self.paths['area_table_dbc'] = patch_o / 'DBFilesClient' / 'AreaTable.dbc'
-            self.paths['groundeffect_doodad_dbc'] = patch_o / 'DBFilesClient' / 'GroundEffectDoodad.dbc'
-            self.paths['groundeffect_texture_dbc'] = patch_o / 'DBFilesClient' / 'GroundEffectTexture.dbc'
-            self.paths['adt'] = patch_o / 'WORLD' / 'maps'
+        self.options = options or {
+            'verbose': True,
+            'detect_duplicate_wmos': True,
+            'duplicate_wmo_threshold': 1.0,
+            'fix_duplicate_wmos': True,
+        }
 
         # Data files relative to script directory
         self.paths['wotlk_base_assets'] = self.script_dir / 'data' / 'wotlk_335a_merged.txt'
@@ -57,6 +46,7 @@ class ResourceParser:
         self.log_lines = []
 
         # Initialize tracking
+        self.adt_m2_models = set()  # Union of all ADT M2 models (set in parse_adts)
         self.adt_models = {}  # {adt_path: set(models)}
         self.adt_area_ids = {}  # {adt_path: set(area_ids)} - from MCNK chunks
         self.adt_wmos = set()  # WMO files referenced by ADTs (global set for extraction)
@@ -87,12 +77,14 @@ class ResourceParser:
         self.total_texture_required = 0
         self.total_stock_assets = 0  # Cumulative stock assets across all phases
         self.missing_by_area = {}  # {area_name: set(missing_models)}
+        self.all_missing = set()  # Cumulative missing assets across all phases
         self.duplicate_wmos = {}  # {adt_path: [(entry1, entry2, distance, wmo_name)]}
         self.fixed_adts = {}  # {adt_path: fix_result_dict}
 
         # Area name resolution (for zone-based reporting)
-        self.area_table_reader = None  # Will be set by _load_area_names
-        self.area_names = self._load_area_names()
+        # Deferred to run() — paths aren't set yet at construction time
+        self.area_table_reader = None
+        self.area_names = {}
 
         # Parent chain tracking (for debugging missing assets)
         self.asset_parents = {}  # {asset_normalized_path: parent_normalized_path}
@@ -103,83 +95,6 @@ class ResourceParser:
 
         # Folder contents cache (for fast related asset lookups)
         self.folder_cache = {}  # {folder_path: {filename_upper: Path}} - Indexed by folder
-
-    def _load_conf(self, config_path: Path) -> dict:
-        """Load configuration from .conf file (INI format)"""
-        parser = configparser.ConfigParser()
-        parser.read(config_path)
-
-        config = {
-            'paths': {},
-            'options': {}
-        }
-
-        # Load paths section
-        if 'paths' in parser:
-            config['paths'] = dict(parser['paths'])
-
-        # Load mpq section paths (merged into paths for fallback support)
-        if 'mpq' in parser:
-            for key, value in parser['mpq'].items():
-                config['paths'][key] = value
-
-        # Load options section with type conversion
-        if 'options' in parser:
-            for key, value in parser['options'].items():
-                # Convert boolean strings
-                if value.lower() in ('true', 'yes', '1'):
-                    config['options'][key] = True
-                elif value.lower() in ('false', 'no', '0'):
-                    config['options'][key] = False
-                # Convert numeric strings
-                elif value.replace('.', '', 1).isdigit():
-                    if '.' in value:
-                        config['options'][key] = float(value)
-                    else:
-                        config['options'][key] = int(value)
-                else:
-                    config['options'][key] = value
-
-        return config
-
-    def _resolve_paths_with_fallback(self, paths_config: dict) -> dict:
-        """
-        Resolve paths with fallback support.
-
-        For each path key, checks if primary path exists. If not, tries the
-        corresponding _secondary path. This allows cross-platform configs.
-
-        Args:
-            paths_config: Dictionary of path configurations
-
-        Returns:
-            Dictionary mapping path keys to resolved Path objects
-        """
-        resolved_paths = {}
-
-        # Find all primary path keys (those without _secondary suffix)
-        primary_keys = {k for k in paths_config.keys() if not k.endswith('_secondary')}
-
-        for key in primary_keys:
-            primary_path = Path(paths_config[key])
-            secondary_key = f"{key}_secondary"
-
-            # Try primary first
-            if primary_path.exists():
-                resolved_paths[key] = primary_path
-            # Fall back to secondary if available
-            elif secondary_key in paths_config:
-                secondary_path = Path(paths_config[secondary_key])
-                if secondary_path.exists():
-                    resolved_paths[key] = secondary_path
-                else:
-                    # Neither exists, use primary (will fail later with clear error)
-                    resolved_paths[key] = primary_path
-            else:
-                # No secondary available, use primary
-                resolved_paths[key] = primary_path
-
-        return resolved_paths
 
     @staticmethod
     def normalize_path(path: str) -> str:
@@ -212,14 +127,20 @@ class ResourceParser:
         return normalized
 
     def log(self, message: str):
-        """Add message to log buffer and optionally print"""
+        """Add message to log buffer and print to terminal"""
         self.log_lines.append(message)
         if self.options.get('verbose', True):
             print(message)
 
+    def debug_log(self, message: str):
+        """Add message to log buffer, only print to terminal if debug=True"""
+        self.log_lines.append(message)
+        if self.debug:
+            print(message)
+
     def _load_area_names(self) -> Dict[int, str]:
         """Load area ID to name mapping from AreaTable.dbc"""
-        from parsers.dbc_binary_reader import AreaTableReader
+        from .parsers.dbc_binary_reader import AreaTableReader
 
         area_id_to_name = {}
 
@@ -254,7 +175,7 @@ class ResourceParser:
         Note: Modern zones like Lost Isles don't exist in WotLK AreaTable.dbc,
         so they will display as "kalimdor [54,28]" format.
         """
-        from parsers.adt_coordinates import adt_to_world_coords
+        from .parsers.adt_coordinates import adt_to_world_coords
 
         # Format: MapName_X_Y.adt
         try:
@@ -519,22 +440,89 @@ class ResourceParser:
 
             # Progress every 1000 files
             if copied % 1000 == 0:
-                self.log(f'  Progress: {copied:,} files copied...')
+                self.debug_log(f'  Progress: {copied:,} files copied...')
 
         self.log(f'\n  Copied: {copied:,} files')
         if skipped > 0:
             self.log(f'  Skipped (already exist): {skipped:,} files')
 
         # Update paths to point to Export folder for subsequent phases
-        self.paths['adt'] = export_dir / 'WORLD' / 'maps'
+        # Use UPPERCASE to match the normalized directory names
+        self.paths['adt'] = export_dir / 'WORLD' / 'MAPS'
         self.log(f'\n  ADT path updated to: {self.paths["adt"]}')
+
+        return True
+
+    def _copy_source_to_output(self, source_dir: Path, output_dir: Path):
+        """
+        Copy zpak source-assets/ to parsed-assets/ with UPPERCASE normalization.
+
+        Skips MPQ metadata files ((listfile), (attributes), .gitignore, .gitkeep).
+        Uses same skip-if-same-size logic as copy_patch_o_to_export().
+
+        Args:
+            source_dir: Path to zpak's source-assets/ directory
+            output_dir: Path to zpak's parsed-assets/ directory
+        """
+        self.log('\n' + '='*80)
+        self.log('STAGING: Copying source-assets to output directory')
+        self.log('='*80)
+
+        if not source_dir.exists():
+            self.log(f'  Source directory does not exist: {source_dir}')
+            return False
+
+        self.log(f'\nSource: {source_dir}')
+        self.log(f'Destination: {output_dir}')
+
+        # Files to skip (MPQ metadata and git housekeeping)
+        skip_names = {'(listfile)', '(attributes)', '.gitignore', '.gitkeep'}
+
+        # Normalize existing output folder case
+        if output_dir.exists():
+            self.normalize_export_folder_case()
+
+        # Collect files to copy with UPPERCASE normalization
+        files_to_copy = []
+        for root, dirs, files in os.walk(source_dir):
+            for file in files:
+                if file in skip_names:
+                    continue
+                src_file = Path(root) / file
+                rel_path = src_file.relative_to(source_dir)
+                rel_path_upper = Path(str(rel_path).upper())
+                dst_file = output_dir / rel_path_upper
+                files_to_copy.append((src_file, dst_file))
+
+        self.log(f'Files to copy: {len(files_to_copy):,}')
+
+        # Copy files (skip if destination exists and is same size)
+        copied = 0
+        skipped = 0
+
+        for src_file, dst_file in files_to_copy:
+            dst_file.parent.mkdir(parents=True, exist_ok=True)
+
+            if dst_file.exists() and dst_file.stat().st_size == src_file.stat().st_size:
+                skipped += 1
+                continue
+
+            shutil.copy2(src_file, dst_file)
+            copied += 1
+
+            if copied % 1000 == 0:
+                self.debug_log(f'  Progress: {copied:,} files copied...')
+
+        self.log(f'\n  Copied: {copied:,} files')
+        if skipped > 0:
+            self.log(f'  Skipped (already exist): {skipped:,} files')
 
         return True
 
     def parse_adts(self):
         """Parse ADT files for model dependencies, ground effect IDs, and terrain textures"""
-        from parsers.adt_parser import ADTParser
-        from parsers.adt_texture_parser import ADTTextureParser
+        from .parsers.adt_parser import ADTParser
+        from .parsers.adt_texture_parser import ADTTextureParser
 
         self.log('\n' + '='*80)
         self.log('STEP 2: Parsing ADT files for model, texture, and ground effect dependencies')
@@ -543,7 +531,7 @@ class ResourceParser:
         adt_dir = self.paths['adt']
         self.log(f'\nADT Directory: {adt_dir}')
 
-        adt_files = list(adt_dir.rglob("*.adt"))
+        adt_files = list(adt_dir.rglob("*.adt")) + list(adt_dir.rglob("*.ADT"))
         self.log(f'Found {len(adt_files)} ADT files to parse...')
 
         total_models = set()
@@ -613,9 +601,9 @@ class ResourceParser:
                     if effect_id not in self.ground_effect_to_adts:
                         self.ground_effect_to_adts[effect_id] = []
                     self.ground_effect_to_adts[effect_id].append(adt_normalized)
-                self.log(f'  {adt_file.name} -> {area_name} -> {len(models)} models, {len(parser.wmos)} WMOs, {len(terrain_textures)} textures, {len(parser.ground_effect_ids)} ground effects')
+                self.debug_log(f'  {adt_file.name} -> {area_name} -> {len(models)} models, {len(parser.wmos)} WMOs, {len(terrain_textures)} textures, {len(parser.ground_effect_ids)} ground effects')
             elif models or parser.wmos or terrain_textures:
-                self.log(f'  {adt_file.name} -> {area_name} -> {len(models)} models, {len(parser.wmos)} WMOs, {len(terrain_textures)} textures')
+                self.debug_log(f'  {adt_file.name} -> {area_name} -> {len(models)} models, {len(parser.wmos)} WMOs, {len(terrain_textures)} textures')
 
         # Store for later reference in Step 7 summary
         self.adt_m2_models = total_models
@@ -661,7 +649,7 @@ class ResourceParser:
                 affected_adts += 1
 
                 adt_name = Path(adt_path).name
-                self.log(f'  [{len(duplicates)} duplicates] {adt_name}')
+                self.debug_log(f'  [{len(duplicates)} duplicates] {adt_name}')
 
         if total_duplicates > 0:
             self.log(f'\n  ⚠️  FOUND {total_duplicates} duplicate WMO placement pairs across {affected_adts} ADT files')
@@ -679,7 +667,7 @@ class ResourceParser:
 
     def fix_duplicate_wmos(self):
         """Fix detected duplicate WMOs and export corrected ADTs"""
-        from parsers.adt_modf_editor import fix_adt_duplicates
+        from .parsers.adt_modf_editor import fix_adt_duplicates
 
         if not self.duplicate_wmos:
             return
@@ -714,8 +702,8 @@ class ResourceParser:
                 # Fallback: just use filename
                 export_path = export_base / adt_name
 
-            self.log(f'\n  Fixing: {adt_name}')
-            self.log(f'    Duplicates: {len(duplicates)} pairs')
+            self.debug_log(f'\n  Fixing: {adt_name}')
+            self.debug_log(f'    Duplicates: {len(duplicates)} pairs')
 
             # Fix and export
             result = fix_adt_duplicates(
@@ -730,10 +718,10 @@ class ResourceParser:
                 total_fixed += 1
                 total_removed += result['removed_count']
 
-                self.log(f'    Original WMO placements: {result["original_count"]}')
-                self.log(f'    Duplicates removed: {result["removed_count"]}')
-                self.log(f'    Final WMO placements: {result["deduplicated_count"]}')
-                self.log(f'    ✓ Exported to: {export_path.relative_to(self.paths["export"])}')
+                self.debug_log(f'    Original WMO placements: {result["original_count"]}')
+                self.debug_log(f'    Duplicates removed: {result["removed_count"]}')
+                self.debug_log(f'    Final WMO placements: {result["deduplicated_count"]}')
+                self.debug_log(f'    ✓ Exported to: {export_path.relative_to(self.paths["export"])}')
             else:
                 self.log(f'    ✗ Failed: {result["message"]}')
 
@@ -775,7 +763,7 @@ class ResourceParser:
 
     def parse_ground_effects(self):
         """Parse GroundEffectDoodad.dbc and validate against ADT ground effect IDs"""
-        from parsers.groundeffect_parser import GroundEffectTextureReader, GroundEffectDoodadReader
+        from .parsers.groundeffect_parser import GroundEffectTextureReader, GroundEffectDoodadReader
 
         self.log('\n' + '='*80)
         self.log('STEP 7: Parsing GroundEffect DBCs and validating ADT references')
@@ -868,22 +856,22 @@ class ResourceParser:
 
             # Report valid vs invalid IDs
             if valid_ids:
-                self.log(f'\n  ✅ {len(valid_ids)} ground effect IDs are VALID (exist in DBC)')
+                self.debug_log(f'\n  ✅ {len(valid_ids)} ground effect IDs are VALID (exist in DBC)')
 
             # Report junk IDs once (legacy ADT data, can be ignored)
             if junk_ids:
-                self.log(f'\n  ℹ️  {len(junk_ids)} junk ground effect IDs found (legacy Blizzard ADT data)')
-                self.log(f'      These IDs don\'t exist in WotLK or modern clients - safe to ignore')
+                self.debug_log(f'\n  ℹ️  {len(junk_ids)} junk ground effect IDs found (legacy Blizzard ADT data)')
+                self.debug_log(f'      These IDs don\'t exist in WotLK or modern clients - safe to ignore')
                 sample_junk = sorted(junk_ids)[:10]
-                self.log(f'      Example IDs: {sample_junk}{"..." if len(junk_ids) > 10 else ""}')
+                self.debug_log(f'      Example IDs: {sample_junk}{"..." if len(junk_ids) > 10 else ""}')
 
             # Report genuinely missing modern content (if any)
             if modern_only_ids:
                 self.log(f'\n  ⚠️  {len(modern_only_ids)} ground effect IDs are modern content (missing from WotLK DBC)')
-                self.log(f'      These exist in modern client but not in our WotLK GroundEffectTexture.dbc')
+                self.debug_log(f'      These exist in modern client but not in our WotLK GroundEffectTexture.dbc')
                 sample_modern = sorted(modern_only_ids)[:10]
-                self.log(f'      Example IDs: {sample_modern}{"..." if len(modern_only_ids) > 10 else ""}')
-                self.log(f'      ⚠️  These WILL show as blue cube placeholders in-game!')
+                self.debug_log(f'      Example IDs: {sample_modern}{"..." if len(modern_only_ids) > 10 else ""}')
+                self.debug_log(f'      ⚠️  These WILL show as blue cube placeholders in-game!')
 
             # Calculate models for VALID ground effects only (the ones we actually need)
             models_for_valid_effects = set()
@@ -898,15 +886,15 @@ class ResourceParser:
                 self.log(f'\n  Models needed for {len(valid_ids)} valid ground effects: {len(models_for_valid_effects)} unique M2 files')
 
             # Show DBC entry counts after validation
-            self.log(f'\n  DBC Reference Info:')
-            self.log(f'    GroundEffectTexture.dbc: {len(texture_reader.textures):,} entries')
-            self.log(f'    GroundEffectDoodad.dbc: {len(doodad_reader.doodads):,} entries, {len(self.ground_effect_models):,} unique models')
+            self.debug_log(f'\n  DBC Reference Info:')
+            self.debug_log(f'    GroundEffectTexture.dbc: {len(texture_reader.textures):,} entries')
+            self.debug_log(f'    GroundEffectDoodad.dbc: {len(doodad_reader.doodads):,} entries, {len(self.ground_effect_models):,} unique models')
             if modern_ids:
-                self.log(f'    Modern Reference: {len(modern_ids):,} entries')
+                self.debug_log(f'    Modern Reference: {len(modern_ids):,} entries')
 
     def parse_exported_wmos(self):
         """Parse all WMO files in Export folder for M2 doodad, texture, and nested WMO dependencies (Phase 2)"""
-        from parsers.wmo_parser import WMOParser
+        from .parsers.wmo_parser import WMOParser
         import re
 
         self.log('\n' + '='*80)
@@ -1037,7 +1025,7 @@ class ResourceParser:
 
     def parse_exported_m2s(self):
         """Parse all M2 models in Export folder for BLP texture dependencies (Phase 3)"""
-        from parsers.m2_texture_parser import parse_m2_textures
+        from .parsers.m2_texture_parser import parse_m2_textures
 
         self.log('\n' + '='*80)
         self.log('STEP 12: Parsing M2 models for texture dependencies')
@@ -1072,7 +1060,7 @@ class ResourceParser:
             processed += 1
             # Log progress every 500 files
             if processed % 500 == 0:
-                self.log(f'  Progress: {processed:,}/{len(m2_files):,} M2 files parsed...')
+                self.debug_log(f'  Progress: {processed:,}/{len(m2_files):,} M2 files parsed...')
 
             try:
                 textures = parse_m2_textures(m2_file)
@@ -1611,16 +1599,16 @@ class ResourceParser:
                         root_wmos.append(filename)
 
             if root_wmos:
-                self.log(f'\n  Root WMO files ({len(root_wmos)}):')
+                self.debug_log(f'\n  Root WMO files ({len(root_wmos)}):')
                 for wmo in sorted(root_wmos):
-                    self.log(f'    - {wmo}')
+                    self.debug_log(f'    - {wmo}')
 
             if group_wmos:
-                self.log(f'\n  Group WMO files ({len(group_wmos)}):')
+                self.debug_log(f'\n  Group WMO files ({len(group_wmos)}):')
                 for wmo in sorted(group_wmos)[:10]:  # Show first 10
-                    self.log(f'    - {wmo}')
+                    self.debug_log(f'    - {wmo}')
                 if len(group_wmos) > 10:
-                    self.log(f'    ... and {len(group_wmos) - 10} more group files')
+                    self.debug_log(f'    ... and {len(group_wmos) - 10} more group files')
 
         # Show ALL missing assets with parent chains (no truncation)
         if missing_count > 0:
@@ -1632,21 +1620,21 @@ class ResourceParser:
 
             if still_missing:
                 self.log(f'\n  ⚠️  MISSING {asset_type.upper()} - {len(still_missing):,} FILES')
-                self.log(f'  {"="*78}')
+                self.debug_log(f'  {"="*78}')
                 for asset in sorted(still_missing):
                     parent_chain = self.format_parent_chain(asset)
-                    self.log(f'    {asset}')
-                    self.log(f'      ↳ Chain: {parent_chain}')
+                    self.debug_log(f'    {asset}')
+                    self.debug_log(f'      ↳ Chain: {parent_chain}')
             else:
                 # All required assets found, but show fuzzy matches if root count is low
                 if fuzzy_matched_assets and root_assets_found < len(self.required_custom):
-                    self.log(f'\n  ℹ️  NOTE: {len(fuzzy_matched_assets)} {asset_type} found via fuzzy matching (path corrections)')
-                    self.log(f'  {"─"*78}')
+                    self.debug_log(f'\n  ℹ️  NOTE: {len(fuzzy_matched_assets)} {asset_type} found via fuzzy matching (path corrections)')
+                    self.debug_log(f'  {"─"*78}')
                     for original_path, matched_path in fuzzy_matched_assets[:10]:  # Show first 10
-                        self.log(f'    ADT Reference: {original_path}')
-                        self.log(f'    Found As:      {matched_path}')
+                        self.debug_log(f'    ADT Reference: {original_path}')
+                        self.debug_log(f'    Found As:      {matched_path}')
                     if len(fuzzy_matched_assets) > 10:
-                        self.log(f'    ... and {len(fuzzy_matched_assets) - 10} more fuzzy matches')
+                        self.debug_log(f'    ... and {len(fuzzy_matched_assets) - 10} more fuzzy matches')
 
     def build_folder_cache(self, assets_dir: Path):
         """
@@ -1681,7 +1669,7 @@ class ResourceParser:
 
                 # Progress indicator every 1000 folders (avoid duplicate logs)
                 if folder_count % 1000 == 0 and folder_count != last_logged:
-                    self.log(f'  Indexed {folder_count:,} folders, {file_count:,} files so far...')
+                    self.debug_log(f'  Indexed {folder_count:,} folders, {file_count:,} files so far...')
                     last_logged = folder_count
 
         except Exception as e:
@@ -1859,20 +1847,23 @@ class ResourceParser:
         # Calculate what's still missing
         still_missing = self.required_custom - set(self.found_assets.keys())
 
+        # Accumulate across phases for analyze_missing_by_area
+        self.all_missing.update(still_missing)
+
         if not still_missing:
             self.log(f'\n  ✅ All required {asset_type} found and extracted!')
             return
 
         self.log(f'\n  ⚠️  MISSING {asset_type.upper()} - {len(still_missing):,} FILES')
-        self.log(f'  {"="*78}')
+        self.debug_log(f'  {"="*78}')
 
         # Show ALL missing assets with full paths and parent chains (no truncation)
         for asset in sorted(still_missing):
             # Get parent chain for this asset
             parent_chain = self.format_parent_chain(asset)
 
-            self.log(f'    {asset}')
-            self.log(f'      ↳ Chain: {parent_chain}')
+            self.debug_log(f'    {asset}')
+            self.debug_log(f'      ↳ Chain: {parent_chain}')
 
     def analyze_missing_by_area(self):
         """Analyze missing assets by map area using parent chain tracking"""
@@ -1880,8 +1871,8 @@ class ResourceParser:
         self.log('STEP 16: Analyzing missing assets by area')
         self.log('='*80)
 
-        # Find what's still missing
-        still_missing = self.required_custom - set(self.found_assets.keys())
+        # Use cumulative missing assets from all phases (WMOs, M2s, textures)
+        still_missing = self.all_missing.copy()
 
         # Group missing assets by area using parent chain tracking
         self.missing_by_area = {}  # Reset dictionary
@@ -1983,10 +1974,16 @@ class ResourceParser:
 
                     if area_m2s:
                         self.log(f'    - M2 models: {len(area_m2s)} missing')
+                        for asset in sorted(area_m2s):
+                            self.log(f'        {asset}')
                     if area_wmos:
                         self.log(f'    - WMO files: {len(area_wmos)} missing')
+                        for asset in sorted(area_wmos):
+                            self.log(f'        {asset}')
                     if area_blps:
                         self.log(f'    - BLP textures: {len(area_blps)} missing')
+                        for asset in sorted(area_blps):
+                            self.log(f'        {asset}')
                     if area_ground_effects:
                         effect_ids = sorted(area_ground_effects)
                         self.log(f'    - Ground effect IDs: {effect_ids}')
@@ -2100,298 +2097,93 @@ class ResourceParser:
         self.log(f'\n  Duplicate WMO report saved: {report_path}')
 
     def generate_log(self):
-        """Generate final log file"""
+        """Generate log file with missing assets organized by area."""
         self.log('\n' + '='*80)
         self.log('STEP 18: Generating log file')
         self.log('='*80)
 
         log_path = Path(__file__).parent / 'resource_parser.log'
 
-        # Summary section
-        summary = [
-            '='*80,
-            'OPEN AZEROTH RESOURCE PARSER - EXTRACTION LOG',
-            '='*80,
-            '',
-            'CONFIGURATION',
-            '-'*80,
-            f'ADT Path: {self.paths["adt"]}',
-            f'Assets Source: {self.paths["assets_source"]}',
-            f'Export Path: {self.paths["export"]}',
-            f'Stock Asset List: {self.paths["wotlk_base_assets"]}',
-            '',
-            'SUMMARY',
-            '-'*80,
-            f'Total Custom Assets Required: {self.total_wmo_required + self.total_m2_required + self.total_texture_required:,}',
-            f'  - WMO Files: {self.total_wmo_required:,}',
-            f'  - M2/MDX Models: {self.total_m2_required:,}',
-            f'  - BLP Textures: {self.total_texture_required:,}',
-            '',
-            'ASSET SOURCES',
-            '-'*80,
-            f'  - M2 Models from ADTs: {len(set().union(*self.adt_models.values()) if self.adt_models else set()):,}',
-            f'  - WMO Files from ADTs: {len(self.adt_wmos):,}',
-            f'  - M2 Doodads from WMOs: {len(self.wmo_doodads):,}',
-            f'  - BLP Textures from ADTs (terrain): {len(self.adt_textures):,}',
-            f'  - BLP Textures from WMOs: {len(self.wmo_textures):,}',
-            f'  - M2 Models from Ground Effects (DBC): {len(self.ground_effect_models):,}',
-            '',
-            f'Ground Effect Validation:',
-            f'  - ADT Ground Effect IDs Found: {len(self.adt_ground_effect_ids)}',
-            f'  - Missing from WotLK DBC: {len(self.missing_ground_effect_ids)}',
-        ]
-
-        if self.missing_ground_effect_ids:
-            if self.modern_ground_effect_ids:
-                summary.append(f'  - Modern content IDs (genuinely missing): {len(self.modern_ground_effect_ids)}')
-                summary.append(f'    ⚠️  These WILL show blue cubes - need DBC entries')
-                sample_modern = sorted(self.modern_ground_effect_ids)[:10]
-                summary.append(f'    Sample: {sample_modern}{"..." if len(self.modern_ground_effect_ids) > 10 else ""}')
-            if self.bad_ground_effect_ids:
-                summary.append(f'  - Junk legacy IDs (safe to ignore): {len(self.bad_ground_effect_ids)}')
-                summary.append(f'    ℹ️  These are legacy Blizzard ADT data, not in any client')
-                sample_junk = sorted(self.bad_ground_effect_ids)[:10]
-                summary.append(f'    Sample: {sample_junk}{"..." if len(self.bad_ground_effect_ids) > 10 else ""}')
-
-        # Calculate missing assets by type
-        still_missing_all = set()
-
-        # Build normalized sets for efficient lookups
-        already_exported_normalized = {a.upper().replace('\\', '/') for a in self.already_exported}
-        found_assets_normalized = {fa.upper().replace('\\', '/') for fa in self.found_assets.keys()}
-
-        # Collect all missing assets from each phase
-        # Phase 1: Missing WMOs (only check custom WMOs from required_custom)
-        missing_wmos = []
-        for asset in self.required_custom:
-            normalized = asset.upper().replace('\\', '/')
-            if normalized.endswith('.WMO'):
-                if normalized not in already_exported_normalized and normalized not in found_assets_normalized:
-                    missing_wmos.append(asset)
-                    still_missing_all.add(normalized)
-
-        # Phase 2: Missing M2 models (only check custom M2s from required_custom)
-        missing_m2s = []
-        for asset in self.required_custom:
-            normalized = asset.upper().replace('\\', '/')
-            if normalized.endswith('.M2') or normalized.endswith('.MDX'):
-                if normalized not in already_exported_normalized and normalized not in found_assets_normalized:
-                    missing_m2s.append(asset)
-                    still_missing_all.add(normalized)
-
-        # Phase 3: Missing textures (not in other categories)
-        missing_textures = []
-        for asset in self.required_custom:
-            normalized = asset.upper().replace('\\', '/')
-            if normalized not in still_missing_all and normalized not in set(fa.upper().replace('\\', '/') for fa in self.found_assets.keys()):
-                if asset.lower().endswith('.blp'):
-                    missing_textures.append(asset)
-
-        # Ground effects (missing IDs, excluding junk)
-        # Only count genuinely missing IDs (modern content), not junk legacy ADT data
         genuinely_missing_ground_effects = self.missing_ground_effect_ids - self.bad_ground_effect_ids
-        missing_ground_effects = len(genuinely_missing_ground_effects)
 
-        # Calculate total custom assets from cumulative phase counts
-        total_custom_required = self.total_wmo_required + self.total_m2_required + self.total_texture_required
-
-        summary.extend([
-            '',
-            f'Stock Assets (in base client): {self.total_stock_assets:,}',
-            f'Already Exported: {len(self.already_exported):,}',
-            '',
-            f'Assets Found and Extracted: {len(self.extracted):,}',
-            f'Assets Still Missing: {len(missing_wmos) + len(missing_m2s) + len(missing_textures):,}',
-            '',
-        ])
-
-        # Detailed missing assets by type section
-        summary.append('')
-        summary.append('')
-        summary.append('MISSING ASSETS BY TYPE')
-        summary.append('='*80)
-        summary.append('')
-
-        # WMO Files
-        summary.append(f'WMO FILES ({len(missing_wmos):,} missing)')
-        summary.append('-'*80)
-        if missing_wmos:
-            for wmo in sorted(missing_wmos):
-                parent_chain = self.format_parent_chain(wmo)
-                summary.append(f'  {wmo}')
-                summary.append(f'    ↳ {parent_chain}')
-        else:
-            summary.append('  ✅ All WMO files found!')
-        summary.append('')
-
-        # M2/MDX Models
-        summary.append(f'M2/MDX MODELS ({len(missing_m2s):,} missing)')
-        summary.append('-'*80)
-        if missing_m2s:
-            for m2 in sorted(missing_m2s):
-                parent_chain = self.format_parent_chain(m2)
-                summary.append(f'  {m2}')
-                summary.append(f'    ↳ {parent_chain}')
-        else:
-            summary.append('  ✅ All M2 models found!')
-        summary.append('')
-
-        # BLP Textures
-        summary.append(f'BLP TEXTURES ({len(missing_textures):,} missing)')
-        summary.append('-'*80)
-        if missing_textures:
-            for texture in sorted(missing_textures):
-                parent_chain = self.format_parent_chain(texture)
-                summary.append(f'  {texture}')
-                summary.append(f'    ↳ {parent_chain}')
-        else:
-            summary.append('  ✅ All textures found!')
-        summary.append('')
-
-        # Ground Effect IDs (only show genuinely missing, not junk legacy IDs)
-        summary.append(f'GROUND EFFECT IDs ({missing_ground_effects:,} genuinely missing from DBC)')
-        summary.append('-'*80)
-        if genuinely_missing_ground_effects:
-            summary.append('  Modern content missing from WotLK DBC (will show blue cubes):')
-            for effect_id in sorted(genuinely_missing_ground_effects):
-                summary.append(f'    - Effect ID: {effect_id}')
-        else:
-            summary.append('  ✅ All ground effect IDs found in DBC!')
-            if self.bad_ground_effect_ids:
-                summary.append(f'  ℹ️  ({len(self.bad_ground_effect_ids)} junk legacy IDs ignored)')
-        summary.append('')
-        summary.append('')
-
-        # Missing assets by area (comprehensive view)
         # Build area analysis including both regular assets and ground effects
-        area_analysis_log = {}  # {area_name: {adt_path: {asset_type: [assets]}}}
+        area_analysis_log = {}  # {area_name: {asset_type: set(assets)}}
 
-        # Add regular missing assets
-        for asset in still_missing_all:
-            # Get parent chain
-            chain = []
-            current = asset
-            while current in self.asset_parents:
-                parent = self.asset_parents[current]
-                chain.append(parent)
-                current = parent
-
+        for asset in self.all_missing:
+            chain = self.get_parent_chain(asset)
             area_name = None
-            adt_path = None
-
-            # Extract area and ADT from chain
             for item in chain:
                 if item.startswith("Area_"):
                     area_name = item.replace("Area_", "")
-                elif item.upper().endswith('.ADT'):
-                    adt_path = item
+                    break
+            if not area_name:
+                area_name = "Unknown Area"
 
-            if area_name and adt_path:
-                if area_name not in area_analysis_log:
-                    area_analysis_log[area_name] = {}
-                if adt_path not in area_analysis_log[area_name]:
-                    area_analysis_log[area_name][adt_path] = {'M2': [], 'WMO': [], 'BLP': [], 'Ground Effects': []}
+            if area_name not in area_analysis_log:
+                area_analysis_log[area_name] = {'M2': set(), 'WMO': set(), 'BLP': set(), 'Ground Effects': set()}
 
-                # Categorize by asset type
-                if asset.upper().endswith(('.M2', '.MDX')):
-                    area_analysis_log[area_name][adt_path]['M2'].append(asset)
-                elif asset.upper().endswith('.WMO'):
-                    area_analysis_log[area_name][adt_path]['WMO'].append(asset)
-                elif asset.upper().endswith('.BLP'):
-                    area_analysis_log[area_name][adt_path]['BLP'].append(asset)
+            if asset.upper().endswith(('.M2', '.MDX')):
+                area_analysis_log[area_name]['M2'].add(asset)
+            elif asset.upper().endswith('.WMO'):
+                area_analysis_log[area_name]['WMO'].add(asset)
+            elif asset.upper().endswith('.BLP'):
+                area_analysis_log[area_name]['BLP'].add(asset)
 
-        # Add missing ground effect IDs by ADT (exclude junk legacy IDs)
+        # Add missing ground effect IDs by area (exclude junk legacy IDs)
         if genuinely_missing_ground_effects:
             for effect_id in genuinely_missing_ground_effects:
                 if effect_id in self.ground_effect_to_adts:
                     for adt_path in self.ground_effect_to_adts[effect_id]:
                         area_name = self._get_area_name(adt_path)
-
                         if area_name not in area_analysis_log:
-                            area_analysis_log[area_name] = {}
-                        if adt_path not in area_analysis_log[area_name]:
-                            area_analysis_log[area_name][adt_path] = {'M2': [], 'WMO': [], 'BLP': [], 'Ground Effects': []}
+                            area_analysis_log[area_name] = {'M2': set(), 'WMO': set(), 'BLP': set(), 'Ground Effects': set()}
+                        area_analysis_log[area_name]['Ground Effects'].add(effect_id)
 
-                        area_analysis_log[area_name][adt_path]['Ground Effects'].append(effect_id)
+        # Build log content — mirrors Step 16 terminal output
+        lines = [
+            '='*80,
+            'RESOURCE PARSER - MISSING ASSETS BY AREA',
+            '='*80,
+            f'Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+            '',
+            f'Total missing assets: {len(self.all_missing):,}',
+            f'Areas affected: {len(area_analysis_log)}',
+            '',
+        ]
 
-        # Display organized by area (aggregated, not per-ADT)
-        if area_analysis_log:
-            summary.append('')
-            summary.append('')
-            summary.append('MISSING ASSETS BY AREA')
-            summary.append('='*80)
-            summary.append('')
-
-            for area_name in sorted(area_analysis_log.keys()):
-                # Aggregate all missing assets for this area
-                area_m2s = set()
-                area_wmos = set()
-                area_blps = set()
-                area_ground_effects = set()
-
-                for adt_path, missing_data in area_analysis_log[area_name].items():
-                    area_m2s.update(missing_data['M2'])
-                    area_wmos.update(missing_data['WMO'])
-                    area_blps.update(missing_data['BLP'])
-                    area_ground_effects.update(missing_data['Ground Effects'])
-
-                # Only show area if it has missing content
-                has_missing = area_m2s or area_wmos or area_blps or area_ground_effects
-
-                if has_missing:
-                    summary.append(f'AREA: {area_name}')
-                    summary.append('-'*80)
-
-                    if area_m2s:
-                        summary.append(f'  M2 models: {len(area_m2s)} missing')
-                        for m2 in sorted(area_m2s)[:10]:  # Show first 10
-                            summary.append(f'    - {m2}')
-                        if len(area_m2s) > 10:
-                            summary.append(f'    ... and {len(area_m2s) - 10} more')
-                        summary.append('')
-
-                    if area_wmos:
-                        summary.append(f'  WMO files: {len(area_wmos)} missing')
-                        for wmo in sorted(area_wmos)[:10]:
-                            summary.append(f'    - {wmo}')
-                        if len(area_wmos) > 10:
-                            summary.append(f'    ... and {len(area_wmos) - 10} more')
-                        summary.append('')
-
-                    if area_blps:
-                        summary.append(f'  BLP textures: {len(area_blps)} missing')
-                        for blp in sorted(area_blps)[:10]:
-                            summary.append(f'    - {blp}')
-                        if len(area_blps) > 10:
-                            summary.append(f'    ... and {len(area_blps) - 10} more')
-                        summary.append('')
-
-                    if area_ground_effects:
-                        effect_ids = sorted(area_ground_effects)
-                        summary.append(f'  Ground effect IDs: {len(area_ground_effects)} missing from DBC')
-                        summary.append(f'    {effect_ids}')
-                        summary.append('')
-
-                    summary.append('')
+        if not area_analysis_log:
+            lines.append('All required assets found!')
         else:
-            summary.append('')
-            summary.append('')
-            summary.append('MISSING ASSETS BY AREA')
-            summary.append('='*80)
-            summary.append('')
-            summary.append('  ✅ NO MISSING ASSETS - All required assets found!')
-            summary.append('')
+            for area_name in sorted(area_analysis_log.keys()):
+                data = area_analysis_log[area_name]
+                has_missing = data['M2'] or data['WMO'] or data['BLP'] or data['Ground Effects']
+                if not has_missing:
+                    continue
 
-        summary.append('')
-        summary.append('='*80)
-        summary.append('DETAILED EXECUTION LOG')
-        summary.append('='*80)
-        summary.append('')
+                lines.append(f'AREA: {area_name}')
+                lines.append('-'*80)
 
-        # Write log file
+                if data['M2']:
+                    lines.append(f'  M2 models: {len(data["M2"])} missing')
+                    for asset in sorted(data['M2']):
+                        lines.append(f'    {asset}')
+                if data['WMO']:
+                    lines.append(f'  WMO files: {len(data["WMO"])} missing')
+                    for asset in sorted(data['WMO']):
+                        lines.append(f'    {asset}')
+                if data['BLP']:
+                    lines.append(f'  BLP textures: {len(data["BLP"])} missing')
+                    for asset in sorted(data['BLP']):
+                        lines.append(f'    {asset}')
+                if data['Ground Effects']:
+                    lines.append(f'  Ground effect IDs: {sorted(data["Ground Effects"])}')
+
+                lines.append('')
+
+        lines.append('='*80)
+
         with open(log_path, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(summary))
-            f.write('\n'.join(self.log_lines))
+            f.write('\n'.join(lines))
 
         self.log(f'\nLog file saved: {log_path}')
 
@@ -2562,32 +2354,33 @@ class ResourceParser:
             self.log(f'\n  ❌ Error building MPQ: {e}')
             return False
 
-    def run(self):
+    def run(self, patch_o_path: Path, output_dir: Path):
         """
         Execute full extraction workflow (Five-Phase Approach).
 
+        Args:
+            patch_o_path: Path to Patch-O content (DBCs, ADTs, WMOs, M2s)
+            output_dir:   Path to write extracted/parsed assets
+
         Phase 0: Content Staging
-                 - Copy all Patch-O content to Export folder
-                 - Creates unified working directory
-
         Phase 1: Discovery & WMO Extraction
-                 - Parse ADTs for asset references
-                 - Filter WMOs against stock registry
-                 - Extract custom WMOs from Asset Library
-
         Phase 2: WMO Parsing & M2 Extraction
-                 - Parse all WMOs for dependencies (textures, M2 doodads)
-                 - Filter M2s against stock registry
-                 - Extract custom M2s from Asset Library
-
         Phase 3: M2 Parsing & Texture Extraction
-                 - Parse all M2s for texture dependencies
-                 - Combine all texture sources
-                 - Filter and extract custom textures
-
-        Phase 4: MPQ Building (optional)
-                 - Package entire Export folder into single MPQ
+        Phase 4: Reporting
         """
+        # Set paths from arguments
+        self.paths['patch_o'] = Path(patch_o_path)
+        self.paths['export'] = Path(output_dir)
+
+        # Derive DBC/ADT paths from patch_o
+        self.paths['area_table_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'AreaTable.dbc'
+        self.paths['groundeffect_doodad_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'GroundEffectDoodad.dbc'
+        self.paths['groundeffect_texture_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'GroundEffectTexture.dbc'
+        self.paths['adt'] = self.paths['patch_o'] / 'WORLD' / 'maps'
+
+        # Reload area names now that paths are set
+        self.area_names = self._load_area_names()
+
         self.log('='*80)
         self.log('OPEN AZEROTH RESOURCE PARSER')
         self.log('='*80)
@@ -2709,26 +2502,268 @@ class ResourceParser:
             self.log(traceback.format_exc())
             raise
 
+    def run_model_scan(self, source_dir: Path, output_dir: Path):
+        """
+        Execute model-scan workflow for non-ADT zpaks.
+
+        Simplified 3-phase workflow that skips ADT/DBC phases and works
+        directly with a zpak's source-assets/ directory.
+
+        Phase 0: Staging
+                 - Build folder cache (Asset Library index)
+                 - Load stock asset registry
+                 - Copy source-assets → output (with UPPERCASE normalization)
+
+        Phase 1: WMO → M2
+                 - Parse WMOs for M2 doodads + textures
+                 - Filter/find/extract M2s from Asset Library
+
+        Phase 2: M2 → BLP
+                 - Parse M2s for texture dependencies
+                 - Filter/find/extract textures from Asset Library
+
+        Phase 3: Report
+                 - Generate summary + log file
+
+        Args:
+            source_dir: Path to zpak's source-assets/ directory
+            output_dir: Path to zpak's parsed-assets/ directory
+        """
+        self.log('='*80)
+        self.log('RESOURCE PARSER - MODEL SCAN MODE')
+        self.log('='*80)
+        self.log(f'\nSource: {source_dir}')
+        self.log(f'Output: {output_dir}')
+
+        try:
+            # Set export path so all existing methods write to the right place
+            self.paths['export'] = output_dir
+
+            # ============================================================
+            # PHASE 0: STAGING
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 0: STAGING')
+            self.log('='*80)
+
+            # Build folder cache for Asset Library lookups
+            assets_dir = Path(self.paths['assets_source'])
+            self.build_folder_cache(assets_dir)
+
+            # Load stock asset registry
+            self.load_stock_assets()
+
+            # Copy source-assets to output directory
+            self._copy_source_to_output(source_dir, output_dir)
+
+            # ============================================================
+            # PHASE 1: WMO → M2 EXTRACTION
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 1: WMO PARSING & M2 EXTRACTION')
+            self.log('='*80)
+
+            # Parse WMOs in output dir for M2 doodads and textures
+            self.parse_exported_wmos()
+
+            # Filter, find, and extract M2 models
+            # In model-scan mode, all M2 dependencies come from WMO doodads
+            self.all_dependencies.clear()
+            self.all_dependencies.update(self.wmo_doodads)
+
+            self.required_custom.clear()
+            if self.all_dependencies:
+                self.filter_stock_assets(step_number='1a', asset_type="M2 models")
+                self.total_m2_required = len(self.required_custom)
+                if self.required_custom:
+                    self.find_assets(step_number='1b', asset_type="M2 models")
+                    self.extract_assets(step_number='1c', asset_type="M2 models")
+                    self.report_missing_assets(asset_type="M2 models")
+            else:
+                self.log('\n  No M2 dependencies discovered from WMOs')
+
+            # ============================================================
+            # PHASE 2: M2 → BLP EXTRACTION
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 2: M2 PARSING & TEXTURE EXTRACTION')
+            self.log('='*80)
+
+            # Parse M2 files for textures
+            self.parse_exported_m2s()
+
+            # Filter, find, and extract textures
+            self.required_custom.clear()
+            if self.all_dependencies:
+                self.filter_stock_assets(step_number='2a', asset_type="textures")
+                self.total_texture_required = len(self.required_custom)
+                if self.required_custom:
+                    self.find_assets(step_number='2b', asset_type="textures")
+                    self.extract_assets(step_number='2c', asset_type="textures")
+                    self.report_missing_assets(asset_type="textures")
+            else:
+                self.log('\n  No texture dependencies discovered from M2s')
+
+            # ============================================================
+            # PHASE 3: REPORTING
+            # ============================================================
+            self.log('\n' + '='*80)
+            self.log('PHASE 3: REPORTING')
+            self.log('='*80)
+
+            self._generate_model_scan_report(source_dir, output_dir)
+            log_path = self._generate_model_scan_log(source_dir, output_dir)
+
+            self.log('\n' + '='*80)
+            self.log('MODEL SCAN COMPLETE')
+            self.log('='*80)
+            self.log(f'Output: {output_dir}')
+            self.log(f'Log: {log_path}')
+
+        except Exception as e:
+            self.log(f'\nERROR: {str(e)}')
+            import traceback
+            self.log(traceback.format_exc())
+            raise
+
+    def _generate_model_scan_report(self, source_dir: Path, output_dir: Path):
+        """Generate summary report for model-scan mode."""
+        # Count files in output directory by type
+        wmo_count = len(list(output_dir.rglob('*.wmo')) + list(output_dir.rglob('*.WMO')))
+        m2_count = len(list(output_dir.rglob('*.m2')) + list(output_dir.rglob('*.M2')))
+        blp_count = len(list(output_dir.rglob('*.blp')) + list(output_dir.rglob('*.BLP')))
+        skin_count = len(list(output_dir.rglob('*.skin')) + list(output_dir.rglob('*.SKIN')))
+        anim_count = len(list(output_dir.rglob('*.anim')) + list(output_dir.rglob('*.ANIM')))
+
+        self.log(f'\n  Output Directory Contents:')
+        self.log(f'    WMO files:    {wmo_count:,}')
+        self.log(f'    M2 models:    {m2_count:,}')
+        self.log(f'    BLP textures: {blp_count:,}')
+        self.log(f'    Skin files:   {skin_count:,}')
+        self.log(f'    Anim files:   {anim_count:,}')
+
+        total = wmo_count + m2_count + blp_count + skin_count + anim_count
+        self.log(f'    ─────────────────────')
+        self.log(f'    Total:        {total:,}')
+
+        # Report extraction stats
+        self.log(f'\n  Extraction Summary:')
+        self.log(f'    Assets extracted from Asset Library: {len(self.extracted):,}')
+        self.log(f'    Stock assets filtered: {self.total_stock_assets:,}')
+
+        still_missing = self.required_custom - set(self.found_assets.keys())
+        if still_missing:
+            self.log(f'    Missing assets: {len(still_missing):,}')
+        else:
+            self.log(f'    Missing assets: 0')
+
+    def _generate_model_scan_log(self, source_dir: Path, output_dir: Path) -> Path:
+        """Generate log file for model-scan mode."""
+        log_path = Path(__file__).parent / 'resource_parser.log'
+
+        summary = [
+            '='*80,
+            'RESOURCE PARSER - MODEL SCAN LOG',
+            '='*80,
+            '',
+            'CONFIGURATION',
+            '-'*80,
+            f'Mode: model-scan',
+            f'Source: {source_dir}',
+            f'Output: {output_dir}',
+            f'Assets Source: {self.paths.get("assets_source", "N/A")}',
+            f'Stock Asset List: {self.paths.get("wotlk_base_assets", "N/A")}',
+            '',
+            'SUMMARY',
+            '-'*80,
+            f'Custom M2 Models Required: {self.total_m2_required:,}',
+            f'Custom Textures Required: {self.total_texture_required:,}',
+            f'Stock Assets Filtered: {self.total_stock_assets:,}',
+            f'Assets Extracted: {len(self.extracted):,}',
+            '',
+        ]
+
+        # Missing assets section
+        still_missing = self.required_custom - set(self.found_assets.keys())
+        if still_missing:
+            summary.append(f'MISSING ASSETS ({len(still_missing):,})')
+            summary.append('-'*80)
+            for asset in sorted(still_missing):
+                summary.append(f'  {asset}')
+            summary.append('')
+        else:
+            summary.append('All required assets found!')
+            summary.append('')
+
+        summary.append('='*80)
+        summary.append('DETAILED EXECUTION LOG')
+        summary.append('='*80)
+        summary.append('')
+
+        with open(log_path, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(summary))
+            f.write('\n'.join(self.log_lines))
+
+        self.log(f'\n  Log file saved: {log_path}')
+        return log_path
+
 
 def main():
-    """Main entry point"""
+    """Standalone entry point for debugging — loads paths from cli/.env."""
     import argparse
 
+    # Add cli/ to path so lib.env can be imported
+    cli_dir = Path(__file__).parent.parent.parent
+    if str(cli_dir) not in sys.path:
+        sys.path.insert(0, str(cli_dir))
+
+    from lib.env import ASSET_LIBRARY_PATH
+
     parser = argparse.ArgumentParser(
-        description='Open Azeroth Resource Parser - Extract custom assets for patches'
+        description='Resource Parser - Extract custom assets for patches'
     )
     parser.add_argument(
-        '--config',
+        '--mode',
+        choices=['full', 'model-scan'],
+        default='full',
+        help='Operating mode: full (ADT workflow) or model-scan (WMO/M2 dependency scan)'
+    )
+    parser.add_argument(
+        '--source-dir',
         type=Path,
         default=None,
-        help='Path to config.json (default: config.json in script directory)'
+        help='Source assets directory (required for model-scan mode)'
+    )
+    parser.add_argument(
+        '--output-dir',
+        type=Path,
+        default=None,
+        help='Output directory for parsed assets (required for model-scan mode)'
+    )
+    parser.add_argument(
+        '--patch-o',
+        type=Path,
+        default=None,
+        help='Patch-O source directory (required for full mode)'
+    )
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Enable verbose debug output to terminal (details always go to log file)'
     )
 
     args = parser.parse_args()
 
-    # Run parser
-    rp = ResourceParser(config_path=args.config)
-    rp.run()
+    rp = ResourceParser(mode=args.mode, assets_source=ASSET_LIBRARY_PATH, debug=args.debug)
+
+    if args.mode == 'model-scan':
+        if not args.source_dir or not args.output_dir:
+            parser.error('--source-dir and --output-dir are required for model-scan mode')
+        rp.run_model_scan(args.source_dir, args.output_dir)
+    else:
+        if not args.patch_o or not args.output_dir:
+            parser.error('--patch-o and --output-dir are required for full mode')
+        rp.run(args.patch_o, args.output_dir)
 
 
 if __name__ == '__main__':

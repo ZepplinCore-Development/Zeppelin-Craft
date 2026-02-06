@@ -117,7 +117,12 @@
     },
     "client_patch": {
       "type": "string",
-      "enum": ["PATCH-A", "PATCH-H", "PATCH-O", "PATCH-X", "PATCH-Z"],
+      "enum": [
+        "PATCH-6", "PATCH-7", "PATCH-8",
+        "PATCH-B", "PATCH-C", "PATCH-D", "PATCH-G", "PATCH-H", "PATCH-I",
+        "PATCH-L", "PATCH-M", "PATCH-O", "PATCH-P", "PATCH-S", "PATCH-T",
+        "PATCH-W", "PATCH-X", "PATCH-Z"
+      ],
       "description": "Client patch this zpak belongs to (for build orchestration)"
     },
     "build": {
@@ -141,9 +146,19 @@
           "description": "If true, preprocessor can be skipped with --quick flag",
           "default": false
         },
+        "preprocessor_mode": {
+          "type": "string",
+          "description": "Operating mode for preprocessor (default: model-scan)",
+          "enum": ["full", "model-scan"],
+          "default": "model-scan"
+        },
         "preprocessor_warning": {
           "type": "string",
           "description": "Warning message shown when preprocessor will run"
+        },
+        "patch_o_source": {
+          "type": "string",
+          "description": "Source directory for full-mode preprocessor (relative to zpak dir)"
         }
       }
     },

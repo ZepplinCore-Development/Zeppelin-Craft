@@ -49,4 +49,6 @@ SERVER_DBC_PATH = _require_path('SERVER_DBC_PATH')
 # Build paths
 DBC_EXPORT_PATH = _require_path('DBC_EXPORT_PATH')
 DBC_REORDER_PATH = _require_path('DBC_REORDER_PATH')
-RESOURCE_PARSER_PATH = _require_path('RESOURCE_PARSER_PATH')
+
+# Resource Parser
+ASSET_LIBRARY_PATH = _require_path('ASSET_LIBRARY_PATH')

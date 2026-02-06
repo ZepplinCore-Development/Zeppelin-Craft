@@ -8,6 +8,8 @@
   "client_patch": "PATCH-O",
   "build": {
     "preprocessor": "resource-parser",
+    "preprocessor_mode": "full",
+    "patch_o_source": "mpq/source-assets",
     "preprocessor_warning": "Resource Parser extracts custom assets and dependencies. This may take 10-15 minutes."
   },
   "feature_id": "F-136",

@@ -114,7 +114,10 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
             return
         if result == 'ALL':
             selected = sorted(patches.keys())
-            modes = {letter: {'quick': False, 'parse': False} for letter in selected}
+            all_mode = _build_all_mode_menu(patches)
+            if all_mode is None:
+                return
+            modes = {letter: all_mode.copy() for letter in selected}
         else:
             selected = [result]
             # Show build mode menu
@@ -318,6 +321,59 @@ def _build_mode_menu(letter: str, patches: dict, register: dict,
     menu = TerminalMenu(
         options,
         title=f"\n  PATCH-{letter} — {name}\n",
+        menu_cursor="> ",
+        menu_cursor_style=("fg_cyan", "bold"),
+        menu_highlight_style=("fg_cyan", "bold"),
+    )
+    result = menu.show()
+
+    if result is None:
+        return None
+    return modes[result]
+
+
+def _build_all_mode_menu(patches: dict) -> Optional[dict]:
+    """Show build mode options when building all patches.
+
+    Checks if any patch has a preprocessor and offers parse options
+    accordingly. Returns dict with mode flags, or None if cancelled.
+    """
+    try:
+        from simple_term_menu import TerminalMenu
+    except ImportError:
+        return {'quick': False, 'parse': False}
+
+    has_preprocessor = any(
+        get_zpak_build_info(z['manifest']).get('preprocessor')
+        for zpaks in patches.values()
+        for z in zpaks
+    )
+
+    options = []
+    modes = []
+
+    if has_preprocessor:
+        options = [
+            "Build            Pack all patches from existing parsed-assets",
+            "Parse + Build    Run preprocessors first, then pack all",
+            "Parse Only       Run preprocessors only (no packing)",
+        ]
+        modes = [
+            {'quick': False, 'parse': False},
+            {'quick': False, 'parse': True},
+            {'quick': False, 'parse': True, 'parse_only': True},
+        ]
+    else:
+        options = [
+            "Build All        Pack all patches",
+        ]
+        modes = [
+            {'quick': False, 'parse': False},
+        ]
+
+    menu = TerminalMenu(
+        options,
+        title="\n  Build All Patches\n",
         menu_cursor="> ",
         menu_cursor_style=("fg_cyan", "bold"),
         menu_highlight_style=("fg_cyan", "bold"),
