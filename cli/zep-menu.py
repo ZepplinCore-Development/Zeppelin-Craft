@@ -33,12 +33,16 @@ from zep import cli
 from lib.manifest import load_manifest
 
 
-def discover_zpaks(zpak_type: str = None) -> List[Dict[str, str]]:
+def discover_zpaks(zpak_filter: str = None) -> List[Dict[str, str]]:
     """Discover available zpaks.
 
     Args:
-        zpak_type: Filter by type (e.g., 'acore-extension', 'mpq', 'hybrid')
-                   None returns all zpaks
+        zpak_filter: Filter mode:
+            - None: all zpaks
+            - 'acore-extension', 'mpq', etc.: filter by zpak type
+            - 'mpq_capable': zpaks with type 'mpq' or 'hybrid'
+            - 'has_dbc_source': zpaks with DBC binary source files
+            - 'has_dbc': zpaks with a dbc/ directory
 
     Returns:
         List of dicts with 'name' and 'description'
@@ -60,9 +64,30 @@ def discover_zpaks(zpak_type: str = None) -> List[Dict[str, str]]:
             if not manifest:
                 continue
 
-            # Filter by type if specified
-            if zpak_type and manifest.get('type') != zpak_type:
-                continue
+            # Apply filter
+            if zpak_filter == 'has_dbc_source':
+                # Zpaks with binary DBC files to import
+                dbc_source = manifest.get('dbc_source')
+                if dbc_source:
+                    source_path = Path(dbc_source)
+                    if not source_path.is_absolute():
+                        source_path = (pkg_dir / source_path).resolve()
+                else:
+                    source_path = pkg_dir / 'mpq' / 'source-assets' / 'DBFilesClient'
+                if not source_path.exists() or not manifest.get('feature_id'):
+                    continue
+            elif zpak_filter == 'has_dbc':
+                # Zpaks with a dbc/ SQL directory
+                if not (pkg_dir / 'dbc').exists():
+                    continue
+            elif zpak_filter == 'mpq_capable':
+                # Zpaks that can be packed as MPQ
+                if manifest.get('type') not in ['mpq', 'hybrid']:
+                    continue
+            elif zpak_filter:
+                # Filter by zpak type
+                if manifest.get('type') != zpak_filter:
+                    continue
 
             zpaks.append({
                 'name': manifest.get('name', pkg_dir.name),
@@ -72,23 +97,23 @@ def discover_zpaks(zpak_type: str = None) -> List[Dict[str, str]]:
     return zpaks
 
 
-def prompt_zpak_choice(command_name: str, zpak_type: str = None,
+def prompt_zpak_choice(command_name: str, zpak_filter: str = None,
                        allow_all: bool = True) -> Optional[Tuple[str, bool]]:
     """Prompt user to select a zpak or 'all'.
 
     Args:
         command_name: Name of command for display
-        zpak_type: Filter zpaks by type
+        zpak_filter: Filter for discover_zpaks()
         allow_all: Whether to show 'All packages' option
 
     Returns:
         Tuple of (zpak_name, is_all) or None if cancelled
         If is_all is True, zpak_name will be empty
     """
-    zpaks = discover_zpaks(zpak_type)
+    zpaks = discover_zpaks(zpak_filter)
 
     if not zpaks:
-        print(f"\n  No {'acore-extension ' if zpak_type else ''}packages found.")
+        print(f"\n  No matching packages found.")
         input("  Press Enter to continue...")
         return None
 
@@ -160,27 +185,56 @@ def build_menu_tree(group: click.Group, parent_path: str = "") -> Dict[str, Any]
             }
         else:
             # It's a leaf command
-            # Extract required arguments AND required options
+            # Extract required arguments, required options, and optional flags
             args = []
             options = []
+            flags = []
             if hasattr(cmd, 'params'):
                 for param in cmd.params:
                     if isinstance(param, click.Argument) and param.required:
                         args.append(param.name)
                     elif isinstance(param, click.Option) and param.required:
                         # Get the option flag (prefer long form)
-                        flag = param.opts[-1] if param.opts else param.name
+                        long_opts = [o for o in param.opts if o.startswith('--')]
+                        flag = long_opts[0] if long_opts else (param.opts[0] if param.opts else param.name)
                         options.append({
                             'name': param.name,
                             'flag': flag,
                             'help': param.help or ''
                         })
+                    elif isinstance(param, click.Option) and param.is_flag and not param.required:
+                        # Optional boolean flags (--all, --force, --dry-run, etc.)
+                        # Prefer long-form (--flag) over short-form (-f)
+                        long_opts = [o for o in param.opts if o.startswith('--')]
+                        flag = long_opts[0] if long_opts else (param.opts[0] if param.opts else param.name)
+                        if flag != '--help':
+                            flags.append({
+                                'name': param.name,
+                                'flag': flag,
+                                'help': param.help or ''
+                            })
+
+            # Detect zpak selection: optional --name option → zpak picker
+            # Commands declare zpak_filter attribute for filtered discovery
+            has_zpak = False
+            has_all_flag = any(f['flag'] == '--all' for f in flags)
+            zpak_filter = getattr(cmd, 'zpak_filter', None)
+            for param in (cmd.params if hasattr(cmd, 'params') else []):
+                if (isinstance(param, click.Option) and param.name == 'name'
+                        and not param.required):
+                    has_zpak = True
+                    break
 
             tree['commands'][name] = {
                 'help': help_text,
                 'path': full_path,
                 'args': args,
                 'options': options,
+                'flags': flags,
+                'has_zpak': has_zpak,
+                'has_all': has_all_flag,
+                'zpak_filter': zpak_filter,
+                'menu_passthrough': getattr(cmd, 'menu_passthrough', False),
                 'cmd': cmd
             }
 
@@ -280,32 +334,59 @@ def prompt_args(args: List[str], options: List[Dict], command_path: str) -> Opti
     return arg_values, option_values
 
 
-def execute_command_with_flag(command_path: str, flag: str) -> bool:
-    """Execute a zep command with a flag (no value).
+def prompt_flags(flags: List[Dict], command_path: str) -> Optional[List[str]]:
+    """Prompt user to toggle optional boolean flags.
 
     Args:
-        command_path: Command path (e.g., "forge apply-patch")
-        flag: Flag to add (e.g., "--all")
+        flags: List of flag dicts with 'name', 'flag', 'help'
+        command_path: Full command path for display
 
     Returns:
-        True if should return to menu, False to exit
+        List of selected flag strings, or None if cancelled
     """
-    cmd_parts = ["python3", str(CLI_DIR / "zep.py")] + command_path.split() + [flag]
-    cmd_display = f"zep {command_path} {flag}"
+    if not flags:
+        return []
 
-    print(f"\n{'='*60}")
-    print(f" Executing: {cmd_display}")
-    print(f"{'='*60}\n")
+    # Build multi-select menu options
+    options = []
+    for f in flags:
+        label = f['flag']
+        if f['help']:
+            label += f"  ({f['help']})"
+        options.append(label)
 
-    subprocess.run(cmd_parts)
+    options.append("[Continue without flags]")
 
-    print(f"\n{'='*60}")
+    menu = TerminalMenu(
+        options,
+        title=f"\n  zep {command_path}\n  Select options (Space to toggle, Enter to confirm):\n",
+        menu_cursor="> ",
+        menu_cursor_style=("fg_cyan", "bold"),
+        menu_highlight_style=("fg_cyan", "bold"),
+        cycle_cursor=True,
+        clear_screen=True,
+        multi_select=True,
+        show_multi_select_hint=True,
+        multi_select_select_on_accept=False,
+        status_bar="Space: Toggle | Enter: Confirm | q: Cancel",
+        status_bar_style=("fg_gray",),
+    )
 
-    try:
-        response = input("\n Press Enter to return to menu (q to quit): ").strip().lower()
-        return response != 'q'
-    except (KeyboardInterrupt, EOFError):
-        return False
+    result = menu.show()
+
+    if result is None:
+        return None
+
+    # result is a tuple of selected indices in multi-select mode
+    if isinstance(result, int):
+        result = (result,)
+
+    selected = []
+    for idx in result:
+        if idx < len(flags):  # Not the "Continue" option
+            selected.append(flags[idx]['flag'])
+
+    return selected
 
 
 def execute_command(command_path: str, args: List[str] = None,
@@ -326,7 +407,9 @@ def execute_command(command_path: str, args: List[str] = None,
     # Add options first (before positional args)
     if options:
         for flag, value in options:
-            cmd_parts.extend([flag, value])
+            cmd_parts.append(flag)
+            if value is not None:
+                cmd_parts.append(value)
 
     # Add positional arguments
     if args:
@@ -335,7 +418,7 @@ def execute_command(command_path: str, args: List[str] = None,
     cmd_display = f"zep {command_path}"
     if options:
         for flag, value in options:
-            cmd_display += f" {flag} {value}"
+            cmd_display += f" {flag}" if value is None else f" {flag} {value}"
     if args:
         cmd_display += " " + " ".join(args)
 
@@ -430,38 +513,43 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
             args = selection_data.get('args', [])
             options = selection_data.get('options', [])
             command_path = selection_data['path']
+            has_zpak = selection_data.get('has_zpak', False)
 
-            # Special handling for forge commands (need zpak selection)
-            if command_path.startswith('forge '):
-                choice = prompt_zpak_choice(
-                    command_path.split()[-1],
-                    zpak_type='acore-extension'
-                )
+            # Zpak selection: show filtered zpak list for commands with --name
+            if has_zpak:
+                has_all = selection_data.get('has_all', False)
+                zpak_filter = selection_data.get('zpak_filter')
+                choice = prompt_zpak_choice(command_path,
+                                            zpak_filter=zpak_filter,
+                                            allow_all=has_all)
                 if choice is None:
                     continue  # Cancelled
                 zpak_name, is_all = choice
 
+                cmd_options = []
                 if is_all:
-                    # forge status takes no arg for "all", others use --all flag
-                    if command_path == 'forge status':
-                        continue_running = execute_command(command_path)
-                    else:
-                        continue_running = execute_command_with_flag(command_path, '--all')
+                    cmd_options.append(('--all', None))
                 else:
-                    continue_running = execute_command(command_path, [zpak_name])
+                    cmd_options.append(('--name', zpak_name))
 
+                # Also prompt for remaining flags (excluding --all which is handled)
+                cmd_flags = [f for f in selection_data.get('flags', [])
+                             if f['flag'] != '--all']
+                if cmd_flags:
+                    selected_flags = prompt_flags(cmd_flags, command_path)
+                    if selected_flags is None:
+                        continue
+                    for flag in selected_flags:
+                        cmd_options.append((flag, None))
+
+                continue_running = execute_command(command_path, options=cmd_options)
                 if not continue_running:
                     return False
                 continue
 
-            # Special handling for dbc db clean (needs zpak selection)
-            if command_path == 'dbc db clean':
-                choice = prompt_zpak_choice('dbc db clean', allow_all=False)
-                if choice is None:
-                    continue  # Cancelled
-                zpak_name, _ = choice
-
-                continue_running = execute_command(command_path, [zpak_name])
+            # Commands with own interactive menus: run directly, no flag prompt
+            if selection_data.get('menu_passthrough', False):
+                continue_running = execute_command(command_path)
                 if not continue_running:
                     return False
                 continue
@@ -476,6 +564,15 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
             else:
                 arg_values = []
                 option_values = []
+
+            # Prompt for optional boolean flags if command has any
+            cmd_flags = selection_data.get('flags', [])
+            if cmd_flags:
+                selected_flags = prompt_flags(cmd_flags, command_path)
+                if selected_flags is None:
+                    continue  # Cancelled, stay in menu
+                for flag in selected_flags:
+                    option_values.append((flag, None))
 
             continue_running = execute_command(command_path, arg_values, option_values)
             if not continue_running:

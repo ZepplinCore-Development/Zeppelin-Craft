@@ -866,82 +866,9 @@ from commands.mpq import mpq
 cli.add_command(mpq)
 
 
-@cli.group()
-@click.pass_context
-def build(ctx):
-    """Build operations"""
-    pass
-
-
-@build.command('sql')
-@click.option('--changed', '-c', is_flag=True, help='Only execute changed files (git-based)')
-@click.option('--zpak', '-z', 'zpak_name', help='Execute SQL from specific zpak')
-@click.option('--all', '-a', 'run_all', is_flag=True, help='Execute all zpak SQL files')
-@click.option('--dry-run', '-n', is_flag=True, help='Show what would be executed')
-@click.pass_context
-def build_sql(ctx, changed, zpak_name, run_all, dry_run):
-    """Execute SQL files on acore_world.
-
-    Examples:
-        zep build sql --changed      # Only uncommitted changes
-        zep build sql --zpak core    # Specific zpak
-        zep build sql --all          # All enabled zpaks
-    """
-    from commands.sql import find_zpak_sql_files, execute_sql_file, get_git_changed_files
-
-    craft_root = ctx.obj['craft_root']
-    sql_files = []
-
-    if changed:
-        sql_files = get_git_changed_files(craft_root, ['.sql'])
-        if not sql_files:
-            click.echo("No changed SQL files found")
-            return
-    elif zpak_name:
-        sql_files = find_zpak_sql_files(craft_root, zpak_name)
-        if not sql_files:
-            click.echo(f"No SQL files found in zpak '{zpak_name}'")
-            return
-    elif run_all:
-        sql_files = find_zpak_sql_files(craft_root)
-        if not sql_files:
-            click.echo("No SQL files found in any zpak")
-            return
-    else:
-        click.echo("Specify --changed, --zpak <name>, or --all")
-        return
-
-    click.echo(f"\n{'[DRY RUN] ' if dry_run else ''}Executing {len(sql_files)} SQL file(s)...\n")
-
-    success = 0
-    errors = 0
-    for sql_file in sql_files:
-        try:
-            rel_path = sql_file.relative_to(craft_root)
-        except ValueError:
-            rel_path = sql_file
-
-        ok, msg = execute_sql_file(sql_file, dry_run)
-        if ok:
-            click.echo(f"  {click.style('✓', fg='green')} {rel_path}")
-            success += 1
-        else:
-            click.echo(f"  {click.style('✗', fg='red')} {rel_path}: {msg}")
-            errors += 1
-
-    click.echo()
-    if errors == 0:
-        click.echo(click.style(f"All {success} file(s) executed successfully", fg='green'))
-    else:
-        click.echo(click.style(f"Completed: {success} succeeded, {errors} failed", fg='yellow'))
-
-
-@build.command('all')
-@click.pass_context
-def build_all(ctx):
-    """Build everything (SQL + DBC + MPQ)"""
-    click.echo("TODO: Implement build all")
-    click.echo("Will run: build sql, build dbc, build mpq")
+# Import build commands from module
+from commands.build import build
+cli.add_command(build)
 
 
 @cli.command()

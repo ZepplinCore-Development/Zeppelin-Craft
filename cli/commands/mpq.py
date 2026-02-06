@@ -7,7 +7,7 @@ Commands:
     zep mpq pack <zpak>           Pack zpak assets to MPQ
     zep mpq extract <mpq> <dest>  Extract MPQ contents (or interactive zpak selection)
     zep mpq list [mpq|--name]     List MPQ contents
-    zep mpq info [mpq|--name]     Show MPQ archive info
+    zep mpq info                  Show client patch map and load order
 """
 
 import subprocess
@@ -507,30 +507,127 @@ mpq_list.zpak_filter = 'mpq_capable'
 
 
 @mpq.command('info')
-@click.argument('mpq_file', type=click.Path(exists=True), required=False)
-@click.option('--name', '-n', help='Zpak name (interactive selection if omitted)')
 @click.pass_context
-def mpq_info(ctx, mpq_file: Optional[str], name: Optional[str]):
-    """Show information about an MPQ archive.
+def mpq_info(ctx):
+    """Show client patch mapping and load order.
 
-    Can show info from a direct MPQ file path or select a zpak by name.
+    Displays all zpaks with client_patch assignments, their patch letters,
+    load priority, and build status from the patch register.
 
-    Examples:
-        zep mpq info                              # Interactive zpak selection
-        zep mpq info --name hd-water              # Info for specific zpak's MPQ
-        zep mpq info patch-z.mpq                  # Direct file path
+    The WoW 3.3.5a client loads patches in alphanumeric order by filename.
+    Later patches override earlier ones (last-one-wins).
+
+    Example:
+        zep mpq info
     """
+    import json
+
     craft_root = ctx.obj['craft_root']
-    mpq_path = _resolve_mpq_path(craft_root, mpq_file, name)
 
-    result = run_mpqcli(['info', str(mpq_path)], capture_output=True)
+    # Discover all zpaks with client_patch (including disabled)
+    zpak_patches = {}  # letter -> list of zpak info
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        if not base.exists():
+            continue
+        for pkg_dir in sorted(base.iterdir()):
+            if not pkg_dir.is_dir():
+                continue
+            manifest_path = pkg_dir / 'zpak.json'
+            if not manifest_path.exists():
+                continue
+            manifest = load_manifest(manifest_path)
+            if not manifest:
+                continue
+            client_patch = manifest.get('client_patch')
+            if not client_patch:
+                continue
+            letter = client_patch.replace('PATCH-', '')
 
-    if result.returncode != 0:
-        if result.stderr:
-            click.echo(result.stderr, err=True)
-        raise click.ClickException(f"mpqcli info failed with code {result.returncode}")
+            # Check for MPQ binary
+            mpq_binary_dir = pkg_dir / 'mpq' / 'source-binary'
+            mpq_files = list(mpq_binary_dir.glob('*.MPQ')) if mpq_binary_dir.exists() else []
 
-    if result.stdout:
-        click.echo(result.stdout)
+            zpak_patches.setdefault(letter, []).append({
+                'name': manifest.get('name', pkg_dir.name),
+                'type': manifest.get('type', ''),
+                'enabled': manifest.get('enabled', True),
+                'priority': manifest.get('priority', 100),
+                'has_binary': len(mpq_files) > 0,
+            })
 
-mpq_info.zpak_filter = 'mpq_capable'
+    # Load patch register for build metadata
+    register = {}
+    register_path = craft_root / 'Scripts' / 'Patch Builder' / 'patch_register.json'
+    if register_path.exists():
+        try:
+            with open(register_path) as f:
+                register_data = json.load(f)
+            register = register_data.get('patches', {})
+        except (json.JSONDecodeError, PermissionError):
+            pass
+
+    # Merge: register may have patches not in zpaks (e.g. PATCH-X generated)
+    all_letters = set(zpak_patches.keys())
+    for patch_name in register:
+        letter = patch_name.replace('PATCH-', '').replace('.MPQ', '')
+        all_letters.add(letter)
+
+    if not all_letters:
+        raise click.ClickException("No client patches found")
+
+    # Sort: numeric first, then alpha
+    sorted_letters = sorted(all_letters, key=lambda l: (not l.isdigit(), l))
+
+    click.echo()
+    click.echo(click.style("  Client Patch Map", bold=True))
+    click.echo(click.style("  Load order: alphanumeric (later overrides earlier)", dim=True))
+    click.echo()
+
+    # Header
+    click.echo(f"  {'Patch':<10} {'Zpak':<24} {'Type':<8} {'Mandatory':<11} {'Size':<10} {'Source':<16} {'Status'}")
+    click.echo(f"  {'─' * 10} {'─' * 24} {'─' * 8} {'─' * 11} {'─' * 10} {'─' * 16} {'─' * 12}")
+
+    for letter in sorted_letters:
+        patch_key = f"PATCH-{letter}.MPQ"
+        reg = register.get(patch_key, {})
+        zpaks_for_letter = zpak_patches.get(letter, [])
+
+        mandatory = "yes" if reg.get('is_mandatory') else "no"
+        size = reg.get('size_mb', 0)
+        size_str = f"{size:.0f} MB" if size else "—"
+        build_source = reg.get('build_source', '—')
+
+        if not zpaks_for_letter:
+            # Register-only entry (no zpak, e.g. generated patches)
+            status = click.style("generated", fg='cyan')
+            click.echo(f"  {click.style(f'PATCH-{letter}', bold=True):<20} {'—':<24} {'—':<8} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+        else:
+            # Sort by priority within same letter
+            zpaks_for_letter.sort(key=lambda z: z['priority'])
+            for i, zpak in enumerate(zpaks_for_letter):
+                patch_pad = f"PATCH-{letter}" if i == 0 else " " * 7
+                name = zpak['name']
+                ztype = zpak['type']
+
+                if not zpak['enabled']:
+                    status = click.style("disabled", fg='red')
+                elif zpak['has_binary']:
+                    status = click.style("ready", fg='green')
+                else:
+                    status = click.style("no binary", fg='yellow')
+
+                click.echo(f"  {patch_pad:<10} {name:<24} {ztype:<8} {mandatory:<11} {size_str:<10} {build_source:<16} {status}")
+
+                # Only show size/source on first row for multi-zpak patches
+                size_str = ""
+                build_source = ""
+                mandatory = ""
+
+    # Summary
+    total_zpaks = sum(len(v) for v in zpak_patches.values())
+    mandatory_count = sum(1 for r in register.values() if r.get('is_mandatory'))
+    optional_count = len(all_letters) - mandatory_count
+
+    click.echo()
+    click.echo(f"  {len(all_letters)} patches ({mandatory_count} mandatory, {optional_count} optional) from {total_zpaks} zpaks")
+    click.echo()
