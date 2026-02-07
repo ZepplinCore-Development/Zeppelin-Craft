@@ -68,6 +68,11 @@ class ADTGroundEffectReader:
         if nLayers == 0 or ofsLayer == 0:
             return effect_ids
 
+        # Cap nLayers to prevent huge loops from corrupted data
+        # WoW MCNK chunks support max 4 texture layers; 16 is generous
+        if nLayers > 16:
+            return effect_ids
+
         # MCLY data is at: MCNK data start + ofsLayer
         # Note: ofsLayer is relative to MCNK data (after the 8-byte chunk header)
         mcly_abs_offset = offset + ofsLayer

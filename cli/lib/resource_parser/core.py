@@ -532,11 +532,14 @@ class ResourceParser:
         self.log(f'\nADT Directory: {adt_dir}')
 
         adt_files = list(adt_dir.rglob("*.adt")) + list(adt_dir.rglob("*.ADT"))
-        self.log(f'Found {len(adt_files)} ADT files to parse...')
+        total_adt = len(adt_files)
+        self.log(f'Found {total_adt} ADT files to parse...')
 
         total_models = set()
 
-        for adt_file in adt_files:
+        for adt_idx, adt_file in enumerate(adt_files):
+            if (adt_idx + 1) % 100 == 0 or adt_idx + 1 == total_adt:
+                self.log(f'  Parsing ADT {adt_idx + 1:,}/{total_adt:,}...')
             parser = ADTParser(adt_file)
             models = parser.parse()
 

@@ -274,6 +274,9 @@ class ADTParser:
         # Parse ground effect IDs from MCLY chunks
         self.ground_effect_ids = self.parse_ground_effect_ids()
 
+        # Free raw file data — no longer needed after parsing
+        self.data = None
+
         return self.models
 
 
