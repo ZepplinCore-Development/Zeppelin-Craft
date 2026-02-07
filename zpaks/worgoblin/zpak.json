@@ -14,8 +14,8 @@
   },
   "dbc_source": "../../../Zeppelin-Core/modules/mod-worgoblin/data/patch/DBFilesClient",
   "launcher": {
-    "mandatory": false,
-    "enabled_by_default": false,
+    "mandatory": true,
+    "enabled_by_default": true,
     "auto_update": false,
     "requires": []
   },

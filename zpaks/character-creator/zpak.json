@@ -8,7 +8,7 @@
   "type": "mpq",
   "client_patch": "PATCH-L",
   "launcher": {
-    "mandatory": false,
+    "mandatory": true,
     "enabled_by_default": true,
     "auto_update": false,
     "requires": []
