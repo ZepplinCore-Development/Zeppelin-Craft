@@ -1,0 +1,271 @@
+file_path,filename,category,tagged_feature,content_feature,git_feature,suggested_feature,confidence,suggested_zpak,notes
+Classes/zz_classless_raid_buffs.sql,zz_classless_raid_buffs.sql,Classes,,F-004,"F-004, F-005, I-026, I-048, I-094",F-004,medium,classless-buffs,"Found in comments: F-004; Git history: F-004, F-005, I-026, I-048, I-094; Custom content (zz_ prefix)"
+Classes/zz_thematic_silencing.sql,zz_thematic_silencing.sql,Classes,,,"F-003, I-034, I-094",F-003,medium,class-changes,"Git history: F-003, I-034, I-094; Custom content (zz_ prefix)"
+Classes/zz_travel_form_fix.sql,zz_travel_form_fix.sql,Classes,,,I-094,I-094,medium,class-changes,Git history: I-094; Custom content (zz_ prefix)
+Consumables/zz_empowering_scrolls.sql,zz_empowering_scrolls.sql,Consumables,,"I-038, I-093","I-038, I-093",I-038,medium,consumables,"Found in comments: I-038, I-093; Custom content (zz_ prefix)"
+Consumables/zz_resistance_scrolls.sql,zz_resistance_scrolls.sql,Consumables,,F-015,"F-015, I-030, I-047, I-093, I-094",F-015,medium,magic-scrolls,"Found in comments: F-015; Git history: F-015, I-030, I-047, I-093, I-094; Custom content (zz_ prefix)"
+Dungeons/Auchenai Crypts/zz_exarch_maladaar_[F-035].sql,zz_exarch_maladaar_[F-035].sql,Dungeons,F-035,,F-039,F-035,high,dungeon-tuning,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Auchenai Crypts
+Dungeons/Blackfathom Depths/zz_akumai.sql,zz_akumai.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Blackfathom Depths
+Dungeons/Blackrock Depths/zz_emperor_princess_encounter.sql,zz_emperor_princess_encounter.sql,Dungeons,,I-056,I-056,I-056,medium,dungeon-tuning,Found in comments: I-056; Custom content (zz_ prefix); Subcategory: Blackrock Depths
+Dungeons/Blackrock Depths/zz_loot_emperor_dagran_thaurissan.sql,zz_loot_emperor_dagran_thaurissan.sql,Dungeons,,,,,manual,dungeon-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Blackrock Depths
+Dungeons/Blackrock Depths/zz_lord_incendius.sql,zz_lord_incendius.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Blackrock Depths
+Dungeons/Blackrock Spire/zz_blackhand_summoner_spawns.sql,zz_blackhand_summoner_spawns.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Blackrock Spire
+Dungeons/Botanica/zz_bigger_mutations.sql,zz_bigger_mutations.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Botanica
+Dungeons/Botanica/zz_laj_allergic_reaction.sql,zz_laj_allergic_reaction.sql,Dungeons,,,I-093,I-093,medium,dungeon-tuning,Git history: I-093; Custom content (zz_ prefix); Subcategory: Botanica
+Dungeons/Deadmines/zz_Rhahk_Zor.sql,zz_Rhahk_Zor.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Deadmines
+Dungeons/Dire Maul/zz_loot_King_Gordok.sql,zz_loot_King_Gordok.sql,Dungeons,,,,,manual,dungeon-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Dire Maul
+Dungeons/Gnomeragan/zz_manual_crowd_pummeler.sql,zz_manual_crowd_pummeler.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Gnomeragan
+Dungeons/Hellfire Ramparts/zz_watchkeeper_gargolmar.sql,zz_watchkeeper_gargolmar.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Hellfire Ramparts
+Dungeons/Maraudon/zz_grovekeepers_drape.sql,zz_grovekeepers_drape.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Maraudon
+Dungeons/Maraudon/zz_princess_theradras.sql,zz_princess_theradras.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Maraudon
+Dungeons/Maraudon/zz_razorlash.sql,zz_razorlash.sql,Dungeons,,,I-099,I-099,medium,dungeon-tuning,Git history: I-099; Custom content (zz_ prefix); Subcategory: Maraudon
+Dungeons/Ragefire Chasm/zz_molten_elemental.sql,zz_molten_elemental.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Ragefire Chasm
+Dungeons/Shadow Labs/zz_murmur.sql,zz_murmur.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Shadow Labs
+Dungeons/Shadow Labs/zz_void_traveler_nerf.sql,zz_void_traveler_nerf.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Shadow Labs
+Dungeons/Shadowfang Keep/zz_archmage_arugal.sql,zz_archmage_arugal.sql,Dungeons,,,I-099,I-099,medium,dungeon-tuning,Git history: I-099; Custom content (zz_ prefix); Subcategory: Shadowfang Keep
+Dungeons/Shadowfang Keep/zz_mob_spectral_projection.sql,zz_mob_spectral_projection.sql,Dungeons,,,,,manual,dungeon-tuning,Creature modification; Custom content (zz_ prefix); Subcategory: Shadowfang Keep
+Dungeons/Shadowfang Keep/zz_wolf_master_nandos.sql,zz_wolf_master_nandos.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Shadowfang Keep
+Dungeons/Slave Pens/zz_quagmirran.sql,zz_quagmirran.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Slave Pens
+Dungeons/Stockades/zz_bazil_thredd.sql,zz_bazil_thredd.sql,Dungeons,,,I-098,I-098,medium,dungeon-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: Stockades
+Dungeons/Stockades/zz_dextren_ward.sql,zz_dextren_ward.sql,Dungeons,,,I-098,I-098,medium,dungeon-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: Stockades
+Dungeons/Stockades/zz_hamhock.sql,zz_hamhock.sql,Dungeons,,,I-098,I-098,medium,dungeon-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: Stockades
+Dungeons/Stockades/zz_kam_deepfury.sql,zz_kam_deepfury.sql,Dungeons,,,I-098,I-098,medium,dungeon-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: Stockades
+Dungeons/Stockades/zz_targorr_the_dread.sql,zz_targorr_the_dread.sql,Dungeons,,,I-098,I-098,medium,dungeon-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: Stockades
+Dungeons/Sunken Temple/zz_jammalan_the_prophet.sql,zz_jammalan_the_prophet.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Sunken Temple
+Dungeons/Sunken Temple/zz_lower_temple_empowered_mini-bosses.sql,zz_lower_temple_empowered_mini-bosses.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Sunken Temple
+Dungeons/Sunken Temple/zz_shade_of_eranikus.sql,zz_shade_of_eranikus.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Sunken Temple
+Dungeons/Sunken Temple/zz_slime_maggot.sql,zz_slime_maggot.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Sunken Temple
+Dungeons/The Mechanar/zz_Pathaleon_nerf.sql,zz_Pathaleon_nerf.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: The Mechanar
+Dungeons/Uldaman/zz_ancient_stone_keeper.sql,zz_ancient_stone_keeper.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Uldaman
+Dungeons/Uldaman/zz_baelog_chest.sql,zz_baelog_chest.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Uldaman
+Dungeons/Wailing Caverns/zz_deviate_shambler.sql,zz_deviate_shambler.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix); Subcategory: Wailing Caverns
+Dungeons/Zul'Farrak/zz_divino_matic_rod_fix.sql,zz_divino_matic_rod_fix.sql,Dungeons,,,I-073,I-073,medium,dungeon-tuning,Git history: I-073; Custom content (zz_ prefix); Subcategory: Zul'Farrak
+Dungeons/zz_daily_dungeon_heroic_rewards.sql,zz_daily_dungeon_heroic_rewards.sql,Dungeons,,,,F-018,low,daily-dungeons,Custom content (zz_ prefix)
+Dungeons/zz_daily_dungeon_quest_pools.sql,zz_daily_dungeon_quest_pools.sql,Dungeons,,,,F-018,low,daily-dungeons,Custom content (zz_ prefix)
+Dungeons/zz_daily_dungeon_quests.sql,zz_daily_dungeon_quests.sql,Dungeons,,,"F-018, I-057",F-018,medium,daily-dungeons,"Git history: F-018, I-057; Custom content (zz_ prefix)"
+Dungeons/zz_daily_dungeon_teleports.sql,zz_daily_dungeon_teleports.sql,Dungeons,,,,F-018,low,daily-dungeons,Custom content (zz_ prefix)
+Dungeons/zz_dungeon_access.sql,zz_dungeon_access.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_heroic_acheivements.sql,zz_heroic_acheivements.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_heroic_and_mythic_creatures.sql,zz_heroic_and_mythic_creatures.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_heroic_gameobjects.sql,zz_heroic_gameobjects.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_heroic_gem_no_bond.sql,zz_heroic_gem_no_bond.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_heroic_items_[F-013].sql,zz_heroic_items_[F-013].sql,Dungeons,F-013,,"F-039, I-098",F-013,high,heroic-mythic,"Tagged in filename; Git history: F-039, I-098; Custom content (zz_ prefix)"
+Dungeons/zz_instance_encounters.sql,zz_instance_encounters.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_lfg_dungeon_quests.sql,zz_lfg_dungeon_quests.sql,Dungeons,,,I-011,I-011,medium,dungeon-tuning,Git history: I-011; Custom content (zz_ prefix)
+Dungeons/zz_lfg_dungeon_template.sql,zz_lfg_dungeon_template.sql,Dungeons,,,,,manual,dungeon-tuning,Custom content (zz_ prefix)
+Dungeons/zz_mythic_items_[F-013].sql,zz_mythic_items_[F-013].sql,Dungeons,F-013,,"F-039, I-098",F-013,high,heroic-mythic,"Tagged in filename; Git history: F-039, I-098; Custom content (zz_ prefix)"
+General/Currencies/zz_badge_of_heroism.sql,zz_badge_of_heroism.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Currencies
+General/Currencies/zz_badge_of_justice.sql,zz_badge_of_justice.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Currencies
+General/Currencies/zz_mark_of_thrallmar_and_honor_hold.sql,zz_mark_of_thrallmar_and_honor_hold.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Currencies
+General/Items/zz_apprentice_wand.sql,zz_apprentice_wand.sql,General,,,I-009,I-009,medium,core,Git history: I-009; Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_arcane_ward_[F-014].sql,zz_arcane_ward_[F-014].sql,General,F-014,,F-039,F-014,high,mage-tanking,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_azerite_shard.sql,zz_azerite_shard.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_chipped_power_core.sql,zz_chipped_power_core.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_harbinger_of_doom.sql,zz_harbinger_of_doom.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_hearthstone.sql,zz_hearthstone.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_increased_stack_sizes.sql,zz_increased_stack_sizes.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_libram_of_fervor.sql,zz_libram_of_fervor.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_reputation_tabards_[F-019].sql,zz_reputation_tabards_[F-019].sql,General,F-019,,"F-019, F-039, I-042",F-019,high,reputation-tabards,"Tagged in filename; Git history: F-019, F-039, I-042; Custom content (zz_ prefix); Subcategory: Items"
+General/Items/zz_satchel_of_helpul_goods.sql,zz_satchel_of_helpul_goods.sql,General,,,I-098,I-098,medium,core,Git history: I-098; Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_scrolls_of_buffs.sql,zz_scrolls_of_buffs.sql,General,,,I-098,I-098,medium,core,Git history: I-098; Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_tier_3_class_masks.sql,zz_tier_3_class_masks.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Items/zz_zeppelin_bag.sql,zz_zeppelin_bag.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Items
+General/Mounts/zz_azeroth_flying_[F-005].sql,zz_azeroth_flying_[F-005].sql,General,F-005,,F-039,F-005,high,riding,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Mounts
+General/Mounts/zz_murloc_mount.sql,zz_murloc_mount.sql,General,,,,F-005,low,riding,Custom content (zz_ prefix); Subcategory: Mounts
+General/Mounts/zz_riding_turtle_[F-005].sql,zz_riding_turtle_[F-005].sql,General,F-005,,F-039,F-005,high,riding,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Mounts
+General/Mounts/zz_zeppelin_mount.sql,zz_zeppelin_mount.sql,General,,,,F-005,low,riding,Custom content (zz_ prefix); Subcategory: Mounts
+General/Quests/zz_goblin_rep_fix.sql,zz_goblin_rep_fix.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Quests
+General/Teleports/zz_raid_teleport_location.sql,zz_raid_teleport_location.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Teleports
+General/Teleports/zz_raid_teleporter.sql,zz_raid_teleporter.sql,General,,,F-017,F-017,medium,core,Git history: F-017; Custom content (zz_ prefix); Subcategory: Teleports
+General/Vendors/zz_banana_tier_vendor.sql,zz_banana_tier_vendor.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Vendors
+General/Vendors/zz_mob_reagent_banker.sql,zz_mob_reagent_banker.sql,General,,,,,manual,core,Creature modification; Custom content (zz_ prefix); Subcategory: Vendors
+General/Vendors/zz_spawn_racial_swapper.sql,zz_spawn_racial_swapper.sql,General,,,,,manual,core,Custom content (zz_ prefix); Subcategory: Vendors
+General/zz_aldor_and_scryer_patch.sql,zz_aldor_and_scryer_patch.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_battleground_sigle_player_hack.sql,zz_battleground_sigle_player_hack.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_command_permissions.sql,zz_command_permissions.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_creature_classlevelstats.sql,zz_creature_classlevelstats.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_de-L33TER.sql,zz_de-L33TER.sql,General,,,I-040,I-040,medium,core,Git history: I-040; Custom content (zz_ prefix)
+General/zz_find_treasure_buff.sql,zz_find_treasure_buff.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_item_spell_list.sql,zz_item_spell_list.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_no_grey_or_food_drops.sql,zz_no_grey_or_food_drops.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_no_money_drops.sql,zz_no_money_drops.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_npc_trainer_spells.sql,zz_npc_trainer_spells.sql,General,,,I-094,I-094,medium,core,Git history: I-094; Custom content (zz_ prefix)
+General/zz_purge_whites.sql,zz_purge_whites.sql,General,,,I-098,I-098,medium,core,Git history: I-098; Custom content (zz_ prefix)
+General/zz_spell_overrides.sql,zz_spell_overrides.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_spell_to_stat.sql,zz_spell_to_stat.sql,General,,,I-098,I-098,medium,core,Git history: I-098; Custom content (zz_ prefix)
+General/zz_starting_items.sql,zz_starting_items.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+General/zz_starting_spells_[F-031].sql,zz_starting_spells_[F-031].sql,General,F-031,,F-039,F-031,high,starting-experience,Tagged in filename; Git history: F-039; Custom content (zz_ prefix)
+General/zz_starting_weapon_skills.sql,zz_starting_weapon_skills.sql,General,,,I-009,I-009,medium,core,Git history: I-009; Custom content (zz_ prefix)
+General/zz_update_bag_slots.sql,zz_update_bag_slots.sql,General,,,,,manual,core,Custom content (zz_ prefix)
+Loot/zz_aq20_hilt_cache_[F-025].sql,zz_aq20_hilt_cache_[F-025].sql,Loot,F-025,F-025,F-025,F-025,high,tier-satchels,Tagged in filename; Custom content (zz_ prefix)
+Loot/zz_consolidated_gem_sack.sql,zz_consolidated_gem_sack.sql,Loot,,I-061,I-061,I-061,medium,loot-changes,Found in comments: I-061; Custom content (zz_ prefix)
+Loot/zz_tbc_heroic_gem_cache.sql,zz_tbc_heroic_gem_cache.sql,Loot,,F-025,F-025,F-025,medium,tier-satchels,Found in comments: F-025; Custom content (zz_ prefix)
+Loot/zz_tier_satchels_t0_[F-025].sql,zz_tier_satchels_t0_[F-025].sql,Loot,F-025,F-025,"F-025, F-039, I-095, I-103",F-025,high,tier-satchels,"Tagged in filename; Git history: F-025, F-039, I-095, I-103; Custom content (zz_ prefix)"
+Loot/zz_tier_satchels_t1_[F-025].sql,zz_tier_satchels_t1_[F-025].sql,Loot,F-025,F-025,"F-025, F-039, I-095",F-025,high,tier-satchels,"Tagged in filename; Git history: F-025, F-039, I-095; Custom content (zz_ prefix)"
+Loot/zz_tier_satchels_t25_[F-025].sql,zz_tier_satchels_t25_[F-025].sql,Loot,F-025,F-025,"F-025, F-039, I-095, I-097, I-103",F-025,high,tier-satchels,"Tagged in filename; Git history: F-025, F-039, I-095, I-097, I-103; Custom content (zz_ prefix)"
+Loot/zz_tier_satchels_t2_[F-025].sql,zz_tier_satchels_t2_[F-025].sql,Loot,F-025,F-025,"F-025, F-039, I-095, I-103",F-025,high,tier-satchels,"Tagged in filename; Git history: F-025, F-039, I-095, I-103; Custom content (zz_ prefix)"
+Loot/zz_tier_satchels_t3_[F-025].sql,zz_tier_satchels_t3_[F-025].sql,Loot,F-025,F-025,"F-025, F-039, I-095, I-103",F-025,high,tier-satchels,"Tagged in filename; Git history: F-025, F-039, I-095, I-103; Custom content (zz_ prefix)"
+Modules/open azeroth/azuremyst_move_[F-036].sql,azuremyst_move_[F-036].sql,Modules,F-036,,F-039,F-036,high,open-azeroth,Tagged in filename; Git history: F-039; Subcategory: open azeroth
+Modules/open azeroth/quelthalas_move_[F-036].sql,quelthalas_move_[F-036].sql,Modules,F-036,,F-039,F-036,high,open-azeroth,Tagged in filename; Git history: F-039; Subcategory: open azeroth
+Modules/raid_teleporter/broadcast.sql,broadcast.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/raid_teleporter/broadcast_text_locale.sql,broadcast_text_locale.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/raid_teleporter/gameobject.sql,gameobject.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/raid_teleporter/gobjecttemplate.sql,gobjecttemplate.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/raid_teleporter/gossip_menu_option_locale.sql,gossip_menu_option_locale.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/raid_teleporter/gossipmenuoptions.sql,gossipmenuoptions.sql,Modules,,,,,manual,modules,Subcategory: raid_teleporter
+Modules/zz_mod_auctionhousebot.sql,zz_mod_auctionhousebot.sql,Modules,,,,,manual,modules,Custom content (zz_ prefix)
+Modules/zz_mod_racial_swap.sql,zz_mod_racial_swap.sql,Modules,,,,,manual,modules,Custom content (zz_ prefix)
+Mounts/zz_riding_crops_[F-005].sql,zz_riding_crops_[F-005].sql,Mounts,F-005,F-005,"F-005, F-015, F-039, I-024, I-025, I-093",F-005,high,riding,"Tagged in filename; Git history: F-005, F-015, F-039, I-024, I-025, I-093; Custom content (zz_ prefix)"
+Professions/Alchemy/zz_added_to_specializations.sql,zz_added_to_specializations.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Alchemy
+Professions/Alchemy/zz_alchemy_mortars_[F-001].sql,zz_alchemy_mortars_[F-001].sql,Professions,F-001,F-027,"F-039, I-093",F-001,high,profession-tools,"Tagged in filename; Found in comments: F-027; Git history: F-039, I-093; Custom content (zz_ prefix); Subcategory: Alchemy"
+Professions/Alchemy/zz_mana_oils.sql,zz_mana_oils.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Alchemy
+Professions/Alchemy/zz_winterfall_firewater.sql,zz_winterfall_firewater.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Alchemy
+Professions/Alchemy/zz_wizard_oils.sql,zz_wizard_oils.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Alchemy
+Professions/Blacksmithing/zz_compressed_thermal_anvil.sql,zz_compressed_thermal_anvil.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Blacksmithing
+Professions/Blacksmithing/zz_elementium_aegis.sql,zz_elementium_aegis.sql,Professions,,,I-041,I-041,medium,professions,Git history: I-041; Custom content (zz_ prefix); Subcategory: Blacksmithing
+Professions/Blacksmithing/zz_smithing_hammers_[F-001].sql,zz_smithing_hammers_[F-001].sql,Professions,F-001,,"F-001, F-039, I-093, I-094",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039, I-093, I-094; Custom content (zz_ prefix); Subcategory: Blacksmithing"
+Professions/Enchanting/zz_brilliant_to_nexus.sql,zz_brilliant_to_nexus.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Enchanting
+Professions/Enchanting/zz_enchanting_goods_sell_price.sql,zz_enchanting_goods_sell_price.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Enchanting
+Professions/Enchanting/zz_mystic_resonator.sql,zz_mystic_resonator.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Enchanting
+Professions/Enchanting/zz_shard_transmutations.sql,zz_shard_transmutations.sql,Professions,,F-006,I-094,F-006,medium,professions,Found in comments: F-006; Git history: I-094; Custom content (zz_ prefix); Subcategory: Enchanting
+Professions/Engineering/zz_arclight_spanner.sql,zz_arclight_spanner.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_elementium_targeting_matrix.sql,zz_elementium_targeting_matrix.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_fel_iron_arrows.sql,zz_fel_iron_arrows.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_fel_iron_shells.sql,zz_fel_iron_shells.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_loot_engineered_[F-032].sql,zz_loot_engineered_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Loot table modification; Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_mobs_engineerable_[F-032].sql,zz_mobs_engineerable_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_schematic_thorium_headed_arrows.sql,zz_schematic_thorium_headed_arrows.sql,Professions,,,I-075,I-075,medium,professions,Git history: I-075; Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Engineering/zz_skill_injector.sql,zz_skill_injector.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Engineering
+Professions/Fishing/zz_darkshore_fishing_fix.sql,zz_darkshore_fishing_fix.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Fishing
+Professions/Herbalism/zz_loot_herbs_[F-032].sql,zz_loot_herbs_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Loot table modification; Custom content (zz_ prefix); Subcategory: Herbalism
+Professions/Herbalism/zz_mobs_herbable_[F-032].sql,zz_mobs_herbable_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Herbalism
+Professions/Herbalism/zz_nightmare_seeds.sql,zz_nightmare_seeds.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Herbalism
+Professions/Herbalism/zz_pruning_shears_[F-001].sql,zz_pruning_shears_[F-001].sql,Professions,F-001,,"F-001, F-039, I-093",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039, I-093; Custom content (zz_ prefix); Subcategory: Herbalism"
+Professions/Herbalism/zz_pruning_shears_loot_[F-001].sql,zz_pruning_shears_loot_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Loot table modification; Custom content (zz_ prefix); Subcategory: Herbalism"
+Professions/Herbalism/zz_pruning_shears_quests_[F-001].sql,zz_pruning_shears_quests_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Custom content (zz_ prefix); Subcategory: Herbalism"
+Professions/Inscription/zz_city_teleports.sql,zz_city_teleports.sql,Professions,,,F-017,F-017,medium,professions,Git history: F-017; Custom content (zz_ prefix); Subcategory: Inscription
+Professions/Inscription/zz_glyph_of_mana_shield_[F-014].sql,zz_glyph_of_mana_shield_[F-014].sql,Professions,F-014,,F-039,F-014,high,mage-tanking,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Inscription
+Professions/Inscription/zz_mind_control_scroll.sql,zz_mind_control_scroll.sql,Professions,,,I-098,I-098,medium,professions,Git history: I-098; Custom content (zz_ prefix); Subcategory: Inscription
+Professions/Jewelcrafting/zz_Black_Diamond_Dragonling.sql,zz_Black_Diamond_Dragonling.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_black_diamonds.sql,zz_black_diamonds.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_classic_trainers.sql,zz_classic_trainers.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_elementium_talisman.sql,zz_elementium_talisman.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_jewelers_kit.sql,zz_jewelers_kit.sql,Professions,,,,F-001,low,profession-tools,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_northrend_jewel_skill_requirement.sql,zz_northrend_jewel_skill_requirement.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Jewelcrafting/zz_totem_category.sql,zz_totem_category.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Jewelcrafting
+Professions/Leatherworking/zz_brilliant_chromatic_scale.sql,zz_brilliant_chromatic_scale.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_forgotten_kings.sql,zz_drums_of_forgotten_kings.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_fortitude.sql,zz_drums_of_fortitude.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_intellect.sql,zz_drums_of_intellect.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_the_nights_watch.sql,zz_drums_of_the_nights_watch.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_the_raid_leader.sql,zz_drums_of_the_raid_leader.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_drums_of_the_wild.sql,zz_drums_of_the_wild.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Leatherworking
+Professions/Leatherworking/zz_leathering_kit_[F-001].sql,zz_leathering_kit_[F-001].sql,Professions,F-001,,"F-001, F-039, I-093",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039, I-093; Custom content (zz_ prefix); Subcategory: Leatherworking"
+Professions/Leatherworking/zz_leathering_kit_quests_[F-001].sql,zz_leathering_kit_quests_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Custom content (zz_ prefix); Subcategory: Leatherworking"
+Professions/Mining/zz_loot_minerals_[F-032].sql,zz_loot_minerals_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Loot table modification; Custom content (zz_ prefix); Subcategory: Mining
+Professions/Mining/zz_mining_pick_[F-001].sql,zz_mining_pick_[F-001].sql,Professions,F-001,,"F-001, F-039, I-093",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039, I-093; Custom content (zz_ prefix); Subcategory: Mining"
+Professions/Mining/zz_mining_pick_loot_[F-001].sql,zz_mining_pick_loot_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Loot table modification; Custom content (zz_ prefix); Subcategory: Mining"
+Professions/Mining/zz_mining_pick_quests_[F-001].sql,zz_mining_pick_quests_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Custom content (zz_ prefix); Subcategory: Mining"
+Professions/Mining/zz_mobs_mineable_[F-032].sql,zz_mobs_mineable_[F-032].sql,Professions,F-032,,F-039,F-032,high,creature-gathering,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: Mining
+Professions/Skinning/zz_ancient_dragonscale.sql,zz_ancient_dragonscale.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Skinning
+Professions/Skinning/zz_pristine_hide_of_magmadar.sql,zz_pristine_hide_of_magmadar.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Skinning
+Professions/Skinning/zz_pristine_hide_of_the_beast.sql,zz_pristine_hide_of_the_beast.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix); Subcategory: Skinning
+Professions/Skinning/zz_starting_area_beasts.sql,zz_starting_area_beasts.sql,Professions,,,"F-002, I-037",F-002,medium,professions,"Git history: F-002, I-037; Custom content (zz_ prefix); Subcategory: Skinning"
+Professions/Tailoring/zz_tailoring_scissors_[F-001].sql,zz_tailoring_scissors_[F-001].sql,Professions,F-001,,"F-001, F-039, I-093",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039, I-093; Custom content (zz_ prefix); Subcategory: Tailoring"
+Professions/Tailoring/zz_tailoring_scissors_quests_[F-001].sql,zz_tailoring_scissors_quests_[F-001].sql,Professions,F-001,,"F-001, F-039",F-001,high,profession-tools,"Tagged in filename; Git history: F-001, F-039; Custom content (zz_ prefix); Subcategory: Tailoring"
+Professions/Trade Goods/zz_fish_oil.sql,zz_fish_oil.sql,Professions,,,I-098,I-098,medium,professions,Git history: I-098; Custom content (zz_ prefix); Subcategory: Trade Goods
+Professions/Trade Goods/zz_light_feather.sql,zz_light_feather.sql,Professions,,,I-098,I-098,medium,professions,Git history: I-098; Custom content (zz_ prefix); Subcategory: Trade Goods
+Professions/Trade Goods/zz_shiny_fish_scales.sql,zz_shiny_fish_scales.sql,Professions,,,I-098,I-098,medium,professions,Git history: I-098; Custom content (zz_ prefix); Subcategory: Trade Goods
+Professions/zz_gnomish_army_knife.sql,zz_gnomish_army_knife.sql,Professions,,,,,manual,professions,Custom content (zz_ prefix)
+Professions/zz_ipp_trainer_consolidation.sql,zz_ipp_trainer_consolidation.sql,Professions,,,I-096,I-096,medium,professions,Git history: I-096; Custom content (zz_ prefix)
+Raids/AQ20/zz_boss_ossirian_the_unscarred.sql,zz_boss_ossirian_the_unscarred.sql,Raids,,,,,manual,raid-tuning,Creature modification; Custom content (zz_ prefix); Subcategory: AQ20
+Raids/AQ20/zz_obsidian_chunks.sql,zz_obsidian_chunks.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: AQ20
+Raids/AQ40/zz_anubisath_warrior.sql,zz_anubisath_warrior.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_cthun_[F-034].sql,zz_cthun_[F-034].sql,Raids,F-034,,F-039,F-034,high,aq40-tuning,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_princess_huhuran.sql,zz_princess_huhuran.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_prophet_skeram.sql,zz_prophet_skeram.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_qiraji_crystals.sql,zz_qiraji_crystals.sql,Raids,,,I-098,I-098,medium,raid-tuning,Git history: I-098; Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_qiraji_scarab.sql,zz_qiraji_scarab.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: AQ40
+Raids/AQ40/zz_twin_emperors_[F-034].sql,zz_twin_emperors_[F-034].sql,Raids,F-034,,F-039,F-034,high,aq40-tuning,Tagged in filename; Git history: F-039; Custom content (zz_ prefix); Subcategory: AQ40
+Raids/Blackwing Lair/zz_boss_chromaggus.sql,zz_boss_chromaggus.sql,Raids,,,,,manual,raid-tuning,Creature modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Blackwing Lair/zz_boss_vaelastrasz_the_corrupt.sql,zz_boss_vaelastrasz_the_corrupt.sql,Raids,,,,,manual,raid-tuning,Creature modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Blackwing Lair/zz_loot_ebonroc.sql,zz_loot_ebonroc.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Blackwing Lair/zz_loot_firemaw.sql,zz_loot_firemaw.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Blackwing Lair/zz_loot_flamegor.sql,zz_loot_flamegor.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Blackwing Lair/zz_loot_nefarian.sql,zz_loot_nefarian.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Blackwing Lair
+Raids/Molten Core/zz_boss_golemagg.sql,zz_boss_golemagg.sql,Raids,,,,,manual,raid-tuning,Creature modification; Custom content (zz_ prefix); Subcategory: Molten Core
+Raids/Molten Core/zz_dreegz_knutz.sql,zz_dreegz_knutz.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Molten Core
+Raids/Molten Core/zz_eternal_quintessence.sql,zz_eternal_quintessence.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Molten Core
+Raids/Molten Core/zz_loot_shazzrah.sql,zz_loot_shazzrah.sql,Raids,,,F-025,F-025,medium,tier-satchels,Git history: F-025; Loot table modification; Custom content (zz_ prefix); Subcategory: Molten Core
+Raids/Molten Core/zz_loot_sulfuron.sql,zz_loot_sulfuron.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Molten Core
+Raids/Naxxramas/zz_crypt_guard.sql,zz_crypt_guard.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_fallout_slime.sql,zz_fallout_slime.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_gluth.sql,zz_gluth.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_kel_thuzad_rings.sql,zz_kel_thuzad_rings.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_naxx_entrance_fix.sql,zz_naxx_entrance_fix.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_naxx_worshipers_faelina.sql,zz_naxx_worshipers_faelina.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_noth_loot.sql,zz_noth_loot.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_patchwerk.sql,zz_patchwerk.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_razuvious_understudy.sql,zz_razuvious_understudy.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_shadow_fissure.sql,zz_shadow_fissure.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_t3_quest_unify.sql,zz_t3_quest_unify.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_thaddius.sql,zz_thaddius.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_trash_scaling.sql,zz_trash_scaling.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Naxxramas/zz_web_wrap.sql,zz_web_wrap.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Naxxramas
+Raids/Zul Gurub/zz_loot_High_Priest_Thekal.sql,zz_loot_High_Priest_Thekal.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Zul Gurub
+Raids/Zul Gurub/zz_loot_High_Priestess_Jeklik.sql,zz_loot_High_Priestess_Jeklik.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Zul Gurub
+Raids/Zul Gurub/zz_loot_coins_removal.sql,zz_loot_coins_removal.sql,Raids,,,,,manual,raid-tuning,Loot table modification; Custom content (zz_ prefix); Subcategory: Zul Gurub
+Raids/Zul Gurub/zz_zandalar_honor_token.sql,zz_zandalar_honor_token.sql,Raids,,,,,manual,raid-tuning,Custom content (zz_ prefix); Subcategory: Zul Gurub
+Zones/Eastern Kingdoms/Arathi Highlands/zz_feeding_stromgarde.sql,zz_feeding_stromgarde.sql,Zones,,,I-098,I-098,medium,zone-content,Git history: I-098; Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Arathi Highlands
+Zones/Eastern Kingdoms/Arathi Highlands/zz_syndicate_magus.sql,zz_syndicate_magus.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Arathi Highlands
+Zones/Eastern Kingdoms/Blasted Lands/zz_bloodmage_potions.sql,zz_bloodmage_potions.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Blasted Lands
+Zones/Eastern Kingdoms/Elwynn Forest/Stormwind City/zz_alliance_heroism_pvp_gear.sql,zz_alliance_heroism_pvp_gear.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Elwynn Forest/Stormwind City
+Zones/Eastern Kingdoms/Elwynn Forest/Stormwind City/zz_jelinek_sharpshear.sql,zz_jelinek_sharpshear.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Elwynn Forest/Stormwind City
+Zones/Eastern Kingdoms/Elwynn Forest/Stormwind City/zz_trade_district_z_fix.sql,zz_trade_district_z_fix.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Elwynn Forest/Stormwind City
+Zones/Eastern Kingdoms/Elwynn Forest/Stormwind City/zz_travis_coomingham.sql,zz_travis_coomingham.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Elwynn Forest/Stormwind City
+Zones/Eastern Kingdoms/Eversong Woods/zz_fairbreeze_raid.sql,zz_fairbreeze_raid.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Eversong Woods
+Zones/Eastern Kingdoms/Eversong Woods/zz_powering_our_defences.sql,zz_powering_our_defences.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Eversong Woods
+Zones/Eastern Kingdoms/Eversong Woods/zz_unexpected_results.sql,zz_unexpected_results.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Eversong Woods
+Zones/Eastern Kingdoms/Eversong Woods/zz_whitebarks_memory.sql,zz_whitebarks_memory.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Eversong Woods
+Zones/Eastern Kingdoms/Ghostlands/zz_escape_from_the_catacombs.sql,zz_escape_from_the_catacombs.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Ghostlands
+Zones/Eastern Kingdoms/Ghostlands/zz_remove_deatholme_necromancer.sql,zz_remove_deatholme_necromancer.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Ghostlands
+Zones/Eastern Kingdoms/Ghostlands/zz_vanquishing_aquantion.sql,zz_vanquishing_aquantion.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Ghostlands
+Zones/Eastern Kingdoms/Hillsbrad Foothills/zz_wings_of_freedom.sql,zz_wings_of_freedom.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Hillsbrad Foothills
+Zones/Eastern Kingdoms/Red Ridge Mountains/zz_loot_dire_condor.sql,zz_loot_dire_condor.sql,Zones,,,,,manual,zone-content,Loot table modification; Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Red Ridge Mountains
+Zones/Eastern Kingdoms/Stranglethorn Vale/zz_gorlash.sql,zz_gorlash.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Stranglethorn Vale
+Zones/Eastern Kingdoms/Tiristfal Glades/zz_awful_experiments.sql,zz_awful_experiments.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Eastern Kingdoms/Tiristfal Glades
+Zones/Kalimdor/Ashenvale/zz_loot_rusty_chest.sql,zz_loot_rusty_chest.sql,Zones,,,,,manual,zone-content,Loot table modification; Custom content (zz_ prefix); Subcategory: Kalimdor/Ashenvale
+Zones/Kalimdor/Ashenvale/zz_waterlogged_footlocker_spawn_rate.sql,zz_waterlogged_footlocker_spawn_rate.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Ashenvale
+Zones/Kalimdor/Azuremyst Isle/zz_call_of_fire.sql,zz_call_of_fire.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Azuremyst Isle
+Zones/Kalimdor/Azuremyst Isle/zz_mob_voltatile_mutation.sql,zz_mob_voltatile_mutation.sql,Zones,,,,,manual,zone-content,Creature modification; Custom content (zz_ prefix); Subcategory: Kalimdor/Azuremyst Isle
+Zones/Kalimdor/Azuremyst Isle/zz_trees_company.sql,zz_trees_company.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Azuremyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_call_of_water.sql,zz_call_of_water.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_ending_the_bloodcurse.sql,zz_ending_the_bloodcurse.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_loot_sunhawk_reclaimer.sql,zz_loot_sunhawk_reclaimer.sql,Zones,,,,,manual,zone-content,Loot table modification; Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_matis_the_cruel.sql,zz_matis_the_cruel.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_razormaw.sql,zz_razormaw.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Bloodmyst Isle/zz_the_wildkin_are_booming.sql,zz_the_wildkin_are_booming.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Bloodmyst Isle
+Zones/Kalimdor/Durotar/Orgrimmar/zz_frozen_thrall_fix.sql,zz_frozen_thrall_fix.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Durotar/Orgrimmar
+Zones/Kalimdor/Durotar/Orgrimmar/zz_horde_heroism_pvp_gear.sql,zz_horde_heroism_pvp_gear.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Durotar/Orgrimmar
+Zones/Kalimdor/Felwood/zz_TimberMaw_Rep_Mob_RespawnTime.sql,zz_TimberMaw_Rep_Mob_RespawnTime.sql,Zones,,,,,manual,zone-content,Creature modification; Custom content (zz_ prefix); Subcategory: Kalimdor/Felwood
+Zones/Kalimdor/Tanaris/zz_tanaris_field_sampling_fix.sql,zz_tanaris_field_sampling_fix.sql,Zones,,,I-098,I-098,medium,zone-content,Git history: I-098; Custom content (zz_ prefix); Subcategory: Kalimdor/Tanaris
+Zones/Kalimdor/Teldrassil/Darnassus/zz_darnassus_mining_smithing_trainers.sql,zz_darnassus_mining_smithing_trainers.sql,Zones,,,"F-001, I-094, I-095",F-001,medium,profession-tools,"Git history: F-001, I-094, I-095; Custom content (zz_ prefix); Subcategory: Kalimdor/Teldrassil/Darnassus"
+Zones/Kalimdor/Teldrassil/zz_gnarlpine_spawns.sql,zz_gnarlpine_spawns.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Teldrassil
+Zones/Kalimdor/Teldrassil/zz_graveyard_fix.sql,zz_graveyard_fix.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Teldrassil
+Zones/Kalimdor/Thousand Needles/zz_high_perch_z_fixes.sql,zz_high_perch_z_fixes.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Kalimdor/Thousand Needles
+Zones/Kalimdor/Thousand Needles/zz_mob_cloud_serpent.sql,zz_mob_cloud_serpent.sql,Zones,,,,,manual,zone-content,Creature modification; Custom content (zz_ prefix); Subcategory: Kalimdor/Thousand Needles
+Zones/Kalimdor/UnGoro Crater/zz_mob_gargantuan_ooze_fix.sql,zz_mob_gargantuan_ooze_fix.sql,Zones,,,,,manual,zone-content,Creature modification; Custom content (zz_ prefix); Subcategory: Kalimdor/UnGoro Crater
+Zones/Outland/Hellfire Peninsula/zz_flying_sillithid_rider_guards.sql,zz_flying_sillithid_rider_guards.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Hellfire Peninsula
+Zones/Outland/Hellfire Peninsula/zz_hellfire_fortifications.sql,zz_hellfire_fortifications.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Hellfire Peninsula
+Zones/Outland/Netherstorm/zz_increase_spawn_rate_sunfury_archers.sql,zz_increase_spawn_rate_sunfury_archers.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Netherstorm
+Zones/Outland/Netherstorm/zz_zaxxis_spawn_time_lowering.sql,zz_zaxxis_spawn_time_lowering.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Netherstorm
+Zones/Outland/Shadowmoon Valley/zz_coilskar_siren_script.sql,zz_coilskar_siren_script.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Shadowmoon Valley
+Zones/Outland/Shadowmoon Valley/zz_netherwing_egg_loot.sql,zz_netherwing_egg_loot.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Shadowmoon Valley
+Zones/Outland/Shadowmoon Valley/zz_sludge_covered_object.sql,zz_sludge_covered_object.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Shadowmoon Valley
+Zones/Outland/Terrokar Forrest/Shattrath/zz_shattered_sun_marksman.sql,zz_shattered_sun_marksman.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Terrokar Forrest/Shattrath
+Zones/Outland/Zangarmarsh/zz_identify_plant_parts.sql,zz_identify_plant_parts.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Zangarmarsh
+Zones/Outland/Zangarmarsh/zz_lagoon_walker.sql,zz_lagoon_walker.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Zangarmarsh
+Zones/Outland/Zangarmarsh/zz_mragesh.sql,zz_mragesh.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Zangarmarsh
+Zones/Outland/Zangarmarsh/zz_withered_giant.sql,zz_withered_giant.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland/Zangarmarsh
+Zones/Outland/zz_bursters.sql,zz_bursters.sql,Zones,,,,,manual,zone-content,Custom content (zz_ prefix); Subcategory: Outland
+zz_aq20_remove_spell_books.sql,zz_aq20_remove_spell_books.sql,root,,I-072,I-072,I-072,medium,core,Found in comments: I-072; Custom content (zz_ prefix)

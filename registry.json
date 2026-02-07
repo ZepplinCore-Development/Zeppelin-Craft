@@ -1,20 +1,13 @@
 {
-  "version": "1.1.0",
+  "version": "1.0.0",
   "azerothcore_modules_path": "../Zeppelin-Core/modules",
-  "packages": {
-    "worgoblin-zeppelin": {
-      "location": "internal",
-      "path": "zpaks/worgoblin-zeppelin",
-      "enabled": true
-    }
-  },
-  "feature_index": {},
-  "dbc": {
-    "databases": {
-      "original": "original_dbc",
-      "scratch": "scratch_dbc",
-      "live": "dbc",
-      "expected": "expected_dbc"
-    }
+  "packages": {},
+  "feature_index": {
+    "F-143": "character-creator",
+    "F-049": "hd-everything",
+    "F-136": "open-azeroth",
+    "F-030": "worgoblin",
+    "F-044": "zepcraft-legacy",
+    "F-150": "dbc-f-150"
   }
 }

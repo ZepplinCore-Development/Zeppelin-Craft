@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "atlasloot",
+  "version": "1.0.0",
+  "description": "AtlasLoot Enhanced - database-driven loot tables for all dungeons and raids",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "build": {
+    "generator": "atlasloot-generator"
+  },
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "launcher": {
+    "mandatory": true,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
+  "enabled": true,
+  "priority": 50
+}

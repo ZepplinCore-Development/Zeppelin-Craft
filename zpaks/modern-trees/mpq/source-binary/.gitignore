@@ -1,6 +1,0 @@
-# MPQ binaries - too large for git
-*.MPQ
-*.mpq
-
-# Keep directory structure
-!.gitkeep

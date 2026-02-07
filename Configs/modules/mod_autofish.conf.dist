@@ -1,0 +1,82 @@
+########################################
+# AutoFish Config
+########################################
+#
+#    AutoFish.Enabled
+#        Description: Enable the module
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+AutoFish.Enabled = 1
+
+#
+#    AutoFish.TickMs
+#        Description: Sets the delay, in milliseconds, between checking the bobber for a hooked fish
+#        Default:     200
+#
+AuoFish.TickMs = 200
+
+#
+#    AutoFish.ScanRange
+#        Description: Sets the range from the player to scan for the fish bobber
+#        Default:     30
+#
+AutoFish.ScanRange = 30.0
+
+#
+#    AutoFish.BobberEntries
+#        Description: Sets the object ID of any bobbers to scan for, can have multiple, separated by comma
+#        Default:     35591
+#
+AutoFish.BobberEntries = 35591
+
+#
+#    AutoFish.ServerAutoLoot
+#        Description: Forces the player to automatically loot the fish once the loot window pops up
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+AutoFish.ServerAutoLoot = 1
+
+#
+#    AutoFish.AutoRecast
+#        Description: Automatically casts again after successfully catching a fish
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+AutoFish.AutoRecast = 1
+
+#
+#    AutoFish.RecastDelayMs
+#        Description: Delay, in milliseconds, to wait before recasting after looting the previous fish
+#        Default:     500
+#
+AutoFish.RecastDelayMs = 500
+
+#
+#    AutoFish.RecastSpell
+#        Description: Sets the Spell ID to be used to recast, useful if anyone uses a custom fishing spell
+#        Default:     18248
+#
+AutoFish.RecastSpell = 18248
+
+#
+#    AutoFish.AutoLootDelayMs
+#        Description: Delay, in milliseconds, to wait before automatically looting the fish, after the loot window has appeared
+#        Default:     120
+#
+AutoFish.AutoLootDelayMs = 120
+
+#
+#    AutoFish.RequiredItemId
+#        Description: Sets an item, by ID, to be held in the bags of the player to activate autofishing. Set to 0 to require no item
+#        Default:     0
+#
+AutoFish.RequiredItemId = 0
+
+#
+#    AutoFish.RequiredEquipId
+#        Description: Sets an item, by ID, to be equipped by the player to activate autofishing. Set to 0 to require no item
+#        Default:     0
+#
+AutoFish.RequiredEquipId = 0

@@ -298,15 +298,35 @@ def parse_set_syntax(query, table_name, query_type):
     }
 
 def find_matching_parenthesis(s, start):
-    """Finds the closing parenthesis matching the one at start position."""
+    """Finds the closing parenthesis matching the one at start position.
+    Properly handles both single and double quoted strings."""
     depth = 1
-    for i in range(start + 1, len(s)):
-        if s[i] == "(":
-            depth += 1
-        elif s[i] == ")":
-            depth -= 1
-            if depth == 0:
-                return i
+    in_single_quote = False
+    in_double_quote = False
+    i = start + 1
+
+    while i < len(s):
+        char = s[i]
+
+        # Handle escape sequences ('' for single, "" for double)
+        if char == "'" and not in_double_quote:
+            if i + 1 < len(s) and s[i + 1] == "'":
+                i += 2  # Skip escaped single quote
+                continue
+            in_single_quote = not in_single_quote
+        elif char == '"' and not in_single_quote:
+            if i + 1 < len(s) and s[i + 1] == '"':
+                i += 2  # Skip escaped double quote
+                continue
+            in_double_quote = not in_double_quote
+        elif not in_single_quote and not in_double_quote:
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth == 0:
+                    return i
+        i += 1
     return -1
 
 def parse_values_syntax(query, table_name, query_type):
@@ -334,17 +354,34 @@ def parse_values_syntax(query, table_name, query_type):
         tuple_content = values_content[tuple_start+1:tuple_end]
         current_set = []
         current_value = []
-        in_quotes = False
-        
-        for char in tuple_content:
-            if char == "'":
-                in_quotes = not in_quotes
+        in_single_quote = False
+        in_double_quote = False
+        j = 0
+
+        while j < len(tuple_content):
+            char = tuple_content[j]
+
+            # Handle escaped quotes
+            if char == "'" and not in_double_quote:
+                if j + 1 < len(tuple_content) and tuple_content[j + 1] == "'":
+                    current_value.append("''")
+                    j += 2
+                    continue
+                in_single_quote = not in_single_quote
                 current_value.append(char)
-            elif char == "," and not in_quotes:
+            elif char == '"' and not in_single_quote:
+                if j + 1 < len(tuple_content) and tuple_content[j + 1] == '"':
+                    current_value.append('""')
+                    j += 2
+                    continue
+                in_double_quote = not in_double_quote
+                current_value.append(char)
+            elif char == "," and not in_single_quote and not in_double_quote:
                 current_set.append("".join(current_value).strip())
                 current_value = []
             else:
                 current_value.append(char)
+            j += 1
         
         if current_value:
             current_set.append("".join(current_value).strip())
@@ -441,17 +478,34 @@ def parse_values_no_fields(query, table_name, query_type):
         tuple_content = values_content[tuple_start+1:tuple_end]
         current_set = []
         current_value = []
-        in_quotes = False
+        in_single_quote = False
+        in_double_quote = False
+        j = 0
 
-        for char in tuple_content:
-            if char == "'":
-                in_quotes = not in_quotes
+        while j < len(tuple_content):
+            char = tuple_content[j]
+
+            # Handle escaped quotes
+            if char == "'" and not in_double_quote:
+                if j + 1 < len(tuple_content) and tuple_content[j + 1] == "'":
+                    current_value.append("''")
+                    j += 2
+                    continue
+                in_single_quote = not in_single_quote
                 current_value.append(char)
-            elif char == "," and not in_quotes:
+            elif char == '"' and not in_single_quote:
+                if j + 1 < len(tuple_content) and tuple_content[j + 1] == '"':
+                    current_value.append('""')
+                    j += 2
+                    continue
+                in_double_quote = not in_double_quote
+                current_value.append(char)
+            elif char == "," and not in_single_quote and not in_double_quote:
                 current_set.append("".join(current_value).strip())
                 current_value = []
             else:
                 current_value.append(char)
+            j += 1
 
         if current_value:
             current_set.append("".join(current_value).strip())
@@ -507,6 +561,31 @@ def extract_values_content(query):
         raise ValueError("VALUES clause not found in query")
     return query[values_match.end():]
 
+
+def strip_standalone_comments(query):
+    """
+    Removes standalone comment lines (lines that are ONLY comments) from a query.
+    Preserves trailing comments on value/statement lines.
+
+    This prevents normalization from breaking when comments appear between value rows:
+    Before: VALUES\\n-- comment\\n(values...)
+    After normalization without this: VALUES -- comment (values...)  <- broken
+    After normalization with this: VALUES (values...)  <- works
+    """
+    lines = query.split('\n')
+    filtered_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+        # Skip lines that are ONLY comments (no SQL content)
+        if stripped.startswith('--') and not any(
+            keyword in stripped.upper() for keyword in ['INSERT', 'DELETE', 'UPDATE', 'VALUES']
+        ):
+            continue
+        filtered_lines.append(line)
+
+    return '\n'.join(filtered_lines)
+
 def parse_individual_value(val):
     """Parses and cleans an individual value."""
     if len(val) >= 2 and val[0] == "'" and val[-1] == "'":
@@ -531,8 +610,16 @@ def parse_query(query):
     Main function to parse INSERT or REPLACE queries.
     Determines the query type and delegates to specific parsers.
     """
-    # Normalize the query by removing extra whitespace and comments for easier parsing
-    normalized_query = ' '.join(query.split()).replace(' ,', ',')
+    # Strip standalone comment lines before normalization to prevent them from
+    # breaking parsing (-- comments would eat the rest of a single-line normalized query)
+    query_without_standalone_comments = strip_standalone_comments(query)
+
+    # Normalize the query by removing extra whitespace for easier parsing
+    normalized_query = ' '.join(query_without_standalone_comments.split()).replace(' ,', ',')
+
+    # Check for INSERT...SELECT syntax - pass through unchanged (not reformattable)
+    if re.search(r'\bSELECT\b', normalized_query, re.IGNORECASE):
+        return {"passthrough": True, "original_query": query}
     
     # Extract basic components
     query_type = "INSERT" if "INSERT" in normalized_query.upper() else "REPLACE"
@@ -880,11 +967,11 @@ def format_query(input_query, verbose=False, output_file=None):
 
         for stmt_type, stmt_content in statements:
             if stmt_type in ('comment', 'blank'):
-                # Pass through comments and blank lines as-is
+                # Pass through comments as-is; skip blank lines since
+                # formatted output adds its own spacing between statements
                 if stmt_type == 'comment':
                     print(stmt_content)
-                else:
-                    print()
+                # Skip 'blank' - don't print empty lines from input
                 continue
 
             if stmt_type in ('update', 'delete', 'other'):
@@ -939,7 +1026,6 @@ def format_query(input_query, verbose=False, output_file=None):
 
                 # Output primary query
                 output_query(stripped_query, tables_with_deletes)
-                print("")
 
                 # Output secondary queries
                 if secondary_queries:

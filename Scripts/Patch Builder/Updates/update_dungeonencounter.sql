@@ -1,3468 +1,3468 @@
 UPDATE `dbc`.`dungeonencounter` SET 
     `orderIndex` = 1000 /* was 4000 */
-WHERE `ID` = 431;
+WHERE `id` = 431;
 
 UPDATE `dbc`.`dungeonencounter` SET 
     `orderIndex` = 3000 /* was 2000 */,
     `bit` = 3 /* was 2 */
-WHERE `ID` = 432;
+WHERE `id` = 432;
 
 UPDATE `dbc`.`dungeonencounter` SET 
     `orderIndex` = 2000 /* was 3000 */,
     `bit` = 2 /* was 3 */
-WHERE `ID` = 433;
+WHERE `id` = 433;
 
 UPDATE `dbc`.`dungeonencounter` SET 
     `orderIndex` = 7000 /* was 6000 */,
     `bit` = 7 /* was 6 */
-WHERE `ID` = 591;
+WHERE `id` = 591;
 
 UPDATE `dbc`.`dungeonencounter` SET 
     `orderIndex` = 6000 /* was 7000 */,
     `bit` = 6 /* was 7 */
-WHERE `ID` = 592;
+WHERE `id` = 592;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 990;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 990;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 990,
-    `mapId` = 34,
+    `id` = 990,
+    `map_id` = 34,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Dextren Ward',
-    `nameFlags` = 16712190;
+    `name_1` = 'Dextren Ward',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 991;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 991;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 991,
-    `mapId` = 34,
+    `id` = 991,
+    `map_id` = 34,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 3,
-    `name1` = 'Bazil Thredd',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bazil Thredd',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 992;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 992;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 992,
-    `mapId` = 34,
+    `id` = 992,
+    `map_id` = 34,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Hamhock',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hamhock',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 993;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 993;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 993,
-    `mapId` = 34,
+    `id` = 993,
+    `map_id` = 34,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Kam Deepfury',
-    `nameFlags` = 16712190;
+    `name_1` = 'Kam Deepfury',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 994;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 994;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 994,
-    `mapId` = 34,
+    `id` = 994,
+    `map_id` = 34,
     `difficulty` = 1,
-    `name1` = 'Targorr the Dread',
-    `nameFlags` = 16712190;
+    `name_1` = 'Targorr the Dread',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 995;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 995;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 995,
-    `mapId` = 33,
+    `id` = 995,
+    `map_id` = 33,
     `difficulty` = 1,
-    `name1` = 'Rethilgore',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rethilgore',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 996;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 996;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 996,
-    `mapId` = 33,
+    `id` = 996,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Razorclaw the Butcher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Razorclaw the Butcher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 997;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 997;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 997,
-    `mapId` = 33,
+    `id` = 997,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Baron Silverlaine',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baron Silverlaine',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 998;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 998;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 998,
-    `mapId` = 33,
+    `id` = 998,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Commander Springvale',
-    `nameFlags` = 16712190;
+    `name_1` = 'Commander Springvale',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 999;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 999;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 999,
-    `mapId` = 33,
+    `id` = 999,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Odo the Blindwatcher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Odo the Blindwatcher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1000;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1000;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1000,
-    `mapId` = 33,
+    `id` = 1000,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Fenrus the Devourer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Fenrus the Devourer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1001;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1001;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1001,
-    `mapId` = 33,
+    `id` = 1001,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Wolf Master Nandos',
-    `nameFlags` = 16712190;
+    `name_1` = 'Wolf Master Nandos',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1002;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1002;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1002,
-    `mapId` = 33,
+    `id` = 1002,
+    `map_id` = 33,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Archmage Arugal',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archmage Arugal',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1003;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1003;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1003,
-    `mapId` = 47,
+    `id` = 1003,
+    `map_id` = 47,
     `difficulty` = 1,
-    `name1` = 'Roogug',
-    `nameFlags` = 16712190;
+    `name_1` = 'Roogug',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1004;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1004;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1004,
-    `mapId` = 47,
+    `id` = 1004,
+    `map_id` = 47,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Aggem Thorncurse',
-    `nameFlags` = 16712190;
+    `name_1` = 'Aggem Thorncurse',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1005;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1005;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1005,
-    `mapId` = 47,
+    `id` = 1005,
+    `map_id` = 47,
     `difficulty` = 1,
     `orderIndex` = -1000,
     `bit` = 2,
-    `name1` = 'Death Speaker Jargba',
-    `nameFlags` = 16712190;
+    `name_1` = 'Death Speaker Jargba',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1006;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1006;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1006,
-    `mapId` = 47,
+    `id` = 1006,
+    `map_id` = 47,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Overlord Ramtusk',
-    `nameFlags` = 16712190;
+    `name_1` = 'Overlord Ramtusk',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1007;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1007;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1007,
-    `mapId` = 47,
+    `id` = 1007,
+    `map_id` = 47,
     `difficulty` = 1,
     `orderIndex` = 3500,
     `bit` = 5,
-    `name1` = 'Agathelos the Raging',
-    `nameFlags` = 16712190;
+    `name_1` = 'Agathelos the Raging',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1008;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1008;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1008,
-    `mapId` = 47,
+    `id` = 1008,
+    `map_id` = 47,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Charlga Razorflank',
-    `nameFlags` = 16712190;
+    `name_1` = 'Charlga Razorflank',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1009;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1009;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1009,
-    `mapId` = 129,
+    `id` = 1009,
+    `map_id` = 129,
     `difficulty` = 1,
-    `name1` = 'Tuten''kash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tuten''kash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1010;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1010;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1010,
-    `mapId` = 129,
-    `difficulty` = 1,
-    `orderIndex` = 1000,
-    `bit` = 1,
-    `name1` = 'Mordresh Fire Eye',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1011;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1011,
-    `mapId` = 129,
-    `difficulty` = 1,
-    `orderIndex` = 2000,
-    `bit` = 2,
-    `name1` = 'Glutton',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1012;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1012,
-    `mapId` = 129,
-    `difficulty` = 1,
-    `orderIndex` = 3000,
-    `bit` = 3,
-    `name1` = 'Amnennar the Coldbringer',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1013;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1013,
-    `mapId` = 43,
-    `difficulty` = 1,
-    `name1` = 'Lady Anacondra',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1014;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1014,
-    `mapId` = 43,
+    `id` = 1010,
+    `map_id` = 129,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lord Cobrahn',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mordresh Fire Eye',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1015;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1011;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1015,
-    `mapId` = 43,
+    `id` = 1011,
+    `map_id` = 129,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Kresh',
-    `nameFlags` = 16712190;
+    `name_1` = 'Glutton',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1016;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1012;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1016,
-    `mapId` = 43,
+    `id` = 1012,
+    `map_id` = 129,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Lord Pythas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Amnennar the Coldbringer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1017;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1013;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1017,
-    `mapId` = 43,
+    `id` = 1013,
+    `map_id` = 43,
+    `difficulty` = 1,
+    `name_1` = 'Lady Anacondra',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1014;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1014,
+    `map_id` = 43,
+    `difficulty` = 1,
+    `orderIndex` = 1000,
+    `bit` = 1,
+    `name_1` = 'Lord Cobrahn',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1015;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1015,
+    `map_id` = 43,
+    `difficulty` = 1,
+    `orderIndex` = 2000,
+    `bit` = 2,
+    `name_1` = 'Kresh',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1016;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1016,
+    `map_id` = 43,
+    `difficulty` = 1,
+    `orderIndex` = 3000,
+    `bit` = 3,
+    `name_1` = 'Lord Pythas',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1017;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1017,
+    `map_id` = 43,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Skum',
-    `nameFlags` = 16712190;
+    `name_1` = 'Skum',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1018;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1018;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1018,
-    `mapId` = 43,
+    `id` = 1018,
+    `map_id` = 43,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Lord Serpentis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Serpentis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1019;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1019;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1019,
-    `mapId` = 43,
+    `id` = 1019,
+    `map_id` = 43,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Verdan the Everliving',
-    `nameFlags` = 16712190;
+    `name_1` = 'Verdan the Everliving',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1020;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1020;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1020,
-    `mapId` = 43,
+    `id` = 1020,
+    `map_id` = 43,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Mutanus the Devourer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mutanus the Devourer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1021;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1021;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1021,
-    `mapId` = 389,
+    `id` = 1021,
+    `map_id` = 389,
     `difficulty` = 1,
-    `name1` = 'Oggleflint',
-    `nameFlags` = 16712190;
+    `name_1` = 'Oggleflint',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1022;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1022;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1022,
-    `mapId` = 389,
+    `id` = 1022,
+    `map_id` = 389,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Taragaman the Hungerer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Taragaman the Hungerer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1023;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1023;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1023,
-    `mapId` = 389,
+    `id` = 1023,
+    `map_id` = 389,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Jergosh the Invoker',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jergosh the Invoker',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1024;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1024;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1024,
-    `mapId` = 389,
+    `id` = 1024,
+    `map_id` = 389,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Bazzalan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bazzalan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1025;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1025;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1025,
-    `mapId` = 90,
+    `id` = 1025,
+    `map_id` = 90,
     `difficulty` = 2,
     `orderIndex` = 2500,
     `bit` = 1,
-    `name1` = 'Viscous Fallout',
-    `nameFlags` = 16712190;
+    `name_1` = 'Viscous Fallout',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1026;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1026;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1026,
-    `mapId` = 90,
+    `id` = 1026,
+    `map_id` = 90,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Grubbis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Grubbis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1027;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1027;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1027,
-    `mapId` = 90,
+    `id` = 1027,
+    `map_id` = 90,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Electrocutioner 6000',
-    `nameFlags` = 16712190;
+    `name_1` = 'Electrocutioner 6000',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1028;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1028;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1028,
-    `mapId` = 90,
+    `id` = 1028,
+    `map_id` = 90,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Crowd Pummeler 9-60',
-    `nameFlags` = 16712190;
+    `name_1` = 'Crowd Pummeler 9-60',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1029;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1029;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1029,
-    `mapId` = 90,
+    `id` = 1029,
+    `map_id` = 90,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Mekgineer Thermaplugg',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mekgineer Thermaplugg',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1030;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1030;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1030,
-    `mapId` = 90,
+    `id` = 1030,
+    `map_id` = 90,
     `difficulty` = 1,
     `orderIndex` = 2500,
     `bit` = 1,
-    `name1` = 'Viscous Fallout',
-    `nameFlags` = 16712190;
+    `name_1` = 'Viscous Fallout',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1031;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1031;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1031,
-    `mapId` = 90,
+    `id` = 1031,
+    `map_id` = 90,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Grubbis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Grubbis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1032;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1032;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1032,
-    `mapId` = 90,
+    `id` = 1032,
+    `map_id` = 90,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Electrocutioner 6000',
-    `nameFlags` = 16712190;
+    `name_1` = 'Electrocutioner 6000',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1033;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1033;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1033,
-    `mapId` = 90,
+    `id` = 1033,
+    `map_id` = 90,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Crowd Pummeler 9-60',
-    `nameFlags` = 16712190;
+    `name_1` = 'Crowd Pummeler 9-60',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1034;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1034;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1034,
-    `mapId` = 90,
+    `id` = 1034,
+    `map_id` = 90,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Mekgineer Thermaplugg',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mekgineer Thermaplugg',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1035;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1035;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1035,
-    `mapId` = 289,
+    `id` = 1035,
+    `map_id` = 289,
     `difficulty` = 1,
-    `name1` = 'Kirtonos the Herald',
-    `nameFlags` = 16712190;
+    `name_1` = 'Kirtonos the Herald',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1036;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1036;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1036,
-    `mapId` = 289,
+    `id` = 1036,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Jandice Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jandice Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1037;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1037;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1037,
-    `mapId` = 289,
+    `id` = 1037,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Rattlegore',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rattlegore',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1038;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1038;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1038,
-    `mapId` = 289,
+    `id` = 1038,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Marduk Blackpool',
-    `nameFlags` = 16712190;
+    `name_1` = 'Marduk Blackpool',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1039;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1039;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1039,
-    `mapId` = 289,
+    `id` = 1039,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Vectus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Vectus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1040;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1040;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1040,
-    `mapId` = 289,
+    `id` = 1040,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Ras Frostwhisper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ras Frostwhisper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1041;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1041;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1041,
-    `mapId` = 289,
+    `id` = 1041,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Instructor Malicia',
-    `nameFlags` = 16712190;
+    `name_1` = 'Instructor Malicia',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1042;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1042;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1042,
-    `mapId` = 289,
+    `id` = 1042,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Doctor Theolen Krastinov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Doctor Theolen Krastinov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1043;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1043;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1043,
-    `mapId` = 289,
+    `id` = 1043,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Lorekeeper Polkelt',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lorekeeper Polkelt',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1044;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1044;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1044,
-    `mapId` = 289,
+    `id` = 1044,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'The Ravenian',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Ravenian',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1045;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1045;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1045,
-    `mapId` = 289,
+    `id` = 1045,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Lord Alexei Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Alexei Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1046;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1046;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1046,
-    `mapId` = 289,
+    `id` = 1046,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Lady Illucia Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lady Illucia Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1047;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1047;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1047,
-    `mapId` = 289,
+    `id` = 1047,
+    `map_id` = 289,
     `difficulty` = 1,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Darkmaster Gandling',
-    `nameFlags` = 16712190;
+    `name_1` = 'Darkmaster Gandling',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1048;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1048;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1048,
-    `mapId` = 289,
+    `id` = 1048,
+    `map_id` = 289,
     `difficulty` = 2,
-    `name1` = 'Kirtonos the Herald',
-    `nameFlags` = 16712190;
+    `name_1` = 'Kirtonos the Herald',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1049;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1049;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1049,
-    `mapId` = 289,
+    `id` = 1049,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Jandice Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jandice Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1050;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1050;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1050,
-    `mapId` = 289,
+    `id` = 1050,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Rattlegore',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rattlegore',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1051;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1051;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1051,
-    `mapId` = 289,
+    `id` = 1051,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Marduk Blackpool',
-    `nameFlags` = 16712190;
+    `name_1` = 'Marduk Blackpool',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1052;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1052;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1052,
-    `mapId` = 289,
+    `id` = 1052,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Vectus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Vectus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1053;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1053;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1053,
-    `mapId` = 289,
+    `id` = 1053,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Ras Frostwhisper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ras Frostwhisper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1054;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1054;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1054,
-    `mapId` = 289,
+    `id` = 1054,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Instructor Malicia',
-    `nameFlags` = 16712190;
+    `name_1` = 'Instructor Malicia',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1055;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1055;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1055,
-    `mapId` = 289,
+    `id` = 1055,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Doctor Theolen Krastinov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Doctor Theolen Krastinov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1056;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1056;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1056,
-    `mapId` = 289,
+    `id` = 1056,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Lorekeeper Polkelt',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lorekeeper Polkelt',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1057;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1057;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1057,
-    `mapId` = 289,
+    `id` = 1057,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'The Ravenian',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Ravenian',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1058;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1058;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1058,
-    `mapId` = 289,
+    `id` = 1058,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Lord Alexei Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Alexei Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1059;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1059;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1059,
-    `mapId` = 289,
+    `id` = 1059,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Lady Illucia Barov',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lady Illucia Barov',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1060;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1060;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1060,
-    `mapId` = 289,
+    `id` = 1060,
+    `map_id` = 289,
     `difficulty` = 2,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Darkmaster Gandling',
-    `nameFlags` = 16712190;
+    `name_1` = 'Darkmaster Gandling',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1061;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1061;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1061,
-    `mapId` = 230,
+    `id` = 1061,
+    `map_id` = 230,
     `difficulty` = 1,
-    `name1` = 'High Interrogator Gerstahn',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Interrogator Gerstahn',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1062;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1062;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1062,
-    `mapId` = 230,
+    `id` = 1062,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lord Roccor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Roccor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1063;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1063;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1063,
-    `mapId` = 230,
+    `id` = 1063,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Houndmaster Grebmar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Houndmaster Grebmar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1064;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1064;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1064,
-    `mapId` = 230,
+    `id` = 1064,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Ring of Law',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ring of Law',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1065;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1065;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1065,
-    `mapId` = 230,
+    `id` = 1065,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Pyromancer Loregrain',
-    `nameFlags` = 16712190;
+    `name_1` = 'Pyromancer Loregrain',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1066;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1066;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1066,
-    `mapId` = 230,
+    `id` = 1066,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Lord Incendius',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Incendius',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1067;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1067;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1067,
-    `mapId` = 230,
+    `id` = 1067,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Warder Stilgiss',
-    `nameFlags` = 16712190;
+    `name_1` = 'Warder Stilgiss',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1068;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1068;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1068,
-    `mapId` = 230,
+    `id` = 1068,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Fineous Darkvire',
-    `nameFlags` = 16712190;
+    `name_1` = 'Fineous Darkvire',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1069;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1069;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1069,
-    `mapId` = 230,
+    `id` = 1069,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Bael''Gar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bael''Gar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1070;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1070;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1070,
-    `mapId` = 230,
+    `id` = 1070,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'General Angerforge',
-    `nameFlags` = 16712190;
+    `name_1` = 'General Angerforge',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1071;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1071;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1071,
-    `mapId` = 230,
+    `id` = 1071,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Golem Lord Argelmach',
-    `nameFlags` = 16712190;
+    `name_1` = 'Golem Lord Argelmach',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1072;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1072;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1072,
-    `mapId` = 230,
+    `id` = 1072,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Hurley Blackbreath',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hurley Blackbreath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1073;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1073;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1073,
-    `mapId` = 230,
+    `id` = 1073,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Phalanx',
-    `nameFlags` = 16712190;
+    `name_1` = 'Phalanx',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1074;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1074;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1074,
-    `mapId` = 230,
+    `id` = 1074,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 13000,
     `bit` = 13,
-    `name1` = 'Ribbly Screwspigot',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ribbly Screwspigot',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1075;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1075;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1075,
-    `mapId` = 230,
+    `id` = 1075,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 14000,
     `bit` = 14,
-    `name1` = 'Plugger Spazzring',
-    `nameFlags` = 16712190;
+    `name_1` = 'Plugger Spazzring',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1076;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1076;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1076,
-    `mapId` = 230,
+    `id` = 1076,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 15000,
     `bit` = 15,
-    `name1` = 'Ambassador Flamelash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ambassador Flamelash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1077;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1077;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1077,
-    `mapId` = 230,
+    `id` = 1077,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 16000,
     `bit` = 16,
-    `name1` = 'The Seven',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Seven',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1078;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1078;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1078,
-    `mapId` = 230,
+    `id` = 1078,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 17000,
     `bit` = 17,
-    `name1` = 'Magmus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magmus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1079;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1079;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1079,
-    `mapId` = 230,
+    `id` = 1079,
+    `map_id` = 230,
     `difficulty` = 1,
     `orderIndex` = 18000,
     `bit` = 18,
-    `name1` = 'Emperor Dagran Thaurissan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Emperor Dagran Thaurissan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1080;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1080;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1080,
-    `mapId` = 230,
+    `id` = 1080,
+    `map_id` = 230,
     `difficulty` = 2,
-    `name1` = 'High Interrogator Gerstahn',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Interrogator Gerstahn',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1081;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1081;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1081,
-    `mapId` = 230,
+    `id` = 1081,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lord Roccor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Roccor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1082;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1082;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1082,
-    `mapId` = 230,
+    `id` = 1082,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Houndmaster Grebmar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Houndmaster Grebmar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1083;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1083;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1083,
-    `mapId` = 230,
+    `id` = 1083,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Ring of Law',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ring of Law',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1084;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1084;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1084,
-    `mapId` = 230,
+    `id` = 1084,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Pyromancer Loregrain',
-    `nameFlags` = 16712190;
+    `name_1` = 'Pyromancer Loregrain',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1085;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1085;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1085,
-    `mapId` = 230,
+    `id` = 1085,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Lord Incendius',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Incendius',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1086;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1086;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1086,
-    `mapId` = 230,
+    `id` = 1086,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Warder Stilgiss',
-    `nameFlags` = 16712190;
+    `name_1` = 'Warder Stilgiss',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1087;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1087;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1087,
-    `mapId` = 230,
+    `id` = 1087,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Fineous Darkvire',
-    `nameFlags` = 16712190;
+    `name_1` = 'Fineous Darkvire',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1088;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1088;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1088,
-    `mapId` = 230,
+    `id` = 1088,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Bael''Gar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bael''Gar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1089;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1089;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1089,
-    `mapId` = 230,
+    `id` = 1089,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'General Angerforge',
-    `nameFlags` = 16712190;
+    `name_1` = 'General Angerforge',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1090;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1090;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1090,
-    `mapId` = 230,
+    `id` = 1090,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 18000,
     `bit` = 18,
-    `name1` = 'Emperor Dagran Thaurissan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Emperor Dagran Thaurissan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1091;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1091;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1091,
-    `mapId` = 230,
+    `id` = 1091,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 17000,
     `bit` = 17,
-    `name1` = 'Magmus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magmus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1092;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1092;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1092,
-    `mapId` = 230,
+    `id` = 1092,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 16000,
     `bit` = 16,
-    `name1` = 'The Seven',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Seven',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1093;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1093;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1093,
-    `mapId` = 230,
+    `id` = 1093,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 15000,
     `bit` = 15,
-    `name1` = 'Ambassador Flamelash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ambassador Flamelash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1094;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1094;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1094,
-    `mapId` = 230,
+    `id` = 1094,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 14000,
     `bit` = 14,
-    `name1` = 'Plugger Spazzring',
-    `nameFlags` = 16712190;
+    `name_1` = 'Plugger Spazzring',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1095;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1095;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1095,
-    `mapId` = 230,
+    `id` = 1095,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 13000,
     `bit` = 13,
-    `name1` = 'Ribbly Screwspigot',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ribbly Screwspigot',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1096;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1096;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1096,
-    `mapId` = 230,
+    `id` = 1096,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Phalanx',
-    `nameFlags` = 16712190;
+    `name_1` = 'Phalanx',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1097;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1097;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1097,
-    `mapId` = 230,
+    `id` = 1097,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Hurley Blackbreath',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hurley Blackbreath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1098;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1098;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1098,
-    `mapId` = 230,
+    `id` = 1098,
+    `map_id` = 230,
     `difficulty` = 2,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Golem Lord Argelmach',
-    `nameFlags` = 16712190;
+    `name_1` = 'Golem Lord Argelmach',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1099;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1099;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1099,
-    `mapId` = 36,
+    `id` = 1099,
+    `map_id` = 36,
     `difficulty` = 2,
-    `name1` = 'Rhahk''zor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rhahk''zor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1100;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1100;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1100,
-    `mapId` = 36,
+    `id` = 1100,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 500,
     `bit` = 1,
-    `name1` = 'Sneed',
-    `nameFlags` = 16712190;
+    `name_1` = 'Sneed',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1101;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1101;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1101,
-    `mapId` = 36,
+    `id` = 1101,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 750,
     `bit` = 2,
-    `name1` = 'Gilnid',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gilnid',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1102;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1102;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1102,
-    `mapId` = 36,
+    `id` = 1102,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 875,
     `bit` = 3,
-    `name1` = 'Mr. Smite',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mr. Smite',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1103;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1103;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1103,
-    `mapId` = 36,
+    `id` = 1103,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 937,
     `bit` = 4,
-    `name1` = 'Cookie',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cookie',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1104;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1104;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1104,
-    `mapId` = 36,
+    `id` = 1104,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 968,
     `bit` = 5,
-    `name1` = 'Captain Greenskin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Captain Greenskin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1105;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1105;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1105,
-    `mapId` = 36,
+    `id` = 1105,
+    `map_id` = 36,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 6,
-    `name1` = 'Edwin VanCleef',
-    `nameFlags` = 16712190;
+    `name_1` = 'Edwin VanCleef',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1106;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1106;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1106,
-    `mapId` = 36,
+    `id` = 1106,
+    `map_id` = 36,
     `difficulty` = 1,
-    `name1` = 'Rhahk''zor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rhahk''zor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1107;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1107;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1107,
-    `mapId` = 36,
+    `id` = 1107,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 500,
     `bit` = 1,
-    `name1` = 'Sneed',
-    `nameFlags` = 16712190;
+    `name_1` = 'Sneed',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1108;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1108;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1108,
-    `mapId` = 36,
+    `id` = 1108,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 750,
     `bit` = 2,
-    `name1` = 'Gilnid',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gilnid',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1109;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1109;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1109,
-    `mapId` = 36,
+    `id` = 1109,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 875,
     `bit` = 3,
-    `name1` = 'Mr. Smite',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mr. Smite',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1110;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1110;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1110,
-    `mapId` = 36,
+    `id` = 1110,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 937,
     `bit` = 4,
-    `name1` = 'Cookie',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cookie',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1111;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1111;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1111,
-    `mapId` = 36,
+    `id` = 1111,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 968,
     `bit` = 5,
-    `name1` = 'Captain Greenskin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Captain Greenskin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1112;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1112;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1112,
-    `mapId` = 36,
+    `id` = 1112,
+    `map_id` = 36,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 6,
-    `name1` = 'Edwin VanCleef',
-    `nameFlags` = 16712190;
+    `name_1` = 'Edwin VanCleef',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1113;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1113;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1113,
-    `mapId` = 34,
+    `id` = 1113,
+    `map_id` = 34,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Dextren Ward',
-    `nameFlags` = 16712190;
+    `name_1` = 'Dextren Ward',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1114;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1114;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1114,
-    `mapId` = 34,
+    `id` = 1114,
+    `map_id` = 34,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 3,
-    `name1` = 'Bazil Thredd',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bazil Thredd',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1115;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1115;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1115,
-    `mapId` = 34,
+    `id` = 1115,
+    `map_id` = 34,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Hamhock',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hamhock',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1116;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1116;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1116,
-    `mapId` = 34,
+    `id` = 1116,
+    `map_id` = 34,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Kam Deepfury',
-    `nameFlags` = 16712190;
+    `name_1` = 'Kam Deepfury',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1117;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1117;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1117,
-    `mapId` = 34,
+    `id` = 1117,
+    `map_id` = 34,
     `difficulty` = 2,
-    `name1` = 'Targorr the Dread',
-    `nameFlags` = 16712190;
+    `name_1` = 'Targorr the Dread',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1118;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1118;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1118,
-    `mapId` = 33,
+    `id` = 1118,
+    `map_id` = 33,
     `difficulty` = 2,
-    `name1` = 'Rethilgore',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rethilgore',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1119;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1119;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1119,
-    `mapId` = 33,
+    `id` = 1119,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Razorclaw the Butcher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Razorclaw the Butcher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1120;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1120;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1120,
-    `mapId` = 33,
+    `id` = 1120,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Baron Silverlaine',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baron Silverlaine',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1121;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1121;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1121,
-    `mapId` = 33,
+    `id` = 1121,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Commander Springvale',
-    `nameFlags` = 16712190;
+    `name_1` = 'Commander Springvale',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1122;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1122;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1122,
-    `mapId` = 33,
+    `id` = 1122,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Odo the Blindwatcher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Odo the Blindwatcher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1123;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1123;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1123,
-    `mapId` = 33,
+    `id` = 1123,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Fenrus the Devourer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Fenrus the Devourer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1124;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1124;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1124,
-    `mapId` = 33,
+    `id` = 1124,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Wolf Master Nandos',
-    `nameFlags` = 16712190;
+    `name_1` = 'Wolf Master Nandos',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1125;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1125;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1125,
-    `mapId` = 33,
+    `id` = 1125,
+    `map_id` = 33,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Archmage Arugal',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archmage Arugal',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1126;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1126;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1126,
-    `mapId` = 47,
+    `id` = 1126,
+    `map_id` = 47,
     `difficulty` = 2,
-    `name1` = 'Roogug',
-    `nameFlags` = 16712190;
+    `name_1` = 'Roogug',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1127;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1127;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1127,
-    `mapId` = 47,
+    `id` = 1127,
+    `map_id` = 47,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Aggem Thorncurse',
-    `nameFlags` = 16712190;
+    `name_1` = 'Aggem Thorncurse',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1128;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1128;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1128,
-    `mapId` = 47,
+    `id` = 1128,
+    `map_id` = 47,
     `difficulty` = 2,
     `orderIndex` = -1000,
     `bit` = 2,
-    `name1` = 'Death Speaker Jargba',
-    `nameFlags` = 16712190;
+    `name_1` = 'Death Speaker Jargba',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1129;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1129;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1129,
-    `mapId` = 47,
+    `id` = 1129,
+    `map_id` = 47,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Overlord Ramtusk',
-    `nameFlags` = 16712190;
+    `name_1` = 'Overlord Ramtusk',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1130;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1130;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1130,
-    `mapId` = 47,
+    `id` = 1130,
+    `map_id` = 47,
     `difficulty` = 2,
     `orderIndex` = 3500,
     `bit` = 5,
-    `name1` = 'Agathelos the Raging',
-    `nameFlags` = 16712190;
+    `name_1` = 'Agathelos the Raging',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1131;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1131;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1131,
-    `mapId` = 47,
+    `id` = 1131,
+    `map_id` = 47,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Charlga Razorflank',
-    `nameFlags` = 16712190;
+    `name_1` = 'Charlga Razorflank',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1132;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1132;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1132,
-    `mapId` = 129,
+    `id` = 1132,
+    `map_id` = 129,
     `difficulty` = 2,
-    `name1` = 'Tuten''kash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tuten''kash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1133;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1133;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1133,
-    `mapId` = 129,
-    `difficulty` = 2,
-    `orderIndex` = 1000,
-    `bit` = 1,
-    `name1` = 'Mordresh Fire Eye',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1134;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1134,
-    `mapId` = 129,
-    `difficulty` = 2,
-    `orderIndex` = 2000,
-    `bit` = 2,
-    `name1` = 'Glutton',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1135;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1135,
-    `mapId` = 129,
-    `difficulty` = 2,
-    `orderIndex` = 3000,
-    `bit` = 3,
-    `name1` = 'Amnennar the Coldbringer',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1136;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1136,
-    `mapId` = 43,
-    `difficulty` = 2,
-    `name1` = 'Lady Anacondra',
-    `nameFlags` = 16712190;
-
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1137;
-INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1137,
-    `mapId` = 43,
+    `id` = 1133,
+    `map_id` = 129,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lord Cobrahn',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mordresh Fire Eye',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1138;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1134;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1138,
-    `mapId` = 43,
+    `id` = 1134,
+    `map_id` = 129,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Kresh',
-    `nameFlags` = 16712190;
+    `name_1` = 'Glutton',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1139;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1135;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1139,
-    `mapId` = 43,
+    `id` = 1135,
+    `map_id` = 129,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Lord Pythas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Amnennar the Coldbringer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1140;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1136;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1140,
-    `mapId` = 43,
+    `id` = 1136,
+    `map_id` = 43,
+    `difficulty` = 2,
+    `name_1` = 'Lady Anacondra',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1137;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1137,
+    `map_id` = 43,
+    `difficulty` = 2,
+    `orderIndex` = 1000,
+    `bit` = 1,
+    `name_1` = 'Lord Cobrahn',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1138;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1138,
+    `map_id` = 43,
+    `difficulty` = 2,
+    `orderIndex` = 2000,
+    `bit` = 2,
+    `name_1` = 'Kresh',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1139;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1139,
+    `map_id` = 43,
+    `difficulty` = 2,
+    `orderIndex` = 3000,
+    `bit` = 3,
+    `name_1` = 'Lord Pythas',
+    `name_flags` = 16712190;
+
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1140;
+INSERT INTO `dbc`.`dungeonencounter` SET 
+    `id` = 1140,
+    `map_id` = 43,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Skum',
-    `nameFlags` = 16712190;
+    `name_1` = 'Skum',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1141;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1141;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1141,
-    `mapId` = 43,
+    `id` = 1141,
+    `map_id` = 43,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Lord Serpentis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Serpentis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1142;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1142;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1142,
-    `mapId` = 43,
+    `id` = 1142,
+    `map_id` = 43,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Verdan the Everliving',
-    `nameFlags` = 16712190;
+    `name_1` = 'Verdan the Everliving',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1143;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1143;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1143,
-    `mapId` = 43,
+    `id` = 1143,
+    `map_id` = 43,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Mutanus the Devourer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mutanus the Devourer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1149;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1149;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1149,
-    `mapId` = 389,
+    `id` = 1149,
+    `map_id` = 389,
     `difficulty` = 2,
-    `name1` = 'Oggleflint',
-    `nameFlags` = 16712190;
+    `name_1` = 'Oggleflint',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1150;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1150;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1150,
-    `mapId` = 389,
+    `id` = 1150,
+    `map_id` = 389,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Taragaman the Hungerer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Taragaman the Hungerer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1151;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1151;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1151,
-    `mapId` = 389,
+    `id` = 1151,
+    `map_id` = 389,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Jergosh the Invoker',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jergosh the Invoker',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1152;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1152;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1152,
-    `mapId` = 389,
+    `id` = 1152,
+    `map_id` = 389,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Bazzalan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bazzalan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1153;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1153;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1153,
-    `mapId` = 48,
+    `id` = 1153,
+    `map_id` = 48,
     `difficulty` = 1,
-    `name1` = 'Ghamoo-ra',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ghamoo-ra',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1154;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1154;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1154,
-    `mapId` = 48,
+    `id` = 1154,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lady Sarevess',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lady Sarevess',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1155;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1155;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1155,
-    `mapId` = 48,
+    `id` = 1155,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Gelihast',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gelihast',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1156;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1156;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1156,
-    `mapId` = 48,
+    `id` = 1156,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Lorgus Jett',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lorgus Jett',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1157;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1157;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1157,
-    `mapId` = 48,
+    `id` = 1157,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Old Serra''kis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Old Serra''kis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1158;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1158;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1158,
-    `mapId` = 48,
+    `id` = 1158,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Twilight Lord Kelris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Twilight Lord Kelris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1159;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1159;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1159,
-    `mapId` = 48,
+    `id` = 1159,
+    `map_id` = 48,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Aku''mai',
-    `nameFlags` = 16712190;
+    `name_1` = 'Aku''mai',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1160;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1160;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1160,
-    `mapId` = 48,
+    `id` = 1160,
+    `map_id` = 48,
     `difficulty` = 2,
-    `name1` = 'Ghamoo-ra',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ghamoo-ra',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1161;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1161;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1161,
-    `mapId` = 48,
+    `id` = 1161,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Lady Sarevess',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lady Sarevess',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1162;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1162;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1162,
-    `mapId` = 48,
+    `id` = 1162,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Gelihast',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gelihast',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1163;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1163;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1163,
-    `mapId` = 48,
+    `id` = 1163,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Lorgus Jett',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lorgus Jett',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1164;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1164;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1164,
-    `mapId` = 48,
+    `id` = 1164,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Old Serra''kis',
-    `nameFlags` = 16712190;
+    `name_1` = 'Old Serra''kis',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1165;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1165;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1165,
-    `mapId` = 48,
+    `id` = 1165,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Twilight Lord Kelris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Twilight Lord Kelris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1166;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1166;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1166,
-    `mapId` = 48,
+    `id` = 1166,
+    `map_id` = 48,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Aku''mai',
-    `nameFlags` = 16712190;
+    `name_1` = 'Aku''mai',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1167;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1167;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1167,
-    `mapId` = 189,
+    `id` = 1167,
+    `map_id` = 189,
     `difficulty` = 1,
-    `name1` = 'Interrogator Vishas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Interrogator Vishas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1168;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1168;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1168,
-    `mapId` = 189,
+    `id` = 1168,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Bloodmage Thalnos',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bloodmage Thalnos',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1169;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1169;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1169,
-    `mapId` = 189,
+    `id` = 1169,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Houndmaster Loksey',
-    `nameFlags` = 16712190;
+    `name_1` = 'Houndmaster Loksey',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1170;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1170;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1170,
-    `mapId` = 189,
+    `id` = 1170,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Arcanist Doan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Arcanist Doan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1171;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1171;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1171,
-    `mapId` = 189,
+    `id` = 1171,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Herod',
-    `nameFlags` = 16712190;
+    `name_1` = 'Herod',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1172;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1172;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1172,
-    `mapId` = 189,
+    `id` = 1172,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'High Inquisitor Fairbanks',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Inquisitor Fairbanks',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1173;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1173;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1173,
-    `mapId` = 189,
+    `id` = 1173,
+    `map_id` = 189,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'High Inquisitor Whitemane',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Inquisitor Whitemane',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1174;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1174;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1174,
-    `mapId` = 189,
+    `id` = 1174,
+    `map_id` = 189,
     `difficulty` = 2,
-    `name1` = 'Interrogator Vishas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Interrogator Vishas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1175;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1175;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1175,
-    `mapId` = 189,
+    `id` = 1175,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Bloodmage Thalnos',
-    `nameFlags` = 16712190;
+    `name_1` = 'Bloodmage Thalnos',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1176;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1176;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1176,
-    `mapId` = 189,
+    `id` = 1176,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Houndmaster Loksey',
-    `nameFlags` = 16712190;
+    `name_1` = 'Houndmaster Loksey',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1177;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1177;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1177,
-    `mapId` = 189,
+    `id` = 1177,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Arcanist Doan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Arcanist Doan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1178;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1178;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1178,
-    `mapId` = 189,
+    `id` = 1178,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Herod',
-    `nameFlags` = 16712190;
+    `name_1` = 'Herod',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1179;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1179;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1179,
-    `mapId` = 189,
+    `id` = 1179,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'High Inquisitor Fairbanks',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Inquisitor Fairbanks',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1180;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1180;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1180,
-    `mapId` = 189,
+    `id` = 1180,
+    `map_id` = 189,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'High Inquisitor Whitemane',
-    `nameFlags` = 16712190;
+    `name_1` = 'High Inquisitor Whitemane',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1181;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1181;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1181,
-    `mapId` = 70,
+    `id` = 1181,
+    `map_id` = 70,
     `difficulty` = 1,
-    `name1` = 'Revelosh',
-    `nameFlags` = 16712190;
+    `name_1` = 'Revelosh',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1182;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1182;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1182,
-    `mapId` = 70,
+    `id` = 1182,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'The Lost Dwarves',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Lost Dwarves',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1183;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1183;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1183,
-    `mapId` = 70,
+    `id` = 1183,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Ironaya',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ironaya',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1184;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1184;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1184,
-    `mapId` = 70,
+    `id` = 1184,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Ancient Stone Keeper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ancient Stone Keeper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1185;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1185;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1185,
-    `mapId` = 70,
+    `id` = 1185,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Galgann Firehammer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Galgann Firehammer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1186;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1186;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1186,
-    `mapId` = 70,
+    `id` = 1186,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Grimlok',
-    `nameFlags` = 16712190;
+    `name_1` = 'Grimlok',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1187;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1187;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1187,
-    `mapId` = 70,
+    `id` = 1187,
+    `map_id` = 70,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Archaedas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archaedas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1188;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1188;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1188,
-    `mapId` = 70,
+    `id` = 1188,
+    `map_id` = 70,
     `difficulty` = 2,
-    `name1` = 'Revelosh',
-    `nameFlags` = 16712190;
+    `name_1` = 'Revelosh',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1189;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1189;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1189,
-    `mapId` = 70,
+    `id` = 1189,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'The Lost Dwarves',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Lost Dwarves',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1190;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1190;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1190,
-    `mapId` = 70,
+    `id` = 1190,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Ironaya',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ironaya',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1191;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1191;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1191,
-    `mapId` = 70,
+    `id` = 1191,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Ancient Stone Keeper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ancient Stone Keeper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1192;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1192;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1192,
-    `mapId` = 70,
+    `id` = 1192,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Galgann Firehammer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Galgann Firehammer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1193;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1193;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1193,
-    `mapId` = 70,
+    `id` = 1193,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Grimlok',
-    `nameFlags` = 16712190;
+    `name_1` = 'Grimlok',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1194;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1194;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1194,
-    `mapId` = 70,
+    `id` = 1194,
+    `map_id` = 70,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Archaedas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archaedas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1195;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1195;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1195,
-    `mapId` = 209,
+    `id` = 1195,
+    `map_id` = 209,
     `difficulty` = 1,
-    `name1` = 'Hydromancer Velratha',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hydromancer Velratha',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1196;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1196;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1196,
-    `mapId` = 209,
+    `id` = 1196,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Ghaz''rilla',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ghaz''rilla',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1197;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1197;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1197,
-    `mapId` = 209,
+    `id` = 1197,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Antu''sul',
-    `nameFlags` = 16712190;
+    `name_1` = 'Antu''sul',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1198;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1198;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1198,
-    `mapId` = 209,
+    `id` = 1198,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Theka the Martyr',
-    `nameFlags` = 16712190;
+    `name_1` = 'Theka the Martyr',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1199;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1199;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1199,
-    `mapId` = 209,
+    `id` = 1199,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Witch Doctor Zum''rah',
-    `nameFlags` = 16712190;
+    `name_1` = 'Witch Doctor Zum''rah',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1200;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1200;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1200,
-    `mapId` = 209,
+    `id` = 1200,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Nekrum Gutchewer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Nekrum Gutchewer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1201;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1201;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1201,
-    `mapId` = 209,
+    `id` = 1201,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Shadowpriest Sezz''ziz',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shadowpriest Sezz''ziz',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1202;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1202;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1202,
-    `mapId` = 209,
+    `id` = 1202,
+    `map_id` = 209,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Chief Ukorz Sandscalp',
-    `nameFlags` = 16712190;
+    `name_1` = 'Chief Ukorz Sandscalp',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1203;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1203;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1203,
-    `mapId` = 209,
+    `id` = 1203,
+    `map_id` = 209,
     `difficulty` = 2,
-    `name1` = 'Hydromancer Velratha',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hydromancer Velratha',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1204;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1204;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1204,
-    `mapId` = 209,
+    `id` = 1204,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Ghaz''rilla',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ghaz''rilla',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1205;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1205;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1205,
-    `mapId` = 209,
+    `id` = 1205,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Antu''sul',
-    `nameFlags` = 16712190;
+    `name_1` = 'Antu''sul',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1206;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1206;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1206,
-    `mapId` = 209,
+    `id` = 1206,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Theka the Martyr',
-    `nameFlags` = 16712190;
+    `name_1` = 'Theka the Martyr',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1207;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1207;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1207,
-    `mapId` = 209,
+    `id` = 1207,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Witch Doctor Zum''rah',
-    `nameFlags` = 16712190;
+    `name_1` = 'Witch Doctor Zum''rah',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1208;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1208;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1208,
-    `mapId` = 209,
+    `id` = 1208,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Nekrum Gutchewer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Nekrum Gutchewer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1209;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1209;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1209,
-    `mapId` = 209,
+    `id` = 1209,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Shadowpriest Sezz''ziz',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shadowpriest Sezz''ziz',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1210;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1210;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1210,
-    `mapId` = 209,
+    `id` = 1210,
+    `map_id` = 209,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Chief Ukorz Sandscalp',
-    `nameFlags` = 16712190;
+    `name_1` = 'Chief Ukorz Sandscalp',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1211;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1211;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1211,
-    `mapId` = 349,
+    `id` = 1211,
+    `map_id` = 349,
     `difficulty` = 1,
-    `name1` = 'Noxxion',
-    `nameFlags` = 16712190;
+    `name_1` = 'Noxxion',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1212;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1212;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1212,
-    `mapId` = 349,
+    `id` = 1212,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Razorlash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Razorlash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1213;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1213;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1213,
-    `mapId` = 349,
+    `id` = 1213,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Lord Vyletongue',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Vyletongue',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1214;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1214;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1214,
-    `mapId` = 349,
+    `id` = 1214,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Celebras the Cursed',
-    `nameFlags` = 16712190;
+    `name_1` = 'Celebras the Cursed',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1215;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1215;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1215,
-    `mapId` = 349,
+    `id` = 1215,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Landslide',
-    `nameFlags` = 16712190;
+    `name_1` = 'Landslide',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1216;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1216;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1216,
-    `mapId` = 349,
+    `id` = 1216,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Tinkerer Gizlock',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tinkerer Gizlock',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1217;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1217;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1217,
-    `mapId` = 349,
+    `id` = 1217,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Rotgrip',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rotgrip',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1218;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1218;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1218,
-    `mapId` = 349,
+    `id` = 1218,
+    `map_id` = 349,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Princess Theradras',
-    `nameFlags` = 16712190;
+    `name_1` = 'Princess Theradras',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1219;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1219;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1219,
-    `mapId` = 349,
+    `id` = 1219,
+    `map_id` = 349,
     `difficulty` = 2,
-    `name1` = 'Noxxion',
-    `nameFlags` = 16712190;
+    `name_1` = 'Noxxion',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1220;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1220;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1220,
-    `mapId` = 349,
+    `id` = 1220,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Razorlash',
-    `nameFlags` = 16712190;
+    `name_1` = 'Razorlash',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1221;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1221;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1221,
-    `mapId` = 349,
+    `id` = 1221,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Lord Vyletongue',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lord Vyletongue',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1223;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1223;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1223,
-    `mapId` = 349,
+    `id` = 1223,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Celebras the Cursed',
-    `nameFlags` = 16712190;
+    `name_1` = 'Celebras the Cursed',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1224;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1224;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1224,
-    `mapId` = 349,
+    `id` = 1224,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Landslide',
-    `nameFlags` = 16712190;
+    `name_1` = 'Landslide',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1225;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1225;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1225,
-    `mapId` = 349,
+    `id` = 1225,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Tinkerer Gizlock',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tinkerer Gizlock',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1226;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1226;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1226,
-    `mapId` = 349,
+    `id` = 1226,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Rotgrip',
-    `nameFlags` = 16712190;
+    `name_1` = 'Rotgrip',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1227;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1227;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1227,
-    `mapId` = 349,
+    `id` = 1227,
+    `map_id` = 349,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Princess Theradras',
-    `nameFlags` = 16712190;
+    `name_1` = 'Princess Theradras',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1228;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1228;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1228,
-    `mapId` = 109,
+    `id` = 1228,
+    `map_id` = 109,
     `difficulty` = 1,
-    `name1` = 'Atal''alarion',
-    `nameFlags` = 16712190;
+    `name_1` = 'Atal''alarion',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1229;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1229;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1229,
-    `mapId` = 109,
+    `id` = 1229,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Dreamscythe',
-    `nameFlags` = 16712190;
+    `name_1` = 'Dreamscythe',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1230;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1230;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1230,
-    `mapId` = 109,
+    `id` = 1230,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Weaver',
-    `nameFlags` = 16712190;
+    `name_1` = 'Weaver',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1231;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1231;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1231,
-    `mapId` = 109,
+    `id` = 1231,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 500,
     `bit` = 3,
-    `name1` = 'Jammal''an the Prophet',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jammal''an the Prophet',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1232;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1232;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1232,
-    `mapId` = 109,
+    `id` = 1232,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Morphaz',
-    `nameFlags` = 16712190;
+    `name_1` = 'Morphaz',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1233;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1233;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1233,
-    `mapId` = 109,
+    `id` = 1233,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Hazzas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hazzas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1234;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1234;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1234,
-    `mapId` = 109,
+    `id` = 1234,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Avatar of Hakkar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Avatar of Hakkar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1235;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1235;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1235,
-    `mapId` = 109,
+    `id` = 1235,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Shade of Eranikus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shade of Eranikus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1236;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1236;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1236,
-    `mapId` = 109,
+    `id` = 1236,
+    `map_id` = 109,
     `difficulty` = 2,
-    `name1` = 'Atal''alarion',
-    `nameFlags` = 16712190;
+    `name_1` = 'Atal''alarion',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1237;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1237;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1237,
-    `mapId` = 109,
+    `id` = 1237,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Dreamscythe',
-    `nameFlags` = 16712190;
+    `name_1` = 'Dreamscythe',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1238;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1238;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1238,
-    `mapId` = 109,
+    `id` = 1238,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Weaver',
-    `nameFlags` = 16712190;
+    `name_1` = 'Weaver',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1239;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1239;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1239,
-    `mapId` = 109,
+    `id` = 1239,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 500,
     `bit` = 3,
-    `name1` = 'Jammal''an the Prophet',
-    `nameFlags` = 16712190;
+    `name_1` = 'Jammal''an the Prophet',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1240;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1240;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1240,
-    `mapId` = 109,
+    `id` = 1240,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Morphaz',
-    `nameFlags` = 16712190;
+    `name_1` = 'Morphaz',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1241;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1241;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1241,
-    `mapId` = 109,
+    `id` = 1241,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Hazzas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hazzas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1242;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1242;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1242,
-    `mapId` = 109,
+    `id` = 1242,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Avatar of Hakkar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Avatar of Hakkar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1243;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1243;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1243,
-    `mapId` = 109,
+    `id` = 1243,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Shade of Eranikus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shade of Eranikus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1244;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1244;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1244,
-    `mapId` = 229,
+    `id` = 1244,
+    `map_id` = 229,
     `difficulty` = 1,
-    `name1` = 'Highlord Omokk',
-    `nameFlags` = 16712190;
+    `name_1` = 'Highlord Omokk',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1245;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1245;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1245,
-    `mapId` = 229,
+    `id` = 1245,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Shadow Hunter Vosh''gajin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shadow Hunter Vosh''gajin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1246;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1246;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1246,
-    `mapId` = 229,
+    `id` = 1246,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'War Master Voone',
-    `nameFlags` = 16712190;
+    `name_1` = 'War Master Voone',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1247;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1247;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1247,
-    `mapId` = 229,
+    `id` = 1247,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Mother Smolderweb',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mother Smolderweb',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1248;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1248;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1248,
-    `mapId` = 229,
+    `id` = 1248,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Urok Doomhowl',
-    `nameFlags` = 16712190;
+    `name_1` = 'Urok Doomhowl',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1249;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1249;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1249,
-    `mapId` = 229,
+    `id` = 1249,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Quartermaster Zigris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Quartermaster Zigris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1250;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1250;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1250,
-    `mapId` = 229,
+    `id` = 1250,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Gizrul the Slavener',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gizrul the Slavener',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1251;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1251;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1251,
-    `mapId` = 229,
+    `id` = 1251,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 5500,
     `bit` = 7,
-    `name1` = 'Halycon',
-    `nameFlags` = 16712190;
+    `name_1` = 'Halycon',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1252;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1252;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1252,
-    `mapId` = 229,
+    `id` = 1252,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Overlord Wyrmthalak',
-    `nameFlags` = 16712190;
+    `name_1` = 'Overlord Wyrmthalak',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1253;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1253;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1253,
-    `mapId` = 229,
+    `id` = 1253,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'Pyroguard Emberseer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Pyroguard Emberseer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1254;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1254;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1254,
-    `mapId` = 229,
+    `id` = 1254,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Solakar Flamewreath',
-    `nameFlags` = 16712190;
+    `name_1` = 'Solakar Flamewreath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1255;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1255;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1255,
-    `mapId` = 229,
+    `id` = 1255,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Warchief Rend Blackhand',
-    `nameFlags` = 16712190;
+    `name_1` = 'Warchief Rend Blackhand',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1256;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1256;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1256,
-    `mapId` = 229,
+    `id` = 1256,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'The Beast',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Beast',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1257;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1257;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1257,
-    `mapId` = 229,
+    `id` = 1257,
+    `map_id` = 229,
     `difficulty` = 1,
     `orderIndex` = 13000,
     `bit` = 13,
-    `name1` = 'General Drakkisath',
-    `nameFlags` = 16712190;
+    `name_1` = 'General Drakkisath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1258;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1258;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1258,
-    `mapId` = 229,
+    `id` = 1258,
+    `map_id` = 229,
     `difficulty` = 2,
-    `name1` = 'Highlord Omokk',
-    `nameFlags` = 16712190;
+    `name_1` = 'Highlord Omokk',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1259;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1259;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1259,
-    `mapId` = 229,
+    `id` = 1259,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Shadow Hunter Vosh''gajin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Shadow Hunter Vosh''gajin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1260;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1260;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1260,
-    `mapId` = 229,
+    `id` = 1260,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'War Master Voone',
-    `nameFlags` = 16712190;
+    `name_1` = 'War Master Voone',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1261;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1261;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1261,
-    `mapId` = 229,
+    `id` = 1261,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Mother Smolderweb',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mother Smolderweb',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1262;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1262;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1262,
-    `mapId` = 229,
+    `id` = 1262,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Urok Doomhowl',
-    `nameFlags` = 16712190;
+    `name_1` = 'Urok Doomhowl',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1263;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1263;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1263,
-    `mapId` = 229,
+    `id` = 1263,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Quartermaster Zigris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Quartermaster Zigris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1264;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1264;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1264,
-    `mapId` = 229,
+    `id` = 1264,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Gizrul the Slavener',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gizrul the Slavener',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1265;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1265;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1265,
-    `mapId` = 229,
+    `id` = 1265,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 5500,
     `bit` = 7,
-    `name1` = 'Halycon',
-    `nameFlags` = 16712190;
+    `name_1` = 'Halycon',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1266;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1266;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1266,
-    `mapId` = 229,
+    `id` = 1266,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Overlord Wyrmthalak',
-    `nameFlags` = 16712190;
+    `name_1` = 'Overlord Wyrmthalak',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1267;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1267;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1267,
-    `mapId` = 229,
+    `id` = 1267,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'Pyroguard Emberseer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Pyroguard Emberseer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1268;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1268;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1268,
-    `mapId` = 229,
+    `id` = 1268,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Solakar Flamewreath',
-    `nameFlags` = 16712190;
+    `name_1` = 'Solakar Flamewreath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1269;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1269;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1269,
-    `mapId` = 229,
+    `id` = 1269,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Warchief Rend Blackhand',
-    `nameFlags` = 16712190;
+    `name_1` = 'Warchief Rend Blackhand',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1270;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1270;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1270,
-    `mapId` = 229,
+    `id` = 1270,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'The Beast',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Beast',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1271;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1271;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1271,
-    `mapId` = 229,
+    `id` = 1271,
+    `map_id` = 229,
     `difficulty` = 2,
     `orderIndex` = 13000,
     `bit` = 13,
-    `name1` = 'General Drakkisath',
-    `nameFlags` = 16712190;
+    `name_1` = 'General Drakkisath',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1272;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1272;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1272,
-    `mapId` = 429,
+    `id` = 1272,
+    `map_id` = 429,
     `difficulty` = 1,
-    `name1` = 'Zevrim Thornhoof',
-    `nameFlags` = 16712190;
+    `name_1` = 'Zevrim Thornhoof',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1273;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1273;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1273,
-    `mapId` = 429,
+    `id` = 1273,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Hydrospawn',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hydrospawn',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1274;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1274;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1274,
-    `mapId` = 429,
+    `id` = 1274,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Lethtendris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lethtendris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1275;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1275;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1275,
-    `mapId` = 429,
+    `id` = 1275,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Alzzin the Wildshaper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Alzzin the Wildshaper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1276;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1276;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1276,
-    `mapId` = 429,
+    `id` = 1276,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Illyanna Ravenoak',
-    `nameFlags` = 16712190;
+    `name_1` = 'Illyanna Ravenoak',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1277;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1277;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1277,
-    `mapId` = 429,
+    `id` = 1277,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Magister Kalendris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magister Kalendris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1278;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1278;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1278,
-    `mapId` = 429,
+    `id` = 1278,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Immol''thar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Immol''thar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1279;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1279;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1279,
-    `mapId` = 429,
+    `id` = 1279,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 3500,
     `bit` = 7,
-    `name1` = 'Tendris Warpwood',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tendris Warpwood',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1280;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1280;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1280,
-    `mapId` = 429,
+    `id` = 1280,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 8,
-    `name1` = 'Prince Tortheldrin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Prince Tortheldrin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1281;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1281;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1281,
-    `mapId` = 429,
+    `id` = 1281,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 9,
-    `name1` = 'Guard Mol''dar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Mol''dar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1282;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1282;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1282,
-    `mapId` = 429,
+    `id` = 1282,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 9000,
     `bit` = 10,
-    `name1` = 'Stomper Kreeg',
-    `nameFlags` = 16712190;
+    `name_1` = 'Stomper Kreeg',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1283;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1283;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1283,
-    `mapId` = 429,
+    `id` = 1283,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 10000,
     `bit` = 11,
-    `name1` = 'Guard Fengus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Fengus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1284;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1284;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1284,
-    `mapId` = 429,
+    `id` = 1284,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 11000,
     `bit` = 12,
-    `name1` = 'Guard Slip''kik',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Slip''kik',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1285;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1285;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1285,
-    `mapId` = 429,
+    `id` = 1285,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 12000,
     `bit` = 13,
-    `name1` = 'Captain Kromcrush',
-    `nameFlags` = 16712190;
+    `name_1` = 'Captain Kromcrush',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1286;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1286;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1286,
-    `mapId` = 429,
+    `id` = 1286,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 13000,
     `bit` = 14,
-    `name1` = 'Cho''Rush the Observer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cho''Rush the Observer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1287;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1287;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1287,
-    `mapId` = 429,
+    `id` = 1287,
+    `map_id` = 429,
     `difficulty` = 1,
     `orderIndex` = 14000,
     `bit` = 15,
-    `name1` = 'King Gordok',
-    `nameFlags` = 16712190;
+    `name_1` = 'King Gordok',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1288;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1288;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1288,
-    `mapId` = 429,
+    `id` = 1288,
+    `map_id` = 429,
     `difficulty` = 2,
-    `name1` = 'Zevrim Thornhoof',
-    `nameFlags` = 16712190;
+    `name_1` = 'Zevrim Thornhoof',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1289;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1289;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1289,
-    `mapId` = 429,
+    `id` = 1289,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Hydrospawn',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hydrospawn',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1290;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1290;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1290,
-    `mapId` = 429,
+    `id` = 1290,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Lethtendris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Lethtendris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1291;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1291;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1291,
-    `mapId` = 429,
+    `id` = 1291,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Alzzin the Wildshaper',
-    `nameFlags` = 16712190;
+    `name_1` = 'Alzzin the Wildshaper',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1292;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1292;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1292,
-    `mapId` = 429,
+    `id` = 1292,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Illyanna Ravenoak',
-    `nameFlags` = 16712190;
+    `name_1` = 'Illyanna Ravenoak',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1293;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1293;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1293,
-    `mapId` = 429,
+    `id` = 1293,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Magister Kalendris',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magister Kalendris',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1294;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1294;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1294,
-    `mapId` = 429,
+    `id` = 1294,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Immol''thar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Immol''thar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1295;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1295;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1295,
-    `mapId` = 429,
+    `id` = 1295,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 3500,
     `bit` = 7,
-    `name1` = 'Tendris Warpwood',
-    `nameFlags` = 16712190;
+    `name_1` = 'Tendris Warpwood',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1296;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1296;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1296,
-    `mapId` = 429,
+    `id` = 1296,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 8,
-    `name1` = 'Prince Tortheldrin',
-    `nameFlags` = 16712190;
+    `name_1` = 'Prince Tortheldrin',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1297;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1297;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1297,
-    `mapId` = 429,
+    `id` = 1297,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 9,
-    `name1` = 'Guard Mol''dar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Mol''dar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1298;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1298;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1298,
-    `mapId` = 429,
+    `id` = 1298,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 9000,
     `bit` = 10,
-    `name1` = 'Stomper Kreeg',
-    `nameFlags` = 16712190;
+    `name_1` = 'Stomper Kreeg',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1299;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1299;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1299,
-    `mapId` = 429,
+    `id` = 1299,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 10000,
     `bit` = 11,
-    `name1` = 'Guard Fengus',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Fengus',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1300;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1300;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1300,
-    `mapId` = 429,
+    `id` = 1300,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 11000,
     `bit` = 12,
-    `name1` = 'Guard Slip''kik',
-    `nameFlags` = 16712190;
+    `name_1` = 'Guard Slip''kik',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1301;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1301;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1301,
-    `mapId` = 429,
+    `id` = 1301,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 12000,
     `bit` = 13,
-    `name1` = 'Captain Kromcrush',
-    `nameFlags` = 16712190;
+    `name_1` = 'Captain Kromcrush',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1302;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1302;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1302,
-    `mapId` = 429,
+    `id` = 1302,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 13000,
     `bit` = 14,
-    `name1` = 'Cho''Rush the Observer',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cho''Rush the Observer',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1303;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1303;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1303,
-    `mapId` = 429,
+    `id` = 1303,
+    `map_id` = 429,
     `difficulty` = 2,
     `orderIndex` = 14000,
     `bit` = 15,
-    `name1` = 'King Gordok',
-    `nameFlags` = 16712190;
+    `name_1` = 'King Gordok',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1304;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1304;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1304,
-    `mapId` = 329,
+    `id` = 1304,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 6500,
-    `name1` = 'The Unforgiven',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Unforgiven',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1305;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1305;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1305,
-    `mapId` = 329,
+    `id` = 1305,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Hearthsinger Forresten',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hearthsinger Forresten',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1306;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1306;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1306,
-    `mapId` = 329,
+    `id` = 1306,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Timmy the Cruel',
-    `nameFlags` = 16712190;
+    `name_1` = 'Timmy the Cruel',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1307;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1307;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1307,
-    `mapId` = 329,
+    `id` = 1307,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Cannon Master Willey',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cannon Master Willey',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1308;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1308;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1308,
-    `mapId` = 329,
+    `id` = 1308,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Malor the Zealous',
-    `nameFlags` = 16712190;
+    `name_1` = 'Malor the Zealous',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1309;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1309;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1309,
-    `mapId` = 329,
+    `id` = 1309,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Archivist Galford',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archivist Galford',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1310;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1310;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1310,
-    `mapId` = 329,
+    `id` = 1310,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Balnazzar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Balnazzar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1312;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1312;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1312,
-    `mapId` = 329,
+    `id` = 1312,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Baroness Anastari',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baroness Anastari',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1313;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1313;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1313,
-    `mapId` = 329,
+    `id` = 1313,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Nerub''enkan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Nerub''enkan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1314;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1314;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1314,
-    `mapId` = 329,
+    `id` = 1314,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'Maleki the Pallid',
-    `nameFlags` = 16712190;
+    `name_1` = 'Maleki the Pallid',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1315;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1315;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1315,
-    `mapId` = 329,
+    `id` = 1315,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Magistrate Barthilas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magistrate Barthilas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1316;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1316;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1316,
-    `mapId` = 329,
+    `id` = 1316,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Ramnstein the Gorger',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ramnstein the Gorger',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1317;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1317;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1317,
-    `mapId` = 329,
+    `id` = 1317,
+    `map_id` = 329,
     `difficulty` = 1,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Baron Rivendare',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baron Rivendare',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1318;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1318;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1318,
-    `mapId` = 329,
+    `id` = 1318,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 6500,
-    `name1` = 'The Unforgiven',
-    `nameFlags` = 16712190;
+    `name_1` = 'The Unforgiven',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1319;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1319;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1319,
-    `mapId` = 329,
+    `id` = 1319,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 1000,
     `bit` = 1,
-    `name1` = 'Hearthsinger Forresten',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hearthsinger Forresten',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1320;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1320;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1320,
-    `mapId` = 329,
+    `id` = 1320,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 2000,
     `bit` = 2,
-    `name1` = 'Timmy the Cruel',
-    `nameFlags` = 16712190;
+    `name_1` = 'Timmy the Cruel',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1321;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1321;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1321,
-    `mapId` = 329,
+    `id` = 1321,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 3000,
     `bit` = 3,
-    `name1` = 'Cannon Master Willey',
-    `nameFlags` = 16712190;
+    `name_1` = 'Cannon Master Willey',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1322;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1322;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1322,
-    `mapId` = 329,
+    `id` = 1322,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 4000,
     `bit` = 4,
-    `name1` = 'Malor the Zealous',
-    `nameFlags` = 16712190;
+    `name_1` = 'Malor the Zealous',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1323;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1323;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1323,
-    `mapId` = 329,
+    `id` = 1323,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 5000,
     `bit` = 5,
-    `name1` = 'Archivist Galford',
-    `nameFlags` = 16712190;
+    `name_1` = 'Archivist Galford',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1324;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1324;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1324,
-    `mapId` = 329,
+    `id` = 1324,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 6000,
     `bit` = 6,
-    `name1` = 'Balnazzar',
-    `nameFlags` = 16712190;
+    `name_1` = 'Balnazzar',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1325;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1325;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1325,
-    `mapId` = 329,
+    `id` = 1325,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 7000,
     `bit` = 7,
-    `name1` = 'Baroness Anastari',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baroness Anastari',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1326;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1326;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1326,
-    `mapId` = 329,
+    `id` = 1326,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 8000,
     `bit` = 8,
-    `name1` = 'Nerub''enkan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Nerub''enkan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1327;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1327;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1327,
-    `mapId` = 329,
+    `id` = 1327,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 9000,
     `bit` = 9,
-    `name1` = 'Maleki the Pallid',
-    `nameFlags` = 16712190;
+    `name_1` = 'Maleki the Pallid',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1328;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1328;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1328,
-    `mapId` = 329,
+    `id` = 1328,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 10000,
     `bit` = 10,
-    `name1` = 'Magistrate Barthilas',
-    `nameFlags` = 16712190;
+    `name_1` = 'Magistrate Barthilas',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1329;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1329;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1329,
-    `mapId` = 329,
+    `id` = 1329,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 11000,
     `bit` = 11,
-    `name1` = 'Ramnstein the Gorger',
-    `nameFlags` = 16712190;
+    `name_1` = 'Ramnstein the Gorger',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1330;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1330;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1330,
-    `mapId` = 329,
+    `id` = 1330,
+    `map_id` = 329,
     `difficulty` = 2,
     `orderIndex` = 12000,
     `bit` = 12,
-    `name1` = 'Baron Rivendare',
-    `nameFlags` = 16712190;
+    `name_1` = 'Baron Rivendare',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1331;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1331;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1331,
-    `mapId` = 109,
+    `id` = 1331,
+    `map_id` = 109,
     `orderIndex` = 50,
     `bit` = 9,
-    `name1` = 'Hukku',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hukku',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1332;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1332;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1332,
-    `mapId` = 109,
+    `id` = 1332,
+    `map_id` = 109,
     `orderIndex` = 100,
     `bit` = 10,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1333;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1333;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1333,
-    `mapId` = 109,
+    `id` = 1333,
+    `map_id` = 109,
     `orderIndex` = 150,
     `bit` = 10,
-    `name1` = 'Loro',
-    `nameFlags` = 16712190;
+    `name_1` = 'Loro',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1334;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1334;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1334,
-    `mapId` = 109,
+    `id` = 1334,
+    `map_id` = 109,
     `orderIndex` = 200,
     `bit` = 11,
-    `name1` = 'Mijan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mijan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1335;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1335;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1335,
-    `mapId` = 109,
+    `id` = 1335,
+    `map_id` = 109,
     `orderIndex` = 250,
     `bit` = 12,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1336;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1336;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1336,
-    `mapId` = 109,
+    `id` = 1336,
+    `map_id` = 109,
     `orderIndex` = 300,
     `bit` = 13,
-    `name1` = 'Zul''Lor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Zul''Lor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1337;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1337;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1337,
-    `mapId` = 109,
+    `id` = 1337,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 50,
     `bit` = 9,
-    `name1` = 'Hukku',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hukku',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1338;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1338;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1338,
-    `mapId` = 109,
+    `id` = 1338,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 100,
     `bit` = 10,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1339;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1339;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1339,
-    `mapId` = 109,
+    `id` = 1339,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 150,
     `bit` = 10,
-    `name1` = 'Loro',
-    `nameFlags` = 16712190;
+    `name_1` = 'Loro',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1340;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1340;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1340,
-    `mapId` = 109,
+    `id` = 1340,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 200,
     `bit` = 11,
-    `name1` = 'Mijan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mijan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1341;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1341;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1341,
-    `mapId` = 109,
+    `id` = 1341,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 250,
     `bit` = 12,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1342;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1342;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1342,
-    `mapId` = 109,
+    `id` = 1342,
+    `map_id` = 109,
     `difficulty` = 1,
     `orderIndex` = 300,
     `bit` = 13,
-    `name1` = 'Zul''Lor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Zul''Lor',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1343;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1343;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1343,
-    `mapId` = 109,
+    `id` = 1343,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 50,
     `bit` = 9,
-    `name1` = 'Hukku',
-    `nameFlags` = 16712190;
+    `name_1` = 'Hukku',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1344;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1344;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1344,
-    `mapId` = 109,
+    `id` = 1344,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 100,
     `bit` = 10,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1345;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1345;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1345,
-    `mapId` = 109,
+    `id` = 1345,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 150,
     `bit` = 10,
-    `name1` = 'Loro',
-    `nameFlags` = 16712190;
+    `name_1` = 'Loro',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1346;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1346;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1346,
-    `mapId` = 109,
+    `id` = 1346,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 200,
     `bit` = 11,
-    `name1` = 'Mijan',
-    `nameFlags` = 16712190;
+    `name_1` = 'Mijan',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1347;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1347;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1347,
-    `mapId` = 109,
+    `id` = 1347,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 250,
     `bit` = 12,
-    `name1` = 'Gasher',
-    `nameFlags` = 16712190;
+    `name_1` = 'Gasher',
+    `name_flags` = 16712190;
 
-DELETE FROM `dbc`.`dungeonencounter` WHERE `ID` = 1348;
+DELETE FROM `dbc`.`dungeonencounter` WHERE `id` = 1348;
 INSERT INTO `dbc`.`dungeonencounter` SET 
-    `ID` = 1348,
-    `mapId` = 109,
+    `id` = 1348,
+    `map_id` = 109,
     `difficulty` = 2,
     `orderIndex` = 300,
     `bit` = 13,
-    `name1` = 'Zul''Lor',
-    `nameFlags` = 16712190;
+    `name_1` = 'Zul''Lor',
+    `name_flags` = 16712190;
 

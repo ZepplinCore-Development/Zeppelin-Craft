@@ -1,0 +1,768 @@
+Command: zep dbc info conflicts
+Time: 2026-02-05 08:15:40
+============================================================
+
+DBC Conflict Scanner
+
+[1/3] Scanning 5 zpak(s) for shared row IDs...
+      Scanned 114 files, found 17898 shared rows in 35 tables
+
+[2/3] Checking 17898 shared rows for redundancy...
+      Checked 100/17898...
+      Checked 200/17898...
+      Checked 300/17898...
+      Checked 400/17898...
+      Checked 500/17898...
+      Checked 600/17898...
+      Checked 700/17898...
+      Checked 800/17898...
+      Checked 900/17898...
+      Checked 1000/17898...
+      Checked 1100/17898...
+      Checked 1200/17898...
+      Checked 1300/17898...
+      Checked 1400/17898...
+      Checked 1500/17898...
+      Checked 1600/17898...
+      Checked 1700/17898...
+      Checked 1800/17898...
+      Checked 1900/17898...
+      Checked 2000/17898...
+      Checked 2100/17898...
+      Checked 2200/17898...
+      Checked 2300/17898...
+      Checked 2400/17898...
+      Checked 2500/17898...
+      Checked 2600/17898...
+      Checked 2700/17898...
+      Checked 2800/17898...
+      Checked 2900/17898...
+      Checked 3000/17898...
+      Checked 3100/17898...
+      Checked 3200/17898...
+      Checked 3300/17898...
+      Checked 3400/17898...
+      Checked 3500/17898...
+      Checked 3600/17898...
+      Checked 3700/17898...
+      Checked 3800/17898...
+      Checked 3900/17898...
+      Checked 4000/17898...
+      Checked 4100/17898...
+      Checked 4200/17898...
+      Checked 4300/17898...
+      Checked 4400/17898...
+      Checked 4500/17898...
+      Checked 4600/17898...
+      Checked 4700/17898...
+      Checked 4800/17898...
+      Checked 4900/17898...
+      Checked 5000/17898...
+      Checked 5100/17898...
+      Checked 5200/17898...
+      Checked 5300/17898...
+      Checked 5400/17898...
+      Checked 5500/17898...
+      Checked 5600/17898...
+      Checked 5700/17898...
+      Checked 5800/17898...
+      Checked 5900/17898...
+      Checked 6000/17898...
+      Checked 6100/17898...
+      Checked 6200/17898...
+      Checked 6300/17898...
+      Checked 6400/17898...
+      Checked 6500/17898...
+      Checked 6600/17898...
+      Checked 6700/17898...
+      Checked 6800/17898...
+      Checked 6900/17898...
+      Checked 7000/17898...
+      Checked 7100/17898...
+      Checked 7200/17898...
+      Checked 7300/17898...
+      Checked 7400/17898...
+      Checked 7500/17898...
+      Checked 7600/17898...
+      Checked 7700/17898...
+      Checked 7800/17898...
+      Checked 7900/17898...
+      Checked 8000/17898...
+      Checked 8100/17898...
+      Checked 8200/17898...
+      Checked 8300/17898...
+      Checked 8400/17898...
+      Checked 8500/17898...
+      Checked 8600/17898...
+      Checked 8700/17898...
+      Checked 8800/17898...
+      Checked 8900/17898...
+      Checked 9000/17898...
+      Checked 9100/17898...
+      Checked 9200/17898...
+      Checked 9300/17898...
+      Checked 9400/17898...
+      Checked 9500/17898...
+      Checked 9600/17898...
+      Checked 9700/17898...
+      Checked 9800/17898...
+      Checked 9900/17898...
+      Checked 10000/17898...
+      Checked 10100/17898...
+      Checked 10200/17898...
+      Checked 10300/17898...
+      Checked 10400/17898...
+      Checked 10500/17898...
+      Checked 10600/17898...
+      Checked 10700/17898...
+      Checked 10800/17898...
+      Checked 10900/17898...
+      Checked 11000/17898...
+      Checked 11100/17898...
+      Checked 11200/17898...
+      Checked 11300/17898...
+      Checked 11400/17898...
+      Checked 11500/17898...
+      Checked 11600/17898...
+      Checked 11700/17898...
+      Checked 11800/17898...
+      Checked 11900/17898...
+      Checked 12000/17898...
+      Checked 12100/17898...
+      Checked 12200/17898...
+      Checked 12300/17898...
+      Checked 12400/17898...
+      Checked 12500/17898...
+      Checked 12600/17898...
+      Checked 12700/17898...
+      Checked 12800/17898...
+      Checked 12900/17898...
+      Checked 13000/17898...
+      Checked 13100/17898...
+      Checked 13200/17898...
+      Checked 13300/17898...
+      Checked 13400/17898...
+      Checked 13500/17898...
+      Checked 13600/17898...
+      Checked 13700/17898...
+      Checked 13800/17898...
+      Checked 13900/17898...
+      Checked 14000/17898...
+      Checked 14100/17898...
+      Checked 14200/17898...
+      Checked 14300/17898...
+      Checked 14400/17898...
+      Checked 14500/17898...
+      Checked 14600/17898...
+      Checked 14700/17898...
+      Checked 14800/17898...
+      Checked 14900/17898...
+      Checked 15000/17898...
+      Checked 15100/17898...
+      Checked 15200/17898...
+      Checked 15300/17898...
+      Checked 15400/17898...
+      Checked 15500/17898...
+      Checked 15600/17898...
+      Checked 15700/17898...
+      Checked 15800/17898...
+      Checked 15900/17898...
+      Checked 16000/17898...
+      Checked 16100/17898...
+      Checked 16200/17898...
+      Checked 16300/17898...
+      Checked 16400/17898...
+      Checked 16500/17898...
+      Checked 16600/17898...
+      Checked 16700/17898...
+      Checked 16800/17898...
+      Checked 16900/17898...
+      Checked 17000/17898...
+      Checked 17100/17898...
+      Checked 17200/17898...
+      Checked 17300/17898...
+      Checked 17400/17898...
+      Checked 17500/17898...
+      Checked 17600/17898...
+      Checked 17700/17898...
+      Checked 17800/17898...
+      Checked 17898/17898 rows                    
+
+[3/3] Results:
+
+achievement (2 conflicts, 2 redundant)
+  ID 629: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement.sql)
+  ID 630: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement.sql)
+  ID 1429: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_achievement.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement.sql)
+  ID 1430: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_achievement.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement.sql)
+
+achievement_criteria (4 conflicts, 6 redundant)
+  ID 525: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 526: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 13477: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 13478: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 13471: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 13472: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ID 13473: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_achievement_criteria.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_achievement_criteria.sql)
+  ... and 3 more redundants (see log file)
+
+animationdata (1 redundant)
+  ID 646: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_animationdata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_animationdata.sql)
+
+barbershopstyle (107 redundant)
+  ID 1150: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_barbershopstyle.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_barbershopstyle.sql)
+  ID 1151: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_barbershopstyle.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_barbershopstyle.sql)
+  ID 1152: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_barbershopstyle.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_barbershopstyle.sql)
+  ... and 104 more redundants (see log file)
+
+characterfacialhairstyles (1 redundant)
+  ID 9: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_characterfacialhairstyles.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_characterfacialhairstyles.sql)
+
+charbaseinfo (2 redundant)
+  ID 9: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charbaseinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charbaseinfo.sql)
+  ID 12: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charbaseinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charbaseinfo.sql)
+
+charhairgeosets (68 redundant)
+  ID 241: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairgeosets.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairgeosets.sql)
+  ID 242: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairgeosets.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairgeosets.sql)
+  ID 243: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairgeosets.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairgeosets.sql)
+  ... and 65 more redundants (see log file)
+
+charhairtextures (6 redundant)
+  ID 102: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairtextures.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairtextures.sql)
+  ID 103: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairtextures.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairtextures.sql)
+  ID 104: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charhairtextures.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charhairtextures.sql)
+  ... and 3 more redundants (see log file)
+
+charsections (6 conflicts, 1658 redundant)
+  ID 4681: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 4682: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 4683: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 4684: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 4685: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ... and 1 more conflicts (see log file)
+  ID 5143: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 5144: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ID 5145: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_charsections.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charsections.sql)
+  ... and 1655 more redundants (see log file)
+
+charstartoutfit (108 conflicts)
+  ID 1: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charstartoutfit.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charstartoutfit.sql)
+  ID 2: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charstartoutfit.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charstartoutfit.sql)
+  ID 3: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charstartoutfit.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charstartoutfit.sql)
+  ID 4: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charstartoutfit.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charstartoutfit.sql)
+  ID 8: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_charstartoutfit.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_charstartoutfit.sql)
+  ... and 103 more conflicts (see log file)
+
+chrraces (2 conflicts)
+  ID 9: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_chrraces.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_chrraces.sql)
+  ID 12: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_chrraces.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_chrraces.sql)
+
+creaturedisplayinfo (309 conflicts, 1026 redundant)
+  ID 163: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 169: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 180: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 365: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 648: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ... and 304 more conflicts (see log file)
+  ID 26: (REDUNDANT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 33: (REDUNDANT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ID 62: (REDUNDANT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturedisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturedisplayinfo.sql)
+  ... and 1023 more redundants (see log file)
+
+creaturemodeldata (431 conflicts, 9 redundant)
+  ID 2: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 3: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 8: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 24: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 27: (CONFLICT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ... and 426 more conflicts (see log file)
+  ID 3623: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 4012: (REDUNDANT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ID 4013: (REDUNDANT)
+    [100] hd-creatures-mounts ([BASE,F-049]_creaturemodeldata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturemodeldata.sql)
+  ... and 6 more redundants (see log file)
+
+creaturesounddata (1 redundant)
+  ID 3110: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_creaturesounddata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_creaturesounddata.sql)
+
+emotestextsound (526 redundant)
+  ID 567: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_emotestextsound.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_emotestextsound.sql)
+  ID 569: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_emotestextsound.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_emotestextsound.sql)
+  ID 570: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_emotestextsound.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_emotestextsound.sql)
+  ... and 523 more redundants (see log file)
+
+faction (4 conflicts)
+  ID 92: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_faction.sql)
+    [ 25] clan-centaur ([BASE,F-042]_faction.sql)
+  ID 93: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_faction.sql)
+    [ 25] clan-centaur ([BASE,F-042]_faction.sql)
+  ID 932: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_faction.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_faction.sql)
+  ID 934: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_faction.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_faction.sql)
+
+helmetgeosetvisdata (15 redundant)
+  ID 246: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_helmetgeosetvisdata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_helmetgeosetvisdata.sql)
+  ID 247: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_helmetgeosetvisdata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_helmetgeosetvisdata.sql)
+  ID 248: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_helmetgeosetvisdata.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_helmetgeosetvisdata.sql)
+  ... and 12 more redundants (see log file)
+
+item (4 conflicts, 49 redundant)
+  ID 62461: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 62462: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 73838: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 73839: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 49399: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 49400: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ID 49401: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_item.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_item.sql)
+  ... and 46 more redundants (see log file)
+
+itemdisplayinfo (48 redundant)
+  ID 62448: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_itemdisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_itemdisplayinfo.sql)
+  ID 62549: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_itemdisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_itemdisplayinfo.sql)
+  ID 62557: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_itemdisplayinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_itemdisplayinfo.sql)
+  ... and 45 more redundants (see log file)
+
+lightfloatband (606 conflicts, 27 redundant)
+  ID 55: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 67: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 79: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 91: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 97: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ... and 601 more conflicts (see log file)
+  ID 5509: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 5510: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ID 5511: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightfloatband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightfloatband.sql)
+  ... and 24 more redundants (see log file)
+
+lightintband (513 conflicts, 872 redundant)
+  ID 14959: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14960: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14961: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14962: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14963: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ... and 508 more conflicts (see log file)
+  ID 14967: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14968: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ID 14970: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightintband.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightintband.sql)
+  ... and 869 more redundants (see log file)
+
+lightparams (14 conflicts, 63 redundant)
+  ID 877: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 882: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 903: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 916: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 918: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ... and 9 more conflicts (see log file)
+  ID 832: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 845: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ID 849: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightparams.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightparams.sql)
+  ... and 60 more redundants (see log file)
+
+lightskybox (9 redundant)
+  ID 128: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightskybox.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightskybox.sql)
+  ID 130: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightskybox.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightskybox.sql)
+  ID 131: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_lightskybox.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_lightskybox.sql)
+  ... and 6 more redundants (see log file)
+
+loadingscreens (8 redundant)
+  ID 256: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_loadingscreens.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_loadingscreens.sql)
+  ID 258: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_loadingscreens.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_loadingscreens.sql)
+  ID 259: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_loadingscreens.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_loadingscreens.sql)
+  ... and 5 more redundants (see log file)
+
+map (94 conflicts, 925 redundant)
+  ID 33: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 35: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 36: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 43: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 44: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ... and 89 more conflicts (see log file)
+  ID 30: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 489: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ID 529: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_map.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_map.sql)
+  ... and 922 more redundants (see log file)
+
+namegen (6689 redundant)
+  ID 6794: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_namegen.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_namegen.sql)
+  ID 6795: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_namegen.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_namegen.sql)
+  ID 6796: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_namegen.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_namegen.sql)
+  ... and 6686 more redundants (see log file)
+
+skillline (2 conflicts, 1 redundant)
+  ID 633: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillline.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillline.sql)
+  ID 789: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillline.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillline.sql)
+  ID 790: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skillline.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillline.sql)
+
+skilllineability (1 conflict, 11 redundant)
+  ID 31448: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skilllineability.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skilllineability.sql)
+  ID 590: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skilllineability.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skilllineability.sql)
+  ID 592: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skilllineability.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skilllineability.sql)
+  ID 21981: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skilllineability.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skilllineability.sql)
+  ... and 8 more redundants (see log file)
+
+skillraceclassinfo (4 conflicts, 28 redundant)
+  ID 133: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 246: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 624: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 625: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 21: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 27: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ID 28: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_skillraceclassinfo.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_skillraceclassinfo.sql)
+  ... and 25 more redundants (see log file)
+
+soundentries (6 conflicts, 640 redundant)
+  ID 76853: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 112040: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 112041: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 134384: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 134385: (CONFLICT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ... and 1 more conflicts (see log file)
+  ID 16382: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 16383: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ID 16455: (REDUNDANT)
+    [ 50] open-azeroth ([BASE,F-136]_soundentries.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_soundentries.sql)
+  ... and 637 more redundants (see log file)
+
+spell (2765 conflicts)
+  ID 5: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_spell.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spell.sql)
+  ID 72: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_spell.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spell.sql)
+  ID 116: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_spell.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spell.sql)
+  ID 120: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_spell.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spell.sql)
+  ID 130: (CONFLICT)
+    [ 20] worgoblin ([BASE,F-030]_spell.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spell.sql)
+  ... and 2760 more conflicts (see log file)
+
+spellicon (10 redundant)
+  ID 4331: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_spellicon.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spellicon.sql)
+  ID 133032: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_spellicon.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spellicon.sql)
+  ID 366937: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_spellicon.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_spellicon.sql)
+  ... and 7 more redundants (see log file)
+
+summonproperties (1 redundant)
+  ID 2421: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_summonproperties.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_summonproperties.sql)
+
+talenttab (30 redundant)
+  ID 41: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_talenttab.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_talenttab.sql)
+  ID 61: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_talenttab.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_talenttab.sql)
+  ID 81: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_talenttab.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_talenttab.sql)
+  ... and 27 more redundants (see log file)
+
+vocaluisounds (184 redundant)
+  ID 862: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_vocaluisounds.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_vocaluisounds.sql)
+  ID 863: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_vocaluisounds.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_vocaluisounds.sql)
+  ID 864: (REDUNDANT)
+    [ 20] worgoblin ([BASE,F-030]_vocaluisounds.sql)
+    [999] zepcraft-legacy ([BASE,F-044]_vocaluisounds.sql)
+  ... and 181 more redundants (see log file)
+
+Summary:
+  Tables with issues: 35
+  Real conflicts: 4875 (different values, order matters)
+  Redundant: 13023 (identical changes, can consolidate)
+
+Note: During rebuild, higher priority zpaks overwrite lower priority changes.
+      Lower priority number = applied first, higher = wins.
+
+============================================================
+Exit code: 0

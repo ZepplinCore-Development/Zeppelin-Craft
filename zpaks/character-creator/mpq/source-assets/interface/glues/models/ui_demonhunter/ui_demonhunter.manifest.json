@@ -1,0 +1,224 @@
+{
+	"fileDataID": 1305036,
+	"textures": [
+		{
+			"fileDataID": 1305038,
+			"file": "legion_dh_background_03.blp"
+		},
+		{
+			"fileDataID": 1305039,
+			"file": "legion_dh_background_01a.blp"
+		},
+		{
+			"fileDataID": 1305040,
+			"file": "legion_dh_background_02.blp"
+		},
+		{
+			"fileDataID": 1305041,
+			"file": "legion_dh_background_04.blp"
+		},
+		{
+			"fileDataID": 1305042,
+			"file": "legion_dh_skycloud_06.blp"
+		},
+		{
+			"fileDataID": 1305043,
+			"file": "icecrown_cloudsa02_mask01.blp"
+		},
+		{
+			"fileDataID": 1305044,
+			"file": "legion_glow_02.blp"
+		},
+		{
+			"fileDataID": 1305045,
+			"file": "legion_dh_wind_01.blp"
+		},
+		{
+			"fileDataID": 1305046,
+			"file": "t_vfx_smoke_c.blp"
+		},
+		{
+			"fileDataID": 1307175,
+			"file": "dark_metaltrim_grey.blp"
+		},
+		{
+			"fileDataID": 1305047,
+			"file": "legion_dh_largeskull_01.blp"
+		},
+		{
+			"fileDataID": 1305048,
+			"file": "legion_dh_largerocks_02.blp"
+		},
+		{
+			"fileDataID": 1305049,
+			"file": "legion_scryingbowl_01.blp"
+		},
+		{
+			"fileDataID": 1305050,
+			"file": "t_vfx_fire_anim_stylized_desat_02.blp"
+		},
+		{
+			"fileDataID": 1305051,
+			"file": "fire_bright_mod2x_a_fel2.blp"
+		},
+		{
+			"fileDataID": 1305052,
+			"file": "smoke_puffy_mask_legion.blp"
+		},
+		{
+			"fileDataID": 1305053,
+			"file": "cloud_puffy_mod.blp"
+		},
+		{
+			"fileDataID": 1305054,
+			"file": "legion_dh_ground_02.blp"
+		},
+		{
+			"fileDataID": 1305055,
+			"file": "legion_weaponrack_01.blp"
+		},
+		{
+			"fileDataID": 1305056,
+			"file": "dh_glaive01.blp"
+		},
+		{
+			"fileDataID": 1305057,
+			"file": "7ne_blackrook_fence01.blp"
+		},
+		{
+			"fileDataID": 1305058,
+			"file": "nex_envmap01p.blp"
+		},
+		{
+			"fileDataID": 1305059,
+			"file": "t_vfx_fire_anim_legion_01.blp"
+		},
+		{
+			"fileDataID": 1305060,
+			"file": "legion_dh_moon_01.blp"
+		},
+		{
+			"fileDataID": 1305061,
+			"file": "6tj_felwaterfalls_static_top_01.blp"
+		},
+		{
+			"fileDataID": 1305062,
+			"file": "legion_felwaterfalls_01.blp"
+		},
+		{
+			"fileDataID": 1305063,
+			"file": "6tj_felwaterfalls_static_01.blp"
+		},
+		{
+			"fileDataID": 1305064,
+			"file": "legion_felwaterfalls_static_04.blp"
+		},
+		{
+			"fileDataID": 1305065,
+			"file": "6tj_felwaterfalls_01.blp"
+		},
+		{
+			"fileDataID": 1305066,
+			"file": "legion_felwaterfalls_static_02.blp"
+		},
+		{
+			"fileDataID": 1305067,
+			"file": "legion_felwaterfalls_static_05.blp"
+		},
+		{
+			"fileDataID": 1305068,
+			"file": "legion_felwaterfalls_static_03.blp"
+		},
+		{
+			"fileDataID": 1305069,
+			"file": "legion_dh_mountain_01.blp"
+		},
+		{
+			"fileDataID": 1305070,
+			"file": "legion_dh_ground_01.blp"
+		},
+		{
+			"fileDataID": 1305071,
+			"file": "legion_dh_tools.blp"
+		},
+		{
+			"fileDataID": 1305072,
+			"file": "legion_t_vfx_fire_anim02_128_full_desat.blp"
+		},
+		{
+			"fileDataID": 1305073,
+			"file": "t_vfx_door_black.blp"
+		},
+		{
+			"fileDataID": 1305074,
+			"file": "legion_effect_01.blp"
+		},
+		{
+			"fileDataID": 1305075,
+			"file": "legion_effect_top_01.blp"
+		},
+		{
+			"fileDataID": 1305076,
+			"file": "legion_effect_02.blp"
+		},
+		{
+			"fileDataID": 1305077,
+			"file": "legion_effect_top_02.blp"
+		},
+		{
+			"fileDataID": 1305078,
+			"file": "legion_effect_spin_01.blp"
+		},
+		{
+			"fileDataID": 1305079,
+			"file": "legion_effect_03.blp"
+		},
+		{
+			"fileDataID": 1305080,
+			"file": "legion_effect_top_03.blp"
+		},
+		{
+			"fileDataID": 1305081,
+			"file": "legion_dh_table.blp"
+		},
+		{
+			"fileDataID": 1305082,
+			"file": "dh_tools.blp"
+		},
+		{
+			"fileDataID": 1305083,
+			"file": "dh_storageextras.blp"
+		},
+		{
+			"fileDataID": 1305084,
+			"file": "nex_envmap03.blp"
+		},
+		{
+			"fileDataID": 1305085,
+			"file": "dh_storageextras02.blp"
+		},
+		{
+			"fileDataID": 1305086,
+			"file": "legion_dh_lighting_01.blp"
+		},
+		{
+			"fileDataID": 1305087,
+			"file": "legion_dh_lighting_02.blp"
+		},
+		{
+			"fileDataID": 1305088,
+			"file": "legion_dh_lighting_03.blp"
+		},
+		{
+			"fileDataID": 1305089,
+			"file": "legion_dh_stars_01.blp"
+		}
+	],
+	"skins": [
+		{
+			"fileDataID": 1305090,
+			"file": "ui_demonhunter00.skin"
+		}
+	],
+	"lodSkins": []
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "profession-experience",
+  "version": "0.1.0",
+  "description": "Gain experience from crafting and gathering professions",
+  "author": "Tereneckla",
+  "type": "acore-extension",
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "acore": {
+    "module": "mod-profession-experience",
+    "source": "https://github.com/Tereneckla/mod-profession-experience.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100
+}

@@ -70,6 +70,7 @@ class ResourceParser:
         self.already_exported = set()
         self.found_assets = {}  # {normalized_path: source_path}
         self.extracted = []
+        self.source_asset_paths = set()  # normalized paths copied from source-assets (Phase 0)
 
         # Track cumulative asset counts for final summary
         self.total_m2_required = 0
@@ -428,6 +429,10 @@ class ResourceParser:
             # Create destination directory if needed
             dst_file.parent.mkdir(parents=True, exist_ok=True)
 
+            # Track all source-asset paths so later phases don't overwrite them
+            rel_upper = str(dst_file.relative_to(export_dir)).upper().replace(os.sep, '/')
+            self.source_asset_paths.add(rel_upper)
+
             # Skip if destination exists and is same size (already copied)
             if dst_file.exists() and dst_file.stat().st_size == src_file.stat().st_size:
                 skipped += 1
@@ -444,6 +449,7 @@ class ResourceParser:
         self.log(f'\n  Copied: {copied:,} files')
         if skipped > 0:
             self.log(f'  Skipped (already exist): {skipped:,} files')
+        self.log(f'  Source-asset paths registered: {len(self.source_asset_paths):,}')
 
         # Update paths to point to Export folder for subsequent phases
         # Use UPPERCASE to match the normalized directory names
@@ -502,6 +508,10 @@ class ResourceParser:
         for src_file, dst_file in files_to_copy:
             dst_file.parent.mkdir(parents=True, exist_ok=True)
 
+            # Track all source-asset paths so later phases don't overwrite them
+            rel_upper = str(dst_file.relative_to(output_dir)).upper().replace(os.sep, '/')
+            self.source_asset_paths.add(rel_upper)
+
             if dst_file.exists() and dst_file.stat().st_size == src_file.stat().st_size:
                 skipped += 1
                 continue
@@ -515,6 +525,7 @@ class ResourceParser:
         self.log(f'\n  Copied: {copied:,} files')
         if skipped > 0:
             self.log(f'  Skipped (already exist): {skipped:,} files')
+        self.log(f'  Source-asset paths registered: {len(self.source_asset_paths):,}')
 
         return True
 
@@ -1773,14 +1784,26 @@ class ResourceParser:
         texture_base_count = 0
         texture_specular_count = 0
 
+        source_skipped = 0
+
         for normalized, source_path in self.found_assets.items():
             # Skip files already extracted in previous phases
             if normalized in self.extracted:
                 continue
+
             # Reconstruct proper path (ensure uppercase for consistency)
             normalized_upper = normalized.upper().replace('/', os.sep)
+            normalized_fwd = normalized.upper().replace('\\', '/')
             dest_path = export_dir / normalized_upper
             dest_path.parent.mkdir(parents=True, exist_ok=True)
+
+            # Never overwrite files that came from source-assets (Phase 0).
+            # The Asset Library contains vanilla/stock textures which are lower
+            # quality than the zpak's own source-assets.
+            if normalized_fwd in self.source_asset_paths:
+                source_skipped += 1
+                self.extracted.append(normalized)
+                continue
 
             try:
                 shutil.copy2(source_path, dest_path)
@@ -1843,6 +1866,9 @@ class ResourceParser:
             self.log(f'  Total: {len(extracted_this_phase):,} {asset_type}')
         else:
             self.log(f'\n  Extracted: {len(extracted_this_phase):,} {asset_type}')
+
+        if source_skipped > 0:
+            self.log(f'  Skipped (source-asset protected): {source_skipped:,} files')
 
     def report_missing_assets(self, asset_type: str):
         """Report what assets are still missing after extraction attempt with full parent chains"""

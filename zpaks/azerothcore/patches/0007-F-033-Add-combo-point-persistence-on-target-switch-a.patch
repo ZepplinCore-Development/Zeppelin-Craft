@@ -1,4 +1,4 @@
-From 1f02250e52cb66466c135a81d6d461ea414716bc Mon Sep 17 00:00:00 2001
+From bd4ea99071b6093431dc60fb72d60e7a0309374f Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:16:40 +0000
 Subject: [PATCH] F-033: Add combo point persistence on target switch and death
@@ -15,10 +15,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 7ad99834f..3ec8a27b6 100644
+index 7ff3cd3f9..547304a6b 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -14680,7 +14680,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+@@ -14682,7 +14682,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
          CombatStop();
          GetThreatMgr().ClearAllThreat();
          getHostileRefMgr().deleteReferences();
@@ -27,7 +27,7 @@ index 7ad99834f..3ec8a27b6 100644
  
          if (IsNonMeleeSpellCast(false))
              InterruptNonMeleeSpells(false);
-@@ -17094,9 +17094,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+@@ -17096,9 +17096,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
          {
              m_comboTarget->RemoveComboPointHolder(this);
          }

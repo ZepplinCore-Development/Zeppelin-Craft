@@ -17,7 +17,5 @@
 *.wdl
 *.WDL
 *.zmp
-*.dbc
-*.DBC
 *.tex
 *.trs

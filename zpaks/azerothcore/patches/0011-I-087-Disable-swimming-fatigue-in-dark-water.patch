@@ -1,4 +1,4 @@
-From 4ec31a057c08e5d66fda7562e23c8922f0406ae9 Mon Sep 17 00:00:00 2001
+From e7a3cb2ecf316994091e5231091b6c8149ee1435 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:17:49 +0000
 Subject: [PATCH] I-087: Disable swimming fatigue in dark water
@@ -12,7 +12,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 810bbd635..f51a51460 100644
+index c5533bd72..e96b0f3b5 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -889,8 +889,8 @@ void Player::HandleDrowning(uint32 time_diff)

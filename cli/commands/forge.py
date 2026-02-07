@@ -5,10 +5,10 @@ Manages AzerothCore module forks and patch synchronization.
 Migrated from Scripts/Fork Synchroniser/fork_sync.py (F-037).
 
 Commands:
-    zep forge status [name]       Show sync status for all or specific zpak
-    zep forge build-patch <name>  Build patches from current repo state
-    zep forge apply-patch <name>  Reset to upstream, apply existing patches
-    zep forge sync <name>         Full cycle: build, reset, apply
+    zep forge status [--name X]       Show sync status for all or specific zpak
+    zep forge build-patch --name X    Build patches from current repo state
+    zep forge apply-patch --name X    Reset to upstream, apply existing patches
+    zep forge sync --name X           Full cycle: build, reset, apply
 """
 
 import sys
@@ -162,13 +162,14 @@ def forge():
 
 
 @forge.command('status')
-@click.argument('name', required=False)
+@click.option('--name', '-n', help='Package name')
+@click.option('--all', '-a', 'process_all', is_flag=True, help='Show all packages')
 @click.pass_context
-def forge_status(ctx, name: Optional[str]):
+def forge_status(ctx, name: Optional[str], process_all: bool):
     """Show upstream sync status.
 
     Without arguments, shows status for all acore-extension packages.
-    With NAME, shows status for that specific package.
+    With --name, shows status for that specific package.
     """
     craft_root = ctx.obj['craft_root']
     zpaks = discover_acore_zpaks(craft_root)
@@ -178,7 +179,7 @@ def forge_status(ctx, name: Optional[str]):
         click.echo("\nCreate one with: zep zpak create <name> -t acore-extension")
         return
 
-    # Filter to specific package if requested
+    # Filter to specific package if requested (--all or no args = show all)
     if name:
         normalized = normalize_zpak_name(name)
         if not normalized:
@@ -242,9 +243,11 @@ def forge_status(ctx, name: Optional[str]):
 
     click.echo()
 
+forge_status.zpak_filter = 'acore-extension'
+
 
 @forge.command('build-patch')
-@click.argument('name', required=False)
+@click.option('--name', '-n', help='Package name')
 @click.option('--all', '-a', 'process_all', is_flag=True, help='Process all packages')
 @click.option('--force', '-f', is_flag=True, help='Overwrite patches even if repo has fewer commits')
 @click.pass_context
@@ -274,7 +277,7 @@ def forge_build_patch(ctx, name: Optional[str], process_all: bool, force: bool):
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
             sys.exit(1)
     else:
-        click.echo("Error: Specify a package name or use --all")
+        click.echo("Error: Specify --name <package> or use --all")
         sys.exit(1)
 
     click.echo(f"\n{Colors.BOLD}=== Building Patches for {len(targets)} package(s) ==={Colors.RESET}\n")
@@ -325,9 +328,11 @@ def forge_build_patch(ctx, name: Optional[str], process_all: bool, force: bool):
     if results["failed"] > 0:
         sys.exit(1)
 
+forge_build_patch.zpak_filter = 'acore-extension'
+
 
 @forge.command('apply-patch')
-@click.argument('name', required=False)
+@click.option('--name', '-n', help='Package name')
 @click.option('--all', '-a', 'process_all', is_flag=True, help='Process all packages')
 @click.pass_context
 def forge_apply_patch(ctx, name: Optional[str], process_all: bool):
@@ -353,7 +358,7 @@ def forge_apply_patch(ctx, name: Optional[str], process_all: bool):
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
             sys.exit(1)
     else:
-        click.echo("Error: Specify a package name or use --all")
+        click.echo("Error: Specify --name <package> or use --all")
         sys.exit(1)
 
     click.echo(f"\n{Colors.BOLD}=== Applying Patches for {len(targets)} package(s) ==={Colors.RESET}\n")
@@ -404,9 +409,11 @@ def forge_apply_patch(ctx, name: Optional[str], process_all: bool):
     if results["failed"] > 0:
         sys.exit(1)
 
+forge_apply_patch.zpak_filter = 'acore-extension'
+
 
 @forge.command('sync')
-@click.argument('name', required=False)
+@click.option('--name', '-n', help='Package name')
 @click.option('--all', '-a', 'process_all', is_flag=True, help='Process all packages')
 @click.pass_context
 def forge_sync(ctx, name: Optional[str], process_all: bool):
@@ -433,7 +440,7 @@ def forge_sync(ctx, name: Optional[str], process_all: bool):
             click.echo(click.style(f"Error: Package '{normalized}' not found", fg='red'))
             sys.exit(1)
     else:
-        click.echo("Error: Specify a package name or use --all")
+        click.echo("Error: Specify --name <package> or use --all")
         sys.exit(1)
 
     click.echo(f"\n{Colors.BOLD}=== Syncing {len(targets)} package(s) ==={Colors.RESET}\n")
@@ -507,3 +514,5 @@ def forge_sync(ctx, name: Optional[str], process_all: bool):
 
     if results["failed"] > 0:
         sys.exit(1)
+
+forge_sync.zpak_filter = 'acore-extension'

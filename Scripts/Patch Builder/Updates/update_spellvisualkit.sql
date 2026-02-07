@@ -1,15 +1,15 @@
 UPDATE `dbc`.`spellvisualkit` SET 
     `StartAnimId` = 0 /* was 4294967295 */
-WHERE `ID` = 173;
+WHERE `id` = 173;
 
 UPDATE `dbc`.`spellvisualkit` SET 
     `StartAnimId` = 0 /* was 4294967295 */,
     `AnimationId` = 0 /* was 4294967295 */
-WHERE `ID` = 990;
+WHERE `id` = 990;
 
-DELETE FROM `dbc`.`spellvisualkit` WHERE `ID` = 16000;
+DELETE FROM `dbc`.`spellvisualkit` WHERE `id` = 16000;
 INSERT INTO `dbc`.`spellvisualkit` SET 
-    `ID` = 16000,
+    `id` = 16000,
     `StartAnimId` = 4294967295,
     `AnimationId` = 54,
     `BaseEffect` = 7100,
@@ -20,18 +20,18 @@ INSERT INTO `dbc`.`spellvisualkit` SET
     `CharProc3` = 4294967295,
     `CharProc4` = 4294967295;
 
-DELETE FROM `dbc`.`spellvisualkit` WHERE `ID` = 16001;
+DELETE FROM `dbc`.`spellvisualkit` WHERE `id` = 16001;
 INSERT INTO `dbc`.`spellvisualkit` SET 
-    `ID` = 16001,
+    `id` = 16001,
     `ChestEffect` = 7101,
     `CharProc1` = 4294967295,
     `CharProc2` = 4294967295,
     `CharProc3` = 4294967295,
     `CharProc4` = 4294967295;
 
-DELETE FROM `dbc`.`spellvisualkit` WHERE `ID` = 16002;
+DELETE FROM `dbc`.`spellvisualkit` WHERE `id` = 16002;
 INSERT INTO `dbc`.`spellvisualkit` SET 
-    `ID` = 16002,
+    `id` = 16002,
     `StartAnimId` = 4294967295,
     `AnimationId` = 4294967295,
     `BaseEffect` = 1784,
@@ -41,9 +41,9 @@ INSERT INTO `dbc`.`spellvisualkit` SET
     `CharProc3` = 4294967295,
     `CharProc4` = 4294967295;
 
-DELETE FROM `dbc`.`spellvisualkit` WHERE `ID` = 16003;
+DELETE FROM `dbc`.`spellvisualkit` WHERE `id` = 16003;
 INSERT INTO `dbc`.`spellvisualkit` SET 
-    `ID` = 16003,
+    `id` = 16003,
     `StartAnimId` = 4294967295,
     `AnimationId` = 123,
     `LeftHandEffect` = 1785,

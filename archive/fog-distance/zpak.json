@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "fog-distance",
+  "feature_id": "F-140",
+  "version": "0.1.0",
+  "description": "Double Fog Distance - extends view distance by reducing fog effects",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-D",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": false,
+  "priority": 100
+}

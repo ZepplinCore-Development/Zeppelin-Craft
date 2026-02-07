@@ -1,386 +1,386 @@
 UPDATE `dbc`.`mapdifficulty` SET 
     `messageFlags` = 0 /* was 16712188 */
-WHERE `ID` = 1;
+WHERE `id` = 1;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 189 /* was 29 */,
-    `maxPlayers` = 5 /* was 10 */
-WHERE `ID` = 5;
+    `max_players` = 5 /* was 10 */
+WHERE `id` = 5;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 230 /* was 30 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 6;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 6;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 429 /* was 33 */
-WHERE `ID` = 7;
+WHERE `id` = 7;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 189 /* was 34 */,
     `difficulty` = 1 /* was 0 */
-WHERE `ID` = 8;
+WHERE `id` = 8;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 329 /* was 35 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 9;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 9;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 209 /* was 36 */
-WHERE `ID` = 10;
+WHERE `id` = 10;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 209 /* was 37 */,
     `difficulty` = 1 /* was 0 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 11;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 11;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 349 /* was 42 */,
     `difficulty` = 1 /* was 0 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 12;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 12;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 109 /* was 43 */
-WHERE `ID` = 13;
+WHERE `id` = 13;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 230 /* was 44 */,
     `difficulty` = 1 /* was 0 */,
-    `maxPlayers` = 5 /* was 10 */
-WHERE `ID` = 14;
+    `max_players` = 5 /* was 10 */
+WHERE `id` = 14;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 229 /* was 47 */
-WHERE `ID` = 15;
+WHERE `id` = 15;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 429 /* was 48 */,
     `difficulty` = 1 /* was 0 */
-WHERE `ID` = 16;
+WHERE `id` = 16;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 289 /* was 70 */
-WHERE `ID` = 17;
+WHERE `id` = 17;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 1 /* was 0 */
-WHERE `ID` = 19;
+WHERE `id` = 19;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 2 /* was 0 */
-WHERE `ID` = 22;
+WHERE `id` = 22;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 2 /* was 0 */
-WHERE `ID` = 23;
+WHERE `id` = 23;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 1 /* was 0 */,
-    `maxPlayers` = 5 /* was 15 */
-WHERE `ID` = 24;
+    `max_players` = 5 /* was 15 */
+WHERE `id` = 24;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 2 /* was 0 */
-WHERE `ID` = 25;
+WHERE `id` = 25;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 1 /* was 0 */
-WHERE `ID` = 28;
+WHERE `id` = 28;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 1 /* was 0 */
-WHERE `ID` = 30;
+WHERE `id` = 30;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 2 /* was 0 */
-WHERE `ID` = 31;
+WHERE `id` = 31;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `difficulty` = 2 /* was 0 */
-WHERE `ID` = 35;
+WHERE `id` = 35;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 129 /* was 30 */,
     `difficulty` = 2 /* was 1 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 126;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 126;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 349 /* was 30 */,
     `difficulty` = 0 /* was 2 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 163;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 163;
 
 UPDATE `dbc`.`mapdifficulty` SET 
     `Map` = 389 /* was 30 */,
     `difficulty` = 2 /* was 3 */,
-    `maxPlayers` = 5 /* was 0 */
-WHERE `ID` = 522;
+    `max_players` = 5 /* was 0 */
+WHERE `id` = 522;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 758;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 758;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 758,
+    `id` = 758,
     `Map` = 289,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 759;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 759;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 759,
+    `id` = 759,
     `Map` = 229,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 760;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 760;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 760,
+    `id` = 760,
     `Map` = 129,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 761;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 761;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 761,
+    `id` = 761,
     `Map` = 109,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 762;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 762;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 762,
+    `id` = 762,
     `Map` = 389,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 763;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 763;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 763,
+    `id` = 763,
     `Map` = 329,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 768;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 768;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 768,
+    `id` = 768,
     `Map` = 43,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 771;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 771;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 771,
+    `id` = 771,
     `Map` = 70,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 772;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 772;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 772,
+    `id` = 772,
     `Map` = 33,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 773;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 773;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 773,
+    `id` = 773,
     `Map` = 33,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 774;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 774;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 774,
+    `id` = 774,
     `Map` = 33,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 775;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 775;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 775,
+    `id` = 775,
     `Map` = 36,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 776;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 776;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 776,
+    `id` = 776,
     `Map` = 43,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 777;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 777;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 777,
+    `id` = 777,
     `Map` = 43,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 779;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 779;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 779,
+    `id` = 779,
     `Map` = 34,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 780;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 780;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 780,
+    `id` = 780,
     `Map` = 34,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 781;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 781;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 781,
+    `id` = 781,
     `Map` = 34,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 782;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 782;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 782,
+    `id` = 782,
     `Map` = 30,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 783;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 783;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 783,
+    `id` = 783,
     `Map` = 30,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 784;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 784;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 784,
+    `id` = 784,
     `Map` = 30,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 788;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 788;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 788,
+    `id` = 788,
     `Map` = 48,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 789;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 789;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 789,
+    `id` = 789,
     `Map` = 47,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 790;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 790;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 790,
+    `id` = 790,
     `Map` = 47,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 791;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 791;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 791,
+    `id` = 791,
     `Map` = 47,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 793;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 793;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 793,
+    `id` = 793,
     `Map` = 90,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 794;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 794;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 794,
+    `id` = 794,
     `Map` = 90,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 795;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 795;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 795,
+    `id` = 795,
     `Map` = 36,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 797;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 797;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 797,
+    `id` = 797,
     `Map` = 36,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 798;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 798;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 798,
+    `id` = 798,
     `Map` = 48,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 799;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 799;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 799,
+    `id` = 799,
     `Map` = 48,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 800;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 800;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 800,
+    `id` = 800,
     `Map` = 70,
     `difficulty` = 1,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 801;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 801;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 801,
+    `id` = 801,
     `Map` = 70,
     `difficulty` = 2,
     `messageFlags` = 16712188,
-    `maxPlayers` = 5;
+    `max_players` = 5;
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 802;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 802;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 802,
+    `id` = 802,
     `Map` = 533,
     `difficulty` = 2,
     `message1` = 'You must be level 60 and in a raid group to enter.',
     `messageFlags` = 16712190,
     `raidDurationSeconds` = 604800,
-    `maxPlayers` = 40,
+    `max_players` = 40,
     `difficultyString` = 'RAID_DIFFICULTY_10PLAYER_HEROIC';
 
-DELETE FROM `dbc`.`mapdifficulty` WHERE `ID` = 803;
+DELETE FROM `dbc`.`mapdifficulty` WHERE `id` = 803;
 INSERT INTO `dbc`.`mapdifficulty` SET 
-    `ID` = 803,
+    `id` = 803,
     `Map` = 44;
 

@@ -1,10 +1,10 @@
 UPDATE `dbc`.`spellvisual` SET 
     `ChannelKit` = 16003 /* was 3729 */
-WHERE `ID` = 100;
+WHERE `id` = 100;
 
-DELETE FROM `dbc`.`spellvisual` WHERE `ID` = 17000;
+DELETE FROM `dbc`.`spellvisual` WHERE `id` = 17000;
 INSERT INTO `dbc`.`spellvisual` SET 
-    `ID` = 17000,
+    `id` = 17000,
     `PrecastKit` = 60,
     `CastKit` = 61,
     `StateKit` = 235,

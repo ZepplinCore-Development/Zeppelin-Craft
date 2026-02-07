@@ -1,0 +1,40 @@
+{
+	"fileDataID": 1386636,
+	"textures": [
+		{
+			"fileDataID": 1394654,
+			"file": "warlock_demonicportal_green.blp"
+		},
+		{
+			"fileDataID": 1394655,
+			"file": "smokewispy_roundsponge_edit.blp"
+		},
+		{
+			"fileDataID": 1394656,
+			"file": "shoulder_plate_raidwarrior_f_01.blp"
+		},
+		{
+			"fileDataID": 1394657,
+			"file": "warlock_demonicportal_fire_greyscale.blp"
+		},
+		{
+			"fileDataID": 1394658,
+			"file": "sha_smokeblur_06.blp"
+		},
+		{
+			"fileDataID": 1394659,
+			"file": "twistednether5_x_green.blp"
+		},
+		{
+			"fileDataID": 1386687,
+			"file": "deadscarrift_portal.blp"
+		}
+	],
+	"skins": [
+		{
+			"fileDataID": 1386688,
+			"file": "7fx_orderhallportal_deadscarrift00.skin"
+		}
+	],
+	"lodSkins": []
+}

@@ -1,431 +1,431 @@
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 5;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 5;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 5,
+    `id` = 5,
     `Name` = 'InstanceEmeraldDream',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenEmeraldDream.blp',
     `HasWideScreen` = 1;
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 6;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 6;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 6,
+    `id` = 6,
     `Name` = 'InstanceDevelopmentLand',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenDevelopmentLand.blp',
     `HasWideScreen` = 1;
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 7;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 7;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 7,
+    `id` = 7,
     `Name` = 'InstanceAzsharaCrater',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenAzsharaCrater.blp',
     `HasWideScreen` = 1;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 21;
+WHERE `id` = 21;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 23;
+WHERE `id` = 23;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 25;
+WHERE `id` = 25;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 42;
+WHERE `id` = 42;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 61;
+WHERE `id` = 61;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 81;
+WHERE `id` = 81;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 82;
+WHERE `id` = 82;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 101;
+WHERE `id` = 101;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 102;
+WHERE `id` = 102;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 103;
+WHERE `id` = 103;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 104;
+WHERE `id` = 104;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 122;
+WHERE `id` = 122;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 141;
+WHERE `id` = 141;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 142;
+WHERE `id` = 142;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 143;
+WHERE `id` = 143;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 144;
+WHERE `id` = 144;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 145;
+WHERE `id` = 145;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 146;
+WHERE `id` = 146;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 161;
+WHERE `id` = 161;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 181;
+WHERE `id` = 181;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 182;
+WHERE `id` = 182;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 183;
+WHERE `id` = 183;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 184;
+WHERE `id` = 184;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 185;
+WHERE `id` = 185;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 186;
+WHERE `id` = 186;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 187;
+WHERE `id` = 187;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 188;
+WHERE `id` = 188;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 189;
+WHERE `id` = 189;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 190;
+WHERE `id` = 190;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 191;
+WHERE `id` = 191;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 192;
+WHERE `id` = 192;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 193;
+WHERE `id` = 193;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 194;
+WHERE `id` = 194;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 195;
+WHERE `id` = 195;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 196;
+WHERE `id` = 196;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 197;
+WHERE `id` = 197;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 199;
+WHERE `id` = 199;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 200;
+WHERE `id` = 200;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 201;
+WHERE `id` = 201;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 202;
+WHERE `id` = 202;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 203;
+WHERE `id` = 203;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 204;
+WHERE `id` = 204;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 205;
+WHERE `id` = 205;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 206;
+WHERE `id` = 206;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 207;
+WHERE `id` = 207;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 208;
+WHERE `id` = 208;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 209;
+WHERE `id` = 209;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 210;
+WHERE `id` = 210;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 212;
+WHERE `id` = 212;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 213;
+WHERE `id` = 213;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 214;
+WHERE `id` = 214;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 215;
+WHERE `id` = 215;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 217;
+WHERE `id` = 217;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 218;
+WHERE `id` = 218;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 219;
+WHERE `id` = 219;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 220;
+WHERE `id` = 220;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 221;
+WHERE `id` = 221;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 222;
+WHERE `id` = 222;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 223;
+WHERE `id` = 223;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 224;
+WHERE `id` = 224;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 225;
+WHERE `id` = 225;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 226;
+WHERE `id` = 226;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 227;
+WHERE `id` = 227;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 228;
+WHERE `id` = 228;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 229;
+WHERE `id` = 229;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 230;
+WHERE `id` = 230;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 231;
+WHERE `id` = 231;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 232;
+WHERE `id` = 232;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 233;
+WHERE `id` = 233;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 234;
+WHERE `id` = 234;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 235;
+WHERE `id` = 235;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 236;
+WHERE `id` = 236;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 237;
+WHERE `id` = 237;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 238;
+WHERE `id` = 238;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 239;
+WHERE `id` = 239;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 240;
+WHERE `id` = 240;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 242;
+WHERE `id` = 242;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 243;
+WHERE `id` = 243;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 244;
+WHERE `id` = 244;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 245;
+WHERE `id` = 245;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 246;
+WHERE `id` = 246;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 247;
+WHERE `id` = 247;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 249;
+WHERE `id` = 249;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 250;
+WHERE `id` = 250;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 252;
+WHERE `id` = 252;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 253;
+WHERE `id` = 253;
 
 UPDATE `dbc`.`loadingscreens` SET 
     `HasWideScreen` = 1 /* was 0 */
-WHERE `ID` = 254;
+WHERE `id` = 254;
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 255;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 255;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 255,
+    `id` = 255,
     `Name` = 'InstanceCoTHyjal',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenHyjal.blp',
     `HasWideScreen` = 1;
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 256;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 256;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 256,
+    `id` = 256,
     `Name` = 'InstanceHallsofOrigination',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenhallsoforigination.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 257;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 257;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 257,
+    `id` = 257,
     `Name` = 'InstanceCoTOpening',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\LoadScreenOpening.blp',
     `HasWideScreen` = 1;
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 258;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 258;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 258,
+    `id` = 258,
     `Name` = 'StoneCore',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreendeepholmdungeon.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 259;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 259;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 259,
+    `id` = 259,
     `Name` = 'InstanceSkywall',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenskywall.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 264;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 264;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 264,
+    `id` = 264,
     `Name` = 'InstanceUldumDungeon',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenuldumdungeon.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 268;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 268;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 268,
+    `id` = 268,
     `Name` = 'Deepholm',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreendeepholm.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 271;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 271;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 271,
+    `id` = 271,
     `Name` = 'InstanceSkywallRaid',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenskywallraid.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 300;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 300;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 300,
+    `id` = 300,
     `Name` = 'AbyssalMawInterior',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadscreenthroneofthetides.blp';
 
-DELETE FROM `dbc`.`loadingscreens` WHERE `ID` = 405;
+DELETE FROM `dbc`.`loadingscreens` WHERE `id` = 405;
 INSERT INTO `dbc`.`loadingscreens` SET 
-    `ID` = 405,
+    `id` = 405,
     `Name` = 'MaelstromZone',
     `FileName` = 'Interface\\Glues\\LoadingScreens\\loadingscreen_shamanartifact.blp',
     `HasWideScreen` = 1;

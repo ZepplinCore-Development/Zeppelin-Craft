@@ -1,0 +1,20 @@
+{
+	"fileDataID": 1114439,
+	"textures": [
+		{
+			"fileDataID": 1114518,
+			"file": "builder.blp"
+		},
+		{
+			"fileDataID": 994620,
+			"file": "6dr_crystal.blp"
+		}
+	],
+	"skins": [
+		{
+			"fileDataID": 1114491,
+			"file": "6du_hellfireraid_feltree0100.skin"
+		}
+	],
+	"lodSkins": []
+}

@@ -3,7 +3,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 1;
+WHERE `id` = 1;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -11,7 +11,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 2;
+WHERE `id` = 2;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -19,7 +19,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 3;
+WHERE `id` = 3;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -27,7 +27,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 4;
+WHERE `id` = 4;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -35,7 +35,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 5;
+WHERE `id` = 5;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -43,7 +43,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 6;
+WHERE `id` = 6;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -51,7 +51,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 7;
+WHERE `id` = 7;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -59,7 +59,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 8;
+WHERE `id` = 8;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -67,7 +67,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 9;
+WHERE `id` = 9;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -75,7 +75,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 10;
+WHERE `id` = 10;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -83,7 +83,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 11;
+WHERE `id` = 11;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -91,7 +91,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 12;
+WHERE `id` = 12;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -99,7 +99,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 13;
+WHERE `id` = 13;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -107,7 +107,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 14;
+WHERE `id` = 14;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -115,7 +115,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 15;
+WHERE `id` = 15;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -123,7 +123,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.5 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 16;
+WHERE `id` = 16;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -131,7 +131,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 17;
+WHERE `id` = 17;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -139,7 +139,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 18;
+WHERE `id` = 18;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -147,7 +147,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 19;
+WHERE `id` = 19;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -155,7 +155,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 20;
+WHERE `id` = 20;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -163,7 +163,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 21;
+WHERE `id` = 21;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -171,7 +171,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 22;
+WHERE `id` = 22;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -179,7 +179,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 23;
+WHERE `id` = 23;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -187,7 +187,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 24;
+WHERE `id` = 24;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -195,7 +195,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 25;
+WHERE `id` = 25;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -203,7 +203,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 26;
+WHERE `id` = 26;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -211,7 +211,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 27;
+WHERE `id` = 27;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -219,7 +219,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 28;
+WHERE `id` = 28;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -227,7 +227,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 29;
+WHERE `id` = 29;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -235,7 +235,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 30;
+WHERE `id` = 30;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -243,7 +243,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 31;
+WHERE `id` = 31;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -251,7 +251,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 32;
+WHERE `id` = 32;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -259,14 +259,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 33;
+WHERE `id` = 33;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 34;
+WHERE `id` = 34;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -274,7 +274,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 35;
+WHERE `id` = 35;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -282,7 +282,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 36;
+WHERE `id` = 36;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -290,7 +290,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 37;
+WHERE `id` = 37;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -298,7 +298,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 38;
+WHERE `id` = 38;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -306,7 +306,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 39;
+WHERE `id` = 39;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -314,7 +314,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 40;
+WHERE `id` = 40;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -322,7 +322,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 41;
+WHERE `id` = 41;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -330,7 +330,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 42;
+WHERE `id` = 42;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -338,7 +338,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 43;
+WHERE `id` = 43;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -346,7 +346,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 44;
+WHERE `id` = 44;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -354,7 +354,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 45;
+WHERE `id` = 45;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -362,7 +362,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 46;
+WHERE `id` = 46;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -370,7 +370,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 47;
+WHERE `id` = 47;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -378,7 +378,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 48;
+WHERE `id` = 48;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -386,7 +386,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 49;
+WHERE `id` = 49;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -394,7 +394,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 50;
+WHERE `id` = 50;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -402,7 +402,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 51;
+WHERE `id` = 51;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -410,7 +410,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 52;
+WHERE `id` = 52;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -418,7 +418,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 53;
+WHERE `id` = 53;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -426,7 +426,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 54;
+WHERE `id` = 54;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -434,7 +434,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 55;
+WHERE `id` = 55;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -442,7 +442,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 56;
+WHERE `id` = 56;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -450,22 +450,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 57;
+WHERE `id` = 57;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 58;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.6 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 59;
+WHERE `id` = 58;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -473,7 +465,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 60;
+WHERE `id` = 59;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -481,7 +473,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 61;
+WHERE `id` = 60;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.6 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 61;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -489,7 +489,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 62;
+WHERE `id` = 62;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -497,7 +497,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 63;
+WHERE `id` = 63;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -505,7 +505,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 64;
+WHERE `id` = 64;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -513,7 +513,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 65;
+WHERE `id` = 65;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -521,7 +521,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 66;
+WHERE `id` = 66;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -529,7 +529,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 67;
+WHERE `id` = 67;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -537,7 +537,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 68;
+WHERE `id` = 68;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -545,7 +545,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 69;
+WHERE `id` = 69;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -553,7 +553,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 70;
+WHERE `id` = 70;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -561,7 +561,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 71;
+WHERE `id` = 71;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -569,7 +569,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 72;
+WHERE `id` = 72;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -577,7 +577,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 73;
+WHERE `id` = 73;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -585,7 +585,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 74;
+WHERE `id` = 74;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -593,7 +593,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 75;
+WHERE `id` = 75;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -601,7 +601,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 76;
+WHERE `id` = 76;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -609,7 +609,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 77;
+WHERE `id` = 77;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -617,14 +617,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 78;
+WHERE `id` = 78;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.85 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 79;
+WHERE `id` = 79;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -632,7 +632,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 80;
+WHERE `id` = 80;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -640,7 +640,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 81;
+WHERE `id` = 81;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -648,7 +648,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 82;
+WHERE `id` = 82;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -656,7 +656,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 83;
+WHERE `id` = 83;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -664,7 +664,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 84;
+WHERE `id` = 84;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -672,7 +672,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 85;
+WHERE `id` = 85;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -680,7 +680,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 86;
+WHERE `id` = 86;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -688,7 +688,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 87;
+WHERE `id` = 87;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -696,7 +696,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 88;
+WHERE `id` = 88;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -704,7 +704,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 89;
+WHERE `id` = 89;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -712,7 +712,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 90;
+WHERE `id` = 90;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -720,7 +720,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 91;
+WHERE `id` = 91;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -728,7 +728,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 92;
+WHERE `id` = 92;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -736,7 +736,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 93;
+WHERE `id` = 93;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -744,7 +744,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 94;
+WHERE `id` = 94;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -752,7 +752,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 96;
+WHERE `id` = 96;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -760,7 +760,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 97;
+WHERE `id` = 97;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -768,7 +768,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 98;
+WHERE `id` = 98;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -776,7 +776,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 99;
+WHERE `id` = 99;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -784,7 +784,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 100;
+WHERE `id` = 100;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -792,7 +792,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 101;
+WHERE `id` = 101;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -800,7 +800,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 102;
+WHERE `id` = 102;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -808,7 +808,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 103;
+WHERE `id` = 103;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -816,7 +816,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 104;
+WHERE `id` = 104;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -824,7 +824,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 105;
+WHERE `id` = 105;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -832,7 +832,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 106;
+WHERE `id` = 106;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -840,7 +840,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 107;
+WHERE `id` = 107;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -848,7 +848,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 108;
+WHERE `id` = 108;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -856,7 +856,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 109;
+WHERE `id` = 109;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -864,7 +864,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 110;
+WHERE `id` = 110;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -872,7 +872,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 111;
+WHERE `id` = 111;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -880,7 +880,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 112;
+WHERE `id` = 112;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -888,7 +888,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 113;
+WHERE `id` = 113;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -896,7 +896,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 114;
+WHERE `id` = 114;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -904,7 +904,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 115;
+WHERE `id` = 115;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -912,7 +912,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 116;
+WHERE `id` = 116;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -920,7 +920,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 117;
+WHERE `id` = 117;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -928,7 +928,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 118;
+WHERE `id` = 118;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -936,7 +936,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 119;
+WHERE `id` = 119;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -944,7 +944,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 120;
+WHERE `id` = 120;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -952,7 +952,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 121;
+WHERE `id` = 121;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -960,7 +960,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 122;
+WHERE `id` = 122;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -968,14 +968,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 123;
+WHERE `id` = 123;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 124;
+WHERE `id` = 124;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -983,7 +983,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 125;
+WHERE `id` = 125;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -991,7 +991,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 126;
+WHERE `id` = 126;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -999,14 +999,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 127;
+WHERE `id` = 127;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 128;
+WHERE `id` = 128;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1014,7 +1014,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 129;
+WHERE `id` = 129;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1022,7 +1022,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 130;
+WHERE `id` = 130;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -1030,7 +1030,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 131;
+WHERE `id` = 131;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -1038,7 +1038,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 132;
+WHERE `id` = 132;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1046,7 +1046,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 133;
+WHERE `id` = 133;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1054,7 +1054,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 134;
+WHERE `id` = 134;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1062,7 +1062,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 135;
+WHERE `id` = 135;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1070,7 +1070,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 136;
+WHERE `id` = 136;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1078,7 +1078,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 137;
+WHERE `id` = 137;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1086,7 +1086,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 138;
+WHERE `id` = 138;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1094,7 +1094,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 139;
+WHERE `id` = 139;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1102,7 +1102,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 140;
+WHERE `id` = 140;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1110,7 +1110,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 141;
+WHERE `id` = 141;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1118,7 +1118,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 142;
+WHERE `id` = 142;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1126,7 +1126,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 143;
+WHERE `id` = 143;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1134,7 +1134,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 144;
+WHERE `id` = 144;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1142,7 +1142,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 145;
+WHERE `id` = 145;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1150,7 +1150,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 146;
+WHERE `id` = 146;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1158,7 +1158,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 147;
+WHERE `id` = 147;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1166,22 +1166,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 148;
+WHERE `id` = 148;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 149;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.5 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 150;
+WHERE `id` = 149;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1189,7 +1181,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 151;
+WHERE `id` = 150;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1197,7 +1189,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 152;
+WHERE `id` = 151;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1205,7 +1197,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 153;
+WHERE `id` = 152;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1213,7 +1205,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 154;
+WHERE `id` = 153;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1221,7 +1213,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 155;
+WHERE `id` = 154;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.5 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 155;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1229,7 +1229,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 156;
+WHERE `id` = 156;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1237,7 +1237,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 157;
+WHERE `id` = 157;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1245,7 +1245,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 158;
+WHERE `id` = 158;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1253,7 +1253,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 159;
+WHERE `id` = 159;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1261,7 +1261,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 160;
+WHERE `id` = 160;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1269,7 +1269,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 161;
+WHERE `id` = 161;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1277,7 +1277,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 162;
+WHERE `id` = 162;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1285,7 +1285,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 163;
+WHERE `id` = 163;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1293,7 +1293,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 164;
+WHERE `id` = 164;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1301,7 +1301,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 165;
+WHERE `id` = 165;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1309,7 +1309,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 166;
+WHERE `id` = 166;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1317,7 +1317,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 167;
+WHERE `id` = 167;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -1325,7 +1325,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 168;
+WHERE `id` = 168;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1333,7 +1333,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 169;
+WHERE `id` = 169;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -1341,7 +1341,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 170;
+WHERE `id` = 170;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1349,7 +1349,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 171;
+WHERE `id` = 171;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1357,21 +1357,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 172;
+WHERE `id` = 172;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.85 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 173;
+WHERE `id` = 173;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 175;
+WHERE `id` = 175;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1379,7 +1379,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 176;
+WHERE `id` = 176;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -1387,7 +1387,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 177;
+WHERE `id` = 177;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1395,7 +1395,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 178;
+WHERE `id` = 178;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1403,7 +1403,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 179;
+WHERE `id` = 179;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1411,7 +1411,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 180;
+WHERE `id` = 180;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -1419,7 +1419,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 181;
+WHERE `id` = 181;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1427,7 +1427,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 182;
+WHERE `id` = 182;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1435,7 +1435,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 183;
+WHERE `id` = 183;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1443,7 +1443,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 184;
+WHERE `id` = 184;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1451,7 +1451,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.0 */
-WHERE `ID` = 185;
+WHERE `id` = 185;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1459,7 +1459,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 186;
+WHERE `id` = 186;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1467,7 +1467,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 187;
+WHERE `id` = 187;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1475,7 +1475,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 188;
+WHERE `id` = 188;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1483,7 +1483,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 189;
+WHERE `id` = 189;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1491,7 +1491,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 190;
+WHERE `id` = 190;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1499,7 +1499,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 191;
+WHERE `id` = 191;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1507,7 +1507,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 192;
+WHERE `id` = 192;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1515,7 +1515,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 193;
+WHERE `id` = 193;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1523,7 +1523,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 194;
+WHERE `id` = 194;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1531,14 +1531,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 195;
+WHERE `id` = 195;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 196;
+WHERE `id` = 196;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1546,7 +1546,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 197;
+WHERE `id` = 197;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -1554,7 +1554,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 198;
+WHERE `id` = 198;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1562,14 +1562,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 199;
+WHERE `id` = 199;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 200;
+WHERE `id` = 200;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1577,7 +1577,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 201;
+WHERE `id` = 201;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -1585,7 +1585,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 202;
+WHERE `id` = 202;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1593,7 +1593,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 203;
+WHERE `id` = 203;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1601,7 +1601,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 204;
+WHERE `id` = 204;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1609,7 +1609,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 205;
+WHERE `id` = 205;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1617,7 +1617,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 206;
+WHERE `id` = 206;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1625,7 +1625,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 207;
+WHERE `id` = 207;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1633,7 +1633,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 208;
+WHERE `id` = 208;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1641,7 +1641,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 209;
+WHERE `id` = 209;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1649,7 +1649,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 210;
+WHERE `id` = 210;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1657,7 +1657,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 211;
+WHERE `id` = 211;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -1665,7 +1665,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 212;
+WHERE `id` = 212;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1673,22 +1673,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 213;
+WHERE `id` = 213;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 214;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 1.0 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 215;
+WHERE `id` = 214;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1696,7 +1688,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 216;
+WHERE `id` = 215;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 1.0 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 216;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -1704,7 +1704,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 217;
+WHERE `id` = 217;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1712,7 +1712,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 218;
+WHERE `id` = 218;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1720,7 +1720,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 219;
+WHERE `id` = 219;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1728,7 +1728,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 220;
+WHERE `id` = 220;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1736,7 +1736,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 221;
+WHERE `id` = 221;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1744,7 +1744,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 222;
+WHERE `id` = 222;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1752,7 +1752,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 223;
+WHERE `id` = 223;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1760,7 +1760,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 224;
+WHERE `id` = 224;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1768,7 +1768,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 225;
+WHERE `id` = 225;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -1776,14 +1776,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 226;
+WHERE `id` = 226;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 227;
+WHERE `id` = 227;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1791,7 +1791,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 228;
+WHERE `id` = 228;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1799,7 +1799,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 229;
+WHERE `id` = 229;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1807,7 +1807,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 230;
+WHERE `id` = 230;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1815,7 +1815,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 231;
+WHERE `id` = 231;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1823,7 +1823,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 232;
+WHERE `id` = 232;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1831,7 +1831,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 233;
+WHERE `id` = 233;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1839,7 +1839,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 234;
+WHERE `id` = 234;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1847,7 +1847,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 235;
+WHERE `id` = 235;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -1855,7 +1855,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 236;
+WHERE `id` = 236;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1863,7 +1863,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 237;
+WHERE `id` = 237;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1871,22 +1871,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 238;
+WHERE `id` = 238;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 239;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 1.0 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 240;
+WHERE `id` = 239;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1894,7 +1886,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 241;
+WHERE `id` = 240;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1902,7 +1894,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 242;
+WHERE `id` = 241;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1910,7 +1902,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 243;
+WHERE `id` = 242;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1918,7 +1910,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 244;
+WHERE `id` = 243;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1926,7 +1918,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 245;
+WHERE `id` = 244;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 1.0 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 245;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -1934,7 +1934,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 246;
+WHERE `id` = 246;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -1942,7 +1942,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 247;
+WHERE `id` = 247;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1950,7 +1950,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 248;
+WHERE `id` = 248;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1958,7 +1958,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 249;
+WHERE `id` = 249;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1966,7 +1966,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 250;
+WHERE `id` = 250;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -1974,7 +1974,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 251;
+WHERE `id` = 251;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -1982,7 +1982,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 252;
+WHERE `id` = 252;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -1990,7 +1990,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 253;
+WHERE `id` = 253;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -1998,7 +1998,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 254;
+WHERE `id` = 254;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -2006,7 +2006,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 255;
+WHERE `id` = 255;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -2014,7 +2014,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 256;
+WHERE `id` = 256;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2022,7 +2022,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 257;
+WHERE `id` = 257;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -2030,7 +2030,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 258;
+WHERE `id` = 258;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2038,7 +2038,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 259;
+WHERE `id` = 259;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -2046,7 +2046,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 260;
+WHERE `id` = 260;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2054,14 +2054,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 261;
+WHERE `id` = 261;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 262;
+WHERE `id` = 262;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2069,7 +2069,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 263;
+WHERE `id` = 263;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2077,7 +2077,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 264;
+WHERE `id` = 264;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2085,7 +2085,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 265;
+WHERE `id` = 265;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2093,7 +2093,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 266;
+WHERE `id` = 266;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2101,7 +2101,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 267;
+WHERE `id` = 267;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2109,14 +2109,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 268;
+WHERE `id` = 268;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 269;
+WHERE `id` = 269;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2124,7 +2124,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 270;
+WHERE `id` = 270;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2132,21 +2132,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 271;
+WHERE `id` = 271;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 272;
+WHERE `id` = 272;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 273;
+WHERE `id` = 273;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2154,22 +2154,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 274;
+WHERE `id` = 274;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 275;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 1.0 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 276;
+WHERE `id` = 275;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2177,7 +2169,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 277;
+WHERE `id` = 276;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 1.0 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 277;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2185,7 +2185,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 278;
+WHERE `id` = 278;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2193,7 +2193,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 279;
+WHERE `id` = 279;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2201,7 +2201,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 280;
+WHERE `id` = 280;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -2209,7 +2209,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 281;
+WHERE `id` = 281;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2217,7 +2217,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 282;
+WHERE `id` = 282;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -2225,7 +2225,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 283;
+WHERE `id` = 283;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2233,7 +2233,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 284;
+WHERE `id` = 284;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2241,7 +2241,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 285;
+WHERE `id` = 285;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -2249,7 +2249,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 286;
+WHERE `id` = 286;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2257,14 +2257,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 287;
+WHERE `id` = 287;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 288;
+WHERE `id` = 288;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2272,7 +2272,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 289;
+WHERE `id` = 289;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -2280,7 +2280,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 290;
+WHERE `id` = 290;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2288,7 +2288,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 291;
+WHERE `id` = 291;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2296,7 +2296,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 292;
+WHERE `id` = 292;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2304,7 +2304,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 293;
+WHERE `id` = 293;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -2312,7 +2312,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 294;
+WHERE `id` = 294;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2320,7 +2320,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 295;
+WHERE `id` = 295;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -2328,7 +2328,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 296;
+WHERE `id` = 296;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2336,7 +2336,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 297;
+WHERE `id` = 297;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2344,7 +2344,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 298;
+WHERE `id` = 298;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2352,7 +2352,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 299;
+WHERE `id` = 299;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2360,7 +2360,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 300;
+WHERE `id` = 300;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2368,7 +2368,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 301;
+WHERE `id` = 301;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2376,14 +2376,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 302;
+WHERE `id` = 302;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 303;
+WHERE `id` = 303;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2391,7 +2391,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 304;
+WHERE `id` = 304;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2399,7 +2399,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 305;
+WHERE `id` = 305;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2407,7 +2407,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 306;
+WHERE `id` = 306;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2415,7 +2415,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.0 */
-WHERE `ID` = 307;
+WHERE `id` = 307;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2423,14 +2423,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 308;
+WHERE `id` = 308;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 309;
+WHERE `id` = 309;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2438,7 +2438,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 310;
+WHERE `id` = 310;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2446,7 +2446,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 311;
+WHERE `id` = 311;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2454,7 +2454,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 312;
+WHERE `id` = 312;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -2462,7 +2462,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 313;
+WHERE `id` = 313;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2470,7 +2470,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 314;
+WHERE `id` = 314;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2478,7 +2478,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 315;
+WHERE `id` = 315;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2486,7 +2486,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 316;
+WHERE `id` = 316;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2494,7 +2494,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 317;
+WHERE `id` = 317;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2502,7 +2502,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 318;
+WHERE `id` = 318;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2510,7 +2510,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 319;
+WHERE `id` = 319;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2518,7 +2518,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 320;
+WHERE `id` = 320;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2526,7 +2526,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 321;
+WHERE `id` = 321;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2534,7 +2534,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 322;
+WHERE `id` = 322;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2542,7 +2542,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 323;
+WHERE `id` = 323;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2550,7 +2550,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 324;
+WHERE `id` = 324;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2558,7 +2558,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 325;
+WHERE `id` = 325;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2566,7 +2566,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 326;
+WHERE `id` = 326;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2574,7 +2574,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 327;
+WHERE `id` = 327;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2582,7 +2582,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 328;
+WHERE `id` = 328;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2590,7 +2590,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 329;
+WHERE `id` = 329;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2598,7 +2598,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 330;
+WHERE `id` = 330;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2606,7 +2606,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 331;
+WHERE `id` = 331;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2614,7 +2614,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 332;
+WHERE `id` = 332;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2622,7 +2622,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 333;
+WHERE `id` = 333;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2630,7 +2630,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 334;
+WHERE `id` = 334;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2638,7 +2638,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 335;
+WHERE `id` = 335;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2646,7 +2646,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 336;
+WHERE `id` = 336;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2654,7 +2654,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 337;
+WHERE `id` = 337;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2662,7 +2662,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 338;
+WHERE `id` = 338;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2670,7 +2670,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 339;
+WHERE `id` = 339;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2678,7 +2678,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 340;
+WHERE `id` = 340;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2686,7 +2686,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 341;
+WHERE `id` = 341;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2694,7 +2694,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 342;
+WHERE `id` = 342;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2702,7 +2702,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 343;
+WHERE `id` = 343;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2710,7 +2710,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 344;
+WHERE `id` = 344;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2718,7 +2718,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 345;
+WHERE `id` = 345;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2726,7 +2726,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 346;
+WHERE `id` = 346;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2734,7 +2734,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 347;
+WHERE `id` = 347;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2742,7 +2742,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 348;
+WHERE `id` = 348;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2750,7 +2750,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 349;
+WHERE `id` = 349;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2758,7 +2758,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 350;
+WHERE `id` = 350;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2766,7 +2766,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 351;
+WHERE `id` = 351;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2774,7 +2774,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 352;
+WHERE `id` = 352;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2782,7 +2782,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 353;
+WHERE `id` = 353;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2790,7 +2790,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 354;
+WHERE `id` = 354;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2798,7 +2798,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 355;
+WHERE `id` = 355;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2806,7 +2806,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 356;
+WHERE `id` = 356;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2814,7 +2814,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 357;
+WHERE `id` = 357;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2822,7 +2822,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 358;
+WHERE `id` = 358;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2830,7 +2830,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 359;
+WHERE `id` = 359;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2838,7 +2838,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 360;
+WHERE `id` = 360;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2846,7 +2846,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 361;
+WHERE `id` = 361;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2854,7 +2854,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 362;
+WHERE `id` = 362;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2862,7 +2862,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 363;
+WHERE `id` = 363;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2870,7 +2870,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 364;
+WHERE `id` = 364;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2878,7 +2878,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 365;
+WHERE `id` = 365;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2886,7 +2886,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 366;
+WHERE `id` = 366;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2894,7 +2894,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 367;
+WHERE `id` = 367;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2902,7 +2902,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 368;
+WHERE `id` = 368;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -2910,23 +2910,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 369;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.65 */,
-    `waterShallowAlpha` = 0.8 /* was 0.85 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 370;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 1.0 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 371;
+WHERE `id` = 369;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -2934,7 +2918,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 372;
+WHERE `id` = 370;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 1.0 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 371;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -2942,7 +2934,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 373;
+WHERE `id` = 372;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.65 */,
+    `waterShallowAlpha` = 0.8 /* was 0.85 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 373;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2950,7 +2950,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 374;
+WHERE `id` = 374;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2958,7 +2958,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 375;
+WHERE `id` = 375;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -2966,7 +2966,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 377;
+WHERE `id` = 377;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2974,14 +2974,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 378;
+WHERE `id` = 378;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 379;
+WHERE `id` = 379;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -2989,14 +2989,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 380;
+WHERE `id` = 380;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.0 */
-WHERE `ID` = 381;
+WHERE `id` = 381;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -3004,7 +3004,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 382;
+WHERE `id` = 382;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3012,7 +3012,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 383;
+WHERE `id` = 383;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3020,7 +3020,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 384;
+WHERE `id` = 384;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3028,7 +3028,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 385;
+WHERE `id` = 385;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3036,7 +3036,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 386;
+WHERE `id` = 386;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3044,7 +3044,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 387;
+WHERE `id` = 387;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3052,7 +3052,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 388;
+WHERE `id` = 388;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3060,7 +3060,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 389;
+WHERE `id` = 389;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3068,7 +3068,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 390;
+WHERE `id` = 390;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3076,7 +3076,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 391;
+WHERE `id` = 391;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3084,7 +3084,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 392;
+WHERE `id` = 392;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3092,7 +3092,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 393;
+WHERE `id` = 393;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3100,21 +3100,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 394;
+WHERE `id` = 394;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 395;
+WHERE `id` = 395;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 396;
+WHERE `id` = 396;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3122,7 +3122,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 397;
+WHERE `id` = 397;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3130,7 +3130,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 398;
+WHERE `id` = 398;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3138,7 +3138,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.5 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 399;
+WHERE `id` = 399;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3146,7 +3146,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 400;
+WHERE `id` = 400;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3154,7 +3154,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 401;
+WHERE `id` = 401;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3162,7 +3162,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 402;
+WHERE `id` = 402;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3170,7 +3170,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 403;
+WHERE `id` = 403;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3178,21 +3178,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 404;
+WHERE `id` = 404;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 405;
+WHERE `id` = 405;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 406;
+WHERE `id` = 406;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -3200,7 +3200,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 407;
+WHERE `id` = 407;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3208,7 +3208,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 408;
+WHERE `id` = 408;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -3216,7 +3216,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 409;
+WHERE `id` = 409;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3224,7 +3224,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 410;
+WHERE `id` = 410;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3232,7 +3232,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 411;
+WHERE `id` = 411;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3240,7 +3240,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 412;
+WHERE `id` = 412;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3248,7 +3248,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 413;
+WHERE `id` = 413;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3256,7 +3256,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 414;
+WHERE `id` = 414;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3264,7 +3264,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 415;
+WHERE `id` = 415;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3272,7 +3272,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 416;
+WHERE `id` = 416;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3280,7 +3280,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 417;
+WHERE `id` = 417;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3288,7 +3288,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 418;
+WHERE `id` = 418;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -3296,42 +3296,42 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 419;
+WHERE `id` = 419;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 420;
+WHERE `id` = 420;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 421;
+WHERE `id` = 421;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 422;
+WHERE `id` = 422;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 423;
+WHERE `id` = 423;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 424;
+WHERE `id` = 424;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3339,7 +3339,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 425;
+WHERE `id` = 425;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3347,38 +3347,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 426;
+WHERE `id` = 426;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 427;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.7 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 428;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.5 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 429;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.5 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 430;
+WHERE `id` = 427;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -3386,7 +3362,31 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 431;
+WHERE `id` = 428;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.5 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 429;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.5 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 430;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.7 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 431;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3394,7 +3394,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 432;
+WHERE `id` = 432;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3402,7 +3402,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 433;
+WHERE `id` = 433;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3410,7 +3410,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 434;
+WHERE `id` = 434;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3418,7 +3418,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 435;
+WHERE `id` = 435;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3426,14 +3426,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.65 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 436;
+WHERE `id` = 436;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 437;
+WHERE `id` = 437;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3441,22 +3441,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 438;
+WHERE `id` = 438;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 439;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.4 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 440;
+WHERE `id` = 439;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3464,14 +3456,22 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 441;
+WHERE `id` = 440;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.4 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 441;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 442;
+WHERE `id` = 442;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3479,7 +3479,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 443;
+WHERE `id` = 443;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3487,7 +3487,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 444;
+WHERE `id` = 444;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3495,7 +3495,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 445;
+WHERE `id` = 445;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3503,7 +3503,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 446;
+WHERE `id` = 446;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3511,7 +3511,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 447;
+WHERE `id` = 447;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3519,7 +3519,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 448;
+WHERE `id` = 448;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3527,7 +3527,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 449;
+WHERE `id` = 449;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3535,7 +3535,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 450;
+WHERE `id` = 450;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3543,7 +3543,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 451;
+WHERE `id` = 451;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3551,7 +3551,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 452;
+WHERE `id` = 452;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3559,7 +3559,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 453;
+WHERE `id` = 453;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3567,7 +3567,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 454;
+WHERE `id` = 454;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3575,7 +3575,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 455;
+WHERE `id` = 455;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -3583,7 +3583,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 456;
+WHERE `id` = 456;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3591,7 +3591,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 457;
+WHERE `id` = 457;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -3599,21 +3599,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 458;
+WHERE `id` = 458;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 459;
+WHERE `id` = 459;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.7 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 460;
+WHERE `id` = 460;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3621,7 +3621,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 461;
+WHERE `id` = 461;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3629,7 +3629,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 462;
+WHERE `id` = 462;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3637,7 +3637,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 463;
+WHERE `id` = 463;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3645,7 +3645,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.5 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 464;
+WHERE `id` = 464;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3653,22 +3653,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.5 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 465;
+WHERE `id` = 465;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 466;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.5 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 467;
+WHERE `id` = 466;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3676,7 +3668,15 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 468;
+WHERE `id` = 467;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.5 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 468;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3684,7 +3684,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 469;
+WHERE `id` = 469;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3692,7 +3692,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 470;
+WHERE `id` = 470;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3700,7 +3700,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 471;
+WHERE `id` = 471;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3708,7 +3708,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 472;
+WHERE `id` = 472;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3716,7 +3716,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 473;
+WHERE `id` = 473;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3724,7 +3724,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 474;
+WHERE `id` = 474;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3732,7 +3732,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 475;
+WHERE `id` = 475;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3740,14 +3740,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 476;
+WHERE `id` = 476;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 477;
+WHERE `id` = 477;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3755,7 +3755,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 478;
+WHERE `id` = 478;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3763,7 +3763,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 479;
+WHERE `id` = 479;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3771,7 +3771,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 480;
+WHERE `id` = 480;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3779,7 +3779,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 481;
+WHERE `id` = 481;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -3787,7 +3787,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 482;
+WHERE `id` = 482;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3795,7 +3795,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 483;
+WHERE `id` = 483;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -3803,14 +3803,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 484;
+WHERE `id` = 484;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 485;
+WHERE `id` = 485;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3818,7 +3818,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 486;
+WHERE `id` = 486;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3826,7 +3826,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.65 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 487;
+WHERE `id` = 487;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3834,7 +3834,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.65 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 488;
+WHERE `id` = 488;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3842,21 +3842,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.65 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 489;
+WHERE `id` = 489;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 490;
+WHERE `id` = 490;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 491;
+WHERE `id` = 491;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3864,7 +3864,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 492;
+WHERE `id` = 492;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3872,7 +3872,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 493;
+WHERE `id` = 493;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3880,7 +3880,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 494;
+WHERE `id` = 494;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3888,7 +3888,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 495;
+WHERE `id` = 495;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3896,7 +3896,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.5 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 496;
+WHERE `id` = 496;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3904,7 +3904,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 497;
+WHERE `id` = 497;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3912,7 +3912,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 498;
+WHERE `id` = 498;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -3920,7 +3920,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 499;
+WHERE `id` = 499;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3928,28 +3928,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 500;
+WHERE `id` = 500;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 501;
+WHERE `id` = 501;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 502;
+WHERE `id` = 502;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 503;
+WHERE `id` = 503;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3957,7 +3957,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 504;
+WHERE `id` = 504;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -3965,7 +3965,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.65 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 505;
+WHERE `id` = 505;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -3973,7 +3973,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 506;
+WHERE `id` = 506;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3981,7 +3981,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 507;
+WHERE `id` = 507;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -3989,7 +3989,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 508;
+WHERE `id` = 508;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -3997,14 +3997,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 509;
+WHERE `id` = 509;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 510;
+WHERE `id` = 510;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4012,7 +4012,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 511;
+WHERE `id` = 511;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4020,22 +4020,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 512;
+WHERE `id` = 512;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 513;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.75 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 514;
+WHERE `id` = 513;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -4043,7 +4035,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 515;
+WHERE `id` = 514;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -4051,14 +4043,22 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 516;
+WHERE `id` = 515;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.75 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 516;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 517;
+WHERE `id` = 517;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4066,21 +4066,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 518;
+WHERE `id` = 518;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 519;
+WHERE `id` = 519;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 520;
+WHERE `id` = 520;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4088,7 +4088,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 521;
+WHERE `id` = 521;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4096,7 +4096,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 522;
+WHERE `id` = 522;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.75 */,
@@ -4104,7 +4104,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 523;
+WHERE `id` = 523;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4112,7 +4112,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 524;
+WHERE `id` = 524;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4120,7 +4120,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 525;
+WHERE `id` = 525;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -4128,7 +4128,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 526;
+WHERE `id` = 526;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4136,7 +4136,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 527;
+WHERE `id` = 527;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4144,7 +4144,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 528;
+WHERE `id` = 528;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4152,7 +4152,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 529;
+WHERE `id` = 529;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -4160,7 +4160,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 530;
+WHERE `id` = 530;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4168,7 +4168,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 531;
+WHERE `id` = 531;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4176,7 +4176,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 532;
+WHERE `id` = 532;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4184,7 +4184,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 533;
+WHERE `id` = 533;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4192,7 +4192,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 534;
+WHERE `id` = 534;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4200,14 +4200,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 535;
+WHERE `id` = 535;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 536;
+WHERE `id` = 536;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4215,7 +4215,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 537;
+WHERE `id` = 537;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4223,7 +4223,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 538;
+WHERE `id` = 538;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4231,7 +4231,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 539;
+WHERE `id` = 539;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4239,14 +4239,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 540;
+WHERE `id` = 540;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 541;
+WHERE `id` = 541;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -4254,56 +4254,56 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 542;
+WHERE `id` = 542;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 543;
+WHERE `id` = 543;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 544;
+WHERE `id` = 544;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 545;
+WHERE `id` = 545;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 546;
+WHERE `id` = 546;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 547;
+WHERE `id` = 547;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 548;
+WHERE `id` = 548;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 549;
+WHERE `id` = 549;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4311,21 +4311,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 550;
+WHERE `id` = 550;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 551;
+WHERE `id` = 551;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 552;
+WHERE `id` = 552;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -4333,28 +4333,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 553;
+WHERE `id` = 553;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 554;
+WHERE `id` = 554;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 555;
+WHERE `id` = 555;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.45 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 556;
+WHERE `id` = 556;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4362,7 +4362,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 557;
+WHERE `id` = 557;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4370,14 +4370,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 558;
+WHERE `id` = 558;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 559;
+WHERE `id` = 559;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -4385,28 +4385,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 560;
+WHERE `id` = 560;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 561;
+WHERE `id` = 561;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 562;
+WHERE `id` = 562;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 563;
+WHERE `id` = 563;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4414,7 +4414,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 564;
+WHERE `id` = 564;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4422,7 +4422,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 565;
+WHERE `id` = 565;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -4430,14 +4430,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 566;
+WHERE `id` = 566;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 567;
+WHERE `id` = 567;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4445,14 +4445,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 568;
+WHERE `id` = 568;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.8 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 569;
+WHERE `id` = 569;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4460,7 +4460,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 570;
+WHERE `id` = 570;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -4468,7 +4468,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 571;
+WHERE `id` = 571;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.85 */,
@@ -4476,42 +4476,42 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 572;
+WHERE `id` = 572;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 573;
+WHERE `id` = 573;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 574;
+WHERE `id` = 574;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 575;
+WHERE `id` = 575;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 576;
+WHERE `id` = 576;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 577;
+WHERE `id` = 577;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4519,7 +4519,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 578;
+WHERE `id` = 578;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4527,57 +4527,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 579;
+WHERE `id` = 579;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 580;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 1.0 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 581;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 582;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 583;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 584;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 585;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 586;
+WHERE `id` = 580;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4585,50 +4542,85 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 587;
+WHERE `id` = 581;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 582;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 583;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 584;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 585;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 586;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 1.0 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 587;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 588;
+WHERE `id` = 588;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.9 */,
     `oceanDeepAlpha` = 0.85 /* was 0.7 */
-WHERE `ID` = 589;
+WHERE `id` = 589;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 590;
+WHERE `id` = 590;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 591;
+WHERE `id` = 591;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 592;
-
-UPDATE `dbc`.`lightparams` SET 
-    `glow` = 0.3 /* was 0.5 */,
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 593;
+WHERE `id` = 592;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4636,7 +4628,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 594;
+WHERE `id` = 593;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4644,7 +4636,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 595;
+WHERE `id` = 594;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4652,7 +4644,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 596;
+WHERE `id` = 595;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4660,7 +4652,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 597;
+WHERE `id` = 596;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4668,14 +4660,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 598;
-
-UPDATE `dbc`.`lightparams` SET 
-    `waterShallowAlpha` = 0.8 /* was 0.5 */,
-    `waterDeepAlpha` = 0.85 /* was 1.0 */,
-    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
-    `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 599;
+WHERE `id` = 597;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4683,35 +4668,50 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 600;
+WHERE `id` = 598;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 601;
+WHERE `id` = 599;
+
+UPDATE `dbc`.`lightparams` SET 
+    `glow` = 0.3 /* was 0.5 */,
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 600;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 602;
+WHERE `id` = 601;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 603;
+WHERE `id` = 602;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 604;
+WHERE `id` = 603;
+
+UPDATE `dbc`.`lightparams` SET 
+    `waterShallowAlpha` = 0.8 /* was 0.5 */,
+    `waterDeepAlpha` = 0.85 /* was 1.0 */,
+    `oceanShallowAlpha` = 0.8 /* was 0.75 */,
+    `oceanDeepAlpha` = 0.85 /* was 1.0 */
+WHERE `id` = 604;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -4719,7 +4719,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 605;
+WHERE `id` = 605;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4727,7 +4727,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 606;
+WHERE `id` = 606;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4735,14 +4735,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 607;
+WHERE `id` = 607;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 608;
+WHERE `id` = 608;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4750,14 +4750,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 609;
+WHERE `id` = 609;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 610;
+WHERE `id` = 610;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4765,56 +4765,56 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 611;
+WHERE `id` = 611;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 612;
+WHERE `id` = 612;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 613;
+WHERE `id` = 613;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 614;
+WHERE `id` = 614;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 615;
+WHERE `id` = 615;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.9 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 616;
+WHERE `id` = 616;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 617;
+WHERE `id` = 617;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 618;
+WHERE `id` = 618;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -4822,63 +4822,63 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 619;
+WHERE `id` = 619;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 620;
+WHERE `id` = 620;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 621;
+WHERE `id` = 621;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 622;
+WHERE `id` = 622;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 623;
+WHERE `id` = 623;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 624;
+WHERE `id` = 624;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 625;
+WHERE `id` = 625;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 626;
+WHERE `id` = 626;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 627;
+WHERE `id` = 627;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4886,77 +4886,77 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 628;
+WHERE `id` = 628;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 629;
+WHERE `id` = 629;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 630;
+WHERE `id` = 630;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 631;
+WHERE `id` = 631;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 632;
+WHERE `id` = 632;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 633;
+WHERE `id` = 633;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 634;
+WHERE `id` = 634;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 635;
+WHERE `id` = 635;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 636;
+WHERE `id` = 636;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 637;
+WHERE `id` = 637;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 638;
+WHERE `id` = 638;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4964,28 +4964,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 639;
+WHERE `id` = 639;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 640;
+WHERE `id` = 640;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 641;
+WHERE `id` = 641;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 642;
+WHERE `id` = 642;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -4993,21 +4993,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 643;
+WHERE `id` = 643;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 644;
+WHERE `id` = 644;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 645;
+WHERE `id` = 645;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -5015,14 +5015,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 646;
+WHERE `id` = 646;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 647;
+WHERE `id` = 647;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -5030,14 +5030,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 648;
+WHERE `id` = 648;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 649;
+WHERE `id` = 649;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5045,21 +5045,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 650;
+WHERE `id` = 650;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 651;
+WHERE `id` = 651;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 652;
+WHERE `id` = 652;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -5067,28 +5067,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 653;
+WHERE `id` = 653;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 654;
+WHERE `id` = 654;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 655;
+WHERE `id` = 655;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 656;
+WHERE `id` = 656;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5096,56 +5096,56 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 657;
+WHERE `id` = 657;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 658;
+WHERE `id` = 658;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 659;
+WHERE `id` = 659;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 660;
+WHERE `id` = 660;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.7 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 661;
+WHERE `id` = 661;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 662;
+WHERE `id` = 662;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 663;
+WHERE `id` = 663;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 664;
+WHERE `id` = 664;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5153,21 +5153,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 665;
+WHERE `id` = 665;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 666;
+WHERE `id` = 666;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 667;
+WHERE `id` = 667;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -5175,21 +5175,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 668;
+WHERE `id` = 668;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 669;
+WHERE `id` = 669;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.9 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 670;
+WHERE `id` = 670;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5197,7 +5197,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 671;
+WHERE `id` = 671;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -5205,21 +5205,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 672;
+WHERE `id` = 672;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 673;
+WHERE `id` = 673;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 674;
+WHERE `id` = 674;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5227,7 +5227,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 675;
+WHERE `id` = 675;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5235,7 +5235,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 676;
+WHERE `id` = 676;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5243,27 +5243,27 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 677;
+WHERE `id` = 677;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 678;
+WHERE `id` = 678;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 679;
+WHERE `id` = 679;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.85 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 680;
+WHERE `id` = 680;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.9 */,
@@ -5271,49 +5271,49 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 681;
+WHERE `id` = 681;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 682;
+WHERE `id` = 682;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 683;
+WHERE `id` = 683;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 684;
+WHERE `id` = 684;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 685;
+WHERE `id` = 685;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 686;
+WHERE `id` = 686;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 687;
+WHERE `id` = 687;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5321,7 +5321,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 688;
+WHERE `id` = 688;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5329,7 +5329,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 689;
+WHERE `id` = 689;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5337,7 +5337,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 690;
+WHERE `id` = 690;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5345,7 +5345,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 691;
+WHERE `id` = 691;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5353,7 +5353,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 692;
+WHERE `id` = 692;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5361,7 +5361,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 693;
+WHERE `id` = 693;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5369,76 +5369,76 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 694;
+WHERE `id` = 694;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 695;
+WHERE `id` = 695;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 696;
+WHERE `id` = 696;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 697;
+WHERE `id` = 697;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 698;
+WHERE `id` = 698;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 699;
+WHERE `id` = 699;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 700;
+WHERE `id` = 700;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 701;
+WHERE `id` = 701;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 702;
+WHERE `id` = 702;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 703;
+WHERE `id` = 703;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterDeepAlpha` = 0.55 /* was 1.0 */,
     `oceanShallowAlpha` = 0.3 /* was 0.75 */,
     `oceanDeepAlpha` = 0.55 /* was 1.0 */
-WHERE `ID` = 704;
+WHERE `id` = 704;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5446,56 +5446,56 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 705;
+WHERE `id` = 705;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 706;
+WHERE `id` = 706;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 707;
+WHERE `id` = 707;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 708;
+WHERE `id` = 708;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 709;
+WHERE `id` = 709;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 710;
+WHERE `id` = 710;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 711;
+WHERE `id` = 711;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 712;
+WHERE `id` = 712;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5503,7 +5503,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 713;
+WHERE `id` = 713;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5511,28 +5511,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 714;
+WHERE `id` = 714;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 715;
+WHERE `id` = 715;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 716;
+WHERE `id` = 716;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 717;
+WHERE `id` = 717;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5540,14 +5540,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 718;
+WHERE `id` = 718;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 719;
+WHERE `id` = 719;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5555,14 +5555,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.0 */,
     `oceanDeepAlpha` = 0.85 /* was 0.0 */
-WHERE `ID` = 720;
+WHERE `id` = 720;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 721;
+WHERE `id` = 721;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5570,7 +5570,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 722;
+WHERE `id` = 722;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -5578,21 +5578,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 723;
+WHERE `id` = 723;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 724;
+WHERE `id` = 724;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 725;
+WHERE `id` = 725;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5600,7 +5600,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 726;
+WHERE `id` = 726;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5608,7 +5608,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 727;
+WHERE `id` = 727;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -5616,14 +5616,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 728;
+WHERE `id` = 728;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
     `waterDeepAlpha` = 0.55 /* was 1.0 */,
     `oceanShallowAlpha` = 0.3 /* was 0.75 */,
     `oceanDeepAlpha` = 0.55 /* was 1.0 */
-WHERE `ID` = 729;
+WHERE `id` = 729;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5631,28 +5631,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 730;
+WHERE `id` = 730;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 731;
+WHERE `id` = 731;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 732;
+WHERE `id` = 732;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.3 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 733;
+WHERE `id` = 733;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5660,28 +5660,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 734;
+WHERE `id` = 734;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 735;
+WHERE `id` = 735;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 736;
+WHERE `id` = 736;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 737;
+WHERE `id` = 737;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5689,7 +5689,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 738;
+WHERE `id` = 738;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5697,7 +5697,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 739;
+WHERE `id` = 739;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5705,7 +5705,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 740;
+WHERE `id` = 740;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5713,21 +5713,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 741;
+WHERE `id` = 741;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 742;
+WHERE `id` = 742;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 0.4 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 743;
+WHERE `id` = 743;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.7 */,
@@ -5735,35 +5735,35 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 744;
+WHERE `id` = 744;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 745;
+WHERE `id` = 745;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 746;
+WHERE `id` = 746;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 747;
+WHERE `id` = 747;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 748;
+WHERE `id` = 748;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -5771,28 +5771,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 749;
+WHERE `id` = 749;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 750;
+WHERE `id` = 750;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 751;
+WHERE `id` = 751;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 752;
+WHERE `id` = 752;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5800,21 +5800,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 753;
+WHERE `id` = 753;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 754;
+WHERE `id` = 754;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 755;
+WHERE `id` = 755;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -5822,14 +5822,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 756;
+WHERE `id` = 756;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 757;
+WHERE `id` = 757;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -5837,14 +5837,14 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 758;
+WHERE `id` = 758;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 759;
+WHERE `id` = 759;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5852,7 +5852,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 760;
+WHERE `id` = 760;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5860,35 +5860,35 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 761;
+WHERE `id` = 761;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 762;
+WHERE `id` = 762;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 763;
+WHERE `id` = 763;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.55 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 764;
+WHERE `id` = 764;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 0.8 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 765;
+WHERE `id` = 765;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -5896,7 +5896,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 766;
+WHERE `id` = 766;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5904,52 +5904,52 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 767;
+WHERE `id` = 767;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 768;
+WHERE `id` = 768;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 769;
+WHERE `id` = 769;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 770;
+WHERE `id` = 770;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 771;
+WHERE `id` = 771;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 772;
+WHERE `id` = 772;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 773;
+WHERE `id` = 773;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 774;
+WHERE `id` = 774;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -5957,7 +5957,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 775;
+WHERE `id` = 775;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.65 */,
@@ -5965,7 +5965,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 776;
+WHERE `id` = 776;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -5973,21 +5973,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 777;
+WHERE `id` = 777;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.9 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 778;
+WHERE `id` = 778;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 779;
+WHERE `id` = 779;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -5995,7 +5995,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 780;
+WHERE `id` = 780;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -6003,7 +6003,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 781;
+WHERE `id` = 781;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -6011,49 +6011,49 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 782;
+WHERE `id` = 782;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 783;
+WHERE `id` = 783;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 784;
+WHERE `id` = 784;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 785;
+WHERE `id` = 785;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 786;
+WHERE `id` = 786;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 787;
+WHERE `id` = 787;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 788;
+WHERE `id` = 788;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -6061,7 +6061,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 789;
+WHERE `id` = 789;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -6069,7 +6069,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 790;
+WHERE `id` = 790;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.45 */,
@@ -6077,28 +6077,28 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 791;
+WHERE `id` = 791;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.55 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 792;
+WHERE `id` = 792;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.45 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 793;
+WHERE `id` = 793;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.5 */
-WHERE `ID` = 794;
+WHERE `id` = 794;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -6106,42 +6106,42 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 795;
+WHERE `id` = 795;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 796;
+WHERE `id` = 796;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 0.8 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 797;
+WHERE `id` = 797;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 798;
+WHERE `id` = 798;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 799;
+WHERE `id` = 799;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 800;
+WHERE `id` = 800;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6149,7 +6149,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 801;
+WHERE `id` = 801;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6157,7 +6157,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 802;
+WHERE `id` = 802;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6165,7 +6165,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 803;
+WHERE `id` = 803;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6173,49 +6173,49 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 804;
+WHERE `id` = 804;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 805;
+WHERE `id` = 805;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 806;
+WHERE `id` = 806;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.6 */,
     `waterDeepAlpha` = 0.85 /* was 0.4 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 807;
+WHERE `id` = 807;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 808;
+WHERE `id` = 808;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 809;
+WHERE `id` = 809;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 810;
+WHERE `id` = 810;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 1.0 */,
@@ -6223,7 +6223,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 811;
+WHERE `id` = 811;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6231,7 +6231,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 812;
+WHERE `id` = 812;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6239,7 +6239,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 813;
+WHERE `id` = 813;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.4 */,
@@ -6247,7 +6247,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 814;
+WHERE `id` = 814;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6255,7 +6255,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 815;
+WHERE `id` = 815;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6263,63 +6263,63 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.0 */,
     `oceanDeepAlpha` = 0.85 /* was 0.0 */
-WHERE `ID` = 816;
+WHERE `id` = 816;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 817;
+WHERE `id` = 817;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 818;
+WHERE `id` = 818;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 819;
+WHERE `id` = 819;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 0.9 */
-WHERE `ID` = 820;
+WHERE `id` = 820;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 821;
+WHERE `id` = 821;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.7 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 822;
+WHERE `id` = 822;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 823;
+WHERE `id` = 823;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.7 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 824;
+WHERE `id` = 824;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6327,21 +6327,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 825;
+WHERE `id` = 825;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 826;
+WHERE `id` = 826;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 827;
+WHERE `id` = 827;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -6349,36 +6349,36 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 828;
+WHERE `id` = 828;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.65 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 829;
+WHERE `id` = 829;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 830;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 830;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 830,
+    `id` = 830,
     `glow` = 0.8,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 831;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 831;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 831,
+    `id` = 831,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 832;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 832;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 832,
+    `id` = 832,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6386,9 +6386,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 833;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 833;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 833,
+    `id` = 833,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
@@ -6400,11 +6400,11 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 834;
+WHERE `id` = 834;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 835;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 835;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 835,
+    `id` = 835,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
@@ -6416,7 +6416,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 836;
+WHERE `id` = 836;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.8 */,
@@ -6424,20 +6424,20 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 837;
+WHERE `id` = 837;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 838;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 838;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 838,
+    `id` = 838,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 839;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 839;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 839,
+    `id` = 839,
     `higlightSky` = 1,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
@@ -6445,9 +6445,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 840;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 840;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 840,
+    `id` = 840,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.4,
@@ -6461,38 +6461,38 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 0.9 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 841;
+WHERE `id` = 841;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 842;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 842;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 842,
+    `id` = 842,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 843;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 843;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 843,
+    `id` = 843,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 844;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 844;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 844,
+    `id` = 844,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 845;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 845;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 845,
+    `id` = 845,
     `higlightSky` = 1,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
@@ -6500,9 +6500,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 846;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 846;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 846,
+    `id` = 846,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -6510,9 +6510,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 847;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 847;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 847,
+    `id` = 847,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -6520,9 +6520,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 848;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 848;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 848,
+    `id` = 848,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -6530,9 +6530,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 849;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 849;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 849,
+    `id` = 849,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -6546,7 +6546,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 850;
+WHERE `id` = 850;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6554,7 +6554,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 851;
+WHERE `id` = 851;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.5 */,
@@ -6562,11 +6562,11 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 852;
+WHERE `id` = 852;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 853;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 853;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 853,
+    `id` = 853,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -6575,9 +6575,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 854;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 854;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 854,
+    `id` = 854,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6585,9 +6585,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 855;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 855;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 855,
+    `id` = 855,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6595,9 +6595,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 857;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 857;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 857,
+    `id` = 857,
     `higlightSky` = 1,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
@@ -6605,9 +6605,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 858;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 858;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 858,
+    `id` = 858,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6615,9 +6615,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 859;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 859;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 859,
+    `id` = 859,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6625,9 +6625,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 860;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 860;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 860,
+    `id` = 860,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6635,9 +6635,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 861;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 861;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 861,
+    `id` = 861,
     `higlightSky` = 1,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
@@ -6645,9 +6645,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 862;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 862;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 862,
+    `id` = 862,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -6662,11 +6662,11 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 863;
+WHERE `id` = 863;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 864;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 864;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 864,
+    `id` = 864,
     `higlightSky` = 1,
     `skyboxId` = 133,
     `glow` = 0.1,
@@ -6675,9 +6675,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 865;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 865;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 865,
+    `id` = 865,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -6685,18 +6685,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 866;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 866;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 866,
+    `id` = 866,
     `glow` = 0.65,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 867;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 867;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 867,
+    `id` = 867,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -6704,9 +6704,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 868;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 868;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 868,
+    `id` = 868,
     `higlightSky` = 1,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
@@ -6714,9 +6714,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 869;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 869;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 869,
+    `id` = 869,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -6724,9 +6724,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 870;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 870;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 870,
+    `id` = 870,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
@@ -6738,11 +6738,11 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 871;
+WHERE `id` = 871;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 872;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 872;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 872,
+    `id` = 872,
     `skyboxId` = 128,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.3,
@@ -6750,9 +6750,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 873;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 873;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 873,
+    `id` = 873,
     `higlightSky` = 1,
     `skyboxId` = 129,
     `glow` = 0.4,
@@ -6761,9 +6761,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 874;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 874;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 874,
+    `id` = 874,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.65,
@@ -6771,9 +6771,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 875;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 875;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 875,
+    `id` = 875,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.65,
@@ -6781,18 +6781,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 876;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 876;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 876,
+    `id` = 876,
     `skyboxId` = 155,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 877;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 877;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 877,
+    `id` = 877,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -6800,9 +6800,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 878;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 878;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 878,
+    `id` = 878,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.65,
@@ -6815,7 +6815,7 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 879;
+WHERE `id` = 879;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -6823,20 +6823,20 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 880;
+WHERE `id` = 880;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 881;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 881;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 881,
+    `id` = 881,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 882;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 882;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 882,
+    `id` = 882,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -6844,18 +6844,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 883;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 883;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 883,
+    `id` = 883,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 884;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 884;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 884,
+    `id` = 884,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -6863,9 +6863,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 885;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 885;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 885,
+    `id` = 885,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -6873,9 +6873,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 886;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 886;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 886,
+    `id` = 886,
     `higlightSky` = 1,
     `skyboxId` = 133,
     `glow` = 0.1,
@@ -6884,9 +6884,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 887;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 887;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 887,
+    `id` = 887,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -6895,9 +6895,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 888;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 888;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 888,
+    `id` = 888,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.4,
@@ -6906,9 +6906,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 889;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 889;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 889,
+    `id` = 889,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.4,
@@ -6917,9 +6917,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 890;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 890;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 890,
+    `id` = 890,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.4,
@@ -6928,9 +6928,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 891;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 891;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 891,
+    `id` = 891,
     `higlightSky` = 1,
     `skyboxId` = 133,
     `glow` = 0.1,
@@ -6939,9 +6939,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 892;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 892;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 892,
+    `id` = 892,
     `higlightSky` = 1,
     `skyboxId` = 133,
     `glow` = 0.1,
@@ -6950,9 +6950,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 893;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 893;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 893,
+    `id` = 893,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -6966,21 +6966,21 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 894;
+WHERE `id` = 894;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 895;
+WHERE `id` = 895;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 896;
+WHERE `id` = 896;
 
 UPDATE `dbc`.`lightparams` SET 
     `glow` = 0.3 /* was 0.6 */,
@@ -6988,18 +6988,18 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 897;
+WHERE `id` = 897;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 898;
+WHERE `id` = 898;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 899;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 899;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 899,
+    `id` = 899,
     `skyboxId` = 128,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.3,
@@ -7007,9 +7007,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.8,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 900;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 900;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 900,
+    `id` = 900,
     `skyboxId` = 128,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.3,
@@ -7022,18 +7022,18 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 901;
+WHERE `id` = 901;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 902;
+WHERE `id` = 902;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 903;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 903;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 903,
+    `id` = 903,
     `higlightSky` = 1,
     `skyboxId` = 165,
     `glow` = 0.3,
@@ -7047,27 +7047,27 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 904;
+WHERE `id` = 904;
 
 UPDATE `dbc`.`lightparams` SET 
     `waterShallowAlpha` = 0.8 /* was 0.5 */,
     `waterDeepAlpha` = 0.85 /* was 1.0 */,
     `oceanShallowAlpha` = 0.8 /* was 0.75 */,
     `oceanDeepAlpha` = 0.85 /* was 1.0 */
-WHERE `ID` = 905;
+WHERE `id` = 905;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 906;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 906;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 906,
+    `id` = 906,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 907;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 907;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 907,
+    `id` = 907,
     `skyboxId` = 154,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7075,18 +7075,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 908;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 908;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 908,
+    `id` = 908,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 909;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 909;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 909,
+    `id` = 909,
     `skyboxId` = 160,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7094,36 +7094,36 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 910;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 910;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 910,
+    `id` = 910,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 911;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 911;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 911,
+    `id` = 911,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 912;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 912;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 912,
+    `id` = 912,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 913;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 913;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 913,
+    `id` = 913,
     `higlightSky` = 1,
     `skyboxId` = 147,
     `glow` = 0.05,
@@ -7132,9 +7132,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 914;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 914;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 914,
+    `id` = 914,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7142,9 +7142,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 915;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 915;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 915,
+    `id` = 915,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7152,9 +7152,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 916;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 916;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 916,
+    `id` = 916,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
@@ -7166,11 +7166,11 @@ UPDATE `dbc`.`lightparams` SET
     `waterDeepAlpha` = 0.55 /* was 1.0 */,
     `oceanShallowAlpha` = 0.3 /* was 0.75 */,
     `oceanDeepAlpha` = 0.55 /* was 1.0 */
-WHERE `ID` = 917;
+WHERE `id` = 917;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 918;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 918;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 918,
+    `id` = 918,
     `higlightSky` = 1,
     `skyboxId` = 148,
     `glow` = 0.65,
@@ -7179,9 +7179,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 919;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 919;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 919,
+    `id` = 919,
     `skyboxId` = 124,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -7189,18 +7189,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 920;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 920;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 920,
+    `id` = 920,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 921;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 921;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 921,
+    `id` = 921,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -7208,9 +7208,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 922;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 922;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 922,
+    `id` = 922,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -7218,9 +7218,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 938;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 938;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 938,
+    `id` = 938,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7228,9 +7228,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 940;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 940;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 940,
+    `id` = 940,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -7239,9 +7239,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 941;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 941;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 941,
+    `id` = 941,
     `higlightSky` = 1,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.65,
@@ -7249,9 +7249,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 942;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 942;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 942,
+    `id` = 942,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -7260,18 +7260,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 943;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 943;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 943,
+    `id` = 943,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 944;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 944;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 944,
+    `id` = 944,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.9,
@@ -7280,9 +7280,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 945;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 945;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 945,
+    `id` = 945,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.6,
@@ -7291,9 +7291,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 946;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 946;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 946,
+    `id` = 946,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -7301,9 +7301,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 947;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 947;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 947,
+    `id` = 947,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.5,
@@ -7312,9 +7312,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 948;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 948;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 948,
+    `id` = 948,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -7322,9 +7322,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 949;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 949;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 949,
+    `id` = 949,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.5,
@@ -7333,9 +7333,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 950;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 950;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 950,
+    `id` = 950,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.3,
@@ -7344,9 +7344,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 951;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 951;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 951,
+    `id` = 951,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `waterShallowAlpha` = 0.65,
@@ -7354,18 +7354,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 952;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 952;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 952,
+    `id` = 952,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 953;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 953;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 953,
+    `id` = 953,
     `higlightSky` = 1,
     `skyboxId` = 153,
     `waterShallowAlpha` = 0.5,
@@ -7373,9 +7373,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 954;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 954;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 954,
+    `id` = 954,
     `skyboxId` = 152,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7383,9 +7383,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 955;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 955;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 955,
+    `id` = 955,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7393,9 +7393,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 956;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 956;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 956,
+    `id` = 956,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -7403,27 +7403,27 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 957;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 957;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 957,
+    `id` = 957,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 958;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 958;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 958,
+    `id` = 958,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 959;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 959;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 959,
+    `id` = 959,
     `higlightSky` = 1,
     `skyboxId` = 3,
     `glow` = 0.5,
@@ -7432,80 +7432,80 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 960;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 960;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 960,
+    `id` = 960,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 961;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 961;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 961,
+    `id` = 961,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 962;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 962;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 962,
+    `id` = 962,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 963;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 963;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 963,
+    `id` = 963,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 964;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 964;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 964,
+    `id` = 964,
     `glow` = 1.0,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 965;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 965;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 965,
+    `id` = 965,
     `glow` = 0.75,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 966;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 966;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 966,
+    `id` = 966,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 967;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 967;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 967,
+    `id` = 967,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 968;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 968;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 968,
+    `id` = 968,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.65,
@@ -7513,9 +7513,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 969;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 969;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 969,
+    `id` = 969,
     `higlightSky` = 1,
     `skyboxId` = 160,
     `waterShallowAlpha` = 0.5,
@@ -7523,9 +7523,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 970;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 970;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 970,
+    `id` = 970,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7533,45 +7533,45 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 971;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 971;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 971,
+    `id` = 971,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 972;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 972;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 972,
+    `id` = 972,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 973;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 973;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 973,
+    `id` = 973,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 974;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 974;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 974,
+    `id` = 974,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 975;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 975;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 975,
+    `id` = 975,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7579,9 +7579,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 976;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 976;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 976,
+    `id` = 976,
     `higlightSky` = 1,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
@@ -7589,9 +7589,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 977;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 977;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 977,
+    `id` = 977,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7600,9 +7600,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 978;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 978;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 978,
+    `id` = 978,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7610,9 +7610,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 979;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 979;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 979,
+    `id` = 979,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
@@ -7620,18 +7620,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 980;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 980;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 980,
+    `id` = 980,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 981;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 981;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 981,
+    `id` = 981,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -7639,9 +7639,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 982;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 982;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 982,
+    `id` = 982,
     `higlightSky` = 1,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
@@ -7649,9 +7649,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.65,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 983;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 983;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 983,
+    `id` = 983,
     `higlightSky` = 1,
     `skyboxId` = 131,
     `glow` = 0.2,
@@ -7660,9 +7660,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 984;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 984;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 984,
+    `id` = 984,
     `higlightSky` = 1,
     `skyboxId` = 133,
     `glow` = 0.1,
@@ -7671,9 +7671,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 985;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 985;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 985,
+    `id` = 985,
     `higlightSky` = 1,
     `skyboxId` = 156,
     `glow` = 0.2,
@@ -7682,9 +7682,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 986;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 986;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 986,
+    `id` = 986,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7693,9 +7693,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 987;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 987;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 987,
+    `id` = 987,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -7703,18 +7703,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 988;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 988;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 988,
+    `id` = 988,
     `higlightSky` = 1,
     `waterShallowAlpha` = 1.0,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 1.0,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 989;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 989;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 989,
+    `id` = 989,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7723,9 +7723,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 990;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 990;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 990,
+    `id` = 990,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7734,9 +7734,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 991;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 991;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 991,
+    `id` = 991,
     `skyboxId` = 153,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7744,9 +7744,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 992;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 992;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 992,
+    `id` = 992,
     `skyboxId` = 153,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7754,18 +7754,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 993;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 993;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 993,
+    `id` = 993,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 994;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 994;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 994,
+    `id` = 994,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -7773,9 +7773,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 995;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 995;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 995,
+    `id` = 995,
     `higlightSky` = 1,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -7783,9 +7783,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 996;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 996;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 996,
+    `id` = 996,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7793,9 +7793,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 997;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 997;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 997,
+    `id` = 997,
     `higlightSky` = 1,
     `glow` = 0.3,
     `waterShallowAlpha` = 0.5,
@@ -7803,9 +7803,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 998;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 998;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 998,
+    `id` = 998,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7814,9 +7814,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 999;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 999;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 999,
+    `id` = 999,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7825,9 +7825,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1000;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1000;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1000,
+    `id` = 1000,
     `higlightSky` = 1,
     `skyboxId` = 157,
     `glow` = 0.1,
@@ -7836,9 +7836,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1001;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1001;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1001,
+    `id` = 1001,
     `higlightSky` = 1,
     `skyboxId` = 150,
     `glow` = 0.1,
@@ -7847,9 +7847,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1002;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1002;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1002,
+    `id` = 1002,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -7857,9 +7857,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1003;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1003;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1003,
+    `id` = 1003,
     `higlightSky` = 1,
     `skyboxId` = 158,
     `glow` = 0.05,
@@ -7868,9 +7868,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1004;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1004;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1004,
+    `id` = 1004,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -7878,9 +7878,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1005;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1005;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1005,
+    `id` = 1005,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7888,9 +7888,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1006;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1006;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1006,
+    `id` = 1006,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7898,9 +7898,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1007;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1007;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1007,
+    `id` = 1007,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7908,9 +7908,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1008;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1008;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1008,
+    `id` = 1008,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7918,9 +7918,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1009;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1009;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1009,
+    `id` = 1009,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7928,9 +7928,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1010;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1010;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1010,
+    `id` = 1010,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7938,9 +7938,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1011;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1011;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1011,
+    `id` = 1011,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -7948,9 +7948,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1012;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1012;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1012,
+    `id` = 1012,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -7958,18 +7958,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1013;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1013;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1013,
+    `id` = 1013,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1014;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1014;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1014,
+    `id` = 1014,
     `skyboxId` = 124,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.3,
@@ -7977,9 +7977,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.8,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1015;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1015;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1015,
+    `id` = 1015,
     `skyboxId` = 128,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.3,
@@ -7987,9 +7987,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.8,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1016;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1016;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1016,
+    `id` = 1016,
     `skyboxId` = 128,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.3,
@@ -7997,18 +7997,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.8,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1017;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1017;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1017,
+    `id` = 1017,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1018;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1018;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1018,
+    `id` = 1018,
     `higlightSky` = 1,
     `skyboxId` = 159,
     `waterShallowAlpha` = 0.5,
@@ -8016,9 +8016,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1019;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1019;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1019,
+    `id` = 1019,
     `higlightSky` = 1,
     `skyboxId` = 156,
     `glow` = 0.2,
@@ -8027,18 +8027,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1020;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1020;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1020,
+    `id` = 1020,
     `glow` = 0.9,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1021;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1021;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1021,
+    `id` = 1021,
     `higlightSky` = 1,
     `skyboxId` = 163,
     `glow` = 0.3,
@@ -8047,9 +8047,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1022;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1022;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1022,
+    `id` = 1022,
     `higlightSky` = 1,
     `skyboxId` = 164,
     `glow` = 0.05,
@@ -8058,9 +8058,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1023;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1023;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1023,
+    `id` = 1023,
     `higlightSky` = 1,
     `skyboxId` = 160,
     `waterShallowAlpha` = 0.5,
@@ -8068,9 +8068,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1024;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1024;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1024,
+    `id` = 1024,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -8078,9 +8078,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1025;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1025;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1025,
+    `id` = 1025,
     `higlightSky` = 1,
     `skyboxId` = 130,
     `glow` = 0.2,
@@ -8089,9 +8089,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1027;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1027;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1027,
+    `id` = 1027,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.65,
@@ -8099,9 +8099,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1028;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1028;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1028,
+    `id` = 1028,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.65,
@@ -8109,18 +8109,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1029;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1029;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1029,
+    `id` = 1029,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1030;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1030;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1030,
+    `id` = 1030,
     `higlightSky` = 1,
     `skyboxId` = 163,
     `glow` = 0.3,
@@ -8129,9 +8129,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1031;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1031;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1031,
+    `id` = 1031,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -8139,9 +8139,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1037;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1037;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1037,
+    `id` = 1037,
     `higlightSky` = 1,
     `skyboxId` = 89,
     `waterShallowAlpha` = 0.5,
@@ -8149,9 +8149,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1038;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1038;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1038,
+    `id` = 1038,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.4,
@@ -8159,17 +8159,17 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.65,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1039;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1039;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1039,
+    `id` = 1039,
     `glow` = 1.0,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1040;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1040;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1040,
+    `id` = 1040,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8177,9 +8177,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1041;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1041;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1041,
+    `id` = 1041,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8187,18 +8187,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1042;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1042;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1042,
+    `id` = 1042,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1043;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1043;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1043,
+    `id` = 1043,
     `higlightSky` = 1,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
@@ -8206,9 +8206,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1044;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1044;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1044,
+    `id` = 1044,
     `higlightSky` = 1,
     `glow` = 0.85,
     `waterShallowAlpha` = 0.5,
@@ -8216,9 +8216,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1045;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1045;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1045,
+    `id` = 1045,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8226,18 +8226,18 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1046;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1046;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1046,
+    `id` = 1046,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1047;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1047;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1047,
+    `id` = 1047,
     `higlightSky` = 1,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -8245,9 +8245,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1049;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1049;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1049,
+    `id` = 1049,
     `higlightSky` = 1,
     `skyboxId` = 172,
     `glow` = 0.1,
@@ -8256,9 +8256,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 0.9;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1050;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1050;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1050,
+    `id` = 1050,
     `higlightSky` = 1,
     `skyboxId` = 172,
     `waterShallowAlpha` = 0.65,
@@ -8266,9 +8266,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 0.9;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1051;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1051;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1051,
+    `id` = 1051,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.6,
@@ -8276,9 +8276,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 0.9;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1054;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1054;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1054,
+    `id` = 1054,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8286,9 +8286,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1055;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1055;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1055,
+    `id` = 1055,
     `skyboxId` = 175,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8296,9 +8296,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1056;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1056;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1056,
+    `id` = 1056,
     `skyboxId` = 132,
     `glow` = 1.0,
     `waterShallowAlpha` = 0.5,
@@ -8306,9 +8306,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1059;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1059;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1059,
+    `id` = 1059,
     `skyboxId` = 194,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -8316,9 +8316,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1072;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1072;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1072,
+    `id` = 1072,
     `higlightSky` = 1,
     `skyboxId` = 105,
     `glow` = 0.5,
@@ -8327,9 +8327,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1073;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1073;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1073,
+    `id` = 1073,
     `skyboxId` = 178,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -8337,9 +8337,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1074;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1074;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1074,
+    `id` = 1074,
     `higlightSky` = 1,
     `skyboxId` = 131,
     `glow` = 0.2,
@@ -8348,9 +8348,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1075;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1075;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1075,
+    `id` = 1075,
     `higlightSky` = 1,
     `skyboxId` = 195,
     `glow` = 0.6,
@@ -8359,9 +8359,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1076;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1076;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1076,
+    `id` = 1076,
     `higlightSky` = 1,
     `skyboxId` = 197,
     `glow` = 0.2,
@@ -8370,9 +8370,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1095;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1095;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1095,
+    `id` = 1095,
     `higlightSky` = 1,
     `skyboxId` = 4,
     `glow` = 0.5,
@@ -8381,9 +8381,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1099;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1099;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1099,
+    `id` = 1099,
     `higlightSky` = 1,
     `skyboxId` = 105,
     `glow` = 0.5,
@@ -8392,9 +8392,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1100;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1100;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1100,
+    `id` = 1100,
     `skyboxId` = 183,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -8402,9 +8402,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1104;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1104;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1104,
+    `id` = 1104,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -8412,27 +8412,27 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1105;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1105;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1105,
+    `id` = 1105,
     `higlightSky` = 1,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1111;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1111;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1111,
+    `id` = 1111,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1113;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1113;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1113,
+    `id` = 1113,
     `higlightSky` = 1,
     `glow` = 0.5,
     `waterShallowAlpha` = 0.5,
@@ -8440,9 +8440,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1114;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1114;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1114,
+    `id` = 1114,
     `higlightSky` = 1,
     `glow` = 0.1,
     `waterShallowAlpha` = 0.5,
@@ -8450,9 +8450,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.55,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1115;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1115;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1115,
+    `id` = 1115,
     `higlightSky` = 1,
     `skyboxId` = 187,
     `glow` = 0.5,
@@ -8461,9 +8461,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1119;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1119;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1119,
+    `id` = 1119,
     `skyboxId` = 177,
     `glow` = 0.7,
     `waterShallowAlpha` = 0.5,
@@ -8471,9 +8471,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1120;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1120;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1120,
+    `id` = 1120,
     `higlightSky` = 1,
     `skyboxId` = 188,
     `glow` = 0.2,
@@ -8482,35 +8482,35 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1123;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1123;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1123,
+    `id` = 1123,
     `higlightSky` = 1,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1124;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1124;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1124,
+    `id` = 1124,
     `higlightSky` = 1,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1126;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1126;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1126,
+    `id` = 1126,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1127;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1127;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1127,
+    `id` = 1127,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -8518,9 +8518,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 1.0,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1128;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1128;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1128,
+    `id` = 1128,
     `higlightSky` = 1,
     `skyboxId` = 131,
     `glow` = 0.2,
@@ -8529,9 +8529,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1129;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1129;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1129,
+    `id` = 1129,
     `higlightSky` = 1,
     `glow` = 0.6,
     `waterShallowAlpha` = 0.5,
@@ -8539,9 +8539,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1130;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1130;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1130,
+    `id` = 1130,
     `higlightSky` = 1,
     `skyboxId` = 196,
     `glow` = 0.2,
@@ -8550,9 +8550,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1131;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1131;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1131,
+    `id` = 1131,
     `higlightSky` = 1,
     `skyboxId` = 200,
     `glow` = 0.2,
@@ -8561,9 +8561,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 1138;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 1138;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 1138,
+    `id` = 1138,
     `higlightSky` = 1,
     `glow` = 0.2,
     `waterShallowAlpha` = 0.5,
@@ -8571,9 +8571,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 2516;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 2516;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 2516,
+    `id` = 2516,
     `higlightSky` = 1,
     `skyboxId` = 323,
     `glow` = 0.2,
@@ -8582,9 +8582,9 @@ INSERT INTO `dbc`.`lightparams` SET
     `oceanShallowAlpha` = 0.75,
     `oceanDeepAlpha` = 1.0;
 
-DELETE FROM `dbc`.`lightparams` WHERE `ID` = 3725;
+DELETE FROM `dbc`.`lightparams` WHERE `id` = 3725;
 INSERT INTO `dbc`.`lightparams` SET 
-    `ID` = 3725,
+    `id` = 3725,
     `glow` = 0.4,
     `waterShallowAlpha` = 0.5,
     `waterDeepAlpha` = 1.0,

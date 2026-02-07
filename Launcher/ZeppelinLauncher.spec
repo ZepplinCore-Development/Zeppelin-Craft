@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['y:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\src\\standalone_launcher.py'],
+    ['A:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\src\\standalone_launcher.py'],
     pathex=[],
     binaries=[],
-    datas=[('y:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\assets', 'assets')],
+    datas=[('A:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\assets', 'assets')],
     hiddenimports=['tkinter', 'tkinter.ttk', 'tkinter.messagebox', 'tkinter.filedialog', 'PIL', 'PIL.Image', 'PIL.ImageTk'],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['y:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\assets\\icons\\zeppelin.png'],
+    icon=['A:\\wow-server\\Zeppelin-Craft\\Scripts\\Launcher\\assets\\icons\\zeppelin.png'],
 )

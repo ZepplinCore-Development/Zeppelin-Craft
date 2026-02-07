@@ -1,14 +1,14 @@
-DELETE FROM `dbc`.`itemsubclass` WHERE `Class` = 5 AND `subClass` = 1;
+DELETE FROM `dbc`.`itemsubclass` WHERE `class` = 5 AND `sub_class` = 1;
 INSERT INTO `dbc`.`itemsubclass` SET 
-    `Class` = 5,
-    `subClass` = 1,
-    `prerequisiteProficiency` = 4294967295,
-    `postrequisiteProficiency` = 4294967295,
-    `displayFlags` = 1,
-    `weaponParrySeq` = 3,
-    `weaponReadySeq` = 2,
-    `weaponAttackSeq` = 3,
-    `displayName1` = 'Tool',
-    `displayNameFlag` = 16712190,
-    `verboseNameFlag` = 16712188;
+    `class` = 5,
+    `sub_class` = 1,
+    `prerequisite_proficiency` = 4294967295,
+    `postrequisite_proficiency` = 4294967295,
+    `display_flags` = 1,
+    `weapon_parry_seq` = 3,
+    `weapon_ready_seq` = 2,
+    `weapon_attack_seq` = 3,
+    `display_name_1` = 'Tool',
+    `display_name_flag` = 16712190,
+    `verbose_name_flag` = 16712188;
 

@@ -1,4 +1,4 @@
-From b4c02c448baff340b21e2f8dffaeb4c865630b6a Mon Sep 17 00:00:00 2001
+From e6766613f1e98283b053d29125ce375defcddcec Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:13:41 +0000
 Subject: [PATCH] F-030: Add Worgen and Goblin race support
@@ -19,7 +19,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 49fac979a..810bbd635 100644
+index 5a07c43b3..c5533bd72 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -12350,6 +12350,11 @@ float Player::GetReputationPriceDiscount(Creature const* creature) const

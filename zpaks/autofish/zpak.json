@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "autofish",
+  "version": "0.1.0",
+  "description": "Auto-recast fishing bobber with auto-loot support",
+  "author": "Flerp",
+  "type": "acore-extension",
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "acore": {
+    "module": "mod-autofish",
+    "source": "https://github.com/Flerp/mod-autofish.git",
+    "branch": "main",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100
+}

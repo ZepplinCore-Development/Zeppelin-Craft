@@ -1,6 +1,6 @@
-DELETE FROM `dbc`.`particlecolor` WHERE `ID` = 587;
+DELETE FROM `dbc`.`particlecolor` WHERE `id` = 587;
 INSERT INTO `dbc`.`particlecolor` SET 
-    `ID` = 587,
+    `id` = 587,
     `Start1` = 4288359261,
     `Start2` = 4278190080,
     `Start3` = 4278190080,
@@ -11,9 +11,9 @@ INSERT INTO `dbc`.`particlecolor` SET
     `End2` = 4278190080,
     `End3` = 4278190080;
 
-DELETE FROM `dbc`.`particlecolor` WHERE `ID` = 588;
+DELETE FROM `dbc`.`particlecolor` WHERE `id` = 588;
 INSERT INTO `dbc`.`particlecolor` SET 
-    `ID` = 588,
+    `id` = 588,
     `Start1` = 4289089097,
     `Start2` = 4278190080,
     `Start3` = 4278190080,
@@ -24,9 +24,9 @@ INSERT INTO `dbc`.`particlecolor` SET
     `End2` = 4278190080,
     `End3` = 4278190080;
 
-DELETE FROM `dbc`.`particlecolor` WHERE `ID` = 589;
+DELETE FROM `dbc`.`particlecolor` WHERE `id` = 589;
 INSERT INTO `dbc`.`particlecolor` SET 
-    `ID` = 589,
+    `id` = 589,
     `Start1` = 4292655185,
     `Start2` = 4278190080,
     `Start3` = 4278190080,
@@ -37,9 +37,9 @@ INSERT INTO `dbc`.`particlecolor` SET
     `End2` = 4278190080,
     `End3` = 4278190080;
 
-DELETE FROM `dbc`.`particlecolor` WHERE `ID` = 590;
+DELETE FROM `dbc`.`particlecolor` WHERE `id` = 590;
 INSERT INTO `dbc`.`particlecolor` SET 
-    `ID` = 590,
+    `id` = 590,
     `Start1` = 4291175613,
     `Start2` = 4278190080,
     `Start3` = 4278190080,

@@ -1,6 +1,6 @@
-DELETE FROM `dbc`.`summonproperties` WHERE `ID` = 2421;
+DELETE FROM `dbc`.`summonproperties` WHERE `id` = 2421;
 INSERT INTO `dbc`.`summonproperties` SET 
-    `ID` = 2421,
+    `id` = 2421,
     `Control` = 1,
-    `Flags` = 2320;
+    `flags` = 2320;
 

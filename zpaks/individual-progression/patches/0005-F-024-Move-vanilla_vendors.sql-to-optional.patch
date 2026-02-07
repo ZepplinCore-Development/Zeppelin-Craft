@@ -1,4 +1,4 @@
-From 8818041c2d24b3ccd4bdc3df481c70b8bd6a7601 Mon Sep 17 00:00:00 2001
+From b33f6c8c22100621a7c7f898139ae77ec37fde3d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:38 +0000
 Subject: [PATCH] F-024: Move vanilla_vendors.sql to optional

@@ -1,301 +1,301 @@
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4035 /* was 2147483647 */,
+    `race_mask` = 4035 /* was 2147483647 */,
     `ClassMask` = 1535 /* was 262111 */
-WHERE `Id` = 4;
+WHERE `id` = 4;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 21;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 21;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 27;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 27;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 28;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 28;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 29;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 29;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 30;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 30;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 3149 /* was 1101 */
-WHERE `Id` = 40;
+    `race_mask` = 3149 /* was 1101 */
+WHERE `id` = 40;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 930 /* was 674 */
-WHERE `Id` = 41;
+    `race_mask` = 930 /* was 674 */
+WHERE `id` = 41;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 946 /* was 690 */
-WHERE `Id` = 48;
+    `race_mask` = 946 /* was 690 */
+WHERE `id` = 48;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 3149 /* was 1101 */
-WHERE `Id` = 49;
+    `race_mask` = 3149 /* was 1101 */
+WHERE `id` = 49;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 84;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 84;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 85;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 85;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
     `ClassMask` = 1535 /* was 262111 */
-WHERE `Id` = 86;
+WHERE `id` = 86;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 88;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 88;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 93;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 93;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 145;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 145;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 146;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 146;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 147;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 147;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 148;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 148;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 241;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 241;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 243;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 243;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 244;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 244;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 281;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 281;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 282;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 282;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 284;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 284;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 4294967295 */,
+    `race_mask` = 4095 /* was 4294967295 */,
     `ClassMask` = 1535 /* was 8 */
-WHERE `Id` = 601;
+WHERE `id` = 601;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 865;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 865;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 866;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 866;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2147483647 */,
+    `race_mask` = 4095 /* was 2147483647 */,
     `ClassMask` = 1535 /* was 262111 */
-WHERE `Id` = 890;
+WHERE `id` = 890;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 2047 */
-WHERE `Id` = 899;
+    `race_mask` = 4095 /* was 2047 */
+WHERE `id` = 899;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
     `ClassMask` = 1535 /* was 32 */
-WHERE `Id` = 925;
+WHERE `id` = 925;
 
 UPDATE `dbc`.`skillraceclassinfo` SET 
-    `RaceMask` = 4095 /* was 524287 */
-WHERE `Id` = 939;
+    `race_mask` = 4095 /* was 524287 */
+WHERE `id` = 939;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 971;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 971;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 971,
+    `id` = 971,
     `SkillLineDbcRecord` = 789,
-    `RaceMask` = 2048,
+    `race_mask` = 2048,
     `ClassMask` = 1469,
-    `Flags` = 1170;
+    `flags` = 1170;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 972;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 972;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 972,
+    `id` = 972,
     `SkillLineDbcRecord` = 790,
-    `RaceMask` = 256,
+    `race_mask` = 256,
     `ClassMask` = 509,
-    `Flags` = 1170;
+    `flags` = 1170;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 998;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 998;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 998,
+    `id` = 998,
     `SkillLineDbcRecord` = 792,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 1535,
-    `Flags` = 2,
+    `flags` = 2,
     `SkillTierId` = 41;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 999;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 999;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 999,
+    `id` = 999,
     `SkillLineDbcRecord` = 791,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 1535,
-    `Flags` = 2,
+    `flags` = 2,
     `SkillTierId` = 41;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1000;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1000;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1000,
+    `id` = 1000,
     `SkillLineDbcRecord` = 43,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 431,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1001;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1001;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1001,
+    `id` = 1001,
     `SkillLineDbcRecord` = 44,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 103,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1002;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1002;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1002,
+    `id` = 1002,
     `SkillLineDbcRecord` = 45,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 13,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1003;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1003;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1003,
+    `id` = 1003,
     `SkillLineDbcRecord` = 46,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 13,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1004;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1004;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1004,
+    `id` = 1004,
     `SkillLineDbcRecord` = 54,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 123,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1005;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1005;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1005,
+    `id` = 1005,
     `SkillLineDbcRecord` = 55,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 39,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1006;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1006;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1006,
+    `id` = 1006,
     `SkillLineDbcRecord` = 136,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 469,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1007;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1007;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1007,
+    `id` = 1007,
     `SkillLineDbcRecord` = 160,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 99,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1008;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1008;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1008,
+    `id` = 1008,
     `SkillLineDbcRecord` = 162,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 511,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1009;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1009;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1009,
+    `id` = 1009,
     `SkillLineDbcRecord` = 172,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 103,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1010;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1010;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1010,
+    `id` = 1010,
     `SkillLineDbcRecord` = 173,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 477,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1011;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1011;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1011,
+    `id` = 1011,
     `SkillLineDbcRecord` = 176,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 9,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1012;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1012;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1012,
+    `id` = 1012,
     `SkillLineDbcRecord` = 226,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 13,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1013;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1013;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1013,
+    `id` = 1013,
     `SkillLineDbcRecord` = 228,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 400,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1014;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1014;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1014,
+    `id` = 1014,
     `SkillLineDbcRecord` = 229,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 39,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1015;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1015;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1015,
+    `id` = 1015,
     `SkillLineDbcRecord` = 433,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 67,
-    `Flags` = 128;
+    `flags` = 128;
 
-DELETE FROM `dbc`.`skillraceclassinfo` WHERE `Id` = 1016;
+DELETE FROM `dbc`.`skillraceclassinfo` WHERE `id` = 1016;
 INSERT INTO `dbc`.`skillraceclassinfo` SET 
-    `Id` = 1016,
+    `id` = 1016,
     `SkillLineDbcRecord` = 473,
-    `RaceMask` = 4095,
+    `race_mask` = 4095,
     `ClassMask` = 77,
-    `Flags` = 128;
+    `flags` = 128;
 

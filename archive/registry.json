@@ -1,0 +1,32 @@
+{
+  "version": "1.1.0",
+  "azerothcore_modules_path": "../Zeppelin-Core/modules",
+  "packages": {
+    "worgoblin-zeppelin": {
+      "location": "internal",
+      "path": "zpaks/worgoblin-zeppelin",
+      "enabled": true
+    }
+  },
+  "feature_index": {
+    "F-040": "dbc-f-040",
+    "F-049": "hd-creatures-mounts",
+    "F-042": "clan-centaur",
+    "F-136": "open-azeroth",
+    "F-030": "worgoblin",
+    "F-044": "zepcraft-legacy",
+    "F-147": "hd-water",
+    "F-137": "hd-models-textures",
+    "F-143": "character-creator",
+    "F-140": "fog-distance",
+    "F-027": "open-azeroth"
+  },
+  "dbc": {
+    "databases": {
+      "original": "original_dbc",
+      "scratch": "scratch_dbc",
+      "live": "dbc",
+      "expected": "expected_dbc"
+    }
+  }
+}

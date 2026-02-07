@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "junk-to-gold",
+  "version": "0.1.0",
+  "description": "Auto-sell grey junk items to vendors",
+  "author": "noisiver",
+  "type": "acore-extension",
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "acore": {
+    "module": "mod-junk-to-gold",
+    "source": "https://github.com/noisiver/mod-junk-to-gold.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100
+}

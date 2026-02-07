@@ -4,20 +4,20 @@
 
 [paths]
 # DBC Files
-area_table_dbc = Y:\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\AreaTable.dbc
-groundeffect_doodad_dbc = Y:\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\GroundEffectDoodad.dbc
-groundeffect_texture_dbc = Y:\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\GroundEffectTexture.dbc
+area_table_dbc = Z:\pool\appdata\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\AreaTable.dbc
+groundeffect_doodad_dbc = Z:\pool\appdata\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\GroundEffectDoodad.dbc
+groundeffect_texture_dbc = Z:\pool\appdata\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\DBFilesClient\GroundEffectTexture.dbc
 
 # Modern client CSV files (for validation)
-modern_groundeffect_csv = Y:\wow-server\Zeppelin-Craft\Scripts\Resource Parser\data\Modern GroundEffectTexture.csv
+modern_groundeffect_csv = Z:\pool\appdata\wow-server\Zeppelin-Craft\Scripts\Resource Parser\data\Modern GroundEffectTexture.csv
 
 # Asset data
-wotlk_base_assets = Y:\wow-server\Zeppelin-Craft\Scripts\Resource Parser\data\wotlk_335a_merged.txt
-assets_source = Y:\wow-server\Zeppelin-Tools\Asset Library\GAME ASSETS
+wotlk_base_assets = Z:\pool\appdata\wow-server\Zeppelin-Craft\Scripts\Resource Parser\data\wotlk_335a_merged.txt
+assets_source = Z:\pool\appdata\wow-server\Zeppelin-Tools\Asset Library\GAME ASSETS
 
 # Export and source directories
-export = Y:\wow-server\Zeppelin-Tools\Open Azeroth\Resource Parser Export
-adt = Y:\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\WORLD\maps
+export = Z:\pool\appdata\wow-server\Zeppelin-Tools\Open Azeroth\Resource Parser Export
+adt = Z:\pool\appdata\wow-server\Zeppelin-Tools\Open Azeroth\Patch-O\WORLD\maps
 
 [options]
 # Skip files that already exist in export directory
