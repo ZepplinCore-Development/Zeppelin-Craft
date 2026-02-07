@@ -14,119 +14,116 @@ SET @Points_of_Interest_list = JSON_ARRAY('Silvermoon City, Weapon Master', 'Sil
         'Silvermoon City, Engineering', 'Silvermoon City, Enchanting', 'Silvermoon City, Druid Trainer',
         'Silvermoon City, Cooking', 'Silvermoon City, Blacksmithing', 'Silvermoon City, Battlemasters',
         'Silvermoon City, Bank', 'Silvermoon City, Auction House', 'Silvermoon City, Alchemy',
-        'Silvermoon City Inscription', 'Saltheril\'s Haven, Tailor', 'Saltheril\'s Haven, Herbalist',
-        'Saltheril\'s Haven, Enchanter', 'Saltheril\'s Haven, Alchemist', 'Farstrider Retreat, Blacksmith',
+        'Silvermoon City Inscription', 'Saltheril''s Haven, Tailor', 'Saltheril''s Haven, Herbalist',
+        'Saltheril''s Haven, Enchanter', 'Saltheril''s Haven, Alchemist', 'Farstrider Retreat, Blacksmith',
         'Falconwing Square, Warlock Trainer', 'Falconwing Square, Stable Master', 'Falconwing Square, Rogue Trainer',
         'Falconwing Square, Priest Trainer', 'Falconwing Square, Paladin Trainer', 'Falconwing Square, Mage Trainer',
         'Falconwing Square, Jewelcrafter', 'Falconwing Square, Innkeeper', 'Falconwing Square, Hunter Trainer',
         'Falconwing Square, First Aid Trainer', 'Falconwing Square, Cook', 'Eversong Woods, Skinner',
         'Eversong Woods, Leatherworker');
-        
+
 SET @adtdimensions = 533.33333;
 SET @adt_xshift = -4;
 SET @adt_yshift = 4;
 SET @map_id_new = 0;
-    
+
 UPDATE points_of_interest
-SET 
+SET
     positionx = positionx + (@adt_xshift * @adtdimensions),
     positiony = positiony + (@adt_yshift * @adtdimensions)
-WHERE 
-    -- Silvermoon POI IDs seem to be 349 to 400 in this DB, can check by changing to location logic below
-    -- positionx BETWEEN @positionx_min AND @positionx_max AND
-    -- positiony BETWEEN @positiony_min AND @positiony_max
-    JSON_CONTAINS(@Points_of_Interest_list, JSON_QUOTE(NAME));
-    
+WHERE
+    JSON_CONTAINS(@Points_of_Interest_list, JSON_QUOTE(NAME))
+    AND positionx BETWEEN @positionx_min AND @positionx_max
+    AND positiony BETWEEN @positiony_min AND @positiony_max;
+
 UPDATE playercreateinfo
-SET 
+SET
     map = @map_id_new,
     position_x = position_x + (@adt_xshift * @adtdimensions),
     position_y = position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     position_x BETWEEN @positionx_min AND @positionx_max AND
     position_y BETWEEN @positiony_min AND @positiony_max;
-    
+
 UPDATE waypoints w
-SET 
+SET
     w.position_x = w.position_x + (@adt_xshift * @adtdimensions),
     w.position_y = w.position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     w.position_x BETWEEN @positionx_min AND @positionx_max AND
     w.position_y BETWEEN @positiony_min AND @positiony_max AND
     EXISTS (
         SELECT 1
-        FROM creature_addon 
+        FROM creature_addon
         INNER JOIN creature_template ct ON w.entry = ct.entry
         INNER JOIN creature cr ON ct.entry = cr.id1
-        WHERE 
+        WHERE
           cr.map = @map_id
     );
- 
+
 UPDATE waypoint_data wd
-SET 
+SET
     wd.position_x = wd.position_x + (@adt_xshift * @adtdimensions),
     wd.position_y = wd.position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     wd.position_x BETWEEN @positionx_min AND @positionx_max AND
     wd.position_y BETWEEN @positiony_min AND @positiony_max AND
     EXISTS (
         SELECT 1
-        FROM creature_addon 
+        FROM creature_addon
         INNER JOIN creature ON creature_addon.guid = creature.guid
         INNER JOIN creature_template ON creature.id1 = creature_template.entry
-        WHERE  
+        WHERE
             creature.map = @map_id
-            -- Uncomment the following line if you need to check path_id > 0
-            -- AND creature_addon.path_id > 0
             AND creature_addon.path_id = wd.id
     );
-    
+
 UPDATE spell_target_position
-SET 
+SET
     mapid = @map_id_new,
     positionx = positionx + (@adt_xshift * @adtdimensions),
     positiony = positiony + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     mapid = @map_id AND
     positionx BETWEEN @positionx_min AND @positionx_max AND
     positiony BETWEEN @positiony_min AND @positiony_max;
-    
+
 UPDATE game_tele
-SET 
+SET
     map = @map_id_new,
     position_x = position_x + (@adt_xshift * @adtdimensions),
     position_y = position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     position_x BETWEEN @positionx_min AND @positionx_max AND
     position_y BETWEEN @positiony_min AND @positiony_max;
-    
+
 UPDATE game_graveyard
-SET 
+SET
     map = @map_id_new,
     x = x + (@adt_xshift * @adtdimensions),
     y = y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     x BETWEEN @positionx_min AND @positionx_max AND
     y BETWEEN @positiony_min AND @positiony_max;
 
 UPDATE creature
-SET 
+SET
     map = @map_id_new,
     position_x = position_x + (@adt_xshift * @adtdimensions),
     position_y = position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     position_x BETWEEN @positionx_min AND @positionx_max AND
     position_y BETWEEN @positiony_min AND @positiony_max;
- 
+
 UPDATE quest_poi_points
-SET 
+SET
     X = X + (@adt_xshift * @adtdimensions),
     Y = Y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     X BETWEEN @positionx_min AND @positionx_max AND
     Y BETWEEN @positiony_min AND @positiony_max AND
     QuestID IN (
@@ -134,40 +131,40 @@ WHERE
         FROM quest_poi
         WHERE JSON_CONTAINS(@WorldMapAreaId_list, CAST(WorldMapAreaId AS JSON))
     );
-   	
+
 UPDATE quest_poi
-SET 
+SET
     MAPID = @map_id_new
-WHERE 
+WHERE
     MAPID = @map_id AND
    	JSON_CONTAINS(@WorldMapAreaId_list, CAST(WorldMapAreaId AS JSON));
-	    
+
 UPDATE areatrigger
-SET 
+SET
     map = @map_id_new,
     x = x + (@adt_xshift * @adtdimensions),
     y = y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     x BETWEEN @positionx_min AND @positionx_max AND
     y BETWEEN @positiony_min AND @positiony_max;
-    
+
 UPDATE areatrigger_teleport
-SET 
+SET
     target_map = @map_id_new,
     target_position_x = target_position_x + (@adt_xshift * @adtdimensions),
     target_position_y = target_position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     target_map = @map_id AND
     target_position_x BETWEEN @positionx_min AND @positionx_max AND
     target_position_y BETWEEN @positiony_min AND @positiony_max;
-      
+
 UPDATE gameobject
-SET 
+SET
     map = @map_id_new,
     position_x = position_x + (@adt_xshift * @adtdimensions),
     position_y = position_y + (@adt_yshift * @adtdimensions)
-WHERE 
+WHERE
     map = @map_id AND
     position_x BETWEEN @positionx_min AND @positionx_max AND
     position_y BETWEEN @positiony_min AND @positiony_max;
