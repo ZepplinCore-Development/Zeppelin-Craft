@@ -132,6 +132,13 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
     start = time.time()
     built = 0
     failed = 0
+    built_patches = []
+
+    # Capture old versions before building
+    old_versions = {}
+    for letter in selected:
+        patch_name = f"PATCH-{letter}.MPQ"
+        old_versions[patch_name] = register.get('patches', {}).get(patch_name, {}).get('version', 0)
 
     for letter in selected:
         zpaks = patches[letter]
@@ -150,13 +157,17 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
 
         if ok:
             built += 1
+            built_patches.append(patch_name)
         else:
             failed += 1
 
     # Save register and regenerate to keep in sync with manifests
     if not dry_run and built > 0:
         if save_register(register, nginx_path):
-            click.echo(f"\nPatch register updated")
+            for pname in built_patches:
+                new_ver = register.get('patches', {}).get(pname, {}).get('version', '?')
+                old_ver = old_versions.get(pname, 0)
+                click.echo(f"\n{pname} register updated (v{old_ver} -> v{new_ver})")
         else:
             click.echo(click.style("\nWarning: Failed to save patch register", fg='yellow'))
 
