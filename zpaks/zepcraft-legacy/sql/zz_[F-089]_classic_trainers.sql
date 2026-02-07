@@ -26,3 +26,29 @@
     `curmana` = 852,
     `VerifiedBuild` = NULL,
     `Comment` = NULL;
+
+-- ========================================
+-- STORMWIND GUARD GOSSIP - Jewelcrafting
+-- ========================================
+-- Adds Jewelcrafting option to Stormwind guard profession submenu
+-- directing players to Farii (19778) in the Dwarven District.
+
+-- POI for Farii (Jewelcrafting Trainer) at her Stormwind spawn
+DELETE FROM `points_of_interest` WHERE `ID` = 1010;
+INSERT INTO `points_of_interest` (`ID`, `PositionX`, `PositionY`, `Icon`, `Flags`, `Importance`, `Name`) VALUES
+(1010, -8714.31, 620.134, 7, 99, 0, 'Stormwind Jewelcrafting Trainer');
+
+-- NPC text for guard directions
+DELETE FROM `npc_text` WHERE `ID` = 3045;
+INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
+(3045, 'If you are looking to learn the art of jewelcrafting, seek out Farii. She can be found in the Dwarven District, near the forge.');
+
+-- Gossip menu for the JC submenu
+DELETE FROM `gossip_menu` WHERE `MenuID` = 2363;
+INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES
+(2363, 3045);
+
+-- Add "Jewelcrafting" option to Stormwind profession trainer submenu (MenuID 421)
+DELETE FROM `gossip_menu_option` WHERE `MenuID` = 421 AND `OptionID` = 13;
+INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`) VALUES
+(421, 13, 0, 'Jewelcrafting', 1, 1, 2363, 1010);

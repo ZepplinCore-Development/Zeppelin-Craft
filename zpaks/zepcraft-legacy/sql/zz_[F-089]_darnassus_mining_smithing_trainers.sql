@@ -4,6 +4,14 @@
 -- Adds proper mining and blacksmithing trainers to Darnassus
 -- Mining: New NPC (Dellorah Moonsight)
 -- Smithing: Upgrade Mathiel (6142) to trainer
+--
+-- TODO (F-089 known issues):
+-- 1. Mathiel offers talent unlearn dialog (acting like a class trainer)
+-- 2. Mathiel teaches WotLK-era recipes - should be capped to Classic?
+-- 3. Borin Irondelve teaches WotLK-era recipes - same question
+-- 4. Borin has no base mining supply stock (picks, flux, coal, etc.)
+--    Regular mining suppliers sell: 2880 Weak Flux, 2901 Basic Mining Pick,
+--    3466 Strong Flux, 3857 Coal, 20815 Jeweler's Kit, 20824 Simple Grinder
 
 -- ========================================
 -- MATHIEL - Upgrade to Blacksmithing Trainer
