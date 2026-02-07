@@ -54,7 +54,7 @@ def _discover_zpaks_with_mpq_info(craft_root: Path, mpq_capable_only: bool = Fal
 
             # Check for MPQ binary in mpq/source-binary/
             mpq_binary_dir = pkg_dir / 'mpq' / 'source-binary'
-            mpq_files = list(mpq_binary_dir.glob('*.MPQ')) if mpq_binary_dir.exists() else []
+            mpq_files = list(mpq_binary_dir.glob('*.[Mm][Pp][Qq]')) if mpq_binary_dir.exists() else []
             has_mpq_binary = len(mpq_files) > 0
             mpq_binary_path = mpq_files[0] if mpq_files else None
             mpq_filename = mpq_binary_path.name if mpq_binary_path else None
@@ -557,7 +557,7 @@ def mpq_info(ctx):
 
             # Check for MPQ binary
             mpq_binary_dir = pkg_dir / 'mpq' / 'source-binary'
-            mpq_files = list(mpq_binary_dir.glob('*.MPQ')) if mpq_binary_dir.exists() else []
+            mpq_files = list(mpq_binary_dir.glob('*.[Mm][Pp][Qq]')) if mpq_binary_dir.exists() else []
 
             zpak_patches.setdefault(letter, []).append({
                 'name': manifest.get('name', pkg_dir.name),
