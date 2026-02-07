@@ -2242,12 +2242,9 @@ def _get_existing_dbc_files(zpak_path: Path, feature_id: Optional[str] = None) -
     if not dbc_dir.exists():
         return []
 
-    if feature_id:
-        # Look for BASE files matching this feature ID: [BASE,F-049]_*.sql
-        return list(dbc_dir.glob(f"[BASE,{feature_id}]_*.sql"))
-    else:
-        # No feature ID - return all BASE-tagged files
-        return list(dbc_dir.glob("[BASE,*]_*.sql"))
+    # Note: glob treats [...] as a character class, so we must filter manually
+    prefix = f"[BASE,{feature_id}]_" if feature_id else "[BASE,"
+    return [f for f in dbc_dir.iterdir() if f.name.startswith(prefix) and f.suffix == '.sql']
 
 
 def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
@@ -2352,7 +2349,7 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
     # Import DBC files via DBCTool
     click.echo(f"\nStep 2: Importing DBC files via DBCTool...")
 
-    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+    meta_dir = DBCTOOL_PATH.parent / "meta"
 
     # Create config for DBCTool pointing directly at source path
     scratch_config = {
@@ -2378,7 +2375,7 @@ def _import_single_module(ctx, zpak_path: Path, craft_root: Path) -> bool:
     # Standardise DBC filenames to match DBCTool's expected casing from meta files.
     # Files extracted from MPQs can have arbitrary casing (e.g. Creaturedisplayinfo.dbc)
     # but DBCTool expects exact filenames from its meta files (e.g. CreatureDisplayInfo.dbc).
-    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+    meta_dir = DBCTOOL_PATH.parent / "meta"
     for dbc_file in dbc_files:
         meta_path = meta_dir / f"{dbc_file.stem.lower()}.meta.json"
         if meta_path.exists():
@@ -2685,8 +2682,8 @@ def dbc_export(ctx, table_name: Optional[str]):
 def dbc_init_original(ctx, source: Optional[str], force: bool):
     """Initialize original_dbc from vanilla DBC files.
 
-    Imports all vanilla DBC files into original_dbc using spelleditor_meta
-    schema (PascalCase columns compatible with WoW Spell Editor).
+    Imports all vanilla DBC files into original_dbc using meta/
+    schema (snake_case columns with Loc type expansion).
 
     This should be run once to set up the baseline database, or when
     switching meta schemas.
@@ -2725,7 +2722,7 @@ def dbc_init_original(ctx, source: Optional[str], force: bool):
     click.echo(f"  Source: {source_path}")
     click.echo(f"  Target: {config.original}")
     click.echo(f"  DBC files: {len(dbc_files)}")
-    click.echo(f"  Meta: spelleditor_meta (PascalCase)")
+    click.echo(f"  Meta: meta/ (snake_case)")
     click.echo()
 
     if not force:
@@ -2737,8 +2734,8 @@ def dbc_init_original(ctx, source: Optional[str], force: bool):
     if not DBCTOOL_PATH.exists():
         raise click.ClickException(f"DBCTool not found at {DBCTOOL_PATH}")
 
-    # Use spelleditor_meta for PascalCase columns
-    meta_dir = DBCTOOL_PATH.parent / "spelleditor_meta"
+    # Use meta/ for snake_case columns with Loc type
+    meta_dir = DBCTOOL_PATH.parent / "meta"
 
     # Create config for DBCTool pointing directly at source path
     temp_config = {

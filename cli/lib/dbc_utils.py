@@ -21,9 +21,9 @@ from typing import Dict, List, Optional, Set, Tuple, Any
 # Cached localization config (fallback)
 _localization_config: Optional[Dict] = None
 
-# Cached spelleditor_meta Loc field lookups:
-#   {table_name: dict mapping base_name -> english_suffix ('_0' or '_1')}
-_meta_loc_fields: Dict[str, Optional[Dict[str, str]]] = {}
+# Cached meta/ Loc field lookups:
+#   {table_name: set of Loc field base names}
+_meta_loc_fields: Dict[str, Optional[Set[str]]] = {}
 
 # Non-English locale suffixes for blacklisting in the dbc_localization.json fallback path.
 # The primary meta path builds its own blacklist dynamically from field detection.
@@ -244,27 +244,24 @@ def detect_modified_tables(sql: str) -> Set[str]:
     return tables
 
 
-def _get_meta_loc_fields(table_name: str) -> Optional[Dict[str, str]]:
-    """Get Loc field base names from DBCTool spelleditor_meta for a table.
+def _get_meta_loc_fields(table_name: str) -> Optional[Set[str]]:
+    """Get Loc field base names from DBCTool meta/ for a table.
 
-    Reads spelleditor_meta/{table}.meta.json and detects Loc field groups by
-    finding sequences of 16 string-typed fields with the same prefix and
-    sequential numeric suffixes (_0.._15 or _1.._16).
-
-    Uses spelleditor_meta (not meta/) because that's the schema used for DB
-    import — its column names match the actual database columns.
+    Reads meta/{table}.meta.json and finds fields with "type": "Loc".
+    These are expanded by DBCTool into 16 locale columns + 1 flags column
+    using language code suffixes (e.g. spell_name_enus, spell_name_kokr).
 
     Returns:
-        Dict mapping base_name -> english_suffix ('_0' or '_1'), or None.
+        Set of Loc field base names, or None if no Loc fields found.
     """
     table_lower = table_name.lower()
     if table_lower in _meta_loc_fields:
         return _meta_loc_fields[table_lower]
 
-    # Find DBCTool spelleditor_meta directory via DBCTOOL_PATH
+    # Find DBCTool meta/ directory via DBCTOOL_PATH
     try:
         from .env import DBCTOOL_PATH
-        meta_path = DBCTOOL_PATH.parent / 'spelleditor_meta' / f'{table_lower}.meta.json'
+        meta_path = DBCTOOL_PATH.parent / 'meta' / f'{table_lower}.meta.json'
     except (ImportError, AttributeError):
         meta_path = None
 
@@ -276,22 +273,8 @@ def _get_meta_loc_fields(table_name: str) -> Optional[Dict[str, str]]:
         with open(meta_path, 'r', encoding='utf-8') as f:
             meta = json.load(f)
 
-        # Collect all string field names for fast lookup
-        string_fields = {f['name'].lower() for f in meta.get('fields', [])
-                         if f.get('type') == 'string'}
-
-        loc_fields = {}
-        for name in string_fields:
-            # 0-indexed: {base}_0 through {base}_15 (English = _0)
-            if name.endswith('_0'):
-                base = name[:-2]
-                if f'{base}_1' in string_fields and f'{base}_15' in string_fields:
-                    loc_fields[base] = '_0'
-            # 1-indexed: {base}_1 through {base}_16 (English = _1)
-            elif name.endswith('_1') and not name.endswith('_11'):
-                base = name[:-2]
-                if f'{base}_2' in string_fields and f'{base}_16' in string_fields:
-                    loc_fields[base] = '_1'
+        loc_fields = {f['name'] for f in meta.get('fields', [])
+                      if f.get('type') == 'Loc'}
 
         _meta_loc_fields[table_lower] = loc_fields if loc_fields else None
         return _meta_loc_fields[table_lower]
@@ -304,10 +287,9 @@ def get_localization_columns(columns: List[str], table_name: Optional[str] = Non
     """
     Identify localization columns to exclude from diffs.
 
-    Primary source: DBCTool spelleditor_meta files. Loc field groups are
-    detected by finding 16 sequential string fields ({base}_0.._15 or
-    {base}_1.._16). We keep the English locale (_0 or _1) and flags,
-    blacklist all other locale suffixes.
+    Primary source: DBCTool meta/ files with "type": "Loc" fields.
+    Loc fields expand to language-code suffixed columns (e.g. _enus, _kokr).
+    We keep _enus (English) and _flags, exclude all other locales.
 
     Fallback: dbc_localization.json config for tables without meta files.
 
@@ -320,19 +302,32 @@ def get_localization_columns(columns: List[str], table_name: Optional[str] = Non
     """
     localization_cols = set()
 
-    # Primary: use spelleditor_meta Loc fields (base_name -> english_suffix)
+    # Non-English locale code suffixes (without leading underscore)
+    _NON_ENGLISH_LOCALES = {
+        'kokr', 'frfr', 'dede', 'zhcn', 'zhtw',
+        'eses', 'esmx', 'ruru', 'jajp', 'ptpt', 'itit',
+        'unused_1', 'unused_2', 'unused_3', 'unused_4',
+    }
+
+    # Primary: use meta/ Loc fields (set of base names)
     if table_name:
         loc_fields = _get_meta_loc_fields(table_name)
         if loc_fields is not None:
             for col in columns:
                 col_lower = col.lower()
-                for field_name, english_suffix in loc_fields.items():
-                    if col_lower.startswith(field_name):
-                        suffix = col_lower[len(field_name):]
-                        # Keep English locale and non-numeric suffixes (flags, etc.)
-                        if suffix == english_suffix:
+                for field_name in loc_fields:
+                    prefix = field_name + '_'
+                    if col_lower.startswith(prefix):
+                        suffix = col_lower[len(prefix):]
+                        # Keep English locale and flags
+                        if suffix in ('enus', 'flags'):
                             break
-                        if re.match(r'^_\d+$', suffix):
+                        # Exclude non-English locale codes
+                        if suffix in _NON_ENGLISH_LOCALES:
+                            localization_cols.add(col)
+                            break
+                        # Numeric suffixes for backwards compat
+                        if re.match(r'^\d+$', suffix):
                             localization_cols.add(col)
                             break
             return localization_cols
@@ -551,6 +546,48 @@ def compare_databases(db_conn: DBCConnection, db1_name: str, db2_name: str) -> D
     }
 
 
+def get_effective_pk(table: str, db_pk: List[str]) -> List[str]:
+    """Get the effective primary key for diffing, preferring meta uniqueKeys over auto_id.
+
+    When the MySQL PK is auto_id (synthetic), check the meta file for uniqueKeys
+    and use those instead for more meaningful diffs.
+
+    Args:
+        table: Table name
+        db_pk: Primary key columns from the database
+
+    Returns:
+        Effective primary key column list
+    """
+    # Only override when the DB PK is auto_id
+    if db_pk != ["auto_id"]:
+        return db_pk
+
+    try:
+        from .env import DBCTOOL_PATH
+        meta_path = DBCTOOL_PATH.parent / 'meta' / f'{table.lower()}.meta.json'
+        if not meta_path.exists():
+            return db_pk
+
+        with open(meta_path, 'r', encoding='utf-8') as f:
+            meta = json.load(f)
+
+        # Check if meta has uniqueKeys
+        unique_keys = meta.get('uniqueKeys', [])
+        if unique_keys:
+            return list(unique_keys[0])
+
+        # Check if meta primaryKeys is something other than auto_id
+        meta_pk = meta.get('primaryKeys', [])
+        if meta_pk and meta_pk != ['auto_id']:
+            return meta_pk
+
+    except Exception:
+        pass
+
+    return db_pk
+
+
 def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: str,
                    primary_key: List[str] = None, skip_localization: bool = True) -> Dict:
     """
@@ -572,6 +609,7 @@ def get_table_diff(db_conn: DBCConnection, table: str, db1_name: str, db2_name: 
 
     if primary_key is None:
         primary_key = get_primary_key(conn1, table)
+        primary_key = get_effective_pk(table, primary_key)
 
     order_clause = ", ".join(f"`{col}`" for col in primary_key)
 

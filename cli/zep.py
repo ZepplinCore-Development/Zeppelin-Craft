@@ -1112,6 +1112,11 @@ from commands.build import build
 cli.add_command(build)
 
 
+# Import account commands from module
+from commands.account import account
+cli.add_command(account)
+
+
 @cli.command()
 def doctor():
     """Verify toolchain and dependencies"""

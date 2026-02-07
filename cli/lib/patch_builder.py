@@ -643,7 +643,7 @@ def _run_dbc_export() -> bool:
         config = json.load(f)
     meta_dir = Path(config.get('paths', {}).get('meta', ''))
     if not meta_dir.exists():
-        meta_dir = DBCTOOL_PATH.parent / 'spelleditor_meta'
+        meta_dir = DBCTOOL_PATH.parent / 'meta'
 
     # Query which tables actually exist in the database
     existing_tables = _get_dbc_tables()

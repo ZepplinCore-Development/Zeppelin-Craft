@@ -4,14 +4,14 @@
 
 -- charhairtextures: 6 inserts, 0 updates, 0 deletes
 DELETE FROM `charhairtextures` WHERE `id` = 102;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (102, 9, 0);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (102, 9, 0);
 DELETE FROM `charhairtextures` WHERE `id` = 103;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (103, 9, 1);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (103, 9, 1);
 DELETE FROM `charhairtextures` WHERE `id` = 104;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (104, 20, 0);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (104, 20, 0);
 DELETE FROM `charhairtextures` WHERE `id` = 106;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (106, 20, 1);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (106, 20, 1);
 DELETE FROM `charhairtextures` WHERE `id` = 107;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (107, 21, 0);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (107, 21, 0);
 DELETE FROM `charhairtextures` WHERE `id` = 108;
-INSERT INTO `charhairtextures` (`id`, `race_id`, `gender`) VALUES (108, 21, 1);
+INSERT INTO `charhairtextures` (`id`, `race`, `gender`) VALUES (108, 21, 1);

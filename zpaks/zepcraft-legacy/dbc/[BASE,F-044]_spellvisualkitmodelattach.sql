@@ -16,7 +16,7 @@ UPDATE `spellvisualkitmodelattach` SET `pitch` = '3.1415901184082030' WHERE `id`
 UPDATE `spellvisualkitmodelattach` SET `pitch` = '2.0071299076080322' WHERE `id` = 781;
 UPDATE `spellvisualkitmodelattach` SET `pitch` = '3.1415901184082030' WHERE `id` = 801;
 UPDATE `spellvisualkitmodelattach` SET `pitch` = '3.1415901184082030' WHERE `id` = 802;
-UPDATE `spellvisualkitmodelattach` SET `spell_visual_effect_name_id` = 4884, `attachment_id` = 17, `pitch` = '1.5700000524520874' WHERE `id` = 1061;
+UPDATE `spellvisualkitmodelattach` SET `spell_vis_effect_name_id` = 4884, `attachment_id` = 17, `pitch` = '1.5700000524520874' WHERE `id` = 1061;
 UPDATE `spellvisualkitmodelattach` SET `pitch` = '1.5707999467849731' WHERE `id` = 1141;
 UPDATE `spellvisualkitmodelattach` SET `pitch` = '1.3090000152587890' WHERE `id` = 1181;
 UPDATE `spellvisualkitmodelattach` SET `yaw` = '1.5707999467849731' WHERE `id` = 1224;

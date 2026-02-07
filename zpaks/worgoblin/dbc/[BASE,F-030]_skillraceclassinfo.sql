@@ -4,9 +4,9 @@
 
 -- skillraceclassinfo: 2 inserts, 30 updates, 0 deletes
 DELETE FROM `skillraceclassinfo` WHERE `id` = 971;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_line_dbc_record`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_index`) VALUES (971, 789, 2048, 1469, 1170, 0, 0, 0);
+INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (971, 789, 2048, 1469, 1170, 0, 0, 0);
 DELETE FROM `skillraceclassinfo` WHERE `id` = 972;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_line_dbc_record`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_index`) VALUES (972, 790, 256, 509, 1170, 0, 0, 0);
+INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (972, 790, 256, 509, 1170, 0, 0, 0);
 UPDATE `skillraceclassinfo` SET `race_mask` = 4095 WHERE `id` = 21;
 UPDATE `skillraceclassinfo` SET `race_mask` = 4095 WHERE `id` = 27;
 UPDATE `skillraceclassinfo` SET `race_mask` = 4095 WHERE `id` = 28;

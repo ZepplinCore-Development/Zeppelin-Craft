@@ -1,45 +1,45 @@
 {
   "$schema": "../schemas/dbc_localization.schema.json",
-  "description": "DBC table localization field blacklist. Fields listed here are excluded from diffs to avoid locale-only changes.",
-  "version": "1.0.0",
+  "description": "DBC table localization field blacklist (fallback). Primary detection uses meta/ Loc fields. Fields listed here are excluded from diffs to avoid locale-only changes.",
+  "version": "2.0.0",
   "locale_index": {
-    "comment": "WoW 3.3.5a locale indices - _1 or _0 is typically English",
-    "english_suffixes": ["_0", "_1"],
-    "non_english_suffixes": ["_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9", "_10", "_11", "_12", "_13", "_14", "_15", "_16"]
+    "comment": "With meta/ Loc type, columns use language code suffixes (_enus, _kokr, etc.)",
+    "english_suffixes": ["_enus"],
+    "non_english_suffixes": ["_kokr", "_frfr", "_dede", "_zhcn", "_zhtw", "_eses", "_esmx", "_ruru", "_jajp", "_ptpt", "_itit", "_unused_1", "_unused_2", "_unused_3", "_unused_4"]
   },
   "tables": {
     "achievement": {
       "localized_prefixes": ["name", "description"],
-      "keep_suffixes": ["_1", "_flags"],
-      "comment": "name_1=English, name_2-16=other locales"
+      "keep_suffixes": ["_enus", "_flags"],
+      "comment": "name_enus=English"
     },
     "achievement_criteria": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "areatable": {
       "localized_prefixes": ["area_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "barbershopstyle": {
       "localized_prefixes": ["display_name", "description"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "chrclasses": {
       "localized_prefixes": ["name", "name_female", "name_male"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "chrraces": {
       "localized_prefixes": ["name", "name_female", "name_male"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "creaturefamily": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "dungeonencounter": {
       "localized_prefixes": ["encounter_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "emotestextsound": {
       "localized_prefixes": [],
@@ -48,39 +48,39 @@
     },
     "faction": {
       "localized_prefixes": ["name", "description"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "factiongroup": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "gametips": {
       "localized_prefixes": ["text"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "itemclass": {
       "localized_prefixes": ["class_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "itemlimitcategory": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "itemsubclass": {
       "localized_prefixes": ["display_name", "verbose_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "languages": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "lfgdungeongroup": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "lfgdungeons": {
       "localized_prefixes": ["name", "description"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "loadingscreens": {
       "localized_prefixes": [],
@@ -89,15 +89,15 @@
     },
     "locktype": {
       "localized_prefixes": ["name", "resource_name", "verb"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "map": {
       "localized_prefixes": ["map_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "mapdifficulty": {
       "localized_prefixes": ["message"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "namegen": {
       "localized_prefixes": [],
@@ -106,11 +106,11 @@
     },
     "questsort": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "skillline": {
       "localized_prefixes": ["name", "description", "alternate_verb"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "soundentries": {
       "localized_prefixes": [],
@@ -118,17 +118,17 @@
       "comment": "Sound file paths, not localized text"
     },
     "spell": {
-      "localized_prefixes": ["spell_name", "spell_rank", "spell_description", "spell_tool_tip"],
-      "keep_suffixes": ["_0", "_flags", "_flag_7", "_flags_7", "_variable_id"],
-      "comment": "spell_name_0=English, spell_name_1-15=other locales (0-indexed)"
+      "localized_prefixes": ["spell_name", "spell_subtext", "spell_desc", "spell_tooltip"],
+      "keep_suffixes": ["_enus", "_flags"],
+      "comment": "spell_name_enus=English"
     },
     "spelldispeltype": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "spellfocusobject": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "spellicon": {
       "localized_prefixes": [],
@@ -137,23 +137,23 @@
     },
     "spellmechanic": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "spellrange": {
       "localized_prefixes": ["name", "short_name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "spellshapeshiftform": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "talenttab": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "totemcategory": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "vocaluisounds": {
       "localized_prefixes": [],
@@ -162,7 +162,7 @@
     },
     "wmoareatable": {
       "localized_prefixes": ["name"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     },
     "worldmaparea": {
       "localized_prefixes": [],
@@ -171,7 +171,7 @@
     },
     "worldstateui": {
       "localized_prefixes": ["icon", "text", "tooltip"],
-      "keep_suffixes": ["_1", "_flags"]
+      "keep_suffixes": ["_enus", "_flags"]
     }
   }
 }
