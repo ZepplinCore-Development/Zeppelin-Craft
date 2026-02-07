@@ -547,9 +547,18 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
                     return False
                 continue
 
-            # Commands with own interactive menus: run directly, no flag prompt
+            # Commands with own interactive menus: prompt args, skip flag prompt
             if selection_data.get('menu_passthrough', False):
-                continue_running = execute_command(command_path)
+                if args or options:
+                    result = prompt_args(args, options, command_path)
+                    if result is None:
+                        continue
+                    arg_values, option_values = result
+                    cmd_options = [(k, v) for k, v in option_values]
+                    continue_running = execute_command(
+                        command_path, arg_values, cmd_options)
+                else:
+                    continue_running = execute_command(command_path)
                 if not continue_running:
                     return False
                 continue
@@ -579,8 +588,18 @@ def run_menu(tree: Dict[str, Any], path: List[str] = None,
                 return False
 
 
+def _ensure_tool_permissions():
+    """Ensure toolchain binaries are executable (lost on UNRAID reboot)."""
+    from lib.env import MPQCLI_PATH, DBCTOOL_PATH
+    for tool in [MPQCLI_PATH, DBCTOOL_PATH]:
+        if tool.exists() and not os.access(tool, os.X_OK):
+            tool.chmod(tool.stat().st_mode | 0o755)
+
+
 def main():
     """Main entry point."""
+    _ensure_tool_permissions()
+
     # Build command tree from Click CLI
     tree = build_menu_tree(cli)
 
