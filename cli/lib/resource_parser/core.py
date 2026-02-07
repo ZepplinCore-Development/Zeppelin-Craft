@@ -679,7 +679,7 @@ class ResourceParser:
         self.log('FIXING DUPLICATE WMO PLACEMENTS')
         self.log('='*80)
 
-        export_base = self.paths['export'] / 'WORLD' / 'maps'
+        export_base = self.paths['export'] / 'WORLD' / 'MAPS'
         total_fixed = 0
         total_removed = 0
 
@@ -694,14 +694,14 @@ class ResourceParser:
                 continue
 
             # Determine export path (preserve map subdirectory structure)
-            # e.g., /maps/kalimdor/file.adt -> export/WORLD/maps/kalimdor/file.adt
+            # e.g., MAPS/AZEROTH/file.adt -> export/WORLD/MAPS/AZEROTH/file.adt
             try:
-                # Find "maps" in path and preserve structure after it
+                # Find "MAPS" in path (case-insensitive) and preserve structure after it
                 path_parts = adt_file.parts
-                maps_idx = path_parts.index('maps')
-                relative_parts = path_parts[maps_idx+1:]  # Everything after 'maps/'
+                maps_idx = next(i for i, p in enumerate(path_parts) if p.upper() == 'MAPS')
+                relative_parts = path_parts[maps_idx+1:]  # Everything after MAPS/
                 export_path = export_base.joinpath(*relative_parts)
-            except (ValueError, IndexError):
+            except (StopIteration, IndexError):
                 # Fallback: just use filename
                 export_path = export_base / adt_name
 
