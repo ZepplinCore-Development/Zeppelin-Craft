@@ -9,19 +9,21 @@
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_mode": "full",
-    "patch_o_source": "mpq/source-assets",
+    "source_path": "mpq/source-assets",
     "preprocessor_warning": "Resource Parser extracts custom assets and dependencies. This may take 10-15 minutes."
   },
   "launcher": {
-    "mandatory": false,
+    "mandatory": true,
     "enabled_by_default": true,
     "auto_update": false,
     "requires": []
   },
   "feature_id": "F-136",
   "contents": {
-    "mpq": ["mpq/**/*"]
+    "mpq": [
+      "mpq/**/*"
+    ]
   },
   "enabled": true,
-  "priority": 50
+  "priority": 40
 }

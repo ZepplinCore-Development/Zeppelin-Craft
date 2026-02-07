@@ -39,8 +39,7 @@ class GroundEffectDoodadReader:
             dbc_path: Path to GroundEffectDoodad.dbc file
         """
         if dbc_path is None:
-            # Default to Open Azeroth DBC location
-            dbc_path = '/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/DBFilesClient/GroundEffectDoodad.dbc'
+            raise ValueError("dbc_path is required — pass the path to GroundEffectDoodad.dbc")
 
         self.dbc_path = Path(dbc_path)
         self.dbc = DBCReader(str(dbc_path))
@@ -166,8 +165,7 @@ class GroundEffectTextureReader:
             dbc_path: Path to GroundEffectTexture.dbc file
         """
         if dbc_path is None:
-            # Default to Open Azeroth DBC location
-            dbc_path = '/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/DBFilesClient/GroundEffectTexture.dbc'
+            raise ValueError("dbc_path is required — pass the path to GroundEffectTexture.dbc")
 
         self.dbc_path = Path(dbc_path)
         self.dbc = DBCReader(str(dbc_path))

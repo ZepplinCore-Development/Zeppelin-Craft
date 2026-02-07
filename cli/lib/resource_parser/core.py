@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Open Azeroth Resource Parser
+Resource Parser
 Extracts custom assets needed for patches by filtering out stock WotLK assets.
 
 Integrated into the Zeppelin CLI — paths come from cli/.env instead of config.conf.
@@ -65,7 +65,7 @@ class ResourceParser:
         self.modern_ground_effect_ids = set()  # IDs in modern client but not WotLK (modern content)
         self.all_dependencies = set()
         self.stock_assets = set()
-        self.patch_o_textures = set()  # Custom textures from scanning Patch-O M2s
+        self.source_textures = set()  # Custom textures from scanning source M2s
         self.required_custom = set()
         self.already_exported = set()
         self.found_assets = {}  # {normalized_path: source_path}
@@ -146,11 +146,10 @@ class ResourceParser:
 
         try:
             area_dbc_path = self.paths.get('area_table_dbc')
-            if area_dbc_path and Path(area_dbc_path).exists():
-                area_table = AreaTableReader(str(area_dbc_path))
-            else:
-                # Use default path if not specified
-                area_table = AreaTableReader()  # Uses default path
+            if not area_dbc_path or not Path(area_dbc_path).exists():
+                self.log('  AreaTable.dbc not found in source, skipping area names')
+                return {}
+            area_table = AreaTableReader(str(area_dbc_path))
 
             # Store the reader for parent lookups
             self.area_table_reader = area_table
@@ -377,12 +376,12 @@ class ResourceParser:
         if merged_count > 0 or renamed_count > 0:
             self.log(f'    Merged {merged_count} duplicate folders, renamed {renamed_count} folders to uppercase')
 
-    def copy_patch_o_to_export(self):
+    def copy_source_to_export(self):
         """
-        Copy all Patch-O content to Export folder (Phase 0).
+        Copy all source content to Export folder (Phase 0).
 
         This creates a unified working directory where:
-        - Original Patch-O content is copied
+        - Original source content is copied
         - Extracted dependencies are added
         - Fixed ADTs overwrite originals
         - Final MPQ is built from this single location
@@ -390,17 +389,17 @@ class ResourceParser:
         import shutil
 
         self.log('\n' + '='*80)
-        self.log('STEP 1: Copying Patch-O content to Export folder')
+        self.log('STEP 1: Copying source content to export folder')
         self.log('='*80)
 
-        patch_o = self.paths.get('patch_o')
+        source = self.paths.get('source')
         export_dir = self.paths['export']
 
-        if not patch_o or not patch_o.exists():
-            self.log('  ⚠️  Patch-O directory not configured or does not exist')
+        if not source or not source.exists():
+            self.log('  ⚠️  Source directory not configured or does not exist')
             return False
 
-        self.log(f'\nSource: {patch_o}')
+        self.log(f'\nSource: {source}')
         self.log(f'Destination: {export_dir}')
 
         # Normalize existing export folder case (fix any previous mixed-case folders)
@@ -410,10 +409,10 @@ class ResourceParser:
         # IMPORTANT: Normalize all paths to UPPERCASE for consistency
         # This prevents duplicate folders with different casing (e.g., DUNGEONS vs Dungeons)
         files_to_copy = []
-        for root, dirs, files in os.walk(patch_o):
+        for root, dirs, files in os.walk(source):
             for file in files:
                 src_file = Path(root) / file
-                rel_path = src_file.relative_to(patch_o)
+                rel_path = src_file.relative_to(source)
                 # Normalize path to uppercase
                 rel_path_upper = Path(str(rel_path).upper())
                 dst_file = export_dir / rel_path_upper
@@ -458,7 +457,7 @@ class ResourceParser:
         Copy zpak source-assets/ to parsed-assets/ with UPPERCASE normalization.
 
         Skips MPQ metadata files ((listfile), (attributes), .gitignore, .gitkeep).
-        Uses same skip-if-same-size logic as copy_patch_o_to_export().
+        Uses same skip-if-same-size logic as copy_source_to_export().
 
         Args:
             source_dir: Path to zpak's source-assets/ directory
@@ -911,7 +910,7 @@ class ResourceParser:
             self.log('  Export directory does not exist - skipping WMO parsing')
             return
 
-        # Find all WMO files in export directory (includes Patch-O content from Phase 0)
+        # Find all WMO files in export directory (includes source content from Phase 0)
         all_wmo_files = list(export_dir.rglob("*.wmo")) + list(export_dir.rglob("*.WMO"))
         wmo_files = [f for f in all_wmo_files if not re.search(r'_\d{3}$', f.stem)]
         group_files = [f for f in all_wmo_files if re.search(r'_\d{3}$', f.stem)]
@@ -1041,7 +1040,7 @@ class ResourceParser:
             self.log('  Export directory does not exist - skipping M2 parsing')
             return
 
-        # Find all M2 files in export directory (includes Patch-O content from Phase 0)
+        # Find all M2 files in export directory (includes source content from Phase 0)
         m2_files = []
         for ext in ['*.m2', '*.M2', '*.mdx', '*.MDX']:
             m2_files.extend(export_dir.rglob(ext))
@@ -2357,13 +2356,13 @@ class ResourceParser:
             self.log(f'\n  ❌ Error building MPQ: {e}')
             return False
 
-    def run(self, patch_o_path: Path, output_dir: Path):
+    def run(self, source_path: Path, output_dir: Path):
         """
         Execute full extraction workflow (Five-Phase Approach).
 
         Args:
-            patch_o_path: Path to Patch-O content (DBCs, ADTs, WMOs, M2s)
-            output_dir:   Path to write extracted/parsed assets
+            source_path: Path to source content (DBCs, ADTs, WMOs, M2s)
+            output_dir:  Path to write extracted/parsed assets
 
         Phase 0: Content Staging
         Phase 1: Discovery & WMO Extraction
@@ -2372,20 +2371,20 @@ class ResourceParser:
         Phase 4: Reporting
         """
         # Set paths from arguments
-        self.paths['patch_o'] = Path(patch_o_path)
+        self.paths['source'] = Path(source_path)
         self.paths['export'] = Path(output_dir)
 
-        # Derive DBC/ADT paths from patch_o
-        self.paths['area_table_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'AreaTable.dbc'
-        self.paths['groundeffect_doodad_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'GroundEffectDoodad.dbc'
-        self.paths['groundeffect_texture_dbc'] = self.paths['patch_o'] / 'DBFilesClient' / 'GroundEffectTexture.dbc'
-        self.paths['adt'] = self.paths['patch_o'] / 'WORLD' / 'maps'
+        # Derive DBC/ADT paths from source
+        self.paths['area_table_dbc'] = self.paths['source'] / 'DBFilesClient' / 'AreaTable.dbc'
+        self.paths['groundeffect_doodad_dbc'] = self.paths['source'] / 'DBFilesClient' / 'GroundEffectDoodad.dbc'
+        self.paths['groundeffect_texture_dbc'] = self.paths['source'] / 'DBFilesClient' / 'GroundEffectTexture.dbc'
+        self.paths['adt'] = self.paths['source'] / 'WORLD' / 'maps'
 
         # Reload area names now that paths are set
         self.area_names = self._load_area_names()
 
         self.log('='*80)
-        self.log('OPEN AZEROTH RESOURCE PARSER')
+        self.log('RESOURCE PARSER')
         self.log('='*80)
 
         try:
@@ -2400,8 +2399,8 @@ class ResourceParser:
             assets_dir = Path(self.paths['assets_source'])
             self.build_folder_cache(assets_dir)
 
-            # Step 1: Copy Patch-O content to Export folder
-            self.copy_patch_o_to_export()
+            # Step 1: Copy source content to Export folder
+            self.copy_source_to_export()
 
             # ============================================================
             # PHASE 1: DISCOVERY & WMO EXTRACTION (Steps 2-6)
@@ -2735,19 +2734,13 @@ def main():
         '--source-dir',
         type=Path,
         default=None,
-        help='Source assets directory (required for model-scan mode)'
+        help='Source content directory (required for both modes)'
     )
     parser.add_argument(
         '--output-dir',
         type=Path,
         default=None,
-        help='Output directory for parsed assets (required for model-scan mode)'
-    )
-    parser.add_argument(
-        '--patch-o',
-        type=Path,
-        default=None,
-        help='Patch-O source directory (required for full mode)'
+        help='Output directory for parsed assets (required for both modes)'
     )
     parser.add_argument(
         '--debug',
@@ -2764,9 +2757,9 @@ def main():
             parser.error('--source-dir and --output-dir are required for model-scan mode')
         rp.run_model_scan(args.source_dir, args.output_dir)
     else:
-        if not args.patch_o or not args.output_dir:
-            parser.error('--patch-o and --output-dir are required for full mode')
-        rp.run(args.patch_o, args.output_dir)
+        if not args.source_dir or not args.output_dir:
+            parser.error('--source-dir and --output-dir are required for full mode')
+        rp.run(args.source_dir, args.output_dir)
 
 
 if __name__ == '__main__':

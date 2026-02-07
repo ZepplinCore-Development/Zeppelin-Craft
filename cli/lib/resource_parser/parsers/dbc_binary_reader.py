@@ -92,7 +92,7 @@ class AreaTableReader:
 
     def __init__(self, dbc_path: str = None):
         if dbc_path is None:
-            dbc_path = '/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/DBFilesClient/AreaTable.dbc'
+            raise ValueError("dbc_path is required — pass the path to AreaTable.dbc")
 
         self.dbc = DBCReader(dbc_path)
         self.dbc.read()
@@ -154,7 +154,7 @@ class MapDBCReader:
 
     def __init__(self, dbc_path: str = None):
         if dbc_path is None:
-            dbc_path = '/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/DBFilesClient/Map.dbc'
+            raise ValueError("dbc_path is required — pass the path to Map.dbc")
 
         self.dbc = DBCReader(dbc_path)
         self.dbc.read()
@@ -201,7 +201,7 @@ class AreaPOIReader:
 
     def __init__(self, dbc_path: str = None):
         if dbc_path is None:
-            dbc_path = '/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/DBFilesClient/AreaPOI.dbc'
+            raise ValueError("dbc_path is required — pass the path to AreaPOI.dbc")
 
         self.dbc = DBCReader(dbc_path)
         self.dbc.read()

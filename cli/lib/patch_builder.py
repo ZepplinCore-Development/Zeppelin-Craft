@@ -4,8 +4,11 @@ Client patch build orchestration for Zeppelin-Craft CLI.
 Handles discovering zpaks by client_patch assignment, building MPQ archives,
 and deploying them to the NGINX distribution path.
 
-PATCH-Z has special handling (DBC export + CharSections reorder).
-All other patches pack directly from zpak parsed-assets directories.
+All patches use the same build pipeline:
+1. Preprocessors populate parsed-assets (resource parser + named preprocessors)
+2. Build packs parsed-assets into MPQ
+
+Named preprocessors are defined per-zpak in zpak.json build.preprocessors.
 """
 
 import json
@@ -157,7 +160,7 @@ def _backup_existing_mpq(output_path: Path, nginx_path: Path) -> bool:
     try:
         shutil.copy2(output_path, backup_path)
         size_mb = output_path.stat().st_size / (1024 * 1024)
-        print(f"  Backed up {output_path.name} ({size_mb:.0f} MB)")
+        print(f"Backed up {output_path.name} ({size_mb:.0f} MB)")
         logger.info(f"Backed up {output_path} -> {backup_path}")
         return True
     except (OSError, shutil.Error) as e:
@@ -167,126 +170,197 @@ def _backup_existing_mpq(output_path: Path, nginx_path: Path) -> bool:
 
 
 # =============================================================================
-# PATCH-Z Build (DBC Export)
+# Preprocessing Pipeline
 # =============================================================================
 
-def build_patch_z(craft_root: Path, nginx_path: Path,
-                  register: Dict[str, Any],
-                  quick: bool = False,
-                  dry_run: bool = False) -> bool:
-    """Build PATCH-Z.MPQ (DBC files).
+def get_zpak_preprocessors(zpak: Dict[str, Any]) -> List[str]:
+    """Get the list of named preprocessors for a zpak.
 
-    Special flow:
-    1. Export DBC database to binary .dbc files (unless --quick)
-    2. Reorder CharSections.dbc
-    3. Copy .dbc files to server data/dbc/
-    4. Pack into PATCH-Z.MPQ (with DBFilesClient/ internal path)
-    5. Deploy to NGINX
-    6. Update register
+    Reads from build.preprocessors in zpak.json. Also supports legacy
+    build.generator field for backward compatibility.
 
     Args:
-        craft_root: Path to Zeppelin-Craft root.
-        nginx_path: Path to NGINX root directory.
-        register: Patch register dict (modified in place).
-        quick: Skip DBC export, use existing files.
-        dry_run: Preview only, don't build.
+        zpak: Zpak info dict with 'manifest'.
 
     Returns:
-        True if build succeeded.
+        List of preprocessor names.
     """
-    patch_name = 'PATCH-Z.MPQ'
-    output_path = get_patch_output_path(nginx_path, patch_name, register)
+    build_config = zpak.get('manifest', {}).get('build', {})
+    preprocessors = list(build_config.get('preprocessors', []))
 
-    if dry_run:
-        print(f"  [DRY RUN] Would build {patch_name}")
-        print(f"    DBC export: {'skip (quick mode)' if quick else DBC_EXPORT_DIR}")
-        print(f"    Output: {output_path}")
-        return True
+    # Backward compat: build.generator → preprocessor entry
+    generator = build_config.get('generator')
+    if generator and generator not in preprocessors:
+        preprocessors.append(generator)
 
+    return preprocessors
+
+
+def _run_preprocessors(zpaks: List[Dict[str, Any]],
+                       dry_run: bool = False) -> bool:
+    """Run the preprocessing pipeline on a list of zpaks.
+
+    For each zpak:
+    1. Copy source-assets to parsed-assets (base step for all zpaks)
+    2. Run resource parser (resolves model dependencies from Asset Library)
+    3. Run named preprocessors from build.preprocessors in zpak.json
+
+    Args:
+        zpaks: List of zpak info dicts.
+        dry_run: Preview only, don't run.
+
+    Returns:
+        True if all preprocessing succeeded.
+    """
     start = time.time()
+    steps_run = []
 
-    # Backup existing MPQ before overwriting
-    _backup_existing_mpq(output_path, nginx_path)
+    for zpak in zpaks:
+        zpak_path = Path(zpak['path'])
+        source_dir = zpak_path / 'mpq' / 'source-assets'
+        has_source = source_dir.exists()
+        named = get_zpak_preprocessors(zpak)
 
-    # Step 1: DBC export
-    if not quick:
-        print("  Exporting DBC database to binary files...")
-        if not _run_dbc_export():
-            return False
-    else:
-        print("  Quick mode: using existing DBC exports")
-        if not DBC_EXPORT_DIR.exists() or not any(DBC_EXPORT_DIR.glob('*.dbc')):
-            print("    No existing DBC files found. Run without --quick first.")
-            return False
+        if not has_source and not named:
+            continue
 
-    # Step 2: Reorder CharSections.dbc
-    charsections = DBC_EXPORT_DIR / 'CharSections.dbc'
-    if charsections.exists():
-        print("  Reordering CharSections.dbc...")
-        if not _run_charsections_reorder(charsections):
-            print("    Warning: CharSections reorder failed, continuing anyway")
-    else:
-        logger.warning("CharSections.dbc not found in export directory")
+        # Step 1+2: Run resource parser (handles copy + uppercase normalization)
+        if has_source:
+            if dry_run:
+                _print_step_header('RESOURCE PARSER', zpak['name'])
+                print(f"[DRY RUN] Would run resource-parser")
+                steps_run.append('resource-parser')
+            else:
+                if not _run_resource_parser(zpak):
+                    print(f"Resource parser failed for {zpak['name']}")
+                    return False
+                steps_run.append('resource-parser')
 
-    # Step 3: Copy to server data/dbc/
-    print(f"  Copying DBC files to {SERVER_DBC_DIR}...")
-    _copy_dbc_to_server(DBC_EXPORT_DIR, SERVER_DBC_DIR)
+        # Step 3: Named preprocessors from zpak.json
+        for name in named:
+            _print_step_header(name.upper(), zpak['name'])
+            if dry_run:
+                print(f"[DRY RUN] Would run {name}")
+                steps_run.append(name)
+            elif not _run_named_preprocessor(name, zpak):
+                print(f"{name} failed for {zpak['name']}")
+                return False
+            else:
+                steps_run.append(name)
 
-    # Step 4+5: Pack and deploy
-    # Create a temp staging dir with DBFilesClient/ structure (MPQ internal path)
-    with tempfile.TemporaryDirectory(prefix='zep-patch-z-') as staging:
-        staging_path = Path(staging)
-        dbc_client_dir = staging_path / 'DBFilesClient'
-        dbc_client_dir.mkdir()
-
-        # Copy exported DBC files into staging
-        dbc_count = 0
-        for dbc_file in DBC_EXPORT_DIR.glob('*.dbc'):
-            shutil.copy2(dbc_file, dbc_client_dir / dbc_file.name)
-            dbc_count += 1
-
-        if dbc_count == 0:
-            print("    No .dbc files found in export directory")
-            return False
-
-        print(f"  Packing {dbc_count} DBC files into {patch_name}...")
-        if not _pack_mpq(staging_path, output_path):
-            return False
-
-    # Step 6: Update register
-    bump_build_number(register)
-    bump_dbc_version(register)
-    update_patch_entry(register, patch_name, output_path, zpak_name='zepcraft-legacy')
-
+    # Summary
     elapsed = time.time() - start
-    size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0
-    print(f"  Built {patch_name}: {size_mb:.1f} MB in {elapsed:.1f}s")
+    pipeline = ' > '.join(steps_run)
+    print('\n' + '=' * 80)
+    print(f"PREPROCESSING COMPLETE")
+    print('=' * 80)
+    print(f"\nPipeline: {pipeline}")
+    print(f"Duration: {elapsed:.1f}s")
 
     return True
 
 
-# =============================================================================
-# Generic Patch Build
-# =============================================================================
+def _print_step_header(step_name: str, zpak_name: str):
+    """Print a section header matching the resource parser style."""
+    print('\n' + '=' * 80)
+    print(f"{step_name} — {zpak_name}")
+    print('=' * 80)
 
-def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
-                        nginx_path: Path, register: Dict[str, Any],
-                        parse: bool = False,
-                        parse_only: bool = False,
-                        dry_run: bool = False) -> bool:
-    """Build a non-Z patch MPQ from zpak parsed-assets.
 
-    Packs directly from zpak parsed-assets directories using mpqcli.
-    For single-zpak patches (most cases), packs directly from the source.
-    For multi-zpak patches, creates each in sequence using mpqcli add.
+def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
+    """Dispatch a named preprocessor.
+
+    Preprocessors operate on a zpak's parsed-assets directory and are
+    defined in zpak.json build.preprocessors.
 
     Args:
-        letter: Patch letter (e.g. "O", "H").
+        name: Preprocessor name (e.g. 'dbc-export', 'atlasloot-generator').
+        zpak: Zpak info dict.
+
+    Returns:
+        True if preprocessor succeeded.
+    """
+    dispatch = {
+        'dbc-export': _preprocess_dbc_export,
+        'dbc-reorder': _preprocess_dbc_reorder,
+        'atlasloot-generator': _preprocess_atlasloot,
+    }
+
+    func = dispatch.get(name)
+    if not func:
+        print(f"    Unknown preprocessor: {name}")
+        return False
+    return func(zpak)
+
+
+def _preprocess_dbc_export(zpak: Dict[str, Any]) -> bool:
+    """Export DBC database to binary files.
+
+    Runs DBCTool export, copies .dbc files into the zpak's
+    parsed-assets/DBFilesClient/, and updates the server data directory.
+    """
+    if not _run_dbc_export():
+        return False
+
+    # Copy exported DBC files into zpak's parsed-assets
+    zpak_path = Path(zpak['path'])
+    dbc_dest = zpak_path / 'mpq' / 'parsed-assets' / 'DBFilesClient'
+    dbc_dest.mkdir(parents=True, exist_ok=True)
+
+    count = 0
+    for dbc_file in DBC_EXPORT_DIR.glob('*.dbc'):
+        shutil.copy2(dbc_file, dbc_dest / dbc_file.name)
+        count += 1
+
+    # Also copy to server data/dbc/ so worldserver picks them up
+    _copy_dbc_to_server(DBC_EXPORT_DIR, SERVER_DBC_DIR)
+    print(f"Exported {count} DBC files, copied to server")
+    return True
+
+
+def _preprocess_dbc_reorder(zpak: Dict[str, Any]) -> bool:
+    """Reorder CharSections.dbc in parsed-assets by race/gender grouping."""
+    zpak_path = Path(zpak['path'])
+    charsections = zpak_path / 'mpq' / 'parsed-assets' / 'DBFilesClient' / 'CharSections.dbc'
+
+    if not charsections.exists():
+        logger.warning("CharSections.dbc not found in parsed-assets, skipping reorder")
+        return True
+
+    if not _run_charsections_reorder(charsections):
+        print(f"Warning: CharSections reorder failed, continuing anyway")
+    else:
+        print(f"Reordered CharSections.dbc")
+    return True
+
+
+def _preprocess_atlasloot(zpak: Dict[str, Any]) -> bool:
+    """Run AtlasLoot generator against parsed-assets."""
+    return _run_atlasloot_generator(Path(zpak['path']))
+
+
+# =============================================================================
+# Patch Build (unified for all patches)
+# =============================================================================
+
+def build_patch(letter: str, zpaks: List[Dict[str, Any]],
+                nginx_path: Path, register: Dict[str, Any],
+                parse: bool = False,
+                parse_only: bool = False,
+                dry_run: bool = False) -> bool:
+    """Build a client patch MPQ from zpak parsed-assets.
+
+    Unified build function for all patches. The preprocessing pipeline
+    (resource parser + named preprocessors) populates parsed-assets;
+    this function packs them into an MPQ.
+
+    Args:
+        letter: Patch letter (e.g. "Z", "O", "H").
         zpaks: List of zpak info dicts for this patch.
         nginx_path: Path to NGINX root directory.
         register: Patch register dict (modified in place).
-        parse: Run preprocessor before packing.
-        parse_only: Run preprocessor only, skip packing.
+        parse: Run preprocessors before packing.
+        parse_only: Run preprocessors only, skip packing.
         dry_run: Preview only, don't build.
 
     Returns:
@@ -295,39 +369,17 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
     patch_name = f'PATCH-{letter}.MPQ'
     output_path = get_patch_output_path(nginx_path, patch_name, register)
 
-    # Run resource parser if requested — any zpak with source-assets gets parsed
+    # Step 1: Run preprocessors
     if parse or parse_only:
-        for zpak in zpaks:
-            source_dir = Path(zpak['path']) / 'mpq' / 'source-assets'
-            if source_dir.exists():
-                print(f"  Running resource-parser for {zpak['name']}...")
-                if dry_run:
-                    print(f"    [DRY RUN] Would run resource-parser")
-                elif not _run_resource_parser(zpak):
-                    print(f"    Resource parser failed for {zpak['name']}")
-                    return False
-            else:
-                print(f"    {zpak['name']}: no source-assets directory, skipping parse")
+        if not _run_preprocessors(zpaks, dry_run=dry_run):
+            return False
 
-    # Parse only: stop after preprocessing
     if parse_only:
         if not dry_run:
             print(f"  Parse complete for PATCH-{letter}")
         return True
 
-    # Run generators — zpaks with build.generator get source-assets copied
-    # to parsed-assets and then the generator runs against parsed-assets
-    for zpak in zpaks:
-        build_config = zpak.get('manifest', {}).get('build', {})
-        if build_config.get('generator'):
-            print(f"  Running generator for {zpak['name']}...")
-            if dry_run:
-                print(f"    [DRY RUN] Would run {build_config['generator']}")
-            elif not _run_generator(zpak):
-                print(f"    Generator failed for {zpak['name']}")
-                return False
-
-    # Collect zpaks with actual assets
+    # Step 2: Collect zpaks with parsed-assets
     buildable = []
     for zpak in zpaks:
         parsed = get_zpak_parsed_assets(zpak['path'])
@@ -337,23 +389,24 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
             source_dir = Path(zpak['path']) / 'mpq' / 'source-assets'
             if source_dir.exists() and not parse:
                 print(f"    {zpak['name']}: parsed-assets empty "
-                      f"(use --parse to run resource-parser first)")
+                      f"(use --parse to run preprocessors first)")
             else:
                 print(f"    {zpak['name']}: no parsed-assets found, skipping")
 
     if dry_run:
-        print(f"  [DRY RUN] Would build {patch_name}")
+        _print_step_header('PACK', patch_name)
+        print(f"[DRY RUN] Would build {patch_name}")
         for zpak, parsed in buildable:
             file_count = sum(1 for _ in parsed.rglob('*') if _.is_file()
                             and _.name not in ('.gitkeep', '.gitignore'))
-            print(f"    {zpak['name']}: {file_count} files from {parsed}")
+            print(f"  {zpak['name']}: {file_count} files")
         if not buildable:
-            print(f"    No zpaks have packable assets")
-        print(f"    Output: {output_path}")
+            print(f"  No zpaks have packable assets")
+        print(f"Output: {output_path}")
         return True
 
     if not buildable:
-        print(f"  {patch_name}: no zpaks have packable assets, skipping")
+        print(f"{patch_name}: no zpaks have packable assets, skipping")
         return False
 
     start = time.time()
@@ -361,33 +414,39 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
     # Backup existing MPQ before overwriting
     _backup_existing_mpq(output_path, nginx_path)
 
-    # Pack directly from source directories
+    # Step 3: Pack parsed-assets into MPQ
+    zpak_names_list = [z['name'] for z, _ in buildable]
+    _print_step_header('PACK', patch_name)
+
     if len(buildable) == 1:
-        # Single zpak: pack directly from its parsed-assets
         zpak, parsed = buildable[0]
-        print(f"  Packing {zpak['name']} into {patch_name}...")
+        print(f"Packing {zpak['name']} into {patch_name}...")
         if not _pack_mpq(parsed, output_path):
             return False
     else:
-        # Multiple zpaks: create from first, then add from rest
         zpak, parsed = buildable[0]
-        print(f"  Packing {zpak['name']} into {patch_name}...")
+        print(f"Packing {zpak['name']} into {patch_name}...")
         if not _pack_mpq(parsed, output_path):
             return False
 
         for zpak, parsed in buildable[1:]:
-            print(f"  Adding {zpak['name']} to {patch_name}...")
+            print(f"Adding {zpak['name']}...")
             if not _add_to_mpq(parsed, output_path):
                 return False
 
-    # Update register
-    zpak_names = ', '.join(z['name'] for z, _ in buildable)
+    # Step 4: Update register
+    zpak_names = ', '.join(zpak_names_list)
     bump_build_number(register)
+
+    # Bump DBC version if any zpak has dbc-export preprocessor
+    if any('dbc-export' in get_zpak_preprocessors(z) for z in zpaks):
+        bump_dbc_version(register)
+
     update_patch_entry(register, patch_name, output_path, zpak_name=zpak_names)
 
     elapsed = time.time() - start
     size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0
-    print(f"  Built {patch_name}: {size_mb:.1f} MB in {elapsed:.1f}s")
+    print(f"\n{patch_name}: {size_mb:.1f} MB ({elapsed:.1f}s)")
 
     return True
 
@@ -396,83 +455,7 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
 # Tool Wrappers
 # =============================================================================
 
-def _copy_source_to_parsed(zpak_path: Path) -> bool:
-    """Copy source-assets to parsed-assets for a clean build.
 
-    Removes existing parsed-assets content (except .gitkeep) and copies
-    all files from source-assets. Used before running generators so they
-    operate on a fresh copy.
-
-    Args:
-        zpak_path: Path to the zpak directory.
-
-    Returns:
-        True if copy succeeded.
-    """
-    source = zpak_path / 'mpq' / 'source-assets'
-    parsed = zpak_path / 'mpq' / 'parsed-assets'
-
-    if not source.exists():
-        return False
-
-    # Clean parsed-assets (keep .gitkeep)
-    if parsed.exists():
-        for item in parsed.iterdir():
-            if item.name == '.gitkeep':
-                continue
-            if item.is_dir():
-                shutil.rmtree(item)
-            else:
-                item.unlink()
-
-    parsed.mkdir(parents=True, exist_ok=True)
-
-    # Copy source-assets to parsed-assets
-    for item in source.iterdir():
-        if item.name == '.gitkeep':
-            continue
-        dest = parsed / item.name
-        if item.is_dir():
-            shutil.copytree(item, dest, dirs_exist_ok=True)
-        else:
-            shutil.copy2(item, dest)
-
-    return True
-
-
-def _run_generator(zpak: Dict[str, Any]) -> bool:
-    """Run a build generator for a zpak.
-
-    Copies source-assets to parsed-assets, then runs the generator
-    against parsed-assets. Currently supports 'atlasloot-generator'.
-
-    Args:
-        zpak: Zpak info dict with 'name', 'path', 'manifest'.
-
-    Returns:
-        True if generator succeeded.
-    """
-    manifest = zpak.get('manifest', {})
-    build_config = manifest.get('build', {})
-    generator = build_config.get('generator')
-
-    if not generator:
-        return True
-
-    zpak_path = Path(zpak['path'])
-
-    # Step 1: Copy source-assets to parsed-assets
-    print(f"    Copying source-assets to parsed-assets...")
-    if not _copy_source_to_parsed(zpak_path):
-        print(f"    No source-assets found for {zpak['name']}")
-        return False
-
-    # Step 2: Run the generator
-    if generator == 'atlasloot-generator':
-        return _run_atlasloot_generator(zpak_path)
-    else:
-        print(f"    Unknown generator: {generator}")
-        return False
 
 
 def _run_atlasloot_generator(zpak_path: Path) -> bool:
@@ -570,13 +553,13 @@ def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
             print(f"    Mode: model-scan")
             rp.run_model_scan(source_dir, output_dir)
         else:
-            patch_o = build_config.get('patch_o_source')
-            if patch_o:
-                patch_o = zpak_path / patch_o
+            source_path = build_config.get('source_path')
+            if source_path:
+                source_path = zpak_path / source_path
             else:
-                patch_o = source_dir
+                source_path = source_dir
             print(f"    Mode: full (ADT workflow)")
-            rp.run(patch_o, output_dir)
+            rp.run(source_path, output_dir)
 
         print(f"    Resource parser completed for {zpak['name']}")
         return True
@@ -669,7 +652,6 @@ def _run_dbc_export() -> bool:
                 logger.warning(f"Could not read meta file {meta_file}: {e}")
 
         if hidden:
-            print(f"    Skipping {len(hidden)} meta files (tables not in database)")
             logger.info(f"Hidden {len(hidden)} meta files for non-existent tables")
 
     try:
@@ -691,9 +673,6 @@ def _run_dbc_export() -> bool:
             logger.error(f"DBCTool export failed: {result.stderr}")
             return False
 
-        # Count exported files
-        dbc_count = len(list(DBC_EXPORT_DIR.glob('*.dbc'))) if DBC_EXPORT_DIR.exists() else 0
-        print(f"    Exported {dbc_count} DBC files")
         return True
     finally:
         # Always restore hidden meta files
@@ -720,7 +699,7 @@ def _run_charsections_reorder(dbc_path: Path) -> bool:
         if str(DBC_REORDER_DIR) not in sys.path:
             sys.path.insert(0, str(DBC_REORDER_DIR))
         from dbc_reorder import reorder_charsections
-        return reorder_charsections(str(dbc_path))
+        return reorder_charsections(str(dbc_path), quiet=True)
     except ImportError as e:
         logger.error(f"Could not import dbc_reorder: {e}")
         print(f"    Could not import dbc_reorder from {DBC_REORDER_DIR}")

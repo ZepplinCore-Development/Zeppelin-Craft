@@ -163,64 +163,33 @@ def parse_adt_directory_for_ground_effects(adt_dir: Path, pattern: str = "*.adt"
 
 
 def main():
-    """Test ADT ground effect ID reader on Lost Isles."""
+    """CLI wrapper for ground effect ID extraction from ADT files."""
     import sys
 
-    # Lost Isles coordinates: Kalimdor 54-56, 28-33
-    lost_isles_dir = Path("/workspace/project/Zeppelin-Tools/Open Azeroth/Patch-O/WORLD/maps/kalimdor")
-
-    if not lost_isles_dir.exists():
-        print(f"Error: Directory not found: {lost_isles_dir}")
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <path-to-adt-directory> [glob-pattern]")
+        print(f"Example: {sys.argv[0]} /path/to/WORLD/maps/kalimdor")
+        print(f"Example: {sys.argv[0]} /path/to/WORLD/maps/kalimdor 'kalimdor_5[456]_*.adt'")
         return
 
-    print("="*80)
-    print("LOST ISLES GROUND EFFECT ID ANALYSIS")
-    print("="*80)
-    print(f"Scanning: {lost_isles_dir}")
-    print()
+    adt_dir = Path(sys.argv[1])
+    pattern = sys.argv[2] if len(sys.argv) > 2 else "*.adt"
 
-    # Parse only Lost Isles ADTs
-    lost_isles_pattern = "kalimdor_5[456]_[23][0-9].adt"
+    if not adt_dir.exists():
+        print(f"Error: Directory not found: {adt_dir}")
+        return
 
-    # Get all matching files first
-    import re
-    pattern_regex = re.compile(r"kalimdor_5[456]_[23][0-9]\.adt")
-    lost_isles_adts = [f for f in lost_isles_dir.glob("kalimdor_*.adt")
-                       if pattern_regex.match(f.name)]
+    results = parse_adt_directory_for_ground_effects(adt_dir, pattern)
 
-    print(f"Found {len(lost_isles_adts)} Lost Isles ADT files\n")
-
-    results = {}
     all_effect_ids = set()
-
-    for adt_file in sorted(lost_isles_adts):
-        reader = ADTGroundEffectReader(str(adt_file))
-        effect_ids = reader.parse()
-
-        if effect_ids:
-            results[adt_file.name] = effect_ids
-            all_effect_ids.update(effect_ids)
-            print(f"  {adt_file.name}: {sorted(effect_ids)}")
-
-    print()
-    print("="*80)
-    print("SUMMARY")
-    print("="*80)
-    print(f"Total Lost Isles ADT files analyzed: {len(lost_isles_adts)}")
-    print(f"ADT files with ground effects: {len(results)}")
-    print(f"Unique ground effect IDs found: {len(all_effect_ids)}")
+    for ids in results.values():
+        all_effect_ids.update(ids)
 
     if all_effect_ids:
         print(f"\nAll unique effect IDs: {sorted(all_effect_ids)}")
         print()
         print("These IDs should exist in GroundEffectTexture.dbc, which references")
         print("GroundEffectDoodad.dbc entries for the actual M2 models to scatter.")
-    else:
-        print("\n⚠️  No ground effect IDs found in Lost Isles ADTs")
-        print("This may indicate:")
-        print("  1. ADT files don't use ground effects (unlikely given blue cubes)")
-        print("  2. Parser needs adjustment for ADT format version")
-        print("  3. Ground effects stored in different ADT sub-chunk")
 
 
 if __name__ == '__main__':
