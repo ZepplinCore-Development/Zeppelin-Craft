@@ -8,6 +8,7 @@ PATCH-Z has special handling (DBC export + CharSections reorder).
 All other patches pack directly from zpak parsed-assets directories.
 """
 
+import json
 import os
 import shutil
 import subprocess
@@ -314,6 +315,18 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
             print(f"  Parse complete for PATCH-{letter}")
         return True
 
+    # Run generators — zpaks with build.generator get source-assets copied
+    # to parsed-assets and then the generator runs against parsed-assets
+    for zpak in zpaks:
+        build_config = zpak.get('manifest', {}).get('build', {})
+        if build_config.get('generator'):
+            print(f"  Running generator for {zpak['name']}...")
+            if dry_run:
+                print(f"    [DRY RUN] Would run {build_config['generator']}")
+            elif not _run_generator(zpak):
+                print(f"    Generator failed for {zpak['name']}")
+                return False
+
     # Collect zpaks with actual assets
     buildable = []
     for zpak in zpaks:
@@ -383,6 +396,144 @@ def build_generic_patch(letter: str, zpaks: List[Dict[str, Any]],
 # Tool Wrappers
 # =============================================================================
 
+def _copy_source_to_parsed(zpak_path: Path) -> bool:
+    """Copy source-assets to parsed-assets for a clean build.
+
+    Removes existing parsed-assets content (except .gitkeep) and copies
+    all files from source-assets. Used before running generators so they
+    operate on a fresh copy.
+
+    Args:
+        zpak_path: Path to the zpak directory.
+
+    Returns:
+        True if copy succeeded.
+    """
+    source = zpak_path / 'mpq' / 'source-assets'
+    parsed = zpak_path / 'mpq' / 'parsed-assets'
+
+    if not source.exists():
+        return False
+
+    # Clean parsed-assets (keep .gitkeep)
+    if parsed.exists():
+        for item in parsed.iterdir():
+            if item.name == '.gitkeep':
+                continue
+            if item.is_dir():
+                shutil.rmtree(item)
+            else:
+                item.unlink()
+
+    parsed.mkdir(parents=True, exist_ok=True)
+
+    # Copy source-assets to parsed-assets
+    for item in source.iterdir():
+        if item.name == '.gitkeep':
+            continue
+        dest = parsed / item.name
+        if item.is_dir():
+            shutil.copytree(item, dest, dirs_exist_ok=True)
+        else:
+            shutil.copy2(item, dest)
+
+    return True
+
+
+def _run_generator(zpak: Dict[str, Any]) -> bool:
+    """Run a build generator for a zpak.
+
+    Copies source-assets to parsed-assets, then runs the generator
+    against parsed-assets. Currently supports 'atlasloot-generator'.
+
+    Args:
+        zpak: Zpak info dict with 'name', 'path', 'manifest'.
+
+    Returns:
+        True if generator succeeded.
+    """
+    manifest = zpak.get('manifest', {})
+    build_config = manifest.get('build', {})
+    generator = build_config.get('generator')
+
+    if not generator:
+        return True
+
+    zpak_path = Path(zpak['path'])
+
+    # Step 1: Copy source-assets to parsed-assets
+    print(f"    Copying source-assets to parsed-assets...")
+    if not _copy_source_to_parsed(zpak_path):
+        print(f"    No source-assets found for {zpak['name']}")
+        return False
+
+    # Step 2: Run the generator
+    if generator == 'atlasloot-generator':
+        return _run_atlasloot_generator(zpak_path)
+    else:
+        print(f"    Unknown generator: {generator}")
+        return False
+
+
+def _run_atlasloot_generator(zpak_path: Path) -> bool:
+    """Run the AtlasLoot generator against parsed-assets.
+
+    Invokes generate_atlasloot.py --all with --addon-dir pointed at
+    the zpak's parsed-assets/Interface/AddOns directory.
+
+    Args:
+        zpak_path: Path to the atlasloot zpak directory.
+
+    Returns:
+        True if generation succeeded.
+    """
+    # Find the generator script relative to the craft root
+    craft_root = zpak_path.parent.parent  # zpaks/<name> -> craft root
+    generator_script = (craft_root / 'Scripts' / 'Patch Builder' /
+                        'AtlasLoot Generator' / 'generate_atlasloot.py')
+
+    if not generator_script.exists():
+        print(f"    AtlasLoot generator not found at {generator_script}")
+        return False
+
+    addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
+    if not addon_dir.exists():
+        print(f"    AddOns directory not found in parsed-assets")
+        return False
+
+    print(f"    Running AtlasLoot generator...")
+    try:
+        result = subprocess.run(
+            [sys.executable, str(generator_script), '--all',
+             '--addon-dir', str(addon_dir)],
+            cwd=str(generator_script.parent),
+            capture_output=True,
+            text=True,
+        )
+
+        if result.returncode == 0:
+            print(f"    AtlasLoot tables updated successfully")
+            if result.stdout:
+                # Show summary lines (skip verbose output)
+                for line in result.stdout.strip().split('\n'):
+                    if line.startswith('[') or line.startswith('Summary'):
+                        logger.info(f"  atlasloot: {line}")
+            return True
+        else:
+            print(f"    AtlasLoot generator failed (code {result.returncode})")
+            if result.stderr:
+                for line in result.stderr.strip().split('\n')[:5]:
+                    print(f"      {line}")
+            if result.stdout:
+                for line in result.stdout.strip().split('\n')[-5:]:
+                    print(f"      {line}")
+            return False
+    except Exception as e:
+        print(f"    AtlasLoot generator error: {e}")
+        logger.error(f"AtlasLoot generator failed: {e}")
+        return False
+
+
 def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
     """Run resource parser on a zpak's source-assets directory.
 
@@ -435,8 +586,49 @@ def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
         return False
 
 
+def _get_dbc_tables() -> set:
+    """Query the DBC database for existing table names.
+
+    Reads connection info from DBCTool's config.json and uses
+    the mysql CLI to run SHOW TABLES.
+
+    Returns:
+        Set of lowercase table names, or empty set on failure.
+    """
+    config_path = DBCTOOL_PATH.parent / 'config.json'
+    if not config_path.exists():
+        logger.warning(f"DBCTool config.json not found at {config_path}")
+        return set()
+
+    with open(config_path) as f:
+        config = json.load(f)
+
+    db = config.get('dbc', {})
+    result = subprocess.run(
+        [
+            'mysql', '-h', db.get('host', '127.0.0.1'),
+            '-P', str(db.get('port', '3306')),
+            '-u', db.get('user', 'root'),
+            f"-p{db.get('password', '')}",
+            db.get('name', 'dbc'),
+            '-N', '-e', 'SHOW TABLES',
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        logger.warning(f"Failed to query DBC tables: {result.stderr.strip()}")
+        return set()
+
+    return {line.strip().lower() for line in result.stdout.splitlines() if line.strip()}
+
+
 def _run_dbc_export() -> bool:
     """Run DBCTool export to generate binary DBC files.
+
+    Queries the DBC database for existing tables and temporarily hides
+    meta files for tables that don't exist, so DBCTool only exports
+    tables that were actually imported.
 
     Returns:
         True if export succeeded.
@@ -445,28 +637,71 @@ def _run_dbc_export() -> bool:
         print(f"    DBCTool not found at {DBCTOOL_PATH}")
         return False
 
-    cmd = [str(DBCTOOL_PATH), 'export']
-    logger.info(f"Running DBCTool export: {' '.join(cmd)}")
+    # Read DBCTool config to find meta directory
+    config_path = DBCTOOL_PATH.parent / 'config.json'
+    with open(config_path) as f:
+        config = json.load(f)
+    meta_dir = Path(config.get('paths', {}).get('meta', ''))
+    if not meta_dir.exists():
+        meta_dir = DBCTOOL_PATH.parent / 'spelleditor_meta'
 
-    result = subprocess.run(
-        cmd,
-        cwd=DBCTOOL_PATH.parent,
-        capture_output=True,
-        text=True,
-    )
+    # Query which tables actually exist in the database
+    existing_tables = _get_dbc_tables()
+    if not existing_tables:
+        logger.warning("Could not query DBC tables, running export without filtering")
+    else:
+        # Filter out internal tracking tables
+        existing_tables.discard('dbc_checksum')
 
-    if result.returncode != 0:
-        print(f"    DBCTool export failed (code {result.returncode})")
-        if result.stderr:
-            for line in result.stderr.strip().split('\n')[:5]:
-                print(f"      {line}")
-        logger.error(f"DBCTool export failed: {result.stderr}")
-        return False
+    # Temporarily hide meta files for tables that don't exist
+    hidden = []
+    if existing_tables:
+        for meta_file in meta_dir.glob('*.meta.json'):
+            try:
+                with open(meta_file) as f:
+                    meta = json.load(f)
+                table_name = meta.get('tableName', '').lower()
+                if table_name and table_name not in existing_tables:
+                    hidden_path = meta_file.with_suffix('.meta.json.skip')
+                    meta_file.rename(hidden_path)
+                    hidden.append((hidden_path, meta_file))
+            except (json.JSONDecodeError, OSError) as e:
+                logger.warning(f"Could not read meta file {meta_file}: {e}")
 
-    # Count exported files
-    dbc_count = len(list(DBC_EXPORT_DIR.glob('*.dbc'))) if DBC_EXPORT_DIR.exists() else 0
-    print(f"    Exported {dbc_count} DBC files")
-    return True
+        if hidden:
+            print(f"    Skipping {len(hidden)} meta files (tables not in database)")
+            logger.info(f"Hidden {len(hidden)} meta files for non-existent tables")
+
+    try:
+        cmd = [str(DBCTOOL_PATH), 'export']
+        logger.info(f"Running DBCTool export: {' '.join(cmd)}")
+
+        result = subprocess.run(
+            cmd,
+            cwd=DBCTOOL_PATH.parent,
+            capture_output=True,
+            text=True,
+        )
+
+        if result.returncode != 0:
+            print(f"    DBCTool export failed (code {result.returncode})")
+            if result.stderr:
+                for line in result.stderr.strip().split('\n')[:5]:
+                    print(f"      {line}")
+            logger.error(f"DBCTool export failed: {result.stderr}")
+            return False
+
+        # Count exported files
+        dbc_count = len(list(DBC_EXPORT_DIR.glob('*.dbc'))) if DBC_EXPORT_DIR.exists() else 0
+        print(f"    Exported {dbc_count} DBC files")
+        return True
+    finally:
+        # Always restore hidden meta files
+        for hidden_path, original_path in hidden:
+            try:
+                hidden_path.rename(original_path)
+            except OSError as e:
+                logger.error(f"Failed to restore meta file {original_path}: {e}")
 
 
 def _run_charsections_reorder(dbc_path: Path) -> bool:
