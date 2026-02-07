@@ -15,10 +15,10 @@ import click
 from lib.logging_config import get_logger
 from lib.manifest import load_manifest
 from lib.patch_builder import (
-    build_generic_patch,
-    build_patch_z,
+    build_patch as run_patch_build,
     discover_patches,
     get_zpak_parsed_assets,
+    get_zpak_preprocessors,
 )
 from lib.patch_register import (
     DEFAULT_NGINX_PATH,
@@ -55,26 +55,25 @@ def build(ctx):
               help='Patch letter to build (e.g., Z, O, B)')
 @click.option('--all', '-a', 'build_all', is_flag=True,
               help='Build all patches with packable assets')
-@click.option('--quick', '-q', is_flag=True,
-              help='PATCH-Z: skip DBC export, repack only')
 @click.option('--parse', is_flag=True,
-              help='Run preprocessor (resource-parser) before packing')
+              help='Run preprocessors (resource-parser + zpak preprocessors) before packing')
 @click.option('--dry-run', '-n', is_flag=True,
               help='Show what would be built without building')
 @click.pass_context
 def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
-                quick: bool, parse: bool, dry_run: bool):
+                parse: bool, dry_run: bool):
     """Build client patches (MPQ files).
 
     Interactive mode walks through patch selection and build options.
     Flags allow fully non-interactive builds for scripting.
 
     Examples:
-        zep build patch              # Interactive guided flow
-        zep build patch -p Z         # Select PATCH-Z, choose build mode
-        zep build patch -p Z --quick # Non-interactive quick PATCH-Z
-        zep build patch --all        # Build all patches
-        zep build patch --dry-run    # Preview what would be built
+        zep build patch                # Interactive guided flow
+        zep build patch -p Z           # Select PATCH-Z, choose build mode
+        zep build patch -p Z --parse   # Process + build PATCH-Z
+        zep build patch --all          # Build all patches
+        zep build patch --all --parse  # Process + build all
+        zep build patch --dry-run      # Preview what would be built
     """
     craft_root = ctx.obj['craft_root']
     nginx_path = DEFAULT_NGINX_PATH
@@ -91,7 +90,7 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
     # --- Step 1: Select patch ---
     if build_all:
         selected = sorted(patches.keys())
-        modes = {letter: {'quick': quick, 'parse': parse} for letter in selected}
+        modes = {letter: {'parse': parse} for letter in selected}
     elif patch_letter:
         letter = patch_letter.upper()
         if letter not in patches:
@@ -100,13 +99,13 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
             return
         selected = [letter]
         # If no explicit mode flags, show build mode menu
-        if not quick and not parse and not dry_run:
+        if not parse and not dry_run:
             mode = _build_mode_menu(letter, patches, register, nginx_path)
             if mode is None:
                 return
             modes = {letter: mode}
         else:
-            modes = {letter: {'quick': quick, 'parse': parse}}
+            modes = {letter: {'parse': parse}}
     else:
         # Interactive: pick a patch
         result = _select_patch_menu(patches, register, nginx_path)
@@ -144,15 +143,10 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
         click.echo(f"  {patch_name}  ({zpak_names})")
         click.echo(f"{'=' * 60}")
 
-        if letter == 'Z':
-            ok = build_patch_z(craft_root, nginx_path, register,
-                               quick=mode.get('quick', False),
-                               dry_run=dry_run)
-        else:
-            ok = build_generic_patch(letter, zpaks, nginx_path, register,
-                                     parse=mode.get('parse', False),
-                                     parse_only=mode.get('parse_only', False),
-                                     dry_run=dry_run)
+        ok = run_patch_build(letter, zpaks, nginx_path, register,
+                             parse=mode.get('parse', False),
+                             parse_only=mode.get('parse_only', False),
+                             dry_run=dry_run)
 
         if ok:
             built += 1
@@ -174,14 +168,14 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
 
     # Summary
     elapsed = time.time() - start
-    click.echo(f"\n{'─' * 40}")
+    click.echo(f"\n{'=' * 60}")
     if dry_run:
-        click.echo(f"[DRY RUN] Would build {built} patch(es)")
+        click.echo(f"  [DRY RUN] Would build {built} patch(es)")
     elif failed == 0 and built > 0:
-        click.echo(click.style(f"Built {built} patch(es) in {elapsed:.1f}s", fg='green'))
+        click.echo(click.style(f"  Built {built} patch(es) in {elapsed:.1f}s", fg='green'))
     elif failed > 0:
         click.echo(click.style(
-            f"Built {built}, failed {failed} in {elapsed:.1f}s", fg='yellow'))
+            f"  Built {built}, failed {failed} in {elapsed:.1f}s", fg='yellow'))
 
 # Tell zep-menu.py to skip flag picker — this command has its own interactive menus
 build_patch.menu_passthrough = True
@@ -271,62 +265,65 @@ def _build_mode_menu(letter: str, patches: dict, register: dict,
                      nginx_path: Path) -> Optional[dict]:
     """Show build mode options for a specific patch.
 
-    Always shows a menu for consistent UX — even simple patches get
-    a single "Build" option that acts as confirmation. Escape cancels.
+    All patches get the same menu structure. If the patch has
+    preprocessors or source-assets, shows Process + Build options.
+    Otherwise just Build.
 
     Returns dict with mode flags, or None if cancelled.
     """
     try:
         from simple_term_menu import TerminalMenu
     except ImportError:
-        return {'quick': False, 'parse': False}
+        return {'parse': False}
 
     zpaks = patches.get(letter, [])
     patch_name = f"PATCH-{letter}.MPQ"
     reg_entry = register.get('patches', {}).get(patch_name, {})
     name = reg_entry.get('name', zpaks[0]['name'] if zpaks else letter)
 
-    # Determine available modes based on patch type
+    # Check if any zpak has source-assets or named preprocessors
+    has_source_assets = any(
+        (Path(z['path']) / 'mpq' / 'source-assets').exists()
+        for z in zpaks
+    )
+    all_preprocessors = []
+    for z in zpaks:
+        all_preprocessors.extend(get_zpak_preprocessors(z))
+
     options = []
     modes = []
 
-    if letter == 'Z':
+    if has_source_assets or all_preprocessors:
+        # Build preprocessor summary for display
+        steps = ['resource-parser']
+        steps.extend(all_preprocessors)
+        steps_str = ', '.join(steps)
+
         options = [
-            "Full Build       Export DBC + reorder CharSections + pack MPQ",
-            "Quick Build      Repack existing DBC files (skip export)",
+            "Build            Pack existing parsed-assets into MPQ",
+            "Process          Run preprocessors only (no pack)",
+            "Process + Build  Run preprocessors, then pack into MPQ",
         ]
         modes = [
-            {'quick': False, 'parse': False},
-            {'quick': True, 'parse': False},
+            {'parse': False},
+            {'parse': True, 'parse_only': True},
+            {'parse': True},
         ]
-    else:
-        has_source_assets = any(
-            (Path(z['path']) / 'mpq' / 'source-assets').exists()
-            for z in zpaks
-        )
 
-        if has_source_assets:
-            options = [
-                "Build            Pack existing parsed-assets",
-                "Parse            Run preprocessor only (no pack)",
-                "Parse + Build    Run preprocessor first, then pack",
-            ]
-            modes = [
-                {'quick': False, 'parse': False},
-                {'quick': False, 'parse': True, 'parse_only': True},
-                {'quick': False, 'parse': True},
-            ]
-        else:
-            options = [
-                f"Build            Pack into {patch_name}",
-            ]
-            modes = [
-                {'quick': False, 'parse': False},
-            ]
+        # Show what preprocessors will run
+        title = f"\n  PATCH-{letter} — {name}\n  Preprocessors: {steps_str}\n"
+    else:
+        options = [
+            f"Build            Pack into {patch_name}",
+        ]
+        modes = [
+            {'parse': False},
+        ]
+        title = f"\n  PATCH-{letter} — {name}\n"
 
     menu = TerminalMenu(
         options,
-        title=f"\n  PATCH-{letter} — {name}\n",
+        title=title,
         menu_cursor="> ",
         menu_cursor_style=("fg_cyan", "bold"),
         menu_highlight_style=("fg_cyan", "bold"),
@@ -361,20 +358,20 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
     if has_source_assets:
         options = [
             "Build            Pack all patches from existing parsed-assets",
-            "Parse + Build    Run preprocessors first, then pack all",
-            "Parse Only       Run preprocessors only (no packing)",
+            "Process + Build  Run preprocessors first, then pack all",
+            "Process Only     Run preprocessors only (no packing)",
         ]
         modes = [
-            {'quick': False, 'parse': False},
-            {'quick': False, 'parse': True},
-            {'quick': False, 'parse': True, 'parse_only': True},
+            {'parse': False},
+            {'parse': True},
+            {'parse': True, 'parse_only': True},
         ]
     else:
         options = [
             "Build All        Pack all patches",
         ]
         modes = [
-            {'quick': False, 'parse': False},
+            {'parse': False},
         ]
 
     menu = TerminalMenu(

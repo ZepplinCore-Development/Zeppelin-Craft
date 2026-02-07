@@ -13,6 +13,10 @@
     "requires": []
   },
   "feature_id": "F-044",
+  "feature_ids": ["F-044", "F-150"],
+  "build": {
+    "preprocessors": ["dbc-export", "dbc-reorder"]
+  },
   "contents": {
     "sql": [
       "sql/**/*.sql"
@@ -22,5 +26,8 @@
     ]
   },
   "enabled": true,
-  "priority": 999
+  "priority": 999,
+  "disabled_features": [
+    "F-049"
+  ]
 }

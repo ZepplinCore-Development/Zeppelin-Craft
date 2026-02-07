@@ -288,7 +288,7 @@ def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
 
     func = dispatch.get(name)
     if not func:
-        print(f"    Unknown preprocessor: {name}")
+        print(f"Unknown preprocessor: {name}")
         return False
     return func(zpak)
 
@@ -376,7 +376,7 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
 
     if parse_only:
         if not dry_run:
-            print(f"  Parse complete for PATCH-{letter}")
+            print(f"Parse complete for PATCH-{letter}")
         return True
 
     # Step 2: Collect zpaks with parsed-assets
@@ -388,10 +388,10 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
         else:
             source_dir = Path(zpak['path']) / 'mpq' / 'source-assets'
             if source_dir.exists() and not parse:
-                print(f"    {zpak['name']}: parsed-assets empty "
+                print(f"{zpak['name']}: parsed-assets empty "
                       f"(use --parse to run preprocessors first)")
             else:
-                print(f"    {zpak['name']}: no parsed-assets found, skipping")
+                print(f"{zpak['name']}: no parsed-assets found, skipping")
 
     if dry_run:
         _print_step_header('PACK', patch_name)
@@ -546,11 +546,9 @@ def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
     rp = ResourceParser(mode=mode, assets_source=ASSET_LIBRARY_PATH)
 
     logger.info(f"Running resource parser for {zpak['name']} (mode={mode})")
-    print(f"    This may take several minutes...")
 
     try:
         if mode == 'model-scan':
-            print(f"    Mode: model-scan")
             rp.run_model_scan(source_dir, output_dir)
         else:
             source_path = build_config.get('source_path')
@@ -558,13 +556,10 @@ def _run_resource_parser(zpak: Dict[str, Any]) -> bool:
                 source_path = zpak_path / source_path
             else:
                 source_path = source_dir
-            print(f"    Mode: full (ADT workflow)")
             rp.run(source_path, output_dir)
-
-        print(f"    Resource parser completed for {zpak['name']}")
         return True
     except Exception as e:
-        print(f"    Resource parser failed: {e}")
+        print(f"Resource parser failed: {e}")
         logger.error(f"Resource parser failed for {zpak['name']}: {e}")
         return False
 

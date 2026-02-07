@@ -114,7 +114,14 @@ def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry)
                 continue
 
             manifest = load_manifest(manifest_path)
-            if manifest and manifest.get('feature_id') == feature_id:
+            if not manifest:
+                continue
+            # Check both feature_id (single) and feature_ids (array)
+            ids = set()
+            if manifest.get('feature_id'):
+                ids.add(manifest['feature_id'])
+            ids.update(manifest.get('feature_ids', []))
+            if feature_id in ids:
                 # Auto-register for future lookups
                 registry.register_feature(feature_id, pkg_dir.name)
                 registry.save()

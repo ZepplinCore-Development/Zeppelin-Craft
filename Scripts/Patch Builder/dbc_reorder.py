@@ -163,7 +163,8 @@ class DBCFile:
         }
 
 
-def reorder_charsections(input_path: str, output_path: str = None, backup: bool = True) -> bool:
+def reorder_charsections(input_path: str, output_path: str = None,
+                         backup: bool = True, quiet: bool = False) -> bool:
     """
     Reorder a CharSections.dbc file by race/gender grouping.
 
@@ -171,45 +172,50 @@ def reorder_charsections(input_path: str, output_path: str = None, backup: bool 
         input_path: Path to the CharSections.dbc file to reorder
         output_path: Optional output path (defaults to overwriting input)
         backup: Whether to create a .bak backup before overwriting
+        quiet: Suppress verbose output (for use in build pipeline)
 
     Returns:
         True if successful, False otherwise
     """
+    def log(msg):
+        if not quiet:
+            print(msg)
+
     try:
         # Create backup if requested
         if backup and (output_path is None or output_path == input_path):
             backup_path = input_path + '.bak'
             import shutil
             shutil.copy2(input_path, backup_path)
-            print(f"Created backup: {backup_path}")
+            log(f"Created backup: {backup_path}")
 
         # Read the DBC file
-        print(f"Reading {input_path}...")
+        log(f"Reading {input_path}...")
         dbc = DBCFile(input_path)
         dbc.read()
 
         # Get stats before reordering
-        print(f"File info: {dbc.record_count} records, {dbc.field_count} fields, {dbc.record_size} bytes/record")
+        log(f"File info: {dbc.record_count} records, {dbc.field_count} fields, {dbc.record_size} bytes/record")
         dbc.parse_charsections_fields()
 
         before_stats = dbc.get_grouping_stats()
-        print(f"Before reorder: {before_stats['race_sex_transitions']} race/sex transitions")
+        log(f"Before reorder: {before_stats['race_sex_transitions']} race/sex transitions")
 
         # Reorder records
-        print("Reordering records by race/gender grouping...")
+        log("Reordering records by race/gender grouping...")
         dbc.sort_by_race_gender_grouping()
 
         # Get stats after reordering
         after_stats = dbc.get_grouping_stats()
-        print(f"After reorder: {after_stats['race_sex_transitions']} race/sex transitions")
+        log(f"After reorder: {after_stats['race_sex_transitions']} race/sex transitions")
 
         # Write the reordered file
         output = output_path if output_path else input_path
-        print(f"Writing reordered DBC to {output}...")
+        log(f"Writing reordered DBC to {output}...")
         dbc.write(output)
 
-        print(f"✓ Successfully reordered CharSections.dbc")
-        print(f"  Reduced transitions from {before_stats['race_sex_transitions']} to {after_stats['race_sex_transitions']}")
+        log(f"✓ Successfully reordered CharSections.dbc")
+        log(f"  Reduced transitions from {before_stats['race_sex_transitions']} to {after_stats['race_sex_transitions']}")
 
         return True
 
