@@ -252,7 +252,8 @@ def _get_meta_loc_fields(table_name: str) -> Optional[Set[str]]:
     using language code suffixes (e.g. spell_name_enus, spell_name_kokr).
 
     Returns:
-        Set of Loc field base names, or None if no Loc fields found.
+        Set of Loc field base names (may be empty if meta exists but has
+        no Loc fields), or None if no meta file found for this table.
     """
     table_lower = table_name.lower()
     if table_lower in _meta_loc_fields:
@@ -276,7 +277,7 @@ def _get_meta_loc_fields(table_name: str) -> Optional[Set[str]]:
         loc_fields = {f['name'] for f in meta.get('fields', [])
                       if f.get('type') == 'Loc'}
 
-        _meta_loc_fields[table_lower] = loc_fields if loc_fields else None
+        _meta_loc_fields[table_lower] = loc_fields
         return _meta_loc_fields[table_lower]
     except Exception:
         _meta_loc_fields[table_lower] = None
