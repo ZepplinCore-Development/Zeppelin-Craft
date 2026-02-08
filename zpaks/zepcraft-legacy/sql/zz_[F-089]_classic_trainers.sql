@@ -1,39 +1,66 @@
--- Farii JC Trainer
-    DELETE FROM `creature` WHERE (`id1` =  19778);
+-- ========================================
+-- F-089: Classic City Jewelcrafting Trainers
+-- ========================================
+-- Farii (19778) remains in Exodar (stock location).
+-- Faris (72) is a new NPC for Stormwind, based on Farii's template.
 
--- Exodar
-    INSERT INTO `creature` SET
-    `id1` = 19778,
-    `map` = 530,
-    `position_x` = -3781.55,
-    `position_y` = -11541.8,
-    `position_z` = -134.744,
-    `orientation` = 1.93941,
-    `curhealth` = 811,
-    `curmana` = 852,
-    `VerifiedBuild` = '0',
-    `Comment` = NULL;
+-- ========================================
+-- FARII - Exodar (stock spawn restore)
+-- ========================================
+DELETE FROM `creature` WHERE `id1` = 19778;
+INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `curhealth`, `curmana`)
+VALUES (19778, 530, -3781.55, -11541.8, -134.744, 1.93941, 120, 811, 852);
 
--- Stormwind
-    INSERT INTO `creature` SET
-    `id1` = 19778,
-    `position_x` = -8714.31,
-    `position_y` = 620.134,
-    `position_z` = 100.927,
-    `orientation` = 0.0639622,
-    `spawntimesecs` = 300,
-    `curhealth` = 811,
-    `curmana` = 852,
-    `VerifiedBuild` = NULL,
-    `Comment` = NULL;
+-- ========================================
+-- FARIS - Stormwind Jewelcrafting Trainer
+-- ========================================
+-- New NPC (entry 72) based on Farii's template, placed in Dwarven District.
+
+DELETE FROM `creature_template` WHERE `entry` = 72;
+INSERT INTO `creature_template`
+SET `entry` = 72,
+    `name` = 'Faris',
+    `subname` = 'Jewelcrafting Trainer',
+    `gossip_menu_id` = 8382, -- Same JC trainer gossip as Farii
+    `minlevel` = 30,
+    `maxlevel` = 30,
+    `faction` = 11, -- Stormwind
+    `npcflag` = 81, -- Gossip + Trainer + Profession (1 + 16 + 64)
+    `speed_walk` = 1,
+    `speed_run` = 1.14286,
+    `BaseAttackTime` = 2000,
+    `RangeAttackTime` = 2000,
+    `unit_class` = 2, -- Mana user (same as Farii)
+    `unit_flags` = 512,
+    `unit_flags2` = 2048,
+    `type` = 7, -- Humanoid
+    `type_flags` = 134217728, -- FORCE_GOSSIP
+    `HoverHeight` = 1,
+    `HealthModifier` = 1,
+    `ManaModifier` = 1,
+    `DamageModifier` = 1,
+    `flags_extra` = 2; -- Civilian/No aggro
+
+-- Use Farii's model (Draenei female, displayid 19195)
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 72;
+INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
+(72, 0, 19195, 1, 1);
+
+-- Assign same JC trainer template as Farii (113 = base JC trainer, 0-290 skill)
+DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 72;
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (72, 113);
+
+-- Spawn Faris in Stormwind Dwarven District
+DELETE FROM `creature` WHERE `id1` = 72;
+INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+(72, 0, -8714.31, 620.134, 100.927, 0.0639622, 300);
 
 -- ========================================
 -- STORMWIND GUARD GOSSIP - Jewelcrafting
 -- ========================================
--- Adds Jewelcrafting option to Stormwind guard profession submenu
--- directing players to Farii (19778) in the Dwarven District.
+-- Directs players to Faris in the Dwarven District.
 
--- POI for Farii (Jewelcrafting Trainer) at her Stormwind spawn
+-- POI for Faris (Jewelcrafting Trainer) at her Stormwind spawn
 DELETE FROM `points_of_interest` WHERE `ID` = 1010;
 INSERT INTO `points_of_interest` (`ID`, `PositionX`, `PositionY`, `Icon`, `Flags`, `Importance`, `Name`) VALUES
 (1010, -8714.31, 620.134, 7, 99, 0, 'Stormwind Jewelcrafting Trainer');
@@ -41,7 +68,7 @@ INSERT INTO `points_of_interest` (`ID`, `PositionX`, `PositionY`, `Icon`, `Flags
 -- NPC text for guard directions
 DELETE FROM `npc_text` WHERE `ID` = 3045;
 INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
-(3045, 'If you are looking to learn the art of jewelcrafting, seek out Farii. She can be found in the Dwarven District, near the forge.');
+(3045, 'If you are looking to learn the art of jewelcrafting, seek out Faris. She can be found in the Trade District, near the canal.');
 
 -- Gossip menu for the JC submenu
 DELETE FROM `gossip_menu` WHERE `MenuID` = 2363;
