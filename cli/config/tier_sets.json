@@ -1,0 +1,200 @@
+{
+  "tier_sets": {
+    "tier1": {
+      "name": "Tier 1 - Molten Core",
+      "classes": {
+        "1": {
+          "set_name": "Might",
+          "head": 29002,
+          "shoulders": 29019,
+          "chest": 28988,
+          "hands": 28999,
+          "legs": 29011,
+          "feet": 28993,
+          "weapon_2h": 30606
+        },
+        "2": {
+          "set_name": "Lawbringer",
+          "head": 29004,
+          "shoulders": 29021,
+          "chest": 28990,
+          "hands": 29001,
+          "legs": 29013,
+          "feet": 28995,
+          "weapon_2h": 23875
+        },
+        "3": {
+          "set_name": "Giantstalker",
+          "head": 29003,
+          "shoulders": 29020,
+          "chest": 28989,
+          "hands": 29000,
+          "legs": 29012,
+          "feet": 28994,
+          "weapon_2h": 34112,
+          "weapon_ranged": 31338
+        },
+        "4": {
+          "set_name": "Nightslayer",
+          "head": 29006,
+          "shoulders": 29023,
+          "chest": 28992,
+          "hands": 29003,
+          "legs": 29015,
+          "feet": 28997,
+          "weapon_1h": 33615,
+          "weapon_oh": 33626
+        },
+        "5": {
+          "set_name": "Vestments of Prophecy",
+          "head": 29008,
+          "shoulders": 29025,
+          "chest": 28994,
+          "hands": 29005,
+          "legs": 29017,
+          "feet": 28999,
+          "weapon_2h": 31347
+        },
+        "7": {
+          "set_name": "The Earthfury",
+          "head": 29009,
+          "shoulders": 29026,
+          "chest": 28995,
+          "hands": 29006,
+          "legs": 29018,
+          "feet": 29000,
+          "weapon_1h": 34109,
+          "weapon_shield": 34110
+        },
+        "8": {
+          "set_name": "Arcanist",
+          "head": 29007,
+          "shoulders": 29024,
+          "chest": 28993,
+          "hands": 29004,
+          "legs": 29016,
+          "feet": 28998,
+          "weapon_2h": 34114
+        },
+        "9": {
+          "set_name": "Felheart",
+          "head": 29005,
+          "shoulders": 29022,
+          "chest": 28991,
+          "hands": 29002,
+          "legs": 29014,
+          "feet": 28996,
+          "weapon_2h": 31346
+        },
+        "11": {
+          "set_name": "Cenarion Raiment",
+          "head": 29010,
+          "shoulders": 29027,
+          "chest": 28996,
+          "hands": 29007,
+          "legs": 29019,
+          "feet": 29001,
+          "weapon_2h": 31163
+        }
+      }
+    },
+    "tier2": {
+      "name": "Tier 2 - Blackwing Lair",
+      "classes": {
+        "1": {
+          "set_name": "Battlegear of Wrath",
+          "head": 34215,
+          "shoulders": 34253,
+          "chest": 33983,
+          "hands": 33984,
+          "legs": 33986,
+          "feet": 33989,
+          "weapon_2h": 32000
+        },
+        "2": {
+          "set_name": "Judgment",
+          "head": 45888,
+          "shoulders": 34258,
+          "chest": 33635,
+          "hands": 33636,
+          "legs": 33637,
+          "feet": 33639,
+          "weapon_2h": 23875
+        },
+        "3": {
+          "set_name": "Dragonstalker",
+          "head": 34367,
+          "shoulders": 34091,
+          "chest": 33667,
+          "hands": 33668,
+          "legs": 33672,
+          "feet": 34269,
+          "weapon_2h": 31857,
+          "weapon_ranged": 32763
+        },
+        "4": {
+          "set_name": "Bloodfang",
+          "head": 33743,
+          "shoulders": 33653,
+          "chest": 33650,
+          "hands": 33651,
+          "legs": 31115,
+          "feet": 31111,
+          "weapon_1h": 34513,
+          "weapon_oh": 31864
+        },
+        "5": {
+          "set_name": "Vestments of Transcendence",
+          "head": 34233,
+          "shoulders": 34048,
+          "chest": 34047,
+          "hands": 34051,
+          "legs": 34049,
+          "feet": 34055,
+          "weapon_2h": 31347
+        },
+        "7": {
+          "set_name": "The Ten Storms",
+          "head": 34217,
+          "shoulders": 34255,
+          "chest": 34081,
+          "hands": 34082,
+          "legs": 34084,
+          "feet": 34083,
+          "weapon_1h": 31863,
+          "weapon_shield": 34110
+        },
+        "8": {
+          "set_name": "Netherwind Regalia",
+          "head": 34218,
+          "shoulders": 34254,
+          "chest": 34038,
+          "hands": 34041,
+          "legs": 34039,
+          "feet": 34044,
+          "weapon_2h": 31964
+        },
+        "9": {
+          "set_name": "Nemesis Raiment",
+          "head": 34369,
+          "shoulders": 34022,
+          "chest": 34014,
+          "hands": 34013,
+          "legs": 29857,
+          "feet": 34015,
+          "weapon_2h": 31960
+        },
+        "11": {
+          "set_name": "Stormrage Raiment",
+          "head": 33655,
+          "shoulders": 30546,
+          "chest": 30536,
+          "hands": 34016,
+          "legs": 30540,
+          "feet": 30542,
+          "weapon_2h": 34135
+        }
+      }
+    }
+  }
+}

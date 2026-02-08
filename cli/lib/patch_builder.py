@@ -304,7 +304,7 @@ def _preprocess_dbc_export(zpak: Dict[str, Any]) -> bool:
 
     # Copy exported DBC files into zpak's parsed-assets
     zpak_path = Path(zpak['path'])
-    dbc_dest = zpak_path / 'mpq' / 'parsed-assets' / 'DBFilesClient'
+    dbc_dest = zpak_path / 'mpq' / 'parsed-assets' / 'DBFILESCLIENT'
     dbc_dest.mkdir(parents=True, exist_ok=True)
 
     count = 0
@@ -321,7 +321,7 @@ def _preprocess_dbc_export(zpak: Dict[str, Any]) -> bool:
 def _preprocess_dbc_reorder(zpak: Dict[str, Any]) -> bool:
     """Reorder CharSections.dbc in parsed-assets by race/gender grouping."""
     zpak_path = Path(zpak['path'])
-    charsections = zpak_path / 'mpq' / 'parsed-assets' / 'DBFilesClient' / 'CharSections.dbc'
+    charsections = zpak_path / 'mpq' / 'parsed-assets' / 'DBFILESCLIENT' / 'CharSections.dbc'
 
     if not charsections.exists():
         logger.warning("CharSections.dbc not found in parsed-assets, skipping reorder")
