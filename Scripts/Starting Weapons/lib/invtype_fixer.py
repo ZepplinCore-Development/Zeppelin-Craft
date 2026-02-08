@@ -1,7 +1,7 @@
 """
-invType fixing for charstartoutfit items.
+inventory_type_ fixing for charstartoutfit items.
 
-Scans all items in charstartoutfit and fixes missing or incorrect invType values
+Scans all items in charstartoutfit and fixes missing or incorrect inventory_type_ values
 by comparing against item_template database.
 """
 
@@ -10,14 +10,14 @@ from .constants import RACE_NAMES, CLASS_NAMES, WEAPON_SKILLS, SKILL_TO_INVTYPE
 
 def find_invtype_fixes(dbc_cursor, acore_cursor):
     """
-    Find items with missing or incorrect invType values.
+    Find items with missing or incorrect inventory_type_ values.
 
-    Scans all charstartoutfit entries and identifies items that have an itemId
-    but missing or incorrect invType value. Determines correct invType from
+    Scans all charstartoutfit entries and identifies items that have an item_
+    but missing or incorrect inventory_type_ value. Determines correct inventory_type_ from
     item_template database.
 
-    For weapons: Uses skill-based invType mapping (SKILL_TO_INVTYPE)
-    For ammo: Forces invType 24
+    For weapons: Uses skill-based inventory_type_ mapping (SKILL_TO_INVTYPE)
+    For ammo: Forces inventory_type_ 24
     For other items: Uses item_template.InventoryType directly
 
     Args:
@@ -33,7 +33,7 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
             - slot: Slot number (1-24)
             - item_id: Item entry ID
             - item_name: Item name
-            - inv_type: Correct invType value
+            - inv_type: Correct inventory_type_ value
     """
     print("=" * 80)
     print("SCANNING FOR MISSING INVTYPE VALUES")
@@ -44,17 +44,17 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
 
     # Get all outfits with all item slots
     dbc_cursor.execute("""
-        SELECT o.ID, o.race, o.class, o.gender,
-               o.itemId1, o.itemId2, o.itemId3, o.itemId4, o.itemId5,
-               o.itemId6, o.itemId7, o.itemId8, o.itemId9, o.itemId10,
-               o.itemId11, o.itemId12, o.itemId13, o.itemId14, o.itemId15,
-               o.itemId16, o.itemId17, o.itemId18, o.itemId19, o.itemId20,
-               o.itemId21, o.itemId22, o.itemId23, o.itemId24,
-               o.invType1, o.invType2, o.invType3, o.invType4, o.invType5,
-               o.invType6, o.invType7, o.invType8, o.invType9, o.invType10,
-               o.invType11, o.invType12, o.invType13, o.invType14, o.invType15,
-               o.invType16, o.invType17, o.invType18, o.invType19, o.invType20,
-               o.invType21, o.invType22, o.invType23, o.invType24
+        SELECT o.id, o.race, o.class, o.gender,
+               o.item_1, o.item_2, o.item_3, o.item_4, o.item_5,
+               o.item_6, o.item_7, o.item_8, o.item_9, o.item_10,
+               o.item_11, o.item_12, o.item_13, o.item_14, o.item_15,
+               o.item_16, o.item_17, o.item_18, o.item_19, o.item_20,
+               o.item_21, o.item_22, o.item_23, o.item_24,
+               o.inventory_type_1, o.inventory_type_2, o.inventory_type_3, o.inventory_type_4, o.inventory_type_5,
+               o.inventory_type_6, o.inventory_type_7, o.inventory_type_8, o.inventory_type_9, o.inventory_type_10,
+               o.inventory_type_11, o.inventory_type_12, o.inventory_type_13, o.inventory_type_14, o.inventory_type_15,
+               o.inventory_type_16, o.inventory_type_17, o.inventory_type_18, o.inventory_type_19, o.inventory_type_20,
+               o.inventory_type_21, o.inventory_type_22, o.inventory_type_23, o.inventory_type_24
         FROM charstartoutfit o
         WHERE o.race BETWEEN 1 AND 12 AND o.class BETWEEN 1 AND 11
     """)
@@ -66,8 +66,8 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
         race_id = outfit[1]
         class_id = outfit[2]
         gender = outfit[3]
-        item_ids = outfit[4:28]      # itemId1-24 (24 slots)
-        inv_types = outfit[28:52]    # invType1-24 (24 slots)
+        item_ids = outfit[4:28]      # item_1-24 (24 slots)
+        inv_types = outfit[28:52]    # inventory_type_1-24 (24 slots)
 
         race_name = RACE_NAMES.get(race_id, f"Race{race_id}")
         class_name = CLASS_NAMES.get(class_id, f"Class{class_id}")
@@ -78,7 +78,7 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
             if not item_id or item_id <= 0 or item_id == 6948:
                 continue
 
-            # Look up item in item_template to determine correct invType
+            # Look up item in item_template to determine correct inventory_type_
             acore_cursor.execute(
                 "SELECT class, subclass, name, InventoryType FROM item_template WHERE entry = %s",
                 (item_id,)
@@ -90,16 +90,16 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
 
             item_class, subclass, item_name, correct_inv_type = result
 
-            # Weapons (class 2) - use skill-based invType mapping
+            # Weapons (class 2) - use skill-based inventory_type_ mapping
             if item_class == 2 and subclass in WEAPON_SKILLS:
                 skill_id, skill_name = WEAPON_SKILLS[subclass]
                 correct_inv_type = SKILL_TO_INVTYPE.get(skill_id, correct_inv_type)
 
-            # Ammo (class 6) - always invType 24
+            # Ammo (class 6) - always inventory_type_ 24
             elif item_class == 6:
                 correct_inv_type = 24
 
-            # Only fix if invType is missing/wrong (NULL, -1, or different from correct value)
+            # Only fix if inventory_type_ is missing/wrong (NULL, -1, or different from correct value)
             # Normalize None to -1 for comparison
             current_inv_type = inv_type if inv_type is not None else -1
 
@@ -116,7 +116,7 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
                     'inv_type': correct_inv_type
                 })
 
-    print(f"Found {len(invtype_fixes)} items with missing/incorrect invType")
+    print(f"Found {len(invtype_fixes)} items with missing/incorrect inventory_type_")
     print()
 
     return invtype_fixes

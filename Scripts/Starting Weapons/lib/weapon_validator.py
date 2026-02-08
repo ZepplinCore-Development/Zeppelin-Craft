@@ -6,7 +6,7 @@ Contains logic for:
 - Reading original WOTLK weapon slots
 - Finding weapon replacements with priority
 - Checking weapon types (melee/ranged)
-- Validating displayInfo matches item_template.displayid
+- Validating display_item_ matches item_template.displayid
 """
 
 from .constants import (
@@ -17,9 +17,9 @@ from .constants import (
 
 def validate_display_info(dbc_cursor, acore_cursor):
     """
-    Validate that charstartoutfit displayInfo matches item_template.displayid.
+    Validate that charstartoutfit display_item_ matches item_template.displayid.
 
-    The WoW client uses displayInfo from charstartoutfit for character creation
+    The WoW client uses display_item_ from charstartoutfit for character creation
     preview - it does NOT look up item_template.displayid. If these don't match,
     the wrong model (or no model) will be shown.
 
@@ -28,7 +28,7 @@ def validate_display_info(dbc_cursor, acore_cursor):
         acore_cursor: Database cursor for acore_world database
 
     Returns:
-        list: List of dicts with displayInfo mismatches:
+        list: List of dicts with display_item_ mismatches:
             - outfit_id: charstartoutfit ID
             - race: Race name
             - class: Class name
@@ -36,7 +36,7 @@ def validate_display_info(dbc_cursor, acore_cursor):
             - slot: Slot number (1-24)
             - item_id: Item ID in that slot
             - item_name: Item name
-            - current_display: Current displayInfo value
+            - current_display: Current display_item_ value
             - correct_display: Correct displayid from item_template
     """
     from .constants import RACE_NAMES, CLASS_NAMES
@@ -48,21 +48,21 @@ def validate_display_info(dbc_cursor, acore_cursor):
 
     mismatches = []
 
-    # Get all outfits with their items and displayInfo
+    # Get all outfits with their items and display_item_
     dbc_cursor.execute("""
-        SELECT ID, race, class, gender,
-               itemId1, itemId2, itemId3, itemId4, itemId5,
-               itemId6, itemId7, itemId8, itemId9, itemId10,
-               itemId11, itemId12, itemId13, itemId14, itemId15,
-               itemId16, itemId17, itemId18, itemId19, itemId20,
-               itemId21, itemId22, itemId23, itemId24,
-               displayInfo1, displayInfo2, displayInfo3, displayInfo4, displayInfo5,
-               displayInfo6, displayInfo7, displayInfo8, displayInfo9, displayInfo10,
-               displayInfo11, displayInfo12, displayInfo13, displayInfo14, displayInfo15,
-               displayInfo16, displayInfo17, displayInfo18, displayInfo19, displayInfo20,
-               displayInfo21, displayInfo22, displayInfo23, displayInfo24
+        SELECT id, race, class, gender,
+               item_1, item_2, item_3, item_4, item_5,
+               item_6, item_7, item_8, item_9, item_10,
+               item_11, item_12, item_13, item_14, item_15,
+               item_16, item_17, item_18, item_19, item_20,
+               item_21, item_22, item_23, item_24,
+               display_item_1, display_item_2, display_item_3, display_item_4, display_item_5,
+               display_item_6, display_item_7, display_item_8, display_item_9, display_item_10,
+               display_item_11, display_item_12, display_item_13, display_item_14, display_item_15,
+               display_item_16, display_item_17, display_item_18, display_item_19, display_item_20,
+               display_item_21, display_item_22, display_item_23, display_item_24
         FROM charstartoutfit
-        ORDER BY ID
+        ORDER BY id
     """)
 
     outfits = dbc_cursor.fetchall()
@@ -72,8 +72,8 @@ def validate_display_info(dbc_cursor, acore_cursor):
         race_id = outfit[1]
         class_id = outfit[2]
         gender = outfit[3]
-        item_ids = outfit[4:28]        # itemId1-24
-        display_infos = outfit[28:52]  # displayInfo1-24
+        item_ids = outfit[4:28]        # item_1-24
+        display_infos = outfit[28:52]  # display_item_1-24
 
         race_name = RACE_NAMES.get(race_id, f"Race{race_id}")
         class_name = CLASS_NAMES.get(class_id, f"Class{class_id}")
@@ -98,7 +98,7 @@ def validate_display_info(dbc_cursor, acore_cursor):
 
             item_name, correct_display = result
 
-            # Check if displayInfo matches
+            # Check if display_item_ matches
             if display_info != correct_display:
                 mismatches.append({
                     'outfit_id': outfit_id,
@@ -112,13 +112,13 @@ def validate_display_info(dbc_cursor, acore_cursor):
                     'correct_display': correct_display
                 })
 
-    print(f"Found {len(mismatches)} displayInfo mismatches")
+    print(f"Found {len(mismatches)} display_item_ mismatches")
     if mismatches:
         print()
         print("Mismatches found:")
         for m in mismatches:
             print(f"  {m['race']} {m['class']} ({m['gender']}) slot {m['slot']}: "
-                  f"{m['item_name']} has displayInfo={m['current_display']}, "
+                  f"{m['item_name']} has display_item_={m['current_display']}, "
                   f"should be {m['correct_display']}")
     print()
 
@@ -253,10 +253,10 @@ def get_original_weapon_slots(original_cursor, acore_cursor, race_id, class_id, 
         list: [{slot, item_id, item_name, skill_id, weapon_type, inv_type}, ...]
     """
     original_cursor.execute("""
-        SELECT itemId1, itemId2, itemId3, itemId4, itemId5, itemId6, itemId7, itemId8,
-               itemId9, itemId10, itemId11, itemId12, itemId13, itemId14, itemId15,
-               itemId16, itemId17, itemId18, itemId19, itemId20, itemId21, itemId22,
-               itemId23, itemId24
+        SELECT item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8,
+               item_9, item_10, item_11, item_12, item_13, item_14, item_15,
+               item_16, item_17, item_18, item_19, item_20, item_21, item_22,
+               item_23, item_24
         FROM charstartoutfit
         WHERE race = %s AND class = %s AND gender = %s
     """, (race_id, class_id, gender))
@@ -322,10 +322,10 @@ def get_current_weapon_slots(dbc_cursor, acore_cursor, race_id, class_id, gender
         list: [{slot, item_id, item_name, skill_id, weapon_type, inv_type}, ...]
     """
     dbc_cursor.execute("""
-        SELECT itemId1, itemId2, itemId3, itemId4, itemId5, itemId6, itemId7, itemId8,
-               itemId9, itemId10, itemId11, itemId12, itemId13, itemId14, itemId15,
-               itemId16, itemId17, itemId18, itemId19, itemId20, itemId21, itemId22,
-               itemId23, itemId24
+        SELECT item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8,
+               item_9, item_10, item_11, item_12, item_13, item_14, item_15,
+               item_16, item_17, item_18, item_19, item_20, item_21, item_22,
+               item_23, item_24
         FROM charstartoutfit
         WHERE race = %s AND class = %s AND gender = %s
     """, (race_id, class_id, gender))
@@ -447,17 +447,17 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
 
     # Get all outfits
     dbc_cursor.execute("""
-        SELECT o.ID, o.race, o.class, o.gender,
-               o.itemId1, o.itemId2, o.itemId3, o.itemId4, o.itemId5,
-               o.itemId6, o.itemId7, o.itemId8, o.itemId9, o.itemId10,
-               o.itemId11, o.itemId12, o.itemId13, o.itemId14, o.itemId15,
-               o.itemId16, o.itemId17, o.itemId18, o.itemId19, o.itemId20,
-               o.itemId21, o.itemId22, o.itemId23, o.itemId24,
-               o.invType1, o.invType2, o.invType3, o.invType4, o.invType5,
-               o.invType6, o.invType7, o.invType8, o.invType9, o.invType10,
-               o.invType11, o.invType12, o.invType13, o.invType14, o.invType15,
-               o.invType16, o.invType17, o.invType18, o.invType19, o.invType20,
-               o.invType21, o.invType22, o.invType23, o.invType24
+        SELECT o.id, o.race, o.class, o.gender,
+               o.item_1, o.item_2, o.item_3, o.item_4, o.item_5,
+               o.item_6, o.item_7, o.item_8, o.item_9, o.item_10,
+               o.item_11, o.item_12, o.item_13, o.item_14, o.item_15,
+               o.item_16, o.item_17, o.item_18, o.item_19, o.item_20,
+               o.item_21, o.item_22, o.item_23, o.item_24,
+               o.inventory_type_1, o.inventory_type_2, o.inventory_type_3, o.inventory_type_4, o.inventory_type_5,
+               o.inventory_type_6, o.inventory_type_7, o.inventory_type_8, o.inventory_type_9, o.inventory_type_10,
+               o.inventory_type_11, o.inventory_type_12, o.inventory_type_13, o.inventory_type_14, o.inventory_type_15,
+               o.inventory_type_16, o.inventory_type_17, o.inventory_type_18, o.inventory_type_19, o.inventory_type_20,
+               o.inventory_type_21, o.inventory_type_22, o.inventory_type_23, o.inventory_type_24
         FROM charstartoutfit o
         WHERE o.race BETWEEN 1 AND 12 AND o.class BETWEEN 1 AND 11
     """)
@@ -469,8 +469,8 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
         race_id = outfit[1]
         class_id = outfit[2]
         gender = outfit[3]
-        item_ids = outfit[4:28]      # itemId1-24
-        inv_types = outfit[28:52]    # invType1-24
+        item_ids = outfit[4:28]      # item_1-24
+        inv_types = outfit[28:52]    # inventory_type_1-24
 
         race_name = RACE_NAMES.get(race_id, f"Race{race_id}")
         class_name = CLASS_NAMES.get(class_id, f"Class{class_id}")
@@ -618,17 +618,17 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
 
     # Get all outfits with weapons
     query = """
-        SELECT o.ID, o.race, o.class, o.gender,
-               o.itemId1, o.itemId2, o.itemId3, o.itemId4, o.itemId5,
-               o.itemId6, o.itemId7, o.itemId8, o.itemId9, o.itemId10,
-               o.itemId11, o.itemId12, o.itemId13, o.itemId14, o.itemId15,
-               o.itemId16, o.itemId17, o.itemId18, o.itemId19, o.itemId20,
-               o.itemId21, o.itemId22, o.itemId23, o.itemId24,
-               o.invType1, o.invType2, o.invType3, o.invType4, o.invType5,
-               o.invType6, o.invType7, o.invType8, o.invType9, o.invType10,
-               o.invType11, o.invType12, o.invType13, o.invType14, o.invType15,
-               o.invType16, o.invType17, o.invType18, o.invType19, o.invType20,
-               o.invType21, o.invType22, o.invType23, o.invType24
+        SELECT o.id, o.race, o.class, o.gender,
+               o.item_1, o.item_2, o.item_3, o.item_4, o.item_5,
+               o.item_6, o.item_7, o.item_8, o.item_9, o.item_10,
+               o.item_11, o.item_12, o.item_13, o.item_14, o.item_15,
+               o.item_16, o.item_17, o.item_18, o.item_19, o.item_20,
+               o.item_21, o.item_22, o.item_23, o.item_24,
+               o.inventory_type_1, o.inventory_type_2, o.inventory_type_3, o.inventory_type_4, o.inventory_type_5,
+               o.inventory_type_6, o.inventory_type_7, o.inventory_type_8, o.inventory_type_9, o.inventory_type_10,
+               o.inventory_type_11, o.inventory_type_12, o.inventory_type_13, o.inventory_type_14, o.inventory_type_15,
+               o.inventory_type_16, o.inventory_type_17, o.inventory_type_18, o.inventory_type_19, o.inventory_type_20,
+               o.inventory_type_21, o.inventory_type_22, o.inventory_type_23, o.inventory_type_24
         FROM charstartoutfit o
         WHERE o.race BETWEEN 1 AND 12 AND o.class BETWEEN 1 AND 11
     """
@@ -641,8 +641,8 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
         race_id = outfit[1]
         class_id = outfit[2]
         gender = outfit[3]
-        item_ids = outfit[4:28]      # itemId1-24 (24 slots)
-        inv_types = outfit[28:52]    # invType1-24 (24 slots)
+        item_ids = outfit[4:28]      # item_1-24 (24 slots)
+        inv_types = outfit[28:52]    # inventory_type_1-24 (24 slots)
 
         race_name = RACE_NAMES.get(race_id, f"Race{race_id}")
         class_name = CLASS_NAMES.get(class_id, f"Class{class_id}")

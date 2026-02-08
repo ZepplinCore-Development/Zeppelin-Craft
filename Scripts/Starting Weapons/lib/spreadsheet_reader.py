@@ -85,15 +85,15 @@ def read_weapon_class_masks():
 
     weapon_class_data = {}
 
-    # Row 2 has class masks (columns C-K)
+    # Row 2 has class masks (columns C-L)
     class_masks = []
-    for col_idx in range(3, 12):  # C=3 to K=11
+    for col_idx in range(3, 13):  # C=3 to L=12 (Warrior through Druid)
         mask_val = ws.cell(2, col_idx).value
         class_masks.append(int(mask_val) if mask_val else 0)
 
     # Row 3 has class names
     class_names = []
-    for col_idx in range(3, 12):
+    for col_idx in range(3, 13):
         name = ws.cell(3, col_idx).value
         class_names.append(name.strip() if name else "")
 

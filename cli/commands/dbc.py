@@ -298,13 +298,15 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
               help='SQL file to execute')
 @click.option('--task', '-t', 'task_id', required=True,
               help='Task ID (F-XXX or I-XXX)')
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Target zpak name (required if task not registered to a zpak)')
 @click.option('--description', '-d', 'description',
               help='Commit description (only with --commit)')
 @click.option('--commit', is_flag=True,
               help='Create git commit (default: no commit)')
 @click.pass_context
 def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
-               description: Optional[str], commit: bool):
+               zpak_name: Optional[str], description: Optional[str], commit: bool):
     """Modify DBC database with tracking.
 
     Execute modifications (INSERT/UPDATE/DELETE) with proper tracking:
@@ -317,7 +319,7 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
 
     Examples:
         zep dbc modify --task F-004 "UPDATE spell SET SpellName0='Test' WHERE ID=900001"
-        zep dbc modify --task I-015 -f changes.sql
+        zep dbc modify --task I-015 -f changes.sql --zpak zepcraft-legacy
         zep dbc modify --task F-004 "..." --commit  # Also commit to git
     """
     # Validate task ID
@@ -352,42 +354,29 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
     config = get_dbc_config(ctx)
 
     # Find zpak for this task
-    zpak_path = find_zpak_for_feature(craft_root, task_id, registry)
+    zpak_path = None
+
+    # If --zpak specified, use it directly
+    if zpak_name:
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            candidate = base / zpak_name
+            if candidate.exists() and (candidate / 'zpak.json').exists():
+                zpak_path = candidate
+                break
+        if not zpak_path:
+            raise click.ClickException(
+                f"Zpak '{zpak_name}' not found.\n"
+                f"Use 'zep zpak list' to see available zpaks."
+            )
+    else:
+        zpak_path = find_zpak_for_feature(craft_root, task_id, registry)
 
     if not zpak_path:
-        click.echo(click.style(f"Warning: No zpak found for {task_id}", fg='yellow'))
-        click.echo("Creating generic DBC zpak...")
-
-        # Create a generic zpak for unassigned tasks
-        zpak_name = f"dbc-{task_id.lower()}"
-        zpak_path = craft_root / 'zpaks' / zpak_name
-        zpak_path.mkdir(parents=True, exist_ok=True)
-
-        # Create minimal zpak.json
-        manifest = {
-            "$schema": "../../schemas/zpak.schema.json",
-            "name": zpak_name,
-            "version": "0.1.0",
-            "description": f"DBC modifications for {task_id}",
-            "author": "Zeppelin Team",
-            "type": "native",
-            "feature_id": task_id,
-            "contents": {
-                "dbc": ["dbc/*.sql"]
-            },
-            "enabled": True,
-            "priority": 100
-        }
-
-        with open(zpak_path / 'zpak.json', 'w') as f:
-            json.dump(manifest, f, indent=2)
-            f.write('\n')
-
-        # Register in feature_index
-        registry.register_feature(task_id, zpak_name)
-        registry.save()
-
-        click.echo(f"Created zpak: {zpak_name}")
+        raise click.ClickException(
+            f"No zpak found for {task_id}.\n"
+            f"Specify a target zpak with --zpak/-z, e.g.:\n"
+            f"  zep dbc modify --task {task_id} --zpak <zpak-name> ..."
+        )
 
     # Detect which tables are being modified
     tables = detect_modified_tables(sql)

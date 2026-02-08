@@ -56,7 +56,7 @@ INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`,
 -- ============================================================================
 
 -- Two-Handed Swords (skill 55)
-INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3088, 1, 55, 0, 'Warrior - Two-Handed Swords');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3289, 1, 55, 0, 'Warrior - Two-Handed Swords');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (512, 2, 55, 0, 'Paladin - Two-Handed Swords');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 55, 0, 'Death Knight - Two-Handed Swords');
 
@@ -66,11 +66,14 @@ INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`,
 
 -- Two-Handed Axes (skill 172)
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (6, 1, 172, 0, 'Warrior - Two-Handed Axes');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4014, 4, 172, 0, 'Hunter - Two-Handed Axes');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4095, 32, 172, 0, 'Death Knight - Two-Handed Axes');
 
 -- Staves (skill 136)
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (3997, 16, 136, 0, 'Priest - Staves');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (1442, 64, 136, 0, 'Shaman - Staves');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (4049, 128, 136, 0, 'Mage - Staves');
+INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2899, 256, 136, 0, 'Warlock - Staves');
 INSERT INTO `playercreateinfo_skills` (`raceMask`, `classMask`, `skill`, `rank`, `comment`) VALUES (2088, 1024, 136, 0, 'Druid - Staves');
 
 -- Polearms (skill 229)

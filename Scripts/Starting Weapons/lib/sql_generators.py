@@ -51,7 +51,7 @@ def generate_skillraceclassinfo_sql():
     all_skill_ids = sorted(weapon_class_data.keys())
     skill_id_list = ', '.join(str(sid) for sid in all_skill_ids)
     sql_lines.append("-- Delete existing weapon skill entries")
-    sql_lines.append(f"DELETE FROM `skillraceclassinfo` WHERE `SkillLineDbcRecord` IN ({skill_id_list});")
+    sql_lines.append(f"DELETE FROM `skillraceclassinfo` WHERE `skill_id` IN ({skill_id_list});")
     sql_lines.append("")
 
     # Insert entries for each skill with explicit IDs
@@ -64,7 +64,7 @@ def generate_skillraceclassinfo_sql():
         # Insert with explicit ID, raceMask=4095 (all races), flags=128, minLevel=0, skillTierID=0, skillCostIndex=0
         sql_lines.append(
             f"INSERT INTO `skillraceclassinfo` "
-            f"(`Id`, `SkillLineDbcRecord`, `RaceMask`, `ClassMask`, `Flags`, `MinLevel`, `SkillTierId`, `SkillCostIndex`) "
+            f"(`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) "
             f"VALUES ({entry_id}, {skill_id}, 4095, {data['class_mask']}, 128, 0, 0, 0);"
         )
         sql_lines.append("")
@@ -183,7 +183,7 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
     Args:
         mismatches: List of weapon mismatch/replacement entries
         weapon_additions: List of weapons to add
-        invtype_fixes: List of invType corrections
+        invtype_fixes: List of inventory_type_ corrections
         duplicate_cleanups: List of duplicate weapons to remove
         output_mode: 'sql' for SQL fixes (current DB), 'log' for documentation (stock WOTLK comparison)
     """
@@ -242,32 +242,32 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
 
                 sql_lines.append(f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): Move {skill_name} from slot {slot} to slot {target_slot} (stock WOTLK position)")
                 # Clear old slot
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = 0, `invType{slot}` = 0 WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{slot}` = 0, `inventory_type_{slot}` = 0 WHERE `id` = {outfit_id};")
                 # Set new slot
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{target_slot}` = {mismatch['replacement_item']}, `invType{target_slot}` = {inv_type} WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{target_slot}` = {mismatch['replacement_item']}, `inventory_type_{target_slot}` = {inv_type} WHERE `id` = {outfit_id};")
             elif action == 'remove' or mismatch['replacement_item'] == 0:
                 # Remove weapon
                 reason = mismatch.get('reason', 'no suitable replacement')
                 sql_lines.append(f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): Remove {mismatch['current_type']} ({reason})")
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = 0, `invType{slot}` = 0 WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{slot}` = 0, `inventory_type_{slot}` = 0 WHERE `id` = {outfit_id};")
             else:
                 # Replace weapon
                 skill_name = next((name for sid, name in WEAPON_SKILLS.values() if sid == mismatch['replacement_skill']), "Unknown")
                 reason = mismatch.get('reason', f'Replace {mismatch["current_type"]} with {skill_name}')
                 sql_lines.append(f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): {reason}")
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = {mismatch['replacement_item']} WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{slot}` = {mismatch['replacement_item']} WHERE `id` = {outfit_id};")
             sql_lines.append("")
         else:  # add
             addition = fix['data']
             # Handle ammo (add_skill is None for ammo)
             if addition.get('is_ammo'):
                 sql_lines.append(f"-- {addition['race']} {addition['class']} ({addition['gender']}): Add {addition['reason']}")
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = {addition['add_item']}, `invType{slot}` = 24 WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{slot}` = {addition['add_item']}, `inventory_type_{slot}` = 24 WHERE `id` = {outfit_id};")
             else:
                 skill_name = next((name for sid, name in WEAPON_SKILLS.values() if sid == addition['add_skill']), "Unknown")
                 inv_type = SKILL_TO_INVTYPE.get(addition['add_skill'], 13)  # Default to one-hand if not found
                 sql_lines.append(f"-- {addition['race']} {addition['class']} ({addition['gender']}): Add {skill_name} ({addition['reason']})")
-                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{slot}` = {addition['add_item']}, `invType{slot}` = {inv_type} WHERE `ID` = {outfit_id};")
+                sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{slot}` = {addition['add_item']}, `inventory_type_{slot}` = {inv_type} WHERE `id` = {outfit_id};")
             sql_lines.append("")
 
     # SECTION: Cleanup duplicates
@@ -280,7 +280,7 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
         for cleanup in duplicate_cleanups:
             reason = cleanup.get('reason', 'Duplicate weapon/ammo')
             sql_lines.append(f"-- {cleanup['race']} {cleanup['class']} ({cleanup['gender']}): {reason}")
-            sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `itemId{cleanup['slot']}` = 0, `invType{cleanup['slot']}` = 0 WHERE `ID` = {cleanup['outfit_id']};")
+            sql_lines.append(f"UPDATE `dbc`.`charstartoutfit` SET `item_{cleanup['slot']}` = 0, `inventory_type_{cleanup['slot']}` = 0 WHERE `id` = {cleanup['outfit_id']};")
 
         sql_lines.append("")
         sql_lines.append(f"-- Cleaned up {len(duplicate_cleanups)} duplicate weapons/ammo")
@@ -309,8 +309,8 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
         log_lines.append("The UPDATE statements show changes needed to align stock WOTLK with CSV.")
         log_lines.append("")
         log_lines.append("Example:")
-        log_lines.append("  Stock WOTLK: Human Warrior Male has 2H Sword (itemId 49778) in slot 5")
-        log_lines.append("  CSV Design:  Human Warrior Male should have 1H Mace (itemId 36)")
+        log_lines.append("  Stock WOTLK: Human Warrior Male has 2H Sword (item_ 49778) in slot 5")
+        log_lines.append("  CSV Design:  Human Warrior Male should have 1H Mace (item_ 36)")
         log_lines.append("  UPDATE:      Changes slot 5 from 49778 → 36 (Stock → CSV)")
         log_lines.append("")
         log_lines.append("These UPDATEs are for DOCUMENTATION ONLY (explaining design decisions).")
@@ -347,19 +347,19 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
 
 def generate_display_info_fixes_sql(display_mismatches):
     """
-    Generate SQL to fix displayInfo mismatches in charstartoutfit.
+    Generate SQL to fix display_item_ mismatches in charstartoutfit.
 
-    The WoW client uses displayInfo directly for character creation preview,
+    The WoW client uses display_item_ directly for character creation preview,
     so it MUST match item_template.displayid or the wrong model will show.
 
     Args:
         display_mismatches: List from validate_display_info()
 
     Returns:
-        str: SQL statements to fix displayInfo, or empty string if no fixes needed
+        str: SQL statements to fix display_item_, or empty string if no fixes needed
     """
     if not display_mismatches:
-        print("No displayInfo fixes needed")
+        print("No display_item_ fixes needed")
         print()
         return ""
 
@@ -373,8 +373,8 @@ def generate_display_info_fixes_sql(display_mismatches):
     sql_lines.append("-- " + "=" * 76)
     sql_lines.append("-- DISPLAY INFO FIXES")
     sql_lines.append("-- " + "=" * 76)
-    sql_lines.append("-- Fixes displayInfo values that don't match item_template.displayid")
-    sql_lines.append("-- The client uses displayInfo for character creation preview models")
+    sql_lines.append("-- Fixes display_item_ values that don't match item_template.displayid")
+    sql_lines.append("-- The client uses display_item_ for character creation preview models")
     sql_lines.append("-- " + "=" * 76)
     sql_lines.append("")
 
@@ -382,11 +382,11 @@ def generate_display_info_fixes_sql(display_mismatches):
         slot = mismatch['slot']
         sql_lines.append(
             f"-- {mismatch['race']} {mismatch['class']} ({mismatch['gender']}): "
-            f"Fix {mismatch['item_name']} displayInfo {mismatch['current_display']} -> {mismatch['correct_display']}"
+            f"Fix {mismatch['item_name']} display_item_ {mismatch['current_display']} -> {mismatch['correct_display']}"
         )
         sql_lines.append(
-            f"UPDATE `dbc`.`charstartoutfit` SET `displayInfo{slot}` = {mismatch['correct_display']} "
-            f"WHERE `ID` = {mismatch['outfit_id']};"
+            f"UPDATE `dbc`.`charstartoutfit` SET `display_item_{slot}` = {mismatch['correct_display']} "
+            f"WHERE `id` = {mismatch['outfit_id']};"
         )
         sql_lines.append("")
 
@@ -407,7 +407,7 @@ def generate_display_info_fixes_sql(display_mismatches):
             f.write("\n\n")
         f.write(sql_content)
 
-    print(f"✓ Added {len(display_mismatches)} displayInfo fixes to {output_path}")
+    print(f"✓ Added {len(display_mismatches)} display_item_ fixes to {output_path}")
     print()
 
     return sql_content
