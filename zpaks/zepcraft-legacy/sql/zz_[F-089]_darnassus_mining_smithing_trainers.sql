@@ -5,27 +5,36 @@
 -- Mining: New NPC (Dellorah Moonsight)
 -- Smithing: Upgrade Mathiel (6142) to trainer
 --
--- TODO (F-089 known issues):
--- 1. Mathiel offers talent unlearn dialog (acting like a class trainer)
--- 2. Mathiel teaches WotLK-era recipes - should be capped to Classic?
--- 3. Borin Irondelve teaches WotLK-era recipes - same question
--- 4. Borin has no base mining supply stock (picks, flux, coal, etc.)
---    Regular mining suppliers sell: 2880 Weak Flux, 2901 Basic Mining Pick,
---    3466 Strong Flux, 3857 Coal, 20815 Jeweler's Kit, 20824 Simple Grinder
 
 -- ========================================
 -- MATHIEL - Upgrade to Blacksmithing Trainer
 -- ========================================
 -- Existing NPC (6142) upgraded to also function as blacksmith trainer
+-- Requires a dedicated gossip menu (66001) instead of default menu (0),
+-- because MenuID 0 includes talent unlearn/dual spec options for any trainer.
+
+-- Create gossip menu for Mathiel
+DELETE FROM `npc_text` WHERE `ID` = 66001;
+INSERT INTO `npc_text` (`ID`, `text0_0`) VALUES
+(66001, 'The ancient art of shaping metal is not so different from tending the trees of Teldrassil. Both require patience and a steady hand. Shall I teach you?');
+
+DELETE FROM `gossip_menu` WHERE `MenuID` = 66001;
+INSERT INTO `gossip_menu` (`MenuID`, `TextID`) VALUES (66001, 66001);
+
+DELETE FROM `gossip_menu_option` WHERE `MenuID` = 66001;
+INSERT INTO `gossip_menu_option` (`MenuID`, `OptionID`, `OptionIcon`, `OptionText`, `OptionBroadcastTextID`, `OptionType`, `OptionNpcFlag`, `ActionMenuID`, `ActionPoiID`, `BoxCoded`, `BoxMoney`, `BoxText`, `BoxBroadcastTextID`)
+VALUES (66001, 0, 3, 'Train me.', 3266, 5, 16, 0, 0, 0, 0, '', 0);
 
 UPDATE `creature_template`
 SET `subname` = 'Blacksmithing Trainer',
-    `npcflag` = 83 -- Gossip + Questgiver + Trainer (1 + 2 + 16 + 64)
+    `gossip_menu_id` = 66001,
+    `npcflag` = 83 -- Gossip + Questgiver + Trainer + Profession (1 + 2 + 16 + 64)
 WHERE `entry` = 6142;
 
--- Assign blacksmithing trainer template to Mathiel (59 = full trainer, 0-440 skill)
+-- Assign blacksmithing trainer template to Mathiel (618 = Artisan, 0-300 skill)
+-- Matches I-096 consolidated tier: Classic city trainers cap at Artisan
 DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 6142;
-INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (6142, 59);
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (6142, 618);
 
 -- ========================================
 -- BORIN IRONDELVE - New Mining Trainer
@@ -45,7 +54,7 @@ SET `entry` = 70,
     `minlevel` = 35,
     `maxlevel` = 35,
     `faction` = 80, -- Darnassus
-    `npcflag` = 83, -- Gossip + Questgiver + Trainer (1 + 2 + 16 + 64)
+    `npcflag` = 211, -- Gossip + Questgiver + Trainer + Profession + Vendor (1 + 2 + 16 + 64 + 128)
     `speed_walk` = 1,
     `speed_run` = 1.14286,
     `BaseAttackTime` = 2000,
@@ -70,9 +79,20 @@ DELETE FROM `creature` WHERE `id1` = 70;
 INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
 (70, 1, 9923.672, 2311.778, 1330.7888, 2.5290294, 300);
 
--- Assign mining trainer template to Borin Irondelve (78 = full trainer, 0-450 skill)
+-- Assign mining trainer template to Borin Irondelve (80 = standard Mining Trainer, 0-250 skill)
+-- Matches other Classic city mining trainers (Kurdram Stonehammer, Geofram Bouldertoe, etc.)
 DELETE FROM `creature_default_trainer` WHERE `CreatureId` = 70;
-INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (70, 78);
+INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (70, 80);
+
+-- Base mining supply stock (matches standard mining suppliers)
+DELETE FROM `npc_vendor` WHERE `entry` = 70 AND `item` IN (2880, 2901, 3466, 3857, 20815, 20824);
+INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`) VALUES
+(70, 0, 2901, 0, 0, 0), -- Basic Mining Pick
+(70, 0, 2880, 0, 0, 0), -- Weak Flux
+(70, 0, 3466, 0, 0, 0), -- Strong Flux
+(70, 0, 3857, 0, 0, 0), -- Coal
+(70, 0, 20815, 0, 0, 0), -- Jeweler's Kit
+(70, 0, 20824, 0, 0, 0); -- Simple Grinder
 
 -- ========================================
 -- GUARD GOSSIP INTEGRATION
