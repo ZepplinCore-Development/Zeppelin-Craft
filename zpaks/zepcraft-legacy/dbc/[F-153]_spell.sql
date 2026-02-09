@@ -1,0 +1,5 @@
+-- [F-153] Hunter Pet Tanking: spell
+-- Pet spell per-level scaling (split from [BASE,F-044]_spell.sql)
+
+UPDATE `spell` SET `attributes_ex_2` = 67108864, `attributes_ex_4` = 2048, `attributes_ex_6` = 0, `effect_1` = 6, `effect_2` = 63, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '25.0000000000000000', `effect_base_points_1` = -1, `effect_base_points_2` = 579, `effect_apply_aura_name_1` = 12, `effect_apply_aura_name_2` = 0, `effect_multiple_value_1` = '1.0000000000000000', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Command your pet to intimidate the target, causing a high amount of threat and taunting the target for $24394d. Lasts $19577d.' WHERE `id` = 24394;
+UPDATE `spell` SET `effect_2` = 63, `effect_die_sides_2` = 1, `effect_real_points_per_level_2` = '5.0000000000000000', `effect_base_points_2` = 99, `effect_implicit_target_a_2` = 53, `effect_implicit_target_b_2` = 16, `effect_radius_index_2` = 14, `spell_tooltip_flags` = 16712190 WHERE `id` = 63900;

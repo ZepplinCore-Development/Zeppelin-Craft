@@ -2,7 +2,7 @@
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-044]_spell.sql with overrides
 
--- spell: 352 inserts, 2740 updates, 9 deletes
+-- spell: 350 inserts, 2733 updates, 359 deletes
 DELETE FROM `spell` WHERE `id` = 1767;
 DELETE FROM `spell` WHERE `id` = 1768;
 DELETE FROM `spell` WHERE `id` = 1769;
@@ -744,7 +744,7 @@ UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Timber Wolf. Increases speed by $<speed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 580;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable winter wolf. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 581;
 UPDATE `spell` SET `spell_icon_id` = 260, `spell_tooltip_flags` = 16712190 WHERE `id` = 587;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 744;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 744;
 UPDATE `spell` SET `effect_misc_value_a_1` = 9000014, `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 747;
 UPDATE `spell` SET `cast_time_index` = 6 WHERE `id` = 783;
 UPDATE `spell` SET `duration_index` = 28, `spell_subtext_flags` = 16712190 WHERE `id` = 785;
@@ -872,7 +872,7 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` =
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 3336;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 3337;
 UPDATE `spell` SET `attributes_ex_3` = 0, `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = 'Summons and dismisses a rideable nether drake.  Can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 3363;
-UPDATE `spell` SET `effect_real_points_per_level_1` = '1.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 3427;
+UPDATE `spell` SET `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 3427;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 3447;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 3448;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 3450;
@@ -980,25 +980,21 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` 
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 4508;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 4942;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 4960;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '2.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 5159;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_tooltip_flags` = 16712190 WHERE `id` = 5174;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 5159;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_tooltip_flags` = 16712190 WHERE `id` = 5174;
 UPDATE `spell` SET `spell_tooltip_flags` = 16712190 WHERE `id` = 5187;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `effect_real_points_per_level_2` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 5208;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 5213;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 5208;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 5213;
 UPDATE `spell` SET `duration_index` = 6 WHERE `id` = 5242;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 5244;
 UPDATE `spell` SET `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_1` = '2.0000000000000000', `effect_base_points_1` = 19, `spell_class_set` = 14, `spell_class_mask_1` = 2147483648 WHERE `id` = 5419;
 UPDATE `spell` SET `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_1` = '2.0000000000000000', `effect_base_points_1` = 19, `spell_class_set` = 14, `spell_class_mask_1` = 2147483648 WHERE `id` = 5421;
-UPDATE `spell` SET `max_level` = 5, `base_level` = 1, `spell_level` = 1, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5504;
-UPDATE `spell` SET `max_level` = 9, `base_level` = 5, `spell_level` = 5, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5505;
-UPDATE `spell` SET `max_level` = 19, `base_level` = 15, `spell_level` = 15, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5506;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons a Felsteed, which serves as a mount. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 5784;
-UPDATE `spell` SET `max_level` = 29, `base_level` = 25, `spell_level` = 25, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 6127;
 UPDATE `spell` SET `effect_apply_aura_name_3` = 79 WHERE `id` = 6136;
 UPDATE `spell` SET `duration_index` = 6 WHERE `id` = 6192;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 6254;
-UPDATE `spell` SET `max_level` = 80, `base_level` = 20, `effect_real_points_per_level_2` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 6304;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 6306;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 6254;
+UPDATE `spell` SET `max_level` = 80, `base_level` = 20, `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 6304;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 6306;
 UPDATE `spell` SET `spell_subtext_flags` = 16712190 WHERE `id` = 6432;
 UPDATE `spell` SET `spell_subtext_flags` = 16712190 WHERE `id` = 6435;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 6517;
@@ -1032,9 +1028,9 @@ UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable blue ram. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 6897;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable White Ram. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 6898;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Brown Ram. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 6899;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7122;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7124;
-UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '10.0000000000000000', `effect_real_points_per_level_2` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7125;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7122;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7124;
+UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7125;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7126;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7133;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7135;
@@ -1042,7 +1038,7 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` 
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7149;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7151;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7153;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7154;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7154;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7156;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7179;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7181;
@@ -1056,7 +1052,7 @@ UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHE
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7257;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7258;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7259;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7295;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7295;
 UPDATE `spell` SET `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 14, `effect_implicit_target_a_3` = 1, `effect_apply_aura_name_3` = 10, `effect_misc_value_a_3` = 127, `spell_desc_enus` = 'Increases Armor by $m1 and Threat generated by $s3%.   If an enemy strikes the caster, they may have their movement slowed by $6136s1% and the time between their attacks increased by $6136s2% for $6136d.  Only one type of Armor spell can be active on the Mage at any time.  Lasts $d.', `spell_tooltip_enus` = 'Increases Armor by $m1, threat generated by $s3% and may slow attackers.' WHERE `id` = 7300;
 UPDATE `spell` SET `effect_3` = 6, `effect_die_sides_3` = 1, `effect_base_points_3` = 14, `effect_apply_aura_name_3` = 10, `effect_misc_value_a_3` = 127, `spell_desc_enus` = 'Increases Armor by $m1 and Threat generated by $m3%.   If an enemy strikes the caster, they may have their movement slowed by $6136s1% and the time between their attacks increased by $6136s2% for $6136d.  Only one type of Armor spell can be active on the Mage at any time.  Lasts $d.', `spell_tooltip_enus` = 'Increases Armor and Threat generated. May slow attackers.' WHERE `id` = 7301;
 UPDATE `spell` SET `effect_base_points_3` = 14, `effect_implicit_target_a_3` = 0, `effect_apply_aura_name_3` = 10, `effect_misc_value_a_3` = 127, `effect_trigger_spell_2` = 6136, `spell_visual_1` = 124, `spell_name_enus` = 'Frost Armor', `spell_subtext_enus` = 'Rank 4', `spell_desc_enus` = 'Increases Armor by $m1 and Threat generated by $m3%.   If an enemy strikes the caster, they may have their movement slowed by $6136s1% and the time between their attacks increased by $6136s2% for $6136d.  Only one type of Armor spell can be active on the Mage at any time.  Lasts $d.', `spell_tooltip_enus` = 'Increases Armor and Threat generated. May slow attackers.' WHERE `id` = 7302;
@@ -1067,7 +1063,7 @@ UPDATE `spell` SET `recovery_time` = 5000, `category_recovery_time` = 0, `spell_
 UPDATE `spell` SET `recovery_time` = 5000, `category_recovery_time` = 0, `spell_tooltip_flags` = 16712190 WHERE `id` = 7384;
 UPDATE `spell` SET `range_index` = 7, `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7393;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 7408;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7588;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7588;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7623;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7624;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7629;
@@ -1076,7 +1072,7 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` 
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7636;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7639;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7643;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_2` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7803;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7803;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 7817;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 7818;
 UPDATE `spell` SET `effect_spell_class_mask_b_1` = 1, `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Blacksmithing +$s1.
@@ -1085,14 +1081,14 @@ UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHE
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 7845;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7892;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 7893;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7947;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7948;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7951;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7947;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7948;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 7951;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7953;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7954;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 7955;
-UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_2` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 7965;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_3` = '20.0000000000000000' WHERE `id` = 8041;
+UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 7965;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_3` = '0E-16' WHERE `id` = 8041;
 UPDATE `spell` SET `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8091;
 UPDATE `spell` SET `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8094;
 UPDATE `spell` SET `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8095;
@@ -1112,9 +1108,9 @@ UPDATE `spell` SET `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` 
 UPDATE `spell` SET `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8119;
 UPDATE `spell` SET `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8120;
 UPDATE `spell` SET `proc_charges` = 0, `spell_desc_enus` = 'The caster is surrounded by balls of lightning.  When a spell, melee or ranged attack hits the caster, the attacker will be struck for $26369s1 Nature damage.  This expends one lightning ball.  Only one ball will fire every few seconds.  Lasts $d.  Only one Elemental Shield can be active on the Shaman at any one time.', `spell_tooltip_enus` = 'Causes $26369s1 Nature damage to attacker on hit.  ' WHERE `id` = 8134;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 8142;
-UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '20.0000000000000000' WHERE `id` = 8147;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000' WHERE `id` = 8150;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 8142;
+UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '0E-16' WHERE `id` = 8147;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16' WHERE `id` = 8150;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 8240;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 8322;
 UPDATE `spell` SET `cast_time_index` = 14, `spell_desc_variable_id` = 182 WHERE `id` = 8326;
@@ -1162,7 +1158,7 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` =
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 8919;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable skeletal horse. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 8980;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 9052;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9053;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9053;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9058;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9059;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9060;
@@ -1189,9 +1185,9 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` 
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9206;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9207;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 9208;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9532;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9613;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 9672;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9532;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 9613;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 9672;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 9785;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 9787;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 9788;
@@ -1337,11 +1333,11 @@ UPDATE `spell` SET `duration_index` = 6 WHERE `id` = 11551;
 UPDATE `spell` SET `recovery_time` = 5000, `category_recovery_time` = 0, `spell_tooltip_flags` = 16712190 WHERE `id` = 11600;
 UPDATE `spell` SET `recovery_time` = 5000, `category_recovery_time` = 0, `spell_tooltip_flags` = 16712190 WHERE `id` = 11601;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 11643;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `effect_real_points_per_level_2` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 11829;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 11829;
 UPDATE `spell` SET `spell_desc_enus` = 'Restores $<potion1> to $<potion1max> mana.', `spell_class_mask_1` = 4, `spell_desc_variable_id` = 183 WHERE `id` = 11903;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 11970;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 11977;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 11986;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 11970;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 11977;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 11986;
 UPDATE `spell` SET `spell_tooltip_flags` = 16712190, `spell_class_set` = 14, `spell_class_mask_1` = 2 WHERE `id` = 11993;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 12044;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 12045;
@@ -1397,8 +1393,8 @@ UPDATE `spell` SET `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` =
 UPDATE `spell` SET `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 12179;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 12259;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 12260;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 12466;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 12470;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 12466;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 12470;
 UPDATE `spell` SET `spell_subtext_flags` = 16712190, `spell_desc_flags` = 16712190 WHERE `id` = 12479;
 UPDATE `spell` SET `effect_apply_aura_name_3` = 79, `effect_bonus_multiplier_3` = '1.0000000000000000' WHERE `id` = 12484;
 UPDATE `spell` SET `effect_apply_aura_name_3` = 79, `effect_bonus_multiplier_3` = '1.0000000000000000' WHERE `id` = 12485;
@@ -1421,10 +1417,10 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` =
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 15294;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 15295;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 15296;
-UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 15305;
+UPDATE `spell` SET `max_level` = 80, `base_level` = 30, `spell_level` = 30, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 15305;
 UPDATE `spell` SET `stances` = 0, `recovery_time` = 8000, `base_level` = 4, `spell_level` = 4, `duration_index` = 39, `power_cost` = 0, `spell_desc_enus` = 'Interrupts spellcasting and prevents any spell in that school from being cast for 2 sec.' WHERE `id` = 15487;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 15530;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 15531;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 15530;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 15531;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable White Mechanostrider Mod B.   Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 15779;
 UPDATE `spell` SET `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable Green Mechanostrider. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 15780;
 UPDATE `spell` SET `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable mechanical tallstrider. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 15781;
@@ -1549,8 +1545,8 @@ UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHE
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 17637;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 17638;
 UPDATE `spell` SET `spell_subtext_flags` = 16712190 WHERE `id` = 17740;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '10.0000000000000000', `effect_real_points_per_level_2` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 17745;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 18072;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 17745;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 18072;
 UPDATE `spell` SET `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Damage done increased by $s1%.
 Spells cast are all instant.
 Reduces max health by $23619s1% every second.
@@ -1558,7 +1554,7 @@ Reduces max health by $23619s1% every second.
 Spells cast are all instant.
 Reduces max health by $23619s1% every second.
 ' WHERE `id` = 18173;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '5.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 18266;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 18266;
 UPDATE `spell` SET `attributes_ex_3` = 0, `cast_time_index` = 14, `max_level` = 60, `base_level` = 20, `effect_real_points_per_level_2` = '2.0000000000000000', `effect_base_points_2` = 19, `spell_desc_enus` = 'Summons and dismisses a rideable kodo. Increases speed by $<groundspeed2>%.', `spell_tooltip_enus` = 'Increases speed by $<groundspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 18363;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 18401;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 18402;
@@ -1698,8 +1694,8 @@ UPDATE `spell` SET `effect_die_sides_2` = 11, `effect_base_points_2` = 9, `effec
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 20648;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 20649;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 20650;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 20791;
-UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '20.0000000000000000', `effect_real_points_per_level_2` = '20.0000000000000000', `spell_subtext_flags` = 16712190 WHERE `id` = 20800;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 20791;
+UPDATE `spell` SET `max_level` = 80, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '0E-16', `spell_subtext_flags` = 16712190 WHERE `id` = 20800;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 20848;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 20849;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 16 WHERE `id` = 20853;
@@ -1862,7 +1858,6 @@ UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHE
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 24367;
 UPDATE `spell` SET `spell_class_set` = 13, `spell_class_mask_1` = 2147483648 WHERE `id` = 24368;
 UPDATE `spell` SET `cast_time_index` = 10, `effect_base_points_2` = 249, `spell_subtext_flags` = 16712190, `spell_tooltip_flags` = 16712190 WHERE `id` = 24377;
-UPDATE `spell` SET `attributes_ex_2` = 67108864, `attributes_ex_4` = 2048, `attributes_ex_6` = 0, `effect_1` = 6, `effect_2` = 63, `effect_real_points_per_level_1` = '0E-16', `effect_real_points_per_level_2` = '25.0000000000000000', `effect_base_points_1` = -1, `effect_base_points_2` = 579, `effect_apply_aura_name_1` = 12, `effect_apply_aura_name_2` = 0, `effect_multiple_value_1` = '1.0000000000000000', `spell_subtext_flags` = 16712190, `spell_desc_enus` = 'Command your pet to intimidate the target, causing a high amount of threat and taunting the target for $24394d. Lasts $19577d.' WHERE `id` = 24394;
 UPDATE `spell` SET `proc_charges` = 0 WHERE `id` = 24398;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 1 WHERE `id` = 24399;
 UPDATE `spell` SET `effect_base_points_1` = 249, `spell_subtext_flags` = 16712190 WHERE `id` = 24573;
@@ -3329,7 +3324,6 @@ UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` 
 UPDATE `spell` SET `totem_1` = 0, `totem_category_1` = 191 WHERE `id` = 63743;
 UPDATE `spell` SET `attributes_ex_3` = 0, `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = 'Summons and dismisses a rideable mechanical gnome head.  This is a very fast construction.  This construction can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 63796;
 UPDATE `spell` SET `attributes_ex_3` = 0, `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = 'Summons and dismisses a rideable Argent Hippogryph mount.   This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 63844;
-UPDATE `spell` SET `effect_2` = 63, `effect_die_sides_2` = 1, `effect_real_points_per_level_2` = '5.0000000000000000', `effect_base_points_2` = 99, `effect_implicit_target_a_2` = 53, `effect_implicit_target_b_2` = 16, `effect_radius_index_2` = 14, `spell_tooltip_flags` = 16712190 WHERE `id` = 63900;
 UPDATE `spell` SET `spell_class_set` = 14, `spell_class_mask_1` = 32 WHERE `id` = 63924;
 UPDATE `spell` SET `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = 'Summons and dismisses a rideable Ironbound Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 63956;
 UPDATE `spell` SET `attributes_ex_4` = 0, `cast_time_index` = 14, `effect_base_points_2` = 299, `spell_desc_enus` = 'Summons and dismisses a rideable Rusted Proto-Drake.  This is an extremely fast mount.  This mount can only be summoned in Outland or Northrend. Increases flight speed by $<flyingspeed2>%.', `spell_tooltip_enus` = 'Increases flight speed by $<flyingspeed>%.', `spell_class_set` = 14, `spell_class_mask_1` = 2147483648, `spell_desc_variable_id` = 182 WHERE `id` = 63963;
