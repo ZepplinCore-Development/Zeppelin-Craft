@@ -64,7 +64,7 @@ CHALLENGE_TYPES = {
 }
 
 # Columns to fetch and modify
-COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank"]
+COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank", "spell_school_immune_mask"]
 
 # Output filename
 OUTPUT_FILE = "zz_de-L33TER.sql"
@@ -153,6 +153,10 @@ def modify_original_row(original_row, challenge):
         "HealthModifier": round(random.uniform(challenge.health_min, challenge.health_max), 2),
         "Rank": challenge.rank
     }
+
+    # Strip spell school immunities if creature has any
+    if original_row.get("spell_school_immune_mask", 0) != 0:
+        modified_row["spell_school_immune_mask"] = 0
 
     return modified_row, creature_name
 
