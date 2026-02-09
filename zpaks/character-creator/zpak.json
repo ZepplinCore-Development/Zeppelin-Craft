@@ -16,6 +16,6 @@
   "contents": {
     "mpq": ["mpq/**/*"]
   },
-  "enabled": true,
+  "enabled": false,
   "priority": 30
 }
