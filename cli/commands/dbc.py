@@ -68,6 +68,30 @@ from lib.env import DBCTOOL_PATH
 logger = get_logger('cli.dbc')
 
 
+def regenerate_spell_editor_views():
+    """Regenerate spell_editor updatable views after DBC table changes.
+
+    Views alias snake_case columns to PascalCase for WoW Spell Editor compatibility.
+    """
+    from lib.spell_editor_views import BINDINGS_DIR, execute_views
+
+    if not BINDINGS_DIR.exists():
+        logger.debug("Original bindings not found, skipping spell_editor views")
+        return
+
+    click.echo("  Regenerating spell_editor views...", nl=False)
+    try:
+        success_count, errors = execute_views()
+        if errors:
+            click.echo(click.style(f" OK ({success_count} statements, {len(errors)} warnings)", fg='yellow'))
+            for err in errors[:3]:
+                logger.warning(f"  spell_editor view: {err}")
+        else:
+            click.echo(click.style(" OK", fg='green'))
+    except Exception as e:
+        click.echo(click.style(f" FAILED: {e}", fg='yellow'))
+
+
 # Paths
 CRAFT_ROOT = CLI_DIR.parent
 ENV_PATH = CRAFT_ROOT / 'Scripts' / 'Patch Builder' / '.env'
@@ -889,6 +913,10 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
     click.echo(click.style("  Expected state updated", fg='green'))
 
+    # Step 5: Regenerate spell_editor views
+    click.echo(f"\nStep 5: Spell Editor compatibility...")
+    regenerate_spell_editor_views()
+
     # Summary
     click.echo()
     if errors:
@@ -968,6 +996,10 @@ def dbc_wipe(ctx, table: Optional[str], force: bool):
             live_cursor.close()
 
         click.echo(click.style(f"\nWipe complete! {len(tables_to_reset)} table(s) reset to stock", fg='green'))
+
+        # Regenerate spell_editor views after full wipe
+        if not table:
+            regenerate_spell_editor_views()
 
     except Exception as e:
         raise click.ClickException(f"Wipe failed: {e}")
