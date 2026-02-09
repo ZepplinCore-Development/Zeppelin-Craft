@@ -479,16 +479,18 @@ def _run_atlasloot_generator(zpak_path: Path) -> bool:
         print(f"    AtlasLoot generator not found at {generator_script}")
         return False
 
-    addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
-    if not addon_dir.exists():
-        print(f"    AddOns directory not found in parsed-assets")
+    # Generator defaults to source-assets (correct casing for Lua references).
+    # Resource parser uppercases parsed-assets dirs which breaks Lua paths,
+    # so we let the generator use its own default and copy results afterward.
+    source_addon_dir = zpak_path / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
+    if not source_addon_dir.exists():
+        print(f"    AddOns directory not found in source-assets")
         return False
 
     print(f"    Running AtlasLoot generator...")
     try:
         result = subprocess.run(
-            [sys.executable, str(generator_script), '--all',
-             '--addon-dir', str(addon_dir)],
+            [sys.executable, str(generator_script), '--all'],
             cwd=str(generator_script.parent),
             capture_output=True,
             text=True,
@@ -501,6 +503,16 @@ def _run_atlasloot_generator(zpak_path: Path) -> bool:
                 for line in result.stdout.strip().split('\n'):
                     if line.startswith('[') or line.startswith('Summary'):
                         logger.info(f"  atlasloot: {line}")
+            # Re-copy source-assets to parsed-assets so updated Lua files
+            # end up in the MPQ (resource parser already ran, so this just
+            # overwrites with the generator's updated versions)
+            parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
+            if not parsed_addon_dir.exists():
+                parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
+            if parsed_addon_dir.exists():
+                shutil.rmtree(parsed_addon_dir)
+            shutil.copytree(source_addon_dir, parsed_addon_dir)
+            print(f"    Synced updated AddOns to parsed-assets")
             return True
         else:
             print(f"    AtlasLoot generator failed (code {result.returncode})")

@@ -1,4 +1,4 @@
-From 84a1502aec4cd7e4c78f3f860e777f24e55b62f5 Mon Sep 17 00:00:00 2001
+From ca926314e95185c70c99daf32a38be377d293d00 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:46:21 +0000
 Subject: [PATCH] F-001: Keep JC tools available without progression gating

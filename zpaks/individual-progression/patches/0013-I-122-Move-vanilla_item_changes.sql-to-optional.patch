@@ -1,0 +1,22 @@
+From 17866eb1cc165db2ee1f3afcf25d87b50aee8276 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Mon, 9 Feb 2026 02:36:24 +0000
+Subject: [PATCH] I-122: Move vanilla_item_changes.sql to optional
+
+Prevents auto-import of vanilla item restorations that downgrade
+144 dungeon weapons/armor (e.g. Thornspike, Rhahk'Zor's Hammer)
+from their WotLK quality/stats to inferior vanilla versions.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ .../sql/world/zz_optional_vanilla_item_changes.sql                | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename data/sql/db-world/base/vanilla_item_changes.sql => optional/sql/world/zz_optional_vanilla_item_changes.sql (100%)
+
+diff --git a/data/sql/db-world/base/vanilla_item_changes.sql b/optional/sql/world/zz_optional_vanilla_item_changes.sql
+similarity index 100%
+rename from data/sql/db-world/base/vanilla_item_changes.sql
+rename to optional/sql/world/zz_optional_vanilla_item_changes.sql
+-- 
+2.34.1
+
