@@ -391,7 +391,7 @@ def tier_apply(name, dry_run):
         zep outfit tier apply tier1              # Apply Tier 1 displays
         zep outfit tier apply tier1 --dry-run    # Preview SQL only
     """
-    from lib.outfit.tier_sets import load_tier_sets, apply_tier_set
+    from lib.outfit.tier_sets import load_tier_sets, apply_tier_set, write_tier_sql_to_zpak
 
     config_path = _cli_dir / 'config' / 'tier_sets.json'
     tier_data = load_tier_sets(config_path)
@@ -428,6 +428,14 @@ def tier_apply(name, dry_run):
                 dbc_cursor.execute(stmt)
             dbc_conn.commit()
             click.echo(f"+ Applied {len(sql_statements)} display updates")
+
+            # Write to zpak for persistence across DB rebuilds
+            zpak_dbc_dir = str(ZPAK_DIR / 'dbc')
+            output_path = write_tier_sql_to_zpak(
+                name, tier_data[name].get('name', name),
+                sql_statements, zpak_dbc_dir
+            )
+            click.echo(f"+ Wrote tier SQL to {output_path}")
     finally:
         dbc_conn.close()
 
@@ -444,7 +452,7 @@ def tier_reset(dry_run):
         zep outfit tier reset              # Reset all displays
         zep outfit tier reset --dry-run    # Preview SQL only
     """
-    from lib.outfit.tier_sets import reset_displays
+    from lib.outfit.tier_sets import reset_displays, remove_tier_sql_from_zpak
 
     try:
         dbc_conn = _get_dbc_connection('dbc')
@@ -473,6 +481,11 @@ def tier_reset(dry_run):
                 dbc_cursor.execute(stmt)
             dbc_conn.commit()
             click.echo(f"+ Reset {len(sql_statements)} display values to match item_template")
+
+            # Remove tier section from zpak
+            zpak_dbc_dir = str(ZPAK_DIR / 'dbc')
+            if remove_tier_sql_from_zpak(zpak_dbc_dir):
+                click.echo("+ Removed tier SQL from zpak")
     finally:
         dbc_conn.close()
         acore_conn.close()

@@ -320,14 +320,30 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
     else:
         output_path = os.path.join(dbc_dir, '[F-022]_charstartoutfit.sql')
 
+        # Preserve any existing tier set section
+        preserved_tier = ""
+        if os.path.exists(output_path):
+            with open(output_path, 'r') as f:
+                old_content = f.read()
+            from .tier_sets import TIER_SECTION_START, TIER_SECTION_END
+            start = old_content.find(TIER_SECTION_START)
+            if start >= 0:
+                end = old_content.find(TIER_SECTION_END)
+                if end >= 0:
+                    preserved_tier = old_content[start:end + len(TIER_SECTION_END)]
+
         with open(output_path, 'w') as f:
             f.write('\n'.join(sql_lines))
+            if preserved_tier:
+                f.write('\n\n\n' + preserved_tier + '\n')
 
         click.echo(f"+ Generated {output_path}")
         click.echo(f"  {len(mismatches)} weapon replacements")
         click.echo(f"  {len(weapon_additions)} weapon additions")
         if duplicate_cleanups:
             click.echo(f"  {len(duplicate_cleanups)} duplicates cleaned")
+        if preserved_tier:
+            click.echo("  (preserved existing tier set section)")
 
     click.echo()
 
@@ -381,18 +397,30 @@ def generate_display_info_fixes_sql(display_mismatches, dbc_dir):
 
     sql_content = '\n'.join(sql_lines)
 
-    # Append to [F-022]_charstartoutfit.sql
+    # Append to [F-022]_charstartoutfit.sql (before tier section if present)
     output_path = os.path.join(dbc_dir, '[F-022]_charstartoutfit.sql')
 
     existing_content = ""
+    preserved_tier = ""
     if os.path.exists(output_path):
         with open(output_path, 'r') as f:
             existing_content = f.read()
 
-    with open(output_path, 'a' if existing_content else 'w') as f:
-        if existing_content:
-            f.write("\n\n")
+        # Extract tier section so we can re-append it at the end
+        from .tier_sets import TIER_SECTION_START, TIER_SECTION_END
+        start = existing_content.find(TIER_SECTION_START)
+        if start >= 0:
+            end = existing_content.find(TIER_SECTION_END)
+            if end >= 0:
+                preserved_tier = existing_content[start:end + len(TIER_SECTION_END)]
+                existing_content = existing_content[:start].rstrip()
+
+    with open(output_path, 'w') as f:
+        if existing_content.strip():
+            f.write(existing_content.rstrip() + "\n\n\n")
         f.write(sql_content)
+        if preserved_tier:
+            f.write('\n\n\n' + preserved_tier + '\n')
 
     click.echo(f"+ Added {len(display_mismatches)} display_item_ fixes to {output_path}")
     click.echo()
