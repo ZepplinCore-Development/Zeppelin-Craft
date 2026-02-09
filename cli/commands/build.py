@@ -55,26 +55,41 @@ def build(ctx):
               help='Patch letter to build (e.g., Z, O, B)')
 @click.option('--all', '-a', 'build_all', is_flag=True,
               help='Build all patches with packable assets')
+@click.option('--build', '-b', 'build_only', is_flag=True,
+              help='Pack existing parsed-assets into MPQ (no preprocessing)')
 @click.option('--parse', is_flag=True,
-              help='Run preprocessors (resource-parser + zpak preprocessors) before packing')
+              help='Run preprocessors only (no packing)')
+@click.option('--parse-build', 'parse_build', is_flag=True,
+              help='Run preprocessors then pack into MPQ')
 @click.option('--dry-run', '-n', is_flag=True,
               help='Show what would be built without building')
 @click.pass_context
 def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
-                parse: bool, dry_run: bool):
+                build_only: bool, parse: bool, parse_build: bool,
+                dry_run: bool):
     """Build client patches (MPQ files).
 
     Interactive mode walks through patch selection and build options.
     Flags allow fully non-interactive builds for scripting.
 
     Examples:
-        zep build patch                # Interactive guided flow
-        zep build patch -p Z           # Select PATCH-Z, choose build mode
-        zep build patch -p Z --parse   # Process + build PATCH-Z
-        zep build patch --all          # Build all patches
-        zep build patch --all --parse  # Process + build all
-        zep build patch --dry-run      # Preview what would be built
+        zep build patch                     # Interactive guided flow
+        zep build patch -p Z               # Select PATCH-Z, choose build mode
+        zep build patch -p Z --build       # Pack PATCH-Z (no preprocessing)
+        zep build patch -p Z --parse       # Run preprocessors only (no pack)
+        zep build patch -p Z --parse-build # Run preprocessors then pack
+        zep build patch --all              # Build all patches
+        zep build patch --all --parse-build # Process + build all
+        zep build patch --dry-run          # Preview what would be built
     """
+    # --parse = preprocessors only (no pack)
+    # --parse-build = preprocessors + pack
+    parse_only = False
+    if parse:
+        parse_only = True  # --parse means preprocess only
+    if parse_build:
+        parse = True       # --parse-build means preprocess + pack
+        parse_only = False
     craft_root = ctx.obj['craft_root']
     nginx_path = DEFAULT_NGINX_PATH
 
@@ -90,7 +105,7 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
     # --- Step 1: Select patch ---
     if build_all:
         selected = sorted(patches.keys())
-        modes = {letter: {'parse': parse} for letter in selected}
+        modes = {letter: {'parse': parse, 'parse_only': parse_only} for letter in selected}
     elif patch_letter:
         letter = patch_letter.upper()
         if letter not in patches:
@@ -99,13 +114,13 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
             return
         selected = [letter]
         # If no explicit mode flags, show build mode menu
-        if not parse and not dry_run:
+        if not parse and not build_only and not dry_run:
             mode = _build_mode_menu(letter, patches, register, nginx_path)
             if mode is None:
                 return
             modes = {letter: mode}
         else:
-            modes = {letter: {'parse': parse}}
+            modes = {letter: {'parse': parse, 'parse_only': parse_only}}
     else:
         # Interactive: pick a patch
         result = _select_patch_menu(patches, register, nginx_path)
