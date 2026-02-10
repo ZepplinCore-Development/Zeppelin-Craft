@@ -52,7 +52,7 @@ CONFIG = {
     },
     'client': {
         'wow_executable': 'Wow.exe',
-        'data_directory': 'data',
+        'data_directory': 'Data',
         'backup_files': False,
         'validate_downloads': False
     },
