@@ -18,8 +18,8 @@ DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1120;
 
 INSERT INTO `spell_group_stack_rules` SET
     `group_id` = 1120,
-    `stack_rule` = 8,
-    `description` = 'Group of Empowering Scrolls - never stack';
+    `stack_rule` = 1,
+    `description` = 'Group of Empowering Scrolls - exclusive';
 
 
 

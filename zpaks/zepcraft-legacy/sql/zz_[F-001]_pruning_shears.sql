@@ -66,17 +66,22 @@
         `spelltrigger_1` = 5,
         `bonding` = 1; -- BOP
 
--- Place all the shear spell auras into the spell group table so they can be made exclusive
--- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+-- Spell group + ranks: Pruning Shears (EXCLUSIVE + rank-aware patch)
 DELETE FROM `spell_group` WHERE `id` = 1116;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91140;
 
 INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91143; -- Grand Master
 INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91142; -- Master
 INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91141; -- Artisan
 INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91140; -- Journeyman
 
--- Apply the exclusivity flag to the spell group for shears
-    DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
-    INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
-        (1116,8,'Group of Pruning Shears');
+INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
+    (1116, 1, 'Pruning Shears - exclusive with rank priority');
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(91140, 91140, 1),
+(91140, 91141, 2),
+(91140, 91142, 3),
+(91140, 91143, 4);
 

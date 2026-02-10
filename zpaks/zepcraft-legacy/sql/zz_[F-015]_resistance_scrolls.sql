@@ -1144,7 +1144,7 @@ INSERT INTO `item_template` SET
 -- =====================================================
 -- Prevents multiple resistance scrolls from stacking
 -- Only ONE resistance scroll can be active at a time
--- (Similar to food buffs - stack_rule 8)
+-- (stack_rule 4 = EXCLUSIVE_HIGHEST)
 -- =====================================================
 
 -- Define spell group 1119 for Resistance Scrolls
@@ -1152,8 +1152,8 @@ DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1119;
 
 INSERT INTO `spell_group_stack_rules` SET
     `group_id` = 1119,
-    `stack_rule` = 8,
-    `description` = 'Group of Resistance Scrolls - never stack';
+    `stack_rule` = 1,
+    `description` = 'Group of Resistance Scrolls - exclusive';
 
 
 

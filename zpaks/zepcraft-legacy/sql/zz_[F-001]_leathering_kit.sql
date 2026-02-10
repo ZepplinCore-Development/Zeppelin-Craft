@@ -124,16 +124,25 @@ SET `entry` = 57616,
     `spellcategorycooldown_1` = -1;
 
 -- =====================================================
--- ANTI-STACKING SPELL GROUP
--- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+-- Spell group + ranks: Leathering Kits (EXCLUSIVE + rank-aware patch)
+-- Uses group 1123 (not 1119 which is used by resistance scrolls)
 -- =====================================================
+DELETE FROM `spell_group` WHERE `id` = 1123;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1123;
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91182;
 
-INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91186; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91185; -- Master
-INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91184; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91183; -- Expert
-INSERT INTO `spell_group` SET `id` = 1119, `spell_id` = 91182; -- Journeyman
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91186; -- Grand Master
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91185; -- Master
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91184; -- Artisan
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91183; -- Expert
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91182; -- Journeyman
 
--- Stack rule: NEVER_STACK
-INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
-(1119, 8);
+INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
+(1123, 1, 'Leathering Kits - exclusive with rank priority');
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(91182, 91182, 1),
+(91182, 91183, 2),
+(91182, 91184, 3),
+(91182, 91185, 4),
+(91182, 91186, 5);

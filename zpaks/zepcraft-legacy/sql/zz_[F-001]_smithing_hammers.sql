@@ -178,9 +178,12 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 (59, 91131, 500, 164, 450, 0, 0, 0, 0);
 
 -- =============================================================================
--- SPELL GROUP - Hammer exclusivity (only one hammer buff active at a time)
+-- SPELL GROUP - Hammer exclusivity (EXCLUSIVE + rank-aware patch)
 -- =============================================================================
 DELETE FROM `spell_group` WHERE `id` = 1114;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91120;
+
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1114, 91130), -- Titanium
 (1114, 91128), -- Felsteel
@@ -189,6 +192,13 @@ INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
 (1114, 91122), -- Iron
 (1114, 91120); -- Bronze
 
-DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1114, 8, 'Smithing Hammers - exclusive buff group');
+(1114, 1, 'Smithing Hammers - exclusive with rank priority');
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(91120, 91120, 1),
+(91120, 91122, 2),
+(91120, 91124, 3),
+(91120, 91126, 4),
+(91120, 91128, 5),
+(91120, 91130, 6);

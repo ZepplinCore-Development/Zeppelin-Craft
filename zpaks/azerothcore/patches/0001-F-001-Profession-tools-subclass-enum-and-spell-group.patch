@@ -13,8 +13,8 @@ casting when a stronger spell from the same exclusive group is active.
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Entities/Item/ItemTemplate.h |  5 ++--
- src/server/game/Entities/Player/Player.cpp   | 24 +++++++++++++++++++-
- 2 files changed, 26 insertions(+), 3 deletions(-)
+ src/server/game/Entities/Player/Player.cpp   | 26 +++++++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Item/ItemTemplate.h b/src/server/game/Entities/Item/ItemTemplate.h
 index b41616c11..894db4924 100644
@@ -38,14 +38,15 @@ diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entiti
 index ff26ef061..5a07c43b3 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -7029,7 +7029,29 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
+@@ -7029,7 +7029,31 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
          if (apply)
          {
              if (!HasAura(spellId))
 -                CastSpell(this, spellId, true, item);
 +            {
-+                // Check if a spell from the same exclusive group is already active
-+                // This prevents weaker spells from replacing stronger ones in spell groups
++                // For EXCLUSIVE groups, skip cast if same-group spell is active
++                // UNLESS the new spell is a higher rank (spell_ranks table).
++                // This lets higher-tier profession tools replace lower-tier ones.
 +                SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
 +                bool skipCast = false;
 +                if (spellInfo)
@@ -54,10 +55,11 @@ index ff26ef061..5a07c43b3 100644
 +                    {
 +                        SpellInfo const* existingSpell = appliedAura.second->GetBase()->GetSpellInfo();
 +                        SpellGroupStackRule rule = sSpellMgr->CheckSpellGroupStackRules(spellInfo, existingSpell);
-+                        if (rule == SPELL_GROUP_STACK_RULE_EXCLUSIVE_HIGHEST ||
-+                            rule == SPELL_GROUP_STACK_RULE_EXCLUSIVE)
++                        if (rule == SPELL_GROUP_STACK_RULE_EXCLUSIVE)
 +                        {
-+                            // A spell from the same exclusive group is active - skip to preserve it
++                            // Allow higher rank to replace lower rank
++                            if (spellInfo->IsHighRankOf(existingSpell))
++                                continue;
 +                            skipCast = true;
 +                            break;
 +                        }

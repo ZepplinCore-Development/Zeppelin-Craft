@@ -102,16 +102,20 @@ SET `entry` = 57407,
     `spellcategorycooldown_1` = -1;
 
 -- =====================================================
--- ANTI-STACKING SPELL GROUP
--- Prevents multiple scissor tiers from being active simultaneously
--- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+-- Spell group + ranks: Tailoring Scissors (EXCLUSIVE + rank-aware patch)
 -- =====================================================
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91164;
 
 INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91167; -- Grand Master
 INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91166; -- Master
 INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91165; -- Artisan
 INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91164; -- Journeyman
 
--- Stack rule: NEVER_STACK
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
-(1118, 8);
+(1118, 1);
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(91164, 91164, 1),
+(91164, 91165, 2),
+(91164, 91166, 3),
+(91164, 91167, 4);

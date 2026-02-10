@@ -82,16 +82,21 @@
         `spelltrigger_1` = 5,
         `bonding` = 1; -- BOP
 
--- Place all the mining pick spell auras into the spell group table so they can be made exclusive
--- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
+-- Spell group + ranks: Mining Picks (EXCLUSIVE + rank-aware patch)
 DELETE FROM `spell_group` WHERE `id` = 1117;
+DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1117;
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91158;
 
 INSERT INTO `spell_group` SET `id` = 1117, `spell_id` = 91161; -- Grand Master
 INSERT INTO `spell_group` SET `id` = 1117, `spell_id` = 91160; -- Master
 INSERT INTO `spell_group` SET `id` = 1117, `spell_id` = 91159; -- Artisan
 INSERT INTO `spell_group` SET `id` = 1117, `spell_id` = 91158; -- Journeyman
 
--- Apply the exclusivity flag to the spell group for mining picks
-    DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1117;
-    INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
-        (1117,8,'Group of Mining Picks');
+INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
+    (1117, 1, 'Mining Picks - exclusive with rank priority');
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(91158, 91158, 1),
+(91158, 91159, 2),
+(91158, 91160, 3),
+(91158, 91161, 4);

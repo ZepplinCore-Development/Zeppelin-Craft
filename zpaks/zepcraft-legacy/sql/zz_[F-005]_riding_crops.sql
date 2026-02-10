@@ -302,28 +302,30 @@ INSERT INTO `creature_loot_template` SET
 
 
 -- =====================================================
--- SPELL GROUP RULES (Prevent Stacking)
+-- SPELL GROUP + RANKS (Prevent Stacking)
 -- =====================================================
--- Only the highest tier riding crop effect should apply
--- when multiple crops are in the player's inventory.
--- Uses stack_rule = 8 (NEVER_STACK) same as other profession tools.
+-- EXCLUSIVE (1) + spell_ranks: core patch allows higher rank to replace lower.
 -- =====================================================
 
--- Clear existing entries
 DELETE FROM `spell_group` WHERE `id` = 1121;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1121;
+DELETE FROM `spell_ranks` WHERE `first_spell_id` = 100010;
 
--- Add all 5 riding crop spells to group 1121
--- Priority now handled via spell_group_stack_rules (special_flag column removed from spell_group)
 INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100014; -- Master (+25%)
 INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100013; -- Artisan (+20%)
 INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100012; -- Expert (+15%)
 INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100011; -- Journeyman (+10%)
 INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100010; -- Apprentice (+5%)
 
--- Set stack rule to NEVER_STACK (8) - highest tier wins
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
-(1121, 8, 'Group of Riding Crops - never stack');
+(1121, 1, 'Riding Crops - exclusive with rank priority');
+
+INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
+(100010, 100010, 1),
+(100010, 100011, 2),
+(100010, 100012, 3),
+(100010, 100013, 4),
+(100010, 100014, 5);
 
 -- =====================================================
 -- NOTE: Crafting spells and passive aura spells are
