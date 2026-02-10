@@ -434,7 +434,7 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
             - item_name: Weapon name being removed
             - reason: Why it's being removed
     """
-    from .constants import RACE_NAMES, CLASS_NAMES
+    from .constants import RACE_NAMES, CLASS_NAMES, DUAL_WIELD_CLASSES
 
     click.echo("=" * 80)
     click.echo("SCANNING FOR DUPLICATE WEAPONS/AMMO")
@@ -500,14 +500,16 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
                 result = acore_cursor.fetchone()
                 if result and result[0] in WEAPON_SKILLS:
                     skill_id, skill_name = WEAPON_SKILLS[result[0]]
-                    type_key = f"weapon_{skill_id}"
+                    # For dual-wield classes, separate main-hand from off-hand
+                    is_offhand = (class_id in DUAL_WIELD_CLASSES and inv_type == 22)
+                    type_key = f"weapon_{skill_id}_oh" if is_offhand else f"weapon_{skill_id}"
                     if type_key not in weapon_slots_by_type:
                         weapon_slots_by_type[type_key] = {'name': skill_name, 'slots': []}
                     weapon_slots_by_type[type_key]['slots'].append(slot_idx)
 
                     # Track melee vs ranged
                     if skill_id in melee_skills:
-                        melee_weapon_slots.append((slot_idx, skill_id, skill_name))
+                        melee_weapon_slots.append((slot_idx, skill_id, skill_name, is_offhand))
                     elif skill_id in ranged_skills:
                         ranged_weapon_slots.append((slot_idx, skill_id, skill_name))
 
@@ -544,8 +546,14 @@ def find_duplicate_weapons(dbc_cursor, acore_cursor):
 
         # Detect multiple different melee weapons (e.g., axe + dagger)
         if len(melee_weapon_slots) > 1:
-            # Keep first melee weapon, remove the rest
-            for slot_idx, skill_id, skill_name in melee_weapon_slots[1:]:
+            if class_id in DUAL_WIELD_CLASSES:
+                # Allow one main-hand + one off-hand for dual-wield classes
+                mh_slots = [s for s in melee_weapon_slots if not s[3]]
+                oh_slots = [s for s in melee_weapon_slots if s[3]]
+                extra = mh_slots[1:] + oh_slots[1:]
+            else:
+                extra = melee_weapon_slots[1:]
+            for slot_idx, skill_id, skill_name, *_ in extra:
                 duplicate_cleanups.append({
                     'outfit_id': outfit_id,
                     'race': race_name,
@@ -605,7 +613,7 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
         - mismatches: List of weapons to replace/remove
         - weapon_additions: List of weapons/ammo to add
     """
-    from .constants import RACE_NAMES, CLASS_NAMES, STARTER_AMMO, SKILL_TO_INVTYPE
+    from .constants import RACE_NAMES, CLASS_NAMES, STARTER_AMMO, SKILL_TO_INVTYPE, DUAL_WIELD_CLASSES
 
     click.echo("=" * 80)
     click.echo("VALIDATING WEAPON COVERAGE")
@@ -670,9 +678,15 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
         for stock_weapon in stock_weapons:
             skill_id = stock_weapon['skill_id']
             if skill_id in available_skill_ids:
-                # This stock weapon's skill IS in CSV - prefer using it!
-                stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
-                canonical_slots[skill_id] = stock_weapon['slot']
+                # For dual-wield classes, track off-hand weapons separately
+                if class_id in DUAL_WIELD_CLASSES and stock_weapon['inv_type'] == 22:
+                    oh_key = (skill_id, 'oh')
+                    stock_weapon_map[oh_key] = (stock_weapon['slot'], stock_weapon['item_id'])
+                    canonical_slots[oh_key] = stock_weapon['slot']
+                else:
+                    # This stock weapon's skill IS in CSV - prefer using it!
+                    stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
+                    canonical_slots[skill_id] = stock_weapon['slot']
 
         # Fallback canonical slots for races without stock WOTLK data (Goblins, Worgen)
         if not canonical_slots:
@@ -765,8 +779,10 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
                 outfit_weapons[slot_idx] = (required_skill_id, item_id)
 
                 # SLOT POSITION CHECK: Is weapon in correct slot?
-                if required_skill_id in canonical_slots:
-                    correct_slot = canonical_slots[required_skill_id]
+                # For dual-wield classes, off-hand weapons use separate canonical slot
+                canon_key = (required_skill_id, 'oh') if (class_id in DUAL_WIELD_CLASSES and inv_type == 22) else required_skill_id
+                if canon_key in canonical_slots:
+                    correct_slot = canonical_slots[canon_key]
                     if slot_idx != correct_slot:
                         # Weapon is correct type but WRONG SLOT - needs to be moved
                         mismatches.append({

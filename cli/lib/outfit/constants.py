@@ -111,3 +111,34 @@ RANGED_SKILL_PRIORITY = [
     176,  # Thrown
     228,  # Wands
 ]
+
+# Classes that start with dual-wield (main-hand + off-hand at level 1)
+DUAL_WIELD_CLASSES = {4}  # Rogue
+
+GENDER_NAMES = {0: 'Male', 1: 'Female'}
+
+INVTYPE_NAMES = {
+    0: 'Non-equip',
+    1: 'Head',
+    2: 'Neck',
+    3: 'Shoulder',
+    4: 'Shirt',
+    5: 'Chest',
+    6: 'Waist',
+    7: 'Legs',
+    8: 'Feet',
+    9: 'Wrists',
+    10: 'Hands',
+    13: '1H',
+    14: 'Shield',
+    15: 'Ranged',
+    16: 'Cloak',
+    17: '2H',
+    18: 'Bag',
+    20: 'Robe',
+    21: 'Main Hand',
+    22: 'Off Hand',
+    24: 'Ammo',
+    25: 'Thrown',
+    26: 'Ranged Right',
+}

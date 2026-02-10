@@ -2,10 +2,8 @@
 Outfit management commands for Zeppelin-Craft CLI.
 
 Commands:
-    zep outfit fix                         Generate SQL fixes for weapon mismatches
-    zep outfit fix --validate-only         Check only, no file generation
-    zep outfit fix --compare-to-stock      Document CSV vs stock WOTLK differences
-    zep outfit fix --execute               Generate AND execute SQL fixes
+    zep outfit check                       Compare current DBC to stock WOTLK
+    zep outfit fix                         Reset to stock, apply weapon changes, execute
     zep outfit tier list                   Show available tier sets from config
     zep outfit tier apply <name>           Apply tier set displays to charstartoutfit
     zep outfit tier apply <name> --dry-run Preview SQL without executing
@@ -113,94 +111,89 @@ def _execute_dbc_sql(sql_content):
     return success, output
 
 
+def _fix_weapon_display_items(mismatches, weapon_additions, dbc_cursor, acore_cursor):
+    """
+    Update display_item for weapon slots changed by the weapon validator.
+
+    After weapon fixes change item_N, the display_item_N must also be updated
+    to match the new item's displayid from item_template.
+
+    Returns list of SQL statements for the idempotent zpak file.
+    """
+    # Collect all changed weapon (outfit_id, slot, item_id) tuples
+    changed = []
+    for m in mismatches:
+        if m.get('replacement_item') and m['replacement_item'] > 0:
+            if m.get('slot_mismatch'):
+                changed.append((m['outfit_id'], m['target_slot'], m['replacement_item']))
+            else:
+                changed.append((m['outfit_id'], m['slot'], m['replacement_item']))
+        # Also clear display for removed weapons
+        if m.get('action') == 'remove' or m.get('replacement_item', 0) == 0:
+            changed.append((m['outfit_id'], m['slot'], 0))
+
+    for a in weapon_additions:
+        item_id = a.get('add_item', 0)
+        if item_id > 0:
+            changed.append((a['outfit_id'], a['slot'], item_id))
+
+    if not changed:
+        return []
+
+    # Batch lookup displayids
+    item_ids = {item_id for _, _, item_id in changed if item_id > 0}
+    display_map = {}
+    if item_ids:
+        placeholders = ','.join(['%s'] * len(item_ids))
+        acore_cursor.execute(f"""
+            SELECT entry, displayid FROM item_template WHERE entry IN ({placeholders})
+        """, tuple(item_ids))
+        for entry, displayid in acore_cursor.fetchall():
+            display_map[entry] = displayid
+
+    # Generate and execute display updates
+    sql_stmts = []
+    for outfit_id, slot, item_id in changed:
+        if item_id <= 0:
+            display_id = -1
+        else:
+            display_id = display_map.get(item_id, -1)
+
+        stmt = f"UPDATE `charstartoutfit` SET `display_item_{slot}` = {display_id} WHERE `id` = {outfit_id};"
+        sql_stmts.append(stmt)
+        dbc_cursor.execute(stmt)
+
+    return sql_stmts
+
+
 # =============================================================================
 # outfit command group
 # =============================================================================
 
 @click.group()
 def outfit():
-    """Starting outfit management (weapons, tier displays)"""
+    """Starting outfit management (check, fix, tier displays)"""
     pass
 
 
 # =============================================================================
-# outfit fix command
+# outfit check command
 # =============================================================================
 
-@outfit.command('fix')
-@click.option('--validate-only', is_flag=True, help='Check only, no file generation')
-@click.option('--compare-to-stock', is_flag=True, help='Document CSV vs stock WOTLK differences')
-@click.option('--execute', is_flag=True, help='Generate AND execute SQL fixes')
-@click.option('--spreadsheet', type=click.Path(exists=True), default=None,
-              help='Path to Race and Class Masks.xlsx')
-def fix(validate_only, compare_to_stock, execute, spreadsheet):
-    """Validate and fix starting weapon assignments.
+@outfit.command('check')
+def check():
+    """Compare current DBC outfits to stock WOTLK.
 
-    Generates SQL files into the zepcraft-legacy zpak (F-022):
-      dbc/[F-022]_skillraceclassinfo.sql       DBC trainer skills
-      dbc/[F-022]_charstartoutfit.sql           DBC weapon/display fixes
-      sql/zz_[F-022]_starting_weapon_skills.sql World starting skills
+    Shows all item slot differences between the current dbc.charstartoutfit
+    and original_dbc.charstartoutfit (stock WOTLK baseline).
 
-    With --execute, also applies the generated SQL to the databases.
+    Generates a log file at cli/logs/stock_slot_comparison.log.
 
-    Examples:
-        zep outfit fix                      # Generate SQL into zpak
-        zep outfit fix --execute            # Generate AND apply
-        zep outfit fix --validate-only      # Check only, no files
-        zep outfit fix --compare-to-stock   # Document design vs stock WOTLK
+    Example:
+        zep outfit check
     """
-    from lib.outfit.spreadsheet_reader import read_weapon_skills_from_spreadsheet
-    from lib.outfit.sql_generators import (
-        generate_skillraceclassinfo_sql,
-        generate_starting_skills_sql,
-        generate_weapon_fixes_sql,
-        generate_display_info_fixes_sql
-    )
-    from lib.outfit.weapon_validator import (
-        validate_starter_weapons,
-        validate_weapon_coverage,
-        find_duplicate_weapons,
-        validate_display_info
-    )
-    from lib.outfit.invtype_fixer import find_invtype_fixes
+    from lib.outfit.stock_comparator import compare_to_stock, format_stock_comparison
 
-    spreadsheet_path = spreadsheet or _get_default_spreadsheet_path()
-
-    # Resolve output directories from zpak
-    zpak_sql_dir = str(ZPAK_DIR / 'sql')
-    zpak_dbc_dir = str(ZPAK_DIR / 'dbc')
-
-    if not ZPAK_DIR.exists():
-        raise click.ClickException(f"Zpak not found: {ZPAK_DIR}")
-
-    # Print mode banner
-    click.echo("=" * 80)
-    click.echo("STARTING WEAPONS VALIDATOR AND FIXER")
-    if compare_to_stock:
-        click.echo("MODE: Documentation (CSV vs Stock WOTLK)")
-    else:
-        click.echo("MODE: Fix Current Database")
-    if validate_only:
-        click.echo("OPTION: Validate Only (no file generation)")
-    if execute:
-        click.echo("OPTION: Execute (will apply SQL after generating)")
-    click.echo(f"ZPAK: {ZPAK_NAME}")
-    click.echo("=" * 80)
-    click.echo()
-
-    # Step 1: Read weapon skills from spreadsheet
-    weapon_skills = read_weapon_skills_from_spreadsheet(spreadsheet_path)
-    if not weapon_skills:
-        raise click.ClickException("Failed to read weapon skills from spreadsheet!")
-
-    # Step 2: Generate trainer/starting skills SQL (always generated unless validate-only)
-    skillraceclass_sql = None
-    starting_skills_sql = None
-    if not validate_only:
-        skillraceclass_sql = generate_skillraceclassinfo_sql(spreadsheet_path, zpak_dbc_dir)
-        starting_skills_sql = generate_starting_skills_sql(weapon_skills, zpak_sql_dir)
-
-    # Step 3: Connect to databases
     try:
         original_dbc_conn = _get_dbc_connection('original_dbc')
         dbc_conn = _get_dbc_connection('dbc')
@@ -213,25 +206,110 @@ def fix(validate_only, compare_to_stock, execute, spreadsheet):
     acore_cursor = acore_conn.cursor()
 
     try:
+        differences = compare_to_stock(dbc_cursor, original_dbc_cursor, acore_cursor)
+
+        if differences:
+            # Print detailed report
+            click.echo(format_stock_comparison(differences))
+
+            # Write log file
+            log_dir = str(_cli_dir / 'logs')
+            os.makedirs(log_dir, exist_ok=True)
+            log_path = os.path.join(log_dir, 'stock_slot_comparison.log')
+            with open(log_path, 'w') as f:
+                f.write(format_stock_comparison(differences))
+            click.echo(f"+ Log written to {log_path}")
+    finally:
+        original_dbc_conn.close()
+        dbc_conn.close()
+        acore_conn.close()
+
+
+# =============================================================================
+# outfit fix command
+# =============================================================================
+
+@outfit.command('fix')
+@click.option('--spreadsheet', type=click.Path(exists=True), default=None,
+              help='Path to Race and Class Masks.xlsx')
+def fix(spreadsheet):
+    """Reset outfits to stock WOTLK, then apply weapon changes from spreadsheet.
+
+    1. Resets all item + invtype slots to stock WOTLK values (preserves tier displays)
+    2. Validates weapons against the CSV spreadsheet
+    3. Applies weapon fixes to the live database
+    4. Saves idempotent SQL to the zepcraft-legacy zpak
+
+    Generated zpak files:
+      dbc/[F-022]_skillraceclassinfo.sql       DBC trainer skills
+      dbc/[F-022]_charstartoutfit.sql           DBC weapon/display fixes
+      sql/zz_[F-022]_starting_weapon_skills.sql World starting skills
+
+    Example:
+        zep outfit fix
+    """
+    from lib.outfit.spreadsheet_reader import read_weapon_skills_from_spreadsheet
+    from lib.outfit.sql_generators import (
+        generate_skillraceclassinfo_sql,
+        generate_starting_skills_sql,
+        generate_weapon_fixes_sql,
+    )
+    from lib.outfit.weapon_validator import (
+        validate_starter_weapons,
+        validate_weapon_coverage,
+        find_duplicate_weapons,
+    )
+    from lib.outfit.invtype_fixer import find_invtype_fixes
+    from lib.outfit.stock_comparator import reset_to_stock
+
+    spreadsheet_path = spreadsheet or _get_default_spreadsheet_path()
+
+    # Resolve output directories from zpak
+    zpak_sql_dir = str(ZPAK_DIR / 'sql')
+    zpak_dbc_dir = str(ZPAK_DIR / 'dbc')
+
+    if not ZPAK_DIR.exists():
+        raise click.ClickException(f"Zpak not found: {ZPAK_DIR}")
+
+    # Print mode banner
+    click.echo("=" * 80)
+    click.echo("OUTFIT FIX")
+    click.echo("Reset to stock WOTLK + apply weapon changes from spreadsheet")
+    click.echo(f"ZPAK: {ZPAK_NAME}")
+    click.echo("=" * 80)
+    click.echo()
+
+    # Step 1: Read weapon skills from spreadsheet
+    weapon_skills = read_weapon_skills_from_spreadsheet(spreadsheet_path)
+    if not weapon_skills:
+        raise click.ClickException("Failed to read weapon skills from spreadsheet!")
+
+    # Step 2: Connect to databases
+    try:
+        original_dbc_conn = _get_dbc_connection('original_dbc')
+        dbc_conn = _get_dbc_connection('dbc')
+        acore_conn = _get_acore_connection()
+    except pymysql.Error as e:
+        raise click.ClickException(f"Database connection error: {e}")
+
+    original_dbc_cursor = original_dbc_conn.cursor()
+    dbc_cursor = dbc_conn.cursor()
+    acore_cursor = acore_conn.cursor()
+
+    try:
+        # Step 3: Reset all item + invtype slots to stock WOTLK
+        reset_count = reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor)
+
         # Step 4: Validate starter weapon items
         validated_weapons = validate_starter_weapons(acore_cursor)
         if not validated_weapons:
             raise click.ClickException("No valid starter weapons found!")
 
-        # Step 5: Choose validation source
-        if compare_to_stock:
-            validation_cursor = original_dbc_cursor
-            click.echo("Using original_dbc (stock WOTLK) as validation source")
-            click.echo()
-        else:
-            validation_cursor = dbc_cursor
-            click.echo("Using dbc (current database) as validation source")
-            click.echo()
-
-        # Step 6: Validate weapon coverage (two-pass)
+        # Step 5: Validate weapon coverage against now-stock data
+        # Use dbc_cursor since it was just reset to stock
         mismatches, weapon_additions = validate_weapon_coverage(
             weapon_skills,
-            validation_cursor,
+            dbc_cursor,
             original_dbc_cursor,
             acore_cursor,
             validated_weapons,
@@ -240,100 +318,86 @@ def fix(validate_only, compare_to_stock, execute, spreadsheet):
             ranged_combos=OUTFIT_RANGED_COMBOS
         )
 
-        # Step 7: Find invType fixes (only for current DB mode)
-        invtype_fixes = []
-        if not compare_to_stock:
-            invtype_fixes = find_invtype_fixes(dbc_cursor, acore_cursor)
+        # Step 6: Find invType fixes and duplicates
+        invtype_fixes = find_invtype_fixes(dbc_cursor, acore_cursor)
+        duplicate_cleanups = find_duplicate_weapons(dbc_cursor, acore_cursor)
 
-        # Step 8: Find duplicate weapons (only for current DB mode)
-        duplicate_cleanups = []
-        if not compare_to_stock:
-            duplicate_cleanups = find_duplicate_weapons(dbc_cursor, acore_cursor)
-
-        # Step 8b: Validate displayInfo matches
-        display_mismatches = []
-        if not compare_to_stock:
-            display_mismatches = validate_display_info(dbc_cursor, acore_cursor)
-
-        # Step 9: Report summary
-        click.echo("=" * 80)
-        click.echo("VALIDATION SUMMARY")
-        click.echo("=" * 80)
-        click.echo(f"Weapon mismatches: {len(mismatches)}")
-        click.echo(f"Weapon additions needed: {len([a for a in weapon_additions if not a.get('is_ammo')])}")
-        click.echo(f"Ammo additions needed: {len([a for a in weapon_additions if a.get('is_ammo')])}")
-        if not compare_to_stock:
-            click.echo(f"invType fixes needed: {len(invtype_fixes)}")
-            click.echo(f"Duplicate cleanups needed: {len(duplicate_cleanups)}")
-            click.echo(f"displayInfo fixes needed: {len(display_mismatches)}")
-        click.echo()
-
-        # Step 10: Generate output or just validate
-        if validate_only:
-            if mismatches or weapon_additions or display_mismatches:
-                click.echo("=" * 80)
-                click.echo("ISSUES FOUND")
-                click.echo("=" * 80)
-                click.echo()
-                click.echo("Run without --validate-only to generate SQL fixes.")
-                click.echo()
-            else:
-                click.echo("+ NO ISSUES FOUND - Database matches CSV requirements!")
-                click.echo()
-            return
-
-        # Generate weapon fixes / log
-        output_mode = 'log' if compare_to_stock else 'sql'
-        log_dir = str(_cli_dir / 'logs') if compare_to_stock else None
+        # Step 7: Generate weapon fix SQL (writes to zpak file)
         charstartoutfit_sql = generate_weapon_fixes_sql(
             mismatches,
             weapon_additions,
             invtype_fixes,
             duplicate_cleanups,
             zpak_dbc_dir,
-            output_mode,
-            log_dir=log_dir
+            output_mode='sql'
         )
 
-        # Generate display fixes (appends to charstartoutfit file)
-        display_sql = ""
-        if not compare_to_stock and display_mismatches:
-            display_sql = generate_display_info_fixes_sql(display_mismatches, zpak_dbc_dir)
+        # Step 8: Execute weapon fixes to live DB
+        click.echo("=" * 80)
+        click.echo("EXECUTING")
+        click.echo("=" * 80)
+        click.echo()
 
-        # Step 11: Execute if requested
-        if execute and not compare_to_stock:
-            click.echo("=" * 80)
-            click.echo("EXECUTING SQL")
-            click.echo("=" * 80)
-            click.echo()
+        if charstartoutfit_sql and charstartoutfit_sql.strip():
+            click.echo("Applying weapon fixes to DBC...")
+            success, output = _execute_dbc_sql(charstartoutfit_sql)
+            if success:
+                click.echo(click.style("  Weapon fixes: OK", fg='green'))
+            else:
+                click.echo(click.style(f"  Weapon fixes: FAILED - {output}", fg='red'))
 
-            # Execute DBC SQL (skillraceclassinfo + charstartoutfit)
-            dbc_combined = ""
-            if skillraceclass_sql:
-                dbc_combined += skillraceclass_sql + "\n"
-            if charstartoutfit_sql:
-                dbc_combined += charstartoutfit_sql + "\n"
-            if display_sql:
-                dbc_combined += display_sql + "\n"
+        # Step 9: Fix display_item for changed weapon slots
+        display_stmts = _fix_weapon_display_items(
+            mismatches, weapon_additions, dbc_cursor, acore_cursor
+        )
+        if display_stmts:
+            dbc_conn.commit()
+            # Append display fixes to zpak SQL file
+            zpak_path = os.path.join(zpak_dbc_dir, '[F-022]_charstartoutfit.sql')
+            with open(zpak_path, 'a') as f:
+                f.write('\n\n-- ' + '=' * 76 + '\n')
+                f.write('-- WEAPON DISPLAY FIXES\n')
+                f.write('-- ' + '=' * 76 + '\n')
+                f.write('-- Updates display_item_ for weapon slots changed above\n\n')
+                for stmt in display_stmts:
+                    f.write(stmt + '\n')
+            click.echo(f"  + {len(display_stmts)} weapon display fixes applied and saved")
 
-            if dbc_combined.strip():
-                click.echo("Applying DBC SQL (skillraceclassinfo + charstartoutfit)...")
-                success, output = _execute_dbc_sql(dbc_combined)
-                if success:
-                    click.echo(click.style("  DBC: OK", fg='green'))
-                else:
-                    click.echo(click.style(f"  DBC: FAILED - {output}", fg='red'))
+        # Step 10: Generate and execute trainer/starting skills SQL
+        skillraceclass_sql = generate_skillraceclassinfo_sql(spreadsheet_path, zpak_dbc_dir)
+        starting_skills_sql = generate_starting_skills_sql(weapon_skills, zpak_sql_dir)
 
-            # Execute World SQL (starting_weapon_skills)
-            if starting_skills_sql and starting_skills_sql.strip():
-                click.echo("Applying World SQL (starting_weapon_skills)...")
-                success, output = _execute_world_sql(starting_skills_sql)
-                if success:
-                    click.echo(click.style("  World: OK", fg='green'))
-                else:
-                    click.echo(click.style(f"  World: FAILED - {output}", fg='red'))
+        if skillraceclass_sql and skillraceclass_sql.strip():
+            click.echo("Applying skillraceclassinfo to DBC...")
+            success, output = _execute_dbc_sql(skillraceclass_sql)
+            if success:
+                click.echo(click.style("  Skill race class info: OK", fg='green'))
+            else:
+                click.echo(click.style(f"  Skill race class info: FAILED - {output}", fg='red'))
 
-            click.echo()
+        if starting_skills_sql and starting_skills_sql.strip():
+            click.echo("Applying starting weapon skills to World DB...")
+            success, output = _execute_world_sql(starting_skills_sql)
+            if success:
+                click.echo(click.style("  Starting weapon skills: OK", fg='green'))
+            else:
+                click.echo(click.style(f"  Starting weapon skills: FAILED - {output}", fg='red'))
+
+        # Step 11: Summary
+        click.echo()
+        click.echo("=" * 80)
+        click.echo("SUMMARY")
+        click.echo("=" * 80)
+        click.echo(f"Outfits reset to stock: {reset_count}")
+        click.echo(f"Weapon replacements: {len(mismatches)}")
+        click.echo(f"Weapon additions: {len([a for a in weapon_additions if not a.get('is_ammo')])}")
+        click.echo(f"Ammo additions: {len([a for a in weapon_additions if a.get('is_ammo')])}")
+        click.echo(f"invType fixes: {len(invtype_fixes)}")
+        click.echo(f"Duplicate cleanups: {len(duplicate_cleanups)}")
+        click.echo(f"Weapon display fixes: {len(display_stmts)}")
+        click.echo()
+        click.echo("Run 'zep outfit check' to verify results.")
+        click.echo()
 
     finally:
         original_dbc_conn.close()
