@@ -60,7 +60,7 @@ from lib.dbc_utils import (
     extract_table_from_filename,
 )
 from lib.registry import Registry
-from lib.manifest import load_manifest, is_feature_disabled
+from lib.manifest import load_manifest, is_feature_disabled, extract_feature_ids
 from lib.logging_config import get_logger, log_subprocess, log_sql, log_command
 
 from lib.env import DBCTOOL_PATH
@@ -126,7 +126,7 @@ def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry)
             if candidate.exists():
                 return candidate
 
-    # Scan zpaks for feature_id
+    # Scan zpaks - check manifest fields then scan DBC/SQL filenames
     for base in [craft_root / 'zpaks', craft_root / 'external']:
         if not base.exists():
             continue
@@ -140,11 +140,18 @@ def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry)
             manifest = load_manifest(manifest_path)
             if not manifest:
                 continue
-            # Check both feature_id (single) and feature_ids (array)
+
+            # Check manifest feature_id field
             ids = set()
             if manifest.get('feature_id'):
                 ids.add(manifest['feature_id'])
-            ids.update(manifest.get('feature_ids', []))
+
+            # Scan DBC filenames for feature IDs
+            dbc_dir = pkg_dir / 'dbc'
+            if dbc_dir.exists():
+                for f in dbc_dir.glob('*.sql'):
+                    ids.update(extract_feature_ids(f.name))
+
             if feature_id in ids:
                 # Auto-register for future lookups
                 registry.register_feature(feature_id, pkg_dir.name)

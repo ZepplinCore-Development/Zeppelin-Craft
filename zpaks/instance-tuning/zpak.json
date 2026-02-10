@@ -21,7 +21,6 @@
   },
 
   "dependencies": [],
-  "feature_ids": ["F-034", "F-035"],
   "enabled": true,
   "priority": 100
 }

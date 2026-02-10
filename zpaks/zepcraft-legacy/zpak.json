@@ -13,7 +13,6 @@
     "requires": []
   },
   "feature_id": "F-044",
-  "feature_ids": ["F-022", "F-044", "F-150"],
   "build": {
     "preprocessors": ["dbc-export", "dbc-reorder"]
   },
