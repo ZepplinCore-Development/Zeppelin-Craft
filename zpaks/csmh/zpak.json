@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "csmh",
+  "version": "2.0.0",
+  "description": "Client & Server Message Handler framework for client-server addon communication",
+  "author": "Foereaper, Stoneharry, Terrorblade",
+  "type": "acore-extension",
+  "client_patch": "PATCH-A",
+  "mpq_source": "../../../Zeppelin-Core/modules/CSMH/Client",
+  "mpq_layout": "Interface/AddOns/CMH",
+  "acore": {
+    "module": "CSMH",
+    "source": "https://github.com/Foereaper/CSMH.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "contents": {},
+  "enabled": true,
+  "priority": 90
+}
