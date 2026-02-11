@@ -65,6 +65,11 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- She is in Zangarmarsh (map 530) but was grouped with old world trainers
 UPDATE `creature_default_trainer` SET `TrainerId` = 99 WHERE `CreatureId` = 18018;
 
+-- Move capital city fishing trainers from Journeyman (647) to Artisan (98)
+-- These are the only fishing trainers in their cities
+-- Arnold Leland (5493) in Stormwind, Lumak (3332) in Orgrimmar, Kah Mistrunner (3028) in Thunder Bluff
+UPDATE `creature_default_trainer` SET `TrainerId` = 98 WHERE `CreatureId` IN (5493, 3332, 3028);
+
 
 -- ============================================================================
 -- COOKING
@@ -110,6 +115,11 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- Move Outland cooking trainers from Old World trainer 77 to Outland trainer 76
 -- Jack Trapper (19185) and Celie Steelwing (19369) are in Outland (map 530)
 UPDATE `creature_default_trainer` SET `TrainerId` = 76 WHERE `CreatureId` IN (19185, 19369);
+
+-- Move capital city cooking trainers from Journeyman (644) to Artisan (77)
+-- These are the only real cooking trainers in their cities (the 347xx NPCs are Pilgrim's Bounty holiday)
+-- Stephen Ryback (5482) in Stormwind, Zamja (3399) in Orgrimmar, Aska Mistrunner (3026) in Thunder Bluff
+UPDATE `creature_default_trainer` SET `TrainerId` = 77 WHERE `CreatureId` IN (5482, 3399, 3026);
 
 
 -- ============================================================================
