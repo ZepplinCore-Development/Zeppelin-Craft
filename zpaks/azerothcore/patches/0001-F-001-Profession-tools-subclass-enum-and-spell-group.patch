@@ -1,4 +1,4 @@
-From b83ef37d7969970acc64d70ebe5354b13380448f Mon Sep 17 00:00:00 2001
+From a9a0bd3585be36e7ae76baf57198cd078a36c339 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 10:47:20 +0000
 Subject: [PATCH] F-001: Profession tools - subclass enum and spell group fix
@@ -13,7 +13,7 @@ casting when a stronger spell from the same exclusive group is active.
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Entities/Item/ItemTemplate.h |  5 ++--
- src/server/game/Entities/Player/Player.cpp   | 26 +++++++++++++++++++++++-
+ src/server/game/Entities/Player/Player.cpp   | 26 +++++++++++++++++++-
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Item/ItemTemplate.h b/src/server/game/Entities/Item/ItemTemplate.h
@@ -35,7 +35,7 @@ index b41616c11..894db4924 100644
  enum ItemSubclassProjectile
  {
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index ff26ef061..5a07c43b3 100644
+index ff26ef061..b67d88ffa 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -7029,7 +7029,31 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)

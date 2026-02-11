@@ -1,4 +1,4 @@
-From 1fa042330b71311c6b0965f170356ec1b0f70423 Mon Sep 17 00:00:00 2001
+From 557b2acb79d764bd5847c969f832dd7a26396cab Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:04:14 +0000
 Subject: [PATCH] F-027: Remove Alchemist Stone hardcoded proc handlers
@@ -15,7 +15,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  2 files changed, 5 insertions(+), 59 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 3d80f3538..7ff3cd3f9 100644
+index 26a1702a3..ef9798d2c 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
 @@ -8887,34 +8887,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
