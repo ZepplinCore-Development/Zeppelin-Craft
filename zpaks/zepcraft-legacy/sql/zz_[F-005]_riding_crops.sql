@@ -136,6 +136,7 @@ INSERT INTO `item_template` SET
     `RequiredSkill` = 165,
     `RequiredSkillRank` = 150,
     `spellid_1` = 483,
+    `spellcharges_1` = -1,
     `spellid_2` = 100020,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Apprentice Riding Crop.',
@@ -161,6 +162,7 @@ INSERT INTO `item_template` SET
     `RequiredSkill` = 165,
     `RequiredSkillRank` = 225,
     `spellid_1` = 483,
+    `spellcharges_1` = -1,
     `spellid_2` = 100021,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Journeyman Riding Crop.',
@@ -186,6 +188,7 @@ INSERT INTO `item_template` SET
     `RequiredSkill` = 165,
     `RequiredSkillRank` = 300,
     `spellid_1` = 483,
+    `spellcharges_1` = -1,
     `spellid_2` = 100022,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Expert Riding Crop.',
@@ -211,6 +214,7 @@ INSERT INTO `item_template` SET
     `RequiredSkill` = 165,
     `RequiredSkillRank` = 375,
     `spellid_1` = 483,
+    `spellcharges_1` = -1,
     `spellid_2` = 100023,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Artisan Riding Crop.',
@@ -236,6 +240,7 @@ INSERT INTO `item_template` SET
     `RequiredSkill` = 165,
     `RequiredSkillRank` = 450,
     `spellid_1` = 483,
+    `spellcharges_1` = -1,
     `spellid_2` = 100024,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Master Riding Crop.',
@@ -248,17 +253,40 @@ INSERT INTO `item_template` SET
 -- RECIPE DISTRIBUTION
 -- =====================================================
 
--- Tier 1-2: Sold by Leatherworking Vendors
--- Deneb Walker (2805) - Stormwind Leatherworking Supplies
-DELETE FROM `npc_vendor` WHERE `entry` = 2805 AND `item` IN (100015, 100016);
+-- Tier 1-2: Sold by Leatherworking Supply Vendors (all capitals)
+DELETE FROM `npc_vendor` WHERE `item` IN (100015, 100016);
 
-INSERT INTO `npc_vendor` SET
-    `entry` = 2805,
-    `item` = 100015;
-
-INSERT INTO `npc_vendor` SET
-    `entry` = 2805,
-    `item` = 100016;
+INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`) VALUES
+-- Stormwind - Jillian Tanner (5565)
+(5565, 0, 100015, 0, 0, 0),
+(5565, 0, 100016, 0, 0, 0),
+-- Ironforge - Bombus Finespindle (5128)
+(5128, 0, 100015, 0, 0, 0),
+(5128, 0, 100016, 0, 0, 0),
+-- Darnassus - Saenorion (4225)
+(4225, 0, 100015, 0, 0, 0),
+(4225, 0, 100016, 0, 0, 0),
+-- Exodar - Haferet (16748)
+(16748, 0, 100015, 0, 0, 0),
+(16748, 0, 100016, 0, 0, 0),
+-- Orgrimmar - Tamar (3366)
+(3366, 0, 100015, 0, 0, 0),
+(3366, 0, 100016, 0, 0, 0),
+-- Thunder Bluff - Mahu (3005)
+(3005, 0, 100015, 0, 0, 0),
+(3005, 0, 100016, 0, 0, 0),
+-- Undercity - Joseph Moore (4589)
+(4589, 0, 100015, 0, 0, 0),
+(4589, 0, 100016, 0, 0, 0),
+-- Silvermoon - Zaralda (16689)
+(16689, 0, 100015, 0, 0, 0),
+(16689, 0, 100016, 0, 0, 0),
+-- Shattrath - Cro Threadstrong (19196)
+(19196, 0, 100015, 0, 0, 0),
+(19196, 0, 100016, 0, 0, 0),
+-- Dalaran - Ranid Glowergold (28718)
+(28718, 0, 100015, 0, 0, 0),
+(28718, 0, 100016, 0, 0, 0);
 
 
 
