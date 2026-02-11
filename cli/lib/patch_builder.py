@@ -158,7 +158,7 @@ def _backup_existing_mpq(output_path: Path, nginx_path: Path) -> bool:
     backup_path = backup_dir / output_path.name
 
     try:
-        shutil.copy2(output_path, backup_path)
+        shutil.copyfile(output_path, backup_path)
         size_mb = output_path.stat().st_size / (1024 * 1024)
         print(f"Backed up {output_path.name} ({size_mb:.0f} MB)")
         logger.info(f"Backed up {output_path} -> {backup_path}")
@@ -309,7 +309,7 @@ def _preprocess_dbc_export(zpak: Dict[str, Any]) -> bool:
 
     count = 0
     for dbc_file in DBC_EXPORT_DIR.glob('*.dbc'):
-        shutil.copy2(dbc_file, dbc_dest / dbc_file.name)
+        shutil.copyfile(dbc_file, dbc_dest / dbc_file.name)
         count += 1
 
     # Also copy to server data/dbc/ so worldserver picks them up
@@ -729,7 +729,7 @@ def _copy_dbc_to_server(export_dir: Path, server_dir: Path) -> int:
     server_dir.mkdir(parents=True, exist_ok=True)
     count = 0
     for dbc_file in export_dir.glob('*.dbc'):
-        shutil.copy2(dbc_file, server_dir / dbc_file.name)
+        shutil.copyfile(dbc_file, server_dir / dbc_file.name)
         count += 1
     logger.info(f"Copied {count} DBC files to {server_dir}")
     return count

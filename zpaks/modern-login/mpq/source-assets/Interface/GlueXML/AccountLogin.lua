@@ -122,8 +122,9 @@ end
 
 function AccountLogin_OnEvent(event, arg1, arg2, arg3)
 	if ( event == "SHOW_SERVER_ALERT" ) then
-		ServerAlertText:SetText(arg1);
-		ServerAlertFrame:Show();
+		-- Disabled: exe nameplate patch injects unwanted breaking news
+		-- ServerAlertText:SetText(arg1);
+		-- ServerAlertFrame:Show();
 	elseif ( event == "SHOW_SURVEY_NOTIFICATION" ) then
 		AccountLogin_ShowSurveyNotification();
 	elseif ( event == "CLIENT_ACCOUNT_MISMATCH" ) then

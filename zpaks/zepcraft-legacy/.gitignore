@@ -19,3 +19,5 @@
 *.zmp
 *.tex
 *.trs
+*.dbc
+*.DBC
