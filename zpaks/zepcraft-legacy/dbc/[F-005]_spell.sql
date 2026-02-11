@@ -153,11 +153,27 @@ UPDATE `spell` SET `cast_time_index` = 5 WHERE `id` = 2645;
 -- 8. GHOST WOLF (2645) - Family 14, mask to bit 30
 --    [BASE,F-044] set family 14 / mask 2147483648 (mount flag)
 --    Separate flag avoids crop SPELLMOD_EFFECT3 hitting health regen
+--    Variable 185 shows speed with crop + Ghost Wolf Speed set bonuses
 -- ============================================================================
 UPDATE `spell` SET
     `spell_class_set` = 14,
-    `spell_class_mask_1` = 1073741824
+    `spell_class_mask_1` = 1073741824,
+    `spell_desc_variable_id` = 185,
+    `spell_desc_enus` = 'Turns the Shaman into a Ghost Wolf, increasing speed by $<wolfspeed>%$?s59289[ and regenerating $59289s1% of your maximum health every 5 sec][]. As a Ghost Wolf, the Shaman is less hindered by effects that would reduce movement speed. Only useable outdoors.',
+    `spell_tooltip_enus` = 'Increases movement speed by $<wolfspeed>%$?s59289[ and regenerates $59289s1% of your maximum health every 5 sec][].Effects that reduce movement speed may not bring you below your normal movement speed.'
 WHERE `id` = 2645;
+
+-- ============================================================================
+-- 8b. TRAVEL FORM (783) - Tooltip crop bonus + broken $5419s1 fix
+--     Section 9 swapped speed from effect 1 -> 2 on passive 5419, breaking
+--     the $5419s1 reference. Use variable 182 with $<travelspeed> which
+--     references $5419m2 (cross-spell) + crop bonus.
+-- ============================================================================
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 182,
+    `spell_desc_enus` = 'Shapeshift into travel form, increasing movement speed by $<travelspeed2>%.  Also protects the caster from Polymorph effects.  Only useable outdoors.The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.',
+    `spell_tooltip_enus` = 'Immune to Polymorph effects.  Movement speed increased by $<travelspeed>%.'
+WHERE `id` = 783;
 
 -- ============================================================================
 -- 9. TRAVEL FORM PASSIVE (5419) - Family 14, mask to bit 28
@@ -224,6 +240,13 @@ UPDATE `spell` SET
     `spell_class_mask_1` = 268435456
 WHERE `id` = 33948;
 
+-- Flight Form (33943) - Tooltip crop bonus via $<flightspeed>
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 182,
+    `spell_desc_enus` = 'Shapeshift into flight form, increasing movement speed by $<flightspeed>% and allowing you to fly.  Cannot use in combat.  Can only use this form in Outland or Northrend.The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.',
+    `spell_tooltip_enus` = 'Immune to Polymorph effects.Movement speed increased by $<flightspeed>% and allows you to fly.'
+WHERE `id` = 33943;
+
 -- ============================================================================
 -- 12. SWIFT FLIGHT FORM PASSIVE (40121) - Family 14, mask to bit 28
 --     Speed already in effect 2 (aura 206 = MOD_FLIGHT_SPEED), no swap needed
@@ -234,6 +257,13 @@ UPDATE `spell` SET
     `spell_class_mask_1` = 268435456,
     `spell_class_mask_3` = 0
 WHERE `id` = 40121;
+
+-- Swift Flight Form (40120) - Tooltip crop bonus via $<swiftflightspeed>
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 182,
+    `spell_desc_enus` = 'Shapeshift into swift flight form, increasing movement speed by $<swiftflightspeed>% and allowing you to fly.  Cannot use in combat.  Can only use this form in Outland or Northrend.The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.',
+    `spell_tooltip_enus` = 'Immune to Polymorph effects.Movement speed increased by $<swiftflightspeed>% and allows you to fly.'
+WHERE `id` = 40120;
 
 -- ============================================================================
 -- 13. GHOST WOLF MODIFIERS - Move to family 14, own mask = bit 29
