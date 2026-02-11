@@ -1,4 +1,4 @@
-From 86017ff3c9a0af632f89cb3e947f3361ab7d5d63 Mon Sep 17 00:00:00 2001
+From dfae8c583c998ed69372d968bb7377a669ed7280 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:50 +0000
 Subject: [PATCH] F-024: Move class_trainers.sql to optional
