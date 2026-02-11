@@ -1,0 +1,100 @@
+From 7911ee4cc3aa3809db4e2bd6e2164e626f7b9f38 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 10 Feb 2026 16:42:57 +0000
+Subject: [PATCH] fix: Apply mod-solo-lfg core patch for LFGMgr solo mode
+ (I-089)
+
+Port the module's lfg-solo.patch to current core line positions:
+- Add m_isSoloLFG member and IsSoloLFG()/ToggleSoloLFG() to LFGMgr
+- Bypass proposal answer and player count checks in solo mode
+- Fixes build error: no member named 'IsSoloLFG' in 'lfg::LFGMgr'
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/DungeonFinding/LFGMgr.cpp   | 9 +++++++--
+ src/server/game/DungeonFinding/LFGMgr.h     | 7 +++++++
+ src/server/game/DungeonFinding/LFGQueue.cpp | 4 ++--
+ 3 files changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/src/server/game/DungeonFinding/LFGMgr.cpp b/src/server/game/DungeonFinding/LFGMgr.cpp
+index fe44c400d..6d8b3b4ee 100644
+--- a/src/server/game/DungeonFinding/LFGMgr.cpp
++++ b/src/server/game/DungeonFinding/LFGMgr.cpp
+@@ -42,7 +42,7 @@
+ 
+ namespace lfg
+ {
+-    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_Testing(false)
++    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_Testing(false), m_isSoloLFG(false)
+     {
+         for (uint8 team = 0; team < 2; ++team)
+         {
+@@ -1844,7 +1844,7 @@ namespace lfg
+             if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+                 allAnswered = false;
+ 
+-        if (!m_Testing && !allAnswered)
++        if (!m_Testing && !sLFGMgr->IsSoloLFG() && !allAnswered)
+         {
+             for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+                 SendLfgUpdateProposal(it->first, proposal);
+@@ -2859,4 +2859,9 @@ namespace lfg
+ 
+         return GroupsStore[gguid].IsRandomQueuedPlayer(guid);
+     }
++    void LFGMgr::ToggleSoloLFG()
++    {
++        m_isSoloLFG = !m_isSoloLFG;
++    }
++
+ } // namespace lfg
+diff --git a/src/server/game/DungeonFinding/LFGMgr.h b/src/server/game/DungeonFinding/LFGMgr.h
+index 644504567..e646cf3a3 100644
+--- a/src/server/game/DungeonFinding/LFGMgr.h
++++ b/src/server/game/DungeonFinding/LFGMgr.h
+@@ -561,6 +561,11 @@ namespace lfg
+         void RBPacketBuildDifference(WorldPacket& differencePacket, uint32 dungeonId, uint32 deletedCounter, ByteBuffer& buffer_deleted, uint32 groupCounter, ByteBuffer& buffer_groups, uint32 playerCounter, ByteBuffer& buffer_players);
+         void RBPacketBuildFull(WorldPacket& fullPacket, uint32 dungeonId, RBInternalInfoMap& infoMap);
+ 
++        /// Toggle LFG in debug mode
++        void ToggleSoloLFG();
++        /// Check if debug mode
++        bool IsSoloLFG() const { return m_isSoloLFG; }
++
+         // LfgQueue
+         /// Get last lfg state (NONE, DUNGEON or FINISHED_DUNGEON)
+         LfgState GetOldState(ObjectGuid guid);
+@@ -624,6 +629,8 @@ namespace lfg
+         uint32 m_raidBrowserUpdateTimer[2];                ///< pussywizard
+         uint32 m_raidBrowserLastUpdatedDungeonId[2];       ///< pussywizard: for 2 factions
+ 
++        bool m_isSoloLFG;                                  ///< solo lfg
++
+         LfgQueueContainer QueuesStore;                     ///< Queues
+         LfgCachedDungeonContainer CachedDungeonMapStore;   ///< Stores all dungeons by groupType
+         // Reward System
+diff --git a/src/server/game/DungeonFinding/LFGQueue.cpp b/src/server/game/DungeonFinding/LFGQueue.cpp
+index aae5df67a..91749d42f 100644
+--- a/src/server/game/DungeonFinding/LFGQueue.cpp
++++ b/src/server/game/DungeonFinding/LFGQueue.cpp
+@@ -293,7 +293,7 @@ namespace lfg
+             return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+ 
+         // Group with less that MAXGROUPSIZE members always compatible
+-        if (!sLFGMgr->IsTesting() && check.size() == 1 && numPlayers < MAXGROUPSIZE)
++        if (!sLFGMgr->IsTesting() && !sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo lfg
+         {
+             LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+             LfgRolesMap roles = itQueue->second.roles;
+@@ -390,7 +390,7 @@ namespace lfg
+         }
+ 
+         // Enough players?
+-        if (!sLFGMgr->IsTesting() && numPlayers != MAXGROUPSIZE)
++        if (!sLFGMgr->IsTesting() && !sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo lfg
+         {
+             strGuids.addRoles(proposalRoles);
+             for (uint8 i = 0; i < 5 && check.guids[i]; ++i)
+-- 
+2.34.1
+

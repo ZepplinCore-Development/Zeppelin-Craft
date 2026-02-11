@@ -1,0 +1,79 @@
+From a445a02d811a099730fe6b67d4fb2a02fb18b18f Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Tue, 10 Feb 2026 16:40:23 +0000
+Subject: [PATCH] fix: Remove hardcoded SPELL_SPECIFIC_SCROLL exclusivity
+ (F-015)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Scroll stacking was broken because all 6 vanilla scroll types were
+classified as SPELL_SPECIFIC_SCROLL in GetSpellSpecific(), making them
+mutually exclusive at the C++ level before spell_group checks ran.
+
+This prevented the two-stream scroll system (warding vs empowering)
+from working — Scroll of Protection replaced Scroll of Stamina despite
+being in separate spell groups (1119 and 1120).
+
+Commented out the hardcoded classification so scroll exclusivity is
+now controlled entirely by the spell_group system.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Spells/SpellInfo.cpp | 33 ++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
+
+diff --git a/src/server/game/Spells/SpellInfo.cpp b/src/server/game/Spells/SpellInfo.cpp
+index d982eb168..39be51dea 100644
+--- a/src/server/game/Spells/SpellInfo.cpp
++++ b/src/server/game/Spells/SpellInfo.cpp
+@@ -1393,7 +1393,7 @@ bool SpellInfo::IsAuraExclusiveBySpecificWith(SpellInfo const* spellInfo) const
+         case SPELL_SPECIFIC_MAGE_POLYMORPH:
+         case SPELL_SPECIFIC_PRESENCE:
+         case SPELL_SPECIFIC_CHARM:
+-        case SPELL_SPECIFIC_SCROLL:
++        // case SPELL_SPECIFIC_SCROLL: // Zeppelin: handled by spell_group instead
+         case SPELL_SPECIFIC_MAGE_ARCANE_BRILLANCE:
+         case SPELL_SPECIFIC_PRIEST_DIVINE_SPIRIT:
+             return spellSpec1 == spellSpec2;
+@@ -2070,21 +2070,22 @@ SpellSpecificType SpellInfo::LoadSpellSpecific() const
+                     else if (drink)
+                         return SPELL_SPECIFIC_DRINK;
+                 }
+-                // scrolls effects
+-                else
+-                {
+-                    SpellInfo const* firstRankSpellInfo = GetFirstRankSpell();
+-                    switch (firstRankSpellInfo->Id)
+-                    {
+-                        case 8118: // Strength
+-                        case 8099: // Stamina
+-                        case 8112: // Spirit
+-                        case 8096: // Intellect
+-                        case 8115: // Agility
+-                        case 8091: // Armor
+-                            return SPELL_SPECIFIC_SCROLL;
+-                    }
+-                }
++                // Zeppelin: scroll exclusivity handled by spell_group (groups 1119/1120)
++                // instead of hardcoded SPELL_SPECIFIC_SCROLL classification
++                // else
++                // {
++                //     SpellInfo const* firstRankSpellInfo = GetFirstRankSpell();
++                //     switch (firstRankSpellInfo->Id)
++                //     {
++                //         case 8118: // Strength
++                //         case 8099: // Stamina
++                //         case 8112: // Spirit
++                //         case 8096: // Intellect
++                //         case 8115: // Agility
++                //         case 8091: // Armor
++                //             return SPELL_SPECIFIC_SCROLL;
++                //     }
++                // }
+                 break;
+             }
+         case SPELLFAMILY_MAGE:
+-- 
+2.34.1
+
