@@ -1,0 +1,55 @@
+------------------------------------
+"Cohesive Druid Forms" by Leeviathan
+-----------for WoW 3.3.5a-----------
+This patch replaces the original WoW Druid Forms with more visually cohesive ones. This is not strictly a downport from later expansions, I've modified many of the models and textures.
+
+-------------
+Installation;
+-------------
+Copy patch-L.MPQ to your "Data" Folder. 
+	Note: Uses modified localized DBC files to make Travel Form make a stag noise rather than a cat noise. If you have issues with spell names disappearing in your non-English client use NON-ENGLISH_patch-L.MPQ instead (rename to "patch-L.MPQ").
+
+OPTIONAL, PICK ONE: 
+	-NIGHTELF_patch-M.MPQ This patch makes Travel Form, Aquatic Form, and Tree of Life Form look more NightElf-y (rename to "patch-M.MPQ")
+	-TAUREN_patch-M.MPQ This patch makes Travel Form, Aquatic Form, and Tree of Life Form look more Tauren-y (rename to "patch-M.MPQ")
+
+OPTIONAL, PICK ONE: 
+	-BrokenNPC_patch-N.MPQ makes this mod compatible with my "WoD Character Models" optional "Broken" NPC-only mod, which updates Broken NPCs to high-poly custom male and female broken models (rename to "patch-N.MPQ")
+	-BrokenPlayer_patch-N.MPQ makes this mod compatible with my "WoD Character Models" optional "Broken" Draenei-to-Broken mod, which updates Broken NPCs and Draenei players to high-poly custom male and female broken models (rename to "patch-N.MPQ")
+
+
+---------------------------
+DBFilesClient changes list:
+---------------------------
+//If you're combining this patch with another patch, use this information to find out what dbc files may need to be modified to be compatible
+//Note: When I edit DBC files my first column is "1", your first column may be "0"
+
+CreatureDisplayInfo.dbc
+	ID 918 corresponds to Travel Form
+	Column 2 references ModelData ID, changed from 82 to 453
+	
+	ID 864 corresponds to Tree of Life Form
+	Column 2 references ModelData ID, changed from 141 to 3441 (custom entry)
+	Column 7 references texture, changed from EntSkinBrown to EntSkinDruid
+
+CreatureModelData.dbc
+	ID 1231 is the Night Elf Druid Cat Form, which I have replaced with "Creature\DRUIDCAT2\DruidCat2.mdx" in column 3 (this is to prevent red lynxes from becoming screwed up)
+	
+	ID 3441 is copied from ID 141 (Ent.M2), which I have replaced with "Creature\DruidTreeForm\DruidTreeForm.mdx" in column 3
+
+	ID 3442 is copied from ID 2368
+	Column 3 change to "Creature\DruidStag\DruidStag.mdx"
+	Column 7 is footprints (changed from -1 to 3), next two columns change from 0 to 0x41900000 and 0x41400000
+	Column 14 references CreatureSoundData.dbc ID (changed to 184)
+
+// The following edits aren't in the NON-ENGLISH version of the patch:
+// Spell.dbc, SpellVisual.dbc, SpellVisualKit.dbc - These are all altered so that the occasional emote noise that happens when shapeshifting to Travel form is correct
+Spell.dbc: 
+	ID 783 is Travel Form
+	Column 132 References SpellVisual ID, (changed from 4228 to (custom) 16680)
+SpellVisual.dbc:
+	ID (custom) 16680 is a copy of ID 4228
+	Column 4 Reference to SpellVisualKit.dbc (3610 to (custom) 15543)
+SpellVisualKit.dbc:
+	ID (custom) 15543 is copy of ID 3610
+	Column 16 references SoundEntry ID (4121 to 2651)

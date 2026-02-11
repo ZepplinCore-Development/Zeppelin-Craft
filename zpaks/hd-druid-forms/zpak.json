@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "hd-druid-forms",
+  "version": "1.0.0",
+  "description": "Leeviathan's Cohesive Druid Forms - HD druid form model replacements for WoW 3.3.5a",
+  "author": "Leeviathan",
+  "type": "mpq",
+  "client_patch": "PATCH-D",
+  "build": {
+    "preprocessor": "resource-parser",
+    "preprocessor_optional": true,
+    "preprocessor_warning": "Resource Parser scans models for texture dependencies."
+  },
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": false,
+    "auto_update": false,
+    "requires": []
+  },
+  "feature_id": "F-152",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "enabled": true,
+  "priority": 100
+}
