@@ -54,19 +54,29 @@ INSERT INTO `quest_request_items` SET
     `ID` = @QUESTID,
     `CompletionText` = 'Have you retrieved any Raptor Flanks? The people of Stromgarde are hungry.';
 
--- QUEST POI POINTS
-DELETE FROM `quest_poi_points` WHERE `QuestID` = @QUESTID;
-INSERT INTO `quest_poi_points` SET
-    `QuestID` = @QUESTID,
-    `X` = -1331,
-    `Y` = -2266;
-
 -- QUEST POI
 DELETE FROM `quest_poi` WHERE `QuestID` = @QUESTID;
-INSERT INTO `quest_poi` SET
-    `QuestID` = @QUESTID,
-    `WorldMapAreaId` = 45,
-    `Flags` = 1;
+-- Objective area (raptor hunting grounds)
+INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+VALUES (@QUESTID, 0, 4, 0, 16, 0, 0, 1, 0);
+-- Turn-in marker (Prince Galen at Stromgarde)
+INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+VALUES (@QUESTID, 1, -1, 0, 16, 0, 0, 1, 0);
+
+-- QUEST POI POINTS
+DELETE FROM `quest_poi_points` WHERE `QuestID` = @QUESTID;
+-- Raptor hunting grounds polygon
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(@QUESTID, 0, 0, -900, -1500, 0),
+(@QUESTID, 0, 1, -850, -2350, 0),
+(@QUESTID, 0, 2, -900, -3400, 0),
+(@QUESTID, 0, 3, -1500, -3530, 0),
+(@QUESTID, 0, 4, -2100, -2600, 0),
+(@QUESTID, 0, 5, -2050, -2100, 0),
+(@QUESTID, 0, 6, -1800, -1550, 0);
+-- Turn-in point (Prince Galen Trollbane)
+INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`) VALUES
+(@QUESTID, 1, 0, -1528, -1888, 0);
 
 -- Item Template
 DELETE FROM `item_template` WHERE `entry` = @ITEMID;
