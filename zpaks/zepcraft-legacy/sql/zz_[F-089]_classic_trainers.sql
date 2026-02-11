@@ -3,6 +3,7 @@
 -- ========================================
 -- Farii (19778) remains in Exodar (stock location).
 -- Faris (72) is a new NPC for Stormwind, based on Farii's template.
+-- Nessera (76) is a JC supply vendor for Stormwind, cloned from Inessera (19065).
 
 -- ========================================
 -- FARII - Exodar (stock spawn restore)
@@ -53,7 +54,66 @@ INSERT INTO `creature_default_trainer` (`CreatureId`, `TrainerId`) VALUES (72, 1
 -- Spawn Faris in Stormwind Dwarven District
 DELETE FROM `creature` WHERE `id1` = 72;
 INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
-(72, 0, -8714.31, 620.134, 100.927, 0.0639622, 300);
+(72, 0, -8714.3, 620.1, 100.9, 0.06, 300);
+
+-- ========================================
+-- NESSERA - Stormwind Jewelcrafting Supplies
+-- ========================================
+-- New NPC (entry 76) cloned from Inessera (19065, Exodar JC supplies vendor).
+-- Placed next to Faris (JC trainer) in the Dwarven District.
+
+DELETE FROM `creature_template` WHERE `entry` = 76;
+INSERT INTO `creature_template`
+SET `entry` = 76,
+    `name` = 'Nessera',
+    `subname` = 'Jewelcrafting Supplies',
+    `gossip_menu_id` = 0,
+    `minlevel` = 30,
+    `maxlevel` = 30,
+    `faction` = 11, -- Stormwind
+    `npcflag` = 128, -- Vendor
+    `speed_walk` = 1,
+    `speed_run` = 1.14286,
+    `BaseAttackTime` = 2000,
+    `RangeAttackTime` = 2000,
+    `unit_class` = 1,
+    `unit_flags` = 512,
+    `unit_flags2` = 2048,
+    `type` = 7, -- Humanoid
+    `HoverHeight` = 1,
+    `HealthModifier` = 1,
+    `ManaModifier` = 1,
+    `DamageModifier` = 1,
+    `flags_extra` = 2; -- Civilian/No aggro
+
+-- Use Inessera's model (Draenei female, displayid 18499)
+DELETE FROM `creature_template_model` WHERE `CreatureID` = 76;
+INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`) VALUES
+(76, 0, 18499, 1, 1);
+
+-- Clone Inessera's vendor inventory (JC supplies + gems)
+DELETE FROM `npc_vendor` WHERE `entry` = 76;
+INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`) VALUES
+(76, 0, 20815, 0, 0, 0), -- Jeweler's Kit
+(76, 0, 20824, 0, 0, 0), -- Simple Grinder
+(76, 0, 28458, 0, 0, 0), -- Bold Tourmaline
+(76, 0, 28459, 0, 0, 0), -- Delicate Tourmaline
+(76, 0, 28460, 0, 0, 0), -- Teardrop Tourmaline
+(76, 0, 28461, 0, 0, 0), -- Runed Tourmaline
+(76, 0, 28462, 0, 0, 0), -- Bright Tourmaline
+(76, 0, 28463, 0, 0, 0), -- Solid Zircon
+(76, 0, 28464, 0, 0, 0), -- Sparkling Zircon
+(76, 0, 28465, 0, 0, 0), -- Lustrous Zircon
+(76, 0, 28466, 0, 0, 0), -- Brilliant Amber
+(76, 0, 28467, 0, 0, 0), -- Smooth Amber
+(76, 0, 28468, 0, 0, 0), -- Rigid Amber
+(76, 0, 28469, 0, 0, 0), -- Gleaming Amber
+(76, 0, 28470, 0, 0, 0); -- Thick Amber
+
+-- Spawn Nessera next to Faris in Stormwind Dwarven District
+DELETE FROM `creature` WHERE `id1` = 76;
+INSERT INTO `creature` (`id1`, `map`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`) VALUES
+(76, 0, -8714.3, 624.7, 101, 0.06, 300);
 
 -- ========================================
 -- STORMWIND GUARD GOSSIP - Jewelcrafting
