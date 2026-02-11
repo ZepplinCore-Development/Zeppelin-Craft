@@ -33,6 +33,9 @@ INSERT INTO `quest_offer_reward` SET
     `RewardText` = 'Your valiant efforts have not gone unnoticed. With the Raptor Flanks you have gathered, the people of Stromgarde will feast and regain their strength. You have become the beacon of hope in our darkest hour, and for that, I, Prince Galen Trollbane, am eternally grateful.';
 
 
+-- Add questgiver flag to Prince Galen Trollbane
+UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = 2607;
+
 -- QUEST STARTER
 DELETE FROM `creature_queststarter` WHERE `quest` = @QUESTID;
 INSERT INTO `creature_queststarter` SET
