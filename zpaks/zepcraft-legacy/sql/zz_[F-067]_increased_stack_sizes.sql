@@ -28,6 +28,10 @@
     -- Universally increase stack sizes to 50 where it is currently 5.
     UPDATE `item_template` SET `stackable` = 50 WHERE (`stackable` = 5);
 
+-- 10 -> 100 stack size
+    -- Universally increase stack sizes to 100 where it is currently 10.
+    UPDATE `item_template` SET `stackable` = 100 WHERE (`stackable` = 10);
+
 -- 20 -> 200 stack size
     -- Universally increase stack sizes to 200 where it is currently 20.
     UPDATE `item_template` SET `stackable` = 200 WHERE (`stackable` = 20);
