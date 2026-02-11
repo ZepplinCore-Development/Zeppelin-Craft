@@ -29,6 +29,14 @@ Thumbs.db
 temp.txt
 *.tmp
 
+# Log files
+cli/logs/*.log
+cli/lib/resource_parser/*.log
+logs/
+
+# Large binary archives
+*.7z
+
 # Backup files (use git for versioning)
 *.bak
 
