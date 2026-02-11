@@ -1,0 +1,2109 @@
+From 079d34fc18a7455e01445bf3ab72e566999048ae Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Sun, 15 Dec 2019 07:35:39 +1100
+Subject: [PATCH 01/25] docs: Various readme changes
+
+---
+ .travis.yml | 77 -----------------------------------------------------
+ README.md   |  3 ++-
+ 2 files changed, 2 insertions(+), 78 deletions(-)
+ delete mode 100644 .travis.yml
+
+diff --git a/.travis.yml b/.travis.yml
+deleted file mode 100644
+index c1538c7..0000000
+--- a/.travis.yml
++++ /dev/null
+@@ -1,77 +0,0 @@
+-sudo: required
+-dist: xenial # (16.04)
+-# bionic (18.04) is not yet available in travis
+-
+-language: cpp
+-
+-cache: ccache
+-
+-addons:
+-  apt:
+-    update: true
+-
+-services:
+-  - mysql
+-
+-git:
+-  depth: 10
+-
+-stages:
+-  - prepare_cache
+-  - run
+-
+-jobs:
+-  include:
+-    - stage: prepare_cache
+-      env: TRAVIS_BUILD_ID="1"
+-      before_install:
+-        - cd ..
+-        - git clone --depth=1 --branch=master https://github.com/azerothcore/azerothcore-wotlk.git azerothcore-wotlk
+-        - mv "$TRAVIS_BUILD_DIR" azerothcore-wotlk/modules
+-        - cd azerothcore-wotlk
+-        - source ./apps/ci/ci-before_install.sh
+-      install:
+-        - source ./apps/ci/ci-install.sh OFF
+-      script:
+-        - source ./apps/ci/ci-compile.sh
+-
+-    - stage: run
+-      env: TRAVIS_BUILD_ID="1"
+-      before_install:
+-        - cd ..
+-        - git clone --depth=1 --branch=master https://github.com/azerothcore/azerothcore-wotlk.git azerothcore-wotlk
+-        - mv "$TRAVIS_BUILD_DIR" azerothcore-wotlk/modules
+-        - cd azerothcore-wotlk
+-        - source ./apps/ci/ci-before_install.sh
+-      install:
+-        - source ./apps/ci/ci-install.sh ON
+-        - source ./apps/ci/ci-import-db.sh
+-      script:
+-        - source ./apps/ci/ci-compile.sh
+-        - source ./apps/ci/ci-worldserver-dry-run.sh
+-
+-    - stage: prepare_cache
+-      env: TRAVIS_BUILD_ID="2"
+-      before_install:
+-        - cd ..
+-        - git clone --depth=1 --branch=master https://github.com/azerothcore/azerothcore-wotlk.git azerothcore-wotlk
+-        - mv "$TRAVIS_BUILD_DIR" azerothcore-wotlk/modules
+-        - cd azerothcore-wotlk
+-        - source ./apps/ci/ci-before_install.sh
+-      install:
+-        - source ./apps/ci/ci-install.sh OFF
+-      script:
+-        - source ./apps/ci/ci-compile.sh
+-
+-    - stage: run
+-      env: TRAVIS_BUILD_ID="2"
+-      before_install:
+-        - cd ..
+-        - git clone --depth=1 --branch=master https://github.com/azerothcore/azerothcore-wotlk.git azerothcore-wotlk
+-        - mv "$TRAVIS_BUILD_DIR" azerothcore-wotlk/modules
+-        - cd azerothcore-wotlk
+-        - source ./apps/ci/ci-before_install.sh
+-      install:
+-        - source ./apps/ci/ci-install.sh ON
+-      script:
+-        - source ./apps/ci/ci-compile.sh
+diff --git a/README.md b/README.md
+index a7b84cc..1a7b74f 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ ## Description
+ 
+-Solo LFG Module for Azerothcore.
++Allows for players to use dungeon finder solo or in groups less than and up to 5 players. Use on azerothcore 3.3.5a. Good companion module for mod-solocraft and mod-autobalance.
+ 
+ 
+ ## Installation
+@@ -20,5 +20,6 @@ rename the file SoloLfg.conf.dist to SoloLfg.conf and edit it.
+ 
+ 
+ ## Credits
++*  [Traesh: Original Script](https://github.com/Traesh)
+ *  [Micrah/Milestorme: Module Creator](https://github.com/milestorme).
+ *  [Conan513:](https://github.com/conan513).
+-- 
+2.34.1
+
+
+From f80b05c6741203eb97da75c51529b98d899e0a72 Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Fri, 3 Jan 2020 18:38:08 +1100
+Subject: [PATCH 02/25] update Lfg_Solo.cpp
+
+Thanks to Artanisx for updates https://github.com/Artanisx/mod-solo-lfg/blob/master/src/Lfg_Solo.cpp
+Extra Credits added
+---
+ src/Lfg_Solo.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 8aa7d4e..4cb08b3 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -3,6 +3,7 @@
+ ** AzerothCore 2019 http://www.azerothcore.org/
+ ** Conan513 https://github.com/conan513
+ ** Made into a module by Micrah https://github.com/milestorme/
++** Updated to work with AzerothCore Docker Installations by Artanisx https://github.com/Artanisx/
+ */
+ 
+ #include "ScriptMgr.h"
+@@ -18,7 +19,9 @@ class lfg_solo : public PlayerScript
+ public:
+     lfg_solo() : PlayerScript("lfg_solo") { }
+ 
+-   void OnLogin(Player* player)
++   // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused))
++   // to the player variable to tell the compiler it is fine not to use it.
++   void OnLogin(Player* __attribute__ ((unused))player)
+    {
+ 	   if (sConfigMgr->GetIntDefault("LFG.SoloMode", true))
+         {
+-- 
+2.34.1
+
+
+From 859e7b78ba28c46994f84bf8e2345fc813b6037b Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Fri, 3 Jan 2020 18:39:53 +1100
+Subject: [PATCH 03/25] docs: Readme update credits & install instructions
+
+---
+ README.md | 41 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 36 insertions(+), 5 deletions(-)
+
+diff --git a/README.md b/README.md
+index 1a7b74f..49a7bfe 100644
+--- a/README.md
++++ b/README.md
+@@ -4,22 +4,53 @@
+ 
+ Allows for players to use dungeon finder solo or in groups less than and up to 5 players. Use on azerothcore 3.3.5a. Good companion module for mod-solocraft and mod-autobalance.
+ 
+-
+-## Installation
+-
++## Standard Installation
+ ```
+ 1. Apply lfg-solo.patch to your core.
+ 2. Simply place the module under the `modules` directory of your AzerothCore source. 
+ 3. Re-run cmake and launch a clean build of AzerothCore.
+ ```
+ 
++## Docker Installation
++```
++0. Go inside your /modules/ folder
++1. git clone https://github.com/milestorme/mod-solo-lfg.git
++2. Apply lfg-solo.patch to your core.
++    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
++    b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
++    (make sure the path is indeed pointing to your lfg-solo.patch file)
++3. Re-run cmake and launch a clean build of AzerothCore.
++    a. Go to your root folder and  ./bin/acore-docker-build
++    b. Then do a docker-compose up
++```
++
+ ## Edit module configuration (optional)
+ 
+ If you need to change the module configuration, go to your server configuration folder (where your `worldserver` or `worldserver.exe` is)
+-rename the file SoloLfg.conf.dist to SoloLfg.conf and edit it.
++copy the file SoloLfg.conf.dist to SoloLfg.conf and edit it (keep both files).
++
++## Standard Uninstallation
++```
++1. Remove the lfg-solo.patch from y our core.
++    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
++    b. Then do git apply -R modules/mod-solo-lfg/lfg-solo.patch 
++2. Re-run cmake and launch a clean build of AzerothCore.
++```
++
++## Docker Uninstallation
++```
++1. Remove the /modules/mod-solo-lfg folder
++2. Remove the lfg-solo.patch from y our core.
++    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
++    b. Then do git apply -R modules/mod-solo-lfg/lfg-solo.patch 
++3. Re-run cmake and launch a clean build of AzerothCore.
++    a. Go to your root folder and  ./bin/acore-docker-build
++    b. Then do a docker-compose up
++```
+ 
+ 
+ ## Credits
+ *  [Traesh: Original Script](https://github.com/Traesh)
+ *  [Micrah/Milestorme: Module Creator](https://github.com/milestorme).
+-*  [Conan513:](https://github.com/conan513).
++*  [Conan513](https://github.com/conan513).
++*  [Artanisx](https://github.com/Artanisx) - Update for Docker installations.
+-- 
+2.34.1
+
+
+From 24200cd6923495710293d4d0077b833caa41d196 Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Fri, 3 Jan 2020 21:35:11 +1100
+Subject: [PATCH 04/25] fix: docker install
+
+---
+ README.md        | 18 +++++++++++-------
+ lfg-solo.patch   |  1 +
+ src/Lfg_Solo.cpp |  2 +-
+ 3 files changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/README.md b/README.md
+index 49a7bfe..47ef8e6 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# mod-solo-lfg
++# Solo Dungeon Finder
+ 
+ ## Description
+ 
+@@ -7,19 +7,23 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+ ## Standard Installation
+ ```
+ 1. Apply lfg-solo.patch to your core.
+-2. Simply place the module under the `modules` directory of your AzerothCore source. 
+-3. Re-run cmake and launch a clean build of AzerothCore.
++2. Simply place the module under the `modules` directory of your AzerothCore source.
++3.  Apply lfg-solo.patch to your core.
++    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
++    b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
++4. Re-run cmake and launch a clean build of AzerothCore.
+ ```
+ 
+ ## Docker Installation
+ ```
+-0. Go inside your /modules/ folder
+-1. git clone https://github.com/milestorme/mod-solo-lfg.git
+-2. Apply lfg-solo.patch to your core.
++1. Go inside your /modules/ folder
++2. git clone https://github.com/milestorme/mod-solo-lfg.git
++3. Apply lfg-solo.patch to your core.
+     a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+     b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
+     (make sure the path is indeed pointing to your lfg-solo.patch file)
+-3. Re-run cmake and launch a clean build of AzerothCore.
++4. Go to src/Lfg_solo.cpp and replace line 24 with ```   void OnLogin(Player* __attribute__ ((unused))player)``` save file.
++5. Re-run cmake and launch a clean build of AzerothCore.
+     a. Go to your root folder and  ./bin/acore-docker-build
+     b. Then do a docker-compose up
+ ```
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+index 8bbd107..e37fe64 100644
+--- a/lfg-solo.patch
++++ b/lfg-solo.patch
+@@ -82,3 +82,4 @@ index 30ae2a4ec4..288ccbe5af 100644
+      {
+          strGuids.addRoles(proposalRoles);
+          for (uint8 i=0; i<5 && check.guid[i]; ++i)
++		 
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 4cb08b3..7f93144 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -21,7 +21,7 @@ public:
+ 
+    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+    // to the player variable to tell the compiler it is fine not to use it.
+-   void OnLogin(Player* __attribute__ ((unused))player)
++   void OnLogin(Player* player)
+    {
+ 	   if (sConfigMgr->GetIntDefault("LFG.SoloMode", true))
+         {
+-- 
+2.34.1
+
+
+From 833269f67ad6c89d091fb916d605c09f7fee20b2 Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Mon, 6 Jan 2020 06:30:43 +1100
+Subject: [PATCH 05/25] update add announcer and config
+
+---
+ src/Lfg_Solo.cpp | 41 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 3 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 7f93144..07f688d 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -3,7 +3,6 @@
+ ** AzerothCore 2019 http://www.azerothcore.org/
+ ** Conan513 https://github.com/conan513
+ ** Made into a module by Micrah https://github.com/milestorme/
+-** Updated to work with AzerothCore Docker Installations by Artanisx https://github.com/Artanisx/
+ */
+ 
+ #include "ScriptMgr.h"
+@@ -14,11 +13,28 @@
+ #include "Chat.h"
+ #include "Opcodes.h"
+ 
++class lfg_solo_announce : public PlayerScript
++{
++
++public:
++
++    lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
++
++    void OnLogin(Player* player)
++    {
++        // Announce Module
++        if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
++        {
++                ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Solo Dungeon Finder |rmodule.");
++         }
++    }
++};
++
+ class lfg_solo : public PlayerScript
+ {
+ public:
+     lfg_solo() : PlayerScript("lfg_solo") { }
+-
++    
+    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+    // to the player variable to tell the compiler it is fine not to use it.
+    void OnLogin(Player* player)
+@@ -33,8 +49,27 @@ public:
+    }
+ };
+ 
++class lfg_solo_config : public WorldScript
++{
++public:
++    lfg_solo_config() : WorldScript("lfg_solo_config") { }
++
++    void OnBeforeConfigLoad(bool reload) override
++    {
++        if (!reload) {
++            std::string conf_path = _CONF_DIR;
++            std::string cfg_file = conf_path + "/SoloLfg.conf";
++
++            std::string cfg_def_file = cfg_file + ".dist";
++            sConfigMgr->LoadMore(cfg_def_file.c_str());
++            sConfigMgr->LoadMore(cfg_file.c_str());
++        }
++    }
++};
++
+ void AddLfgSoloScripts()
+ {
++	new lfg_solo_announce();
+     new lfg_solo();
++	new lfg_solo_config();
+ }
+-
+-- 
+2.34.1
+
+
+From 24e4e29ae84bc6492f5c25e341a495537b1cc920 Mon Sep 17 00:00:00 2001
+From: Micrah <44911744+milestorme@users.noreply.github.com>
+Date: Sun, 29 Dec 2019 15:17:02 +1100
+Subject: [PATCH 06/25] add license
+
+---
+ LICENSE | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+ create mode 100644 LICENSE
+
+diff --git a/LICENSE b/LICENSE
+new file mode 100644
+index 0000000..9d5fa0f
+--- /dev/null
++++ b/LICENSE
+@@ -0,0 +1,21 @@
++MIT License
++
++Copyright (c) 2019 Micrah
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
+-- 
+2.34.1
+
+
+From 925a4cc6726bba3740c5da1bc74384714f151cce Mon Sep 17 00:00:00 2001
+From: BarbzYHOOL <professor_barbz@gmx.com>
+Date: Sun, 22 Mar 2020 22:55:51 +0100
+Subject: [PATCH 07/25] fix(conf): Missing conf + rename other conf
+
+---
+ conf/SoloLfg.conf.dist | 12 +++++++++---
+ src/Lfg_Solo.cpp       |  6 +++---
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/conf/SoloLfg.conf.dist b/conf/SoloLfg.conf.dist
+index 5033877..569abc1 100644
+--- a/conf/SoloLfg.conf.dist
++++ b/conf/SoloLfg.conf.dist
+@@ -4,13 +4,19 @@
+ # SOLO LFG
+ ###################################################################################################
+ 
+-#    EnableSoloLfg
++#    SoloLFG.Enable
+ #        Description: Enable the module
+ #        Default:     1  - (Enabled)
+ #                     0  - (Disabled)
+ 
+ 
+-LFG.SoloMode = 1
++SoloLFG.Enable = 1
+ 
++#    SoloLFG.Announce
++#        Description: Announce the module
++#        Default:     1  - (Enabled)
++#                     0  - (Disabled)
+ 
+-###################################################################################################
+\ No newline at end of file
++SoloLFG.Announce = 1
++
++###################################################################################################
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 07f688d..ee5f70e 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -25,8 +25,8 @@ public:
+         // Announce Module
+         if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
+         {
+-                ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Solo Dungeon Finder |rmodule.");
+-         }
++            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Solo Dungeon Finder |rmodule.");
++        }
+     }
+ };
+ 
+@@ -39,7 +39,7 @@ public:
+    // to the player variable to tell the compiler it is fine not to use it.
+    void OnLogin(Player* player)
+    {
+-	   if (sConfigMgr->GetIntDefault("LFG.SoloMode", true))
++	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
+         {
+             if (!sLFGMgr->IsSoloLFG())
+             {
+-- 
+2.34.1
+
+
+From 9aa764a3203bf5de2855aef7a8d57a7cf204e5a7 Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Fri, 16 Oct 2020 23:05:47 -0700
+Subject: [PATCH 08/25] update lgf-solo.patch
+
+---
+ lfg-solo.patch | 99 ++++++++++++++++++++++++--------------------------
+ 1 file changed, 47 insertions(+), 52 deletions(-)
+
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+index e37fe64..d912b41 100644
+--- a/lfg-solo.patch
++++ b/lfg-solo.patch
+@@ -1,47 +1,43 @@
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.cpp b/src/server/game/DungeonFinding/LFGMgr.cpp
+-index 95a7aec98f..4afd6e635e 100644
++index 3ed8184..6951e81 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.cpp
+ +++ b/src/server/game/DungeonFinding/LFGMgr.cpp
+ @@ -27,7 +27,7 @@
+  namespace lfg
+  {
+  
+--LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK))
+-+LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false)
+- {
+-     new LFGPlayerScript();
+-     new LFGGroupScript();
+-@@ -1622,7 +1622,7 @@ void LFGMgr::UpdateProposal(uint32 proposalId, uint64 guid, bool accept)
+-         if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+-             allAnswered = false;
+- 
+--    if (!allAnswered)
+-+    if (!sLFGMgr->IsSoloLFG() && !allAnswered)
++-    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK))
+++    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false)
+      {
+-         for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+-             SendLfgUpdateProposal(it->first, proposal);
+-@@ -2640,5 +2640,8 @@ LfgDungeonSet LFGMgr::GetRandomAndSeasonalDungeons(uint8 level, uint8 expansion)
++         new LFGPlayerScript();
++         new LFGGroupScript();
++@@ -1639,7 +1639,7 @@ namespace lfg
++             if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
++                 allAnswered = false;
++ 
++-        if (!allAnswered)
+++        if (!sLFGMgr->IsSoloLFG() && !allAnswered)
++         {
++             for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
++                 SendLfgUpdateProposal(it->first, proposal);
++@@ -2658,4 +2658,9 @@ namespace lfg
++         return randomDungeons;
+      }
+-     return randomDungeons;
+- }
+--
+-+void LFGMgr::ToggleSoloLFG()
+-+{
+-+    m_isSoloLFG = !m_isSoloLFG;
+-+}
++ 
+++    void LFGMgr::ToggleSoloLFG()
+++    {
+++        m_isSoloLFG = !m_isSoloLFG;
+++    }
+++
+  } // namespace lfg
+-
+-
+-
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.h b/src/server/game/DungeonFinding/LFGMgr.h
+-index c51f006600..f0fdccfcac 100644
++index d301bad..c01545e 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.h
+ +++ b/src/server/game/DungeonFinding/LFGMgr.h
+-@@ -516,7 +516,10 @@ class LFGMgr
+-         void RBPacketAppendPlayer(const RBInternalInfo& info, ByteBuffer& buffer);
++@@ -534,6 +534,10 @@ namespace lfg
+          void RBPacketBuildDifference(WorldPacket& differencePacket, uint32 dungeonId, uint32 deletedCounter, ByteBuffer& buffer_deleted, uint32 groupCounter, ByteBuffer& buffer_groups, uint32 playerCounter, ByteBuffer& buffer_players);
+          void RBPacketBuildFull(WorldPacket& fullPacket, uint32 dungeonId, RBInternalInfoMap& infoMap);
+--
++ 
+ +        /// Toggle LFG in debug mode
+ +        void ToggleSoloLFG();
+ +        /// Check if debug mode
+@@ -49,37 +45,36 @@ index c51f006600..f0fdccfcac 100644
+          // LfgQueue
+          /// Get last lfg state (NONE, DUNGEON or FINISHED_DUNGEON)
+          LfgState GetOldState(uint64 guid);
+-@@ -574,7 +577,7 @@ class LFGMgr
+-         uint32 lastProposalId;                             ///< pussywizard, store it here because of splitting LFGMgr update into tasks
++@@ -592,6 +596,8 @@ namespace lfg
+          uint32 m_raidBrowserUpdateTimer[2];                ///< pussywizard
+          uint32 m_raidBrowserLastUpdatedDungeonId[2];       ///< pussywizard: for 2 factions
+--
++ 
+ +        bool m_isSoloLFG;                                  ///< solo lfg
+++
+          LfgQueueContainer QueuesStore;                     ///< Queues
+          LfgCachedDungeonContainer CachedDungeonMapStore;   ///< Stores all dungeons by groupType
+          // Reward System
+-
+-
+ diff --git a/src/server/game/DungeonFinding/LFGQueue.cpp b/src/server/game/DungeonFinding/LFGQueue.cpp
+-index 30ae2a4ec4..288ccbe5af 100644
++index 0079901..f0f1e84 100644
+ --- a/src/server/game/DungeonFinding/LFGQueue.cpp
+ +++ b/src/server/game/DungeonFinding/LFGQueue.cpp
+-@@ -289,7 +289,7 @@ LfgCompatibility LFGQueue::CheckCompatibility(Lfg5Guids const& checkWith, const
+-         return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
++@@ -289,7 +289,7 @@ namespace lfg
++             return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+  
+-     // Group with less that MAXGROUPSIZE members always compatible
+--    if (check.size() == 1 && numPlayers < MAXGROUPSIZE)
+-+    if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo lfg
+-     {
+-         LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+-         LfgRolesMap roles = itQueue->second.roles;
+-@@ -386,7 +386,7 @@ LfgCompatibility LFGQueue::CheckCompatibility(Lfg5Guids const& checkWith, const
+-     }
++         // Group with less that MAXGROUPSIZE members always compatible
++-        if (check.size() == 1 && numPlayers < MAXGROUPSIZE)
+++        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo lfg
++         {
++             LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
++             LfgRolesMap roles = itQueue->second.roles;
++@@ -386,7 +386,7 @@ namespace lfg
++         }
+  
+-     // Enough players?
+--    if (numPlayers != MAXGROUPSIZE)
+-+    if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo  lfg
+-     {
+-         strGuids.addRoles(proposalRoles);
+-         for (uint8 i=0; i<5 && check.guid[i]; ++i)
+-		 
++         // Enough players?
++-        if (numPlayers != MAXGROUPSIZE)
+++        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo  lfg
++         {
++             strGuids.addRoles(proposalRoles);
++             for (uint8 i = 0; i < 5 && check.guid[i]; ++i)
++-- 
++1.8.3.1
+-- 
+2.34.1
+
+
+From 8470e31b01d4b66e6374258e9720ce9dcc3ebf9f Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Fri, 16 Oct 2020 23:32:11 -0700
+Subject: [PATCH 09/25] update LGF_Solo.cpp to work on docker
+
+---
+ src/Lfg_Solo.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index ee5f70e..ea035bf 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -20,7 +20,7 @@ public:
+ 
+     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+ 
+-    void OnLogin(Player* player)
++    void OnLogin(Player* __attribute__ ((unused))player)
+     {
+         // Announce Module
+         if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
+@@ -37,7 +37,7 @@ public:
+     
+    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+    // to the player variable to tell the compiler it is fine not to use it.
+-   void OnLogin(Player* player)
++   void OnLogin(Player* __attribute__ ((unused))player)
+    {
+ 	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
+         {
+-- 
+2.34.1
+
+
+From b682d84af73654a9c99b523b0e109c871c97c49e Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Fri, 16 Oct 2020 23:34:58 -0700
+Subject: [PATCH 10/25] Revert "update LGF_Solo.cpp to work on docker"
+
+This reverts commit 8470e31b01d4b66e6374258e9720ce9dcc3ebf9f.
+---
+ src/Lfg_Solo.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index ea035bf..ee5f70e 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -20,7 +20,7 @@ public:
+ 
+     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+ 
+-    void OnLogin(Player* __attribute__ ((unused))player)
++    void OnLogin(Player* player)
+     {
+         // Announce Module
+         if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
+@@ -37,7 +37,7 @@ public:
+     
+    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+    // to the player variable to tell the compiler it is fine not to use it.
+-   void OnLogin(Player* __attribute__ ((unused))player)
++   void OnLogin(Player* player)
+    {
+ 	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
+         {
+-- 
+2.34.1
+
+
+From 2a8a637ba4d53ae26e344e3115d2b00a9614857e Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Fri, 16 Oct 2020 23:35:13 -0700
+Subject: [PATCH 11/25] add docker.patch
+
+---
+ docker.patch | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 docker.patch
+
+diff --git a/docker.patch b/docker.patch
+new file mode 100644
+index 0000000..940eabd
+--- /dev/null
++++ b/docker.patch
+@@ -0,0 +1,25 @@
++diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
++index ee5f70e..ea035bf 100644
++--- a/src/Lfg_Solo.cpp
+++++ b/src/Lfg_Solo.cpp
++@@ -20,7 +20,7 @@ public:
++ 
++     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
++ 
++-    void OnLogin(Player* player)
+++    void OnLogin(Player* __attribute__ ((unused))player)
++     {
++         // Announce Module
++         if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
++@@ -37,7 +37,7 @@ public:
++     
++    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
++    // to the player variable to tell the compiler it is fine not to use it.
++-   void OnLogin(Player* player)
+++   void OnLogin(Player* __attribute__ ((unused))player)
++    {
++ 	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
++         {
++-- 
++1.8.3.1
++
+-- 
+2.34.1
+
+
+From 30c22408445f494f8640a74113e539c2af365924 Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Sat, 17 Oct 2020 01:46:38 -0700
+Subject: [PATCH 12/25] update docker installation directions
+
+---
+ README.md | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/README.md b/README.md
+index 47ef8e6..df90da4 100644
+--- a/README.md
++++ b/README.md
+@@ -17,12 +17,15 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+ ## Docker Installation
+ ```
+ 1. Go inside your /modules/ folder
+-2. git clone https://github.com/milestorme/mod-solo-lfg.git
++2. git clone https://github.com/azerothcore/mod-solo-lfg.git
+ 3. Apply lfg-solo.patch to your core.
+     a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+-    b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
++    b. Then do 'git apply modules/mod-solo-lfg/lfg-solo.patch' 
+     (make sure the path is indeed pointing to your lfg-solo.patch file)
+-4. Go to src/Lfg_solo.cpp and replace line 24 with ```   void OnLogin(Player* __attribute__ ((unused))player)``` save file.
++4. Apply lfg-solo.patch to your core.
++    a. In order to do this, please go to the mod-solo-lfg module directory 'modules/mod-solo-lfg'.
++	b. Then do 'git apply docker.patch' 
++	(make sure the path is indeed pointing to your docker.patch file)
+ 5. Re-run cmake and launch a clean build of AzerothCore.
+     a. Go to your root folder and  ./bin/acore-docker-build
+     b. Then do a docker-compose up
+-- 
+2.34.1
+
+
+From 49ce45f2dbb9d3a8d5ffc9a81d17cd59933d7392 Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Sat, 17 Oct 2020 01:48:31 -0700
+Subject: [PATCH 13/25] remove space
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index df90da4..92ba775 100644
+--- a/README.md
++++ b/README.md
+@@ -47,7 +47,7 @@ copy the file SoloLfg.conf.dist to SoloLfg.conf and edit it (keep both files).
+ ## Docker Uninstallation
+ ```
+ 1. Remove the /modules/mod-solo-lfg folder
+-2. Remove the lfg-solo.patch from y our core.
++2. Remove the lfg-solo.patch from your core.
+     a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+     b. Then do git apply -R modules/mod-solo-lfg/lfg-solo.patch 
+ 3. Re-run cmake and launch a clean build of AzerothCore.
+-- 
+2.34.1
+
+
+From 709bce563acd3ea27da1fbe9c44a17cd0b538e15 Mon Sep 17 00:00:00 2001
+From: Patrick Lewis <pat@lo5t.com>
+Date: Sat, 17 Oct 2020 14:24:42 -0700
+Subject: [PATCH 14/25] fix indentation
+
+---
+ README.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/README.md b/README.md
+index 92ba775..4a5267c 100644
+--- a/README.md
++++ b/README.md
+@@ -24,8 +24,8 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+     (make sure the path is indeed pointing to your lfg-solo.patch file)
+ 4. Apply lfg-solo.patch to your core.
+     a. In order to do this, please go to the mod-solo-lfg module directory 'modules/mod-solo-lfg'.
+-	b. Then do 'git apply docker.patch' 
+-	(make sure the path is indeed pointing to your docker.patch file)
++    b. Then do 'git apply docker.patch' 
++    (make sure the path is indeed pointing to your docker.patch file)
+ 5. Re-run cmake and launch a clean build of AzerothCore.
+     a. Go to your root folder and  ./bin/acore-docker-build
+     b. Then do a docker-compose up
+-- 
+2.34.1
+
+
+From 7778645127425fcad0f2fe35a8e752a02ff74405 Mon Sep 17 00:00:00 2001
+From: locus313 <pat@lo5t.com>
+Date: Sat, 17 Oct 2020 23:16:41 -0700
+Subject: [PATCH 15/25] feat(CI): move from Travis to GitHub Actions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+original workflow by Helias
+git apply actions by locus313
+
+Co-Authored-By: Stefano Borzì <stefanoborzi32@gmail.com>
+---
+ .github/workflows/core-build.yml | 50 ++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+ create mode 100644 .github/workflows/core-build.yml
+
+diff --git a/.github/workflows/core-build.yml b/.github/workflows/core-build.yml
+new file mode 100644
+index 0000000..c68cf10
+--- /dev/null
++++ b/.github/workflows/core-build.yml
+@@ -0,0 +1,50 @@
++name: core-build
++on:
++  push:
++  pull_request:
++
++jobs:
++  build:
++    strategy:
++      fail-fast: false
++      matrix:
++        compiler: [clang6, clang9, clang10]
++    runs-on: ubuntu-20.04
++    name: ${{ matrix.compiler }}
++    env:
++      COMPILER: ${{ matrix.compiler }}
++    steps:
++      - uses: actions/checkout@v2
++        with:
++          repository: 'azerothcore/azerothcore-wotlk'
++          ref: 'master'
++          submodules: 'recursive'
++      - uses: actions/checkout@v2
++        with:
++          submodules: 'recursive'
++          path: 'modules/mod-solo-lfg'
++      - name: Apply core patch
++        run: git apply modules/mod-solo-lfg/lfg-solo.patch
++      - name: Apply docker patch
++        working-directory: ./modules/mod-solo-lfg
++        run: git apply docker.patch        
++      - name: Cache
++        uses: actions/cache@v1.1.2
++        with:
++          path: /home/runner/.ccache
++          key: ccache:${{ matrix.compiler }}:${{ github.ref }}:${{ github.sha }}
++          restore-keys: |
++            ccache:${{ matrix.compiler }}:${{ github.ref }}
++            ccache:${{ matrix.compiler }}
++      - name: Configure OS
++        run: source ./apps/ci/ci-install.sh
++        env:
++          CONTINUOUS_INTEGRATION: true
++      - name: Import db
++        run: source ./apps/ci/ci-import-db.sh
++      - name: Build
++        run: source ./apps/ci/ci-compile.sh
++      - name: Dry run
++        run: source ./apps/ci/ci-worldserver-dry-run.sh
++      - name: Check startup errors
++        run: source ./apps/ci/ci-error-check.sh
+-- 
+2.34.1
+
+
+From 6c797f17b56acbcd758eee42906c2fff631ce61a Mon Sep 17 00:00:00 2001
+From: Vitaliy <mitradis@gmail.com>
+Date: Wed, 3 Mar 2021 22:26:25 +0300
+Subject: [PATCH 16/25] fix for last PR ACE remove (#11)
+
+https://github.com/azerothcore/azerothcore-wotlk/pull/4608
+---
+ src/Lfg_Solo.cpp | 19 -------------------
+ 1 file changed, 19 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index ee5f70e..a1d0244 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -49,27 +49,8 @@ public:
+    }
+ };
+ 
+-class lfg_solo_config : public WorldScript
+-{
+-public:
+-    lfg_solo_config() : WorldScript("lfg_solo_config") { }
+-
+-    void OnBeforeConfigLoad(bool reload) override
+-    {
+-        if (!reload) {
+-            std::string conf_path = _CONF_DIR;
+-            std::string cfg_file = conf_path + "/SoloLfg.conf";
+-
+-            std::string cfg_def_file = cfg_file + ".dist";
+-            sConfigMgr->LoadMore(cfg_def_file.c_str());
+-            sConfigMgr->LoadMore(cfg_file.c_str());
+-        }
+-    }
+-};
+-
+ void AddLfgSoloScripts()
+ {
+ 	new lfg_solo_announce();
+     new lfg_solo();
+-	new lfg_solo_config();
+ }
+-- 
+2.34.1
+
+
+From 307d9a76917e48d61fd868a7e3d05fa100bd401e Mon Sep 17 00:00:00 2001
+From: Patrick Lewis <pat@lo5t.com>
+Date: Wed, 5 May 2021 03:53:42 -0700
+Subject: [PATCH 17/25] fix(PATCH): update for latest changes (#14)
+
+* fix(PATCH): update for latest changes
+
+* fix(CI): update workflow
+---
+ .github/workflows/core-build.yml |  8 ++++++--
+ lfg-solo.patch                   | 28 ++++++++++++++--------------
+ 2 files changed, 20 insertions(+), 16 deletions(-)
+
+diff --git a/.github/workflows/core-build.yml b/.github/workflows/core-build.yml
+index c68cf10..7014f53 100644
+--- a/.github/workflows/core-build.yml
++++ b/.github/workflows/core-build.yml
+@@ -1,6 +1,8 @@
+ name: core-build
+ on:
+   push:
++    branches:
++      - 'master'
+   pull_request:
+ 
+ jobs:
+@@ -29,7 +31,7 @@ jobs:
+         working-directory: ./modules/mod-solo-lfg
+         run: git apply docker.patch        
+       - name: Cache
+-        uses: actions/cache@v1.1.2
++        uses: actions/cache@v2
+         with:
+           path: /home/runner/.ccache
+           key: ccache:${{ matrix.compiler }}:${{ github.ref }}:${{ github.sha }}
+@@ -37,9 +39,11 @@ jobs:
+             ccache:${{ matrix.compiler }}:${{ github.ref }}
+             ccache:${{ matrix.compiler }}
+       - name: Configure OS
+-        run: source ./apps/ci/ci-install.sh
++        run: source ./acore.sh install-deps
+         env:
+           CONTINUOUS_INTEGRATION: true
++      - name: Create conf/config.sh
++        run: source ./apps/ci/ci-conf.sh
+       - name: Import db
+         run: source ./apps/ci/ci-import-db.sh
+       - name: Build
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+index d912b41..d2ff3e0 100644
+--- a/lfg-solo.patch
++++ b/lfg-solo.patch
+@@ -1,5 +1,5 @@
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.cpp b/src/server/game/DungeonFinding/LFGMgr.cpp
+-index 3ed8184..6951e81 100644
++index e92cf35b1..50b174e33 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.cpp
+ +++ b/src/server/game/DungeonFinding/LFGMgr.cpp
+ @@ -27,7 +27,7 @@
+@@ -11,7 +11,7 @@ index 3ed8184..6951e81 100644
+      {
+          new LFGPlayerScript();
+          new LFGGroupScript();
+-@@ -1639,7 +1639,7 @@ namespace lfg
++@@ -1673,7 +1673,7 @@ namespace lfg
+              if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+                  allAnswered = false;
+  
+@@ -20,7 +20,7 @@ index 3ed8184..6951e81 100644
+          {
+              for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+                  SendLfgUpdateProposal(it->first, proposal);
+-@@ -2658,4 +2658,9 @@ namespace lfg
++@@ -2697,4 +2697,9 @@ namespace lfg
+          return randomDungeons;
+      }
+  
+@@ -31,10 +31,10 @@ index 3ed8184..6951e81 100644
+ +
+  } // namespace lfg
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.h b/src/server/game/DungeonFinding/LFGMgr.h
+-index d301bad..c01545e 100644
++index 0340cc57a..3aa5ce920 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.h
+ +++ b/src/server/game/DungeonFinding/LFGMgr.h
+-@@ -534,6 +534,10 @@ namespace lfg
++@@ -533,6 +533,11 @@ namespace lfg
+          void RBPacketBuildDifference(WorldPacket& differencePacket, uint32 dungeonId, uint32 deletedCounter, ByteBuffer& buffer_deleted, uint32 groupCounter, ByteBuffer& buffer_groups, uint32 playerCounter, ByteBuffer& buffer_players);
+          void RBPacketBuildFull(WorldPacket& fullPacket, uint32 dungeonId, RBInternalInfoMap& infoMap);
+  
+@@ -42,10 +42,11 @@ index d301bad..c01545e 100644
+ +        void ToggleSoloLFG();
+ +        /// Check if debug mode
+ +        bool IsSoloLFG() const { return m_isSoloLFG; }
+++
+          // LfgQueue
+          /// Get last lfg state (NONE, DUNGEON or FINISHED_DUNGEON)
+-         LfgState GetOldState(uint64 guid);
+-@@ -592,6 +596,8 @@ namespace lfg
++         LfgState GetOldState(ObjectGuid guid);
++@@ -591,6 +596,8 @@ namespace lfg
+          uint32 m_raidBrowserUpdateTimer[2];                ///< pussywizard
+          uint32 m_raidBrowserLastUpdatedDungeonId[2];       ///< pussywizard: for 2 factions
+  
+@@ -55,26 +56,25 @@ index d301bad..c01545e 100644
+          LfgCachedDungeonContainer CachedDungeonMapStore;   ///< Stores all dungeons by groupType
+          // Reward System
+ diff --git a/src/server/game/DungeonFinding/LFGQueue.cpp b/src/server/game/DungeonFinding/LFGQueue.cpp
+-index 0079901..f0f1e84 100644
++index 86ead49f6..e3c8d9605 100644
+ --- a/src/server/game/DungeonFinding/LFGQueue.cpp
+ +++ b/src/server/game/DungeonFinding/LFGQueue.cpp
+-@@ -289,7 +289,7 @@ namespace lfg
++@@ -290,7 +290,7 @@ namespace lfg
+              return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+  
+          // Group with less that MAXGROUPSIZE members always compatible
+ -        if (check.size() == 1 && numPlayers < MAXGROUPSIZE)
+-+        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo lfg
+++        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+          {
+              LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+              LfgRolesMap roles = itQueue->second.roles;
+-@@ -386,7 +386,7 @@ namespace lfg
++@@ -387,7 +387,7 @@ namespace lfg
+          }
+  
+          // Enough players?
+ -        if (numPlayers != MAXGROUPSIZE)
+-+        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) //solo  lfg
+++        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+          {
+              strGuids.addRoles(proposalRoles);
+-             for (uint8 i = 0; i < 5 && check.guid[i]; ++i)
++             for (uint8 i = 0; i < 5 && check.guids[i]; ++i)
+ -- 
+-1.8.3.1
+-- 
+2.34.1
+
+
+From af1365fe3cc4b64ab8fe8fa073547e8b904ffc08 Mon Sep 17 00:00:00 2001
+From: Chaldea <89628331+Just-Chaldea@users.noreply.github.com>
+Date: Tue, 31 Aug 2021 04:20:38 +0100
+Subject: [PATCH 18/25] Update lfg-solo.patch (#20)
+
+* Update lfg-solo.patch
+
+* fix(CI): update
+
+Co-authored-by: Patrick Lewis <pat@lo5t.com>
+---
+ .github/workflows/core-build.yml |  4 ++--
+ lfg-solo.patch                   | 41 ++++++++++++++++----------------
+ 2 files changed, 22 insertions(+), 23 deletions(-)
+
+diff --git a/.github/workflows/core-build.yml b/.github/workflows/core-build.yml
+index 7014f53..dbc2404 100644
+--- a/.github/workflows/core-build.yml
++++ b/.github/workflows/core-build.yml
+@@ -10,7 +10,7 @@ jobs:
+     strategy:
+       fail-fast: false
+       matrix:
+-        compiler: [clang6, clang9, clang10]
++        compiler: [clang]
+     runs-on: ubuntu-20.04
+     name: ${{ matrix.compiler }}
+     env:
+@@ -33,7 +33,7 @@ jobs:
+       - name: Cache
+         uses: actions/cache@v2
+         with:
+-          path: /home/runner/.ccache
++          path: var/ccache
+           key: ccache:${{ matrix.compiler }}:${{ github.ref }}:${{ github.sha }}
+           restore-keys: |
+             ccache:${{ matrix.compiler }}:${{ github.ref }}
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+index d2ff3e0..4f42a88 100644
+--- a/lfg-solo.patch
++++ b/lfg-solo.patch
+@@ -1,65 +1,65 @@
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.cpp b/src/server/game/DungeonFinding/LFGMgr.cpp
+-index e92cf35b1..50b174e33 100644
++index 6d32c5760..1d17ab738 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.cpp
+ +++ b/src/server/game/DungeonFinding/LFGMgr.cpp
+-@@ -27,7 +27,7 @@
++@@ -26,8 +26,7 @@
++ 
+  namespace lfg
+  {
+- 
++-
+ -    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK))
+ +    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false)
+      {
+          new LFGPlayerScript();
+          new LFGGroupScript();
+-@@ -1673,7 +1673,7 @@ namespace lfg
++@@ -1672,8 +1671,7 @@ namespace lfg
++         for (LfgProposalPlayerContainer::const_iterator itPlayers = proposal.players.begin(); itPlayers != proposal.players.end(); ++itPlayers)
+              if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+                  allAnswered = false;
+- 
++-
+ -        if (!allAnswered)
+ +        if (!sLFGMgr->IsSoloLFG() && !allAnswered)
+          {
+              for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+                  SendLfgUpdateProposal(it->first, proposal);
+-@@ -2697,4 +2697,9 @@ namespace lfg
++@@ -2656,5 +2654,9 @@ namespace lfg
++         }
+          return randomDungeons;
+      }
+- 
+ +    void LFGMgr::ToggleSoloLFG()
+ +    {
+ +        m_isSoloLFG = !m_isSoloLFG;
+ +    }
+-+
++ 
+  } // namespace lfg
+ diff --git a/src/server/game/DungeonFinding/LFGMgr.h b/src/server/game/DungeonFinding/LFGMgr.h
+-index 0340cc57a..3aa5ce920 100644
++index 0340cc57a..b4ae800ed 100644
+ --- a/src/server/game/DungeonFinding/LFGMgr.h
+ +++ b/src/server/game/DungeonFinding/LFGMgr.h
+-@@ -533,6 +533,11 @@ namespace lfg
++@@ -532,6 +532,10 @@ namespace lfg
++         void RBPacketAppendPlayer(const RBInternalInfo& info, ByteBuffer& buffer);
+          void RBPacketBuildDifference(WorldPacket& differencePacket, uint32 dungeonId, uint32 deletedCounter, ByteBuffer& buffer_deleted, uint32 groupCounter, ByteBuffer& buffer_groups, uint32 playerCounter, ByteBuffer& buffer_players);
+          void RBPacketBuildFull(WorldPacket& fullPacket, uint32 dungeonId, RBInternalInfoMap& infoMap);
+- 
+ +        /// Toggle LFG in debug mode
+ +        void ToggleSoloLFG();
+ +        /// Check if debug mode
+ +        bool IsSoloLFG() const { return m_isSoloLFG; }
+-+
++ 
+          // LfgQueue
+          /// Get last lfg state (NONE, DUNGEON or FINISHED_DUNGEON)
+-         LfgState GetOldState(ObjectGuid guid);
+-@@ -591,6 +596,8 @@ namespace lfg
++@@ -590,6 +594,7 @@ namespace lfg
++         uint32 lastProposalId;                             ///< pussywizard, store it here because of splitting LFGMgr update into tasks
+          uint32 m_raidBrowserUpdateTimer[2];                ///< pussywizard
+          uint32 m_raidBrowserLastUpdatedDungeonId[2];       ///< pussywizard: for 2 factions
+- 
+ +        bool m_isSoloLFG;                                  ///< solo lfg
+-+
++ 
+          LfgQueueContainer QueuesStore;                     ///< Queues
+          LfgCachedDungeonContainer CachedDungeonMapStore;   ///< Stores all dungeons by groupType
+-         // Reward System
+ diff --git a/src/server/game/DungeonFinding/LFGQueue.cpp b/src/server/game/DungeonFinding/LFGQueue.cpp
+-index 86ead49f6..e3c8d9605 100644
++index e43080c14..e532ddb57 100644
+ --- a/src/server/game/DungeonFinding/LFGQueue.cpp
+ +++ b/src/server/game/DungeonFinding/LFGQueue.cpp
+-@@ -290,7 +290,7 @@ namespace lfg
++@@ -285,7 +285,7 @@ namespace lfg
+              return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+  
+          // Group with less that MAXGROUPSIZE members always compatible
+@@ -68,7 +68,7 @@ index 86ead49f6..e3c8d9605 100644
+          {
+              LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+              LfgRolesMap roles = itQueue->second.roles;
+-@@ -387,7 +387,7 @@ namespace lfg
++@@ -382,7 +382,7 @@ namespace lfg
+          }
+  
+          // Enough players?
+@@ -77,4 +77,3 @@ index 86ead49f6..e3c8d9605 100644
+          {
+              strGuids.addRoles(proposalRoles);
+              for (uint8 i = 0; i < 5 && check.guids[i]; ++i)
+--- 
+-- 
+2.34.1
+
+
+From ac351ece83cb80a2a147aa2faf0c37ddc81cdacc Mon Sep 17 00:00:00 2001
+From: Artanis <Artanisx@users.noreply.github.com>
+Date: Mon, 27 Sep 2021 00:46:10 +0000
+Subject: [PATCH 19/25] fix(PATCH): lfg-solo.patch (#24)
+
+* Update README.md
+
+Updated readme.
+
+* Update to work with AzerothCore 17/09/2021
+
+Update to work with AzerothCore 17/09/2021, since the core added a m_Testing variable the vanilla lfg-solo.patch didn't account for.
+
+* Update README.md
+
+* Update lfg-solo.patch
+
+Fix to handle core commit 606ea32 changes (or previous commits).
+
+* Update README.md
+
+Restored the original git clone link (git clone https://github.com/azerothcore/mod-solo-lfg.git) to make this compatible for the pull request.
+
+* update
+
+Co-authored-by: Patrick Lewis <pat@lo5t.com>
+---
+ README.md      | 12 +++++++-----
+ lfg-solo.patch | 10 +++++-----
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/README.md b/README.md
+index 4a5267c..b9cb99e 100644
+--- a/README.md
++++ b/README.md
+@@ -6,12 +6,14 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+ 
+ ## Standard Installation
+ ```
+-1. Apply lfg-solo.patch to your core.
+-2. Simply place the module under the `modules` directory of your AzerothCore source.
+-3.  Apply lfg-solo.patch to your core.
++1. Go inside your /modules/ folder
++2. git clone https://github.com/azerothcore/mod-solo-lfg.git
++3. Apply lfg-solo.patch to your core.
+     a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+     b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
+-4. Re-run cmake and launch a clean build of AzerothCore.
++4. Re-run cmake and launch a clean build of AzerothCore. 
++   a. If using AzerothCore Bash Dashboard setup: Do a ./acore.sh compiler configure followed by ./acore.sh compiler build.
++   b. If using standard installation, refer to https://www.azerothcore.org/wiki/installation
+ ```
+ 
+ ## Docker Installation
+@@ -60,4 +62,4 @@ copy the file SoloLfg.conf.dist to SoloLfg.conf and edit it (keep both files).
+ *  [Traesh: Original Script](https://github.com/Traesh)
+ *  [Micrah/Milestorme: Module Creator](https://github.com/milestorme).
+ *  [Conan513](https://github.com/conan513).
+-*  [Artanisx](https://github.com/Artanisx) - Update for Docker installations.
++*  [Artanisx](https://github.com/Artanisx) - Update for Docker installations. Updated LFG-Solo.patch to work with the latest AzerothCore version (17/09/2021). Updated standard installation instructions.
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+index 4f42a88..1259292 100644
+--- a/lfg-solo.patch
++++ b/lfg-solo.patch
+@@ -7,8 +7,8 @@ index 6d32c5760..1d17ab738 100644
+  namespace lfg
+  {
+ -
+--    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK))
+-+    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false)
++-    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_Testing(false)
+++    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false), m_Testing(false)
+      {
+          new LFGPlayerScript();
+          new LFGGroupScript();
+@@ -17,7 +17,7 @@ index 6d32c5760..1d17ab738 100644
+              if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+                  allAnswered = false;
+ -
+--        if (!allAnswered)
++-        if (!m_Testing && !allAnswered)
+ +        if (!sLFGMgr->IsSoloLFG() && !allAnswered)
+          {
+              for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+@@ -63,7 +63,7 @@ index e43080c14..e532ddb57 100644
+              return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+  
+          // Group with less that MAXGROUPSIZE members always compatible
+--        if (check.size() == 1 && numPlayers < MAXGROUPSIZE)
++-        if (!sLFGMgr->IsTesting() && check.size() == 1 && numPlayers < MAXGROUPSIZE)
+ +        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+          {
+              LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+@@ -72,7 +72,7 @@ index e43080c14..e532ddb57 100644
+          }
+  
+          // Enough players?
+--        if (numPlayers != MAXGROUPSIZE)
++-        if (!sLFGMgr->IsTesting() && numPlayers != MAXGROUPSIZE)
+ +        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+          {
+              strGuids.addRoles(proposalRoles);
+-- 
+2.34.1
+
+
+From 0def32ca350ff0b6dd812885d7758cac2ecdb1ae Mon Sep 17 00:00:00 2001
+From: UltraNix <80540499+UltraNix@users.noreply.github.com>
+Date: Tue, 12 Oct 2021 19:10:05 +0200
+Subject: [PATCH 20/25] fix(Core): reloading config (#25)
+
+---
+ src/Lfg_Solo.cpp | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index a1d0244..d00f70f 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -15,9 +15,7 @@
+ 
+ class lfg_solo_announce : public PlayerScript
+ {
+-
+ public:
+-
+     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+ 
+     void OnLogin(Player* player)
+@@ -30,23 +28,18 @@ public:
+     }
+ };
+ 
+-class lfg_solo : public PlayerScript
++class lfg_solo : public WorldScript
+ {
+ public:
+-    lfg_solo() : PlayerScript("lfg_solo") { }
+-    
+-   // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+-   // to the player variable to tell the compiler it is fine not to use it.
+-   void OnLogin(Player* player)
+-   {
+-	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
++    lfg_solo() : WorldScript("lfg_solo") {}
++
++    void OnAfterConfigLoad(bool /*reload*/) override
++    {
++        if (sConfigMgr->GetBoolDefault("SoloLFG.Enable", true) != sLFGMgr->IsSoloLFG())
+         {
+-            if (!sLFGMgr->IsSoloLFG())
+-            {
+             sLFGMgr->ToggleSoloLFG();
+-            }
+         }
+-   }
++    }
+ };
+ 
+ void AddLfgSoloScripts()
+-- 
+2.34.1
+
+
+From 6bd97792b572ba55e0f891c62ea66d5d25aa9aa3 Mon Sep 17 00:00:00 2001
+From: LannyE <65646022+LannyE@users.noreply.github.com>
+Date: Sat, 26 Feb 2022 17:26:22 -0700
+Subject: [PATCH 21/25] fix(cpp): Remove Need for Patch Using New Hook in AC
+ (#33)
+
+* fix(cpp): Remove Need for Patch Using New Hook in AC
+A new hook has been added to AC that can be used by this module.
+This removes the need for the patch.
+- Updated the cpp to use the new IsTesting mode hook
+- Updated the Readme to remove the patch information
+- Deleted the patch file
+
+* fix(cpp): GetOption Update
+GetOption Update
+
+* update workflow
+
+Co-authored-by: BuildTools <unconfigured@null.spigotmc.org>
+Co-authored-by: Patrick Lewis <pat@lo5t.com>
+---
+ .github/workflows/core-build.yml |  7 +--
+ README.md                        | 24 ++--------
+ lfg-solo.patch                   | 79 --------------------------------
+ src/Lfg_Solo.cpp                 |  6 +--
+ 4 files changed, 8 insertions(+), 108 deletions(-)
+ delete mode 100644 lfg-solo.patch
+
+diff --git a/.github/workflows/core-build.yml b/.github/workflows/core-build.yml
+index dbc2404..ab63879 100644
+--- a/.github/workflows/core-build.yml
++++ b/.github/workflows/core-build.yml
+@@ -24,12 +24,7 @@ jobs:
+       - uses: actions/checkout@v2
+         with:
+           submodules: 'recursive'
+-          path: 'modules/mod-solo-lfg'
+-      - name: Apply core patch
+-        run: git apply modules/mod-solo-lfg/lfg-solo.patch
+-      - name: Apply docker patch
+-        working-directory: ./modules/mod-solo-lfg
+-        run: git apply docker.patch        
++          path: 'modules/mod-solo-lfg'        
+       - name: Cache
+         uses: actions/cache@v2
+         with:
+diff --git a/README.md b/README.md
+index b9cb99e..8d3988b 100644
+--- a/README.md
++++ b/README.md
+@@ -8,10 +8,7 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+ ```
+ 1. Go inside your /modules/ folder
+ 2. git clone https://github.com/azerothcore/mod-solo-lfg.git
+-3. Apply lfg-solo.patch to your core.
+-    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+-    b. Then do git apply modules/mod-solo-lfg/lfg-solo.patch 
+-4. Re-run cmake and launch a clean build of AzerothCore. 
++3. Re-run cmake and launch a clean build of AzerothCore. 
+    a. If using AzerothCore Bash Dashboard setup: Do a ./acore.sh compiler configure followed by ./acore.sh compiler build.
+    b. If using standard installation, refer to https://www.azerothcore.org/wiki/installation
+ ```
+@@ -20,15 +17,7 @@ Allows for players to use dungeon finder solo or in groups less than and up to 5
+ ```
+ 1. Go inside your /modules/ folder
+ 2. git clone https://github.com/azerothcore/mod-solo-lfg.git
+-3. Apply lfg-solo.patch to your core.
+-    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+-    b. Then do 'git apply modules/mod-solo-lfg/lfg-solo.patch' 
+-    (make sure the path is indeed pointing to your lfg-solo.patch file)
+-4. Apply lfg-solo.patch to your core.
+-    a. In order to do this, please go to the mod-solo-lfg module directory 'modules/mod-solo-lfg'.
+-    b. Then do 'git apply docker.patch' 
+-    (make sure the path is indeed pointing to your docker.patch file)
+-5. Re-run cmake and launch a clean build of AzerothCore.
++3. Re-run cmake and launch a clean build of AzerothCore.
+     a. Go to your root folder and  ./bin/acore-docker-build
+     b. Then do a docker-compose up
+ ```
+@@ -40,19 +29,14 @@ copy the file SoloLfg.conf.dist to SoloLfg.conf and edit it (keep both files).
+ 
+ ## Standard Uninstallation
+ ```
+-1. Remove the lfg-solo.patch from y our core.
+-    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+-    b. Then do git apply -R modules/mod-solo-lfg/lfg-solo.patch 
++1. Remove the /modules/mod-solo-lfg folder
+ 2. Re-run cmake and launch a clean build of AzerothCore.
+ ```
+ 
+ ## Docker Uninstallation
+ ```
+ 1. Remove the /modules/mod-solo-lfg folder
+-2. Remove the lfg-solo.patch from your core.
+-    a. In order to do this, please go to the root /azerothcore-wotlk of your installation.
+-    b. Then do git apply -R modules/mod-solo-lfg/lfg-solo.patch 
+-3. Re-run cmake and launch a clean build of AzerothCore.
++2. Re-run cmake and launch a clean build of AzerothCore.
+     a. Go to your root folder and  ./bin/acore-docker-build
+     b. Then do a docker-compose up
+ ```
+diff --git a/lfg-solo.patch b/lfg-solo.patch
+deleted file mode 100644
+index 1259292..0000000
+--- a/lfg-solo.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-diff --git a/src/server/game/DungeonFinding/LFGMgr.cpp b/src/server/game/DungeonFinding/LFGMgr.cpp
+-index 6d32c5760..1d17ab738 100644
+---- a/src/server/game/DungeonFinding/LFGMgr.cpp
+-+++ b/src/server/game/DungeonFinding/LFGMgr.cpp
+-@@ -26,8 +26,7 @@
+- 
+- namespace lfg
+- {
+--
+--    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_Testing(false)
+-+    LFGMgr::LFGMgr(): m_lfgProposalId(1), m_options(sWorld->getIntConfig(CONFIG_LFG_OPTIONSMASK)), m_isSoloLFG(false), m_Testing(false)
+-     {
+-         new LFGPlayerScript();
+-         new LFGGroupScript();
+-@@ -1672,8 +1671,7 @@ namespace lfg
+-         for (LfgProposalPlayerContainer::const_iterator itPlayers = proposal.players.begin(); itPlayers != proposal.players.end(); ++itPlayers)
+-             if (itPlayers->second.accept != LFG_ANSWER_AGREE)   // No answer (-1) or not accepted (0)
+-                 allAnswered = false;
+--
+--        if (!m_Testing && !allAnswered)
+-+        if (!sLFGMgr->IsSoloLFG() && !allAnswered)
+-         {
+-             for (LfgProposalPlayerContainer::const_iterator it = proposal.players.begin(); it != proposal.players.end(); ++it)
+-                 SendLfgUpdateProposal(it->first, proposal);
+-@@ -2656,5 +2654,9 @@ namespace lfg
+-         }
+-         return randomDungeons;
+-     }
+-+    void LFGMgr::ToggleSoloLFG()
+-+    {
+-+        m_isSoloLFG = !m_isSoloLFG;
+-+    }
+- 
+- } // namespace lfg
+-diff --git a/src/server/game/DungeonFinding/LFGMgr.h b/src/server/game/DungeonFinding/LFGMgr.h
+-index 0340cc57a..b4ae800ed 100644
+---- a/src/server/game/DungeonFinding/LFGMgr.h
+-+++ b/src/server/game/DungeonFinding/LFGMgr.h
+-@@ -532,6 +532,10 @@ namespace lfg
+-         void RBPacketAppendPlayer(const RBInternalInfo& info, ByteBuffer& buffer);
+-         void RBPacketBuildDifference(WorldPacket& differencePacket, uint32 dungeonId, uint32 deletedCounter, ByteBuffer& buffer_deleted, uint32 groupCounter, ByteBuffer& buffer_groups, uint32 playerCounter, ByteBuffer& buffer_players);
+-         void RBPacketBuildFull(WorldPacket& fullPacket, uint32 dungeonId, RBInternalInfoMap& infoMap);
+-+        /// Toggle LFG in debug mode
+-+        void ToggleSoloLFG();
+-+        /// Check if debug mode
+-+        bool IsSoloLFG() const { return m_isSoloLFG; }
+- 
+-         // LfgQueue
+-         /// Get last lfg state (NONE, DUNGEON or FINISHED_DUNGEON)
+-@@ -590,6 +594,7 @@ namespace lfg
+-         uint32 lastProposalId;                             ///< pussywizard, store it here because of splitting LFGMgr update into tasks
+-         uint32 m_raidBrowserUpdateTimer[2];                ///< pussywizard
+-         uint32 m_raidBrowserLastUpdatedDungeonId[2];       ///< pussywizard: for 2 factions
+-+        bool m_isSoloLFG;                                  ///< solo lfg
+- 
+-         LfgQueueContainer QueuesStore;                     ///< Queues
+-         LfgCachedDungeonContainer CachedDungeonMapStore;   ///< Stores all dungeons by groupType
+-diff --git a/src/server/game/DungeonFinding/LFGQueue.cpp b/src/server/game/DungeonFinding/LFGQueue.cpp
+-index e43080c14..e532ddb57 100644
+---- a/src/server/game/DungeonFinding/LFGQueue.cpp
+-+++ b/src/server/game/DungeonFinding/LFGQueue.cpp
+-@@ -285,7 +285,7 @@ namespace lfg
+-             return LFG_INCOMPATIBLES_MULTIPLE_LFG_GROUPS;
+- 
+-         // Group with less that MAXGROUPSIZE members always compatible
+--        if (!sLFGMgr->IsTesting() && check.size() == 1 && numPlayers < MAXGROUPSIZE)
+-+        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+-         {
+-             LfgQueueDataContainer::iterator itQueue = QueueDataStore.find(check.front());
+-             LfgRolesMap roles = itQueue->second.roles;
+-@@ -382,7 +382,7 @@ namespace lfg
+-         }
+- 
+-         // Enough players?
+--        if (!sLFGMgr->IsTesting() && numPlayers != MAXGROUPSIZE)
+-+        if (!sLFGMgr->IsSoloLFG() && numPlayers != MAXGROUPSIZE) // solo lfg
+-         {
+-             strGuids.addRoles(proposalRoles);
+-             for (uint8 i = 0; i < 5 && check.guids[i]; ++i)
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index d00f70f..63b2d80 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -21,7 +21,7 @@ public:
+     void OnLogin(Player* player)
+     {
+         // Announce Module
+-        if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
++        if (sConfigMgr->GetOption<bool>("SoloLFG.Announce", true))
+         {
+             ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Solo Dungeon Finder |rmodule.");
+         }
+@@ -35,9 +35,9 @@ public:
+ 
+     void OnAfterConfigLoad(bool /*reload*/) override
+     {
+-        if (sConfigMgr->GetBoolDefault("SoloLFG.Enable", true) != sLFGMgr->IsSoloLFG())
++        if (sConfigMgr->GetOption<bool>("SoloLFG.Enable", true) != sLFGMgr->IsTesting())
+         {
+-            sLFGMgr->ToggleSoloLFG();
++            sLFGMgr->ToggleTesting();
+         }
+     }
+ };
+-- 
+2.34.1
+
+
+From 9df7e935515eab292ea9d943f5dc0cd1d5a468f6 Mon Sep 17 00:00:00 2001
+From: Walter Pagani <paganiwalter@gmail.com>
+Date: Fri, 16 Jun 2023 10:27:08 -0300
+Subject: [PATCH 22/25] chore(Module/Structure): update structure (#36)
+
+* chore(Module/Structure): update structure
+
+* fix build
+
+* update readme
+---
+ .github/ISSUE_TEMPLATE/bug_report.yml      | 72 ++++++++++++++++++++++
+ .github/ISSUE_TEMPLATE/feature_request.yml | 33 ++++++++++
+ .github/workflows/core-build.yml           | 43 +------------
+ CMakeLists.txt                             |  9 ---
+ README.md                                  |  7 ++-
+ pull_request_template.md                   | 25 ++++++++
+ src/LFG_loader.cpp                         |  6 ++
+ src/Lfg_Solo.cpp                           |  2 +-
+ src/loader.h                               |  1 -
+ 9 files changed, 146 insertions(+), 52 deletions(-)
+ create mode 100644 .github/ISSUE_TEMPLATE/bug_report.yml
+ create mode 100644 .github/ISSUE_TEMPLATE/feature_request.yml
+ delete mode 100644 CMakeLists.txt
+ create mode 100644 pull_request_template.md
+ create mode 100644 src/LFG_loader.cpp
+ delete mode 100644 src/loader.h
+
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.yml b/.github/ISSUE_TEMPLATE/bug_report.yml
+new file mode 100644
+index 0000000..5610d2b
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/bug_report.yml
+@@ -0,0 +1,72 @@
++name: Bug report
++description: Create a bug report to help us improve.
++title: "Bug: "
++body:
++  - type: textarea
++    id: current
++    attributes:
++      label: Current Behaviour
++      description: |
++        Description of the problem or issue here.
++        Include entries of affected creatures / items / quests / spells etc.
++        If this is a crash, post the crashlog (upload to https://gist.github.com/) and include the link here.
++        Never upload files! Use GIST for text and YouTube for videos!
++    validations:
++      required: true
++  - type: textarea
++    id: expected
++    attributes:
++      label: Expected Behaviour
++      description: |
++        Tell us what should happen instead.
++    validations:
++      required: true
++  - type: textarea
++    id: reproduce
++    attributes:
++      label: Steps to reproduce the problem
++      description: |
++        What does someone else need to do to encounter the same bug?
++      placeholder: |
++        1. Step 1
++        2. Step 2
++        3. Step 3
++    validations:
++      required: true
++  - type: textarea
++    id: extra
++    attributes:
++      label: Extra Notes
++      description: |
++        Do you have any extra notes that can help solve the issue that does not fit any other field?
++      placeholder: |
++        None
++    validations:
++      required: false
++  - type: textarea
++    id: commit
++    attributes:
++      label: AC rev. hash/commit
++      description: |
++        Copy the result of the `.server debug` command (if you need to run it from the client get a prat addon)
++    validations:
++      required: true
++  - type: input
++    id: os
++    attributes:
++      label: Operating system
++      description: |
++        The Operating System the Server is running on.
++        i.e. Windows 11 x64, Debian 10 x64, macOS 12, Ubuntu 20.04
++    validations:
++      required: true
++  - type: textarea
++    id: custom
++    attributes:
++      label: Custom changes or Modules
++      description: |
++        List which custom changes or modules you have applied, i.e. Eluna module, etc.
++      placeholder: |
++        None
++    validations:
++      required: false
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.yml b/.github/ISSUE_TEMPLATE/feature_request.yml
+new file mode 100644
+index 0000000..58f79dd
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE/feature_request.yml
+@@ -0,0 +1,33 @@
++name: Feature request
++description: Suggest an idea for this project
++title: "Feature: "
++body:
++  - type: markdown
++    attributes:
++      value: |
++        Thank you for taking your time to fill out a feature request. Remember to fill out all fields including the title above. 
++        An issue that is not properly filled out will be closed. 
++  - type: textarea
++    id: description
++    attributes:
++      label: Describe your feature request or suggestion in detail
++      description: |
++        A clear and concise description of what you want to happen.
++    validations:
++      required: true
++  - type: textarea
++    id: solution
++    attributes:
++      label: Describe a possible solution to your feature or suggestion in detail
++      description: |
++        A clear and concise description of any alternative solutions or features you've considered.
++    validations:
++      required: false
++  - type: textarea
++    id: additional
++    attributes:
++      label: Additional context
++      description: |
++        Add any other context or screenshots about the feature request here.
++    validations:
++      required: false
+diff --git a/.github/workflows/core-build.yml b/.github/workflows/core-build.yml
+index ab63879..921c9eb 100644
+--- a/.github/workflows/core-build.yml
++++ b/.github/workflows/core-build.yml
+@@ -7,43 +7,6 @@ on:
+ 
+ jobs:
+   build:
+-    strategy:
+-      fail-fast: false
+-      matrix:
+-        compiler: [clang]
+-    runs-on: ubuntu-20.04
+-    name: ${{ matrix.compiler }}
+-    env:
+-      COMPILER: ${{ matrix.compiler }}
+-    steps:
+-      - uses: actions/checkout@v2
+-        with:
+-          repository: 'azerothcore/azerothcore-wotlk'
+-          ref: 'master'
+-          submodules: 'recursive'
+-      - uses: actions/checkout@v2
+-        with:
+-          submodules: 'recursive'
+-          path: 'modules/mod-solo-lfg'        
+-      - name: Cache
+-        uses: actions/cache@v2
+-        with:
+-          path: var/ccache
+-          key: ccache:${{ matrix.compiler }}:${{ github.ref }}:${{ github.sha }}
+-          restore-keys: |
+-            ccache:${{ matrix.compiler }}:${{ github.ref }}
+-            ccache:${{ matrix.compiler }}
+-      - name: Configure OS
+-        run: source ./acore.sh install-deps
+-        env:
+-          CONTINUOUS_INTEGRATION: true
+-      - name: Create conf/config.sh
+-        run: source ./apps/ci/ci-conf.sh
+-      - name: Import db
+-        run: source ./apps/ci/ci-import-db.sh
+-      - name: Build
+-        run: source ./apps/ci/ci-compile.sh
+-      - name: Dry run
+-        run: source ./apps/ci/ci-worldserver-dry-run.sh
+-      - name: Check startup errors
+-        run: source ./apps/ci/ci-error-check.sh
++    uses: azerothcore/reusable-workflows/.github/workflows/core_build_modules.yml@main
++    with:
++      module_repo: ${{ github.event.repository.name }}
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+deleted file mode 100644
+index 9e8314f..0000000
+--- a/CMakeLists.txt
++++ /dev/null
+@@ -1,9 +0,0 @@
+-CU_SET_PATH("CMAKE_LFG_SOLO_DIR" "${CMAKE_CURRENT_LIST_DIR}")
+-
+-AC_ADD_SCRIPT("${CMAKE_CURRENT_LIST_DIR}/src/Lfg_Solo.cpp")
+-
+-AC_ADD_SCRIPT_LOADER("LfgSolo"      "${CMAKE_CURRENT_LIST_DIR}/src/loader.h")
+-
+-AC_ADD_CONFIG_FILE("${CMAKE_CURRENT_LIST_DIR}/conf/SoloLfg.conf.dist")
+-
+-message("-- Solo LFG CONFIGURED --")
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index 8d3988b..bf58264 100644
+--- a/README.md
++++ b/README.md
+@@ -1,5 +1,11 @@
++# ![logo](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
++
+ # Solo Dungeon Finder
+ 
++- Latest build status with azerothcore:
++
++[![Build Status](https://github.com/azerothcore/mod-solo-lfg/workflows/core-build/badge.svg?branch=master&event=push)](https://github.com/azerothcore/mod-solo-lfg)
++
+ ## Description
+ 
+ Allows for players to use dungeon finder solo or in groups less than and up to 5 players. Use on azerothcore 3.3.5a. Good companion module for mod-solocraft and mod-autobalance.
+@@ -41,7 +47,6 @@ copy the file SoloLfg.conf.dist to SoloLfg.conf and edit it (keep both files).
+     b. Then do a docker-compose up
+ ```
+ 
+-
+ ## Credits
+ *  [Traesh: Original Script](https://github.com/Traesh)
+ *  [Micrah/Milestorme: Module Creator](https://github.com/milestorme).
+diff --git a/pull_request_template.md b/pull_request_template.md
+new file mode 100644
+index 0000000..21c9245
+--- /dev/null
++++ b/pull_request_template.md
+@@ -0,0 +1,25 @@
++<!-- First of all, THANK YOU for your contribution. -->
++
++## Changes Proposed:
++- 
++- 
++
++## Issues Addressed:
++<!-- If your fix has a relating issue, link it below -->
++- Closes
++
++## SOURCE:
++<!-- If you can, include a source that can strengthen your claim -->
++
++## Tests Performed:
++<!-- Does it build without errors? Did you test in-game? What did you test? On which OS did you test? Describe any other tests performed -->
++- 
++- 
++
++
++## How to Test the Changes:
++<!-- Describe in a detailed step-by-step order how to test the changes -->
++
++1.
++2.
++3.
+diff --git a/src/LFG_loader.cpp b/src/LFG_loader.cpp
+new file mode 100644
+index 0000000..d7c85ac
+--- /dev/null
++++ b/src/LFG_loader.cpp
+@@ -0,0 +1,6 @@
++void AddLfgSoloScripts();
++
++void Addmod_solo_lfgScripts()
++{
++    AddLfgSoloScripts();
++}
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 63b2d80..4a3132b 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -44,6 +44,6 @@ public:
+ 
+ void AddLfgSoloScripts()
+ {
+-	new lfg_solo_announce();
++    new lfg_solo_announce();
+     new lfg_solo();
+ }
+diff --git a/src/loader.h b/src/loader.h
+deleted file mode 100644
+index 7fc6646..0000000
+--- a/src/loader.h
++++ /dev/null
+@@ -1 +0,0 @@
+-void AddLfgSoloScripts();
+-- 
+2.34.1
+
+
+From 9b0ad73b9b67262d5227471d04691833cc44a424 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Stefano=20Borz=C3=AC?= <stefanoborzi32@gmail.com>
+Date: Sun, 18 Jun 2023 18:37:20 +0200
+Subject: [PATCH 23/25] chore: remove docker.patch closes #15 (#37)
+
+---
+ docker.patch | 25 -------------------------
+ 1 file changed, 25 deletions(-)
+ delete mode 100644 docker.patch
+
+diff --git a/docker.patch b/docker.patch
+deleted file mode 100644
+index 940eabd..0000000
+--- a/docker.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+-index ee5f70e..ea035bf 100644
+---- a/src/Lfg_Solo.cpp
+-+++ b/src/Lfg_Solo.cpp
+-@@ -20,7 +20,7 @@ public:
+- 
+-     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+- 
+--    void OnLogin(Player* player)
+-+    void OnLogin(Player* __attribute__ ((unused))player)
+-     {
+-         // Announce Module
+-         if (sConfigMgr->GetBoolDefault("SoloLFG.Announce", true))
+-@@ -37,7 +37,7 @@ public:
+-     
+-    // Docker Installation prevents warnings. In order to avoid the issue, we need to add __attribute__ ((unused)) 
+-    // to the player variable to tell the compiler it is fine not to use it.
+--   void OnLogin(Player* player)
+-+   void OnLogin(Player* __attribute__ ((unused))player)
+-    {
+- 	   if (sConfigMgr->GetIntDefault("SoloLFG.Enable", true))
+-         {
+--- 
+-1.8.3.1
+-
+-- 
+2.34.1
+
+
+From 97bf90202a41bf6de4ea9cf8daacd2d217dd8fe1 Mon Sep 17 00:00:00 2001
+From: DrReaganRidley <137726736+DrReaganRidley@users.noreply.github.com>
+Date: Mon, 11 Mar 2024 09:53:46 -0400
+Subject: [PATCH 24/25] Add configuration options: FixedXP, FixedXPRate (#38)
+
+* Add SoloLFG.FixedXP to encourage group play
+
+* Add option: SoloLFG.FixedXPRate
+
+* Correct a comment
+
+* Match existing styling a little better
+
+* Respecting convections, nothing serious
+
+* fix build. Adding missing parameter
+
+---------
+
+Co-authored-by: Pagani Walter <paganiwalter@gmail.com>
+---
+ conf/SoloLfg.conf.dist | 13 +++++++++++++
+ src/Lfg_Solo.cpp       | 15 ++++++++++++++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/conf/SoloLfg.conf.dist b/conf/SoloLfg.conf.dist
+index 569abc1..42ed51a 100644
+--- a/conf/SoloLfg.conf.dist
++++ b/conf/SoloLfg.conf.dist
+@@ -19,4 +19,17 @@ SoloLFG.Enable = 1
+ 
+ SoloLFG.Announce = 1
+ 
++#    SoloLFG.FixedXP
++#        Description: Set the XP rate in dungeons to FixedXPRate
++#        Default:     1  - (Enabled)
++#                     0  - (Disabled)
++
++SoloLFG.FixedXP = 1
++
++#    SoloLFG.FixedXPRate
++#        Description: Set the fixed XP rate used in dungeons
++#        Default:     0.2 (The same XP gained in a full party of 5)
++
++SoloLFG.FixedXPRate = 0.2
++
+ ###################################################################################################
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index 4a3132b..da80591 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -18,7 +18,7 @@ class lfg_solo_announce : public PlayerScript
+ public:
+     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+ 
+-    void OnLogin(Player* player)
++    void OnLogin(Player* player) override
+     {
+         // Announce Module
+         if (sConfigMgr->GetOption<bool>("SoloLFG.Announce", true))
+@@ -26,6 +26,19 @@ public:
+             ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Solo Dungeon Finder |rmodule.");
+         }
+     }
++
++    void OnRewardKillRewarder(Player* /*player*/, KillRewarder* /*rewarder*/, bool isDungeon, float& rate) override
++    {
++        if (!isDungeon
++            || !sConfigMgr->GetOption<bool>("SoloLFG.Enable", true)
++            || !sConfigMgr->GetOption<bool>("SoloLFG.FixedXP", true))
++        {
++            return;
++        }
++
++        // Force the rate to FixedXPRate regardless of group size, to encourage group play
++        rate = sConfigMgr->GetOption<float>("SoloLFG.FixedXPRate", 0.2);
++    }
+ };
+ 
+ class lfg_solo : public WorldScript
+-- 
+2.34.1
+
+
+From 3821fe1d108ade8d2b7ad6611e41154e05864c65 Mon Sep 17 00:00:00 2001
+From: Nolt <nolt@users.noreply.github.com>
+Date: Thu, 27 Feb 2025 14:46:40 +0100
+Subject: [PATCH 25/25] Add files via upload (#45)
+
+fixed function names
+---
+ src/Lfg_Solo.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Lfg_Solo.cpp b/src/Lfg_Solo.cpp
+index da80591..8f58fa7 100644
+--- a/src/Lfg_Solo.cpp
++++ b/src/Lfg_Solo.cpp
+@@ -18,7 +18,7 @@ class lfg_solo_announce : public PlayerScript
+ public:
+     lfg_solo_announce() : PlayerScript("lfg_solo_announce") {}
+ 
+-    void OnLogin(Player* player) override
++    void OnPlayerLogin(Player* player) override
+     {
+         // Announce Module
+         if (sConfigMgr->GetOption<bool>("SoloLFG.Announce", true))
+@@ -27,7 +27,7 @@ public:
+         }
+     }
+ 
+-    void OnRewardKillRewarder(Player* /*player*/, KillRewarder* /*rewarder*/, bool isDungeon, float& rate) override
++    void OnPlayerRewardKillRewarder(Player* /*player*/, KillRewarder* /*rewarder*/, bool isDungeon, float& rate) override
+     {
+         if (!isDungeon
+             || !sConfigMgr->GetOption<bool>("SoloLFG.Enable", true)
+-- 
+2.34.1
+
