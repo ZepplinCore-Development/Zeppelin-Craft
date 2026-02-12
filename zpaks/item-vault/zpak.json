@@ -5,6 +5,7 @@
   "description": "Personal item vault storage system",
   "author": "ShatteredDawn",
   "type": "acore-extension",
+  "client_patch": "PATCH-A",
   "acore": {
     "module": "mod-item-vault",
     "source": "https://github.com/ShatteredDawn/item-vault.git",
