@@ -171,7 +171,10 @@ class AtlasLootParser:
                 f.writelines(self.content)
 
             # Set permissions to 666 for cross-platform compatibility (Windows/Linux shares)
-            os.chmod(self.lua_file_path, 0o666)
+            try:
+                os.chmod(self.lua_file_path, 0o666)
+            except OSError:
+                pass  # chmod fails if not file owner — harmless if already writable
             return True
 
         except Exception as e:

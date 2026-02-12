@@ -810,13 +810,16 @@ def _add_to_mpq(source_dir: Path, mpq_path: Path) -> bool:
 
         # Internal MPQ path is relative to source_dir
         internal_path = file_path.relative_to(source_dir)
+        # mpqcli -p takes the parent directory, not the full path
+        internal_dir = str(internal_path.parent)
 
         cmd = [
             str(MPQCLI_PATH), 'add',
-            str(mpq_path),
             str(file_path),
-            '-f', str(internal_path),
+            str(mpq_path),
         ]
+        if internal_dir != '.':
+            cmd += ['-p', internal_dir]
 
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
