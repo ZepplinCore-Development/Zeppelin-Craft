@@ -482,4 +482,4 @@
             `Orientation` = 5.53;
 
 -- Rune of Teleportation
-    UPDATE `item_template` SET `BuyPrice` = 100000, `SellPrice` = 25000, `stackable` = 200 WHERE (`entry` = 17031);
+    UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500, `stackable` = 200 WHERE (`entry` = 17031);
