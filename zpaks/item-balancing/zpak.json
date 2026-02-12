@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "item-balancing",
+  "version": "0.1.0",
+  "description": "Item balancing adjustments for F-056",
+  "author": "Zeppelin Team",
+  "type": "native",
+  "contents": {
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ]
+  },
+  "enabled": true,
+  "priority": 100
+}
