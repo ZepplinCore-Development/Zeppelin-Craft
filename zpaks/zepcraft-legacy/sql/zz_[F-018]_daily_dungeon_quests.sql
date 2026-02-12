@@ -82,6 +82,16 @@
                     `id` = 14392;
                     
                 
+                -- Maraudon Orange - Razorlash - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441155);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441155, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441155);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441155, 0, 0, 1568, -4406, 0);
+
+                
                 -- Maraudon Orange - Razorlash - Razor Petal - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901700);
                 INSERT INTO `item_template`
@@ -115,7 +125,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Razor Petal';
-   
+
                 
 
                 -- *******************************************************
@@ -201,6 +211,16 @@
                     `id` = 29093;
                     
                 
+                -- Maraudon Orange - Razorlash - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441195);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441195, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441195);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441195, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -285,6 +305,16 @@
                     `id` = 14392;
                     
                 
+                -- Maraudon Purple - Celebras the Cursed - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441156);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441156, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441156);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441156, 0, 0, 1568, -4406, 0);
+
+                
                 -- Maraudon Purple - Celebras the Cursed - Carved Horn of Remulos - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901701);
                 INSERT INTO `item_template`
@@ -318,7 +348,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Carved Horn of Remulos';
-   
+
                 
 
                 -- *******************************************************
@@ -404,6 +434,16 @@
                     `id` = 29093;
                     
                 
+                -- Maraudon Purple - Celebras the Cursed - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441207);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441207, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441207);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441207, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -488,6 +528,16 @@
                     `id` = 14392;
                     
                 
+                -- Stormwind Stockade - Bazil Thredd - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441157);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441157, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441157);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441157, 0, 0, 1568, -4406, 0);
+
+                
                 -- Stormwind Stockade - Bazil Thredd - Prison Wallet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901702);
                 INSERT INTO `item_template`
@@ -521,7 +571,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Prison Wallet';
-   
+
                 
 
                 -- *******************************************************
@@ -607,6 +657,16 @@
                     `id` = 29093;
                     
                 
+                -- Stormwind Stockade - Bazil Thredd - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441184);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441184, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441184);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441184, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -691,6 +751,16 @@
                     `id` = 14392;
                     
                 
+                -- Shadowfang Keep - Archmage Arugal - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441158);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441158, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441158);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441158, 0, 0, 1568, -4406, 0);
+
+                
                 -- Shadowfang Keep - Archmage Arugal - Fangfire Amulet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901703);
                 INSERT INTO `item_template`
@@ -724,7 +794,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Fangfire Amulet';
-   
+
                 
 
                 -- *******************************************************
@@ -810,6 +880,16 @@
                     `id` = 29093;
                     
                 
+                -- Shadowfang Keep - Archmage Arugal - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441185);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441185, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441185);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441185, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -894,6 +974,16 @@
                     `id` = 14392;
                     
                 
+                -- Razorfen Kraul - Charlga Razorflank - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441159);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441159, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441159);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441159, 0, 0, 1568, -4406, 0);
+
+                
                 -- Razorfen Kraul - Charlga Razorflank - Gauntlets of Growth - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901704);
                 INSERT INTO `item_template`
@@ -927,7 +1017,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Gauntlets of Growth';
-   
+
                 
 
                 -- *******************************************************
@@ -1013,6 +1103,16 @@
                     `id` = 29093;
                     
                 
+                -- Razorfen Kraul - Charlga Razorflank - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441186);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441186, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441186);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441186, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -1097,6 +1197,16 @@
                     `id` = 14392;
                     
                 
+                -- Razorfen Downs - Amnennar the Coldbringer - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441160);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441160, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441160);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441160, 0, 0, 1568, -4406, 0);
+
+                
                 -- Razorfen Downs - Amnennar the Coldbringer - Frozen Bone - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901705);
                 INSERT INTO `item_template`
@@ -1130,7 +1240,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Frozen Bone';
-   
+
                 
 
                 -- *******************************************************
@@ -1216,6 +1326,16 @@
                     `id` = 29093;
                     
                 
+                -- Razorfen Downs - Amnennar the Coldbringer - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441187);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441187, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441187);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441187, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -1300,6 +1420,16 @@
                     `id` = 14392;
                     
                 
+                -- Wailing Caverns - Verdan the Everliving - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441161);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441161, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441161);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441161, 0, 0, 1568, -4406, 0);
+
+                
                 -- Wailing Caverns - Verdan the Everliving - Everliving Spore - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901706);
                 INSERT INTO `item_template`
@@ -1333,7 +1463,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Everliving Spore';
-   
+
                 
 
                 -- *******************************************************
@@ -1419,6 +1549,16 @@
                     `id` = 29093;
                     
                 
+                -- Wailing Caverns - Verdan the Everliving - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441188);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441188, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441188);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441188, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -1503,6 +1643,16 @@
                     `id` = 14392;
                     
                 
+                -- Ragefire Chasm - Jergosh the Invoker - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441162);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441162, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441162);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441162, 0, 0, 1568, -4406, 0);
+
+                
                 -- Ragefire Chasm - Jergosh the Invoker - Searing Stone - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901707);
                 INSERT INTO `item_template`
@@ -1536,7 +1686,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Searing Stone';
-   
+
                 
 
                 -- *******************************************************
@@ -1622,6 +1772,16 @@
                     `id` = 29093;
                     
                 
+                -- Ragefire Chasm - Jergosh the Invoker - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441189);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441189, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441189);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441189, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -1706,6 +1866,16 @@
                     `id` = 14392;
                     
                 
+                -- Gnomeregan - Mekgineer Thermaplugg - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441163);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441163, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441163);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441163, 0, 0, 1568, -4406, 0);
+
+                
                 -- Gnomeregan - Mekgineer Thermaplugg - Plugg Nuts - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901708);
                 INSERT INTO `item_template`
@@ -1739,7 +1909,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Plugg Nuts';
-   
+
                 
 
                 -- *******************************************************
@@ -1825,6 +1995,16 @@
                     `id` = 29093;
                     
                 
+                -- Gnomeregan - Mekgineer Thermaplugg - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441190);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441190, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441190);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441190, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -1909,6 +2089,16 @@
                     `id` = 14392;
                     
                 
+                -- Blackfathom Deeps - Aku''mai - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441164);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441164, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441164);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441164, 0, 0, 1568, -4406, 0);
+
+                
                 -- Blackfathom Deeps - Aku''mai - Void Pearl - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901709);
                 INSERT INTO `item_template`
@@ -1942,7 +2132,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Void Pearl';
-   
+
                 
 
                 -- *******************************************************
@@ -2028,6 +2218,16 @@
                     `id` = 29093;
                     
                 
+                -- Blackfathom Deeps - Aku''mai - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441191);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441191, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441191);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441191, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -2112,6 +2312,16 @@
                     `id` = 14392;
                     
                 
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441165);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441165, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441165);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441165, 0, 0, 1568, -4406, 0);
+
+                
                 -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Bloodfire Amulet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901710);
                 INSERT INTO `item_template`
@@ -2145,7 +2355,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Bloodfire Amulet';
-   
+
                 
 
                 -- *******************************************************
@@ -2231,6 +2441,16 @@
                     `id` = 29093;
                     
                 
+                -- Scarlet Monastery Graveyard - Bloodmage Thalnos - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441192);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441192, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441192);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441192, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -2315,6 +2535,16 @@
                     `id` = 14392;
                     
                 
+                -- Uldaman East - Archaedas - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441166);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441166, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441166);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441166, 0, 0, 1568, -4406, 0);
+
+                
                 -- Uldaman East - Archaedas - Resonating Stone of Unity - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901711);
                 INSERT INTO `item_template`
@@ -2348,7 +2578,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Resonating Stone of Unity';
-   
+
                 
 
                 -- *******************************************************
@@ -2434,6 +2664,16 @@
                     `id` = 29093;
                     
                 
+                -- Uldaman East - Archaedas - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441193);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441193, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441193);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441193, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -2518,6 +2758,16 @@
                     `id` = 14392;
                     
                 
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441167);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441167, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441167);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441167, 0, 0, 1568, -4406, 0);
+
+                
                 -- Zul''Farrak - Chief Ukorz Sandscalp - Sandfury War Drum - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901712);
                 INSERT INTO `item_template`
@@ -2551,7 +2801,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Sandfury War Drum';
-   
+
                 
 
                 -- *******************************************************
@@ -2637,6 +2887,16 @@
                     `id` = 29093;
                     
                 
+                -- Zul''Farrak - Chief Ukorz Sandscalp - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441194);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441194, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441194);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441194, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -2721,6 +2981,16 @@
                     `id` = 14392;
                     
                 
+                -- Sunken Temple - Shade of Eranikus - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441168);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441168, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441168);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441168, 0, 0, 1568, -4406, 0);
+
+                
                 -- Sunken Temple - Shade of Eranikus - Dream Seed - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901713);
                 INSERT INTO `item_template`
@@ -2754,7 +3024,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Dream Seed';
-   
+
                 
 
                 -- *******************************************************
@@ -2840,6 +3110,16 @@
                     `id` = 29093;
                     
                 
+                -- Sunken Temple - Shade of Eranikus - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441196);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441196, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441196);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441196, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -2924,6 +3204,16 @@
                     `id` = 14392;
                     
                 
+                -- Blackrock Depths Prison - Lord Incendius - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441169);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441169, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441169);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441169, 0, 0, 1568, -4406, 0);
+
+                
                 -- Blackrock Depths Prison - Lord Incendius - Incendiary Core - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901714);
                 INSERT INTO `item_template`
@@ -2957,7 +3247,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Incendiary Core';
-   
+
                 
 
                 -- *******************************************************
@@ -3043,6 +3333,16 @@
                     `id` = 29093;
                     
                 
+                -- Blackrock Depths Prison - Lord Incendius - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441197);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441197, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441197);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441197, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -3127,6 +3427,16 @@
                     `id` = 14392;
                     
                 
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441170);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441170, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441170);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441170, 0, 0, 1568, -4406, 0);
+
+                
                 -- Blackrock Spire Lower - Overlord Wyrmthalak - Wyrmthalak''s War Horn - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901715);
                 INSERT INTO `item_template`
@@ -3160,7 +3470,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Wyrmthalak''s War Horn';
-   
+
                 
 
                 -- *******************************************************
@@ -3246,6 +3556,16 @@
                     `id` = 29093;
                     
                 
+                -- Blackrock Spire Lower - Overlord Wyrmthalak - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441198);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441198, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441198);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441198, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -3330,6 +3650,16 @@
                     `id` = 14392;
                     
                 
+                -- Dire Maul East - Alzzin the Wildshaper - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441171);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441171, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441171);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441171, 0, 0, 1568, -4406, 0);
+
+                
                 -- Dire Maul East - Alzzin the Wildshaper - Scepter of Sylvan Corruption - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901716);
                 INSERT INTO `item_template`
@@ -3363,7 +3693,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Scepter of Sylvan Corruption';
-   
+
                 
 
                 -- *******************************************************
@@ -3449,6 +3779,16 @@
                     `id` = 29093;
                     
                 
+                -- Dire Maul East - Alzzin the Wildshaper - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441199);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441199, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441199);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441199, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -3533,6 +3873,16 @@
                     `id` = 14392;
                     
                 
+                -- Dire Maul West - Immol''thar - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441172);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441172, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441172);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441172, 0, 0, 1568, -4406, 0);
+
+                
                 -- Dire Maul West - Immol''thar - Immol''thar''s Fel Essence - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901717);
                 INSERT INTO `item_template`
@@ -3566,7 +3916,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Immol''thar''s Fel Essence';
-   
+
                 
 
                 -- *******************************************************
@@ -3652,6 +4002,16 @@
                     `id` = 29093;
                     
                 
+                -- Dire Maul West - Immol''thar - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441200);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441200, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441200);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441200, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -3736,6 +4096,16 @@
                     `id` = 14392;
                     
                 
+                -- Dire Maul North - King Gordok - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441173);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441173, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441173);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441173, 0, 0, 1568, -4406, 0);
+
+                
                 -- Dire Maul North - King Gordok - Gordok''s Skull Goblet - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901718);
                 INSERT INTO `item_template`
@@ -3769,7 +4139,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Gordok''s Skull Goblet';
-   
+
                 
 
                 -- *******************************************************
@@ -3855,6 +4225,16 @@
                     `id` = 29093;
                     
                 
+                -- Dire Maul North - King Gordok - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441201);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441201, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441201);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441201, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -3939,6 +4319,16 @@
                     `id` = 14392;
                     
                 
+                -- Stratholme Living - Balnazzar - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441174);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441174, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441174);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441174, 0, 0, 1568, -4406, 0);
+
+                
                 -- Stratholme Living - Balnazzar - Dathrohan''s Tainted Medallion - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901719);
                 INSERT INTO `item_template`
@@ -3972,7 +4362,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Dathrohan''s Tainted Medallion';
-   
+
                 
 
                 -- *******************************************************
@@ -4058,6 +4448,16 @@
                     `id` = 29093;
                     
                 
+                -- Stratholme Living - Balnazzar - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441202);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441202, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441202);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441202, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -4142,6 +4542,16 @@
                     `id` = 14392;
                     
                 
+                -- Blackrock Spire Upper - General Drakkisath - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441175);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441175, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441175);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441175, 0, 0, 1568, -4406, 0);
+
+                
                 -- Blackrock Spire Upper - General Drakkisath - Black Dragonflight Cipher - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901720);
                 INSERT INTO `item_template`
@@ -4175,7 +4585,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Black Dragonflight Cipher';
-   
+
                 
 
                 -- *******************************************************
@@ -4261,6 +4671,16 @@
                     `id` = 29093;
                     
                 
+                -- Blackrock Spire Upper - General Drakkisath - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441203);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441203, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441203);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441203, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -4345,6 +4765,16 @@
                     `id` = 14392;
                     
                 
+                -- Scarlet Monastery Armory - Herod - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441176);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441176, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441176);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441176, 0, 0, 1568, -4406, 0);
+
+                
                 -- Scarlet Monastery Armory - Herod - Herod''s War Banner - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901721);
                 INSERT INTO `item_template`
@@ -4378,7 +4808,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Herod''s War Banner';
-   
+
                 
 
                 -- *******************************************************
@@ -4464,6 +4894,16 @@
                     `id` = 29093;
                     
                 
+                -- Scarlet Monastery Armory - Herod - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441204);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441204, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441204);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441204, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -4548,6 +4988,16 @@
                     `id` = 14392;
                     
                 
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441177);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441177, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441177);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441177, 0, 0, 1568, -4406, 0);
+
+                
                 -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Whitemane''s Prayer Book - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901722);
                 INSERT INTO `item_template`
@@ -4581,7 +5031,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Whitemane''s Prayer Book';
-   
+
                 
 
                 -- *******************************************************
@@ -4667,6 +5117,16 @@
                     `id` = 29093;
                     
                 
+                -- Scarlet Monastery Cathedral - High Inquisitor Whitemane - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441205);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441205, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441205);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441205, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -4751,6 +5211,16 @@
                     `id` = 14392;
                     
                 
+                -- Scarlet Monastery Library - Arcanist Doan - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441178);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441178, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441178);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441178, 0, 0, 1568, -4406, 0);
+
+                
                 -- Scarlet Monastery Library - Arcanist Doan - Arcane Orb of Doan - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901723);
                 INSERT INTO `item_template`
@@ -4784,7 +5254,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Orb of Doan';
-   
+
                 
 
                 -- *******************************************************
@@ -4870,6 +5340,16 @@
                     `id` = 29093;
                     
                 
+                -- Scarlet Monastery Library - Arcanist Doan - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441206);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441206, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441206);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441206, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -4954,6 +5434,16 @@
                     `id` = 14392;
                     
                 
+                -- Maraudon Pristine Waters - Princess Theradras - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441179);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441179, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441179);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441179, 0, 0, 1568, -4406, 0);
+
+                
                 -- Maraudon Pristine Waters - Princess Theradras - Face of Theradras - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901746);
                 INSERT INTO `item_template`
@@ -4987,7 +5477,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Face of Theradras';
-   
+
                 
 
                 -- *******************************************************
@@ -5073,6 +5563,16 @@
                     `id` = 14392;
                     
                 
+                -- Stratholme Undead - Baron Rivendare - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441180);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441180, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441180);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441180, 0, 0, 1568, -4406, 0);
+
+                
                 -- Stratholme Undead - Baron Rivendare - Rivendare''s Runeblade - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901724);
                 INSERT INTO `item_template`
@@ -5106,7 +5606,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Rivendare''s Runeblade';
-   
+
                 
 
                 -- *******************************************************
@@ -5192,6 +5692,16 @@
                     `id` = 29093;
                     
                 
+                -- Maraudon Pristine Waters - Princess Theradras - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441208);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441208, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441208);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441208, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -5275,6 +5785,16 @@
                     SET `quest` = 441209,
                     `id` = 29093;
                     
+                
+                -- Stratholme Undead - Baron Rivendare - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441209);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441209, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441209);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441209, 0, 0, -8807, 638, 0);
+
                 
 
                 -- *******************************************************
@@ -5360,6 +5880,16 @@
                     `id` = 14392;
                     
                 
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441181);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441181, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441181);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441181, 0, 0, 1568, -4406, 0);
+
+                
                 -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Emperor''s Dark Iron Seal - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901725);
                 INSERT INTO `item_template`
@@ -5393,7 +5923,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Emperor''s Dark Iron Seal';
-   
+
                 
 
                 -- *******************************************************
@@ -5479,6 +6009,16 @@
                     `id` = 29093;
                     
                 
+                -- Blackrock Depths Upper City - Emperor Dagran Thaurissan - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441210);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441210, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441210);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441210, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -5563,6 +6103,16 @@
                     `id` = 14392;
                     
                 
+                -- Scholomance - Darkmaster Gandling - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441182);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441182, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441182);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441182, 0, 0, 1568, -4406, 0);
+
+                
                 -- Scholomance - Darkmaster Gandling - Gandling''s Plague Formula - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901726);
                 INSERT INTO `item_template`
@@ -5596,7 +6146,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Gandling''s Plague Formula';
-   
+
                 
 
                 -- *******************************************************
@@ -5682,6 +6232,16 @@
                     `id` = 29093;
                     
                 
+                -- Scholomance - Darkmaster Gandling - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441211);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441211, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441211);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441211, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -5766,6 +6326,16 @@
                     `id` = 14392;
                     
                 
+                -- Deadmines - Cookie - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441183);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441183, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441183);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441183, 0, 0, 1568, -4406, 0);
+
+                
                 -- Deadmines - Cookie - Stabby Patty Secret Formula - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901727);
                 INSERT INTO `item_template`
@@ -5799,7 +6369,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Stabby Patty Secret Formula';
-   
+
                 
 
                 -- *******************************************************
@@ -5885,6 +6455,16 @@
                     `id` = 29093;
                     
                 
+                -- Deadmines - Cookie - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441212);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441212, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441212);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441212, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -5969,6 +6549,16 @@
                     `id` = 14392;
                     
                 
+                -- Uldaman West - Ironaya - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441213);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441213, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441213);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441213, 0, 0, 1568, -4406, 0);
+
+                
                 -- Uldaman West - Ironaya - Titanforged Beacon - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901728);
                 INSERT INTO `item_template`
@@ -6002,7 +6592,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Titanforged Beacon';
-   
+
                 
 
                 -- *******************************************************
@@ -6088,6 +6678,16 @@
                     `id` = 29093;
                     
                 
+                -- Uldaman West - Ironaya - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441214);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441214, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441214);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441214, 0, 0, -8807, 638, 0);
+
+                
 
                 -- *******************************************************
 
@@ -6172,6 +6772,16 @@
                     `id` = 29093;
                     
                 
+                -- Sunken Temple - Atal''alarion - Alliance - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441215);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441215, 0, -1, 0, 301, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441215);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441215, 0, 0, -8807, 638, 0);
+
+                
                 -- Sunken Temple - Atal''alarion - Shirvallah''s Tear - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901729);
                 INSERT INTO `item_template`
@@ -6205,7 +6815,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Shirvallah''s Tear';
-   
+
                 
 
                 -- *******************************************************
@@ -6291,6 +6901,16 @@
                     `id` = 14392;
                     
                 
+                -- Sunken Temple - Atal''alarion - Horde - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441216);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441216, 0, -1, 1, 321, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441216);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441216, 0, 0, 1568, -4406, 0);
+
+                
 
                 -- *******************************************************
 
@@ -6375,6 +6995,16 @@
                     `id` = 24370;
                     
                 
+                -- Hellfire Ramparts - Nazan - Thrallmar / Honor Hold - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441217);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441217, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441217);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441217, 0, 0, -1797, 5149, 0);
+
+                
                 -- Hellfire Ramparts - Nazan - Fel Nether Essence - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901730);
                 INSERT INTO `item_template`
@@ -6408,7 +7038,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Fel Nether Essence';
-   
+
                 
 
                 -- *******************************************************
@@ -6494,6 +7124,16 @@
                     `id` = 24370;
                     
                 
+                -- Blood Furnace - Keli''dan the Breaker - Thrallmar / Honor Hold - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441218);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441218, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441218);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441218, 0, 0, -1797, 5149, 0);
+
+                
                 -- Blood Furnace - Keli''dan the Breaker - Blood Crucible - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901731);
                 INSERT INTO `item_template`
@@ -6527,7 +7167,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Blood Crucible';
-   
+
                 
 
                 -- *******************************************************
@@ -6613,6 +7253,16 @@
                     `id` = 24370;
                     
                 
+                -- Slave Pens - Quagmirran - Cenarion Expedition - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441219);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441219, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441219);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441219, 0, 0, -1797, 5149, 0);
+
+                
                 -- Slave Pens - Quagmirran - Ancient Fungus - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901732);
                 INSERT INTO `item_template`
@@ -6646,7 +7296,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Ancient Fungus';
-   
+
                 
 
                 -- *******************************************************
@@ -6732,6 +7382,16 @@
                     `id` = 24370;
                     
                 
+                -- Mana-Tombs - Nexus-Prince Shaffar - Consortium - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441220);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441220, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441220);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441220, 0, 0, -1797, 5149, 0);
+
+                
                 -- Mana-Tombs - Nexus-Prince Shaffar - Ring of Shaffar - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901733);
                 INSERT INTO `item_template`
@@ -6765,7 +7425,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Ring of Shaffar';
-   
+
                 
 
                 -- *******************************************************
@@ -6851,6 +7511,16 @@
                     `id` = 24370;
                     
                 
+                -- The Underbog - Black Stalker - Cenarion Expedition - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441221);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441221, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441221);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441221, 0, 0, -1797, 5149, 0);
+
+                
                 -- The Underbog - Black Stalker - Stalker Tendril - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901734);
                 INSERT INTO `item_template`
@@ -6884,7 +7554,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Stalker Tendril';
-   
+
                 
 
                 -- *******************************************************
@@ -6970,6 +7640,16 @@
                     `id` = 24370;
                     
                 
+                -- Auchenai Crypts - Exarch Maladaar - Lower City - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441222);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441222, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441222);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441222, 0, 0, -1797, 5149, 0);
+
+                
                 -- Auchenai Crypts - Exarch Maladaar - Mark of the Fallen Exarch - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901735);
                 INSERT INTO `item_template`
@@ -7003,7 +7683,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Mark of the Fallen Exarch';
-   
+
                 
 
                 -- *******************************************************
@@ -7089,6 +7769,16 @@
                     `id` = 24370;
                     
                 
+                -- Old Hillsbrad Foothills - Epoch Hunter - Keepers of Time - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441223);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441223, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441223);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441223, 0, 0, -1797, 5149, 0);
+
+                
                 -- Old Hillsbrad Foothills - Epoch Hunter - Infinite Drake Head - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901736);
                 INSERT INTO `item_template`
@@ -7122,7 +7812,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Infinite Drake Head';
-   
+
                 
 
                 -- *******************************************************
@@ -7208,6 +7898,16 @@
                     `id` = 24370;
                     
                 
+                -- Sethekk Halls - Talon King Ikiss - Lower City - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441224);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441224, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441224);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441224, 0, 0, -1797, 5149, 0);
+
+                
                 -- Sethekk Halls - Talon King Ikiss - Arakkoa Crown - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901737);
                 INSERT INTO `item_template`
@@ -7241,7 +7941,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arakkoa Crown';
-   
+
                 
 
                 -- *******************************************************
@@ -7327,6 +8027,16 @@
                     `id` = 24370;
                     
                 
+                -- Steamvault - Warlord Kalithresh - Cenarion Expedition - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441225);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441225, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441225);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441225, 0, 0, -1797, 5149, 0);
+
+                
                 -- Steamvault - Warlord Kalithresh - Opressor Trident - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901738);
                 INSERT INTO `item_template`
@@ -7360,7 +8070,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Opressor Trident';
-   
+
                 
 
                 -- *******************************************************
@@ -7446,6 +8156,16 @@
                     `id` = 24370;
                     
                 
+                -- Shadow Labyrinth - Murmur - Lower City - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441226);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441226, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441226);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441226, 0, 0, -1797, 5149, 0);
+
+                
                 -- Shadow Labyrinth - Murmur - Primordial Essence - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901739);
                 INSERT INTO `item_template`
@@ -7479,7 +8199,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Primordial Essence';
-   
+
                 
 
                 -- *******************************************************
@@ -7565,6 +8285,16 @@
                     `id` = 24370;
                     
                 
+                -- Shattered Halls - Warchief Kargath Bladefist - Thrallmar / Honor Hold - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441227);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441227, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441227);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441227, 0, 0, -1797, 5149, 0);
+
+                
                 -- Shattered Halls - Warchief Kargath Bladefist - Warchief Insignia - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901740);
                 INSERT INTO `item_template`
@@ -7598,7 +8328,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Warchief Insignia';
-   
+
                 
 
                 -- *******************************************************
@@ -7684,6 +8414,16 @@
                     `id` = 24370;
                     
                 
+                -- Black Morass - Aeonus - Keepers of Time - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441228);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441228, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441228);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441228, 0, 0, -1797, 5149, 0);
+
+                
                 -- Black Morass - Aeonus - Infinite Membrane - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901741);
                 INSERT INTO `item_template`
@@ -7717,7 +8457,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Infinite Membrane';
-   
+
                 
 
                 -- *******************************************************
@@ -7803,6 +8543,16 @@
                     `id` = 24370;
                     
                 
+                -- Botanica - Warp Splinter - Sha'tar - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441229);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441229, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441229);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441229, 0, 0, -1797, 5149, 0);
+
+                
                 -- Botanica - Warp Splinter - Arcane Warp Shard - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901742);
                 INSERT INTO `item_template`
@@ -7836,7 +8586,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Warp Shard';
-   
+
                 
 
                 -- *******************************************************
@@ -7922,6 +8672,16 @@
                     `id` = 24370;
                     
                 
+                -- Mechanar - Pathaleon the Calculator - Sha'tar - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441230);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441230, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441230);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441230, 0, 0, -1797, 5149, 0);
+
+                
                 -- Mechanar - Pathaleon the Calculator - Arcane Abacus - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901743);
                 INSERT INTO `item_template`
@@ -7955,7 +8715,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Arcane Abacus';
-   
+
                 
 
                 -- *******************************************************
@@ -8041,6 +8801,16 @@
                     `id` = 24370;
                     
                 
+                -- Arcatraz - Harbinger Skyriss - Sha'tar - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441231);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441231, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441231);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441231, 0, 0, -1797, 5149, 0);
+
+                
                 -- Arcatraz - Harbinger Skyriss - Qiraji Hive Mind - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901744);
                 INSERT INTO `item_template`
@@ -8074,7 +8844,7 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Qiraji Hive Mind';
-   
+
                 
 
                 -- *******************************************************
@@ -8160,6 +8930,16 @@
                     `id` = 24370;
                     
                 
+                -- Magister''s Terrace - Kael''thas Sunstrider - Shattered Sun Offensive - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = 441232);
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES (441232, 0, -1, 530, 481, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = 441232);
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES (441232, 0, 0, -1797, 5149, 0);
+
+                
                 -- Magister''s Terrace - Kael''thas Sunstrider - Necro-demon Crystal - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901745);
                 INSERT INTO `item_template`
@@ -8193,5 +8973,5 @@
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = 'Necro-demon Crystal';
-   
+
                 

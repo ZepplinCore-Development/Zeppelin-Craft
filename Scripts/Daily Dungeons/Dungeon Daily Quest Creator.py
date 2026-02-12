@@ -110,59 +110,87 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     rep1 = "67" # Horde reputation
                     reward_text = "Your deeds bring honour to the Horde."
                     flag = "4104"
+                    poi_map_id = 1
+                    poi_world_map_area_id = 321
+                    poi_x = 1568
+                    poi_y = -4406
 
                 case "Alliance":
                     quest_npc_name = "Travis Coomingham"
                     quest_npc_id = "29093"
-                    npc_city = "Stormwind"  
+                    npc_city = "Stormwind"
                     rep1 = "469" # Alliance reputation
                     reward_text = "Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch."
                     flag = "4104"
+                    poi_map_id = 0
+                    poi_world_map_area_id = 301
+                    poi_x = -8807
+                    poi_y = 638
 
                 case "Thrallmar / Honor Hold":
                     quest_npc_name = "Nether-Stalker Mah''duun"
                     quest_npc_id = "24370"
-                    npc_city = "Shattrath"  
+                    npc_city = "Shattrath"
                     rep1 = "933" # Consortium reputation
                     rep2 = "946" # Honor Hold reputation
                     rep3 = "947" # Thrallmar reputation
                     reward_text = "My buyer will be most pleased."
                     flag = "4232"
+                    poi_map_id = 530
+                    poi_world_map_area_id = 481
+                    poi_x = -1797
+                    poi_y = 5149
 
                 case "Cenarion Expedition":
                     quest_npc_name = "Nether-Stalker Mah''duun"
                     quest_npc_id = "24370"
-                    npc_city = "Shattrath"  
+                    npc_city = "Shattrath"
                     rep1 = "933" # Consortium reputation
                     rep2 = "942" # Cenarion Expedition
                     reward_text = "My buyer will be most pleased."
-                    flag = "4232"               
+                    flag = "4232"
+                    poi_map_id = 530
+                    poi_world_map_area_id = 481
+                    poi_x = -1797
+                    poi_y = 5149
 
                 case "Consortium":
                     quest_npc_name = "Nether-Stalker Mah''duun"
                     quest_npc_id = "24370"
-                    npc_city = "Shattrath"  
+                    npc_city = "Shattrath"
                     rep1 = "933" # Consortium reputation
                     reward_text = "My buyer will be most pleased."
-                    flag = "4232"    
+                    flag = "4232"
+                    poi_map_id = 530
+                    poi_world_map_area_id = 481
+                    poi_x = -1797
+                    poi_y = 5149
 
                 case "Sha'tar":
                     quest_npc_name = "Nether-Stalker Mah''duun"
                     quest_npc_id = "24370"
-                    npc_city = "Shattrath"  
+                    npc_city = "Shattrath"
                     rep1 = "933" # Consortium reputation
                     rep2 = "935" # Sha'tar
                     reward_text = "My buyer will be most pleased."
-                    flag = "4232"    
+                    flag = "4232"
+                    poi_map_id = 530
+                    poi_world_map_area_id = 481
+                    poi_x = -1797
+                    poi_y = 5149
 
                 case "Keepers of Time":
                     quest_npc_name = "Nether-Stalker Mah''duun"
                     quest_npc_id = "24370"
-                    npc_city = "Shattrath"  
+                    npc_city = "Shattrath"
                     rep1 = "933" # Consortium reputation
                     rep2 = "989" # Keepers of Time
                     reward_text = "My buyer will be most pleased."
-                    flag = "4232"                        
+                    flag = "4232"
+                    poi_map_id = 530
+                    poi_world_map_area_id = 481
+                    poi_x = -1797
+                    poi_y = 5149
 
             if item_name:
 
@@ -301,12 +329,24 @@ def generate_sql_queries(quests_csv_file_path, teleports_csv_file_path):
                     `MinCount` = 1,
                     `MaxCount` = 1,
                     `Comment` = '{item_name}';
-   
+
                 """
-                
+
+                quest_poi_query = f"""
+                -- {dungeon} - {boss_name} - {faction} - Quest POI (Turn-in)
+                DELETE FROM `quest_poi` WHERE (`QuestID` = {quest_id});
+                INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
+                VALUES ({quest_id}, 0, -1, {poi_map_id}, {poi_world_map_area_id}, 0, 0, 1, 0);
+
+                DELETE FROM `quest_poi_points` WHERE (`QuestID` = {quest_id});
+                INSERT INTO `quest_poi_points` (`QuestID`, `Idx1`, `Idx2`, `X`, `Y`, `VerifiedBuild`)
+                VALUES ({quest_id}, 0, 0, {poi_x}, {poi_y}, 0);
+
+                """
+
                 # Combine all queries for this boss into one string
-                boss_queries = pool_query + quest_template_query + quest_template_addon_query + quest_offer_reward_query + quest_request_items_query + creature_queststarter_query + creature_questender_query
-                if boss_id not in processed_bosses:   
+                boss_queries = pool_query + quest_template_query + quest_template_addon_query + quest_offer_reward_query + quest_request_items_query + creature_queststarter_query + creature_questender_query + quest_poi_query
+                if boss_id not in processed_bosses:
                     boss_queries = boss_queries +  item_template_query + quest_item_query + loot_template_query
                     processed_bosses.add(boss_id)
                 queries.append(boss_queries)
