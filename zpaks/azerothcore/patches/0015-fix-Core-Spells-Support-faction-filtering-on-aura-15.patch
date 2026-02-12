@@ -1,0 +1,40 @@
+From 1f95057ac5a49c34d6ed6932e10a02f69aa9c1af Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Thu, 12 Feb 2026 16:01:21 +0000
+Subject: [PATCH] fix(Core/Spells): Support faction filtering on aura 156 for
+ all-source rep bonuses (I-086)
+
+- Change SPELL_AURA_MOD_REPUTATION_GAIN (156) to use MiscValue-based filtering
+- MiscValue=0 still applies to all factions (backwards-compatible with Diplomacy)
+- MiscValue=faction_id applies only to that faction from all rep sources
+- Allows city tabards to grant rep bonuses from quests, not just kills
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/game/Entities/Player/Player.cpp | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+index 19b7df2b5..bcd2f80fb 100644
+--- a/src/server/game/Entities/Player/Player.cpp
++++ b/src/server/game/Entities/Player/Player.cpp
+@@ -5863,9 +5863,14 @@ float Player::CalculateReputationGain(ReputationSource source, uint32 creatureOr
+ {
+     float percent = 100.0f;
+ 
+-    float repMod = noQuestBonus ? 0.0f : float(GetTotalAuraModifier(SPELL_AURA_MOD_REPUTATION_GAIN));
++    // Generic reputation bonus (MiscValue = 0, applies to all factions, e.g. Diplomacy)
++    float repMod = noQuestBonus ? 0.0f : float(GetTotalAuraModifierByMiscValue(SPELL_AURA_MOD_REPUTATION_GAIN, 0));
+ 
+-    // faction specific auras only seem to apply to kills
++    // Faction-specific all-source bonus (MiscValue = faction ID, e.g. city tabards)
++    if (!noQuestBonus)
++        repMod += GetTotalAuraModifierByMiscValue(SPELL_AURA_MOD_REPUTATION_GAIN, faction);
++
++    // Faction-specific kill-only bonus (aura 190, e.g. dungeon championing tabards)
+     if (source == REPUTATION_SOURCE_KILL)
+         repMod += GetTotalAuraModifierByMiscValue(SPELL_AURA_MOD_FACTION_REPUTATION_GAIN, faction);
+ 
+-- 
+2.34.1
+
