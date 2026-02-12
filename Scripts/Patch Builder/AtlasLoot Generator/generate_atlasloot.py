@@ -13,6 +13,7 @@ import argparse
 import sys
 import os
 import json
+import logging
 from dotenv import load_dotenv
 
 # Load .env from Patch Builder directory (parent of AtlasLoot Generator)
@@ -24,6 +25,56 @@ load_dotenv(os.path.join(PATCH_BUILDER_DIR, '.env'))
 from lua_parser import AtlasLootParser
 from loot_query import LootDatabase
 from lua_generator import LuaGenerator
+
+
+# =============================================================================
+# Logging Setup
+# =============================================================================
+# Dedicated log file for AtlasLoot generator - overwritten each run.
+# Captures detailed info (section processing, overflow details, stats) that
+# would otherwise be lost from print() output.
+
+def _setup_atlasloot_logger() -> logging.Logger:
+    """Set up a dedicated file logger for the AtlasLoot generator.
+
+    Log file: cli/logs/atlasloot_generator.log (overwritten each run)
+    """
+    _logger = logging.getLogger('atlasloot_generator')
+    _logger.setLevel(logging.DEBUG)
+
+    # Avoid adding duplicate handlers if called multiple times
+    if _logger.handlers:
+        return _logger
+
+    # Resolve log file path: Zeppelin-Craft/cli/logs/atlasloot_generator.log
+    craft_dir = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', '..'))
+    log_dir = os.path.join(craft_dir, 'cli', 'logs')
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, 'atlasloot_generator.log')
+
+    # File handler - overwrite each run (mode='w')
+    file_handler = logging.FileHandler(log_file, mode='w', encoding='utf-8')
+    file_handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    file_handler.setFormatter(formatter)
+    _logger.addHandler(file_handler)
+
+    # Prevent propagation to root logger (avoid double output)
+    _logger.propagate = False
+
+    _logger.info("=" * 60)
+    _logger.info("AtlasLoot Generator - Log Started")
+    _logger.info("=" * 60)
+
+    return _logger
+
+
+# Module-level logger instance - available to all functions in this file
+# and passed to LuaGenerator for overflow logging
+logger = _setup_atlasloot_logger()
 
 # Path configuration - try .env first, fall back to Linux/Docker path if not found
 _env_base = os.getenv('BASE_DIRECTORY', '')
@@ -173,6 +224,7 @@ def is_section_registered(section_name: str) -> bool:
     """
     if not os.path.exists(TABLE_REGISTRY_FILE):
         print(f"[WARN] Table registry file not found: {TABLE_REGISTRY_FILE}")
+        logger.warning(f"Table registry file not found: {TABLE_REGISTRY_FILE}")
         return False
 
     import re
@@ -200,6 +252,7 @@ def register_section(section_name: str, display_name: str, addon_name: str,
     """
     if not os.path.exists(TABLE_REGISTRY_FILE):
         print(f"[ERROR] Table registry file not found: {TABLE_REGISTRY_FILE}")
+        logger.error(f"Table registry file not found: {TABLE_REGISTRY_FILE}")
         return False
 
     # Build the registration line (I-082: using literal strings, no BabbleBoss)
@@ -211,6 +264,7 @@ def register_section(section_name: str, display_name: str, addon_name: str,
     if dry_run:
         print(f"[DRY RUN] Would register: {section_name}")
         print(f"  Line: {reg_line}")
+        logger.info(f"DRY RUN: Would register section '{section_name}' with line: {reg_line}")
         return True
 
     # Read current content
@@ -240,6 +294,7 @@ def register_section(section_name: str, display_name: str, addon_name: str,
 
     if insert_idx is None:
         print(f"[ERROR] Could not find insertion point for {section_name}")
+        logger.error(f"Could not find insertion point for section '{section_name}' in table registry")
         return False
 
     # Insert the new registration
@@ -250,6 +305,7 @@ def register_section(section_name: str, display_name: str, addon_name: str,
         f.writelines(lines)
 
     print(f"[OK] Registered section '{section_name}' in table registry")
+    logger.info(f"Registered section '{section_name}' in table registry at line {insert_idx}")
     return True
 
 
@@ -294,6 +350,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     print(f"\n{'='*60}")
     print(f"Processing gameobject section: {section_name}")
     print(f"{'='*60}")
+    logger.info(f"--- Processing gameobject section: {section_name} (GO entry: {gameobject_entry}) ---")
 
     # Step 1: Parse Lua file
     parser = AtlasLootParser(lua_file_path)
@@ -309,6 +366,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
             normal_section = section_name[:-6]
             if parser.section_exists(normal_section):
                 print(f"[OK] Creating new HEROIC chest section based on '{normal_section}'")
+                logger.info(f"Creating new HEROIC chest section '{section_name}' after '{normal_section}'")
                 parser.insert_section_after(normal_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
@@ -320,6 +378,7 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
             related = [s for s in all_sections if s.startswith(prefix)]
             if related:
                 print(f"[OK] Creating new chest section after '{related[-1]}'")
+                logger.info(f"Creating new chest section '{section_name}' after '{related[-1]}'")
                 parser.insert_section_after(related[-1], section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
@@ -327,18 +386,22 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
 
         if not bounds:
             print(f"[ERROR] Could not create section '{section_name}'")
+            logger.error(f"FAILED: Could not create gameobject section '{section_name}'")
             return False
 
     if not section_created:
         print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+        logger.debug(f"Found existing section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get gameobject name
     go_name = db.get_gameobject_name(gameobject_entry)
     if go_name:
         print(f"[OK] Chest: {go_name} (ID: {gameobject_entry})")
+        logger.info(f"Chest: {go_name} (ID: {gameobject_entry})")
     else:
         go_name = f"Chest {gameobject_entry}"
         print(f"[OK] Gameobject ID: {gameobject_entry}")
+        logger.warning(f"No name found for gameobject {gameobject_entry}, using fallback")
 
     # Ensure section is registered in table registry (if newly created)
     if section_created:
@@ -351,13 +414,15 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
 
     if not loot_items:
         print(f"[WARN] No loot items found for gameobject {gameobject_entry}")
+        logger.warning(f"No loot items found for gameobject {gameobject_entry} in section '{section_name}'")
         return False
 
     print(f"[OK] Found {len(loot_items)} loot items")
+    logger.info(f"Found {len(loot_items)} loot items for gameobject {gameobject_entry}")
 
     # Step 4: Generate Lua code
     display_name = get_display_name(section_name, go_name)
-    generator = LuaGenerator(section_name, display_name)
+    generator = LuaGenerator(section_name, display_name, logger=logger)
     new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=go_name)
 
     print(f"\nGenerated code preview:")
@@ -370,14 +435,17 @@ def generate_gameobject_section(lua_file_path: str, section_name: str,
     # Step 5: Update file
     if dry_run:
         print("\n[DRY RUN] Skipping file update")
+        logger.info(f"DRY RUN: Skipped file update for section '{section_name}'")
         return True
 
     if parser.replace_section(section_name, new_lua_code):
         parser.save_file(backup=False)
         print(f"\n[OK] Section '{section_name}' updated successfully")
+        logger.info(f"SUCCESS: Section '{section_name}' updated ({len(loot_items)} items)")
         return True
     else:
         print(f"\n[ERROR] Failed to update section '{section_name}'")
+        logger.error(f"FAILED: Could not update section '{section_name}'")
         return False
 
 
@@ -404,10 +472,12 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
     print(f"\n{'='*60}")
     print(f"Processing multi-source section: {section_name}")
     print(f"{'='*60}")
+    logger.info(f"--- Processing multi-source section: {section_name} ---")
 
     sources = config.get('sources', [])
     if not sources:
         print(f"[ERROR] No sources defined for {section_name}")
+        logger.error(f"No sources defined for multi-source section '{section_name}'")
         return False
 
     # Step 1: Parse Lua file
@@ -416,9 +486,11 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
     bounds = parser.find_section_bounds(section_name)
     if not bounds:
         print(f"[ERROR] Section '{section_name}' not found")
+        logger.error(f"FAILED: Section '{section_name}' not found in Lua file")
         return False
 
     print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+    logger.debug(f"Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Gather loot from all sources
     sources_with_loot = []
@@ -442,11 +514,13 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
             boss_name = db.get_boss_name(source_id)
             loot_items = db.get_boss_loot(source_id)
             print(f"[OK] {header} (creature {source_id}): {len(loot_items)} items")
+            logger.info(f"  Source '{header}' (creature {source_id}): {len(loot_items)} items")
 
         elif source_type == 'gameobject':
             go_name = db.get_gameobject_name(source_id)
             loot_items = db.get_gameobject_loot(source_id)
             print(f"[OK] {header} (gameobject {source_id}): {len(loot_items)} items")
+            logger.info(f"  Source '{header}' (gameobject {source_id}): {len(loot_items)} items")
 
         if loot_items:
             sources_with_loot.append({
@@ -458,15 +532,17 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
 
     if not sources_with_loot:
         print(f"[WARN] No loot items found for any source in {section_name}")
+        logger.warning(f"No loot items found for any source in section '{section_name}'")
         return False
 
     print(f"[OK] Total: {total_items} items from {len(sources_with_loot)} sources")
+    logger.info(f"Total: {total_items} items from {len(sources_with_loot)} sources")
 
     # Step 3: Generate Lua code
     # Use first source's header as the main name for display
     first_header = sources_with_loot[0].get('header', '') if sources_with_loot else None
     display_name = get_display_name(section_name, first_header)
-    generator = LuaGenerator(section_name, display_name)
+    generator = LuaGenerator(section_name, display_name, logger=logger)
     new_lua_code = generator.generate_multi_source_section(sources_with_loot)
 
     print(f"\nGenerated code preview:")
@@ -479,14 +555,17 @@ def generate_multi_source_section(lua_file_path: str, section_name: str,
     # Step 4: Update file
     if dry_run:
         print("\n[DRY RUN] Skipping file update")
+        logger.info(f"DRY RUN: Skipped file update for section '{section_name}'")
         return True
 
     if parser.replace_section(section_name, new_lua_code):
         parser.save_file(backup=False)
         print(f"\n[OK] Section '{section_name}' updated successfully")
+        logger.info(f"SUCCESS: Section '{section_name}' updated ({total_items} items from {len(sources_with_loot)} sources)")
         return True
     else:
         print(f"\n[ERROR] Failed to update section '{section_name}'")
+        logger.error(f"FAILED: Could not update section '{section_name}'")
         return False
 
 
@@ -513,15 +592,18 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     print(f"\n{'='*60}")
     print(f"Processing single-boss section: {section_name}")
     print(f"{'='*60}")
+    logger.info(f"--- Processing single-boss section: {section_name} (creature: {creature_id}) ---")
 
     # For HEROIC sections, look up the heroic creature ID (difficulty_entry_1)
     if section_name.endswith('HEROIC'):
         heroic_id = db.get_heroic_creature_id(creature_id)
         if heroic_id:
             print(f"[OK] Heroic section detected: using heroic creature ID {heroic_id} (was {creature_id})")
+            logger.info(f"Heroic section: resolved creature {creature_id} -> heroic {heroic_id}")
             creature_id = heroic_id
         else:
             print(f"[WARN] Warning: No heroic creature ID found for {creature_id}, using normal loot")
+            logger.warning(f"No heroic creature ID found for {creature_id}, using normal loot")
 
     # Step 1: Parse Lua file
     if verbose:
@@ -537,6 +619,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
             normal_section = section_name[:-6]  # Remove 'HEROIC' suffix
             if parser.section_exists(normal_section):
                 print(f"[OK] Creating new HEROIC section after '{normal_section}'")
+                logger.info(f"Creating new HEROIC section '{section_name}' after '{normal_section}'")
                 parser.insert_section_after(normal_section, section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
@@ -550,6 +633,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
             if related:
                 # Insert after the last related section
                 print(f"[OK] Creating new section '{section_name}' after '{related[-1]}'")
+                logger.info(f"Creating new section '{section_name}' after '{related[-1]}'")
                 parser.insert_section_after(related[-1], section_name,
                     '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                 section_created = True
@@ -560,6 +644,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
                     ['HC', 'CFR', 'Auch', 'CoT', 'TK', 'SMT', 'Kara', 'Gruul', 'BT', 'SP', 'ZA', 'Mount'])]
                 if tbc_sections:
                     print(f"[OK] Creating new section '{section_name}' after '{tbc_sections[-1]}'")
+                    logger.info(f"Creating new section '{section_name}' after TBC section '{tbc_sections[-1]}'")
                     parser.insert_section_after(tbc_sections[-1], section_name,
                         '    { 1, 0, "INV_Box_01", "=q6=Placeholder", "" };\n')
                     section_created = True
@@ -567,18 +652,22 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
 
         if not bounds:
             print(f"[ERROR] Section '{section_name}' not found and could not be created")
+            logger.error(f"FAILED: Section '{section_name}' not found and could not be created")
             return False
 
     if not section_created:
         print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+        logger.debug(f"Found existing section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get boss name for display
     boss_name = db.get_boss_name(creature_id)
     if boss_name:
         print(f"[OK] Boss: {boss_name} (ID: {creature_id})")
+        logger.info(f"Boss: {boss_name} (ID: {creature_id})")
     else:
         boss_name = f"Boss {creature_id}"
         print(f"[OK] Creature ID: {creature_id}")
+        logger.warning(f"No name found for creature {creature_id}, using fallback")
 
     # Ensure section is registered in table registry (if newly created)
     if section_created and boss_name:
@@ -593,9 +682,15 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
 
     if not loot_items:
         print(f"[WARN] No loot items found for creature {creature_id}")
+        logger.warning(f"No loot items found for creature {creature_id} in section '{section_name}'")
         return False
 
     print(f"[OK] Found {len(loot_items)} loot items")
+    logger.info(f"Found {len(loot_items)} loot items for creature {creature_id}")
+    # Log all items to the file for detailed reference
+    for item in loot_items:
+        logger.debug(f"  Item: {item['item_name']} (ID: {item['item_id']}, Q{item['quality']}, "
+                      f"chance: {item['drop_chance']:.1f}%, group: {item.get('group_id', 0)})")
 
     if verbose:
         for item in loot_items[:5]:
@@ -607,7 +702,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     if verbose:
         print("\n[3/4] Generating Lua code...")
     display_name = get_display_name(section_name, boss_name)
-    generator = LuaGenerator(section_name, display_name)
+    generator = LuaGenerator(section_name, display_name, logger=logger)
     new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=boss_name)
 
     if verbose:
@@ -624,6 +719,7 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     # Step 5: Update file
     if dry_run:
         print("\n[DRY RUN] Skipping file update")
+        logger.info(f"DRY RUN: Skipped file update for section '{section_name}'")
         return True
 
     if verbose:
@@ -632,15 +728,18 @@ def generate_single_boss_section(lua_file_path: str, section_name: str,
     success = parser.replace_section(section_name, new_lua_code)
     if not success:
         print(f"[ERROR] Failed to replace section '{section_name}'")
+        logger.error(f"FAILED: Could not replace section '{section_name}'")
         return False
 
     # Save file with backup
     save_success = parser.save_file(backup=False)
     if save_success:
         print(f"\n[OK] Section '{section_name}' updated successfully")
+        logger.info(f"SUCCESS: Section '{section_name}' updated ({len(loot_items)} items, boss: {boss_name})")
         return True
     else:
         print(f"\n[ERROR] Failed to save file")
+        logger.error(f"FAILED: Could not save file after updating section '{section_name}'")
         return False
 
 
@@ -668,6 +767,7 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
     print(f"\n{'='*60}")
     print(f"Processing single-boss GO section: {section_name}")
     print(f"{'='*60}")
+    logger.info(f"--- Processing single-boss GO section: {section_name} (GO: {gameobject_id}) ---")
 
     # Step 1: Parse Lua file
     if verbose:
@@ -677,17 +777,21 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
     bounds = parser.find_section_bounds(section_name)
     if not bounds:
         print(f"[ERROR] Section '{section_name}' not found")
+        logger.error(f"FAILED: Section '{section_name}' not found in Lua file")
         return False
 
     print(f"[OK] Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
+    logger.debug(f"Found section '{section_name}' at lines {bounds[0]}-{bounds[1]}")
 
     # Step 2: Get gameobject name for display
     go_name = db.get_gameobject_name(gameobject_id)
     if go_name:
         print(f"[OK] Gameobject: {go_name} (ID: {gameobject_id})")
+        logger.info(f"Gameobject: {go_name} (ID: {gameobject_id})")
     else:
         go_name = f"Gameobject {gameobject_id}"
         print(f"[OK] Gameobject ID: {gameobject_id}")
+        logger.warning(f"No name found for gameobject {gameobject_id}, using fallback")
 
     # Step 3: Query loot from gameobject
     if verbose:
@@ -696,9 +800,11 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
 
     if not loot_items:
         print(f"[WARN] No loot items found for gameobject {gameobject_id}")
+        logger.warning(f"No loot items found for gameobject {gameobject_id} in section '{section_name}'")
         return False
 
     print(f"[OK] Found {len(loot_items)} loot items")
+    logger.info(f"Found {len(loot_items)} loot items for gameobject {gameobject_id}")
 
     if verbose:
         for item in loot_items[:5]:
@@ -710,7 +816,7 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
     if verbose:
         print("\n[3/4] Generating Lua code...")
     display_name = get_display_name(section_name, go_name)
-    generator = LuaGenerator(section_name, display_name)
+    generator = LuaGenerator(section_name, display_name, logger=logger)
     new_lua_code = generator.generate_single_boss_section(loot_items, boss_name=go_name)
 
     if verbose:
@@ -727,6 +833,7 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
     # Step 5: Update file
     if dry_run:
         print("\n[DRY RUN] Skipping file update")
+        logger.info(f"DRY RUN: Skipped file update for section '{section_name}'")
         return True
 
     if verbose:
@@ -735,15 +842,18 @@ def generate_single_boss_go_section(lua_file_path: str, section_name: str,
     success = parser.replace_section(section_name, new_lua_code)
     if not success:
         print(f"[ERROR] Failed to replace section '{section_name}'")
+        logger.error(f"FAILED: Could not replace section '{section_name}'")
         return False
 
     # Save file with backup
     save_success = parser.save_file(backup=False)
     if save_success:
         print(f"\n[OK] Section '{section_name}' updated successfully")
+        logger.info(f"SUCCESS: Section '{section_name}' updated ({len(loot_items)} items, GO: {go_name})")
         return True
     else:
         print(f"\n[ERROR] Failed to save file")
+        logger.error(f"FAILED: Could not save file after updating section '{section_name}'")
         return False
 
 
@@ -765,6 +875,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     print(f"\n{'='*60}")
     print(f"Processing section: {section_name}")
     print(f"{'='*60}")
+    logger.info(f"--- Processing multi-boss section: {section_name} ---")
 
     # Step 1: Parse Lua file
     if verbose:
@@ -775,9 +886,11 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     boss_names = parser.extract_boss_names(section_name)
     if not boss_names:
         print(f"[ERROR] No bosses found in section '{section_name}'")
+        logger.error(f"FAILED: No bosses found in section '{section_name}'")
         return False
 
     print(f"[OK] Found {len(boss_names)} bosses: {', '.join(boss_names)}")
+    logger.info(f"Found {len(boss_names)} bosses: {', '.join(boss_names)}")
 
     # Step 2: Query database for creature IDs
     if verbose:
@@ -791,9 +904,11 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
                 print(f"  {boss_name} → ID {creature_id}")
         else:
             print(f"[WARN] Warning: Boss '{boss_name}' not found in database")
+            logger.warning(f"Boss '{boss_name}' not found in database for section '{section_name}'")
 
     if not creature_id_map:
         print("[ERROR] No valid creature IDs found")
+        logger.error(f"FAILED: No valid creature IDs found for section '{section_name}'")
         return False
 
     # Step 3: Query loot for all bosses
@@ -804,6 +919,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
 
     total_items = sum(len(items) for items in loot_by_creature_id.values())
     print(f"[OK] Found {total_items} total loot items")
+    logger.info(f"Found {total_items} total loot items across {len(creature_id_map)} bosses")
 
     if verbose:
         for boss_name, creature_id in creature_id_map.items():
@@ -816,7 +932,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     # Use first boss name for display
     first_boss = boss_names[0] if boss_names else None
     display_name = get_display_name(section_name, first_boss)
-    generator = LuaGenerator(section_name, display_name)
+    generator = LuaGenerator(section_name, display_name, logger=logger)
     new_lua_code = generator.generate_from_database_results(
         boss_names, loot_by_creature_id, creature_id_map
     )
@@ -835,6 +951,7 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     # Step 5: Update file
     if dry_run:
         print("\n[DRY RUN] Skipping file update")
+        logger.info(f"DRY RUN: Skipped file update for section '{section_name}'")
         return True
 
     if verbose:
@@ -843,15 +960,18 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
     success = parser.replace_section(section_name, new_lua_code)
     if not success:
         print(f"[ERROR] Failed to replace section '{section_name}'")
+        logger.error(f"FAILED: Could not replace section '{section_name}'")
         return False
 
     # Save file with backup
     save_success = parser.save_file(backup=False)
     if save_success:
         print(f"\n[OK] Section '{section_name}' updated successfully")
+        logger.info(f"SUCCESS: Section '{section_name}' updated ({total_items} items, {len(boss_names)} bosses)")
         return True
     else:
         print(f"\n[ERROR] Failed to save file")
+        logger.error(f"FAILED: Could not save file after updating section '{section_name}'")
         return False
 
 
@@ -945,15 +1065,22 @@ def main():
     # Check if Lua file exists
     if not os.path.exists(args.lua_file):
         print(f"[ERROR] Error: Lua file not found: {args.lua_file}")
+        logger.error(f"Lua file not found: {args.lua_file}")
         return 1
+
+    # Log run configuration
+    logger.info(f"Run configuration: dungeon={args.dungeon}, raid={args.raid}, tbc={args.tbc}, "
+                f"chest={args.chest}, section={args.section}, dry_run={args.dry_run}")
 
     # Connect to database
     print("Connecting to database...")
     db = LootDatabase()
     if not db.connect():
         print("[ERROR] Failed to connect to database")
+        logger.error("Failed to connect to database")
         return 1
     print("[OK] Database connected")
+    logger.info("Database connected")
 
     success_count = 0
     total_count = 0
@@ -1228,6 +1355,13 @@ def main():
     print(f"\n{'='*60}")
     print(f"Summary: {success_count}/{total_count} sections processed successfully")
     print(f"{'='*60}")
+
+    failed_count = total_count - success_count
+    logger.info("=" * 60)
+    logger.info(f"SUMMARY: {success_count}/{total_count} sections processed successfully")
+    if failed_count > 0:
+        logger.warning(f"  {failed_count} section(s) failed")
+    logger.info("=" * 60)
 
     # Return 0 if any sections processed successfully (partial success is acceptable)
     # Many sections fail expectedly due to different Lua formats, missing mappings, etc.

@@ -3,6 +3,7 @@ Lua Generator Module
 Generates AtlasLoot-formatted Lua code from database loot data
 """
 
+import logging
 from typing import List, Dict, Optional
 from atlasloot_mappings import get_lua_item_line, get_boss_header_line
 
@@ -25,16 +26,18 @@ class LuaGenerator:
     CATEGORY_GUARANTEED_ONE = "One Random Drop"
     CATEGORY_VARIABLE = "Chance on Drop"
 
-    def __init__(self, section_name: str, display_name: str = None):
+    def __init__(self, section_name: str, display_name: str = None, logger: logging.Logger = None):
         """
         Initialize generator for a specific section.
 
         Args:
             section_name: AtlasLoot section name (e.g., "TheStockade")
             display_name: Human-readable name for warnings (e.g., "Stockades - Targorr")
+            logger: Optional logger for detailed file logging (from generate_atlasloot.py)
         """
         self.section_name = section_name
         self.display_name = display_name or section_name
+        self.logger = logger
         self.lines = []
         self.current_line_num = 1
 
@@ -441,6 +444,25 @@ class LuaGenerator:
         variable = categories['variable']
         pools = categories['pools']
 
+        # Log categorization details
+        if self.logger:
+            self.logger.debug(f"  Categorization for '{self.section_name}': "
+                              f"{len(guaranteed)} guaranteed, {len(variable)} variable, "
+                              f"{len(pools)} pool(s)")
+            if guaranteed:
+                for item in guaranteed:
+                    self.logger.debug(f"    [GUARANTEED] {item['item_name']} (ID: {item['item_id']})")
+            if variable:
+                for item in variable:
+                    self.logger.debug(f"    [VARIABLE] {item['item_name']} (ID: {item['item_id']}, "
+                                      f"chance: {item['drop_chance']:.1f}%)")
+            for gid in sorted(pools.keys()):
+                pitems = pools[gid]
+                self.logger.debug(f"    [POOL {gid}] {len(pitems)} items:")
+                for item in pitems:
+                    self.logger.debug(f"      - {item['item_name']} (ID: {item['item_id']}, "
+                                      f"chance: {item['drop_chance']:.1f}%)")
+
         # Calculate group counts for equal-chance pool items
         group_counts = {}
         for group_id, items in pools.items():
@@ -460,6 +482,10 @@ class LuaGenerator:
         # If content would overflow MAX_ITEMS, don't jump to column 2
         # (allow spanning instead of leaving gaps)
         allow_column_jump = total_positions <= self.MAX_ITEMS
+
+        if self.logger and total_positions > self.MAX_ITEMS:
+            self.logger.warning(f"  Section '{self.section_name}' needs {total_positions} positions "
+                                f"but max is {self.MAX_ITEMS} - overflow likely")
 
         # Add guaranteed drops with header
         if guaranteed:
@@ -494,7 +520,9 @@ class LuaGenerator:
                 dropped_pools.append({
                     'group_id': group_id,
                     'item_count': len(pool_items),
-                    'items': [item['item_name'] for item in pool_items[:3]]  # First 3 for reference
+                    'items': [item['item_name'] for item in pool_items[:3]],  # First 3 for CLI preview
+                    'all_items': [(item['item_name'], item['item_id'], item['drop_chance'])
+                                  for item in pool_items]  # Full details for log file
                 })
                 continue
 
@@ -526,6 +554,20 @@ class LuaGenerator:
                 if pool['item_count'] > 3:
                     sample += f", ... (+{pool['item_count'] - 3} more)"
                 print(f"       - Pool {pool['group_id']}: {pool['item_count']} items ({sample})")
+
+            # Detailed log with FULL item lists for each dropped pool
+            if self.logger:
+                self.logger.warning(f"OVERFLOW: {self.display_name} ({self.section_name}) - "
+                                    f"{len(dropped_pools)} pool(s) dropped ({total_dropped} items) "
+                                    f"to fit {self.MAX_ITEMS}-slot limit")
+                self.logger.warning(f"  Position at overflow: {self.current_line_num}, "
+                                    f"total positions needed: {total_positions}")
+                for pool in dropped_pools:
+                    self.logger.warning(f"  Dropped Pool {pool['group_id']} "
+                                        f"({pool['item_count']} items):")
+                    for item_name, item_id, drop_chance in pool['all_items']:
+                        self.logger.warning(f"    - {item_name} (ID: {item_id}, "
+                                            f"chance: {drop_chance:.1f}%)")
 
         # Section footer
         self.lines.append('\t};')
