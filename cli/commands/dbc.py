@@ -487,7 +487,7 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
 
     # Check if source exists
     success, output = run_sql(
-        f"SELECT ID, SpellName0 FROM spell WHERE ID = {source_id}",
+        f"SELECT ID, spell_name_enus FROM spell WHERE ID = {source_id}",
         config, config.live
     )
     if not success or not output.strip() or str(source_id) not in output:
@@ -518,9 +518,9 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
 
     select_parts = []
     for col in columns:
-        if col == 'ID':
+        if col.lower() == 'id':
             select_parts.append(str(new_id))
-        elif col == 'SpellName0' and new_name:
+        elif col == 'spell_name_enus' and new_name:
             escaped_name = new_name.replace("'", "\\'")
             select_parts.append(f"'{escaped_name}'")
         else:

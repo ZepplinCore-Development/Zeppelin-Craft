@@ -898,6 +898,11 @@ def append_to_zpak_dbc(zpak_path: Path, table: str, sql: str,
 
     sql_file = dbc_dir / f"[{feature_id}]_{table}.sql"
 
+    # Ensure SQL ends with semicolon
+    sql_stripped = sql.rstrip()
+    if not sql_stripped.endswith(';'):
+        sql = sql_stripped + ';'
+
     # Append with newline separation
     with open(sql_file, 'a') as f:
         if sql_file.exists() and sql_file.stat().st_size > 0:

@@ -258,6 +258,77 @@ def parse_value(value):
 
     return value
 
+def _strip_inline_comments(set_clause):
+    """
+    Strips inline SQL comments (-- ...) from a SET clause while respecting
+    quoted strings. Returns the clause with comments removed and a mapping
+    of each field name to its inline comment text.
+
+    This must be done BEFORE splitting on commas, because:
+    1. Comments after commas (e.g. "5, -- Reagent") cause the comment text
+       to be prepended to the next field's piece after a comma split.
+    2. Comments containing commas (e.g. "-- type 24, mask 7") create
+       spurious extra pieces when split on commas.
+    """
+    result = []
+    comments = {}
+    i = 0
+    in_single_quote = False
+    last_field = None
+
+    while i < len(set_clause):
+        char = set_clause[i]
+
+        # Handle quoted strings - don't strip comments inside them
+        if char == "'" and not in_single_quote:
+            in_single_quote = True
+            result.append(char)
+            i += 1
+        elif char == "'" and in_single_quote:
+            # Check for escaped quote ''
+            if i + 1 < len(set_clause) and set_clause[i + 1] == "'":
+                result.append("''")
+                i += 2
+            else:
+                in_single_quote = False
+                result.append(char)
+                i += 1
+        elif char == '-' and not in_single_quote and i + 1 < len(set_clause) and set_clause[i + 1] == '-':
+            # Found a -- comment outside of quotes. Extract comment text
+            # until end of line (newline) or end of string.
+            comment_start = i + 2
+            comment_end = set_clause.find('\n', comment_start)
+            if comment_end == -1:
+                comment_text = set_clause[comment_start:].strip()
+                i = len(set_clause)
+            else:
+                comment_text = set_clause[comment_start:comment_end].strip()
+                # Keep the newline in the result (it's not part of the comment)
+                result.append('\n')
+                i = comment_end + 1
+
+            # Associate comment with the most recently seen field
+            if comment_text and last_field:
+                comments[last_field] = comment_text
+        else:
+            result.append(char)
+            i += 1
+
+        # Track the most recently seen backtick-quoted field name for
+        # comment association. We look at what we've accumulated so far.
+        if not in_single_quote and char == '=' and len(result) >= 2:
+            # Walk backwards through result to find the field name
+            text_so_far = ''.join(result).rstrip()
+            field_match = re.search(r'(`\w+`|\b\w+)\s*=$', text_so_far)
+            if field_match:
+                fname = field_match.group(1).strip()
+                if not fname.startswith('`'):
+                    fname = f'`{fname}`'
+                last_field = fname
+
+    return ''.join(result), comments
+
+
 def parse_set_syntax(query, table_name, query_type):
     """
     Parses the SET syntax variant of INSERT/REPLACE queries.
@@ -265,28 +336,29 @@ def parse_set_syntax(query, table_name, query_type):
     set_match = re.search(r"SET\s+(.*?)(?:;|$)", query, re.DOTALL | re.IGNORECASE)
     if not set_match:
         raise ValueError("SET syntax not properly formatted")
-    
-    set_clause = set_match.group(1)
-    field_value_pairs = {}
-    comments = {}
 
-    for line in set_clause.split(','):
+    set_clause = set_match.group(1)
+
+    # Strip inline comments BEFORE splitting on commas, to prevent comments
+    # (which may contain commas or appear after commas) from breaking the split.
+    stripped_clause, comments = _strip_inline_comments(set_clause)
+
+    field_value_pairs = {}
+
+    for line in stripped_clause.split(','):
         line = line.strip()
         if not line:
             continue
-            
-        # Match field, value, and comment
-        match = re.match(r"(`\w+`|\w+)\s*=\s*(.*?)(?:\s*--\s*(.*))?$", line)
+
+        # Match field and value (comments already stripped)
+        match = re.match(r"(`\w+`|\w+)\s*=\s*(.+)$", line)
         if match:
             field = match.group(1).strip()
             if not field.startswith('`'):
                 field = f'`{field}`'
             value = match.group(2).strip()
-            comment = match.group(3).strip() if match.group(3) else None
-            
+
             field_value_pairs[field] = parse_value(value)
-            if comment:
-                comments[field] = comment
 
     return {
         "table_name": table_name,
@@ -639,7 +711,10 @@ def parse_query(query):
 
     # Check for explicit SET syntax (must appear right after table name)
     if query_remainder.upper().startswith("SET"):
-        return parse_set_syntax(normalized_query, table_name, query_type)
+        # Pass the original query (with newlines) so inline comments can be
+        # properly stripped before comma-splitting. The normalized single-line
+        # form would cause -- comments to eat all subsequent SQL content.
+        return parse_set_syntax(query_without_standalone_comments, table_name, query_type)
     # Check for explicit VALUES syntax (must appear after fields list)
     elif re.search(r"\)\s+VALUES\s*\(", normalized_query, re.IGNORECASE):
         return parse_values_syntax(normalized_query, table_name, query_type)
