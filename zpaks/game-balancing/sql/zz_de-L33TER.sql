@@ -749,3 +749,11 @@ UPDATE `creature_template` SET
     `Rank` = 0
 WHERE `entry` = 6210;
 
+-- Processing: Irradiated Invader as normal
+
+UPDATE `creature_template` SET
+    `DamageModifier` = 1.07,
+    `HealthModifier` = 1.13,
+    `Rank` = 0
+WHERE `entry` = 6213;
+
