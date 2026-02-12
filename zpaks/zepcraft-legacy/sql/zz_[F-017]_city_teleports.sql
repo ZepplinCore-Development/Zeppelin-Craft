@@ -18,8 +18,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58550);
         INSERT INTO `item_template`
         SET `entry` = 58550,
-            `name` = 'Technique: Scroll of Teleport Ironforge', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Ironforge',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Ironforge.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -31,11 +32,14 @@
             `spellid_2` = 91014, 
             `spelltrigger_2` = 6;
 
-        -- Barim Jurgenstaad - Scroll of Teleport Ironforge
+        -- Barim Jurgenstaad & Ginny Longberry - Scroll of Teleport Ironforge
         DELETE FROM `npc_vendor` WHERE (`item` = 58550);
         INSERT INTO `npc_vendor`
         SET `entry` = 5110,
-            `item` = 58550; 
+            `item` = 58550;
+        INSERT INTO `npc_vendor`
+        SET `entry` = 5151,
+            `item` = 58550;
 
     -- Scroll of Teleport Darnassus
         DELETE FROM `item_template` WHERE (`entry` = 58501);
@@ -55,8 +59,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58551);
         INSERT INTO `item_template`
         SET `entry` = 58551,
-            `name` = 'Technique: Scroll of Teleport Darnassus', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Darnassus',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Darnassus.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -92,8 +97,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58552);
         INSERT INTO `item_template`
         SET `entry` = 58552,
-            `name` = 'Technique: Scroll of Teleport Undercity', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Undercity',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Undercity.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -129,8 +135,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58553);
         INSERT INTO `item_template`
         SET `entry` = 58553,
-            `name` = 'Technique: Scroll of Teleport Thunder Bluff', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Thunder Bluff',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Thunder Bluff.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -166,8 +173,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58554);
         INSERT INTO `item_template`
         SET `entry` = 58554,
-            `name` = 'Technique: Scroll of Teleport Stormwind', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Stormwind',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Stormwind.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -203,8 +211,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58555);
         INSERT INTO `item_template`
         SET `entry` = 58555,
-            `name` = 'Technique: Scroll of Teleport Orgrimmar', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Orgrimmar',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Orgrimmar.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -240,8 +249,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58556);
         INSERT INTO `item_template`
         SET `entry` = 58556,
-            `name` = 'Technique: Scroll of Teleport Silvermoon City', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Silvermoon City',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Silvermoon City.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -277,8 +287,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58557);
         INSERT INTO `item_template`
         SET `entry` = 58557,
-            `name` = 'Technique: Scroll of Teleport Exodar', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Exodar',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Exodar.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -314,8 +325,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58558);
         INSERT INTO `item_template`
         SET `entry` = 58558,
-            `name` = 'Technique: Scroll of Teleport Shattrath', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Shattrath',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Shattrath.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
@@ -351,8 +363,9 @@
         DELETE FROM `item_template` WHERE (`entry` = 58559);
         INSERT INTO `item_template`
         SET `entry` = 58559,
-            `name` = 'Technique: Scroll of Teleport Dalaran', 
-            `displayid` = 1103, 
+            `name` = 'Technique: Scroll of Teleport Dalaran',
+            `description` = 'Teaches you how to inscribe a Scroll of Teleport: Dalaran.',
+            `displayid` = 1103,
             `Quality` = 2, 
             `bonding` = 1, 
             `BuyPrice` = 10000, 
