@@ -2498,13 +2498,15 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["HCHallsPorung"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Blood Guard Porung", "=q5=ALL WILL DROP"};
     { 2, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
-    { 3, 21877, "", "=q1=Netherweave Cloth", "=ds=#e7#", "", "100%" };
-    { 5, 0, "AO_Unknown", "=q6=Blood Guard Porung", "=q5=ONE WILL DROP"};
-    { 6, 30705, "", "=q3=Spaulders of Slaughter", "=ds=#a4#", "", "20.0%" };
-    { 7, 30707, "", "=q3=Nimble-foot Treads", "=ds=#a2#", "", "20.0%" };
-    { 8, 30708, "", "=q3=Belt of Flowing Thought", "=ds=#a3#", "", "20.0%" };
-    { 9, 30709, "", "=q3=Pantaloons of Flaming Wrath", "=ds=#a1#", "", "20.0%" };
-    { 10, 30710, "", "=q3=Blood Guard's Necklace of Ferocity", "=ds=#s2#", "", "20.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Blood Guard Porung", "=q5=ONE WILL DROP"};
+    { 5, 30705, "", "=q3=Spaulders of Slaughter", "=ds=#a4#", "", "20.0%" };
+    { 6, 30707, "", "=q3=Nimble-foot Treads", "=ds=#a2#", "", "20.0%" };
+    { 7, 30708, "", "=q3=Belt of Flowing Thought", "=ds=#a3#", "", "20.0%" };
+    { 8, 30709, "", "=q3=Pantaloons of Flaming Wrath", "=ds=#a1#", "", "20.0%" };
+    { 9, 30710, "", "=q3=Blood Guard's Necklace of Ferocity", "=ds=#s2#", "", "20.0%" };
+    { 11, 0, "AO_Unknown", "=q6=Blood Guard Porung", "=q5=ONE WILL DROP"};
+    { 12, 21877, "", "=q1=Netherweave Cloth", "=ds=#e7#", "", "50.0%" };
+    { 13, 27854, "", "=q1=Smoked Talbuk Venison", "=ds=#e0#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["HCHallsOmrogg"] = {
@@ -2522,13 +2524,15 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Warbringer O'mrogg (1)", "=q5=ALL WILL DROP"};
     { 2, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
     { 3, 30829, "", "=q1=Tear of the Earthmother", "=ds=#m3#", "", "100%" };
-    { 4, 21877, "", "=q1=Netherweave Cloth", "=ds=#e7#", "", "100%" };
-    { 6, 0, "AO_Unknown", "=q6=Warbringer O'mrogg (1)", "=q5=ONE WILL DROP"};
-    { 7, 27524, "", "=q3=Firemaul of Destruction", "=ds=#w6#", "", "20.0%" };
-    { 8, 27525, "", "=q3=Jeweled Boots of Sanctification", "=ds=#a1#", "", "20.0%" };
-    { 9, 27526, "", "=q3=Skyfire Hawk-Bow", "=ds=#w2#", "", "20.0%" };
-    { 10, 27802, "", "=q3=Tidefury Shoulderguards", "=ds=#a3#", "", "20.0%" };
-    { 11, 27868, "", "=q3=Runesong Dagger", "=ds=#w4#", "", "20.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Warbringer O'mrogg (1)", "=q5=ONE WILL DROP"};
+    { 6, 21877, "", "=q1=Netherweave Cloth", "=ds=#e7#", "", "50.0%" };
+    { 7, 27854, "", "=q1=Smoked Talbuk Venison", "=ds=#e0#", "", "50.0%" };
+    { 9, 0, "AO_Unknown", "=q6=Warbringer O'mrogg (1)", "=q5=ONE WILL DROP"};
+    { 10, 27524, "", "=q3=Firemaul of Destruction", "=ds=#w6#", "", "20.0%" };
+    { 11, 27525, "", "=q3=Jeweled Boots of Sanctification", "=ds=#a1#", "", "20.0%" };
+    { 12, 27526, "", "=q3=Skyfire Hawk-Bow", "=ds=#w2#", "", "20.0%" };
+    { 13, 27802, "", "=q3=Tidefury Shoulderguards", "=ds=#a3#", "", "20.0%" };
+    { 14, 27868, "", "=q3=Runesong Dagger", "=ds=#w4#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["HCHallsKargath"] = {
