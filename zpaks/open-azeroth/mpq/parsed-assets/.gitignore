@@ -1,4 +1,6 @@
 # WoW asset files - tracked via MPQ binaries, not individual files
+*.dbc
+*.DBC
 *.blp
 *.BLP
 *.m2
