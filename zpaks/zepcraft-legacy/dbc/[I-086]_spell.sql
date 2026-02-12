@@ -1,0 +1,1 @@
+UPDATE spell SET effect_apply_aura_name_1 = 156 WHERE id IN (91204, 91205, 91206, 91207, 91208, 91209, 91210, 91211, 91212, 91213);
