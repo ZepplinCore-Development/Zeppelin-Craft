@@ -3,9 +3,9 @@
 -- =====================================================
 -- Journeyman: 8 city quests (90008-90015) [ExclusiveGroup 90008]
 -- Artisan: 8 city quests (90016-90023) [ExclusiveGroup 90016]
--- Master: 2 Outland quests (90024-90025) [ExclusiveGroup 90024]
+-- Master: 3 Outland quests (90024-90025, 90113) [ExclusiveGroup 90024]
 -- Grand Master: 1 Dalaran quest (90026)
--- Total: 19 quests
+-- Total: 20 quests
 --
 -- Features:
 -- - ExclusiveGroup prevents multiple completions per tier
@@ -17,12 +17,12 @@
 -- ===================
 -- CLEANUP OLD QUESTS
 -- ===================
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90008 AND 90026;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90008 AND 90026;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90008 AND 90026;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90008 AND 90026;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90008 AND 90026;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90008 AND 90026;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90008 AND 90026 OR `quest` = 90113;
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90008 AND 90026 OR `quest` = 90113;
 
 -- =====================================================
 -- JOURNEYMAN SHEARS QUESTS (75+ Herbalism)
@@ -51,7 +51,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Gathering herbs by hand? You''re missing out on valuable yields from each node. I have shears available - bring me **20 Peacebloom and 20 Silverleaf** to replenish my stock, and they''re yours. You''ll gather more herbs per node with proper tools.',
     `QuestCompletionLog` = 'Return the herbs to Tannysa in Stormwind',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -65,12 +65,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Good herbs. Here are your shears - you''ll notice the improved yields right away.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Did you bring the 20 Peacebloom and 20 Silverleaf?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -98,7 +98,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Bah! Picking herbs with yer bare fingers? Ye''re leaving half the harvest behind! I''ve got proper shears here - fetch me **20 Peacebloom and 20 Silverleaf** fer me stock, and I''ll trade ye fer them. Ye''ll get more herbs from each node, I guarantee it!',
     `QuestCompletionLog` = 'Return the herbs to Reyna Stonebranch in Ironforge',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -112,12 +112,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Aye, fresh herbs these! Here ye go - these shears''ll double yer yields, mark me words!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Got those herbs? 20 Peacebloom and 20 Silverleaf, aye?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -145,7 +145,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'I see you gather herbs without proper tools. The plants give more freely when treated with care and precision. I have shears available. If you bring me **20 Peacebloom and 20 Silverleaf** for my work, I will trade them to you. You will find your yield increases, like morning dew collecting on leaves.',
     `QuestCompletionLog` = 'Return the herbs to Firodren Mooncaller in Darnassus',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -159,12 +159,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Elune''s blessings upon you. These herbs are well-gathered. May these shears help you harvest with greater harmony.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Have you gathered the herbs I require?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -192,7 +192,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Picking herbs with hands? Wasteful. Need shears. Get more herbs from each plant. I have shears. **20 Peacebloom, 20 Silverleaf**. Bring. Trade for shears. Simple.',
     `QuestCompletionLog` = 'Return the herbs to Jandi in Orgrimmar',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -206,12 +206,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Good. Fresh herbs. Take shears. Get more herbs now. Lok''tar!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'You have herbs? 20 Peacebloom and 20 Silverleaf?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -239,7 +239,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Brother/Sister, I see you gather herbs without proper tools. The Earth Mother teaches that respect for the plants brings greater bounty. I have shears here - bring me **20 Peacebloom and 20 Silverleaf** for my needs, and I will trade them to you. You will find each plant yields more generously.',
     `QuestCompletionLog` = 'Return the herbs to Komin Winterhoof in Thunder Bluff',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -253,12 +253,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'The Earth Mother smiles on this exchange. These herbs are well-tended. May these shears help you harvest with wisdom.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Do you have the herbs, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -286,7 +286,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Gathering herbs without tools? How... inefficient. You''re wasting valuable material with each harvest. I have shears available - bring me **20 Peacebloom and 20 Silverleaf** to replenish my stock, and I''ll part with them. Your yields will become considerably less... pitiful.',
     `QuestCompletionLog` = 'Return the herbs to Martha Alliestar in Undercity',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -300,12 +300,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Acceptable quality. Here are your shears - do try not to waste so much material from now on.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Do you have the herbs I require?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -333,7 +333,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'I observe you harvest herbs without refined instruments. Your technique is sound, but proper tools would increase your yield significantly. I have shears available - if you bring me **20 Peacebloom and 20 Silverleaf** to replenish my supplies, I will trade them to you. The Light will guide your hands to greater harvests.',
     `QuestCompletionLog` = 'Return the herbs to Cemmorhan in Exodar',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -347,12 +347,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'The Light be with you. These materials are well-chosen. May these shears aid you in your craft.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Have you brought the materials I require?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -380,7 +380,7 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Pruning Shears',
     `LogDescription` = 'Collect herbs to exchange for a pair of Journeyman Shears',
-    `QuestDescription` = 'You''ve been collecting herbs this whole time with your bare hands? Like some kind of animal? This won''t do. I tell you what, if you can fill my current herb order I''ll give you a pair of Pruning Shears.',
+    `QuestDescription` = 'Gathering with such... primitive methods? How do you expect to maximize your harvest without proper tools? I have shears available. Bring me **20 Peacebloom and 20 Silverleaf** - proper specimens, mind you - and I''ll trade them to you. Your yield will improve dramatically.',
     `QuestCompletionLog` = 'Return the herbs to Botanist Nathera in Silvermoon',
     `RewardItem1` = 57300,
     `RewardAmount1` = 1,
@@ -394,12 +394,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Get to work, those herbs won''t gather themselves!';
+    `RewardText` = 'Adequate specimens, I suppose. Here are your shears - do try to maintain some standards with your harvests from now on.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Thanks for collecting the herb order.';
+    `CompletionText` = 'Have you acquired the herbs I requested?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -429,11 +429,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Your skills are growing, but those Journeyman shears are getting dull on tougher plants - you''re missing extra herbs from each node. I have Artisan shears here. Trade in your old Journeyman shears and bring me **20 Sungrass and 20 Blindweed** for my stock, and the Artisan shears are yours. Your yield will increase considerably.',
     `QuestCompletionLog` = 'Return the herbs to Tannysa in Stormwind',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -448,12 +450,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'Perfect quality herbs. I''ll take those old shears - here are your Artisan shears. You''ll gather far more from each node now.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Did you bring the 20 Sungrass, 20 Blindweed, and your old Journeyman shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -477,11 +479,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Yer outgrowing those Journeyman shears, I see! They''re dullin'' on the tougher plants - yer missin'' herbs ye could be gettin''! Time fer an upgrade, aye? Trade in yer old shears and fetch me **20 Sungrass and 20 Blindweed** fer me orders, and these Artisan shears are yers. Ye''ll be harvesting twice as much from each node!',
     `QuestCompletionLog` = 'Return the herbs to Reyna Stonebranch in Ironforge',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -496,12 +500,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'Aye, quality herbs these! I''ll take that old pair off yer hands. Here''s yer Artisan shears - sharper than a dragon''s tooth!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Got those herbs and yer old Journeyman shears? 20 Sungrass, 20 Blindweed, and the old shears, aye?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -525,11 +529,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Your craft deepens, friend. The Journeyman shears have served well, but I see them struggling with hardier plants now - you lose precious herbs from each harvest. I have Artisan shears available. Trade in your old Journeyman shears and bring me **20 Sungrass and 20 Blindweed** for my work, and the Artisan shears are yours. The plants will yield more generously to sharper tools.',
     `QuestCompletionLog` = 'Return the herbs to Firodren Mooncaller in Darnassus',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -544,12 +550,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'These herbs speak of your growing mastery. I will accept your old Journeyman shears. May Elune guide your hands as these Artisan shears serve you.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Have you gathered the herbs and your old Journeyman shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -573,11 +579,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Journeyman shears too dull now. Tougher plants. Losing herbs. Need better shears. Trade in old Journeyman shears. **20 Sungrass, 20 Blindweed**. Bring. Get Artisan shears. Get more herbs from each plant.',
     `QuestCompletionLog` = 'Return the herbs to Jandi in Orgrimmar',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -592,12 +600,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'Good herbs. Strong. Give old shears. Take Artisan shears. Much better. Lok''tar!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'You have herbs and old Journeyman shears? 20 Sungrass, 20 Blindweed, old shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -621,11 +629,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Friend, your journey continues. The Journeyman shears have guided you well, but I see them dulling on stronger plants - precious herbs are lost with each harvest. The Earth Mother teaches that better tools bring harmony with the land. I have Artisan shears for you. Trade in your old Journeyman shears and bring me **20 Sungrass and 20 Blindweed** from hardier growth, and we shall trade. Your yields will flow more freely.',
     `QuestCompletionLog` = 'Return the herbs to Komin Winterhoof in Thunder Bluff',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -640,12 +650,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'The Earth Mother smiles on this trade. Your old Journeyman shears have served their purpose well. These Artisan shears will carry you far on your path.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Do you have the herbs and your old Journeyman shears, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -669,11 +679,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Ah, still struggling with those Journeyman shears? How... wasteful. I see them failing on hardier plants - you''re losing valuable herbs with each pathetic harvest. I have Artisan shears available. Trade in that inadequate Journeyman pair and bring me **20 Sungrass and 20 Blindweed**, and your... pitiful... yields will improve considerably.',
     `QuestCompletionLog` = 'Return the herbs to Martha Alliestar in Undercity',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -688,12 +700,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'Adequate quality, I suppose. I''ll dispose of those pitiful Journeyman shears for you. Here are your Artisan shears - do try to harvest with a bit more... efficiency... from now on.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Do you have the herbs and that old Journeyman pair?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -717,11 +729,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'I see your mastery grows. Those Journeyman shears served their purpose, but they struggle with tougher plants now - you lose valuable material with each harvest. I have Artisan shears available. Trade in your old Journeyman shears and bring me **20 Sungrass and 20 Blindweed** to replenish my workshop, and I will trade them to you. The Light will guide your hands to greater yields.',
     `QuestCompletionLog` = 'Return the herbs to Cemmorhan in Exodar',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -736,12 +750,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'The Light shines upon this exchange. I will accept your old Journeyman shears. These materials are well-selected. This Artisan pair will aid your continued growth.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Have you brought the materials and your old Journeyman shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -765,11 +779,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 8839, -- Blindweed
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57300, -- Journeyman's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Artisan Shears',
-    `QuestDescription` = 'Your skills have grown considerably! Those old shears won''t cut it anymore. Bring me some higher quality herbs and I''ll outfit you with proper Artisan Pruning Shears.',
+    `LogDescription` = 'Trade in your Journeyman shears and collect herbs to exchange for Artisan Shears',
+    `QuestDescription` = 'Still using Journeyman shears for artisan-level plants? How do you expect to maximize yields with such inferior equipment? I see those dull blades wasting precious material. I have Artisan shears available. Relinquish that inferior Journeyman pair and bring me **20 Sungrass and 20 Blindweed** - quality specimens, please - and we shall trade. Your harvest efficiency will improve markedly.',
     `QuestCompletionLog` = 'Return the herbs to Botanist Nathera in Silvermoon',
     `RewardItem1` = 57301,
     `RewardAmount1` = 1,
@@ -784,12 +800,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Excellent work! These shears will serve you well.';
+    `RewardText` = 'Acceptable quality, I suppose. I''ll take that inferior Journeyman pair off your hands. Here are your Artisan shears - now perhaps your harvests will meet proper standards.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Ah, perfect specimens!';
+    `CompletionText` = 'Have you acquired the herbs and that inferior Journeyman pair?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -820,11 +836,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 22786, -- Dreaming Glory
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57301, -- Artisan's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Master Shears',
-    `QuestDescription` = 'The herbs of Outland require a master''s touch. Bring me some of the finest specimens from these strange lands, and I will provide you with Master Pruning Shears worthy of the challenge.',
+    `LogDescription` = 'Trade in your Artisan shears and collect herbs to exchange for Master Shears',
+    `QuestDescription` = 'Welcome to Outland, herbalist. The plants here are far tougher than anything from Azeroth - your Artisan shears will struggle with them, and you''ll miss valuable herbs from each harvest. I have Master shears designed for Outland flora. Trade in your old Artisan shears and bring me **20 Felweed and 20 Dreaming Glory** from these twisted lands, and the Master shears are yours. You''ll need the increased yield for the challenges ahead.',
     `QuestCompletionLog` = 'Return the herbs to Rorelien in Honor Hold',
     `RewardItem1` = 57302,
     `RewardAmount1` = 1,
@@ -839,12 +857,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'These shears are imbued with the essence of Outland. Use them well.';
+    `RewardText` = 'Excellent quality specimens from this alien world. I''ll take those Artisan shears - they served their purpose. These Master shears are built for Outland''s harsh flora - they will serve you well here.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Fascinating specimens from this alien world!';
+    `CompletionText` = 'Did you bring the 20 Felweed, 20 Dreaming Glory, and your old Artisan shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -869,11 +887,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 22786, -- Dreaming Glory
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57301, -- Artisan's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Master Shears',
-    `QuestDescription` = 'The herbs of Outland require a master''s touch. Bring me some of the finest specimens from these strange lands, and I will provide you with Master Pruning Shears worthy of the challenge.',
+    `LogDescription` = 'Trade in your Artisan shears and collect herbs to exchange for Master Shears',
+    `QuestDescription` = 'Brother/Sister, the Earth Mother''s voice is different in this shattered land. The plants here are far hardier than those of Azeroth - your Artisan shears struggle with their toughness, and precious herbs are lost. I have Master shears for these twisted lands. Trade in your old Artisan shears and bring me **20 Felweed and 20 Dreaming Glory** from Outland''s strange flora, and we shall trade. Greater harvests will flow from these stronger blades.',
     `QuestCompletionLog` = 'Return the herbs to Ruak Stronghorn in Thrallmar',
     `RewardItem1` = 57302,
     `RewardAmount1` = 1,
@@ -888,12 +908,62 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'These shears are imbued with the essence of Outland. Use them well.';
+    `RewardText` = 'The Earth Mother guides this exchange. Your old Artisan shears served well in Azeroth. These Master shears will help you harvest Outland''s bounty more fully.';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Fascinating specimens from this alien world!';
+    `CompletionText` = 'Do you have the Outland herbs and your old Artisan shears, friend?';
+
+UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
+
+INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
+INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- -----------------------------------------------------
+-- Quest 90113: Shattrath Neutral (Ruak Stronghorn - 19041)
+-- -----------------------------------------------------
+SET @quest := 90113;
+SET @npc := 19041;
+
+INSERT INTO `quest_template` SET
+    `ID` = @quest,
+    `QuestLevel` = 70,
+    `MinLevel` = 0,
+    `QuestSortID` = 3703, -- Shattrath City
+    `RewardXPDifficulty` = 5,
+    `Flags` = 136,
+    `RequiredItemId1` = 22785, -- Felweed
+    `RequiredItemCount1` = 20,
+    `RequiredItemId2` = 22786, -- Dreaming Glory
+    `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57301, -- Artisan's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
+    `RewardFactionID1` = 1011, -- Lower City
+    `RewardFactionValue1` = 5,
+    `LogTitle` = 'Master Pruning Shears',
+    `LogDescription` = 'Trade in your Artisan shears and collect herbs to exchange for Master Shears',
+    `QuestDescription` = 'Greetings, herbalist. Outland''s flora is unlike anything in Azeroth - fel-touched, resilient, with roots that grip like iron. Your Artisan shears will dull quickly here, and you''ll miss valuable herbs from each harvest.$B$BI have Master shears crafted specifically for Outland''s twisted plants. Trade in your old Artisan shears and bring me **20 Felweed and 20 Dreaming Glory** from these harsh lands, and the Master shears are yours. They''re tempered to handle fel-corrupted stems - you''ll harvest faster and gather more from each node.',
+    `QuestCompletionLog` = 'Return the herbs to Ruak Stronghorn in Shattrath City',
+    `RewardItem1` = 57302,
+    `RewardAmount1` = 1,
+    `VerifiedBuild` = '0';
+
+INSERT INTO `quest_template_addon` SET
+    `ID` = @quest,
+    `RequiredSkillID` = 182, -- Herbalism
+    `RequiredSkillPoints` = 300,
+    `PrevQuestID` = 90016, -- Requires Artisan tier
+    `ExclusiveGroup` = 90024;
+
+INSERT INTO `quest_offer_reward` SET
+    `ID` = @quest,
+    `RewardText` = 'Excellent specimens from this shattered world. I''ll take those Artisan shears - they served their purpose. These Master shears are built for Outland''s harsh flora - reinforced blades, balanced for thick stems. They will serve you well here.';
+
+INSERT INTO `quest_request_items` SET
+    `ID` = @quest,
+    `EmoteOnComplete` = 1,
+    `CompletionText` = 'Did you bring the 20 Felweed, 20 Dreaming Glory, and your old Artisan shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -923,11 +993,13 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 36904, -- Tiger Lily
     `RequiredItemCount2` = 20,
+    `RequiredItemId3` = 57302, -- Master's Pruning Shears (trade-in)
+    `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1091, -- Kirin Tor
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Grand Master Pruning Shears',
-    `LogDescription` = 'Collect herbs to exchange for a pair of Grand Master Shears',
-    `QuestDescription` = 'You have reached the pinnacle of the herbalist''s craft! The frozen wastes of Northrend present unique challenges. Bring me samples of its hardy flora, and I will conjure you the finest Pruning Shears ever made - imbued with arcane power for Grand Master quality harvests!',
+    `LogDescription` = 'Trade in your Master shears and collect herbs to exchange for Grand Master Shears',
+    `QuestDescription` = 'Northrend presents new challenges for even master herbalists. The arctic plants here have bark thick as iron and roots frozen solid - your Master shears will feel sluggish, and you''ll miss valuable herbs from each node. I have Grand Master shears, the finest tools available. Trade in your old Master shears and bring me **20 Goldclover and 20 Tiger Lily** from Northrend''s frozen flora, and I will conjure the Grand Master shears for you - imbued with arcane power for maximum yields!',
     `QuestCompletionLog` = 'Return the herbs to Dorothy Egan in Dalaran',
     `RewardItem1` = 57303,
     `RewardAmount1` = 1,
@@ -941,12 +1013,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Through my arcane arts, I have woven powerful enchantments into these shears. They will serve you well in the frozen north!';
+    `RewardText` = 'Perfect quality specimens from the frozen wastes! I''ll take those Master shears - you''ve outgrown them. Through my arcane arts, I have woven powerful enchantments into these Grand Master shears. You''ll harvest far more from each Northrend node now!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Remarkable! These Northrend herbs are unlike anything I''ve seen!';
+    `CompletionText` = 'Did you bring the 20 Goldclover, 20 Tiger Lily, and your old Master shears?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
