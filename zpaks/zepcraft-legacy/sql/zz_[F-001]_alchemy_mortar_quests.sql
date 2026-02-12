@@ -17,12 +17,12 @@
 -- ===================
 -- CLEANUP OLD QUESTS
 -- ===================
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90091 AND 90112;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90091 AND 90112;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90091 AND 90112;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90091 AND 90112;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90091 AND 90112;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90091 AND 90112;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90091 AND 90108 OR `ID` IN (90111, 90112);
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90091 AND 90108 OR `ID` IN (90111, 90112);
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90091 AND 90108 OR `ID` IN (90111, 90112);
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90091 AND 90108 OR `ID` IN (90111, 90112);
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90091 AND 90108 OR `quest` IN (90111, 90112);
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90091 AND 90108 OR `quest` IN (90111, 90112);
 
 -- ===================
 -- ADD QUESTGIVER FLAG TO TRAINERS
@@ -30,6 +30,7 @@ DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90091 AND 90112;
 -- Some trainers missing QUESTGIVER (2) flag
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (
     5499,  -- Lilyssia Nightbreeze (Stormwind)
+    5177,  -- Tally Berryfizz (Ironforge)
     16723, -- Lucc (Exodar)
     3347,  -- Yelmak (Orgrimmar)
     16642  -- Camberon (Silvermoon)
@@ -87,10 +88,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90092: Ironforge (Ghak Healtouch - 1470)
+-- Quest 90092: Ironforge (Tally Berryfizz - 5177)
 -- -----------------------------------------------------
 SET @quest := 90092;
-SET @npc := 1470;
+SET @npc := 5177;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -107,8 +108,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Alchemist''s Mortar',
     `LogDescription` = 'Collect potions to exchange for a Journeyman Alchemy Mortar',
-    `QuestDescription` = 'Eh, still crushin'' herbs with yer bare hands, are ye? That''s a waste o'' good reagents, lad.$B$BDwarven craftsmen learned centuries ago - a proper mortar doesn''t just speed up the work, it makes yer potions STRONGER. The grinding technique extracts more essence from every leaf and root.$B$BBring me **5 Lesser Healing Potions and 5 Lesser Mana Potions**. I''ll trade ye a journeyman''s mortar - carved from mountain granite, smooth as silk. Yer brewing time will be cut in half, and every draught ye make will pack more punch.',
-    `QuestCompletionLog` = 'Return the potions to Ghak Healtouch in Ironforge',
+    `QuestDescription` = 'Oh! Still grinding herbs by hand? That''s terribly inefficient - you''re losing at LEAST 40% reagent potency with that technique!$B$BI''ve been tinkering with mortar designs for years. The key is the grinding surface angle - 37 degrees, precisely calibrated. It doesn''t just speed things up, it extracts compounds that crude methods completely miss. Your potions will be SIGNIFICANTLY stronger!$B$BBring me **5 Lesser Healing Potions and 5 Lesser Mana Potions**. I''ll trade you a journeyman''s mortar - my own design, gear-assisted grinding mechanism. Cuts your brewing time in half AND boosts potency. You''ll love it!',
+    `QuestCompletionLog` = 'Return the potions to Tally Berryfizz in Ironforge',
     `RewardItem1` = 56900,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -121,12 +122,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Fine work! This mortar''s been in me family for three generations. It''ll brew yer potions faster and stronger than anythin'' ye''ve used before.$B$BNow get back to that cauldron and show me what a REAL alchemist can do!';
+    `RewardText` = 'Perfect! Oh, you''re going to love this. Gear-assisted grinding, self-leveling base, optimized surface texture - it''s one of my better designs, if I do say so myself.$B$BYour potions will brew faster and pack a much bigger punch. Now get back to that cauldron - I want to see what you can do with proper equipment!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got those potions? 5 healin'', 5 mana, aye?';
+    `CompletionText` = 'Got those potions? 5 healing, 5 mana - let''s see them!';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -456,10 +457,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90100: Ironforge (Ghak Healtouch - 1470)
+-- Quest 90100: Ironforge (Tally Berryfizz - 5177)
 -- -----------------------------------------------------
 SET @quest := 90100;
-SET @npc := 1470;
+SET @npc := 5177;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -478,8 +479,8 @@ INSERT INTO `quest_template` SET
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Mortar',
     `LogDescription` = 'Collect potions to exchange for an Artisan Alchemy Mortar',
-    `QuestDescription` = 'Aye, I can see that mortar''s worn down, lad. Yer potions are lackin'' punch because the grindin'' surface is all pitted and rough. Wastin'' good herbs, ye are!$B$BYe''ve got the skill for better work now. Time for better tools.$B$BBring me **5 Superior Healing Potions and 5 Superior Mana Potions**, and trade in that old mortar. I''ll set ye up with an artisan''s piece - forged from deepstone, polished to a mirror finish. Yer brewing''ll be faster AND yer potions''ll hit harder than a ram in ruttin'' season!',
-    `QuestCompletionLog` = 'Return the potions to Ghak Healtouch in Ironforge',
+    `QuestDescription` = 'Ooh, let me see that mortar... oh dear. The grinding surface is pitted, the calibration is WAY off - no wonder your potions have been losing potency! You''re wasting good reagents with worn-out equipment.$B$BBut your SKILL has improved tremendously! Time for tools to match.$B$BBring me **5 Superior Healing Potions and 5 Superior Mana Potions**, and trade in that old mortar. I''ve been working on an artisan model - triple-compound grinding surface, counter-weighted for smoother action. Much faster brewing, MUCH stronger results. It''s a significant upgrade!',
+    `QuestCompletionLog` = 'Return the potions to Tally Berryfizz in Ironforge',
     `RewardItem1` = 56901,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -493,12 +494,12 @@ INSERT INTO `quest_template_addon` SET
 
 INSERT INTO `quest_offer_reward` SET
     `ID` = @quest,
-    `RewardText` = 'Now THAT''S craftsmanship! This artisan''s mortar will cut yer brewing time by a third AND make every potion ye brew stronger by a quarter. Dwarven engineering at its finest!$B$BGo on then, get back to yer cauldron! Show me what ye can really do!';
+    `RewardText` = 'Oh, this is EXCITING! Triple-compound surface, counter-weighted base, micro-calibrated grinding angle - this is some of my finest work!$B$BYour brewing will be dramatically faster, and the potency increase should be substantial. Gnomish engineering meets alchemical precision! Now go, go - I can''t wait to hear how it performs!';
 
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got the superior potions? And yer old mortar for the trade?';
+    `CompletionText` = 'Got the superior potions? And the old mortar for trade-in?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
