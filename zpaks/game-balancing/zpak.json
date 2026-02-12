@@ -1,8 +1,8 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
-  "name": "instance-tuning",
+  "name": "game-balancing",
   "version": "1.0.0",
-  "description": "Dungeon and raid difficulty tuning, boss adjustments, and autobalance integration",
+  "description": "Overworld, item, dungeon and raid balancing — difficulty tuning, boss adjustments, and autobalance integration",
   "author": "Zeppelin Team",
 
   "type": "acore-extension",

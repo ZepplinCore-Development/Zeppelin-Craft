@@ -1127,6 +1127,11 @@ from commands.outfit import outfit
 cli.add_command(outfit)
 
 
+# Import creature commands from module
+from commands.creature import creature
+cli.add_command(creature)
+
+
 @cli.command()
 def doctor():
     """Verify toolchain and dependencies"""
