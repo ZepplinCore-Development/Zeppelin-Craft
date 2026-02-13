@@ -122,11 +122,29 @@ WHERE `id` IN (580, 25953, 26656)
   AND `spell_desc_enus` NOT LIKE '%speed2%';
 
 -- Special: Riding Turtle (30174) - ground + swim speed
+-- Stock spell has no speed effects; add them so bulk level-scaling (section 3) works.
+-- Sections 1-2 already set spell_class_set/mask, spell_desc_variable_id, cast_time_index.
 UPDATE `spell` SET
-    `spell_desc_enus` = CONCAT(`spell_desc_enus`, ' Increases speed on land by $<groundspeed2>% and in the water by $<swimspeed2>%.'),
+    `attributes_ex_3` = 0,
+    `spell_level` = 20,
+    `max_level` = 60,
+    `base_level` = 20,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_real_points_per_level_2` = '2.0000000000000000',
+    `effect_base_points_2` = 19,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 32,
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_real_points_per_level_3` = '2.0000000000000000',
+    `effect_base_points_3` = 19,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 58,
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Summons and dismisses a rideable turtle. Increases speed on land by $<groundspeed2>% and in the water by $<swimspeed2>%.',
     `spell_tooltip_enus` = 'Increases speed on land by $<groundspeed>% and in the water by $<swimspeed>%.'
-WHERE `id` = 30174
-  AND `spell_desc_enus` NOT LIKE '%groundspeed2%';
+WHERE `id` = 30174;
 
 -- ============================================================================
 -- PART B: FORM & GHOST WOLF CORRECTIONS (I-049, I-050)

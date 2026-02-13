@@ -2,7 +2,7 @@
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-044]_skillraceclassinfo.sql with overrides
 
--- skillraceclassinfo: 21 inserts, 32 updates, 126 deletes
+-- skillraceclassinfo: 2 inserts, 6 updates, 128 deletes
 DELETE FROM `skillraceclassinfo` WHERE `id` = 6;
 DELETE FROM `skillraceclassinfo` WHERE `id` = 24;
 DELETE FROM `skillraceclassinfo` WHERE `id` = 26;
@@ -133,40 +133,6 @@ DELETE FROM `skillraceclassinfo` WHERE `id` = 998;
 INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (998, 792, 4095, 1535, 2, 0, 41, 0);
 DELETE FROM `skillraceclassinfo` WHERE `id` = 999;
 INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (999, 791, 4095, 1535, 2, 0, 41, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1000;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1000, 43, 4095, 431, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1001;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1001, 44, 4095, 103, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1002;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1002, 45, 4095, 13, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1003;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1003, 46, 4095, 13, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1004;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1004, 54, 4095, 123, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1005;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1005, 55, 4095, 39, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1006;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1006, 136, 4095, 469, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1007;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1007, 160, 4095, 99, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1008;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1008, 162, 4095, 511, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1009;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1009, 172, 4095, 103, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1010;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1010, 173, 4095, 477, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1011;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1011, 176, 4095, 9, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1012;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1012, 226, 4095, 13, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1013;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1013, 228, 4095, 400, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1014;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1014, 229, 4095, 39, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1015;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1015, 433, 4095, 67, 128, 0, 0, 0);
-DELETE FROM `skillraceclassinfo` WHERE `id` = 1016;
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1016, 473, 4095, 77, 128, 0, 0, 0);
 UPDATE `skillraceclassinfo` SET `race_mask` = 4035, `class_mask` = 1535 WHERE `id` = 4;
 UPDATE `skillraceclassinfo` SET `class_mask` = 1535 WHERE `id` = 86;
 UPDATE `skillraceclassinfo` SET `race_mask` = 4095, `class_mask` = 1535 WHERE `id` = 601;

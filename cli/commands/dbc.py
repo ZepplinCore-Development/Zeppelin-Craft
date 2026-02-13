@@ -1162,6 +1162,291 @@ dbc_clean.zpak_filter = 'has_dbc'
 
 
 # =============================================================================
+# Strip Base Command
+# =============================================================================
+
+@db.command('strip-base')
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Zpak name (interactive selection if omitted)')
+@click.option('--table', '-t', 'table_name',
+              help='Only strip conflicts in specific table')
+@click.option('--dry-run', '-n', is_flag=True,
+              help='Preview without modifying files')
+@click.option('--output', '-o', 'output_file', type=click.Path(),
+              help='Write detailed log to file')
+@click.pass_context
+def dbc_strip_base(ctx, zpak_name: Optional[str], table_name: Optional[str],
+                   dry_run: bool, output_file: Optional[str]):
+    """Strip conflicting rows from [BASE,*] files overridden by [F-*] files.
+
+    Scans a zpak for [BASE,*] DBC SQL files whose rows are also modified by
+    feature-specific [F-*] files in the same zpak.  Since [F-*] files sort
+    after [BASE,*] alphabetically, the feature file always wins at rebuild
+    time — but the BASE entry becomes a landmine that can clobber the feature
+    override when applied alone via --changed.
+
+    For each conflicting ID the command removes every DELETE, INSERT, and
+    UPDATE referencing that ID from the BASE file.  The feature file is left
+    untouched.
+
+    Examples:
+        zep dbc db strip-base                                # Interactive
+        zep dbc db strip-base -z zepcraft-legacy -n          # Dry-run preview
+        zep dbc db strip-base -z zepcraft-legacy -t spell    # Only spell table
+        zep dbc db strip-base -z zepcraft-legacy -o log.txt  # Save log
+    """
+    from lib.dbc_utils import (
+        extract_table_from_filename,
+        parse_sql_modifications,
+        remove_ids_from_dbc_file,
+    )
+
+    craft_root = ctx.obj['craft_root']
+
+    # ── Zpak selection ──────────────────────────────────────────────────
+    if not zpak_name:
+        try:
+            from simple_term_menu import TerminalMenu
+        except ImportError:
+            raise click.ClickException(
+                "Specify --zpak <name> or install simple-term-menu for "
+                "interactive selection"
+            )
+
+        candidates = []
+        for base in [craft_root / 'zpaks', craft_root / 'external']:
+            if not base.exists():
+                continue
+            for pkg_dir in sorted(base.iterdir()):
+                if not pkg_dir.is_dir():
+                    continue
+                if not (pkg_dir / 'dbc').exists():
+                    continue
+                manifest = load_manifest(pkg_dir / 'zpak.json')
+                if manifest:
+                    candidates.append(
+                        (manifest.get('name', pkg_dir.name), pkg_dir))
+
+        if not candidates:
+            raise click.ClickException("No zpaks with DBC files found")
+
+        options = [c[0] for c in candidates] + ["[Cancel]"]
+        menu = TerminalMenu(options,
+                            title="\n  Select zpak to strip BASE conflicts:\n")
+        result = menu.show()
+        if result is None or options[result] == "[Cancel]":
+            return
+        zpak_name = candidates[result][0]
+
+    # ── Locate zpak ─────────────────────────────────────────────────────
+    zpak_path = None
+    for base in [craft_root / 'zpaks', craft_root / 'external']:
+        candidate = base / zpak_name
+        if candidate.exists():
+            zpak_path = candidate
+            break
+
+    if not zpak_path:
+        raise click.ClickException(f"Zpak not found: {zpak_name}")
+
+    dbc_dir = zpak_path / 'dbc'
+    if not dbc_dir.exists():
+        raise click.ClickException(f"No dbc directory in zpak: {zpak_name}")
+
+    # ── Set up logging ──────────────────────────────────────────────────
+    log_dir = craft_root / 'cli' / 'logs'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = (Path(output_file) if output_file
+                else log_dir / 'dbc_strip_base.log')
+
+    log_lines: List[str] = []
+
+    def log(msg: str = '', console: bool = True):
+        if console:
+            click.echo(msg)
+        clean = re.sub(r'\x1b\[[0-9;]*m', '', msg)
+        log_lines.append(clean)
+
+    import datetime
+    log(f"Base Conflict Strip — {zpak_name}")
+    log(f"Generated: {datetime.datetime.now():%Y-%m-%d %H:%M:%S}", False)
+    log(f"{'=' * 72}", False)
+    log()
+
+    if dry_run:
+        log(click.style("=== DRY RUN MODE ===\n", fg='yellow'))
+
+    # ── Classify files as BASE vs FEATURE ───────────────────────────────
+    base_files: Dict[str, Path] = {}   # table -> Path
+    feat_files: Dict[str, List[Path]] = {}  # table -> [Path, ...]
+
+    for sql_file in sorted(dbc_dir.glob('*.sql')):
+        tbl = extract_table_from_filename(sql_file.name)
+        if not tbl:
+            continue
+        if table_name and tbl != table_name.lower():
+            continue
+
+        fname = sql_file.name
+        if fname.startswith('[BASE,') or fname.startswith('[AUTO,'):
+            base_files[tbl] = sql_file
+        elif fname.startswith('[F-') or fname.startswith('[I-'):
+            feat_files.setdefault(tbl, []).append(sql_file)
+
+    # ── Find overlapping tables ─────────────────────────────────────────
+    tables_with_both = sorted(set(base_files) & set(feat_files))
+    if not tables_with_both:
+        log("No tables have both [BASE,*] and [F-*] files — nothing to strip.")
+        _write_log(log_path, log_lines)
+        return
+
+    log(f"Scanning {len(tables_with_both)} table(s) with BASE + feature "
+        f"files...\n")
+
+    # ── For each table, find conflicting IDs ────────────────────────────
+    total_stripped = 0
+    files_modified = 0
+
+    for tbl in tables_with_both:
+        base_path = base_files[tbl]
+        feat_paths = feat_files[tbl]
+
+        # Parse IDs from feature files
+        feat_ids: Dict[str, Set[str]] = {}  # row_key -> set of filenames
+        for fp in feat_paths:
+            try:
+                content = fp.read_text()
+                mods = parse_sql_modifications(content, tbl)
+                for row_key in mods:
+                    feat_ids.setdefault(row_key, set()).add(fp.name)
+            except Exception:
+                continue
+
+        if not feat_ids:
+            continue
+
+        # Parse IDs from BASE file
+        try:
+            base_content = base_path.read_text()
+            base_mods = parse_sql_modifications(base_content, tbl)
+        except Exception:
+            continue
+
+        # Find overlap
+        overlap = set(base_mods) & set(feat_ids)
+        if not overlap:
+            continue
+
+        # Convert row_keys to tuples for remove_ids_from_dbc_file
+        ids_to_strip = set()
+        for rk in overlap:
+            key_tuple = tuple(int(v) for v in rk.split("|"))
+            ids_to_strip.add(key_tuple)
+
+        # Group by feature file for logging
+        by_feat: Dict[str, list] = {}
+        for rk in sorted(overlap, key=lambda k: [int(v) for v in k.split("|")]):
+            for fname in sorted(feat_ids[rk]):
+                by_feat.setdefault(fname, []).append(rk)
+
+        log(click.style(f"TABLE: {tbl}", bold=True))
+        log(f"  BASE file: {base_path.name}")
+        for fname, keys in sorted(by_feat.items()):
+            # Summarise IDs — show first 5 and last 2 if many
+            id_strs = keys
+            if len(id_strs) <= 8:
+                display = ', '.join(id_strs)
+            else:
+                display = (', '.join(id_strs[:5]) +
+                           f' ... ({len(id_strs)} total) ... ' +
+                           ', '.join(id_strs[-2:]))
+            log(f"  Conflicts with {fname}: {display}")
+
+        # Perform strip
+        lines_before, lines_after, removed, empty = remove_ids_from_dbc_file(
+            base_path, ids_to_strip, dry_run
+        )
+
+        if removed > 0:
+            files_modified += 1
+            total_stripped += removed
+
+            if empty:
+                action = "Would delete" if dry_run else "Deleted"
+                log(f"  {action} {base_path.name} (all rows stripped)")
+            else:
+                action = "Would strip" if dry_run else "Stripped"
+                log(f"  {action} {removed} rows "
+                    f"({lines_before} → {lines_after} lines)")
+
+            # Update header counts
+            if not dry_run and not empty:
+                _update_base_header(base_path, tbl)
+        else:
+            log(f"  No matching rows found in file (already clean?)")
+        log()
+
+    # ── Summary ─────────────────────────────────────────────────────────
+    log(f"{'=' * 72}", False)
+    action_word = "Would modify" if dry_run else "Modified"
+    log(f"SUMMARY: {action_word} {files_modified} file(s), "
+        f"{'would strip' if dry_run else 'stripped'} {total_stripped} row(s)")
+
+    if dry_run and total_stripped > 0:
+        log(click.style(
+            "\nRun without --dry-run / -n to apply changes.", fg='cyan'))
+    elif total_stripped > 0:
+        log(click.style("\nStrip complete!", fg='green'))
+    else:
+        log(click.style("Already clean — no BASE conflicts found.", fg='green'))
+
+    _write_log(log_path, log_lines)
+    if total_stripped > 0:
+        click.echo(f"\nLog: {log_path}")
+
+
+def _write_log(log_path: Path, lines: List[str]):
+    """Write log lines to file, stripping ANSI codes."""
+    clean_lines = [re.sub(r'\x1b\[[0-9;]*m', '', l) for l in lines]
+    with open(log_path, 'w') as f:
+        f.write('\n'.join(clean_lines) + '\n')
+
+
+def _update_base_header(file_path: Path, table_name: str):
+    """Re-count statements in a BASE file and update its header comment."""
+    content = file_path.read_text()
+    lines = content.splitlines()
+
+    inserts = sum(1 for l in lines
+                  if re.match(r'^INSERT\b', l, re.IGNORECASE))
+    updates = sum(1 for l in lines
+                  if re.match(r'^UPDATE\b', l, re.IGNORECASE))
+    deletes = sum(1 for l in lines
+                  if re.match(r'^DELETE\b', l, re.IGNORECASE))
+
+    new_header = f"-- {table_name}: {inserts} inserts, {updates} updates, {deletes} deletes"
+
+    # Find and replace existing header line
+    header_pat = re.compile(
+        r'^-- ' + re.escape(table_name) + r': \d+ inserts?, \d+ updates?, \d+ deletes?$',
+        re.IGNORECASE
+    )
+
+    replaced = False
+    for i, line in enumerate(lines):
+        if header_pat.match(line):
+            lines[i] = new_header
+            replaced = True
+            break
+
+    if replaced:
+        file_path.write_text('\n'.join(lines) + '\n')
+
+
+dbc_strip_base.zpak_filter = 'has_dbc'
+
+
+# =============================================================================
 # Squash Command
 # =============================================================================
 
