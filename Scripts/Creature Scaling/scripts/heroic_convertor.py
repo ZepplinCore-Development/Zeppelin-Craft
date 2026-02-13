@@ -37,7 +37,7 @@ COLUMNS = [
 ]
 
 # Output filename
-OUTPUT_FILE = "zz_heroic_convertor.sql"
+OUTPUT_FILE = "zz_[AUTO,F-074]_heroic_convertor.sql"
 
 
 class HeroicStats:

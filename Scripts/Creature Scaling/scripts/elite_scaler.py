@@ -49,7 +49,7 @@ COL_DAMAGE_MODIFIER = 27
 COL_HEALTH_MODIFIER = 53
 
 # Output filename
-OUTPUT_FILE = "zz_elite_scaler.sql"
+OUTPUT_FILE = "zz_[AUTO,F-074]_elite_scaler.sql"
 
 
 def load_config():

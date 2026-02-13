@@ -67,7 +67,7 @@ CHALLENGE_TYPES = {
 COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank", "spell_school_immune_mask"]
 
 # Output filename
-OUTPUT_FILE = "zz_de-L33TER.sql"
+OUTPUT_FILE = "zz_[AUTO,F-074]_de-L33TER.sql"
 
 
 def load_config():

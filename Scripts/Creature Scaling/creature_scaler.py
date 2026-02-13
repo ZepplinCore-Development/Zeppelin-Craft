@@ -205,9 +205,9 @@ Examples:
 
 Output:
     Each script generates a SQL file in the output/ directory:
-    - Normal:  output/zz_de-L33TER.sql
-    - Elite:   output/zz_elite_scaler.sql
-    - Heroic:  output/zz_heroic_convertor.sql
+    - Normal:  output/zz_[AUTO,F-074]_de-L33TER.sql
+    - Elite:   output/zz_[AUTO,F-074]_elite_scaler.sql
+    - Heroic:  output/zz_[AUTO,F-074]_heroic_convertor.sql
 
 Configuration:
     Database credentials are loaded from .env file in this directory.
@@ -322,11 +322,11 @@ Structure:
         print("\nGenerated SQL files:")
         output_dir = BASE_DIR / "output"
         if args.normal:
-            print(f"  - {output_dir / 'zz_de-L33TER.sql'}")
+            print(f"  - {output_dir / 'zz_[AUTO,F-074]_de-L33TER.sql'}")
         if args.elite:
-            print(f"  - {output_dir / 'zz_elite_scaler.sql'}")
+            print(f"  - {output_dir / 'zz_[AUTO,F-074]_elite_scaler.sql'}")
         if args.heroic:
-            print(f"  - {output_dir / 'zz_heroic_convertor.sql'}")
+            print(f"  - {output_dir / 'zz_[AUTO,F-074]_heroic_convertor.sql'}")
     else:
         print("\nSome scripts failed. Check output above for details.")
         sys.exit(1)
