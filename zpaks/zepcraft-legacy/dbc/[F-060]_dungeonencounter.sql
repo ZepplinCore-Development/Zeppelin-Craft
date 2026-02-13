@@ -1,8 +1,7 @@
--- [BASE,F-044] zepcraft-legacy: dungeonencounter
--- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-044]_dungeonencounter.sql with overrides
+-- [F-060] zepcraft-legacy: dungeonencounter
+-- Classic Heroic and Mythic boss encounter entries
 
--- dungeonencounter: 352 inserts, 5 updates, 0 deletes
+-- dungeonencounter: 352 inserts (heroic difficulty=1 + mythic difficulty=2)
 DELETE FROM `dungeonencounter` WHERE `id` = 990;
 INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (990, 34, 1, 4000, 4, 'Dextren Ward', 16712190, 0);
 DELETE FROM `dungeonencounter` WHERE `id` = 991;
@@ -707,8 +706,3 @@ DELETE FROM `dungeonencounter` WHERE `id` = 1347;
 INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (1347, 109, 2, 250, 12, 'Gasher', 16712190, 0);
 DELETE FROM `dungeonencounter` WHERE `id` = 1348;
 INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (1348, 109, 2, 300, 13, 'Zul\'Lor', 16712190, 0);
-UPDATE `dungeonencounter` SET `order_index` = 1000 WHERE `id` = 431;
-UPDATE `dungeonencounter` SET `order_index` = 3000, `bit` = 3 WHERE `id` = 432;
-UPDATE `dungeonencounter` SET `order_index` = 2000, `bit` = 2 WHERE `id` = 433;
-UPDATE `dungeonencounter` SET `order_index` = 7000, `bit` = 7 WHERE `id` = 591;
-UPDATE `dungeonencounter` SET `order_index` = 6000, `bit` = 6 WHERE `id` = 592;

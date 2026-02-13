@@ -1,8 +1,7 @@
--- [BASE,F-044] zepcraft-legacy: lfgdungeongroup
--- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-044]_lfgdungeongroup.sql with overrides
+-- [F-060] zepcraft-legacy: lfgdungeongroup
+-- Classic Heroic and Mythic dungeon LFG groups and category renames
 
--- lfgdungeongroup: 2 inserts, 9 updates, 0 deletes
+-- lfgdungeongroup: 2 inserts, 9 updates
 DELETE FROM `lfgdungeongroup` WHERE `id` = 12;
 INSERT INTO `lfgdungeongroup` (`id`, `name_enus`, `name_flags`, `order`, `parent`, `type`) VALUES (12, 'Azeroth Heroic', 16712190, 6, 0, 5);
 DELETE FROM `lfgdungeongroup` WHERE `id` = 13;

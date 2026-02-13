@@ -1,0 +1,97 @@
+-- [F-060] zepcraft-legacy: mapdifficulty
+-- Classic dungeon map difficulty entries (normal/heroic/mythic)
+
+-- mapdifficulty: 22 inserts, 24 updates
+
+-- New map difficulty entries for classic dungeons
+DELETE FROM `mapdifficulty` WHERE `id` = 758;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (758, 289, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 759;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (759, 229, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 760;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (760, 129, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 761;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (761, 109, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 762;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (762, 389, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 763;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (763, 329, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 768;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (768, 43, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 771;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (771, 70, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 772;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (772, 33, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 773;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (773, 33, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 774;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (774, 33, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 775;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (775, 36, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 776;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (776, 43, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 777;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (777, 43, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 779;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (779, 34, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 780;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (780, 34, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 781;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (781, 34, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 782;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (782, 30, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 783;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (783, 30, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 784;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (784, 30, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 788;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (788, 48, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 789;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (789, 47, 0, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 790;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (790, 47, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 791;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (791, 47, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 793;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (793, 90, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 794;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (794, 90, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 795;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (795, 36, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 797;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (797, 36, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 798;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (798, 48, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 799;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (799, 48, 2, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 800;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (800, 70, 1, '', 16712188, 0, 5, '');
+DELETE FROM `mapdifficulty` WHERE `id` = 801;
+INSERT INTO `mapdifficulty` (`id`, `map_id`, `difficulty`, `message_enus`, `message_flags`, `lockout_duration`, `max_players`, `difficulty_string`) VALUES (801, 70, 2, '', 16712188, 0, 5, '');
+
+-- Reassign existing mapdifficulty entries to classic dungeon maps
+UPDATE `mapdifficulty` SET `map_id` = 189, `max_players` = 5 WHERE `id` = 5;
+UPDATE `mapdifficulty` SET `map_id` = 230, `max_players` = 5 WHERE `id` = 6;
+UPDATE `mapdifficulty` SET `map_id` = 429 WHERE `id` = 7;
+UPDATE `mapdifficulty` SET `map_id` = 189, `difficulty` = 1 WHERE `id` = 8;
+UPDATE `mapdifficulty` SET `map_id` = 329, `max_players` = 5 WHERE `id` = 9;
+UPDATE `mapdifficulty` SET `map_id` = 209 WHERE `id` = 10;
+UPDATE `mapdifficulty` SET `map_id` = 209, `difficulty` = 1, `max_players` = 5 WHERE `id` = 11;
+UPDATE `mapdifficulty` SET `map_id` = 349, `difficulty` = 1, `max_players` = 5 WHERE `id` = 12;
+UPDATE `mapdifficulty` SET `map_id` = 109 WHERE `id` = 13;
+UPDATE `mapdifficulty` SET `map_id` = 230, `difficulty` = 1, `max_players` = 5 WHERE `id` = 14;
+UPDATE `mapdifficulty` SET `map_id` = 229 WHERE `id` = 15;
+UPDATE `mapdifficulty` SET `map_id` = 429, `difficulty` = 1 WHERE `id` = 16;
+UPDATE `mapdifficulty` SET `map_id` = 289 WHERE `id` = 17;
+UPDATE `mapdifficulty` SET `difficulty` = 1 WHERE `id` = 19;
+UPDATE `mapdifficulty` SET `difficulty` = 2 WHERE `id` = 22;
+UPDATE `mapdifficulty` SET `difficulty` = 2 WHERE `id` = 23;
+UPDATE `mapdifficulty` SET `difficulty` = 1, `max_players` = 5 WHERE `id` = 24;
+UPDATE `mapdifficulty` SET `difficulty` = 2 WHERE `id` = 25;
+UPDATE `mapdifficulty` SET `difficulty` = 1 WHERE `id` = 28;
+UPDATE `mapdifficulty` SET `difficulty` = 1 WHERE `id` = 30;
+UPDATE `mapdifficulty` SET `difficulty` = 2 WHERE `id` = 31;
+UPDATE `mapdifficulty` SET `difficulty` = 2 WHERE `id` = 35;
+UPDATE `mapdifficulty` SET `map_id` = 129, `difficulty` = 2, `max_players` = 5 WHERE `id` = 126;
+UPDATE `mapdifficulty` SET `map_id` = 349, `difficulty` = 0, `max_players` = 5 WHERE `id` = 163;
+UPDATE `mapdifficulty` SET `map_id` = 389, `difficulty` = 2, `max_players` = 5 WHERE `id` = 522;
