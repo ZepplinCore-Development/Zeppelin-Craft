@@ -5,7 +5,7 @@
   "description": "All-in-one HD overhaul - 2x AI upscaled textures for creatures, mounts, armor, weapons, world, water, NPCs, plus retro-ported tree models for 32 zones and extended fog distance",
   "author": "Maribeth (Odyssey Mods)",
   "type": "mpq",
-  "client_patch": "PATCH-8",
+  "client_patch": "PATCH-Q",
   "source": {
     "type": "nexusmods",
     "url": "https://www.nexusmods.com/worldofwarcraft/mods/850"
