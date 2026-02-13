@@ -593,33 +593,65 @@
 		`position_z` = 18.8876,
 		`orientation` = 3.142;
 
--- Uldaman
+-- Uldaman East (Ironaya)
 
-	-- Uldaman (Normal)
+	-- Uldaman East (Normal)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 22;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 22,
-			`name` = 'Uldaman (Normal)',
+			`name` = 'Uldaman East (Normal)',
 			`position_x` = -226.8,
 			`position_y` = 49.09,
 			`position_z` = -46.03,
 			`orientation` = 1.39;
 
-	-- Uldaman (Mythic)
-		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 360;
-		INSERT INTO `lfg_dungeon_template` SET
-			`dungeonId` = 360,
-			`name` = 'Uldaman (Mythic)',
-			`position_x` = -226.8,
-			`position_y` = 49.09,
-			`position_z` = -46.03,
-			`orientation` = 1.39;
-
-	-- Uldaman (Heroic)
+	-- Uldaman East (Heroic)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 304;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 304,
-			`name` = 'Uldaman (Heroic)',
+			`name` = 'Uldaman East (Heroic)',
+			`position_x` = -226.8,
+			`position_y` = 49.09,
+			`position_z` = -46.03,
+			`orientation` = 1.39;
+
+	-- Uldaman East (Mythic)
+		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 360;
+		INSERT INTO `lfg_dungeon_template` SET
+			`dungeonId` = 360,
+			`name` = 'Uldaman East (Mythic)',
+			`position_x` = -226.8,
+			`position_y` = 49.09,
+			`position_z` = -46.03,
+			`orientation` = 1.39;
+
+-- Uldaman West (Archaedas)
+
+	-- Uldaman West (Normal)
+		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 452;
+		INSERT INTO `lfg_dungeon_template` SET
+			`dungeonId` = 452,
+			`name` = 'Uldaman West (Normal)',
+			`position_x` = -226.8,
+			`position_y` = 49.09,
+			`position_z` = -46.03,
+			`orientation` = 1.39;
+
+	-- Uldaman West (Heroic)
+		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 453;
+		INSERT INTO `lfg_dungeon_template` SET
+			`dungeonId` = 453,
+			`name` = 'Uldaman West (Heroic)',
+			`position_x` = -226.8,
+			`position_y` = 49.09,
+			`position_z` = -46.03,
+			`orientation` = 1.39;
+
+	-- Uldaman West (Mythic)
+		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 454;
+		INSERT INTO `lfg_dungeon_template` SET
+			`dungeonId` = 454,
+			`name` = 'Uldaman West (Mythic)',
 			`position_x` = -226.8,
 			`position_y` = 49.09,
 			`position_z` = -46.03,

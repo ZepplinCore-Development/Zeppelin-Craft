@@ -90,15 +90,7 @@
                 `lastEncounterDungeon` = 303,
                 `comment` = 'Bloodmage Thalnos';
 
-    -- ULDAMAN
-
-        -- Archaedas
-            DELETE FROM `instance_encounters` WHERE `entry` = 1187;
-            INSERT INTO `instance_encounters` SET
-                `entry` = 1187,
-                `creditEntry` = 2748,
-                `lastEncounterDungeon` = 304,
-                `comment` = 'Archaedas';
+    -- ULDAMAN (moved to zz_[F-062]_instance_encounters.sql)
 
     -- ZUL'FARAK
 
@@ -435,15 +427,7 @@
                 `lastEncounterDungeon` = 359,
                 `comment` = 'Bloodmage Thalnos';
 
-    -- ULDAMAN
-
-        -- Archaedas
-            DELETE FROM `instance_encounters` WHERE `entry` = 1194;
-            INSERT INTO `instance_encounters` SET
-                `entry` = 1194,
-                `creditEntry` = 2748,
-                `lastEncounterDungeon` = 360,
-                `comment` = 'Archaedas';
+    -- ULDAMAN (moved to zz_[F-062]_instance_encounters.sql)
 
     -- ZUL'FARAK
 

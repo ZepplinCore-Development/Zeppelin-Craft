@@ -2454,7 +2454,7 @@
 
                 -- *******************************************************
 
-                -- Uldaman East - Archaedas - Horde - Pool Quest
+                -- Uldaman West - Archaedas - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441166);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441166,
@@ -2462,7 +2462,7 @@
                     `description` = 'Archaedas';
                 
                 
-                -- Uldaman East - Archaedas - Horde - Quest Template
+                -- Uldaman West - Archaedas - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441166);
                 INSERT INTO `quest_template`
                 SET `ID` = 441166,
@@ -2473,7 +2473,7 @@
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 66270,
-                    `StartItem` = 901921,
+                    `StartItem` = 901930,
                     `Flags` = 4104,
                     `RewardItem1` = 58200,
                     `RewardAmount1` = 1,
@@ -2486,7 +2486,7 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Resonating Stone of Unity',
-                    `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman East.',
+                    `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman West.',
                     `QuestDescription` = 'The Horde bestows upon you a magicked orb, enchanted by the most powerful mages in our ranks. Use it to transport yourself to the ancient halls of Uldaman, where Archaedas, the Ancient Stone Watcher, stands as guardian. The Resonating Stone of Unity lies in his watchful care, a relic left by the titans. Your mission is to face Archaedas, retrieve the stone, and bring it back to the Horde. This artifact possesses the power to unify the races of Kalimdor in peace. Will you be the conduit for this harmony, or will the stone remain under the silent gaze of the ancient watcher?',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Overlord Runthak in Orgrimmar.',
@@ -2495,7 +2495,7 @@
                     `VerifiedBuild` = 12340;
                     
                 
-                -- Uldaman East - Archaedas - Horde - Quest Template Addon
+                -- Uldaman West - Archaedas - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441166);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441166,
@@ -2504,7 +2504,7 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Uldaman East - Archaedas - Horde - Quest Offer Reward
+                -- Uldaman West - Archaedas - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441166);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441166,
@@ -2512,7 +2512,7 @@
                     `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
-                -- Uldaman East - Archaedas - Horde - Quest Request Items
+                -- Uldaman West - Archaedas - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441166);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441166,
@@ -2521,21 +2521,21 @@
                     `CompletionText` = 'The Resonating Stone of Unity please.';
                     
                 
-                -- Uldaman East - Archaedas - Horde - Creature Quest Starter
+                -- Uldaman West - Archaedas - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441166);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441166,
                     `id` = 14392;
                     
                 
-                -- Uldaman East - Archaedas - Horde - Creature Quest Ender
+                -- Uldaman West - Archaedas - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441166);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441166,
                     `id` = 14392;
                     
                 
-                -- Uldaman East - Archaedas - Horde - Quest POI (Turn-in)
+                -- Uldaman West - Archaedas - Horde - Quest POI (Turn-in)
                 DELETE FROM `quest_poi` WHERE (`QuestID` = 441166);
                 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
                 VALUES (441166, 0, -1, 1, 321, 0, 0, 1, 0);
@@ -2545,7 +2545,7 @@
                 VALUES (441166, 0, 0, 1568, -4406, 0);
 
                 
-                -- Uldaman East - Archaedas - Resonating Stone of Unity - Item template
+                -- Uldaman West - Archaedas - Resonating Stone of Unity - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901711);
                 INSERT INTO `item_template`
                 SET `entry` = 901711,
@@ -2558,7 +2558,7 @@
                     `bonding` = 4;
 
                 
-                -- Uldaman East - Archaedas - Resonating Stone of Unity - Quest Item
+                -- Uldaman West - Archaedas - Resonating Stone of Unity - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 2748) AND (`ItemId` = 901711);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 2748,
@@ -2566,7 +2566,7 @@
                     `ItemId` = 901711;
                 
                 
-                -- Uldaman East - Archaedas - Resonating Stone of Unity - Loot Template
+                -- Uldaman West - Archaedas - Resonating Stone of Unity - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 2748) AND (`Item` IN (901711));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 2748,
@@ -2583,7 +2583,7 @@
 
                 -- *******************************************************
 
-                -- Uldaman East - Archaedas - Alliance - Pool Quest
+                -- Uldaman West - Archaedas - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441193);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441193,
@@ -2591,7 +2591,7 @@
                     `description` = 'Archaedas';
                 
                 
-                -- Uldaman East - Archaedas - Alliance - Quest Template
+                -- Uldaman West - Archaedas - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441193);
                 INSERT INTO `quest_template`
                 SET `ID` = 441193,
@@ -2602,7 +2602,7 @@
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 66270,
-                    `StartItem` = 901921,
+                    `StartItem` = 901930,
                     `Flags` = 4104,
                     `RewardItem1` = 58200,
                     `RewardAmount1` = 1,
@@ -2615,7 +2615,7 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Resonating Stone of Unity',
-                    `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman East.',
+                    `LogDescription` = 'Retrieve the Resonating Stone of Unity from Archaedas in Uldaman West.',
                     `QuestDescription` = 'Howdy there, partner! Heard tell that them Horde Zugs, led by Zuglord Runthak, are schemin'' to grab the Resonating Stone of Unity from Archaedas, the Ancient Stone Watcher in Uldaman. And get this, they''re thinkin'' ''bout usin'' it to unify all the races of Kalimdor in peace! Can''t let that kind of foolhardy dream go down. Ride on over, face Archaedas, and fetch that Resonating Stone. Oh, and afore ya go, we snatched an orb from them lazy book-readin'' mages over in the tower. It''ll teleport ya straight to Uldaman. There''s a reward waitin'' for ya. Let''s stomp out them Horde''s fanciful peace dreams and keep the Resonating Stone safe!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Resonating Stone of Unity to Travis Coomingham in Stormwind.',
@@ -2624,7 +2624,7 @@
                     `VerifiedBuild` = 12340;
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Quest Template Addon
+                -- Uldaman West - Archaedas - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441193);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441193,
@@ -2633,7 +2633,7 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Quest Offer Reward
+                -- Uldaman West - Archaedas - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441193);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441193,
@@ -2641,7 +2641,7 @@
                     `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Quest Request Items
+                -- Uldaman West - Archaedas - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441193);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441193,
@@ -2650,21 +2650,21 @@
                     `CompletionText` = 'The Resonating Stone of Unity please.';
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Creature Quest Starter
+                -- Uldaman West - Archaedas - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441193);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441193,
                     `id` = 29093;
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Creature Quest Ender
+                -- Uldaman West - Archaedas - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441193);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441193,
                     `id` = 29093;
                     
                 
-                -- Uldaman East - Archaedas - Alliance - Quest POI (Turn-in)
+                -- Uldaman West - Archaedas - Alliance - Quest POI (Turn-in)
                 DELETE FROM `quest_poi` WHERE (`QuestID` = 441193);
                 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
                 VALUES (441193, 0, -1, 0, 301, 0, 0, 1, 0);
@@ -6468,7 +6468,7 @@
 
                 -- *******************************************************
 
-                -- Uldaman West - Ironaya - Horde - Pool Quest
+                -- Uldaman East - Ironaya - Horde - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441213);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441213,
@@ -6476,7 +6476,7 @@
                     `description` = 'Ironaya';
                 
                 
-                -- Uldaman West - Ironaya - Horde - Quest Template
+                -- Uldaman East - Ironaya - Horde - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441213);
                 INSERT INTO `quest_template`
                 SET `ID` = 441213,
@@ -6487,7 +6487,7 @@
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 48000,
-                    `StartItem` = 901930,
+                    `StartItem` = 901921,
                     `Flags` = 4104,
                     `RewardItem1` = 58200,
                     `RewardAmount1` = 1,
@@ -6500,7 +6500,7 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Titanforged Beacon',
-                    `LogDescription` = 'Retrieve the Titanforged Beacon from Ironaya in Uldaman West.',
+                    `LogDescription` = 'Retrieve the Titanforged Beacon from Ironaya in Uldaman East.',
                     `QuestDescription` = 'Champion of the Horde, a new mission beckons you to the ancient halls of Uldaman. Seek out Ironaya and recover the Titanforged Beacon she guards. This magical artifact channels the potent energy of the Titans, offering the ability to heal our wounded soldiers and serve as a source of power for our settlements. Your strength and determination are needed to secure this beacon. Face the challenges within Uldaman, confront Ironaya, and bring the Titanforged Beacon back to the Horde. May it become a beacon of hope and vitality for our people. After you receive this quest, remember to utilize the enchanted orb. With its magic, you can teleport to Uldaman from anywhere in Azeroth. Go forth, champion, and let the beacon shine bright in service of the Horde!',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Titanforged Beacon to Overlord Runthak in Orgrimmar.',
@@ -6509,7 +6509,7 @@
                     `VerifiedBuild` = 12340;
                     
                 
-                -- Uldaman West - Ironaya - Horde - Quest Template Addon
+                -- Uldaman East - Ironaya - Horde - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441213);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441213,
@@ -6518,7 +6518,7 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Uldaman West - Ironaya - Horde - Quest Offer Reward
+                -- Uldaman East - Ironaya - Horde - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441213);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441213,
@@ -6526,7 +6526,7 @@
                     `RewardText` = 'Your deeds bring honour to the Horde.';
                     
                 
-                -- Uldaman West - Ironaya - Horde - Quest Request Items
+                -- Uldaman East - Ironaya - Horde - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441213);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441213,
@@ -6535,21 +6535,21 @@
                     `CompletionText` = 'The Titanforged Beacon please.';
                     
                 
-                -- Uldaman West - Ironaya - Horde - Creature Quest Starter
+                -- Uldaman East - Ironaya - Horde - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441213);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441213,
                     `id` = 14392;
                     
                 
-                -- Uldaman West - Ironaya - Horde - Creature Quest Ender
+                -- Uldaman East - Ironaya - Horde - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441213);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441213,
                     `id` = 14392;
                     
                 
-                -- Uldaman West - Ironaya - Horde - Quest POI (Turn-in)
+                -- Uldaman East - Ironaya - Horde - Quest POI (Turn-in)
                 DELETE FROM `quest_poi` WHERE (`QuestID` = 441213);
                 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
                 VALUES (441213, 0, -1, 1, 321, 0, 0, 1, 0);
@@ -6559,7 +6559,7 @@
                 VALUES (441213, 0, 0, 1568, -4406, 0);
 
                 
-                -- Uldaman West - Ironaya - Titanforged Beacon - Item template
+                -- Uldaman East - Ironaya - Titanforged Beacon - Item template
                 DELETE FROM `item_template` WHERE (`entry` = 901728);
                 INSERT INTO `item_template`
                 SET `entry` = 901728,
@@ -6572,7 +6572,7 @@
                     `bonding` = 4;
 
                 
-                -- Uldaman West - Ironaya - Titanforged Beacon - Quest Item
+                -- Uldaman East - Ironaya - Titanforged Beacon - Quest Item
                 DELETE FROM `creature_questitem` WHERE (`CreatureEntry` = 7228) AND (`ItemId` = 901728);
                 INSERT INTO `creature_questitem`
                 SET `CreatureEntry` = 7228,
@@ -6580,7 +6580,7 @@
                     `ItemId` = 901728;
                 
                 
-                -- Uldaman West - Ironaya - Titanforged Beacon - Loot Template
+                -- Uldaman East - Ironaya - Titanforged Beacon - Loot Template
                 DELETE FROM `creature_loot_template` WHERE (`Entry` = 7228) AND (`Item` IN (901728));
                 INSERT INTO `creature_loot_template`
                 SET `Entry` = 7228,
@@ -6597,7 +6597,7 @@
 
                 -- *******************************************************
 
-                -- Uldaman West - Ironaya - Alliance - Pool Quest
+                -- Uldaman East - Ironaya - Alliance - Pool Quest
                 DELETE FROM `pool_quest` WHERE (`entry` = 441214);
                 INSERT INTO `pool_quest`
                 SET `entry` = 441214,
@@ -6605,7 +6605,7 @@
                     `description` = 'Ironaya';
                 
                 
-                -- Uldaman West - Ironaya - Alliance - Quest Template
+                -- Uldaman East - Ironaya - Alliance - Quest Template
                 DELETE FROM `quest_template` WHERE (`ID` = 441214);
                 INSERT INTO `quest_template`
                 SET `ID` = 441214,
@@ -6616,7 +6616,7 @@
                     `QuestInfoID` = 81,
                     `RewardXPDifficulty` = 7,
                     `RewardMoney` = 48000,
-                    `StartItem` = 901930,
+                    `StartItem` = 901921,
                     `Flags` = 4104,
                     `RewardItem1` = 58200,
                     `RewardAmount1` = 1,
@@ -6629,7 +6629,7 @@
                     `RewardFactionID3` = 0,
                     `RewardFactionValue3` = 6,
                     `LogTitle` = 'Wanted: Titanforged Beacon',
-                    `LogDescription` = 'Retrieve the Titanforged Beacon from Ironaya in Uldaman West.',
+                    `LogDescription` = 'Retrieve the Titanforged Beacon from Ironaya in Uldaman East.',
                     `QuestDescription` = 'Howdy, brave one! Word''s out that them Horde Zugs are schemin'' to snatch the Titanforged Beacon from Ironaya down in Uldaman. Can ya believe it? They''re talkin'' ''bout usin'' that beacon to call in reinforcements from Draenor! We can''t let that happen! Saddle up, face Ironaya, and bring back that Titanforged Beacon. Oh, and afore ya head out, we swiped an orb from them lazy book-readin'' mages over in the tower it''ll teleport ya straight to Uldaman. Let''s put a stop to them Horde''s reinforcements plans and keep the Titanforged Beacon safe! We''ll make sure you''re well rewarded.',
                     `AreaDescription` = '',
                     `QuestCompletionLog` = 'Return the Titanforged Beacon to Travis Coomingham in Stormwind.',
@@ -6638,7 +6638,7 @@
                     `VerifiedBuild` = 12340;
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Quest Template Addon
+                -- Uldaman East - Ironaya - Alliance - Quest Template Addon
                 DELETE FROM `quest_template_addon` WHERE (`ID` = 441214);
                 INSERT INTO `quest_template_addon`
                 SET `ID` = 441214,
@@ -6647,7 +6647,7 @@
                     `SpecialFlags` = 1;
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Quest Offer Reward
+                -- Uldaman East - Ironaya - Alliance - Quest Offer Reward
                 DELETE FROM `quest_offer_reward` WHERE (`ID` = 441214);
                 INSERT INTO `quest_offer_reward`
                 SET `ID` = 441214,
@@ -6655,7 +6655,7 @@
                     `RewardText` = 'Thanks for thwartin'' them Horde plans, Zuglord Runthak''ll be seethin'' knowing we beat ''em to the punch.';
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Quest Request Items
+                -- Uldaman East - Ironaya - Alliance - Quest Request Items
                 DELETE FROM `quest_request_items` WHERE (`ID` = 441214);
                 INSERT INTO `quest_request_items`
                 SET `ID` = 441214,
@@ -6664,21 +6664,21 @@
                     `CompletionText` = 'The Titanforged Beacon please.';
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Creature Quest Starter
+                -- Uldaman East - Ironaya - Alliance - Creature Quest Starter
                 DELETE FROM `creature_queststarter` WHERE (`quest` = 441214);
                 INSERT INTO `creature_queststarter`
                 SET`quest` = 441214,
                     `id` = 29093;
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Creature Quest Ender
+                -- Uldaman East - Ironaya - Alliance - Creature Quest Ender
                 DELETE FROM `creature_questender` WHERE (`quest` = 441214);
                 INSERT INTO `creature_questender`
                     SET `quest` = 441214,
                     `id` = 29093;
                     
                 
-                -- Uldaman West - Ironaya - Alliance - Quest POI (Turn-in)
+                -- Uldaman East - Ironaya - Alliance - Quest POI (Turn-in)
                 DELETE FROM `quest_poi` WHERE (`QuestID` = 441214);
                 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
                 VALUES (441214, 0, -1, 0, 301, 0, 0, 1, 0);
