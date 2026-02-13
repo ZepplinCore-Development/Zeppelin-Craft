@@ -632,30 +632,30 @@
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 452,
 			`name` = 'Uldaman West (Normal)',
-			`position_x` = -226.8,
-			`position_y` = 49.09,
-			`position_z` = -46.03,
-			`orientation` = 1.39;
+			`position_x` = -207.4,
+			`position_y` = 391.6,
+			`position_z` = -39.2,
+			`orientation` = 3.2;
 
 	-- Uldaman West (Heroic)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 453;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 453,
 			`name` = 'Uldaman West (Heroic)',
-			`position_x` = -226.8,
-			`position_y` = 49.09,
-			`position_z` = -46.03,
-			`orientation` = 1.39;
+			`position_x` = -207.4,
+			`position_y` = 391.6,
+			`position_z` = -39.2,
+			`orientation` = 3.2;
 
 	-- Uldaman West (Mythic)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 454;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 454,
 			`name` = 'Uldaman West (Mythic)',
-			`position_x` = -226.8,
-			`position_y` = 49.09,
-			`position_z` = -46.03,
-			`orientation` = 1.39;
+			`position_x` = -207.4,
+			`position_y` = 391.6,
+			`position_z` = -39.2,
+			`orientation` = 3.2;
 
 -- Upper Blackrock Spire
 
