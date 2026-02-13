@@ -1,6 +1,4 @@
--- [BASE,F-044] zepcraft-legacy: spellicon
--- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-044]_spellicon.sql with overrides
+-- [F-142] custom-icons: spellicon
 
 -- spellicon: 1361 inserts, 0 updates, 0 deletes
 DELETE FROM `spellicon` WHERE `id` = 4331;

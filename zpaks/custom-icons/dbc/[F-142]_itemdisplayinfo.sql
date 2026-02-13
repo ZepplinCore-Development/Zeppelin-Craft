@@ -1,6 +1,4 @@
--- [BASE,F-044] zepcraft-legacy: itemdisplayinfo
--- Imported by zep dbc import-module - DO NOT EDIT
--- To customize, create [F-044]_itemdisplayinfo.sql with overrides
+-- [F-142] custom-icons: itemdisplayinfo
 
 -- itemdisplayinfo: 20675 inserts, 2 updates, 0 deletes
 DELETE FROM `itemdisplayinfo` WHERE `id` = 134239;
