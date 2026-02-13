@@ -256,13 +256,25 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
 
     for letter, zpaks in sorted(patch_groups.items()):
         patch_key = f"PATCH-{letter}.MPQ"
-        # Use the first (usually only) zpak for this patch letter
-        zpak = zpaks[0]
-        manifest = zpak['manifest']
-        launcher = manifest.get('launcher', {})
 
-        # Determine build_source
-        build = manifest.get('build', {})
+        # Combine names/descriptions from all zpaks sharing this patch letter
+        combined_name = ', '.join(
+            z['manifest'].get('name', z['name']) for z in zpaks
+        )
+        combined_desc = '; '.join(
+            z['manifest'].get('description', '') for z in zpaks
+            if z['manifest'].get('description')
+        )
+
+        # Use first zpak with a launcher block for launcher metadata
+        launcher = {}
+        for z in zpaks:
+            launcher = z['manifest'].get('launcher', {})
+            if launcher:
+                break
+
+        # Determine build_source from first zpak's build config
+        build = zpaks[0]['manifest'].get('build', {})
         if build.get('preprocessor'):
             build_source = 'resource_parser'
         elif letter == 'Z':
@@ -274,8 +286,8 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
         old_entry = old_patches.get(patch_key, {})
 
         entry = {
-            'name': manifest.get('name', zpak['name']),
-            'description': manifest.get('description', ''),
+            'name': combined_name,
+            'description': combined_desc,
             'is_mandatory': launcher.get('mandatory', False),
             'is_enabled_by_default': launcher.get('enabled_by_default', False),
             'auto_update': launcher.get('auto_update', False),
