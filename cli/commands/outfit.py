@@ -38,6 +38,7 @@ DBC_PASS = os.getenv('DBC_PASS', '')
 
 # Outfit-specific config
 OUTFIT_ADD_DK_MELEE = os.getenv('OUTFIT_ADD_DK_MELEE_WEAPONS', 'false').lower() == 'true'
+OUTFIT_STARTING_AMMO = int(os.getenv('OUTFIT_STARTING_AMMO', '2000'))
 
 CRAFT_ROOT = _cli_dir.parent
 
@@ -241,9 +242,9 @@ def fix(spreadsheet):
     4. Saves idempotent SQL to the zepcraft-legacy zpak
 
     Generated zpak files:
-      dbc/[F-022]_skillraceclassinfo.sql       DBC trainer skills
-      dbc/[F-022]_charstartoutfit.sql           DBC weapon/display fixes
-      sql/zz_[F-022]_starting_weapon_skills.sql World starting skills
+      dbc/[AUTO,F-022]_skillraceclassinfo.sql       DBC trainer skills
+      dbc/[AUTO,F-022]_charstartoutfit.sql           DBC weapon/display fixes
+      sql/zz_[AUTO,F-022]_starting_weapon_skills.sql World starting skills
 
     Example:
         zep outfit fix
@@ -252,6 +253,7 @@ def fix(spreadsheet):
     from lib.outfit.sql_generators import (
         generate_skillraceclassinfo_sql,
         generate_starting_skills_sql,
+        generate_starting_ammo_sql,
         generate_weapon_fixes_sql,
     )
     from lib.outfit.weapon_validator import (
@@ -353,7 +355,7 @@ def fix(spreadsheet):
         if display_stmts:
             dbc_conn.commit()
             # Append display fixes to zpak SQL file
-            zpak_path = os.path.join(zpak_dbc_dir, '[F-022]_charstartoutfit.sql')
+            zpak_path = os.path.join(zpak_dbc_dir, '[AUTO,F-022]_charstartoutfit.sql')
             with open(zpak_path, 'a') as f:
                 f.write('\n\n-- ' + '=' * 76 + '\n')
                 f.write('-- WEAPON DISPLAY FIXES\n')
@@ -367,6 +369,9 @@ def fix(spreadsheet):
         skillraceclass_sql = generate_skillraceclassinfo_sql(spreadsheet_path, zpak_dbc_dir)
         starting_skills_sql = generate_starting_skills_sql(weapon_skills, zpak_sql_dir)
 
+        # Step 10b: Generate starting ammo quantities (appends to starting skills file)
+        starting_ammo_sql = generate_starting_ammo_sql(dbc_cursor, zpak_sql_dir, amount=OUTFIT_STARTING_AMMO)
+
         if skillraceclass_sql and skillraceclass_sql.strip():
             click.echo("Applying skillraceclassinfo to DBC...")
             success, output = _execute_dbc_sql(skillraceclass_sql)
@@ -375,13 +380,17 @@ def fix(spreadsheet):
             else:
                 click.echo(click.style(f"  Skill race class info: FAILED - {output}", fg='red'))
 
-        if starting_skills_sql and starting_skills_sql.strip():
-            click.echo("Applying starting weapon skills to World DB...")
-            success, output = _execute_world_sql(starting_skills_sql)
+        world_sql = starting_skills_sql or ""
+        if starting_ammo_sql:
+            world_sql += '\n\n' + starting_ammo_sql if world_sql else starting_ammo_sql
+
+        if world_sql and world_sql.strip():
+            click.echo("Applying starting weapon skills + ammo to World DB...")
+            success, output = _execute_world_sql(world_sql)
             if success:
-                click.echo(click.style("  Starting weapon skills: OK", fg='green'))
+                click.echo(click.style("  Starting weapon skills + ammo: OK", fg='green'))
             else:
-                click.echo(click.style(f"  Starting weapon skills: FAILED - {output}", fg='red'))
+                click.echo(click.style(f"  Starting weapon skills + ammo: FAILED - {output}", fg='red'))
 
         # Step 11: Summary
         click.echo()
@@ -395,6 +404,8 @@ def fix(spreadsheet):
         click.echo(f"invType fixes: {len(invtype_fixes)}")
         click.echo(f"Duplicate cleanups: {len(duplicate_cleanups)}")
         click.echo(f"Weapon display fixes: {len(display_stmts)}")
+        if starting_ammo_sql:
+            click.echo(f"Starting ammo: {OUTFIT_STARTING_AMMO} per hunter")
         click.echo()
         click.echo("Run 'zep outfit check' to verify results.")
         click.echo()

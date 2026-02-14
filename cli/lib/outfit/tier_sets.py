@@ -335,7 +335,7 @@ def reset_displays(dbc_cursor, acore_cursor):
 
 def write_tier_sql_to_zpak(tier_key, tier_display_name, sql_statements, zpak_dbc_dir):
     """
-    Write tier set display SQL to [F-022]_charstartoutfit.sql in the zpak.
+    Write tier set display SQL to [AUTO,F-022]_charstartoutfit.sql in the zpak.
 
     Appends a clearly marked section at the end of the file. If a tier
     section already exists, it is replaced.
@@ -350,7 +350,7 @@ def write_tier_sql_to_zpak(tier_key, tier_display_name, sql_statements, zpak_dbc
         str: Path to the output file
     """
     zpak_dbc_dir = Path(zpak_dbc_dir)
-    output_path = zpak_dbc_dir / '[F-022]_charstartoutfit.sql'
+    output_path = zpak_dbc_dir / '[AUTO,F-022]_charstartoutfit.sql'
 
     # Build the tier section
     lines = []
@@ -410,7 +410,7 @@ def write_tier_sql_to_zpak(tier_key, tier_display_name, sql_statements, zpak_dbc
 
 def remove_tier_sql_from_zpak(zpak_dbc_dir):
     """
-    Remove the tier set section from [F-022]_charstartoutfit.sql.
+    Remove the tier set section from [AUTO,F-022]_charstartoutfit.sql.
 
     Args:
         zpak_dbc_dir: Path to zpak dbc/ directory
@@ -419,7 +419,7 @@ def remove_tier_sql_from_zpak(zpak_dbc_dir):
         bool: True if a tier section was found and removed
     """
     zpak_dbc_dir = Path(zpak_dbc_dir)
-    output_path = zpak_dbc_dir / '[F-022]_charstartoutfit.sql'
+    output_path = zpak_dbc_dir / '[AUTO,F-022]_charstartoutfit.sql'
 
     if not output_path.exists():
         return False
