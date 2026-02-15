@@ -1,0 +1,25 @@
+From a7a324811d81877a571c7be6ac95f94c5cf454b9 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sun, 15 Feb 2026 10:16:23 +0000
+Subject: [PATCH] feat: Add Weak Flux to allowed items (F-020)
+
+- Add item 2880 (Weak Flux) to the item vault whitelist
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ server/src/storage/definition/enum/allowed-item-enum.lua | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
+index c9ab569..a296cb8 100644
+--- a/server/src/storage/definition/enum/allowed-item-enum.lua
++++ b/server/src/storage/definition/enum/allowed-item-enum.lua
+@@ -677,4 +677,5 @@ return {
+ 	[732] = "Okra",
+ 	[1274] = "Hops",
+ 	[2296] = "Great Goretusk Snout",
++	[2880] = "Weak Flux",
+ }
+-- 
+2.34.1
+

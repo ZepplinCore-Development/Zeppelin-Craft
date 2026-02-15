@@ -9,7 +9,7 @@
   "acore": {
     "module": "mod-item-vault",
     "source": "https://github.com/ShatteredDawn/item-vault.git",
-    "branch": "master",
+    "branch": "main",
     "patch_mode": "single"
   },
   "contents": {
