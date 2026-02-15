@@ -616,6 +616,19 @@
           "patched": "F6 41 18 01 74 0D 56 6A FF 68 E4 E3 9D 00 E9 DE 97 C4 FF F6 41 18 08 0F 84 F0 97 C4 FF E9 C7 97 C4 FF 00 00 49 54 45 4D 5F 48 45 52 4F 49 43 5F 45 50 49 43 5F 43 55 53 54 4F 4D"
         }
       ]
+    },
+    {
+      "name": "mythic-dungeon-difficulty",
+      "description": "Allow setting dungeon difficulty to 3 (Mythic) via client UI - raises SetDungeonDifficulty max from 1 to 2 (0-indexed)",
+      "source": "Reverse-engineered from client Lua_SetDungeonDifficulty function",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x1254A9",
+          "original": "01",
+          "patched": "02"
+        }
+      ]
     }
   ]
 }

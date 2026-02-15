@@ -6,7 +6,7 @@
   "author": "Zeppelin Team",
   "type": "mpq",
   "features": ["F-060", "F-013"],
-  "client_patch": "PATCH-Z",
+  "client_patch": "PATCH-A",
   "enabled": true,
   "priority": 100
 }

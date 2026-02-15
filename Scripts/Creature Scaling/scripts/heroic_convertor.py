@@ -241,6 +241,14 @@ def generate_sql_queries(modified_row, new_entry, entry_value, is_mythic, map_va
     queries.append(f"WHERE `entry` = {entry_value};")
     queries.append("")
 
+    # Copy creature model entries
+    queries.append(f"-- Copy creature models for {prefixed_name}")
+    queries.append(f"DELETE FROM `creature_template_model` WHERE `CreatureID` = {new_entry};")
+    queries.append(f"INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`)")
+    queries.append(f"SELECT {new_entry}, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`")
+    queries.append(f"FROM `creature_template_model` WHERE `CreatureID` = {entry_value};")
+    queries.append("")
+
     # Update spawn masks
     queries.append(f"-- Update {creature_name} spawn masks for the dungeon map")
     queries.append("UPDATE `creature`")
