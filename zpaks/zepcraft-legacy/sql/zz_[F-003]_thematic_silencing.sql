@@ -23,7 +23,12 @@ DELETE FROM `trainer_spell` WHERE `SpellId` = 103247;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
 VALUES (3, 103247, 100, 0, 0, 0, 0, 0, 4);
 
+-- Warlock Spell Lock (moved from pet to class spell in F-044 skilllineability)
+DELETE FROM `trainer_spell` WHERE `SpellId` = 19244;
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
+VALUES (31, 19244, 100, 0, 0, 0, 0, 0, 4);
+
 -- Druid Solar Flare (custom spell 103248 - 20 yard range silence)
 DELETE FROM `trainer_spell` WHERE `SpellId` = 103248;
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`)
-VALUES (7, 103248, 100, 0, 0, 0, 0, 0, 4);
+VALUES (33, 103248, 100, 0, 0, 0, 0, 0, 4);
