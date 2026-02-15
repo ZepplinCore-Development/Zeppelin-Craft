@@ -596,6 +596,26 @@
           "patched": "8D 4D F0 51 57 FF 15 DC F5 9D 00 8B 45 F0 8B 15 F8 13 D4 00 E9 7A 0F F4 FF"
         }
       ]
+    },
+    {
+      "name": "mythic-item-tags",
+      "description": "Custom item tooltip tag via ItemFlags bit 0x01 (displays ITEM_HEROIC_EPIC_CUSTOM from GlobalStrings.lua)",
+      "source": "Rafael.valeo/Grymskvll (ac-web.org tutorial), extracted from nginx exe",
+      "enabled": true,
+      "client_lua": "Requires ITEM_HEROIC_EPIC_CUSTOM = \"Mythic\" in GlobalStrings.lua (patch MPQ)",
+      "server_db": "Set flag 0x01 on item_template.flags for items that should display the custom tag",
+      "edits": [
+        {
+          "offset": "0x226FA3",
+          "original": "F6 41 18 08 74 24",
+          "patched": "E9 18 68 3B 00 90"
+        },
+        {
+          "offset": "0x5DD7C0",
+          "original": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+          "patched": "F6 41 18 01 74 0D 56 6A FF 68 E4 E3 9D 00 E9 DE 97 C4 FF F6 41 18 08 0F 84 F0 97 C4 FF E9 C7 97 C4 FF 00 00 49 54 45 4D 5F 48 45 52 4F 49 43 5F 45 50 49 43 5F 43 55 53 54 4F 4D"
+        }
+      ]
     }
   ]
 }
