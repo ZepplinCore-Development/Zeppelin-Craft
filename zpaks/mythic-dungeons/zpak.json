@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "mythic-dungeons",
+  "version": "0.1.0",
+  "description": "Mythic dungeon system client modifications - FrameXML overrides for dungeon difficulty level requirements and mythic item tooltip tags",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "features": ["F-060", "F-013"],
+  "client_patch": "PATCH-X",
+  "enabled": true,
+  "priority": 100
+}
