@@ -10,52 +10,52 @@ INSERT INTO `item_template` SET
     `class` = 5,
     `subclass` = 1,
     `name` = 'Journeyman Alchemy Mortar',
+    `description` = 'Speeds up alchemy crafting and increases potion potency.',
     `displayid` = 134392,
     `Quality` = 6,
     `ItemLevel` = 20,
     `bonding` = 1,
     `spellid_1` = 91200,
-    `spelltrigger_1` = 5,
-    `description` = '';
+    `spelltrigger_1` = 5;
 
 INSERT INTO `item_template` SET
     `entry` = 56901,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Artisan Alchemy Mortar',
+    `description` = 'Speeds up alchemy crafting and increases potion potency.',
     `displayid` = 138688,
     `Quality` = 6,
     `ItemLevel` = 60,
     `bonding` = 1,
     `spellid_1` = 91201,
-    `spelltrigger_1` = 5,
-    `description` = '';
+    `spelltrigger_1` = 5;
 
 INSERT INTO `item_template` SET
     `entry` = 56902,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Master Alchemy Mortar',
+    `description` = 'Speeds up alchemy crafting and increases potion potency.',
     `displayid` = 138689,
     `Quality` = 6,
     `ItemLevel` = 70,
     `bonding` = 1,
     `spellid_1` = 91202,
-    `spelltrigger_1` = 5,
-    `description` = '';
+    `spelltrigger_1` = 5;
 
 INSERT INTO `item_template` SET
     `entry` = 56903,
     `class` = 5,
     `subclass` = 1,
     `name` = 'Grand Master Alchemy Mortar',
+    `description` = 'Speeds up alchemy crafting and increases potion potency.',
     `displayid` = 138690,
     `Quality` = 6,
     `ItemLevel` = 80,
     `bonding` = 1,
     `spellid_1` = 91203,
-    `spelltrigger_1` = 5,
-    `description` = '';
+    `spelltrigger_1` = 5;
 
 
 

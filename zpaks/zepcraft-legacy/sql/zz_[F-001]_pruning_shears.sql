@@ -7,6 +7,7 @@
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Journeyman Pruning Shears',
+        `description` = 'Allows you to gather herbs. Provides bonus yield and faster gathering.',
         `displayid` = 139508, -- AO_Pincers10Cheap
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
@@ -24,6 +25,7 @@
         `SellPrice` = 90, -- 90C
         `ItemLevel` = 60,
         `name` = 'Artisan Pruning Shears',
+        `description` = 'Allows you to gather herbs. Provides bonus yield and faster gathering.',
         `displayid` = 139509, -- AO_Pincers10Expensive
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
@@ -41,6 +43,7 @@
         `SellPrice` = 900, -- 9S
         `ItemLevel` = 70,
         `name` = 'Master Pruning Shears',
+        `description` = 'Allows you to gather herbs. Provides bonus yield and faster gathering.',
         `displayid` = 139510, -- AO_Pincers30Cheap
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism
@@ -58,6 +61,7 @@
         `SellPrice` = 9000, -- 90S
         `ItemLevel` = 80,
         `name` = 'Grand Master Pruning Shears',
+        `description` = 'Allows you to gather herbs. Provides bonus yield and faster gathering.',
         `displayid` = 139511, -- AO_Pincers30Expensive
         `Quality` = 6, -- Artifact
         `BagFamily` = 32, -- Herbalism

@@ -11,8 +11,8 @@
 -- Features:
 -- - ExclusiveGroup prevents multiple completions per tier
 -- - Reputation rewards for city factions (+5 rep each)
--- - Progressive leather requirements matching skill tiers
--- - Turn-in: 20 leather + 5 hides per tier
+-- - Progressive cured hide + armor kit requirements matching skill tiers
+-- - Turn-in: 5 cured hides + 5 armor kits per tier
 -- =====================================================
 
 -- ===================
@@ -40,7 +40,7 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (
 
 -- =====================================================
 -- JOURNEYMAN LEATHERING KIT QUESTS (75+ Leatherworking)
--- 20 Medium Leather + 5 Medium Hide
+-- 5 Cured Light Hide + 5 Light Armor Kit
 -- Reward: Journeyman Leathering Kit (57612)
 -- =====================================================
 
@@ -57,15 +57,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1519, -- Stormwind City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Still working with basic tools? I can see why your leatherwork takes so long. I''ve got a Journeyman Leathering Kit available - bring me **20 Medium Leather and 5 Medium Hides** to fill my current order, and it''s yours. Should speed up your crafting considerably.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Still working with basic tools? I can see why your leatherwork takes so long. I''ve got a Journeyman Leathering Kit available - bring me 5 Cured Light Hides and 5 Light Armor Kits to fill my current order, and it''s yours. Should speed up your crafting considerably.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Simon Tanner in Stormwind',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -84,7 +84,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Medium Leather and 5 Medium Hides?';
+    `CompletionText` = 'Did you bring the 5 Cured Light Hides and 5 Light Armor Kits?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -102,15 +102,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1537, -- Ironforge
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Bah! Still using those shabby tools, are ye? No wonder yer work takes all day! I''ve got a proper Journeyman Kit here - fetch me **20 Medium Leather and 5 Medium Hides** for me stock, and I''ll trade ye fer it. Yer crafting''ll be twice as fast, I guarantee it!',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Bah! Still using those shabby tools, are ye? No wonder yer work takes all day! I''ve got a proper Journeyman Kit here - fetch me 5 Cured Light Hides and 5 Light Armor Kits for me stock, and I''ll trade ye fer it. Yer crafting''ll be twice as fast, I guarantee it.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Fimble Finespindle in Ironforge',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -129,7 +129,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got those hides? 20 Medium Leather and 5 Medium Hides, aye?';
+    `CompletionText` = 'Got those cured hides and armor kits? 5 Cured Light Hides and 5 Light Armor Kits, aye?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -147,15 +147,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1657, -- Darnassus
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'I see you work without proper tools. A skilled artisan deserves better instruments. I have a Journeyman Leathering Kit available for trade. If you can supply me with **20 Medium Leather and 5 Medium Hides** for my current projects, it is yours. Your work will flow much faster, like water through leaves.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'I see you work without proper tools. A skilled artisan deserves better instruments. I have a Journeyman Leathering Kit available for trade. If you can supply me with 5 Cured Light Hides and 5 Light Armor Kits for my current projects, it is yours. Your work will flow much faster, like water through leaves.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Telonis in Darnassus',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -174,7 +174,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the leather and hides I require?';
+    `CompletionText` = 'Have you gathered the cured hides and armor kits I require?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -192,15 +192,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3557, -- The Exodar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'I observe you work without refined tools. Your skill grows, but proper instruments would serve you better. I have a Journeyman Leathering Kit - if you bring me **20 Medium Leather and 5 Medium Hides** to replenish my supplies, I will trade it to you. Your crafting will become significantly swifter.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'I observe you work without refined tools. Your skill grows, but proper instruments would serve you better. I have a Journeyman Leathering Kit - if you bring me 5 Cured Light Hides and 5 Light Armor Kits to replenish my supplies, I will trade it to you. Your crafting will become significantly swifter.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Akham in The Exodar',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -219,7 +219,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you brought the materials I require?';
+    `CompletionText` = 'Have you brought the cured hides and armor kits I require?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -237,15 +237,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1637, -- Orgrimmar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Your tools are weak. Your crafting is slow. I have Journeyman Kit here. **20 Medium Leather, 5 Medium Hides**. Bring them, kit is yours. You work faster. Simple trade.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Your tools are weak. Your crafting is slow. I have Journeyman Kit here. 5 Cured Light Hides, 5 Light Armor Kits. Bring them, kit is yours. You work faster. Simple trade.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Karolek in Orgrimmar',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -264,7 +264,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have leather? 20 Medium Leather and 5 Hides?';
+    `CompletionText` = 'You have cured hides? 5 Cured Light Hides and 5 Light Armor Kits?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -282,15 +282,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1638, -- Thunder Bluff
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Brother/Sister, I see you work without proper tools. The Earth Mother teaches that right tools create harmony with one''s craft. I have a Journeyman Leathering Kit - bring me **20 Medium Leather and 5 Medium Hides** for my work, and I will trade it to you. Your hands will move swifter, your craft more true.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Brother/Sister, I see you work without proper tools. The Earth Mother teaches that right tools create harmony with one''s craft. I have a Journeyman Leathering Kit - bring me 5 Cured Light Hides and 5 Light Armor Kits for my work, and I will trade it to you. Your hands will move swifter, your craft more true.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Una in Thunder Bluff',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -309,7 +309,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather and hides, friend?';
+    `CompletionText` = 'Do you have the cured hides and armor kits, friend?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -327,15 +327,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1497, -- Undercity
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Still slaving away with inadequate tools? How... inefficient. I have a Journeyman Leathering Kit gathering dust here. Bring me **20 Medium Leather and 5 Medium Hides** to replenish my stock, and I''ll part with it. Your tedious crafting will become considerably less... tedious.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Still slaving away with inadequate tools? How... inefficient. I have a Journeyman Leathering Kit gathering dust here. Bring me 5 Cured Light Hides and 5 Light Armor Kits to replenish my stock, and I''ll part with it. Your tedious crafting will become considerably less... tedious.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Arthur Moore in Undercity',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -354,7 +354,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the leather I require?';
+    `CompletionText` = 'Do you have the cured hides and armor kits I require?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -372,15 +372,15 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3487, -- Silvermoon City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2319, -- Medium Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4232, -- Medium Hide
+    `RequiredItemId1` = 4231, -- Cured Light Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2304, -- Light Armor Kit
     `RequiredItemCount2` = 5,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Leatherworker''s Tools',
-    `LogDescription` = 'Collect leather to exchange for a Journeyman Leathering Kit',
-    `QuestDescription` = 'Working with such... primitive tools? How do you expect to create anything of quality? I have a Journeyman Leathering Kit available. Bring me **20 Medium Leather and 5 Medium Hides** - proper materials, mind you - and I''ll trade it to you. Your crafting speed will improve dramatically.',
+    `LogDescription` = 'Collect cured hides and armor kits to exchange for a Journeyman Leathering Kit',
+    `QuestDescription` = 'Working with such... primitive tools? How do you expect to create anything of quality? I have a Journeyman Leathering Kit available. Bring me 5 Cured Light Hides and 5 Light Armor Kits - proper materials, mind you - and I''ll trade it to you. Your crafting speed will improve dramatically.$B$BRequired:$B- 5 Cured Light Hides$B- 5 Light Armor Kits',
     `QuestCompletionLog` = 'Return to Lynalis in Silvermoon City',
     `RewardItem1` = 57612,
     `RewardAmount1` = 1,
@@ -399,14 +399,14 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the leather and hides I requested?';
+    `CompletionText` = 'Have you acquired the cured hides and armor kits I requested?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- EXPERT LEATHERING KIT QUESTS (150+ Leatherworking)
--- 20 Heavy Leather + 5 Heavy Hide
+-- 5 Cured Medium Hide + 5 Medium Armor Kit
 -- Reward: Expert Leathering Kit (57613)
 -- =====================================================
 
@@ -423,17 +423,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1519, -- Stormwind City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Your skills are growing, but that Journeyman kit is starting to slow you down. I''ve got an Expert Leathering Kit here. Trade in your old Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides** for my client''s order, and the Expert kit is yours. You''ll cut your crafting time even further.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Your skills are growing, but that Journeyman kit is starting to slow you down. I''ve got an Expert Leathering Kit here. Trade in your old Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits for my client''s order, and the Expert kit is yours. You''ll cut your crafting time even further.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Simon Tanner in Stormwind',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -453,7 +453,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Heavy Leather and 5 Heavy Hides?';
+    `CompletionText` = 'Did you bring the 5 Cured Medium Hides and 5 Medium Armor Kits?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -471,17 +471,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1537, -- Ironforge
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Yer outgrowing that Journeyman kit, I see! Time fer an upgrade, aye? Trade in yer old kit and fetch me **20 Heavy Leather and 5 Heavy Hides** fer me orders, and this Expert Kit is yers. Ye''ll be working twice as fast again!',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Yer outgrowing that Journeyman kit, I see! Time fer an upgrade, aye? Trade in yer old kit and fetch me 5 Cured Medium Hides and 5 Medium Armor Kits fer me orders, and this Expert Kit is yers. Ye''ll be working twice as fast again.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Fimble Finespindle in Ironforge',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -501,7 +501,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got that heavy leather and yer old Journeyman kit? 20 leather, 5 hides, and the old kit, aye?';
+    `CompletionText` = 'Got those cured hides and armor kits and yer old Journeyman kit? 5 Cured Medium Hides, 5 Medium Armor Kits, and the old kit, aye?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -519,17 +519,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1657, -- Darnassus
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Your craft deepens, friend. The Journeyman tools have served their purpose, but you now need finer instruments. I have an Expert Leathering Kit available. Trade in your old Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides** for my work, and the Expert kit is yours. Your hands will move swifter still.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Your craft deepens, friend. The Journeyman tools have served their purpose, but you now need finer instruments. I have an Expert Leathering Kit available. Trade in your old Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits for my work, and the Expert kit is yours. Your hands will move swifter still.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Telonis in Darnassus',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -549,7 +549,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the heavier hides and your old Journeyman kit?';
+    `CompletionText` = 'Have you gathered the cured hides and armor kits and your old Journeyman kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -567,17 +567,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3557, -- The Exodar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'I see your mastery grows. That Journeyman kit served its purpose, but you require expert-grade tools now. I have such a kit available. Trade in your old Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides** to replenish my workshop, and I will trade it to you. Your efficiency will increase notably.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'I see your mastery grows. That Journeyman kit served its purpose, but you require expert-grade tools now. I have such a kit available. Trade in your old Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits to replenish my workshop, and I will trade it to you. Your efficiency will increase notably.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Akham in The Exodar',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -597,7 +597,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you brought the heavier materials and your old Journeyman kit?';
+    `CompletionText` = 'Have you brought the cured hides and armor kits and your old Journeyman kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -615,17 +615,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1637, -- Orgrimmar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Journeyman kit too slow now. You need Expert kit. Trade in old kit. **20 Heavy Leather, 5 Heavy Hides**. Bring. Get better tools. Work faster.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Journeyman kit too slow now. You need Expert kit. Trade in old kit. 5 Cured Medium Hides, 5 Medium Armor Kits. Bring. Get better tools. Work faster.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Karolek in Orgrimmar',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -645,7 +645,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have heavy leather and old kit? 20 leather, 5 hides, old Journeyman kit?';
+    `CompletionText` = 'You have cured hides and armor kits and old kit? 5 Cured Medium Hides, 5 Medium Armor Kits, old Journeyman kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -663,17 +663,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1638, -- Thunder Bluff
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Friend, your journey continues. The Journeyman tools have guided you well, but your growth calls for better instruments. I have an Expert Leathering Kit for you. Trade in your old Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides** from stronger beasts, and we shall trade. Your craft will flow more freely.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Friend, your journey continues. The Journeyman tools have guided you well, but your growth calls for better instruments. I have an Expert Leathering Kit for you. Trade in your old Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits, and we shall trade. Your craft will flow more freely.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Una in Thunder Bluff',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -693,7 +693,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the heavier hides and your old Journeyman kit, friend?';
+    `CompletionText` = 'Do you have the cured hides and armor kits and your old Journeyman kit, friend?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -711,17 +711,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1497, -- Undercity
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'Ah, still struggling with that Journeyman kit? How... limiting. I have an Expert Leathering Kit that requires a new home. Trade in that inadequate Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides**, and your... sluggish... crafting pace will improve considerably.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'Ah, still struggling with that Journeyman kit? How... limiting. I have an Expert Leathering Kit that requires a new home. Trade in that inadequate Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits, and your... sluggish... crafting pace will improve considerably.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Arthur Moore in Undercity',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -741,7 +741,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the heavier hides and that old Journeyman kit?';
+    `CompletionText` = 'Do you have the cured hides and armor kits and that old Journeyman kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -759,17 +759,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3487, -- Silvermoon City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4234, -- Heavy Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 4235, -- Heavy Hide
+    `RequiredItemId1` = 4233, -- Cured Medium Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 2313, -- Medium Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57612, -- Journeyman Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Expert''s Tools',
-    `LogDescription` = 'Trade in your Journeyman kit and collect leather to exchange for an Expert Leathering Kit',
-    `QuestDescription` = 'That Journeyman kit is beneath your growing skill level. How can you expect to produce expert-quality work with journeyman tools? I have an Expert Leathering Kit available. Relinquish that inferior Journeyman kit and bring me **20 Heavy Leather and 5 Heavy Hides** - quality materials, please - and we shall trade. Your efficiency will improve markedly.',
+    `LogDescription` = 'Trade in your Journeyman kit and collect cured hides and armor kits to exchange for an Expert Leathering Kit',
+    `QuestDescription` = 'That Journeyman kit is beneath your growing skill level. How can you expect to produce expert-quality work with journeyman tools? I have an Expert Leathering Kit available. Relinquish that inferior Journeyman kit and bring me 5 Cured Medium Hides and 5 Medium Armor Kits - quality materials, please - and we shall trade. Your efficiency will improve markedly.$B$BRequired:$B- 5 Cured Medium Hides$B- 5 Medium Armor Kits',
     `QuestCompletionLog` = 'Return to Lynalis in Silvermoon City',
     `RewardItem1` = 57613,
     `RewardAmount1` = 1,
@@ -789,14 +789,14 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the heavier hides and that inferior Journeyman kit?';
+    `CompletionText` = 'Have you acquired the cured hides and armor kits and that inferior Journeyman kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- ARTISAN LEATHERING KIT QUESTS (225+ Leatherworking)
--- 20 Rugged Leather + 5 Rugged Hide
+-- 5 Cured Heavy Hide + 5 Thick Armor Kit
 -- Reward: Artisan Leathering Kit (57614)
 -- =====================================================
 
@@ -813,17 +813,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1519, -- Stormwind City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Your Expert kit has served you well, but artisan-level work demands precision tools. I have an Artisan Leathering Kit available - trade in your old Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** for my current contracts, and the Artisan kit is yours. The quality difference will be immediately noticeable in your crafting speed.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Your Expert kit has served you well, but artisan-level work demands precision tools. I have an Artisan Leathering Kit available - trade in your old Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits for my current contracts, and the Artisan kit is yours. The quality difference will be immediately noticeable in your crafting speed.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Simon Tanner in Stormwind',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -843,7 +843,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Rugged Leather, 5 Rugged Hides, and your old Expert kit?';
+    `CompletionText` = 'Did you bring the 5 Cured Heavy Hides, 5 Thick Armor Kits, and your old Expert kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -861,17 +861,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1537, -- Ironforge
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Time fer a proper upgrade, eh? Yer Expert kit''s served ye well, but artisan work needs artisan tools! Trade in yer old Expert kit and fetch me **20 Rugged Leather and 5 Rugged Hides** from the toughest beasts, and this Artisan Kit is yers. Ye''ll be working faster than ever! Dwarven craftsmanship at its finest!',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Time fer a proper upgrade, eh? Yer Expert kit''s served ye well, but artisan work needs artisan tools! Trade in yer old Expert kit and fetch me 5 Cured Heavy Hides and 5 Thick Armor Kits, and this Artisan Kit is yers. Ye''ll be working faster than ever! Dwarven craftsmanship at its finest.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Fimble Finespindle in Ironforge',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -891,7 +891,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got those rugged hides and yer old Expert kit? 20 leather, 5 hides, and the old kit, aye?';
+    `CompletionText` = 'Got those cured hides and armor kits and yer old Expert kit? 5 Cured Heavy Hides, 5 Thick Armor Kits, and the old kit, aye?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -909,17 +909,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1657, -- Darnassus
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Your mastery deepens, like roots growing ever deeper. The Expert tools have guided you well, but artisan-level work requires instruments of greater refinement. I have an Artisan Leathering Kit available. Trade in your old Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** from the strongest beasts, and the Artisan kit is yours. Your hands will move with the grace of wind through branches.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Your mastery deepens, like roots growing ever deeper. The Expert tools have guided you well, but artisan-level work requires instruments of greater refinement. I have an Artisan Leathering Kit available. Trade in your old Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits, and the Artisan kit is yours. Your hands will move with the grace of wind through branches.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Telonis in Darnassus',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -939,7 +939,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the rugged hides and your old Expert kit?';
+    `CompletionText` = 'Have you gathered the cured hides and armor kits and your old Expert kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -957,17 +957,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3557, -- The Exodar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Your progression continues admirably. The Expert tools served their purpose, but you now approach artisan mastery. I have an Artisan Leathering Kit prepared. Trade in your old Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** from the most formidable creatures, and I will trade it to you. The Light will guide your hands to even greater speed and precision.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Your progression continues admirably. The Expert tools served their purpose, but you now approach artisan mastery. I have an Artisan Leathering Kit prepared. Trade in your old Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits, and I will trade it to you. The Light will guide your hands to even greater speed and precision.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Akham in The Exodar',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -987,7 +987,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you brought the rugged materials and your old Expert kit?';
+    `CompletionText` = 'Have you brought the cured hides and armor kits and your old Expert kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1005,17 +1005,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1637, -- Orgrimmar
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Need better tools. Artisan kit here. Trade in old Expert kit. **20 Rugged Leather, 5 Rugged Hides**. Strongest beasts. Bring. Get Artisan kit. Work much faster.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Need better tools. Artisan kit here. Trade in old Expert kit. 5 Cured Heavy Hides, 5 Thick Armor Kits. Bring. Get Artisan kit. Work much faster.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Karolek in Orgrimmar',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -1035,7 +1035,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have rugged leather and old Expert kit? 20 leather, 5 hides, old kit?';
+    `CompletionText` = 'You have cured hides and armor kits and old Expert kit? 5 Cured Heavy Hides, 5 Thick Armor Kits, old kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1053,17 +1053,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1638, -- Thunder Bluff
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Your path winds ever upward, friend. The Expert tools served their time, but artisan mastery requires instruments blessed by greater wisdom. I have an Artisan Leathering Kit for you. Trade in your old Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** from the mightiest beasts - those who have lived long under the Earth Mother''s watch. In trade, your craft will flow like the wind across the plains.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Your path winds ever upward, friend. The Expert tools served their time, but artisan mastery requires instruments blessed by greater wisdom. I have an Artisan Leathering Kit for you. Trade in your old Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits. In trade, your craft will flow like the wind across the plains.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Una in Thunder Bluff',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -1083,7 +1083,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the rugged hides and your old Expert kit, friend?';
+    `CompletionText` = 'Do you have the cured hides and armor kits and your old Expert kit, friend?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1101,17 +1101,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 1497, -- Undercity
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Still plodding along with Expert-grade tools? How... quaint. I suppose your work takes forever at that pace. I have an Artisan Leathering Kit available - trade in that inadequate Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** from the toughest creatures you can find, and it''s yours. Your painfully slow crafting speed will become... somewhat less painful.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Still plodding along with Expert-grade tools? How... quaint. I suppose your work takes forever at that pace. I have an Artisan Leathering Kit available - trade in that inadequate Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits, and it''s yours. Your painfully slow crafting speed will become... somewhat less painful.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Arthur Moore in Undercity',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -1131,7 +1131,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the rugged hides and that old Expert kit?';
+    `CompletionText` = 'Do you have the cured hides and armor kits and that old Expert kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1149,17 +1149,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3487, -- Silvermoon City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 8170, -- Rugged Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 8171, -- Rugged Hide
+    `RequiredItemId1` = 4236, -- Cured Heavy Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 8173, -- Thick Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57613, -- Expert Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan''s Tools',
-    `LogDescription` = 'Trade in your Expert kit and collect leather to exchange for an Artisan Leathering Kit',
-    `QuestDescription` = 'Still using Expert-grade tools for artisan-level work? How do you expect to maintain proper standards with such inferior equipment? I have an Artisan Leathering Kit available. Relinquish that inferior Expert kit and bring me **20 Rugged Leather and 5 Rugged Hides** - quality materials from worthy beasts, please - and we shall trade. Your efficiency will improve to something approaching acceptable.',
+    `LogDescription` = 'Trade in your Expert kit and collect cured hides and armor kits to exchange for an Artisan Leathering Kit',
+    `QuestDescription` = 'Still using Expert-grade tools for artisan-level work? How do you expect to maintain proper standards with such inferior equipment? I have an Artisan Leathering Kit available. Relinquish that inferior Expert kit and bring me 5 Cured Heavy Hides and 5 Thick Armor Kits - quality materials, please - and we shall trade. Your efficiency will improve to something approaching acceptable.$B$BRequired:$B- 5 Cured Heavy Hides$B- 5 Thick Armor Kits',
     `QuestCompletionLog` = 'Return to Lynalis in Silvermoon City',
     `RewardItem1` = 57614,
     `RewardAmount1` = 1,
@@ -1179,14 +1179,14 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the rugged hides and that inferior Expert kit?';
+    `CompletionText` = 'Have you acquired the cured hides and armor kits and that inferior Expert kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- MASTER LEATHERING KIT QUEST (300+ Leatherworking)
--- 20 Knothide Leather + 5 Heavy Knothide Leather
+-- 5 Cured Rugged Hide + 5 Knothide Armor Kit
 -- Reward: Master Leathering Kit (57615)
 -- =====================================================
 
@@ -1203,17 +1203,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 3703, -- Shattrath City
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 21887, -- Knothide Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 23793, -- Heavy Knothide Leather
+    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 34330, -- Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1011, -- Lower City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect leather to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me **20 Knothide Leather and 5 Heavy Knothide Leather** from the beasts of this shattered world, and the Master kit is yours. You''ll need the speed advantage for the challenges ahead.',
+    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
+    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. You''ll need the speed advantage for the challenges ahead.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
     `QuestCompletionLog` = 'Return to Darmari in Shattrath City',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1233,7 +1233,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Knothide Leather, 5 Heavy Knothide Leather, and your old Artisan kit?';
+    `CompletionText` = 'Did you bring the 5 Cured Rugged Hides, 5 Knothide Armor Kits, and your old Artisan kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -1252,17 +1252,17 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
-    `RequiredItemId1` = 21887, -- Knothide Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 23793, -- Heavy Knothide Leather
+    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 34330, -- Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect leather to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me **20 Knothide Leather and 5 Heavy Knothide Leather** from the beasts of this shattered world, and the Master kit is yours. You''ll need the speed advantage - these tough hides require precision cutting, and a sharp blade makes all the difference.',
+    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
+    `QuestDescription` = 'Welcome to Outland, leatherworker. The hides here are tougher than anything from Azeroth - your Artisan kit will struggle with them. I have a Master Leathering Kit designed for Outland materials. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. You''ll need the speed advantage - these tough hides require precision cutting, and a sharp blade makes all the difference.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
     `QuestCompletionLog` = 'Return to Brumman in Honor Hold',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1282,7 +1282,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Knothide Leather, 5 Heavy Knothide Leather, and your old Artisan kit?';
+    `CompletionText` = 'Did you bring the 5 Cured Rugged Hides, 5 Knothide Armor Kits, and your old Artisan kit?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -1303,17 +1303,17 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
-    `RequiredItemId1` = 21887, -- Knothide Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 23793, -- Heavy Knothide Leather
+    `RequiredItemId1` = 15407, -- Cured Rugged Hide
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 34330, -- Knothide Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57614, -- Artisan Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master''s Tools',
-    `LogDescription` = 'Trade in your Artisan kit and collect leather to exchange for a Master Leathering Kit',
-    `QuestDescription` = 'Brother/Sister, you''ve arrived in Outland. The beasts here have hides twice as thick as Azeroth''s - your Artisan kit struggles to cut clean. I have Master Leathering Kits forged for these harsh lands. Trade in your old Artisan kit and bring me **20 Knothide Leather and 5 Heavy Knothide Leather** from Outland''s creatures, and the Master kit is yours. Faster cutting, cleaner work - you''ll need every advantage here.',
+    `LogDescription` = 'Trade in your Artisan kit and collect cured hides and armor kits to exchange for a Master Leathering Kit',
+    `QuestDescription` = 'Brother/Sister, you''ve arrived in Outland. The beasts here have hides twice as thick as Azeroth''s - your Artisan kit struggles to cut clean. I have Master Leathering Kits forged for these harsh lands. Trade in your old Artisan kit and bring me 5 Cured Rugged Hides and 5 Knothide Armor Kits, and the Master kit is yours. Faster cutting, cleaner work - you''ll need every advantage here.$B$BRequired:$B- 5 Cured Rugged Hides$B- 5 Knothide Armor Kits',
     `QuestCompletionLog` = 'Return to Barim Spilthoof in Thrallmar',
     `RewardItem1` = 57615,
     `RewardAmount1` = 1,
@@ -1333,7 +1333,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the knothide leather and your old Artisan kit, friend?';
+    `CompletionText` = 'Did you bring the cured hides and armor kits and your old Artisan kit, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -1342,7 +1342,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- GRAND MASTER LEATHERING KIT QUEST (375+ Leatherworking)
--- 20 Borean Leather + 5 Heavy Borean Leather
+-- 5 Heavy Borean Leather + 5 Borean Armor Kit
 -- Reward: Grand Master Leathering Kit (57616)
 -- =====================================================
 
@@ -1359,17 +1359,17 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = 4395, -- Dalaran
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 33568, -- Borean Leather
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 38425, -- Heavy Borean Leather
+    `RequiredItemId1` = 38425, -- Heavy Borean Leather
+    `RequiredItemCount1` = 5,
+    `RequiredItemId2` = 38376, -- Borean Armor Kit
     `RequiredItemCount2` = 5,
     `RequiredItemId3` = 57615, -- Master Leathering Kit (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1090, -- Kirin Tor
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Grand Master''s Tools',
-    `LogDescription` = 'Trade in your Master kit and collect leather to exchange for a Grand Master Leathering Kit',
-    `QuestDescription` = 'Northrend presents new challenges for even master leatherworkers. The arctic hides here are thicker and more resistant than Outland materials - your Master kit will feel sluggish. I have a Grand Master Leathering Kit, the finest tools available. Trade in your old Master kit and bring me **20 Borean Leather and 5 Heavy Borean Leather** from Northrend''s beasts, and the Grand Master kit is yours. You''ll need every advantage the kit provides for grand master-level work.',
+    `LogDescription` = 'Trade in your Master kit and collect cured hides and armor kits to exchange for a Grand Master Leathering Kit',
+    `QuestDescription` = 'Northrend presents new challenges for even master leatherworkers. The arctic hides here are thicker and more resistant than Outland materials - your Master kit will feel sluggish. I have a Grand Master Leathering Kit, the finest tools available. Trade in your old Master kit and bring me 5 Heavy Borean Leather and 5 Borean Armor Kits from Northrend''s beasts, and the Grand Master kit is yours. You''ll need every advantage the kit provides for grand master-level work.$B$BRequired:$B- 5 Heavy Borean Leather$B- 5 Borean Armor Kits',
     `QuestCompletionLog` = 'Return to Diane Cannings in Dalaran',
     `RewardItem1` = 57616,
     `RewardAmount1` = 1,
@@ -1388,7 +1388,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Borean Leather, 5 Heavy Borean Leather, and your old Master kit?';
+    `CompletionText` = 'Did you bring the 5 Heavy Borean Leather, 5 Borean Armor Kits, and your old Master kit?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
