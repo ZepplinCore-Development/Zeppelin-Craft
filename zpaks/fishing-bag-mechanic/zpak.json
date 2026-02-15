@@ -6,6 +6,7 @@
   "description": "F-157: Fishing poles work from bags, lures become consumable buffs",
   "author": "Zeppelin Team",
   "type": "native",
+  "client_patch": "PATCH-Z",
   "contents": {
     "sql": [
       "sql/*.sql"
