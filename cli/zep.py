@@ -1132,6 +1132,11 @@ from commands.creature import creature
 cli.add_command(creature)
 
 
+# Import exe patcher commands from module
+from commands.exe import exe
+cli.add_command(exe)
+
+
 @cli.command()
 def doctor():
     """Verify toolchain and dependencies"""

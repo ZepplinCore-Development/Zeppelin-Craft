@@ -1,0 +1,601 @@
+{
+  "format_version": 1,
+  "base_exe": {
+    "size": 7704216,
+    "md5": "45892bdedd0ad70aed4ccd22d9fb5984"
+  },
+  "patches": [
+    {
+      "name": "rce-security-fix",
+      "description": "Remote code execution exploit fix",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x2A7",
+          "original": "E0",
+          "patched": "C0"
+        }
+      ]
+    },
+    {
+      "name": "large-address-aware",
+      "description": "Enable 4GB RAM usage (PE Characteristics IMAGE_FILE_LARGE_ADDRESS_AWARE)",
+      "source": "WoWPatcher335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x126",
+          "original": "03",
+          "patched": "23"
+        }
+      ]
+    },
+    {
+      "name": "disable-cache",
+      "description": "Disable WDB cache file generation",
+      "source": "WoWPatcher335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x61BE58",
+          "original": "43 61",
+          "patched": "7C 7C"
+        }
+      ]
+    },
+    {
+      "name": "item-load-fix",
+      "description": "Redirect item DBC lookups from local file to server queries (ItemDBCDisabler)",
+      "source": "WoWPatcher335",
+      "enabled": true,
+      "requires": [
+        "disable-cache"
+      ],
+      "server_config": "DBC.EnforceItemAttributes = 0",
+      "edits": [
+        {
+          "offset": "0x11646D",
+          "original": "A1 5C 3D AD 00 3B F0 7C 77 3B 35 58 3D AD 00 7F 6F 2B F0 A1 6C 3D AD 00 8B 34 B0",
+          "patched": "56 89 E1 E8 DB 1D 24 00 83 C4 04 89 C6 90 90 90 90 90 90 90 90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x1164AC",
+          "original": "8B 4E 14",
+          "patched": "89 F1 90"
+        },
+        {
+          "offset": "0x1223F7",
+          "original": "A1 5C 3D AD 00 3B F0 7C 1E 3B 35 58 3D AD 00 7F 16 8B 15 6C 3D AD 00 8B CE 2B C8 8B 04 8A",
+          "patched": "56 89 E1 E8 51 5E 23 00 83 C4 04 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x122419",
+          "original": "8B 78 14",
+          "patched": "89 C7 90"
+        },
+        {
+          "offset": "0x1A54EF",
+          "original": "8B 4D F4 51 B9 64 3D AD 00",
+          "patched": "90 90 90 90 90 90 8D 4D F4"
+        },
+        {
+          "offset": "0x1A54F9",
+          "original": "93 61 0B",
+          "patched": "53 2D 1B"
+        },
+        {
+          "offset": "0x1A5528",
+          "original": "8B 55 F4",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1A552C",
+          "original": "42 14",
+          "patched": "45 F4"
+        },
+        {
+          "offset": "0x1A572E",
+          "original": "8B 03 50 B9 64 3D AD 00",
+          "patched": "90 90 90 90 90 90 89 D9"
+        },
+        {
+          "offset": "0x1A5737",
+          "original": "55 5F 0B",
+          "patched": "15 2B 1B"
+        },
+        {
+          "offset": "0x1A575C",
+          "original": "8B 45 F8",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1A5760",
+          "original": "48 14",
+          "patched": "4D F8"
+        },
+        {
+          "offset": "0x1A7CF5",
+          "original": "A1 5C 3D AD 00 83 C4 04 3B F0 7C 1F 3B 35 58 3D AD 00 7F 17 8B 15 6C 3D AD",
+          "patched": "83 C4 04 56 89 E1 E8 D0 04 1B 00 83 C4 04 EB 17 CC 89 C3 89 E1 E8 41 05 1B"
+        },
+        {
+          "offset": "0x1A7D0F",
+          "original": "8B CE 2B C8 8B 04 8A 85 C0 74 06 83 78 18 00",
+          "patched": "83 C4 04 E9 6B 33 00 00 CC CC CC CC CC 85 C0"
+        },
+        {
+          "offset": "0x1A8C8E",
+          "original": "B9 64 3D AD 00 E8 F8 29 0B 00",
+          "patched": "89 E1 E8 BB F5 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1A8C9C",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1AA6D4",
+          "original": "B9 64 3D AD 00 E8 B2 0F 0B 00",
+          "patched": "89 E1 E8 75 DB 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1AA6E2",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1AA821",
+          "original": "8B 45 08 50 B9 64 3D AD",
+          "patched": "90 8D 4D 08 E8 A6 D9 1A"
+        },
+        {
+          "offset": "0x1AA82A",
+          "original": "E8 61 0E 0B 00 8B F8",
+          "patched": "8B F8 E9 67 BE 15 00"
+        },
+        {
+          "offset": "0x1AA832",
+          "original": "FF",
+          "patched": "C0"
+        },
+        {
+          "offset": "0x1AA86C",
+          "original": "8B 47 18",
+          "patched": "90 89 F8"
+        },
+        {
+          "offset": "0x1AA8A2",
+          "original": "B9 64 3D AD 00 E8 E4 0D 0B 00",
+          "patched": "89 E1 E8 A7 D9 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1AA8B0",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1AA9D0",
+          "original": "B9 64 3D AD 00 E8 B6 0C 0B 00",
+          "patched": "89 E1 E8 79 D8 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1AA9DE",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1AAAFA",
+          "original": "B9 64 3D AD 00 E8 8C 0B 0B 00",
+          "patched": "89 E1 E8 4F D7 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1AAB08",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x1AB076",
+          "original": "B9 64 3D AD 00 E8 10 06 0B 00 8B D8",
+          "patched": "89 E1 E8 53 D1 1A 00 E9 84 CC FF FF"
+        },
+        {
+          "offset": "0x1AB083",
+          "original": "DB",
+          "patched": "C0"
+        },
+        {
+          "offset": "0x1AB0A9",
+          "original": "83 7B 18 00",
+          "patched": "90 90 85 DB"
+        },
+        {
+          "offset": "0x1AB316",
+          "original": "B9 64 3D AD 00 E8 70 03 0B 00",
+          "patched": "89 E1 E8 33 CF 1A 00 83 C4 04"
+        },
+        {
+          "offset": "0x1AB324",
+          "original": "8B 40 14",
+          "patched": "90 90 90"
+        },
+        {
+          "offset": "0x306614",
+          "original": "CC CC CC CC CC CC CC CC CC CC CC",
+          "patched": "8B 41 08 8D 48 0C E9 11 1B 05 00"
+        },
+        {
+          "offset": "0x306620",
+          "original": "8B 41 08 8B 40 0C",
+          "patched": "EB F2 CC CC CC CC"
+        },
+        {
+          "offset": "0x306650",
+          "original": "8B 41 08 8B 40 0C",
+          "patched": "EB 3A CC CC CC CC"
+        },
+        {
+          "offset": "0x306683",
+          "original": "8B 40",
+          "patched": "8D 48"
+        },
+        {
+          "offset": "0x306686",
+          "original": "8B 0D 5C 3D AD 00 3B C1 7C 1B 3B 05 58 3D AD 00 7F 13 2B C1 8B 0D 6C 3D AD",
+          "patched": "E9 45 1B 05 00 CC 8B 41 08 8D 48 0C E9 E9 1A 05 00 CC 8D 4D 08 E8 B0 1B 05"
+        },
+        {
+          "offset": "0x3066A0",
+          "original": "8B 04 81 85 C0 74 04 8B 40 18 C3 33 C0 C3",
+          "patched": "E9 8C 41 EA FF CC CC CC CC CC CC CC CC CC"
+        },
+        {
+          "offset": "0x306703",
+          "original": "8B 40",
+          "patched": "8D 48"
+        },
+        {
+          "offset": "0x306706",
+          "original": "8B 0D 5C 3D AD 00 3B C1 7C 1B 3B 05 58 3D AD 00 7F 13 2B C1 8B 0D 6C 3D AD 00 8B 04 81 85 C0 74 04 8B 40 14 C3 33 C0 C3",
+          "patched": "E9 45 1B 05 00 CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC"
+        },
+        {
+          "offset": "0x306733",
+          "original": "8B 40",
+          "patched": "8D 48"
+        },
+        {
+          "offset": "0x306736",
+          "original": "8B 0D 5C 3D AD 00 3B C1 7C 1B 3B 05 58 3D AD 00 7F 13 2B C1 8B 0D 6C 3D AD 00 8B 04 81 85 C0 74 04 8B 40 1C C3 33 C0 C3",
+          "patched": "E9 15 1C 05 00 CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC"
+        },
+        {
+          "offset": "0x309E03",
+          "original": "8B 40",
+          "patched": "8D 48"
+        },
+        {
+          "offset": "0x309E06",
+          "original": "8B 0D 5C 3D AD 00 3B C1 7C 24 3B 05 58 3D AD 00 7F 1C 2B C1 8B 0D 6C 3D AD 00 8B 04 81 85 C0 74 0D 8B 40 14",
+          "patched": "E8 45 E4 04 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x358136",
+          "original": "8B 01 6A 01 99",
+          "patched": "56 8B 31 89 F0"
+        },
+        {
+          "offset": "0x35813C",
+          "original": "00 68 70 EB 5E 00 33 C2 8D 4D F8 51 2B C2 50 B9 28 D8 C5 00 C7 45 F8 00 00 00",
+          "patched": "01 99 6A 00 68 70 EB 5E 00 33 C2 8D 4D F8 51 2B C2 50 B9 28 D8 C5 00 C7 45 F8"
+        },
+        {
+          "offset": "0x358157",
+          "original": "C7 45 FC 00 00 00",
+          "patched": "00 00 00 C7 45 FC"
+        },
+        {
+          "offset": "0x35815E",
+          "original": "E8 CD 3C F2 FF 85 C0 74 07 8B 40 04",
+          "patched": "00 00 00 E8 CA 3C F2 FF 85 C0 74 08"
+        },
+        {
+          "offset": "0x35816B",
+          "original": "E5 5D C3 33 C0 8B E5 5D C3 CC CC CC CC CC CC CC CC CC",
+          "patched": "40 04 5E 8B E5 5D C3 89 F0 5E 89 EC 5D E9 A9 E4 FA FF"
+        },
+        {
+          "offset": "0x358186",
+          "original": "8B 01 6A 01 99",
+          "patched": "56 8B 31 89 F0"
+        },
+        {
+          "offset": "0x35818C",
+          "original": "00 68 70 EB 5E 00 33 C2 8D 4D F8 51 2B C2 50 B9 28 D8 C5 00 C7 45 F8 00 00 00",
+          "patched": "01 99 6A 00 68 70 EB 5E 00 33 C2 8D 4D F8 51 2B C2 50 B9 28 D8 C5 00 C7 45 F8"
+        },
+        {
+          "offset": "0x3581A7",
+          "original": "C7 45 FC 00 00 00",
+          "patched": "00 00 00 C7 45 FC"
+        },
+        {
+          "offset": "0x3581AE",
+          "original": "E8 7D 3C F2 FF 85 C0 74 07 8B 40",
+          "patched": "00 00 00 E8 7A 3C F2 FF 85 C0 74"
+        },
+        {
+          "offset": "0x3581BB",
+          "original": "E5 5D C3 33 C0 8B E5 5D C3 CC CC CC CC CC CC CC CC CC",
+          "patched": "40 08 5E 8B E5 5D C3 89 F0 5E 89 EC 5D E9 89 E4 FA FF"
+        }
+      ]
+    },
+    {
+      "name": "taint-signature-removal",
+      "description": "Remove FrameXML taint/signature verification for modified addon loading",
+      "source": "WoWPatcher335 (split from CASTBAR FIX option)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x123676",
+          "original": "8B CE E8 A3 18 1F 00",
+          "patched": "90 90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x1241C6",
+          "original": "50 8B CE E8 82 C0 1F 00",
+          "patched": "90 8B CE 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "cast-bar-fix",
+      "description": "Fix cast bars (NOP conditional jumps) -- NEEDS IN-GAME TESTING",
+      "source": "WoWPatcher335 (split from CASTBAR FIX option)",
+      "enabled": false,
+      "edits": [
+        {
+          "offset": "0x320273",
+          "original": "0F 85 FE 00 00 00",
+          "patched": "90 90 90 90 90 90"
+        },
+        {
+          "offset": "0x320282",
+          "original": "0F 85 EF 00 00 00",
+          "patched": "90 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "protected-lua-bypass",
+      "description": "Allow addons to call protected API functions (e.g. CastSpellByName)",
+      "source": "WoWPatcher335 (split from INTERFACE EDITS option)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x1F41BF",
+          "original": "74",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "race-class-combos",
+      "description": "Unlock all race/class combinations at character creation",
+      "source": "WoWPatcher335 (split from INTERFACE EDITS option)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x415A25",
+          "original": "75",
+          "patched": "EB"
+        },
+        {
+          "offset": "0x415A3F",
+          "original": "01",
+          "patched": "03"
+        },
+        {
+          "offset": "0x415A95",
+          "original": "01",
+          "patched": "03"
+        },
+        {
+          "offset": "0x415B46",
+          "original": "7F",
+          "patched": "EB"
+        },
+        {
+          "offset": "0x415B5F",
+          "original": "83 C0 03 5E 8B E5 5D",
+          "patched": "B8 03 00 00 00 EB ED"
+        }
+      ]
+    },
+    {
+      "name": "stormwind-occluder",
+      "description": "Move Stormwind occluder to map 9999 for Open Azeroth",
+      "source": "Kebful/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x6EE040",
+          "original": "00 00 00 00",
+          "patched": "9F 86 01 00"
+        }
+      ]
+    },
+    {
+      "name": "nameplate-cast-bars",
+      "description": "Show cast bars on non-targeted nameplates (simple Trimitor fix)",
+      "source": "Trimitor (Discord, 29/10/2024)",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0xCCB3C",
+          "original": "0F 85 FE 00 00 00",
+          "patched": "90 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "ground-effect-distance",
+      "description": "Increase grass/ground effect render distance (140.0 to 1024.0)",
+      "source": "Custom",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x5E74FC",
+          "original": "00 00 0C 43",
+          "patched": "00 00 80 44"
+        }
+      ]
+    },
+    {
+      "name": "fullscreen-fix",
+      "description": "Fix windowed-to-fullscreen transition (JZ to JMP)",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0xE94",
+          "original": "74",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "melee-swing-rightclick",
+      "description": "Enable melee swing on right-click",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x2E1C67",
+          "original": "6A FF 6A 40 8B CE E8 BE 83 05 00",
+          "patched": "90 90 90 90 90 90 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "npc-turn-animation",
+      "description": "Fix attack animation when NPC turns (JZ to JMP)",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x33D7C9",
+          "original": "74",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "ghost-attack-fix",
+      "description": "Fix ghost attack on NPC evade",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x355BF",
+          "original": "E8",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "pre-cast-animation",
+      "description": "Remove pre-cast animation delay",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x33E0D6",
+          "original": "6A FF 6A 00 8B CE E8 4F BF FF FF 8D 8D 58 FD FF FF E8 84 FE EA FF",
+          "patched": "90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90"
+        }
+      ]
+    },
+    {
+      "name": "instant-mail",
+      "description": "Remove 60-second mail delivery timeout",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x16D899",
+          "original": "05 60 EA 00 00",
+          "patched": "05 01 00 00 00"
+        }
+      ]
+    },
+    {
+      "name": "area-trigger-precision",
+      "description": "Increase area trigger precision (250ms to 50ms)",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x2DB241",
+          "original": "64",
+          "patched": "32"
+        }
+      ]
+    },
+    {
+      "name": "blue-moon-fix",
+      "description": "Fix blue moon rendering",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x5CFBC0",
+          "original": "C3 CC CC CC CC CC CC CC CC CC CC",
+          "patched": "C7 05 74 8E D3 00 FF FF FF FF C3"
+        }
+      ]
+    },
+    {
+      "name": "chat-while-dead",
+      "description": "Allow chat commands while dead (JZ to JMP)",
+      "source": "Xerrion/WoWFix335",
+      "enabled": true,
+      "edits": [
+        {
+          "offset": "0x10CA41",
+          "original": "74",
+          "patched": "EB"
+        }
+      ]
+    },
+    {
+      "name": "high-dpi-mouse-fix",
+      "description": "Fix mouse input for high-DPI displays (4-part code cave patch)",
+      "source": "Xerrion/WoWFix335",
+      "enabled": false,
+      "edits": [
+        {
+          "offset": "0x469183",
+          "original": "CC CC CC CC CC CC CC CC CC CC CC CC CC",
+          "patched": "83 F8 32 7D 03 83 C0 01 83 F9 32 EB 31"
+        },
+        {
+          "offset": "0x4691B1",
+          "original": "8B EC 83 EC 10 8D 45 F0 50 6A 00 E8 DF 28 00 00 83 C4 04 50 FF 15 0C F6 9D 00 8B 45 F8 99 2B C2 8B C8 8B 45 FC 99 2B C2 D1 F8 D1 F9 50 51 89 0D EC 13 D4 00 A3 F0 13 D4 00 E8 81 EE FF FF 83 C4 08 8B E5 5D C3 CC CC CC CC CC CC CC CC CC",
+          "patched": "89 E5 8B 05 FC 13 D4 00 8B 0D F8 13 D4 00 EB C2 7D 03 83 C1 01 83 C0 32 83 C1 32 3B 0D EC BC CA 00 7E 03 83 E9 01 3B 05 F0 BC CA 00 7E 03 83 E8 01 83 E9 32 83 E8 32 89 0D F8 13 D4 00 89 05 FC 13 D4 00 89 EC 5D E9 B4 F7 FF FF 5D C3 C3"
+        },
+        {
+          "offset": "0x469A2C",
+          "original": "8B 45 F0 8B 15 EC 13 D4 00 8B 1D F0",
+          "patched": "E9 71 F0 0B 00 F8 13 D4 00 8B 1D FC"
+        },
+        {
+          "offset": "0x528AA2",
+          "original": "CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC",
+          "patched": "8D 4D F0 51 57 FF 15 DC F5 9D 00 8B 45 F0 8B 15 F8 13 D4 00 E9 7A 0F F4 FF"
+        }
+      ]
+    }
+  ]
+}
