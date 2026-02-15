@@ -18,7 +18,8 @@
     "requires": []
   },
   "contents": {
-    "mpq": ["mpq/**/*"]
+    "mpq": ["mpq/**/*"],
+    "sql": ["sql/*.sql"]
   },
   "enabled": true,
   "priority": 10
