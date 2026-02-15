@@ -10,7 +10,6 @@
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91222,
     `spelltrigger_1` = 5
 WHERE (`entry` = 6218);
@@ -19,7 +18,6 @@ WHERE (`entry` = 6218);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91223,
     `spelltrigger_1` = 5
 WHERE (`entry` = 6339);
@@ -28,7 +26,6 @@ WHERE (`entry` = 6339);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91224,
     `spelltrigger_1` = 5
 WHERE (`entry` = 11130);
@@ -37,7 +34,6 @@ WHERE (`entry` = 11130);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91225,
     `spelltrigger_1` = 5
 WHERE (`entry` = 11145);
@@ -46,7 +42,6 @@ WHERE (`entry` = 11145);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91226,
     `spelltrigger_1` = 5
 WHERE (`entry` = 16207);
@@ -55,7 +50,6 @@ WHERE (`entry` = 16207);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91227,
     `spelltrigger_1` = 5
 WHERE (`entry` = 22461);
@@ -64,7 +58,6 @@ WHERE (`entry` = 22461);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91228,
     `spelltrigger_1` = 5
 WHERE (`entry` = 22462);
@@ -73,7 +66,6 @@ WHERE (`entry` = 22462);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91229,
     `spelltrigger_1` = 5
 WHERE (`entry` = 22463);
@@ -82,7 +74,6 @@ WHERE (`entry` = 22463);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91230,
     `spelltrigger_1` = 5
 WHERE (`entry` = 44451);
@@ -91,7 +82,6 @@ WHERE (`entry` = 44451);
 UPDATE `item_template`
 SET `Quality` = 6,
     `bonding` = 1,
-    `description` = 'Required for enchanting. Speeds up enchanting crafting.',
     `spellid_1` = 91231,
     `spelltrigger_1` = 5
 WHERE (`entry` = 44452);

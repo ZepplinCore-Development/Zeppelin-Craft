@@ -24,7 +24,7 @@
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Journeyman Mining Pick',
-        `description` = 'Allows you to mine mineral veins. Provides bonus yield and faster mining.',
+        `description` = 'Allows you to mine mineral veins.',
         `displayid` = 139497, -- AO_Pick_02
         `Quality` = 6, -- Artifact
         `BagFamily` = 128, -- Mining
@@ -42,7 +42,7 @@
         `SellPrice` = 90, -- 90C
         `ItemLevel` = 60,
         `name` = 'Artisan Mining Pick',
-        `description` = 'Allows you to mine mineral veins. Provides bonus yield and faster mining.',
+        `description` = 'Allows you to mine mineral veins.',
         `displayid` = 139498, -- AO_Pick_03
         `Quality` = 6, -- Artifact
         `BagFamily` = 128, -- Mining
@@ -60,7 +60,7 @@
         `SellPrice` = 900, -- 9S
         `ItemLevel` = 70,
         `name` = 'Master Mining Pick',
-        `description` = 'Allows you to mine mineral veins. Provides bonus yield and faster mining.',
+        `description` = 'Allows you to mine mineral veins.',
         `displayid` = 139499, -- AO_Pick_04
         `Quality` = 6, -- Artifact
         `BagFamily` = 128, -- Mining
@@ -78,7 +78,7 @@
         `SellPrice` = 9000, -- 90S
         `ItemLevel` = 80,
         `name` = 'Grand Master Mining Pick',
-        `description` = 'Allows you to mine mineral veins. Provides bonus yield and faster mining.',
+        `description` = 'Allows you to mine mineral veins.',
         `displayid` = 139500, -- AO_Pick_05
         `Quality` = 6, -- Artifact
         `BagFamily` = 128, -- Mining

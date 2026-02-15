@@ -30,7 +30,7 @@
         `SellPrice` = 30, -- 30C
         `ItemLevel` = 20,
         `name` = 'Journeyman Skinning Knife',
-        `description` = 'Allows you to skin beasts. Provides bonus yield and faster skinning.',
+        `description` = 'Allows you to skin beasts.',
         `displayid` = 136157, -- AO_DaggerNewbie
         `Quality` = 6, -- Artifact
         `BagFamily` = 8, -- Leatherworking
@@ -48,7 +48,7 @@
         `SellPrice` = 90, -- 90C
         `ItemLevel` = 60,
         `name` = 'Artisan Skinning Knife',
-        `description` = 'Allows you to skin beasts. Provides bonus yield and faster skinning.',
+        `description` = 'Allows you to skin beasts.',
         `displayid` = 136154, -- AO_DaggerCrude
         `Quality` = 6, -- Artifact
         `BagFamily` = 8, -- Leatherworking
@@ -66,7 +66,7 @@
         `SellPrice` = 900, -- 9S
         `ItemLevel` = 70,
         `name` = 'Master Skinning Knife',
-        `description` = 'Allows you to skin beasts. Provides bonus yield and faster skinning.',
+        `description` = 'Allows you to skin beasts.',
         `displayid` = 136160, -- AO_DaggerVendor
         `Quality` = 6, -- Artifact
         `BagFamily` = 8, -- Leatherworking
@@ -84,7 +84,7 @@
         `SellPrice` = 9000, -- 90S
         `ItemLevel` = 80,
         `name` = 'Grand Master Skinning Knife',
-        `description` = 'Allows you to skin beasts. Provides bonus yield and faster skinning.',
+        `description` = 'Allows you to skin beasts.',
         `displayid` = 136158, -- AO_DaggerPirateKing
         `Quality` = 6, -- Artifact
         `BagFamily` = 8, -- Leatherworking
