@@ -351,9 +351,9 @@
     },
     {
       "name": "cast-bar-fix",
-      "description": "Fix cast bars (NOP conditional jumps) -- NEEDS IN-GAME TESTING",
+      "description": "Fix cast bars on non-targeted nameplates (NOP conditional jumps)",
       "source": "WoWPatcher335 (split from CASTBAR FIX option)",
-      "enabled": false,
+      "enabled": true,
       "edits": [
         {
           "offset": "0x320273",
