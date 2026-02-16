@@ -12,7 +12,8 @@
     "patch_mode": "single"
   },
   "contents": {
-    "patches": ["patches/*.patch"]
+    "patches": ["patches/*.patch"],
+    "sql": ["sql/*.sql"]
   },
   "enabled": true,
   "priority": 100

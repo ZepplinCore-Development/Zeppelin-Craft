@@ -44,6 +44,13 @@ DB_USER = os.getenv('DB_USER', 'acore')
 DB_PASS = os.getenv('DB_PASS', 'acore')
 DB_NAME = "acore_world"  # Always acore_world for this module
 
+# Characters database connection (separate credentials)
+CHARS_DB_HOST = os.getenv('CHARS_DB_HOST', '192.168.0.55')
+CHARS_DB_PORT = os.getenv('CHARS_DB_PORT', '3306')
+CHARS_DB_USER = os.getenv('CHARS_DB_USER', 'chars')
+CHARS_DB_PASS = os.getenv('CHARS_DB_PASS', '')
+CHARS_DB_NAME = os.getenv('CHARS_DB_NAME', 'acore_characters')
+
 # Root credentials for privileged operations (DROP/CREATE DATABASE)
 DB_ROOT_USER = os.getenv('DB_ROOT_USER', 'root')
 DB_ROOT_PASS = os.getenv('DB_ROOT_PASS', '')
@@ -53,15 +60,25 @@ DB_ROOT_PASS = os.getenv('DB_ROOT_PASS', '')
 # Database Helpers
 # =============================================================================
 
-def _create_mysql_config() -> str:
-    """Create a temporary MySQL config file with credentials."""
+def _create_mysql_config(database: str = 'world') -> str:
+    """Create a temporary MySQL config file with credentials.
+
+    Args:
+        database: 'world' for acore_world, 'characters' for acore_characters
+    """
     fd, path = tempfile.mkstemp(suffix='.cnf')
     with os.fdopen(fd, 'w') as f:
         f.write("[client]\n")
-        f.write(f"user={DB_USER}\n")
-        f.write(f"password={DB_PASS}\n")
-        f.write(f"host={DB_HOST}\n")
-        f.write(f"port={DB_PORT}\n")
+        if database == 'characters':
+            f.write(f"user={CHARS_DB_USER}\n")
+            f.write(f"password=\"{CHARS_DB_PASS}\"\n")
+            f.write(f"host={CHARS_DB_HOST}\n")
+            f.write(f"port={CHARS_DB_PORT}\n")
+        else:
+            f.write(f"user={DB_USER}\n")
+            f.write(f"password={DB_PASS}\n")
+            f.write(f"host={DB_HOST}\n")
+            f.write(f"port={DB_PORT}\n")
     return path
 
 
@@ -80,8 +97,12 @@ def get_mysql_command(database: str = DB_NAME, cnf_path: str = None) -> List[str
 
 
 def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
-    """Run a MySQL query and return result."""
-    cnf_path = _create_mysql_config()
+    """Run a MySQL query and return result.
+
+    Automatically uses characters DB credentials when targeting acore_characters.
+    """
+    db_type = 'characters' if database == CHARS_DB_NAME else 'world'
+    cnf_path = _create_mysql_config(db_type)
     try:
         cmd = get_mysql_command(database, cnf_path)
         result = subprocess.run(cmd + ["-e", query], capture_output=True, text=True)
@@ -160,18 +181,24 @@ def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int)
     run_mysql_query(query)
 
 
-def execute_sql_file(sql_file: Path, dry_run: bool = False) -> Tuple[bool, str, int]:
-    """Execute a SQL file against the database."""
+def execute_sql_file(sql_file: Path, dry_run: bool = False,
+                     database: str = 'world') -> Tuple[bool, str, int]:
+    """Execute a SQL file against the database.
+
+    Args:
+        database: 'world' for acore_world, 'characters' for acore_characters
+    """
     if not sql_file.exists():
         return False, f"File not found: {sql_file}", 0
 
     if dry_run:
         return True, "Would execute", 0
 
-    cnf_path = _create_mysql_config()
+    db_name = CHARS_DB_NAME if database == 'characters' else DB_NAME
+    cnf_path = _create_mysql_config(database)
     try:
         start_time = time.time()
-        cmd = get_mysql_command(DB_NAME, cnf_path)
+        cmd = get_mysql_command(db_name, cnf_path)
         with open(sql_file, 'r') as f:
             result = subprocess.run(cmd, stdin=f, capture_output=True, text=True)
         execution_ms = int((time.time() - start_time) * 1000)
@@ -202,23 +229,49 @@ def load_zpak_manifest(zpak_dir: Path) -> Optional[Dict]:
     return None
 
 
+def _resolve_content_globs(zpak_dir: Path, globs, folder_type: str) -> List[Tuple[Path, str]]:
+    """Resolve contents.sql or contents.sql_characters glob patterns to paths."""
+    paths = []
+    if isinstance(globs, str):
+        globs = [globs]
+    for glob_pattern in globs:
+        if glob_pattern.startswith('../'):
+            resolved = (zpak_dir / glob_pattern).resolve()
+            if resolved.is_dir():
+                paths.append((resolved, folder_type))
+            elif '*' in glob_pattern:
+                parent = (zpak_dir / Path(glob_pattern).parent).resolve()
+                if parent.exists():
+                    paths.append((parent, folder_type))
+        else:
+            resolved = zpak_dir / glob_pattern.replace('/*.sql', '').replace('/**/*.sql', '')
+            if resolved.exists() and resolved.is_dir():
+                paths.append((resolved, folder_type))
+    return paths
+
+
 def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List[Tuple[Path, str]]:
     """Get SQL paths for a zpak based on type and manifest.
 
     For acore-extension type zpaks, checks in order:
-    1. Module's data/sql/db-world/ (base/ and updates/ subfolders)
-    2. SQL path specified in contents.sql from zpak.json
-    3. zpak/sql/ folder
+    1. Module's data/sql/db-world/ and db-characters/ (base/ and updates/ subfolders)
+    2. SQL path specified in contents.sql / contents.sql_characters from zpak.json
+    3. zpak/sql/ and zpak/sql_characters/ folders
+
+    Folder types prefixed with 'chars_' target acore_characters instead of acore_world.
     """
     sql_paths = []
     zpak_dir = craft_root / 'zpaks' / zpak_name
     zpak_type = manifest.get('type', 'native')
 
-    # 1. For acore-extension, check module's standard SQL location first
+    # 1. For acore-extension, check module's standard SQL locations
     if zpak_type == 'acore-extension' and 'acore' in manifest:
         module_name = manifest['acore'].get('module', '')
         if module_name and module_name != 'azerothcore':
-            module_sql = craft_root / '..' / 'Zeppelin-Core' / 'modules' / module_name / 'data' / 'sql' / 'db-world'
+            module_sql_base = craft_root / '..' / 'Zeppelin-Core' / 'modules' / module_name / 'data' / 'sql'
+
+            # 1a. db-world (existing)
+            module_sql = module_sql_base / 'db-world'
             if module_sql.exists():
                 base_path = module_sql / 'base'
                 updates_path = module_sql / 'updates'
@@ -229,7 +282,19 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
                 if not base_path.exists() and not updates_path.exists():
                     sql_paths.append((module_sql, 'root'))
 
-    # 1b. Check explicit sql_path / sql_updates_path from manifest (used by azerothcore zpak)
+            # 1b. db-characters
+            module_chars_sql = module_sql_base / 'db-characters'
+            if module_chars_sql.exists():
+                base_path = module_chars_sql / 'base'
+                updates_path = module_chars_sql / 'updates'
+                if base_path.exists():
+                    sql_paths.append((base_path, 'chars_base'))
+                if updates_path.exists():
+                    sql_paths.append((updates_path, 'chars_updates'))
+                if not base_path.exists() and not updates_path.exists():
+                    sql_paths.append((module_chars_sql, 'chars_root'))
+
+    # 1c. Check explicit sql_path / sql_updates_path from manifest (used by azerothcore zpak)
     if 'sql_path' in manifest:
         base_dir = (craft_root / manifest['sql_path']).resolve()
         if base_dir.exists():
@@ -239,44 +304,47 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
         if updates_dir.exists():
             sql_paths.append((updates_dir, 'updates'))
 
-    # 2. Check contents.sql paths from zpak.json (supports globs relative to zpak dir)
+    # 2. Check contents.sql and contents.sql_characters paths from zpak.json
     contents = manifest.get('contents', {})
     if 'sql' in contents:
-        sql_globs = contents['sql']
-        if isinstance(sql_globs, str):
-            sql_globs = [sql_globs]
-        for glob_pattern in sql_globs:
-            # Resolve path relative to zpak directory
-            if glob_pattern.startswith('../'):
-                # Relative path outside zpak - resolve from zpak dir
-                resolved = (zpak_dir / glob_pattern).resolve()
-                if resolved.is_dir():
-                    sql_paths.append((resolved, 'contents'))
-                elif '*' in glob_pattern:
-                    # It's a glob pattern - get the parent directory
-                    parent = (zpak_dir / Path(glob_pattern).parent).resolve()
-                    if parent.exists():
-                        sql_paths.append((parent, 'contents'))
-            else:
-                # Path inside zpak
-                resolved = zpak_dir / glob_pattern.replace('/*.sql', '').replace('/**/*.sql', '')
-                if resolved.exists() and resolved.is_dir():
-                    sql_paths.append((resolved, 'contents'))
+        sql_paths.extend(_resolve_content_globs(zpak_dir, contents['sql'], 'contents'))
+    if 'sql_characters' in contents:
+        sql_paths.extend(_resolve_content_globs(zpak_dir, contents['sql_characters'], 'chars_contents'))
 
-    # 3. Check zpak's own sql/ folder
+    # 3. Check zpak's own sql/ and sql_characters/ folders
     zpak_sql = zpak_dir / 'sql'
     if zpak_sql.exists():
         sql_paths.append((zpak_sql, 'zpak'))
 
+    zpak_chars_sql = zpak_dir / 'sql_characters'
+    if zpak_chars_sql.exists():
+        sql_paths.append((zpak_chars_sql, 'chars_zpak'))
+
     return sql_paths
 
 
+FOLDER_TYPE_ORDER = [
+    'base', 'updates', 'root', 'contents', 'zpak',
+    'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak',
+]
+
+CHARS_FOLDER_TYPES = {'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak'}
+
+
+def folder_type_to_database(folder_type: str) -> str:
+    """Map folder type to target database."""
+    return 'characters' if folder_type in CHARS_FOLDER_TYPES else 'world'
+
+
 def collect_sql_files_from_paths(paths: List[Tuple[Path, str]]) -> List[Tuple[Path, str]]:
-    """Collect SQL files from paths, respecting order: base -> updates -> root -> contents -> zpak."""
+    """Collect SQL files from paths, respecting folder type order.
+
+    World DB types process first, then characters DB types.
+    """
     files = []
     seen = set()
 
-    for folder_type in ['base', 'updates', 'root', 'contents', 'zpak']:
+    for folder_type in FOLDER_TYPE_ORDER:
         for path, ptype in paths:
             if ptype != folder_type or not path.exists():
                 continue
@@ -309,8 +377,12 @@ def get_enabled_zpaks_by_priority(craft_root: Path) -> List[Tuple[str, Dict]]:
 
 
 def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
-                          source_filter: Optional[List[str]] = None) -> List[Tuple[Path, str, str]]:
-    """Collect all SQL files across zpaks in priority order."""
+                          source_filter: Optional[List[str]] = None) -> List[Tuple[Path, str, str, str]]:
+    """Collect all SQL files across zpaks in priority order.
+
+    Returns list of (file_path, zpak_name, source_type, database) tuples.
+    database is 'world' or 'characters'.
+    """
     all_files = []
 
     if zpak_name:
@@ -323,7 +395,7 @@ def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
             for f, src in files:
                 if source_filter is None or src in source_filter:
                     if not is_feature_disabled(f.name, disabled):
-                        all_files.append((f, zpak_name, src))
+                        all_files.append((f, zpak_name, src, folder_type_to_database(src)))
     else:
         for name, manifest in get_enabled_zpaks_by_priority(craft_root):
             disabled = set(manifest.get('disabled_features', []))
@@ -332,7 +404,7 @@ def collect_all_sql_files(craft_root: Path, zpak_name: Optional[str] = None,
             for f, src in files:
                 if source_filter is None or src in source_filter:
                     if not is_feature_disabled(f.name, disabled):
-                        all_files.append((f, name, src))
+                        all_files.append((f, name, src, folder_type_to_database(src)))
 
     return all_files
 
@@ -365,7 +437,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     # Collect files (exclude AC base, include AC updates + all zpak SQL)
     sql_files = collect_all_sql_files(craft_root)
     sql_files = [
-        (f, z, s) for f, z, s in sql_files
+        (f, z, s, db) for f, z, s, db in sql_files
         if z != 'azerothcore' or s in ('updates', 'zpak')
     ]
 
@@ -377,11 +449,11 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     files_to_execute = []
     skipped = 0
 
-    for sql_file, zpak, source in sql_files:
+    for sql_file, zpak, source, database in sql_files:
         current_hash = calculate_file_hash(sql_file)
         stored_hash = get_stored_hash(sql_file.name)
         if stored_hash != current_hash:
-            files_to_execute.append((sql_file, zpak, source, current_hash))
+            files_to_execute.append((sql_file, zpak, source, current_hash, database))
         else:
             skipped += 1
 
@@ -395,7 +467,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
     error_count = 0
     current_folder = None
 
-    for sql_file, zpak, source, file_hash in files_to_execute:
+    for sql_file, zpak, source, file_hash, database in files_to_execute:
         # Get folder path relative to craft_root or its parent
         try:
             rel_folder = sql_file.parent.relative_to(craft_root)
@@ -408,9 +480,10 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         # Print folder header when it changes
         if str(rel_folder) != current_folder:
             current_folder = str(rel_folder)
-            click.echo(f"\n  {rel_folder}/")
+            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
+            click.echo(f"\n  {rel_folder}/{db_tag}")
 
-        success, message, exec_ms = execute_sql_file(sql_file, dry_run)
+        success, message, exec_ms = execute_sql_file(sql_file, dry_run, database)
 
         if success:
             icon = click.style("✓", fg='green')
@@ -462,7 +535,7 @@ def _execute_reset(craft_root: Path) -> bool:
     base_errors = 0
     current_folder = None
 
-    for sql_file, zpak, source in base_files:
+    for sql_file, zpak, source, _db in base_files:
         file_hash = calculate_file_hash(sql_file)
         folder = sql_file.parent.name
         if folder != current_folder:
@@ -493,7 +566,7 @@ def _execute_reset(craft_root: Path) -> bool:
     updates_to_apply = []
     updates_skipped = 0
 
-    for sql_file, zpak, source in update_files:
+    for sql_file, zpak, source, _db in update_files:
         current_hash = calculate_file_hash(sql_file)
         stored_hash = get_stored_hash(sql_file.name)
         if stored_hash is None or stored_hash != current_hash:
@@ -763,7 +836,7 @@ def tool_list(ctx, zpak_name, changed):
 
         sql_files = collect_all_sql_files(craft_root, zpak_name)
         if zpak_name != 'azerothcore':
-            sql_files = [(f, z, s) for f, z, s in sql_files if z != 'azerothcore' or s in ('updates', 'zpak')]
+            sql_files = [(f, z, s, db) for f, z, s, db in sql_files if z != 'azerothcore' or s in ('updates', 'zpak')]
 
         if not sql_files:
             click.echo("No SQL files found")
@@ -775,26 +848,27 @@ def tool_list(ctx, zpak_name, changed):
         modified_files = []
         unchanged_count = 0
 
-        for sql_file, zpak, source in sql_files:
+        for sql_file, zpak, source, database in sql_files:
             current_hash = calculate_file_hash(sql_file)
             stored_hash = get_stored_hash(sql_file.name)
 
+            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
             if stored_hash is None:
-                new_files.append((sql_file, zpak))
+                new_files.append((sql_file, zpak, db_tag))
             elif stored_hash != current_hash:
-                modified_files.append((sql_file, zpak))
+                modified_files.append((sql_file, zpak, db_tag))
             else:
                 unchanged_count += 1
 
         if new_files:
             click.echo(click.style("New files:", fg='green'))
-            for sql_file, zpak in new_files:
-                click.echo(f"  + [{zpak}] {sql_file.name}")
+            for sql_file, zpak, db_tag in new_files:
+                click.echo(f"  + [{zpak}] {sql_file.name}{db_tag}")
 
         if modified_files:
             click.echo(click.style("\nModified files:", fg='yellow'))
-            for sql_file, zpak in modified_files:
-                click.echo(f"  ~ [{zpak}] {sql_file.name}")
+            for sql_file, zpak, db_tag in modified_files:
+                click.echo(f"  ~ [{zpak}] {sql_file.name}{db_tag}")
 
         if not new_files and not modified_files:
             click.echo("No changes detected")
@@ -815,21 +889,21 @@ def tool_list(ctx, zpak_name, changed):
             paths = get_zpak_sql_paths(craft_root, zpak_name, manifest)
             files = collect_sql_files_from_paths(paths)
             for f, src in files:
-                all_files_raw.append((f, zpak_name, src))
+                all_files_raw.append((f, zpak_name, src, folder_type_to_database(src)))
     else:
         for name, manifest in get_enabled_zpaks_by_priority(craft_root):
             disabled_map[name] = set(manifest.get('disabled_features', []))
             paths = get_zpak_sql_paths(craft_root, name, manifest)
             files = collect_sql_files_from_paths(paths)
             for f, src in files:
-                all_files_raw.append((f, name, src))
+                all_files_raw.append((f, name, src, folder_type_to_database(src)))
 
     if not all_files_raw:
         click.echo("No SQL files found")
         return
 
     disabled_count = sum(
-        1 for f, z, s in all_files_raw
+        1 for f, z, s, db in all_files_raw
         if is_feature_disabled(f.name, disabled_map.get(z, set()))
     )
     active_count = len(all_files_raw) - disabled_count
@@ -838,7 +912,7 @@ def tool_list(ctx, zpak_name, changed):
     current_zpak = None
     current_folder = None
 
-    for sql_file, zpak, source in all_files_raw:
+    for sql_file, zpak, source, database in all_files_raw:
         if zpak != current_zpak:
             current_zpak = zpak
             current_folder = None
@@ -857,8 +931,9 @@ def tool_list(ctx, zpak_name, changed):
 
         if str(rel_folder) != current_folder:
             current_folder = str(rel_folder)
-            source_tag = f" ({source})" if source in ['base', 'updates'] else ""
-            click.echo(f"  {rel_folder}/{source_tag}")
+            source_tag = f" ({source})" if source in ['base', 'updates', 'chars_base', 'chars_updates'] else ""
+            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
+            click.echo(f"  {rel_folder}/{source_tag}{db_tag}")
 
         if is_feature_disabled(sql_file.name, disabled_map.get(zpak, set())):
             click.echo(f"    {sql_file.name}  {click.style('[DISABLED]', fg='yellow')}")
