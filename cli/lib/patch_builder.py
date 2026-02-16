@@ -427,8 +427,38 @@ def _preprocess_item_dbc_sync(zpak: Dict[str, Any]) -> bool:
 
 
 def _preprocess_atlasloot(zpak: Dict[str, Any]) -> bool:
-    """Run AtlasLoot generator against parsed-assets."""
-    return _run_atlasloot_generator(Path(zpak['path']))
+    """Run AtlasLoot generator against source-assets, then sync to parsed-assets."""
+    zpak_path = Path(zpak['path'])
+    source_addon_dir = zpak_path / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
+    if not source_addon_dir.exists():
+        print(f"    AddOns directory not found in source-assets")
+        return False
+
+    print(f"    Running AtlasLoot generator...")
+    try:
+        from lib.atlasloot.core import run
+        success_count, fail_count = run(addon_base_dir=source_addon_dir)
+
+        if success_count > 0:
+            print(f"    AtlasLoot tables updated ({success_count} sections)")
+            # Re-copy source-assets to parsed-assets so updated Lua files
+            # end up in the MPQ (resource parser already ran, so this just
+            # overwrites with the generator's updated versions)
+            parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
+            if not parsed_addon_dir.exists():
+                parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
+            if parsed_addon_dir.exists():
+                shutil.rmtree(parsed_addon_dir)
+            shutil.copytree(source_addon_dir, parsed_addon_dir)
+            print(f"    Synced updated AddOns to parsed-assets")
+            return True
+        else:
+            print(f"    AtlasLoot generator failed (0 sections succeeded)")
+            return False
+    except Exception as e:
+        print(f"    AtlasLoot generator error: {e}")
+        logger.error(f"AtlasLoot generator failed: {e}")
+        return False
 
 
 # =============================================================================
@@ -550,75 +580,6 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
 
 
 
-def _run_atlasloot_generator(zpak_path: Path) -> bool:
-    """Run the AtlasLoot generator against parsed-assets.
-
-    Invokes generate_atlasloot.py --all with --addon-dir pointed at
-    the zpak's parsed-assets/Interface/AddOns directory.
-
-    Args:
-        zpak_path: Path to the atlasloot zpak directory.
-
-    Returns:
-        True if generation succeeded.
-    """
-    # Find the generator script relative to the craft root
-    craft_root = zpak_path.parent.parent  # zpaks/<name> -> craft root
-    generator_script = (craft_root / 'Scripts' / 'Patch Builder' /
-                        'AtlasLoot Generator' / 'generate_atlasloot.py')
-
-    if not generator_script.exists():
-        print(f"    AtlasLoot generator not found at {generator_script}")
-        return False
-
-    # Generator defaults to source-assets (correct casing for Lua references).
-    # Resource parser uppercases parsed-assets dirs which breaks Lua paths,
-    # so we let the generator use its own default and copy results afterward.
-    source_addon_dir = zpak_path / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
-    if not source_addon_dir.exists():
-        print(f"    AddOns directory not found in source-assets")
-        return False
-
-    print(f"    Running AtlasLoot generator...")
-    try:
-        result = subprocess.run(
-            [sys.executable, str(generator_script), '--all'],
-            cwd=str(generator_script.parent),
-            capture_output=True,
-            text=True,
-        )
-
-        if result.returncode == 0:
-            print(f"    AtlasLoot tables updated successfully")
-            if result.stdout:
-                # Show summary lines (skip verbose output)
-                for line in result.stdout.strip().split('\n'):
-                    if line.startswith('[') or line.startswith('Summary'):
-                        logger.info(f"  atlasloot: {line}")
-            # Re-copy source-assets to parsed-assets so updated Lua files
-            # end up in the MPQ (resource parser already ran, so this just
-            # overwrites with the generator's updated versions)
-            parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'INTERFACE' / 'ADDONS'
-            if not parsed_addon_dir.exists():
-                parsed_addon_dir = zpak_path / 'mpq' / 'parsed-assets' / 'Interface' / 'AddOns'
-            if parsed_addon_dir.exists():
-                shutil.rmtree(parsed_addon_dir)
-            shutil.copytree(source_addon_dir, parsed_addon_dir)
-            print(f"    Synced updated AddOns to parsed-assets")
-            return True
-        else:
-            print(f"    AtlasLoot generator failed (code {result.returncode})")
-            if result.stderr:
-                for line in result.stderr.strip().split('\n')[:5]:
-                    print(f"      {line}")
-            if result.stdout:
-                for line in result.stdout.strip().split('\n')[-5:]:
-                    print(f"      {line}")
-            return False
-    except Exception as e:
-        print(f"    AtlasLoot generator error: {e}")
-        logger.error(f"AtlasLoot generator failed: {e}")
-        return False
 
 
 def _run_resource_parser(zpak: Dict[str, Any]) -> bool:

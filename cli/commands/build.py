@@ -526,3 +526,29 @@ def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
             fg='green'))
 
 
+# =============================================================================
+# build atlasloot
+# =============================================================================
+
+@build.command('atlasloot')
+@click.option('--dry-run', '-n', is_flag=True, help='Preview without modifying files')
+@click.option('--verbose', '-v', is_flag=True, help='Detailed output')
+@click.pass_context
+def build_atlasloot(ctx, dry_run, verbose):
+    """Generate AtlasLoot Lua tables from database."""
+    craft_root = ctx.obj['craft_root']
+    addon_dir = craft_root / 'zpaks' / 'atlasloot' / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
+
+    if not addon_dir.exists():
+        click.echo(click.style(f"AddOns directory not found: {addon_dir}", fg='red'))
+        raise SystemExit(1)
+
+    from lib.atlasloot.core import run
+    success, failed = run(addon_base_dir=addon_dir, dry_run=dry_run, verbose=verbose)
+
+    if success > 0:
+        click.echo(click.style(f"\nDone: {success} succeeded, {failed} failed", fg='green'))
+    else:
+        click.echo(click.style(f"\nFailed: 0 sections succeeded", fg='red'))
+        raise SystemExit(1)
+
