@@ -1096,7 +1096,7 @@ build.add_command(mpq, 'mpq-tools')
 @click.group()
 @click.pass_context
 def world(ctx):
-    """Server database tools (SQL, accounts, characters, creatures, bags)."""
+    """Server database tools (SQL, accounts, characters, creatures, bags, teleports, dungeons)."""
     pass
 
 from commands.sql import sql
@@ -1104,12 +1104,16 @@ from commands.account import account
 from commands.char import char
 from commands.creature import creature
 from commands.bag import bag
+from commands.teleport import teleport
+from commands.dungeon import dungeon
 cli.add_command(world)
 world.add_command(sql)
 world.add_command(account)
 world.add_command(char)
 world.add_command(creature)
 world.add_command(bag)
+world.add_command(teleport)
+world.add_command(dungeon)
 
 # -- dbc: DBC database + outfit ---------------------------------------------
 from commands.dbc import dbc
