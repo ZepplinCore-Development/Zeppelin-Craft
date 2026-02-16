@@ -1,0 +1,12 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-professions",
+  "version": "0.1.0",
+  "description": "FrameXML replacement that adds a dedicated Professions tab to the spellbook, filtering profession spells from the General tab",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "features": ["F-160"],
+  "enabled": true,
+  "priority": 100
+}
