@@ -1081,60 +1081,51 @@ def zpak_delete(ctx, name, force):
 
 
 # =============================================================================
-# Placeholder command groups (to be implemented)
+# Command Registration
 # =============================================================================
 
-# Import forge commands from module
+# -- build: patch-mpq, patch-register, exe, mpq-tools -----------------------
+from commands.build import build
+from commands.exe import exe
+from commands.mpq import mpq
+cli.add_command(build)
+build.add_command(exe)
+build.add_command(mpq, 'mpq-tools')
+
+# -- world: sql, account, char, creature, bag -------------------------------
+@click.group()
+@click.pass_context
+def world(ctx):
+    """Server database tools (SQL, accounts, characters, creatures, bags)."""
+    pass
+
+from commands.sql import sql
+from commands.account import account
+from commands.char import char
+from commands.creature import creature
+from commands.bag import bag
+cli.add_command(world)
+world.add_command(sql)
+world.add_command(account)
+world.add_command(char)
+world.add_command(creature)
+world.add_command(bag)
+
+# -- dbc: DBC database + outfit ---------------------------------------------
+from commands.dbc import dbc
+from commands.outfit import outfit
+cli.add_command(dbc)
+dbc.add_command(outfit)
+
+# -- forge: module sync ------------------------------------------------------
 from commands.forge import forge
 cli.add_command(forge)
 
-# Import config commands under zpak group
+# -- zpak: package management ------------------------------------------------
 from commands.config import config
 zpak.add_command(config)
 
-# Import dbc commands from module
-from commands.dbc import dbc
-cli.add_command(dbc)
-
-
-# Import sql commands from module
-from commands.sql import sql
-cli.add_command(sql)
-
-
-# Import mpq commands from module
-from commands.mpq import mpq
-cli.add_command(mpq)
-
-
-# Import build commands from module
-from commands.build import build
-cli.add_command(build)
-
-
-# Import account commands from module
-from commands.account import account
-cli.add_command(account)
-
-
-# Import char commands from module
-from commands.char import char
-cli.add_command(char)
-
-
-# Import outfit commands from module
-from commands.outfit import outfit
-cli.add_command(outfit)
-
-
-# Import creature commands from module
-from commands.creature import creature
-cli.add_command(creature)
-
-
-# Import exe patcher commands from module
-from commands.exe import exe
-cli.add_command(exe)
+# -- doctor: registered below as @cli.command --------------------------------
 
 
 @cli.command()

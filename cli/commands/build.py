@@ -2,8 +2,10 @@
 Build operations for Zeppelin-Craft CLI.
 
 Commands:
-    zep build patch               Build client patches (MPQ files)
-    zep build register            Manage patch register
+    zep build patch-mpq            Build client patches (MPQ files)
+    zep build patch-register       Manage patch register
+    zep build mpq-tools            MPQ archive operations
+    zep build exe                  WoW.exe binary patcher
 """
 
 import time
@@ -38,11 +40,11 @@ logger = get_logger('commands.build')
 def build(ctx):
     """Build operations."""
     if ctx.invoked_subcommand is None:
-        # Interactive: choose client or register
+        # Interactive: choose patch-mpq or patch-register
         choice = _top_level_menu()
-        if choice == 'patch':
+        if choice == 'patch-mpq':
             ctx.invoke(build_patch)
-        elif choice == 'register':
+        elif choice == 'patch-register':
             ctx.invoke(build_register, show=True)
 
 
@@ -50,7 +52,7 @@ def build(ctx):
 # build patch
 # =============================================================================
 
-@build.command('patch')
+@build.command('patch-mpq')
 @click.option('--patch', '-p', 'patch_letter',
               help='Patch letter to build (e.g., Z, O, B)')
 @click.option('--all', '-a', 'build_all', is_flag=True,
@@ -73,14 +75,14 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
     Flags allow fully non-interactive builds for scripting.
 
     Examples:
-        zep build patch                     # Interactive guided flow
-        zep build patch -p Z               # Select PATCH-Z, choose build mode
-        zep build patch -p Z --build       # Pack PATCH-Z (no preprocessing)
-        zep build patch -p Z --parse       # Run preprocessors only (no pack)
-        zep build patch -p Z --parse-build # Run preprocessors then pack
-        zep build patch --all              # Build all patches
-        zep build patch --all --parse-build # Process + build all
-        zep build patch --dry-run          # Preview what would be built
+        zep build patch-mpq                     # Interactive guided flow
+        zep build patch-mpq -p Z               # Select PATCH-Z, choose build mode
+        zep build patch-mpq -p Z --build       # Pack PATCH-Z (no preprocessing)
+        zep build patch-mpq -p Z --parse       # Run preprocessors only (no pack)
+        zep build patch-mpq -p Z --parse-build # Run preprocessors then pack
+        zep build patch-mpq --all              # Build all patches
+        zep build patch-mpq --all --parse-build # Process + build all
+        zep build patch-mpq --dry-run          # Preview what would be built
     """
     # --parse = preprocessors only (no pack)
     # --parse-build = preprocessors + pack
@@ -220,8 +222,8 @@ def _top_level_menu() -> Optional[str]:
         return None
 
     options = [
-        "Patch             Build MPQ patch files",
-        "Register          View patch versions and checksums",
+        "Patch MPQ         Build MPQ patch files",
+        "Patch Register    View patch versions and checksums",
     ]
 
     menu = TerminalMenu(
@@ -235,7 +237,7 @@ def _top_level_menu() -> Optional[str]:
 
     if result is None:
         return None
-    return ['patch', 'register'][result]
+    return ['patch-mpq', 'patch-register'][result]
 
 
 def _select_patch_menu(patches: dict, register: dict,
@@ -418,7 +420,7 @@ def _build_all_mode_menu(patches: dict) -> Optional[dict]:
 # build register
 # =============================================================================
 
-@build.command('register')
+@build.command('patch-register')
 @click.option('--show', '-s', is_flag=True, help='Show current patch versions')
 @click.option('--update', '-u', is_flag=True,
               help='Recalculate checksums and sizes for all existing patches')
@@ -434,10 +436,10 @@ def build_register(ctx, show, update, regenerate, dry_run):
     for each MPQ patch file. The launcher uses this for update detection.
 
     Examples:
-        zep build register --show              # Show current state
-        zep build register --update            # Recalculate all checksums
-        zep build register --regenerate        # Sync register with zpak manifests
-        zep build register -r --dry-run        # Preview regeneration
+        zep build patch-register --show              # Show current state
+        zep build patch-register --update            # Recalculate all checksums
+        zep build patch-register --regenerate        # Sync register with zpak manifests
+        zep build patch-register -r --dry-run        # Preview regeneration
     """
     craft_root = ctx.obj['craft_root']
     nginx_path = DEFAULT_NGINX_PATH
