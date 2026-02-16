@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "aoe-loot",
+  "version": "0.1.0",
+  "description": "AOE looting - loot all nearby corpses from a single interact",
+  "author": "azerothcore",
+  "type": "acore-extension",
+  "contents": {
+    "patches": ["patches/*.patch"]
+  },
+  "acore": {
+    "module": "mod-aoe-loot",
+    "source": "https://github.com/azerothcore/mod-aoe-loot.git",
+    "branch": "master",
+    "patch_mode": "single"
+  },
+  "enabled": true,
+  "priority": 100
+}

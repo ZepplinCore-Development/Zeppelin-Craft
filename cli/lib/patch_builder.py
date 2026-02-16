@@ -24,7 +24,6 @@ from typing import Any, Dict, List, Optional, Tuple
 from lib.env import (
     DBCTOOL_PATH,
     DBC_EXPORT_PATH,
-    DBC_REORDER_PATH,
     MPQCLI_PATH,
     SERVER_DBC_PATH,
 )
@@ -43,7 +42,6 @@ logger = get_logger('lib.patch_builder')
 # Aliases for internal use
 DBC_EXPORT_DIR = DBC_EXPORT_PATH
 SERVER_DBC_DIR = SERVER_DBC_PATH
-DBC_REORDER_DIR = DBC_REORDER_PATH
 
 # Backup directory
 BACKUP_DIR_NAME = 'backup'
@@ -796,14 +794,11 @@ def _run_charsections_reorder(dbc_path: Path) -> bool:
         True if reorder succeeded.
     """
     try:
-        # Import the reorder module from its location
-        if str(DBC_REORDER_DIR) not in sys.path:
-            sys.path.insert(0, str(DBC_REORDER_DIR))
-        from dbc_reorder import reorder_charsections
+        from lib.dbc_reorder import reorder_charsections
         return reorder_charsections(str(dbc_path), quiet=True)
     except ImportError as e:
         logger.error(f"Could not import dbc_reorder: {e}")
-        print(f"    Could not import dbc_reorder from {DBC_REORDER_DIR}")
+        print(f"    Could not import dbc_reorder from lib.dbc_reorder")
         return False
     except Exception as e:
         logger.error(f"CharSections reorder failed: {e}")
