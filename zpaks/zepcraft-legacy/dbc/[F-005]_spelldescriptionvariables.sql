@@ -42,15 +42,16 @@ $swiftflightspeed=${$40121m2+$<crop>}');
 
 -- ============================================================================
 -- Variable ID 185: Ghost Wolf (spell 2645) tooltip
--- Speed is in effect 2 ($m2 includes per-level scaling).
+-- Speed is in effect 2 ($m2 = base 20%, per-level scaling via formula).
 -- Includes crop bonus and Ghost Wolf Speed set bonuses (22801, 47017).
 --
 -- Variables:
---   $c1-$c5     = Riding crop speed bonus per tier (same as 182)
---   $crop       = Combined crop bonus (only one non-zero due to anti-stack)
---   $gw1        = Ghost Wolf Speed PvP set bonus (22801, +15%)
---   $gw2        = Ghost Wolf Speed buff (47017, +11%)
---   $wolfspeed  = Ghost Wolf speed (base + scaling + crop + set bonuses)
+--   $c1-$c5      = Riding crop speed bonus per tier (same as 182)
+--   $crop        = Combined crop bonus (only one non-zero due to anti-stack)
+--   $gw1         = Ghost Wolf Speed PvP set bonus (22801, +15%)
+--   $gw2         = Ghost Wolf Speed buff (47017, +11%)
+--   $wolfspeed   = Ghost Wolf speed for tooltip (base + crop + set bonuses)
+--   $wolfspeed2  = Ghost Wolf speed for description (base + level scaling + crop + set bonuses)
 -- ============================================================================
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 185;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (185, '$c1=$?a100010[${$100010m1}][${0}]
@@ -61,7 +62,8 @@ $c5=$?a100014[${$100014m1}][${0}]
 $crop=${$<c1>+$<c2>+$<c3>+$<c4>+$<c5>}
 $gw1=$?a22801[${$22801m1}][${0}]
 $gw2=$?a47017[${$47017m1}][${0}]
-$wolfspeed=${$m2+$<crop>+$<gw1>+$<gw2>}');
+$wolfspeed=${$m2+$<crop>+$<gw1>+$<gw2>}
+$wolfspeed2=${$m2+($pl-20)*2+$<crop>+$<gw1>+$<gw2>}');
 
 -- ============================================================================
 -- Variable ID 184: Aquatic Form (spell 5421) tooltip

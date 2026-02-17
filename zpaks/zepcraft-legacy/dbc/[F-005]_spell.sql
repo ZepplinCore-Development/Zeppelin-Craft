@@ -172,12 +172,18 @@ UPDATE `spell` SET `cast_time_index` = 5 WHERE `id` = 2645;
 --    [BASE,F-044] set family 14 / mask 2147483648 (mount flag)
 --    Separate flag avoids crop SPELLMOD_EFFECT3 hitting health regen
 --    Variable 185 shows speed with crop + Ghost Wolf Speed set bonuses
+--    Per-level scaling: 20% at L20, +2%/level, caps at L60 (100%)
+--    Matches ground mount scaling exactly (base_points 19, per_level 2.0)
 -- ============================================================================
 UPDATE `spell` SET
     `spell_class_set` = 14,
     `spell_class_mask_1` = 1073741824,
     `spell_desc_variable_id` = 185,
-    `spell_desc_enus` = 'Turns the Shaman into a Ghost Wolf, increasing speed by $<wolfspeed>%$?s59289[ and regenerating $59289s1% of your maximum health every 5 sec][]. As a Ghost Wolf, the Shaman is less hindered by effects that would reduce movement speed. Only useable outdoors.',
+    `max_level` = 60,
+    `base_level` = 20,
+    `effect_base_points_2` = 19,
+    `effect_real_points_per_level_2` = '2.0000000000000000',
+    `spell_desc_enus` = 'Turns the Shaman into a Ghost Wolf, increasing speed by $<wolfspeed2>%$?s59289[ and regenerating $59289s1% of your maximum health every 5 sec][]. As a Ghost Wolf, the Shaman is less hindered by effects that would reduce movement speed. Only useable outdoors.',
     `spell_tooltip_enus` = 'Increases movement speed by $<wolfspeed>%$?s59289[ and regenerates $59289s1% of your maximum health every 5 sec][].Effects that reduce movement speed may not bring you below your normal movement speed.'
 WHERE `id` = 2645;
 
@@ -316,6 +322,188 @@ UPDATE `spell` SET
     `spell_class_mask_1` = 536870912,
     `effect_spell_class_mask_a_1` = 1073741824
 WHERE `id` = 59289;
+
+-- ============================================================================
+-- 13b. BASTION OF EARTH (900109-900113) - Replacement for Improved Ghost Wolf
+--      IGW talent made crop cast time reduction useless (R2 = instant).
+--      New tanking talent: +3% threat and +1% block chance per rank (5 ranks).
+--      User handles talent tree entry via editor tool; these are the spell defs.
+--      Template based on Defiance (12303) and Anticipation (12297).
+-- ============================================================================
+-- Bastion of Earth Rank 1
+DELETE FROM `spell` WHERE `id` = 900109;
+
+INSERT INTO `spell` SET
+    `id` = 900109,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 2,
+    `effect_base_points_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_2` = 49,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 2015,
+    `spell_name_enus` = 'Bastion of Earth',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
+
+-- Bastion of Earth Rank 2
+DELETE FROM `spell` WHERE `id` = 900110;
+
+INSERT INTO `spell` SET
+    `id` = 900110,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_2` = 49,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 2015,
+    `spell_name_enus` = 'Bastion of Earth',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
+
+-- Bastion of Earth Rank 3
+DELETE FROM `spell` WHERE `id` = 900111;
+
+INSERT INTO `spell` SET
+    `id` = 900111,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 8,
+    `effect_base_points_2` = 2,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_2` = 49,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 2015,
+    `spell_name_enus` = 'Bastion of Earth',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
+
+-- Bastion of Earth Rank 4
+DELETE FROM `spell` WHERE `id` = 900112;
+
+INSERT INTO `spell` SET
+    `id` = 900112,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 11,
+    `effect_base_points_2` = 3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_2` = 49,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 2015,
+    `spell_name_enus` = 'Bastion of Earth',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
+
+-- Bastion of Earth Rank 5
+DELETE FROM `spell` WHERE `id` = 900113;
+
+INSERT INTO `spell` SET
+    `id` = 900113,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 14,
+    `effect_base_points_2` = 4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_2` = 49,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 2015,
+    `spell_name_enus` = 'Bastion of Earth',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
 -- 14. GLYPH OF AQUATIC FORM (57856) - Move to family 14, own mask = bit 27
