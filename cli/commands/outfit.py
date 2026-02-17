@@ -105,11 +105,20 @@ def _execute_world_sql(sql_content):
 
 
 def _execute_dbc_sql(sql_content):
-    """Execute SQL against the live DBC database."""
+    """Execute SQL against the live and expected DBC databases."""
     from lib.dbc_utils import DBCConfig, run_sql
     config = DBCConfig.from_env(_env_file)
     success, output = run_sql(sql_content, config, config.live)
+    if success:
+        run_sql(sql_content, config, config.expected)
     return success, output
+
+
+def _execute_dbc_expected(sql_content):
+    """Execute SQL against the expected DBC database only."""
+    from lib.dbc_utils import DBCConfig, run_sql
+    config = DBCConfig.from_env(_env_file)
+    return run_sql(sql_content, config, config.expected)
 
 
 def _fix_weapon_display_items(mismatches, weapon_additions, dbc_cursor, acore_cursor):
@@ -502,7 +511,15 @@ def tier_apply(name, dry_run):
             for stmt in sql_statements:
                 dbc_cursor.execute(stmt)
             dbc_conn.commit()
-            click.echo(f"+ Applied {len(sql_statements)} display updates")
+            click.echo(f"+ Applied {len(sql_statements)} display updates to dbc")
+
+            # Sync to expected_dbc as a single batch
+            combined_sql = "\n".join(sql_statements)
+            success, output = _execute_dbc_expected(combined_sql)
+            if success:
+                click.echo(f"+ Synced to expected_dbc")
+            else:
+                click.echo(click.style(f"  Warning: expected_dbc sync failed: {output}", fg='yellow'))
 
             # Write to zpak for persistence across DB rebuilds
             zpak_dbc_dir = str(ZPAK_DIR / 'dbc')
@@ -556,6 +573,14 @@ def tier_reset(dry_run):
                 dbc_cursor.execute(stmt)
             dbc_conn.commit()
             click.echo(f"+ Reset {len(sql_statements)} display values to match item_template")
+
+            # Sync to expected_dbc as a single batch
+            combined_sql = "\n".join(sql_statements)
+            success, output = _execute_dbc_expected(combined_sql)
+            if success:
+                click.echo(f"+ Synced to expected_dbc")
+            else:
+                click.echo(click.style(f"  Warning: expected_dbc sync failed: {output}", fg='yellow'))
 
             # Remove tier section from zpak
             zpak_dbc_dir = str(ZPAK_DIR / 'dbc')

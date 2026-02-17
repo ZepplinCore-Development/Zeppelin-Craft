@@ -599,16 +599,121 @@ def dbc_status(ctx):
               help='Output SQL statements')
 @click.option('--table', '-t', 'table_name',
               help='Show diff for specific table only')
+@click.option('--save', 'save_to_zpak', is_flag=True,
+              help='Save diff SQL to a zpak and sync expected_dbc')
+@click.option('--task', 'task_id',
+              help='Task ID for --save (F-XXX or I-XXX)')
+@click.option('--zpak', '-z', 'zpak_name',
+              help='Target zpak for --save')
 @click.pass_context
-def dbc_diff(ctx, output_sql: bool, table_name: Optional[str]):
+def dbc_diff(ctx, output_sql: bool, table_name: Optional[str],
+             save_to_zpak: bool, task_id: Optional[str], zpak_name: Optional[str]):
     """Show detailed differences between live and expected DBC.
 
     Examples:
         zep dbc diff
         zep dbc diff --sql
         zep dbc diff --table spell
+        zep dbc diff --save --task F-164 --zpak zepcraft-legacy --table talent
     """
     config = get_dbc_config(ctx)
+
+    # --save mode: write diff SQL to zpak and sync expected_dbc
+    if save_to_zpak:
+        if not task_id:
+            task_id = click.prompt("Task ID (F-XXX or I-XXX)")
+        if not validate_task_id(task_id):
+            raise click.ClickException(f"Invalid task ID: {task_id}")
+
+        craft_root = ctx.obj['craft_root']
+        registry = ctx.obj['registry']
+
+        # Find zpak
+        zpak_path = None
+        if zpak_name:
+            for base in [craft_root / 'zpaks', craft_root / 'external']:
+                candidate = base / zpak_name
+                if candidate.exists() and (candidate / 'zpak.json').exists():
+                    zpak_path = candidate
+                    break
+            if not zpak_path:
+                raise click.ClickException(f"Zpak '{zpak_name}' not found")
+        else:
+            zpak_path = find_zpak_for_feature(craft_root, task_id, registry)
+        if not zpak_path:
+            # List available zpaks and prompt for selection
+            zpak_dirs = []
+            for base in [craft_root / 'zpaks', craft_root / 'external']:
+                if base.exists():
+                    for d in sorted(base.iterdir()):
+                        if d.is_dir() and (d / 'zpak.json').exists():
+                            zpak_dirs.append(d)
+            if not zpak_dirs:
+                raise click.ClickException("No zpaks found")
+            click.echo(f"\nNo zpak mapped to {task_id}. Select a zpak:")
+            for i, zd in enumerate(zpak_dirs, 1):
+                click.echo(f"  {i}. {zd.name}")
+            choice = click.prompt("Zpak number", type=click.IntRange(1, len(zpak_dirs)))
+            zpak_path = zpak_dirs[choice - 1]
+
+        try:
+            with DBCConnection(config) as db_conn:
+                result = compare_databases(db_conn, config.live, config.expected)
+
+                if result["identical"]:
+                    click.echo(click.style("No differences - nothing to save", fg='green'))
+                    return
+
+                # Collect tables with changes
+                tables_with_changes = []
+                for table, count1, count2, cs1, cs2 in result["tables_with_differences"]:
+                    diff = get_table_diff(db_conn, table, config.live, config.expected)
+                    adds = len(diff["only_in_db1"])
+                    mods = len(diff["modified"])
+                    dels = len(diff["only_in_db2"])
+                    if adds > 0 or mods > 0 or dels > 0:
+                        tables_with_changes.append((table, adds, mods, dels))
+
+                # Filter to specific table if requested
+                if table_name:
+                    tables_with_changes = [(t, a, m, d) for t, a, m, d in tables_with_changes
+                                           if t.lower() == table_name.lower()]
+                    if not tables_with_changes:
+                        click.echo(f"No changes in table '{table_name}'")
+                        return
+
+                click.echo(f"Saving diff to zpak: {zpak_path.name}")
+                click.echo(f"Task: {task_id}")
+
+                saved_files = []
+                for table, adds, mods, dels in tables_with_changes:
+                    sql = generate_diff_sql(db_conn, table, config.live, config.expected)
+                    if not sql.strip():
+                        continue
+
+                    sql_file_path = append_to_zpak_dbc(zpak_path, table, sql,
+                                                       feature_id=task_id)
+                    saved_files.append(sql_file_path)
+                    click.echo(f"  {sql_file_path.name}: +{adds} ~{mods} -{dels}")
+
+                    # Apply to expected_dbc to sync
+                    success, output = run_sql(sql, config, config.expected)
+                    if not success:
+                        click.echo(click.style(
+                            f"  Warning: failed to sync expected_dbc for {table}: {output}",
+                            fg='yellow'))
+
+                # Register feature
+                registry.register_feature(task_id, zpak_path.name)
+                registry.save()
+
+                click.echo(click.style(
+                    f"\nSaved {len(saved_files)} file(s) and synced expected_dbc",
+                    fg='green'))
+
+        except Exception as e:
+            raise click.ClickException(f"Save failed: {e}")
+        return
 
     try:
         with DBCConnection(config) as db_conn:
@@ -2345,9 +2450,11 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
               help='Priority (default: 100)')
 @click.option('--zpak', '-z', 'zpak_name',
               help='Add to existing zpak instead of creating new one')
+@click.option('--table', 'tables', multiple=True,
+              help='Extract only specific table(s). Can be repeated.')
 @click.pass_context
 def dbc_extract(ctx, name: str, task_id: str, priority: int,
-                zpak_name: Optional[str]):
+                zpak_name: Optional[str], tables: tuple):
     """Extract current uncommitted DBC changes as SQL files.
 
     Compares live database against original_dbc and generates SQL files
@@ -2392,6 +2499,19 @@ def dbc_extract(ctx, name: str, task_id: str, priority: int,
             if not tables_with_changes:
                 click.echo(click.style("No significant differences after filtering", fg='yellow'))
                 return
+
+            # Filter to specific tables if requested
+            if tables:
+                requested = set(t.lower() for t in tables)
+                available = set(t.lower() for t in tables_with_changes)
+                missing = requested - available
+                if missing:
+                    click.echo(click.style(f"  Warning: no changes found in: {', '.join(sorted(missing))}", fg='yellow'))
+                tables_with_changes = [t for t in tables_with_changes if t.lower() in requested]
+                if not tables_with_changes:
+                    click.echo(click.style("No matching tables to extract", fg='yellow'))
+                    return
+                click.echo(f"\n  Extracting {len(tables_with_changes)} of {total_tables} table(s)")
 
             # Determine output zpak
             if zpak_name:
