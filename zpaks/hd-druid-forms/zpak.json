@@ -19,8 +19,10 @@
   },
   "feature_id": "F-152",
   "contents": {
-    "mpq": ["mpq/**/*"]
+    "mpq": [
+      "mpq/**/*"
+    ]
   },
-  "enabled": true,
+  "enabled": false,
   "priority": 100
 }
