@@ -25,13 +25,13 @@ INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, 
 VALUES (4642, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_101.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_101_Extra.blp', '', 17, 0, 10);
 
 INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, type, color_index)
-VALUES (4861, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_102.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_102_Extra.blp', '', 17, 0, 11);
+VALUES (4861, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_102.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_102_Extra.blp', '', 8, 0, 11);
 
 INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, type, color_index)
 VALUES (4941, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_103.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_103_Extra.blp', '', 17, 0, 12);
 
 INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, type, color_index)
-VALUES (4942, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_104.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_104_Extra.blp', '', 17, 0, 13);
+VALUES (4942, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_104.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_104_Extra.blp', '', 8, 0, 13);
 
 INSERT INTO charsections (id, race, gender, base_section, texture_1, texture_2, texture_3, flags, type, color_index)
 VALUES (6461, 2, 0, 0, 'Character\\Orc\\Male\\OrcMaleSkin00_105.blp', 'Character\\Orc\\Male\\OrcMaleSkin00_105_Extra.blp', '', 17, 0, 14);
