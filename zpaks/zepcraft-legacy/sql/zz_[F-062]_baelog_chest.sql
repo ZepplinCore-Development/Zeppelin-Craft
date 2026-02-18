@@ -10,6 +10,9 @@ INSERT INTO `gameobject` SET
     `orientation` = 3.18789,
     `rotation2` = -0.999732,
     `rotation3` = 0.0231445,
+    `state` = 1,
+    `spawntimesecs` = 86400,
+    `animprogress` = 100,
     `VerifiedBuild` = NULL,
     `Comment` = NULL;
 
