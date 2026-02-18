@@ -16,32 +16,20 @@ output_file = os.path.join(zpak_dir, 'zz_[F-001]_skinning_knife_loot.sql')
 sys.stdout = open(output_file, 'w')
 
 # Get unique skinning loot table entries
-query = """
-SELECT DISTINCT Entry
-FROM skinning_loot_template
-WHERE Reference = 0
-ORDER BY Entry;
-"""
+# Exclude creatures that use herbalism (type_flags bit 8 = 256),
+# mining (bit 9 = 512), or engineering (bit 15 = 32768) gathering.
+# Those creatures share skinning_loot_template but shouldn't get
+# skinning knife bonus yield.
+NON_SKINNING_FLAGS = 256 | 512 | 32768  # herb | mining | engineering
 
-result = subprocess.run(
-    ['mysql', '-h', '192.168.0.55', '-P', '3306', '-u', 'acore', '-pacore',
-     'acore_world', '-e', query, '--batch', '--skip-column-names'],
-    capture_output=True, text=True
-)
-
-loot_entries = []
-for line in result.stdout.strip().split('\n'):
-    if line:
-        loot_entries.append(int(line.strip()))
-
-# Deduplicate and get unique entries from skinning_loot_template
 unique_entries_query = """
 SELECT DISTINCT slt.Entry, MIN(ct.name) as example_name
 FROM skinning_loot_template slt
-LEFT JOIN creature_template ct ON ct.skinloot = slt.Entry
+JOIN creature_template ct ON ct.skinloot = slt.Entry
+WHERE (ct.type_flags & {flags}) = 0
 GROUP BY slt.Entry
 ORDER BY slt.Entry;
-"""
+""".format(flags=NON_SKINNING_FLAGS)
 
 result2 = subprocess.run(
     ['mysql', '-h', '192.168.0.55', '-P', '3306', '-u', 'acore', '-pacore',
