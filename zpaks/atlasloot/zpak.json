@@ -13,6 +13,7 @@
     "mpq": ["mpq/**/*"]
   },
   "launcher": {
+    "patch_name": "Addons",
     "mandatory": true,
     "enabled_by_default": true,
     "auto_update": false,

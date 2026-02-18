@@ -258,13 +258,28 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
         patch_key = f"PATCH-{letter}.MPQ"
 
         # Combine names/descriptions from all zpaks sharing this patch letter
-        combined_name = ', '.join(
-            z['manifest'].get('name', z['name']) for z in zpaks
-        )
-        combined_desc = '; '.join(
-            z['manifest'].get('description', '') for z in zpaks
-            if z['manifest'].get('description')
-        )
+        if len(zpaks) == 1:
+            combined_name = zpaks[0]['manifest'].get('name', zpaks[0]['name'])
+            combined_desc = zpaks[0]['manifest'].get('description', '')
+        else:
+            # Multiple zpaks: use launcher.patch_name if set, otherwise
+            # fall back to patch key. List zpak names in description.
+            combined_name = None
+            for z in zpaks:
+                pn = z['manifest'].get('launcher', {}).get('patch_name')
+                if pn:
+                    combined_name = pn
+                    break
+            if not combined_name:
+                combined_name = patch_key.replace('.MPQ', '')
+            zpak_names = [z['manifest'].get('name', z['name']) for z in zpaks]
+            zpak_descs = '; '.join(
+                z['manifest'].get('description', '') for z in zpaks
+                if z['manifest'].get('description')
+            )
+            combined_desc = ', '.join(zpak_names)
+            if zpak_descs:
+                combined_desc += '\n' + zpak_descs
 
         # Use first zpak with a launcher block for launcher metadata
         launcher = {}
@@ -325,8 +340,15 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
                 if patch_key not in new_patches[req]['required_for']:
                     new_patches[req]['required_for'].append(patch_key)
 
-    # Identify orphans: old entries with no matching zpak
-    orphan_keys = [k for k in old_patches if k not in new_patches]
+    # Preserve non-zpak entries (e.g., Wow.exe managed by exe patcher)
+    for key, entry in old_patches.items():
+        if entry.get('build_source') == 'exe_patcher' and key not in new_patches:
+            new_patches[key] = entry
+            synced.append(key)
+
+    # Identify orphans: old entries with no matching zpak (only PATCH-*.MPQ keys)
+    orphan_keys = [k for k in old_patches if k not in new_patches
+                   and k.upper().startswith('PATCH-')]
     deleted_files = []
 
     for orphan_key in orphan_keys:
@@ -351,11 +373,50 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
         save_register(register, nginx_path)
 
     return {
-        'register': register if dry_run else {**register, 'patches': new_patches},
+        'register': {**register, 'patches': new_patches},
         'synced': synced,
         'orphans': orphan_keys,
         'deleted_files': deleted_files,
     }
+
+
+def update_exe_entry(register: Dict[str, Any], exe_path: Path) -> Dict[str, Any]:
+    """Update the Wow.exe entry in the patch register.
+
+    Exe entries use the key 'Wow.exe' and are always mandatory.
+    They are managed by the exe patcher, not zpak manifests, so
+    regenerate_register() preserves them automatically.
+
+    Args:
+        register: The full register dict (modified in place).
+        exe_path: Path to the deployed Wow.exe file.
+
+    Returns:
+        The updated entry dict.
+    """
+    patches = register.setdefault('patches', {})
+    entry = patches.get('Wow.exe', {})
+
+    entry['name'] = 'Patched WoW Client'
+    entry['description'] = 'Zeppelin-patched WoW.exe with custom binary modifications'
+    entry['is_mandatory'] = True
+    entry['is_enabled_by_default'] = True
+    entry['auto_update'] = True
+    entry['requires'] = []
+    entry['required_for'] = []
+    entry['build_source'] = 'exe_patcher'
+    entry['version'] = entry.get('version', 0) + 1
+
+    if exe_path.exists():
+        entry['size_mb'] = round(exe_path.stat().st_size / (1024 * 1024), 1)
+        entry['checksum'] = _calculate_checksum(exe_path)
+
+    entry['last_modified'] = _utc_timestamp()
+
+    patches['Wow.exe'] = entry
+    logger.info(f"Updated Wow.exe register entry: v{entry['version']}, "
+                f"{entry['size_mb']} MB, checksum={entry['checksum'][:12]}...")
+    return entry
 
 
 def _resolve_mpq_path(nginx_path: Path, patch_key: str, is_mandatory: bool) -> Path:

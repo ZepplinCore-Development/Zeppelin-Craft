@@ -1,12 +1,24 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
   "name": "zep-professions",
-  "version": "0.1.0",
-  "description": "FrameXML replacement that adds a dedicated Professions tab to the spellbook, filtering profession spells from the General tab",
+  "version": "0.2.0",
+  "description": "Profession tools, enchanting support, and spellbook Professions tab",
   "author": "Zeppelin Team",
-  "type": "mpq",
-  "client_patch": "PATCH-A",
-  "features": ["F-160"],
+  "type": "hybrid",
+  "client_patch": "PATCH-P",
+  "features": ["F-160", "F-001", "F-006"],
+  "contents": {
+    "sql": ["sql/*.sql"],
+    "dbc": ["dbc/*.sql"],
+    "mpq": ["mpq/**/*"]
+  },
+  "launcher": {
+    "patch_name": "Professions",
+    "mandatory": true,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
   "enabled": true,
   "priority": 100
 }
