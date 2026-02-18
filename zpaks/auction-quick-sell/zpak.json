@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "auction-quick-sell",
+  "version": "1.0.0",
+  "description": "Quick sell addon for AH bot - auto-lists items at bot buy prices",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-A",
+  "feature_id": "F-156",
+  "contents": {
+    "mpq": ["mpq/**/*"]
+  },
+  "launcher": {
+    "patch_name": "Addons",
+    "mandatory": true,
+    "enabled_by_default": true,
+    "auto_update": false,
+    "requires": []
+  },
+  "enabled": true,
+  "priority": 50
+}

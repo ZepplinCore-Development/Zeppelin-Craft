@@ -1,0 +1,9 @@
+## Interface: 30300
+## Title: Auction Quick Sell
+## SavedVariables: AucQS_settings
+## Author: Zeppelin Team
+## Notes: Quick-sell items to the AH bot at accurate market prices per category and quality
+## Version: 1.0.0
+## DefaultState: enabled
+
+main.lua
