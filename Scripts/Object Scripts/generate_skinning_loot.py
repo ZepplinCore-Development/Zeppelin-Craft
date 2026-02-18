@@ -216,7 +216,7 @@ for idx, loot_table in enumerate(loot_tables):
         spell_id = tier['spell']
 
         print(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES")
-        print(f"    (10, {tier_ref_id}, 0, 0, 0, 1, 0, {spell_id}, 1, 0);")
+        print(f"    (10, {tier_ref_id}, 0, 0, 0, 1, 0, {spell_id}, 0, 0);")
 
     ref_id += 4
     print()

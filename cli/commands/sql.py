@@ -996,23 +996,9 @@ def tool_format(ctx, target, output, dry_run, verbose):
         zep sql tool format path/to/file.sql
         zep sql tool format path/to/file.sql --dry-run
     """
+    from lib.sql_reformatter import load_schema, format_query
+
     craft_root = ctx.obj['craft_root']
-    reformatter_dir = craft_root / 'Scripts' / 'SQL Reformatter'
-
-    if not reformatter_dir.exists():
-        click.echo(f"Error: SQL Reformatter not found at {reformatter_dir}", err=True)
-        sys.exit(1)
-
-    sys.path.insert(0, str(reformatter_dir))
-
-    try:
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("sql_reformatter", reformatter_dir / "SQL Reformatter.py")
-        reformatter = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(reformatter)
-    except Exception as e:
-        click.echo(f"Error loading SQL Reformatter: {e}", err=True)
-        sys.exit(1)
 
     target_path = Path(target)
     if not target_path.is_absolute():
@@ -1036,7 +1022,7 @@ def tool_format(ctx, target, output, dry_run, verbose):
         return
 
     try:
-        reformatter.load_schema()
+        load_schema()
     except SystemExit:
         click.echo("Error: Schema cache not found. Run 'zep sql tool refresh-schema' first.", err=True)
         sys.exit(1)
@@ -1058,7 +1044,7 @@ def tool_format(ctx, target, output, dry_run, verbose):
 
             output_buffer = io.StringIO()
             with redirect_stdout(output_buffer):
-                reformatter.format_query(input_query, verbose=verbose)
+                format_query(input_query, verbose=verbose)
 
             formatted = output_buffer.getvalue()
 
@@ -1083,23 +1069,11 @@ def tool_format(ctx, target, output, dry_run, verbose):
 @click.pass_context
 def tool_refresh_schema(ctx):
     """Refresh table structures cache for SQL formatter."""
-    craft_root = ctx.obj['craft_root']
-    reformatter_dir = craft_root / 'Scripts' / 'SQL Reformatter'
-
-    if not reformatter_dir.exists():
-        click.echo(f"Error: SQL Reformatter not found at {reformatter_dir}", err=True)
-        sys.exit(1)
-
-    sys.path.insert(0, str(reformatter_dir))
+    from lib.sql_reformatter import refresh_schema
 
     try:
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("sql_reformatter", reformatter_dir / "SQL Reformatter.py")
-        reformatter = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(reformatter)
-
         click.echo("Refreshing schema cache from database...")
-        reformatter.refresh_schema()
+        refresh_schema()
         click.echo(click.style("Schema cache updated successfully", fg='green'))
 
     except Exception as e:

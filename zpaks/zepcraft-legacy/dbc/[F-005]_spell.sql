@@ -344,7 +344,6 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_base_points_1` = 2,
-    `effect_base_points_2` = 0,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
@@ -978,3 +977,4 @@ UPDATE `spell` SET
 WHERE `id` = 100014;
 
 UPDATE `spell` SET `spell_desc_variable_id` = 184 WHERE `id` = 5421;
+

@@ -21767,8 +21767,8 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCoun
     (95195, 10561, 0.0, 0, 1, 1, 'Bonus from Grand Master Knife');
 
 
--- Malfunctioning Reaver (Entry: 100033)
--- Malfunctioning Reaver - Journeyman Knife Bonus (Ref 95196)
+-- Heroic Molten War Golem (Entry: 100033)
+-- Heroic Molten War Golem - Journeyman Knife Bonus (Ref 95196)
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95196, 12359, 0.0, 0, 1, 1, 'Bonus from Journeyman Knife');
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -21778,7 +21778,7 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCoun
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95196, 16000, 0.0, 0, 1, 1, 'Bonus from Journeyman Knife');
 
--- Malfunctioning Reaver - Artisan Knife Bonus (Ref 95197)
+-- Heroic Molten War Golem - Artisan Knife Bonus (Ref 95197)
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95197, 12359, 0.0, 0, 1, 1, 'Bonus from Artisan Knife');
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -21788,7 +21788,7 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCoun
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95197, 16000, 0.0, 0, 1, 1, 'Bonus from Artisan Knife');
 
--- Malfunctioning Reaver - Master Knife Bonus (Ref 95198)
+-- Heroic Molten War Golem - Master Knife Bonus (Ref 95198)
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95198, 12359, 0.0, 0, 1, 1, 'Bonus from Master Knife');
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -21798,7 +21798,7 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCoun
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95198, 16000, 0.0, 0, 1, 1, 'Bonus from Master Knife');
 
--- Malfunctioning Reaver - Grand Master Knife Bonus (Ref 95199)
+-- Heroic Molten War Golem - Grand Master Knife Bonus (Ref 95199)
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
     (95199, 12359, 0.0, 0, 1, 1, 'Bonus from Grand Master Knife');
 INSERT INTO reference_loot_template (Entry, Item, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
@@ -27529,4998 +27529,4998 @@ INSERT INTO skinning_loot_template (Entry, Item, Reference, Chance, QuestRequire
 -- =====================================================
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93000, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93000, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93001, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93001, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93002, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93002, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93003, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93003, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93004, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93004, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93005, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93005, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93006, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93006, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93007, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93007, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93008, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93008, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93009, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93009, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93010, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93010, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93011, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93011, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93012, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93012, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93013, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93013, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93014, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93014, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93015, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93015, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93016, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93016, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93017, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93017, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93018, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93018, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93019, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93019, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93020, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93020, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93021, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93021, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93022, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93022, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93023, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93023, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93024, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93024, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93025, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93025, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93026, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93026, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93027, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93027, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93028, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93028, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93029, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93029, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93030, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93030, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93031, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93031, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93032, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93032, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93033, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93033, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93034, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93034, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93035, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93035, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93036, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93036, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93037, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93037, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93038, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93038, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93039, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93039, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93040, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93040, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93041, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93041, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93042, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93042, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93043, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93043, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93044, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93044, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93045, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93045, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93046, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93046, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93047, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93047, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93048, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93048, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93049, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93049, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93050, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93050, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93051, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93051, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93052, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93052, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93053, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93053, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93054, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93054, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93055, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93055, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93056, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93056, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93057, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93057, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93058, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93058, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93059, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93059, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93060, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93060, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93061, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93061, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93062, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93062, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93063, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93063, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93064, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93064, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93065, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93065, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93066, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93066, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93067, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93067, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93068, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93068, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93069, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93069, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93070, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93070, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93071, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93071, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93072, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93072, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93073, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93073, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93074, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93074, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93075, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93075, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93076, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93076, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93077, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93077, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93078, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93078, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93079, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93079, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93080, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93080, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93081, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93081, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93082, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93082, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93083, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93083, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93084, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93084, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93085, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93085, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93086, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93086, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93087, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93087, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93088, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93088, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93089, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93089, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93090, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93090, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93091, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93091, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93092, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93092, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93093, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93093, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93094, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93094, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93095, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93095, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93096, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93096, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93097, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93097, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93098, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93098, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93099, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93099, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93100, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93100, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93101, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93101, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93102, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93102, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93103, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93103, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93104, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93104, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93105, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93105, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93106, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93106, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93107, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93107, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93108, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93108, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93109, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93109, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93110, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93110, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93111, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93111, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93112, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93112, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93113, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93113, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93114, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93114, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93115, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93115, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93116, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93116, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93117, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93117, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93118, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93118, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93119, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93119, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93120, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93120, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93121, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93121, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93122, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93122, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93123, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93123, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93124, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93124, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93125, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93125, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93126, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93126, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93127, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93127, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93128, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93128, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93129, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93129, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93130, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93130, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93131, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93131, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93132, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93132, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93133, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93133, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93134, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93134, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93135, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93135, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93136, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93136, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93137, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93137, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93138, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93138, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93139, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93139, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93140, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93140, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93141, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93141, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93142, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93142, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93143, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93143, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93144, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93144, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93145, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93145, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93146, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93146, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93147, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93147, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93148, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93148, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93149, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93149, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93150, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93150, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93151, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93151, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93152, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93152, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93153, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93153, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93154, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93154, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93155, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93155, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93156, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93156, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93157, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93157, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93158, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93158, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93159, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93159, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93160, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93160, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93161, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93161, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93162, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93162, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93163, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93163, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93164, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93164, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93165, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93165, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93166, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93166, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93167, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93167, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93168, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93168, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93169, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93169, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93170, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93170, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93171, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93171, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93172, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93172, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93173, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93173, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93174, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93174, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93175, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93175, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93176, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93176, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93177, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93177, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93178, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93178, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93179, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93179, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93180, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93180, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93181, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93181, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93182, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93182, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93183, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93183, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93184, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93184, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93185, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93185, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93186, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93186, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93187, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93187, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93188, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93188, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93189, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93189, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93190, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93190, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93191, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93191, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93192, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93192, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93193, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93193, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93194, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93194, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93195, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93195, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93196, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93196, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93197, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93197, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93198, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93198, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93199, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93199, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93200, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93200, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93201, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93201, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93202, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93202, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93203, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93203, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93204, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93204, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93205, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93205, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93206, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93206, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93207, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93207, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93208, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93208, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93209, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93209, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93210, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93210, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93211, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93211, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93212, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93212, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93213, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93213, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93214, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93214, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93215, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93215, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93216, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93216, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93217, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93217, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93218, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93218, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93219, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93219, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93220, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93220, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93221, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93221, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93222, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93222, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93223, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93223, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93224, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93224, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93225, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93225, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93226, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93226, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93227, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93227, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93228, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93228, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93229, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93229, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93230, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93230, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93231, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93231, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93232, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93232, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93233, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93233, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93234, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93234, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93235, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93235, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93236, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93236, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93237, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93237, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93238, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93238, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93239, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93239, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93240, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93240, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93241, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93241, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93242, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93242, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93243, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93243, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93244, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93244, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93245, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93245, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93246, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93246, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93247, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93247, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93248, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93248, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93249, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93249, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93250, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93250, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93251, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93251, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93252, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93252, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93253, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93253, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93254, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93254, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93255, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93255, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93256, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93256, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93257, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93257, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93258, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93258, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93259, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93259, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93260, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93260, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93261, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93261, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93262, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93262, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93263, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93263, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93264, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93264, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93265, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93265, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93266, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93266, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93267, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93267, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93268, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93268, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93269, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93269, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93270, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93270, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93271, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93271, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93272, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93272, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93273, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93273, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93274, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93274, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93275, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93275, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93276, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93276, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93277, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93277, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93278, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93278, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93279, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93279, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93280, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93280, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93281, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93281, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93282, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93282, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93283, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93283, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93284, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93284, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93285, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93285, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93286, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93286, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93287, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93287, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93288, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93288, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93289, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93289, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93290, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93290, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93291, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93291, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93292, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93292, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93293, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93293, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93294, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93294, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93295, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93295, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93296, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93296, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93297, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93297, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93298, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93298, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93299, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93299, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93300, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93300, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93301, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93301, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93302, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93302, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93303, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93303, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93304, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93304, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93305, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93305, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93306, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93306, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93307, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93307, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93308, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93308, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93309, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93309, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93310, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93310, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93311, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93311, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93312, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93312, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93313, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93313, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93314, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93314, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93315, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93315, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93316, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93316, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93317, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93317, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93318, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93318, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93319, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93319, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93320, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93320, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93321, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93321, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93322, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93322, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93323, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93323, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93324, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93324, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93325, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93325, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93326, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93326, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93327, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93327, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93328, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93328, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93329, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93329, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93330, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93330, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93331, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93331, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93332, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93332, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93333, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93333, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93334, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93334, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93335, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93335, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93336, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93336, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93337, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93337, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93338, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93338, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93339, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93339, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93340, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93340, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93341, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93341, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93342, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93342, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93343, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93343, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93344, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93344, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93345, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93345, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93346, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93346, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93347, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93347, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93348, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93348, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93349, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93349, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93350, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93350, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93351, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93351, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93352, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93352, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93353, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93353, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93354, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93354, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93355, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93355, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93356, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93356, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93357, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93357, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93358, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93358, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93359, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93359, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93360, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93360, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93361, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93361, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93362, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93362, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93363, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93363, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93364, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93364, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93365, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93365, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93366, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93366, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93367, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93367, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93368, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93368, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93369, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93369, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93370, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93370, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93371, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93371, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93372, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93372, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93373, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93373, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93374, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93374, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93375, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93375, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93376, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93376, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93377, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93377, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93378, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93378, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93379, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93379, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93380, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93380, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93381, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93381, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93382, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93382, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93383, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93383, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93384, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93384, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93385, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93385, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93386, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93386, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93387, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93387, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93388, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93388, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93389, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93389, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93390, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93390, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93391, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93391, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93392, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93392, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93393, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93393, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93394, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93394, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93395, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93395, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93396, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93396, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93397, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93397, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93398, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93398, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93399, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93399, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93400, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93400, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93401, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93401, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93402, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93402, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93403, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93403, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93404, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93404, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93405, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93405, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93406, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93406, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93407, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93407, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93408, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93408, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93409, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93409, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93410, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93410, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93411, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93411, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93412, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93412, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93413, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93413, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93414, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93414, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93415, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93415, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93416, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93416, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93417, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93417, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93418, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93418, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93419, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93419, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93420, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93420, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93421, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93421, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93422, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93422, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93423, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93423, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93424, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93424, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93425, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93425, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93426, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93426, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93427, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93427, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93428, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93428, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93429, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93429, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93430, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93430, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93431, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93431, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93432, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93432, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93433, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93433, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93434, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93434, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93435, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93435, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93436, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93436, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93437, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93437, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93438, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93438, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93439, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93439, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93440, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93440, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93441, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93441, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93442, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93442, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93443, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93443, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93444, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93444, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93445, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93445, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93446, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93446, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93447, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93447, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93448, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93448, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93449, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93449, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93450, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93450, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93451, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93451, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93452, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93452, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93453, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93453, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93454, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93454, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93455, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93455, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93456, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93456, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93457, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93457, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93458, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93458, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93459, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93459, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93460, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93460, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93461, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93461, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93462, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93462, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93463, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93463, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93464, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93464, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93465, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93465, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93466, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93466, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93467, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93467, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93468, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93468, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93469, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93469, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93470, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93470, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93471, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93471, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93472, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93472, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93473, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93473, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93474, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93474, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93475, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93475, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93476, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93476, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93477, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93477, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93478, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93478, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93479, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93479, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93480, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93480, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93481, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93481, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93482, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93482, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93483, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93483, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93484, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93484, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93485, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93485, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93486, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93486, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93487, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93487, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93488, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93488, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93489, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93489, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93490, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93490, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93491, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93491, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93492, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93492, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93493, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93493, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93494, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93494, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93495, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93495, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93496, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93496, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93497, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93497, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93498, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93498, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93499, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93499, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93500, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93500, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93501, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93501, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93502, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93502, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93503, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93503, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93504, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93504, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93505, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93505, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93506, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93506, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93507, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93507, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93508, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93508, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93509, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93509, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93510, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93510, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93511, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93511, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93512, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93512, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93513, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93513, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93514, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93514, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93515, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93515, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93516, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93516, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93517, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93517, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93518, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93518, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93519, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93519, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93520, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93520, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93521, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93521, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93522, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93522, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93523, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93523, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93524, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93524, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93525, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93525, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93526, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93526, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93527, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93527, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93528, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93528, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93529, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93529, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93530, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93530, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93531, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93531, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93532, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93532, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93533, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93533, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93534, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93534, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93535, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93535, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93536, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93536, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93537, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93537, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93538, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93538, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93539, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93539, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93540, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93540, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93541, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93541, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93542, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93542, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93543, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93543, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93544, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93544, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93545, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93545, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93546, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93546, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93547, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93547, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93548, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93548, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93549, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93549, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93550, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93550, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93551, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93551, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93552, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93552, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93553, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93553, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93554, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93554, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93555, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93555, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93556, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93556, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93557, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93557, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93558, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93558, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93559, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93559, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93560, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93560, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93561, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93561, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93562, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93562, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93563, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93563, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93564, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93564, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93565, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93565, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93566, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93566, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93567, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93567, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93568, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93568, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93569, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93569, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93570, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93570, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93571, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93571, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93572, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93572, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93573, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93573, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93574, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93574, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93575, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93575, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93576, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93576, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93577, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93577, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93578, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93578, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93579, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93579, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93580, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93580, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93581, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93581, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93582, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93582, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93583, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93583, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93584, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93584, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93585, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93585, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93586, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93586, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93587, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93587, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93588, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93588, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93589, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93589, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93590, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93590, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93591, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93591, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93592, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93592, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93593, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93593, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93594, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93594, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93595, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93595, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93596, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93596, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93597, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93597, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93598, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93598, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93599, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93599, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93600, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93600, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93601, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93601, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93602, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93602, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93603, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93603, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93604, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93604, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93605, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93605, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93606, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93606, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93607, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93607, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93608, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93608, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93609, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93609, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93610, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93610, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93611, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93611, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93612, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93612, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93613, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93613, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93614, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93614, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93615, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93615, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93616, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93616, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93617, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93617, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93618, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93618, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93619, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93619, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93620, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93620, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93621, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93621, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93622, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93622, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93623, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93623, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93624, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93624, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93625, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93625, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93626, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93626, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93627, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93627, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93628, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93628, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93629, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93629, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93630, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93630, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93631, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93631, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93632, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93632, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93633, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93633, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93634, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93634, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93635, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93635, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93636, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93636, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93637, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93637, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93638, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93638, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93639, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93639, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93640, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93640, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93641, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93641, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93642, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93642, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93643, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93643, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93644, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93644, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93645, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93645, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93646, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93646, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93647, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93647, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93648, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93648, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93649, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93649, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93650, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93650, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93651, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93651, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93652, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93652, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93653, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93653, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93654, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93654, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93655, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93655, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93656, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93656, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93657, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93657, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93658, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93658, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93659, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93659, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93660, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93660, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93661, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93661, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93662, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93662, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93663, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93663, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93664, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93664, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93665, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93665, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93666, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93666, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93667, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93667, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93668, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93668, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93669, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93669, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93670, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93670, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93671, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93671, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93672, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93672, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93673, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93673, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93674, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93674, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93675, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93675, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93676, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93676, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93677, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93677, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93678, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93678, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93679, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93679, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93680, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93680, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93681, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93681, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93682, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93682, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93683, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93683, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93684, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93684, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93685, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93685, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93686, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93686, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93687, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93687, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93688, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93688, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93689, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93689, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93690, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93690, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93691, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93691, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93692, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93692, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93693, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93693, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93694, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93694, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93695, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93695, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93696, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93696, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93697, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93697, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93698, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93698, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93699, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93699, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93700, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93700, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93701, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93701, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93702, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93702, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93703, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93703, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93704, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93704, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93705, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93705, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93706, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93706, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93707, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93707, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93708, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93708, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93709, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93709, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93710, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93710, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93711, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93711, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93712, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93712, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93713, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93713, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93714, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93714, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93715, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93715, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93716, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93716, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93717, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93717, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93718, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93718, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93719, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93719, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93720, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93720, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93721, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93721, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93722, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93722, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93723, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93723, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93724, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93724, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93725, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93725, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93726, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93726, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93727, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93727, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93728, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93728, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93729, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93729, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93730, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93730, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93731, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93731, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93732, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93732, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93733, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93733, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93734, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93734, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93735, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93735, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93736, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93736, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93737, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93737, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93738, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93738, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93739, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93739, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93740, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93740, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93741, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93741, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93742, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93742, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93743, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93743, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93744, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93744, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93745, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93745, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93746, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93746, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93747, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93747, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93748, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93748, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93749, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93749, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93750, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93750, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93751, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93751, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93752, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93752, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93753, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93753, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93754, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93754, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93755, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93755, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93756, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93756, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93757, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93757, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93758, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93758, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93759, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93759, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93760, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93760, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93761, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93761, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93762, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93762, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93763, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93763, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93764, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93764, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93765, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93765, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93766, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93766, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93767, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93767, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93768, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93768, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93769, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93769, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93770, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93770, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93771, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93771, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93772, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93772, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93773, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93773, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93774, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93774, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93775, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93775, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93776, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93776, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93777, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93777, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93778, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93778, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93779, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93779, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93780, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93780, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93781, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93781, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93782, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93782, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93783, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93783, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93784, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93784, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93785, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93785, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93786, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93786, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93787, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93787, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93788, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93788, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93789, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93789, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93790, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93790, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93791, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93791, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93792, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93792, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93793, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93793, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93794, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93794, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93795, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93795, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93796, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93796, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93797, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93797, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93798, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93798, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93799, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93799, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93800, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93800, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93801, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93801, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93802, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93802, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93803, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93803, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93804, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93804, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93805, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93805, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93806, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93806, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93807, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93807, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93808, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93808, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93809, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93809, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93810, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93810, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93811, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93811, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93812, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93812, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93813, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93813, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93814, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93814, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93815, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93815, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93816, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93816, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93817, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93817, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93818, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93818, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93819, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93819, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93820, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93820, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93821, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93821, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93822, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93822, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93823, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93823, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93824, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93824, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93825, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93825, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93826, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93826, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93827, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93827, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93828, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93828, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93829, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93829, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93830, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93830, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93831, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93831, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93832, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93832, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93833, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93833, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93834, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93834, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93835, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93835, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93836, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93836, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93837, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93837, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93838, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93838, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93839, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93839, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93840, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93840, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93841, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93841, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93842, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93842, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93843, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93843, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93844, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93844, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93845, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93845, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93846, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93846, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93847, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93847, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93848, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93848, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93849, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93849, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93850, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93850, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93851, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93851, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93852, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93852, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93853, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93853, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93854, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93854, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93855, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93855, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93856, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93856, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93857, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93857, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93858, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93858, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93859, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93859, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93860, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93860, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93861, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93861, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93862, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93862, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93863, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93863, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93864, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93864, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93865, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93865, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93866, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93866, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93867, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93867, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93868, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93868, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93869, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93869, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93870, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93870, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93871, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93871, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93872, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93872, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93873, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93873, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93874, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93874, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93875, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93875, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93876, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93876, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93877, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93877, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93878, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93878, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93879, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93879, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93880, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93880, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93881, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93881, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93882, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93882, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93883, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93883, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93884, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93884, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93885, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93885, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93886, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93886, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93887, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93887, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93888, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93888, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93889, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93889, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93890, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93890, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93891, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93891, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93892, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93892, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93893, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93893, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93894, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93894, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93895, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93895, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93896, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93896, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93897, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93897, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93898, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93898, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93899, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93899, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93900, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93900, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93901, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93901, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93902, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93902, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93903, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93903, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93904, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93904, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93905, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93905, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93906, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93906, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93907, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93907, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93908, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93908, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93909, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93909, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93910, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93910, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93911, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93911, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93912, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93912, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93913, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93913, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93914, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93914, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93915, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93915, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93916, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93916, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93917, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93917, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93918, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93918, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93919, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93919, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93920, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93920, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93921, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93921, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93922, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93922, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93923, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93923, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93924, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93924, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93925, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93925, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93926, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93926, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93927, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93927, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93928, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93928, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93929, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93929, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93930, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93930, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93931, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93931, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93932, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93932, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93933, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93933, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93934, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93934, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93935, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93935, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93936, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93936, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93937, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93937, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93938, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93938, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93939, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93939, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93940, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93940, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93941, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93941, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93942, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93942, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93943, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93943, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93944, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93944, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93945, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93945, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93946, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93946, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93947, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93947, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93948, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93948, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93949, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93949, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93950, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93950, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93951, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93951, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93952, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93952, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93953, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93953, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93954, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93954, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93955, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93955, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93956, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93956, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93957, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93957, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93958, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93958, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93959, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93959, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93960, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93960, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93961, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93961, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93962, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93962, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93963, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93963, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93964, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93964, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93965, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93965, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93966, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93966, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93967, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93967, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93968, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93968, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93969, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93969, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93970, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93970, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93971, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93971, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93972, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93972, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93973, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93973, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93974, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93974, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93975, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93975, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93976, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93976, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93977, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93977, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93978, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93978, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93979, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93979, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93980, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93980, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93981, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93981, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93982, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93982, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93983, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93983, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93984, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93984, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93985, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93985, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93986, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93986, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93987, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93987, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93988, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93988, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93989, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93989, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93990, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93990, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93991, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93991, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93992, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93992, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93993, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93993, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93994, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93994, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93995, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93995, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93996, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 93996, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93997, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 93997, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93998, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 93998, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 93999, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 93999, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94000, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94000, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94001, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94001, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94002, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94002, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94003, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94003, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94004, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94004, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94005, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94005, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94006, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94006, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94007, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94007, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94008, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94008, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94009, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94009, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94010, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94010, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94011, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94011, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94012, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94012, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94013, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94013, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94014, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94014, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94015, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94015, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94016, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94016, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94017, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94017, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94018, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94018, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94019, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94019, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94020, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94020, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94021, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94021, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94022, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94022, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94023, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94023, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94024, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94024, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94025, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94025, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94026, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94026, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94027, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94027, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94028, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94028, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94029, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94029, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94030, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94030, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94031, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94031, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94032, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94032, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94033, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94033, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94034, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94034, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94035, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94035, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94036, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94036, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94037, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94037, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94038, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94038, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94039, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94039, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94040, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94040, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94041, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94041, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94042, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94042, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94043, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94043, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94044, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94044, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94045, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94045, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94046, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94046, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94047, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94047, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94048, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94048, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94049, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94049, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94050, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94050, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94051, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94051, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94052, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94052, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94053, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94053, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94054, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94054, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94055, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94055, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94056, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94056, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94057, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94057, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94058, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94058, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94059, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94059, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94060, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94060, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94061, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94061, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94062, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94062, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94063, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94063, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94064, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94064, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94065, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94065, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94066, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94066, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94067, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94067, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94068, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94068, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94069, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94069, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94070, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94070, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94071, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94071, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94072, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94072, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94073, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94073, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94074, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94074, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94075, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94075, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94076, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94076, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94077, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94077, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94078, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94078, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94079, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94079, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94080, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94080, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94081, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94081, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94082, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94082, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94083, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94083, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94084, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94084, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94085, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94085, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94086, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94086, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94087, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94087, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94088, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94088, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94089, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94089, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94090, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94090, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94091, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94091, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94092, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94092, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94093, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94093, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94094, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94094, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94095, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94095, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94096, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94096, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94097, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94097, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94098, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94098, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94099, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94099, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94100, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94100, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94101, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94101, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94102, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94102, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94103, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94103, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94104, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94104, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94105, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94105, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94106, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94106, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94107, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94107, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94108, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94108, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94109, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94109, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94110, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94110, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94111, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94111, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94112, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94112, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94113, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94113, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94114, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94114, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94115, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94115, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94116, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94116, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94117, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94117, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94118, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94118, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94119, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94119, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94120, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94120, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94121, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94121, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94122, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94122, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94123, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94123, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94124, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94124, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94125, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94125, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94126, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94126, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94127, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94127, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94128, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94128, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94129, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94129, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94130, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94130, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94131, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94131, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94132, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94132, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94133, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94133, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94134, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94134, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94135, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94135, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94136, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94136, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94137, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94137, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94138, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94138, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94139, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94139, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94140, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94140, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94141, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94141, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94142, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94142, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94143, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94143, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94144, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94144, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94145, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94145, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94146, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94146, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94147, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94147, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94148, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94148, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94149, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94149, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94150, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94150, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94151, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94151, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94152, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94152, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94153, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94153, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94154, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94154, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94155, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94155, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94156, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94156, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94157, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94157, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94158, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94158, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94159, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94159, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94160, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94160, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94161, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94161, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94162, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94162, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94163, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94163, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94164, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94164, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94165, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94165, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94166, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94166, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94167, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94167, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94168, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94168, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94169, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94169, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94170, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94170, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94171, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94171, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94172, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94172, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94173, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94173, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94174, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94174, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94175, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94175, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94176, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94176, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94177, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94177, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94178, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94178, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94179, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94179, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94180, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94180, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94181, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94181, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94182, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94182, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94183, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94183, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94184, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94184, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94185, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94185, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94186, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94186, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94187, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94187, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94188, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94188, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94189, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94189, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94190, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94190, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94191, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94191, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94192, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94192, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94193, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94193, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94194, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94194, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94195, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94195, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94196, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94196, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94197, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94197, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94198, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94198, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94199, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94199, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94200, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94200, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94201, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94201, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94202, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94202, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94203, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94203, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94204, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94204, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94205, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94205, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94206, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94206, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94207, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94207, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94208, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94208, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94209, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94209, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94210, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94210, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94211, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94211, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94212, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94212, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94213, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94213, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94214, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94214, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94215, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94215, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94216, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94216, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94217, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94217, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94218, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94218, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94219, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94219, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94220, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94220, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94221, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94221, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94222, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94222, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94223, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94223, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94224, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94224, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94225, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94225, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94226, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94226, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94227, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94227, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94228, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94228, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94229, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94229, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94230, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94230, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94231, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94231, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94232, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94232, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94233, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94233, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94234, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94234, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94235, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94235, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94236, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94236, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94237, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94237, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94238, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94238, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94239, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94239, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94240, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94240, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94241, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94241, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94242, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94242, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94243, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94243, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94244, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94244, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94245, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94245, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94246, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94246, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94247, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94247, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94248, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94248, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94249, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94249, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94250, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94250, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94251, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94251, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94252, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94252, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94253, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94253, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94254, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94254, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94255, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94255, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94256, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94256, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94257, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94257, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94258, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94258, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94259, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94259, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94260, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94260, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94261, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94261, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94262, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94262, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94263, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94263, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94264, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94264, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94265, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94265, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94266, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94266, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94267, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94267, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94268, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94268, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94269, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94269, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94270, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94270, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94271, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94271, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94272, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94272, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94273, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94273, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94274, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94274, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94275, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94275, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94276, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94276, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94277, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94277, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94278, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94278, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94279, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94279, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94280, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94280, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94281, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94281, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94282, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94282, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94283, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94283, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94284, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94284, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94285, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94285, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94286, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94286, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94287, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94287, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94288, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94288, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94289, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94289, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94290, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94290, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94291, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94291, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94292, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94292, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94293, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94293, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94294, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94294, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94295, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94295, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94296, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94296, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94297, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94297, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94298, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94298, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94299, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94299, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94300, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94300, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94301, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94301, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94302, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94302, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94303, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94303, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94304, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94304, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94305, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94305, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94306, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94306, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94307, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94307, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94308, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94308, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94309, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94309, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94310, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94310, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94311, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94311, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94312, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94312, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94313, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94313, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94314, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94314, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94315, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94315, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94316, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94316, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94317, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94317, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94318, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94318, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94319, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94319, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94320, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94320, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94321, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94321, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94322, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94322, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94323, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94323, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94324, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94324, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94325, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94325, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94326, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94326, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94327, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94327, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94328, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94328, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94329, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94329, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94330, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94330, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94331, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94331, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94332, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94332, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94333, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94333, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94334, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94334, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94335, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94335, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94336, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94336, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94337, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94337, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94338, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94338, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94339, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94339, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94340, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94340, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94341, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94341, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94342, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94342, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94343, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94343, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94344, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94344, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94345, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94345, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94346, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94346, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94347, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94347, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94348, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94348, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94349, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94349, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94350, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94350, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94351, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94351, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94352, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94352, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94353, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94353, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94354, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94354, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94355, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94355, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94356, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94356, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94357, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94357, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94358, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94358, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94359, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94359, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94360, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94360, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94361, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94361, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94362, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94362, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94363, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94363, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94364, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94364, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94365, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94365, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94366, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94366, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94367, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94367, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94368, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94368, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94369, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94369, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94370, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94370, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94371, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94371, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94372, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94372, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94373, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94373, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94374, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94374, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94375, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94375, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94376, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94376, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94377, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94377, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94378, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94378, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94379, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94379, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94380, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94380, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94381, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94381, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94382, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94382, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94383, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94383, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94384, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94384, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94385, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94385, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94386, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94386, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94387, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94387, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94388, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94388, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94389, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94389, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94390, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94390, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94391, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94391, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94392, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94392, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94393, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94393, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94394, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94394, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94395, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94395, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94396, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94396, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94397, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94397, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94398, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94398, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94399, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94399, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94400, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94400, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94401, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94401, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94402, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94402, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94403, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94403, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94404, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94404, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94405, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94405, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94406, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94406, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94407, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94407, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94408, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94408, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94409, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94409, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94410, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94410, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94411, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94411, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94412, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94412, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94413, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94413, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94414, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94414, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94415, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94415, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94416, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94416, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94417, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94417, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94418, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94418, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94419, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94419, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94420, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94420, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94421, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94421, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94422, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94422, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94423, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94423, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94424, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94424, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94425, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94425, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94426, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94426, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94427, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94427, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94428, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94428, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94429, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94429, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94430, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94430, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94431, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94431, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94432, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94432, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94433, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94433, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94434, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94434, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94435, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94435, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94436, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94436, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94437, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94437, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94438, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94438, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94439, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94439, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94440, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94440, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94441, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94441, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94442, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94442, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94443, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94443, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94444, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94444, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94445, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94445, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94446, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94446, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94447, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94447, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94448, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94448, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94449, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94449, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94450, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94450, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94451, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94451, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94452, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94452, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94453, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94453, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94454, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94454, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94455, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94455, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94456, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94456, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94457, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94457, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94458, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94458, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94459, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94459, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94460, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94460, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94461, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94461, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94462, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94462, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94463, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94463, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94464, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94464, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94465, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94465, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94466, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94466, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94467, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94467, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94468, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94468, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94469, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94469, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94470, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94470, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94471, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94471, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94472, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94472, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94473, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94473, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94474, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94474, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94475, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94475, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94476, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94476, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94477, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94477, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94478, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94478, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94479, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94479, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94480, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94480, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94481, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94481, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94482, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94482, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94483, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94483, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94484, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94484, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94485, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94485, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94486, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94486, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94487, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94487, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94488, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94488, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94489, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94489, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94490, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94490, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94491, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94491, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94492, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94492, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94493, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94493, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94494, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94494, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94495, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94495, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94496, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94496, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94497, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94497, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94498, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94498, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94499, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94499, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94500, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94500, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94501, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94501, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94502, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94502, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94503, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94503, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94504, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94504, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94505, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94505, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94506, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94506, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94507, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94507, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94508, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94508, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94509, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94509, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94510, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94510, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94511, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94511, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94512, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94512, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94513, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94513, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94514, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94514, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94515, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94515, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94516, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94516, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94517, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94517, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94518, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94518, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94519, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94519, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94520, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94520, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94521, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94521, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94522, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94522, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94523, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94523, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94524, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94524, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94525, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94525, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94526, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94526, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94527, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94527, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94528, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94528, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94529, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94529, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94530, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94530, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94531, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94531, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94532, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94532, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94533, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94533, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94534, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94534, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94535, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94535, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94536, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94536, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94537, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94537, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94538, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94538, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94539, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94539, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94540, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94540, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94541, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94541, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94542, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94542, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94543, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94543, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94544, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94544, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94545, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94545, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94546, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94546, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94547, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94547, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94548, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94548, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94549, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94549, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94550, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94550, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94551, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94551, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94552, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94552, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94553, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94553, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94554, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94554, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94555, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94555, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94556, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94556, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94557, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94557, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94558, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94558, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94559, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94559, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94560, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94560, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94561, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94561, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94562, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94562, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94563, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94563, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94564, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94564, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94565, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94565, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94566, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94566, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94567, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94567, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94568, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94568, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94569, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94569, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94570, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94570, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94571, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94571, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94572, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94572, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94573, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94573, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94574, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94574, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94575, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94575, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94576, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94576, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94577, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94577, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94578, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94578, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94579, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94579, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94580, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94580, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94581, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94581, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94582, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94582, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94583, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94583, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94584, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94584, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94585, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94585, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94586, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94586, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94587, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94587, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94588, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94588, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94589, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94589, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94590, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94590, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94591, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94591, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94592, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94592, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94593, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94593, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94594, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94594, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94595, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94595, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94596, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94596, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94597, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94597, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94598, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94598, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94599, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94599, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94600, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94600, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94601, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94601, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94602, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94602, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94603, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94603, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94604, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94604, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94605, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94605, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94606, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94606, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94607, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94607, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94608, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94608, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94609, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94609, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94610, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94610, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94611, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94611, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94612, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94612, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94613, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94613, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94614, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94614, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94615, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94615, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94616, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94616, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94617, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94617, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94618, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94618, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94619, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94619, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94620, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94620, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94621, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94621, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94622, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94622, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94623, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94623, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94624, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94624, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94625, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94625, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94626, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94626, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94627, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94627, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94628, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94628, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94629, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94629, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94630, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94630, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94631, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94631, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94632, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94632, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94633, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94633, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94634, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94634, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94635, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94635, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94636, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94636, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94637, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94637, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94638, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94638, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94639, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94639, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94640, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94640, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94641, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94641, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94642, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94642, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94643, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94643, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94644, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94644, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94645, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94645, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94646, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94646, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94647, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94647, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94648, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94648, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94649, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94649, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94650, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94650, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94651, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94651, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94652, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94652, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94653, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94653, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94654, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94654, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94655, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94655, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94656, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94656, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94657, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94657, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94658, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94658, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94659, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94659, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94660, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94660, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94661, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94661, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94662, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94662, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94663, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94663, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94664, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94664, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94665, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94665, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94666, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94666, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94667, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94667, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94668, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94668, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94669, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94669, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94670, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94670, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94671, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94671, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94672, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94672, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94673, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94673, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94674, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94674, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94675, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94675, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94676, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94676, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94677, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94677, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94678, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94678, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94679, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94679, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94680, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94680, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94681, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94681, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94682, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94682, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94683, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94683, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94684, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94684, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94685, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94685, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94686, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94686, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94687, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94687, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94688, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94688, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94689, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94689, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94690, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94690, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94691, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94691, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94692, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94692, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94693, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94693, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94694, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94694, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94695, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94695, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94696, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94696, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94697, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94697, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94698, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94698, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94699, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94699, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94700, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94700, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94701, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94701, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94702, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94702, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94703, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94703, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94704, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94704, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94705, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94705, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94706, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94706, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94707, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94707, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94708, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94708, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94709, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94709, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94710, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94710, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94711, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94711, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94712, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94712, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94713, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94713, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94714, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94714, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94715, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94715, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94716, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94716, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94717, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94717, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94718, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94718, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94719, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94719, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94720, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94720, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94721, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94721, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94722, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94722, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94723, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94723, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94724, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94724, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94725, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94725, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94726, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94726, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94727, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94727, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94728, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94728, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94729, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94729, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94730, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94730, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94731, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94731, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94732, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94732, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94733, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94733, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94734, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94734, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94735, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94735, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94736, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94736, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94737, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94737, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94738, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94738, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94739, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94739, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94740, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94740, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94741, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94741, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94742, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94742, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94743, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94743, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94744, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94744, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94745, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94745, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94746, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94746, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94747, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94747, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94748, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94748, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94749, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94749, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94750, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94750, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94751, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94751, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94752, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94752, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94753, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94753, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94754, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94754, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94755, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94755, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94756, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94756, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94757, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94757, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94758, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94758, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94759, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94759, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94760, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94760, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94761, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94761, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94762, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94762, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94763, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94763, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94764, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94764, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94765, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94765, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94766, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94766, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94767, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94767, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94768, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94768, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94769, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94769, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94770, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94770, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94771, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94771, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94772, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94772, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94773, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94773, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94774, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94774, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94775, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94775, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94776, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94776, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94777, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94777, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94778, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94778, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94779, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94779, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94780, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94780, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94781, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94781, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94782, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94782, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94783, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94783, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94784, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94784, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94785, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94785, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94786, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94786, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94787, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94787, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94788, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94788, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94789, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94789, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94790, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94790, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94791, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94791, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94792, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94792, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94793, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94793, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94794, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94794, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94795, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94795, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94796, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94796, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94797, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94797, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94798, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94798, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94799, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94799, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94800, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94800, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94801, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94801, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94802, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94802, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94803, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94803, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94804, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94804, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94805, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94805, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94806, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94806, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94807, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94807, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94808, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94808, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94809, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94809, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94810, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94810, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94811, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94811, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94812, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94812, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94813, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94813, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94814, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94814, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94815, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94815, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94816, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94816, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94817, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94817, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94818, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94818, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94819, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94819, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94820, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94820, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94821, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94821, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94822, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94822, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94823, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94823, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94824, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94824, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94825, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94825, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94826, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94826, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94827, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94827, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94828, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94828, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94829, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94829, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94830, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94830, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94831, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94831, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94832, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94832, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94833, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94833, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94834, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94834, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94835, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94835, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94856, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94856, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94857, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94857, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94858, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94858, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94859, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94859, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94860, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94860, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94861, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94861, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94862, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94862, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94863, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94863, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94864, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94864, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94865, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94865, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94866, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94866, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94867, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94867, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94868, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94868, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94869, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94869, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94870, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94870, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94871, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94871, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94872, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94872, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94873, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94873, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94874, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94874, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94875, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94875, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94876, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94876, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94877, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94877, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94878, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94878, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94879, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94879, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94880, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94880, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94881, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94881, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94882, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94882, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94883, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94883, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94884, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94884, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94885, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94885, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94886, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94886, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94887, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94887, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94888, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94888, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94889, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94889, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94890, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94890, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94891, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94891, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94892, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94892, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94893, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94893, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94894, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94894, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94895, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94895, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94896, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94896, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94897, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94897, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94898, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94898, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94899, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94899, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94900, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94900, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94901, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94901, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94902, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94902, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94903, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94903, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94904, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94904, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94905, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94905, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94906, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94906, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94907, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94907, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94908, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94908, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94909, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94909, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94910, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94910, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94911, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94911, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94912, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94912, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94913, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94913, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94914, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94914, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94915, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94915, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94916, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94916, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94917, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94917, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94918, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94918, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94919, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94919, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94920, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94920, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94921, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94921, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94922, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94922, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94923, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94923, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94924, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94924, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94925, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94925, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94926, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94926, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94927, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94927, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94928, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94928, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94929, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94929, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94930, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94930, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94931, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94931, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94932, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94932, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94933, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94933, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94934, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94934, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94935, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94935, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94936, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94936, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94937, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94937, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94938, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94938, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94939, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94939, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94940, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94940, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94941, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94941, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94942, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94942, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94943, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94943, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94944, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94944, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94945, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94945, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94946, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94946, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94947, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94947, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94948, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94948, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94949, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94949, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94950, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94950, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94951, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94951, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94952, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94952, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94953, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94953, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94954, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94954, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94955, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94955, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94956, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94956, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94957, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94957, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94958, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94958, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94959, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94959, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94960, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94960, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94961, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94961, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94962, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94962, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94963, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94963, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94964, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94964, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94965, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94965, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94966, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94966, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94967, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94967, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94968, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94968, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94969, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94969, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94970, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94970, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94971, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94971, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94972, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94972, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94973, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94973, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94974, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94974, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94975, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94975, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94976, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94976, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94977, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94977, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94978, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94978, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94979, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94979, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94980, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94980, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94981, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94981, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94982, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94982, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94983, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94983, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94984, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94984, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94985, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94985, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94986, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94986, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94987, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94987, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94988, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94988, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94989, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94989, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94990, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94990, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94991, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94991, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94992, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94992, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94993, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94993, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94994, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94994, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94995, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94995, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94996, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 94996, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94997, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 94997, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94998, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 94998, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 94999, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 94999, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95000, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95000, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95001, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95001, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95002, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95002, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95003, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95003, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95004, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95004, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95005, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95005, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95006, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95006, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95007, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95007, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95008, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95008, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95009, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95009, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95010, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95010, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95011, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95011, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95012, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95012, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95013, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95013, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95014, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95014, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95015, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95015, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95016, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95016, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95017, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95017, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95018, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95018, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95019, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95019, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95020, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95020, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95021, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95021, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95022, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95022, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95023, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95023, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95024, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95024, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95025, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95025, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95026, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95026, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95027, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95027, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95028, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95028, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95029, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95029, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95030, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95030, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95031, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95031, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95032, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95032, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95033, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95033, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95034, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95034, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95035, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95035, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95036, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95036, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95037, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95037, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95038, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95038, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95039, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95039, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95040, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95040, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95041, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95041, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95042, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95042, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95043, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95043, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95044, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95044, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95045, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95045, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95046, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95046, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95047, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95047, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95048, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95048, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95049, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95049, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95050, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95050, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95051, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95051, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95052, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95052, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95053, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95053, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95054, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95054, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95055, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95055, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95056, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95056, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95057, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95057, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95058, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95058, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95059, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95059, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95060, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95060, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95061, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95061, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95062, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95062, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95063, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95063, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95064, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95064, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95065, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95065, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95066, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95066, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95067, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95067, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95068, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95068, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95069, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95069, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95070, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95070, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95071, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95071, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95072, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95072, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95073, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95073, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95074, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95074, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95075, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95075, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95076, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95076, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95077, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95077, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95078, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95078, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95079, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95079, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95080, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95080, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95081, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95081, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95082, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95082, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95083, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95083, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95084, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95084, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95085, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95085, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95086, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95086, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95087, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95087, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95088, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95088, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95089, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95089, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95090, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95090, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95091, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95091, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95092, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95092, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95093, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95093, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95094, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95094, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95095, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95095, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95096, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95096, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95097, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95097, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95098, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95098, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95099, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95099, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95100, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95100, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95101, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95101, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95102, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95102, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95103, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95103, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95104, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95104, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95105, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95105, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95106, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95106, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95107, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95107, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95108, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95108, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95109, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95109, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95110, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95110, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95111, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95111, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95112, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95112, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95113, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95113, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95114, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95114, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95115, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95115, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95116, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95116, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95117, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95117, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95118, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95118, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95119, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95119, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95120, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95120, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95121, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95121, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95122, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95122, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95123, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95123, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95124, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95124, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95125, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95125, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95126, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95126, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95127, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95127, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95128, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95128, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95129, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95129, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95130, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95130, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95131, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95131, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95132, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95132, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95133, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95133, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95134, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95134, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95135, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95135, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95136, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95136, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95137, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95137, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95138, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95138, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95139, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95139, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95140, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95140, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95141, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95141, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95142, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95142, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95143, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95143, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95144, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95144, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95145, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95145, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95146, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95146, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95147, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95147, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95148, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95148, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95149, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95149, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95150, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95150, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95151, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95151, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95152, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95152, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95153, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95153, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95154, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95154, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95155, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95155, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95156, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95156, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95157, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95157, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95158, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95158, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95159, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95159, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95160, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95160, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95161, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95161, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95162, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95162, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95163, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95163, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95164, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95164, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95165, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95165, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95166, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95166, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95167, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95167, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95168, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95168, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95169, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95169, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95170, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95170, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95171, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95171, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95172, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95172, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95173, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95173, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95174, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95174, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95175, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95175, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95176, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95176, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95177, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95177, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95178, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95178, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95179, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95179, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95180, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95180, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95181, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95181, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95182, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95182, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95183, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95183, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95184, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95184, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95185, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95185, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95186, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95186, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95187, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95187, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95188, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95188, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95189, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95189, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95190, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95190, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95191, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95191, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95192, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95192, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95193, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95193, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95194, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95194, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95195, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95195, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95196, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95196, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95197, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95197, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95198, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95198, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95199, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95199, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95200, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95200, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95201, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95201, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95202, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95202, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95203, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95203, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95204, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95204, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95205, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95205, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95206, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95206, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95207, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95207, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95208, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95208, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95209, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95209, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95210, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95210, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95211, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95211, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95212, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95212, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95213, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95213, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95214, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95214, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95215, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95215, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95216, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95216, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95217, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95217, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95218, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95218, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95219, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95219, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95220, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95220, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95221, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95221, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95222, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95222, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95223, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95223, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95224, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95224, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95225, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95225, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95226, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95226, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95227, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95227, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95228, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95228, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95229, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95229, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95230, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95230, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95231, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95231, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95232, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95232, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95233, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95233, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95234, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95234, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95235, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95235, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95236, 0, 0, 0, 1, 0, 91240, 1, 0);
+    (10, 95236, 0, 0, 0, 1, 0, 91240, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95237, 0, 0, 0, 1, 0, 91241, 1, 0);
+    (10, 95237, 0, 0, 0, 1, 0, 91241, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95238, 0, 0, 0, 1, 0, 91242, 1, 0);
+    (10, 95238, 0, 0, 0, 1, 0, 91242, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 95239, 0, 0, 0, 1, 0, 91243, 1, 0);
+    (10, 95239, 0, 0, 0, 1, 0, 91243, 0, 0);
 
 -- Done!
