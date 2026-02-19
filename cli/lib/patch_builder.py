@@ -95,6 +95,13 @@ def discover_patches(craft_root: Path) -> Dict[str, List[Dict[str, Any]]]:
 
             patches.setdefault(letter, []).append(zpak_info)
 
+    # Sort each letter's zpaks by priority (highest first = packed first = wins conflicts)
+    for letter in patches:
+        patches[letter].sort(
+            key=lambda z: z['manifest'].get('priority', 100),
+            reverse=True,
+        )
+
     logger.info(f"Discovered {sum(len(v) for v in patches.values())} zpaks "
                 f"across {len(patches)} patch letters")
     return patches
@@ -519,9 +526,10 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
         _print_step_header('PACK', patch_name)
         print(f"[DRY RUN] Would build {patch_name}")
         for zpak, parsed in buildable:
+            priority = zpak['manifest'].get('priority', 100)
             file_count = sum(1 for _ in parsed.rglob('*') if _.is_file()
                             and _.name not in ('.gitkeep', '.gitignore'))
-            print(f"  {zpak['name']}: {file_count} files")
+            print(f"  [{priority:3}] {zpak['name']}: {file_count} files")
         if not buildable:
             print(f"  No zpaks have packable assets")
         print(f"Output: {output_path}")
@@ -540,21 +548,35 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
     zpak_names_list = [z['name'] for z, _ in buildable]
     _print_step_header('PACK', patch_name)
 
+    # conflicts: list of (skipped_file, zpak_that_was_skipped) tuples
+    conflicts = []
+
     if len(buildable) == 1:
         zpak, parsed = buildable[0]
-        print(f"Packing {zpak['name']} into {patch_name}...")
+        priority = zpak['manifest'].get('priority', 100)
+        print(f"Packing {zpak['name']} [{priority}] into {patch_name}...")
         if not _pack_mpq(parsed, output_path):
             return False
     else:
         zpak, parsed = buildable[0]
-        print(f"Packing {zpak['name']} into {patch_name}...")
+        priority = zpak['manifest'].get('priority', 100)
+        print(f"Packing {zpak['name']} [{priority}] into {patch_name}...")
         if not _pack_mpq(parsed, output_path):
             return False
 
         for zpak, parsed in buildable[1:]:
-            print(f"Adding {zpak['name']}...")
-            if not _add_to_mpq(parsed, output_path):
+            priority = zpak['manifest'].get('priority', 100)
+            print(f"Adding {zpak['name']} [{priority}]...")
+            success, skipped = _add_to_mpq(parsed, output_path)
+            if not success:
                 return False
+            for filepath in skipped:
+                conflicts.append((filepath, zpak['name']))
+
+    if conflicts:
+        print(f"\n  File conflicts ({len(conflicts)} files skipped):")
+        for filepath, zpak_name in conflicts:
+            print(f"    {filepath} (from {zpak_name} - overridden by higher priority)")
 
     # Step 4: Update register
     zpak_names = ', '.join(zpak_names_list)
@@ -836,22 +858,26 @@ def _pack_mpq(source_dir: Path, output_path: Path) -> bool:
     return True
 
 
-def _add_to_mpq(source_dir: Path, mpq_path: Path) -> bool:
+def _add_to_mpq(source_dir: Path, mpq_path: Path) -> Tuple[bool, List[str]]:
     """Add files from a directory to an existing MPQ archive.
 
     Walks the source directory and adds each file with its relative path.
+    Files that already exist in the MPQ are skipped by mpqcli (higher-priority
+    zpak was packed first and wins).
 
     Args:
         source_dir: Directory with files to add.
         mpq_path: Path to the existing MPQ file.
 
     Returns:
-        True if all additions succeeded.
+        Tuple of (success, skipped_files) where skipped_files is a list of
+        internal paths that were skipped because they already existed.
     """
     if not MPQCLI_PATH.exists():
         print(f"    mpqcli not found at {MPQCLI_PATH}")
-        return False
+        return False, []
 
+    skipped = []
     for file_path in source_dir.rglob('*'):
         if not file_path.is_file():
             continue
@@ -874,6 +900,9 @@ def _add_to_mpq(source_dir: Path, mpq_path: Path) -> bool:
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             logger.error(f"mpqcli add failed for {internal_path}: {result.stderr}")
-            return False
+            return False, skipped
 
-    return True
+        if 'already exists' in result.stderr:
+            skipped.append(str(internal_path))
+
+    return True, skipped
