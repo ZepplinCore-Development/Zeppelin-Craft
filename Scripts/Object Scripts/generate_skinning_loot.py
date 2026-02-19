@@ -11,7 +11,7 @@ import os
 
 # Redirect stdout to SQL file in zpak directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
-zpak_dir = os.path.join(script_dir, '..', '..', 'zpaks', 'zepcraft-legacy', 'sql')
+zpak_dir = os.path.join(script_dir, '..', '..', 'zpaks', 'zep-professions', 'sql')
 output_file = os.path.join(zpak_dir, 'zz_[F-001]_skinning_knife_loot.sql')
 sys.stdout = open(output_file, 'w')
 
@@ -80,14 +80,18 @@ print()
 print("-- Cleanup existing entries")
 print("DELETE FROM reference_loot_template WHERE Entry BETWEEN 93000 AND 95999;")
 print("DELETE FROM skinning_loot_template WHERE Reference BETWEEN 93000 AND 95999;")
+print("-- Clean up old broken conditions (SourceEntry=0) and new per-item conditions")
 print("DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEEN 93000 AND 95999;")
 print()
 
-# For each loot table, create 4 tier references
+# Phase 1: For each loot table, query items and create 4 tier reference tables
+# Store items per loot table for reuse in Phase 3 (conditions)
+items_by_entry = {}
 ref_id = 93000
 for idx, loot_table in enumerate(loot_tables):
     entry = loot_table['entry']
     name = loot_table['example_name']
+    sql_name = name.replace("'", "''")  # Escape apostrophes for SQL strings
 
     # Get the loot items for this table (excluding quest items and references)
     query_items = f"""
@@ -118,6 +122,8 @@ for idx, loot_table in enumerate(loot_tables):
                 'comment': parts[5] if len(parts) > 5 else ''
             })
 
+    items_by_entry[entry] = items
+
     if not items:
         ref_id += 4
         continue
@@ -138,12 +144,12 @@ for idx, loot_table in enumerate(loot_tables):
     ref_id += 4
     print()
 
+# Phase 2: Link references to skinning loot tables
 print("-- =====================================================")
 print("-- LINK REFERENCES TO SKINNING LOOT TABLES")
 print("-- =====================================================")
 print()
 
-# Now link references back to skinning loot tables
 ref_id = 93000
 item_slot_id = 10000  # Unique slot IDs to avoid PRIMARY KEY conflicts
 
@@ -151,16 +157,7 @@ for idx, loot_table in enumerate(loot_tables):
     entry = loot_table['entry']
     name = loot_table['example_name']
 
-    # Check if this entry had any items (skip empty ones)
-    query_check = f"SELECT COUNT(*) FROM skinning_loot_template WHERE Entry = {entry} AND Reference = 0 AND Item > 0;"
-    result_check = subprocess.run(
-        ['mysql', '-h', '192.168.0.55', '-P', '3306', '-u', 'acore', '-pacore',
-         'acore_world', '-e', query_check, '--batch', '--skip-column-names'],
-        capture_output=True, text=True
-    )
-    count = int(result_check.stdout.strip()) if result_check.stdout.strip() else 0
-
-    if count == 0:
+    if not items_by_entry.get(entry):
         ref_id += 4
         continue
 
@@ -176,8 +173,13 @@ for idx, loot_table in enumerate(loot_tables):
     ref_id += 4
     print()
 
+# Phase 3: Conditions - per-item with NegativeCondition for mutual exclusion
 print("-- =====================================================")
 print("-- CONDITIONS (Check for active knife auras)")
+print("-- =====================================================")
+print("-- IMPORTANT: Uses mutually exclusive conditions to prevent bonus stacking")
+print("-- Each tier bonus ONLY triggers if that specific tier is active")
+print("-- AND no higher tier is active (prevents multiple bonuses)")
 print("-- =====================================================")
 print()
 
@@ -185,26 +187,35 @@ ref_id = 93000
 for idx, loot_table in enumerate(loot_tables):
     entry = loot_table['entry']
     name = loot_table['example_name']
+    items = items_by_entry.get(entry, [])
 
-    # Check if this entry had items
-    query_check = f"SELECT COUNT(*) FROM skinning_loot_template WHERE Entry = {entry} AND Reference = 0 AND Item > 0;"
-    result_check = subprocess.run(
-        ['mysql', '-h', '192.168.0.55', '-P', '3306', '-u', 'acore', '-pacore',
-         'acore_world', '-e', query_check, '--batch', '--skip-column-names'],
-        capture_output=True, text=True
-    )
-    count = int(result_check.stdout.strip()) if result_check.stdout.strip() else 0
-
-    if count == 0:
+    if not items:
         ref_id += 4
         continue
 
     for tier in tiers:
         tier_ref_id = ref_id + (tier['tier_id'] - 1)
+        tier_name = tier['name']
         spell_id = tier['spell']
 
-        print(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES")
-        print(f"    (10, {tier_ref_id}, 0, 0, 0, 1, 0, {spell_id}, 0, 0);")
+        print(f"-- {name} - {tier_name} Skinning Knife conditions (Ref {tier_ref_id})")
+
+        for item in items:
+            item_id = item['item']
+
+            # Positive condition: MUST have this tier's aura
+            print(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES")
+            print(f"    (10, {tier_ref_id}, {item_id}, 0, 0, 1, 0, {spell_id}, 0, 0, 0, '{tier_name} Skinning Knife - {sql_name}');")
+
+            # Negative conditions: MUST NOT have any higher tier's aura
+            for higher_tier in tiers:
+                if higher_tier['tier_id'] > tier['tier_id']:
+                    higher_name = higher_tier['name']
+                    higher_spell = higher_tier['spell']
+                    print(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3, NegativeCondition, Comment) VALUES")
+                    print(f"    (10, {tier_ref_id}, {item_id}, 0, 0, 1, 0, {higher_spell}, 0, 0, 1, 'Block {tier_name} if {higher_name} active - {sql_name}');")
+
+        print()
 
     ref_id += 4
     print()
