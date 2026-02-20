@@ -7,6 +7,10 @@ Commands:
     zep exe patch [--dry-run] [options]  Apply patches to stock exe
 """
 
+import shutil
+from datetime import datetime
+from pathlib import Path
+
 import click
 
 from lib.exe_patcher import (
@@ -144,8 +148,9 @@ def exe_verify(ctx, source):
 @click.option('--exclude', multiple=True, help='Skip these patches (by name)')
 @click.option('--output', type=click.Path(), help='Output path (default: EXE Patching/patched/Wow.exe)')
 @click.option('--all', 'include_all', is_flag=True, help='Include disabled patches too')
+@click.option('--deploy', is_flag=True, help='Deploy patched exe to nginx for launcher distribution')
 @click.pass_context
-def exe_patch(ctx, dry_run, only, exclude, output, include_all):
+def exe_patch(ctx, dry_run, only, exclude, output, include_all, deploy):
     """Apply patches to the stock exe.
 
     By default applies all enabled patches. Use --only or --exclude to customize.
@@ -213,3 +218,38 @@ def exe_patch(ctx, dry_run, only, exclude, output, include_all):
     if result.get('output_md5'):
         click.echo(f"Output: {output_path}")
         click.echo(f"MD5:    {result['output_md5']}")
+
+    # Deploy to nginx if requested
+    if deploy and not dry_run and result.get('output_md5'):
+        from lib.env import NGINX_PATH
+        from lib.patch_register import load_register, save_register, update_exe_entry
+
+        exe_file = Path(output_path)
+        deploy_path = NGINX_PATH / 'mandatory' / 'Wow.exe'
+        backup_dir = NGINX_PATH / 'backup'
+
+        click.echo()
+
+        # Backup existing
+        if deploy_path.exists():
+            backup_dir.mkdir(exist_ok=True)
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            backup_path = backup_dir / f'Wow.exe.{timestamp}'
+            shutil.copy2(deploy_path, backup_path)
+            click.echo(click.style(f"  Backed up existing exe to {backup_path.name}", fg='cyan'))
+
+        # Copy patched exe to nginx
+        deploy_path.parent.mkdir(exist_ok=True)
+        shutil.copy2(exe_file, deploy_path)
+        size_mb = deploy_path.stat().st_size / (1024 * 1024)
+        click.echo(click.style(f"  Deployed to {deploy_path} ({size_mb:.1f} MB)", fg='green'))
+
+        # Update patch register
+        register = load_register(NGINX_PATH)
+        entry = update_exe_entry(register, deploy_path)
+        save_register(register, NGINX_PATH)
+        click.echo(click.style(f"  Updated patch register: Wow.exe v{entry['version']}", fg='green'))
+
+    elif deploy and dry_run:
+        click.echo()
+        click.echo("[DRY RUN] Would deploy patched exe to nginx/mandatory/Wow.exe")

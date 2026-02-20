@@ -61,11 +61,15 @@ def load_tier_sets(config_path):
 
 def get_slot_positions(dbc_cursor):
     """
-    Map inventory_type to slot position per outfit entry.
+    Map inventory_type to slot position per outfit entry (real items only).
 
     The charstartoutfit slots are positional (1-24), not fixed by type.
-    This reads each entry's inventory_type_1..24 to find which position
-    holds each armor type.
+    This reads each entry's item_1..24 and inventory_type_1..24 to find
+    which position holds each armor type.
+
+    Only returns positions for slots with real items (item > 0).
+    Display-only entries (item=-1, invtype>0) from previous tier applies
+    are excluded so they get properly regenerated with all three fields.
 
     Args:
         dbc_cursor: Database cursor for dbc database
@@ -73,14 +77,10 @@ def get_slot_positions(dbc_cursor):
     Returns:
         dict: {outfit_id: {invtype_name: slot_number, ...}, ...}
     """
-    dbc_cursor.execute("""
-        SELECT id,
-               inventory_type_1, inventory_type_2, inventory_type_3, inventory_type_4,
-               inventory_type_5, inventory_type_6, inventory_type_7, inventory_type_8,
-               inventory_type_9, inventory_type_10, inventory_type_11, inventory_type_12,
-               inventory_type_13, inventory_type_14, inventory_type_15, inventory_type_16,
-               inventory_type_17, inventory_type_18, inventory_type_19, inventory_type_20,
-               inventory_type_21, inventory_type_22, inventory_type_23, inventory_type_24
+    item_cols = ', '.join(f'item_{i}' for i in range(1, 25))
+    invtype_cols = ', '.join(f'inventory_type_{i}' for i in range(1, 25))
+    dbc_cursor.execute(f"""
+        SELECT id, {item_cols}, {invtype_cols}
         FROM charstartoutfit
         ORDER BY id
     """)
@@ -88,11 +88,15 @@ def get_slot_positions(dbc_cursor):
     slot_map = {}
     for row in dbc_cursor.fetchall():
         outfit_id = row[0]
-        inv_types = row[1:25]
+        items = row[1:25]
+        inv_types = row[25:49]
 
         positions = {}
-        for slot_idx, inv_type in enumerate(inv_types, 1):
-            if inv_type is None:
+        for slot_idx, (item, inv_type) in enumerate(zip(items, inv_types), 1):
+            if inv_type is None or inv_type <= 0:
+                continue
+            # Skip display-only entries (no real item)
+            if item is None or item <= 0:
                 continue
 
             # Map inventory type to slot name
@@ -125,10 +129,14 @@ def get_slot_positions(dbc_cursor):
 
 
 def _find_empty_slots(dbc_cursor, outfit_id):
-    """Find empty slot positions (item=-1, invtype=-1) for an outfit entry.
+    """Find available slot positions for display-only entries.
+
+    Returns slots that are either truly empty (item=-1, invtype=-1) or
+    display-only from a previous tier apply (item=-1, invtype>0).
+    Both types are available for (re)use by new tier entries.
 
     Returns:
-        list: Slot numbers (1-24) that are empty and available.
+        list: Slot numbers (1-24) that are available.
     """
     fields = ', '.join(f'item_{i}, inventory_type_{i}' for i in range(1, 25))
     dbc_cursor.execute(f"SELECT {fields} FROM charstartoutfit WHERE id = %s", (outfit_id,))
@@ -140,7 +148,11 @@ def _find_empty_slots(dbc_cursor, outfit_id):
     for i in range(24):
         item_val = row[i * 2]
         invtype_val = row[i * 2 + 1]
+        # Truly empty slots
         if (item_val is None or item_val == -1) and (invtype_val is None or invtype_val == -1):
+            empty.append(i + 1)
+        # Display-only entries from previous tier apply (available for reuse)
+        elif (item_val is not None and item_val == -1) and (invtype_val is not None and invtype_val > 0):
             empty.append(i + 1)
     return empty
 
