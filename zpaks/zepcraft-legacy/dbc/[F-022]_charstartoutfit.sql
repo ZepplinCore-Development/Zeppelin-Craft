@@ -65,3 +65,11 @@ UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `race` = 11 AND `class
 UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `race` = 11 AND `class` = 3 AND `gender` = 1 AND `outfit_id` = 0;
 UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `race` = 11 AND `class` = 7 AND `gender` = 0 AND `outfit_id` = 0;
 UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `race` = 11 AND `class` = 7 AND `gender` = 1 AND `outfit_id` = 0;
+
+UPDATE charstartoutfit SET item_1 = 49510, inventory_type_1 = 20, display_item_1 = 65789 WHERE id = 508;
+
+UPDATE charstartoutfit SET item_1 = 49510, inventory_type_1 = 20, display_item_1 = 65789 WHERE id = 509;
+
+UPDATE charstartoutfit SET item_9 = 49508, inventory_type_9 = 8, display_item_9 = 9929 WHERE id IN (514, 515);
+
+UPDATE charstartoutfit SET item_5 = 49406, inventory_type_5 = 8, display_item_5 = 62568 WHERE id IN (538, 539);

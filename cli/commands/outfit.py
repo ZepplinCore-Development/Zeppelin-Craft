@@ -202,7 +202,10 @@ def check():
     Example:
         zep outfit check
     """
-    from lib.outfit.stock_comparator import compare_to_stock, format_stock_comparison
+    from lib.outfit.stock_comparator import (
+        compare_to_stock, format_stock_comparison,
+        check_essential_items, format_essential_items_report,
+    )
 
     try:
         original_dbc_conn = _get_dbc_connection('original_dbc')
@@ -216,18 +219,31 @@ def check():
     acore_cursor = acore_conn.cursor()
 
     try:
+        # Stock WOTLK comparison (races with original_dbc data)
         differences = compare_to_stock(dbc_cursor, original_dbc_cursor, acore_cursor)
 
         if differences:
-            # Print detailed report
             click.echo(format_stock_comparison(differences))
 
-            # Write log file
             log_dir = str(_cli_dir / 'logs')
             os.makedirs(log_dir, exist_ok=True)
             log_path = os.path.join(log_dir, 'stock_slot_comparison.log')
             with open(log_path, 'w') as f:
                 f.write(format_stock_comparison(differences))
+            click.echo(f"+ Log written to {log_path}")
+
+        # Essential items check (ALL races including custom)
+        click.echo()
+        problems = check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor)
+        report = format_essential_items_report(problems)
+        click.echo(report)
+
+        if problems:
+            log_dir = str(_cli_dir / 'logs')
+            os.makedirs(log_dir, exist_ok=True)
+            log_path = os.path.join(log_dir, 'essential_items_check.log')
+            with open(log_path, 'w') as f:
+                f.write(report)
             click.echo(f"+ Log written to {log_path}")
     finally:
         original_dbc_conn.close()

@@ -688,13 +688,9 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
                     stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
                     canonical_slots[skill_id] = stock_weapon['slot']
 
-        # Fallback canonical slots for races without stock WOTLK data (Goblins, Worgen)
-        if not canonical_slots:
-            # Caster canonical slots (based on analysis: Priests/Mages/Warlocks all use slot 4)
-            if 136 in available_skill_ids:  # Staves
-                canonical_slots[136] = 4
-            if 228 in available_skill_ids:  # Wands
-                canonical_slots[228] = 4
+        # For races without stock WOTLK data (Goblins, Worgen), do NOT create
+        # fallback canonical slots. The module author chose the slot positions,
+        # and forcing weapons to a different slot destroys other items there.
 
         # Track what weapons this outfit will have after fixes
         outfit_weapons = {}  # slot_idx -> (skill_id, item_id)

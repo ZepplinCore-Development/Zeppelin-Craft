@@ -857,25 +857,43 @@ def collect_dbc_sources(craft_root: Path) -> List[Tuple[int, str, Path, List[Pat
               help='Preview without applying')
 @click.option('--force', '-f', is_flag=True,
               help='Skip confirmation prompt')
+@click.option('--table', '-t', default=None,
+              help='Rebuild only a specific table (e.g. charstartoutfit)')
 @click.pass_context
-def dbc_rebuild(ctx, dry_run: bool, force: bool):
+def dbc_rebuild(ctx, dry_run: bool, force: bool, table: str):
     """Rebuild DBC database from zpak sources.
 
     Resets live and expected databases from original_dbc, then applies
     all enabled zpak DBC sources in priority order. Also resets the
     file tracking table so --changed starts fresh.
 
+    Use --table to rebuild a single table without touching anything else.
+
     Examples:
         zep dbc rebuild --dry-run   # Preview what would be applied
         zep dbc rebuild             # Rebuild databases
         zep dbc rebuild --force     # Skip confirmation
+        zep dbc rebuild -t charstartoutfit  # Rebuild one table only
     """
     import time
 
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
 
-    click.echo(click.style(f"DBC Rebuild{' (DRY RUN)' if dry_run else ''}", bold=True))
+    # Helper: check if a SQL filename targets a specific table
+    def sql_file_matches_table(sql_path: Path, target_table: str) -> bool:
+        """Check if a zpak SQL file targets the given table.
+
+        Matches patterns like:
+            [BASE,F-030]_charstartoutfit.sql
+            [F-022]_charstartoutfit.sql
+            charstartoutfit.sql
+        """
+        stem = sql_path.stem  # filename without .sql
+        return stem == target_table or stem.endswith(f'_{target_table}')
+
+    mode_label = f"Table: {table}" if table else "Full"
+    click.echo(click.style(f"DBC Rebuild ({mode_label}){' (DRY RUN)' if dry_run else ''}", bold=True))
     click.echo()
 
     # Safety check
@@ -886,10 +904,12 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
 
             if not result["identical"]:
                 click.echo(click.style("  Uncommitted changes detected:", fg='yellow'))
-                for table, count1, count2, _, _ in result["tables_with_differences"]:
+                for tbl, count1, count2, _, _ in result["tables_with_differences"]:
+                    if table and tbl != table:
+                        continue  # Only show relevant table in single-table mode
                     diff = count1 - count2
                     sign = "+" if diff > 0 else ""
-                    click.echo(f"    {table}: {sign}{diff} rows")
+                    click.echo(f"    {tbl}: {sign}{diff} rows")
 
                 if not dry_run and not force:
                     if not click.confirm("\nThese changes will be LOST. Continue?"):
@@ -901,17 +921,29 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
     except Exception as e:
         raise click.ClickException(f"Safety check failed: {e}")
 
-    # Collect sources
+    # Collect sources, filtering by table if specified
     sources = collect_dbc_sources(craft_root)
 
+    if table:
+        # Filter each source's sql_files to only those matching the table
+        filtered = []
+        for priority, name, dbc_path, sql_files in sources:
+            matching = [f for f in sql_files if sql_file_matches_table(f, table)]
+            if matching:
+                filtered.append((priority, name, dbc_path, matching))
+        sources = filtered
+
     if not sources:
-        click.echo(click.style("\nNo enabled DBC sources found", fg='yellow'))
+        msg = f"No enabled DBC sources found" + (f" for table '{table}'" if table else "")
+        click.echo(click.style(f"\n{msg}", fg='yellow'))
         return
 
     click.echo(f"\nStep 1: Sources to apply ({len(sources)}):")
     total_files = 0
     for priority, name, dbc_path, sql_files in sources:
         click.echo(f"  [{priority:3}] {name} ({len(sql_files)} files)")
+        for sf in sql_files:
+            click.echo(f"          {sf.name}")
         total_files += len(sql_files)
 
     if dry_run:
@@ -919,43 +951,53 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
         return
 
     # Reset from original
-    click.echo(f"\nStep 2: Resetting {config.live} from {config.original}...")
-
-    try:
-        with DBCConnection(config) as db_conn:
-            orig_conn = db_conn.get_connection(config.original)
-            live_conn = db_conn.get_connection(config.live)
-
-            tables = get_tables(orig_conn)
-
-            live_cursor = live_conn.cursor()
-            # Disable foreign key checks for table recreation
-            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-
-            for table in tables:
-                # Skip internal tables but preserve tracking table
-                if table.startswith("dbc_") or table == "zep_dbc_updates":
-                    continue
-                click.echo(f"  Copying {table}...", nl=False)
-                # Drop and recreate table to ensure matching schema
-                live_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
-                live_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.original}`.`{table}`")
+    if table:
+        click.echo(f"\nStep 2: Resetting {table} in {config.live} from {config.original}...")
+        try:
+            with DBCConnection(config) as db_conn:
+                live_conn = db_conn.get_connection(config.live)
+                live_cursor = live_conn.cursor()
+                live_cursor.execute(f"DELETE FROM `{table}`")
                 live_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.original}`.`{table}`")
-                click.echo(" OK")
+                live_conn.commit()
+                live_cursor.close()
+                click.echo(click.style(f"  {table}: reset OK", fg='green'))
+        except Exception as e:
+            raise click.ClickException(f"Reset failed: {e}")
+    else:
+        click.echo(f"\nStep 2: Resetting {config.live} from {config.original}...")
+        try:
+            with DBCConnection(config) as db_conn:
+                orig_conn = db_conn.get_connection(config.original)
+                live_conn = db_conn.get_connection(config.live)
 
-            live_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
-            live_conn.commit()
-            live_cursor.close()
+                tables = get_tables(orig_conn)
 
-    except Exception as e:
-        raise click.ClickException(f"Reset failed: {e}")
+                live_cursor = live_conn.cursor()
+                live_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-    click.echo(click.style("  Reset complete", fg='green'))
+                for tbl in tables:
+                    if tbl.startswith("dbc_") or tbl == "zep_dbc_updates":
+                        continue
+                    click.echo(f"  Copying {tbl}...", nl=False)
+                    live_cursor.execute(f"DROP TABLE IF EXISTS `{tbl}`")
+                    live_cursor.execute(f"CREATE TABLE `{tbl}` LIKE `{config.original}`.`{tbl}`")
+                    live_cursor.execute(f"INSERT INTO `{tbl}` SELECT * FROM `{config.original}`.`{tbl}`")
+                    click.echo(" OK")
 
-    # Clear and recreate tracking table
-    click.echo("  Resetting file tracking...")
-    ensure_dbc_tracking_table(config)
-    clear_dbc_tracking(config)
+                live_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                live_conn.commit()
+                live_cursor.close()
+
+        except Exception as e:
+            raise click.ClickException(f"Reset failed: {e}")
+
+        click.echo(click.style("  Reset complete", fg='green'))
+
+        # Only reset tracking for full rebuilds
+        click.echo("  Resetting file tracking...")
+        ensure_dbc_tracking_table(config)
+        clear_dbc_tracking(config)
 
     # Apply sources with tracking
     click.echo(f"\nStep 3: Applying sources...")
@@ -975,7 +1017,6 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
                     success, output = run_sql(sql, config, config.live)
                     exec_ms = int((time.time() - start_time) * 1000)
 
-                    # Show relative path from dbc_path for readability
                     rel_path = sql_file.relative_to(dbc_path)
                     if not success:
                         errors.append((name, str(rel_path), output))
@@ -984,7 +1025,6 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
                         click.echo(f"    {rel_path}: OK ({exec_ms}ms)")
                         applied_count += 1
 
-                        # Track the applied file
                         file_hash = calculate_file_hash(sql_file)
                         update_dbc_tracking(config, sql_file.name, file_hash, name, exec_ms)
 
@@ -1001,33 +1041,39 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool):
             live_conn = db_conn.get_connection(config.live)
             expected_conn = db_conn.get_connection(config.expected)
 
-            tables = get_tables(live_conn)
-
-            expected_cursor = expected_conn.cursor()
-            # Disable foreign key checks for table recreation
-            expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-
-            for table in tables:
-                # Skip internal tables
-                if table.startswith("dbc_") or table == "zep_dbc_updates":
-                    continue
-                # Drop and recreate table to ensure matching schema
-                expected_cursor.execute(f"DROP TABLE IF EXISTS `{table}`")
-                expected_cursor.execute(f"CREATE TABLE `{table}` LIKE `{config.live}`.`{table}`")
+            if table:
+                # Single table sync
+                expected_cursor = expected_conn.cursor()
+                expected_cursor.execute(f"DELETE FROM `{table}`")
                 expected_cursor.execute(f"INSERT INTO `{table}` SELECT * FROM `{config.live}`.`{table}`")
+                expected_conn.commit()
+                expected_cursor.close()
+            else:
+                # Full sync
+                tables = get_tables(live_conn)
+                expected_cursor = expected_conn.cursor()
+                expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-            expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
-            expected_conn.commit()
-            expected_cursor.close()
+                for tbl in tables:
+                    if tbl.startswith("dbc_") or tbl == "zep_dbc_updates":
+                        continue
+                    expected_cursor.execute(f"DROP TABLE IF EXISTS `{tbl}`")
+                    expected_cursor.execute(f"CREATE TABLE `{tbl}` LIKE `{config.live}`.`{tbl}`")
+                    expected_cursor.execute(f"INSERT INTO `{tbl}` SELECT * FROM `{config.live}`.`{tbl}`")
+
+                expected_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+                expected_conn.commit()
+                expected_cursor.close()
 
     except Exception as e:
         raise click.ClickException(f"Update expected failed: {e}")
 
     click.echo(click.style("  Expected state updated", fg='green'))
 
-    # Step 5: Regenerate spell_editor views
-    click.echo(f"\nStep 5: Spell Editor compatibility...")
-    regenerate_spell_editor_views()
+    # Step 5: Regenerate spell_editor views (skip for single-table rebuilds)
+    if not table:
+        click.echo(f"\nStep 5: Spell Editor compatibility...")
+        regenerate_spell_editor_views()
 
     # Summary
     click.echo()

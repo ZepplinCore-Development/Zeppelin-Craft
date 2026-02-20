@@ -222,6 +222,176 @@ def format_stock_comparison(differences):
     return '\n'.join(lines)
 
 
+def _get_equipped_types(items, item_invtypes):
+    """Get the set of InventoryType values for real items in an outfit."""
+    equipped = set()
+    for item_id in items:
+        if item_id and item_id > 0 and item_id != 6948:
+            inv_type = item_invtypes.get(item_id)
+            if inv_type is not None:
+                equipped.add(inv_type)
+    return equipped
+
+
+def check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor):
+    """
+    Verify every outfit has essential clothing: shirt/chest/robe, pants, and boots.
+
+    Scans ALL outfits (including custom races like Goblin/Worgen) and checks
+    that each has at least one real item (item > 0) providing body, legs, and
+    feet coverage. Uses stock WOTLK data as reference — if a stock outfit also
+    lacks an item type (e.g. Tauren have no boots), it's flagged as expected
+    rather than a problem.
+
+    Args:
+        dbc_cursor: Cursor for current dbc database
+        original_dbc_cursor: Cursor for original_dbc (stock WOTLK reference)
+        acore_cursor: Cursor for acore_world (item_template lookups)
+
+    Returns:
+        list of dicts with: outfit_id, race, class_id, gender, missing (list of str)
+    """
+    # Essential inventory types
+    ESSENTIAL_CHECKS = {
+        'Shirt/Chest/Robe': {4, 5, 20},
+        'Legs': {7},
+        'Feet': {8},
+    }
+
+    # Query ALL outfits (no race filter) and stock outfits
+    item_cols = ', '.join(f'item_{i}' for i in range(1, 25))
+    dbc_cursor.execute(f"""
+        SELECT id, race, class, gender, {item_cols}
+        FROM charstartoutfit
+        ORDER BY race, class, gender
+    """)
+    current_rows = dbc_cursor.fetchall()
+
+    original_dbc_cursor.execute(f"""
+        SELECT id, race, class, gender, {item_cols}
+        FROM charstartoutfit
+        ORDER BY race, class, gender
+    """)
+    stock_rows = original_dbc_cursor.fetchall()
+
+    # Collect all real item IDs for batch lookup (from both current and stock)
+    all_item_ids = set()
+    for row in list(current_rows) + list(stock_rows):
+        for item_id in row[4:28]:
+            if item_id and item_id > 0 and item_id != 6948:
+                all_item_ids.add(item_id)
+
+    # Batch lookup InventoryType from item_template
+    item_invtypes = {}
+    if all_item_ids:
+        placeholders = ','.join(['%s'] * len(all_item_ids))
+        acore_cursor.execute(f"""
+            SELECT entry, InventoryType FROM item_template
+            WHERE entry IN ({placeholders})
+        """, tuple(all_item_ids))
+        for entry, inv_type in acore_cursor.fetchall():
+            item_invtypes[entry] = inv_type
+
+    # Build stock reference: what types does stock WOTLK have per (race, class)?
+    # Use gender=0 as reference since male/female have same item types
+    stock_types = {}
+    for row in stock_rows:
+        key = (row[1], row[2])  # race, class
+        if key not in stock_types:
+            stock_types[key] = _get_equipped_types(row[4:28], item_invtypes)
+
+    # Check each outfit
+    problems = []
+    for row in current_rows:
+        outfit_id, race_id, class_id, gender = row[0], row[1], row[2], row[3]
+
+        # Skip Death Knights — they have full gear from DK starting zone
+        if class_id == 6:
+            continue
+
+        equipped = _get_equipped_types(row[4:28], item_invtypes)
+        stock_key = (race_id, class_id)
+        stock_equipped = stock_types.get(stock_key)
+
+        missing = []
+        for label, required_types in ESSENTIAL_CHECKS.items():
+            if not equipped & required_types:
+                # Missing in current — check if stock also lacks it
+                if stock_equipped is not None and not stock_equipped & required_types:
+                    continue  # Expected: stock WOTLK also missing this type
+                missing.append(label)
+
+        if missing:
+            has_stock = stock_equipped is not None
+            problems.append({
+                'outfit_id': outfit_id,
+                'race': race_id,
+                'race_name': RACE_NAMES.get(race_id, f'Race {race_id}'),
+                'class_id': class_id,
+                'class_name': CLASS_NAMES.get(class_id, f'Class {class_id}'),
+                'gender': gender,
+                'gender_name': GENDER_NAMES.get(gender, f'Gender {gender}'),
+                'missing': missing,
+                'has_stock_ref': has_stock,
+            })
+
+    return problems
+
+
+def format_essential_items_report(problems):
+    """Format essential items check results into a human-readable string."""
+    lines = []
+    lines.append("=" * 80)
+    lines.append("ESSENTIAL ITEMS CHECK")
+    lines.append("=" * 80)
+    lines.append("Verifies every outfit has: Shirt/Chest/Robe, Legs, Feet")
+    lines.append("(Skips items missing in stock WOTLK too, e.g. barefoot Tauren)")
+    lines.append("")
+
+    if not problems:
+        lines.append("All outfits have essential clothing!")
+        return '\n'.join(lines)
+
+    # Split into stock-referenced (real problems) and no-reference (informational)
+    real_problems = [p for p in problems if p['has_stock_ref']]
+    no_ref_problems = [p for p in problems if not p['has_stock_ref']]
+
+    if real_problems:
+        lines.append(f"PROBLEMS: {len(real_problems)} outfit(s) missing items that stock WOTLK has:")
+        lines.append("")
+        for p in real_problems:
+            label = f"{p['race_name']} {p['class_name']} ({p['gender_name']}) [id={p['outfit_id']}]"
+            missing_str = ', '.join(p['missing'])
+            lines.append(f"  {label}")
+            lines.append(f"    Missing: {missing_str}")
+        lines.append("")
+
+    if no_ref_problems:
+        # Group by (race, class, missing) to collapse male/female
+        grouped = {}
+        for p in no_ref_problems:
+            key = (p['race'], p['class_id'], tuple(p['missing']))
+            if key not in grouped:
+                grouped[key] = p
+                grouped[key]['ids'] = [p['outfit_id']]
+            else:
+                grouped[key]['ids'].append(p['outfit_id'])
+
+        lines.append(f"INFO: {len(grouped)} custom race/class combo(s) missing items (no stock baseline):")
+        lines.append("")
+        for key, p in sorted(grouped.items()):
+            ids_str = ', '.join(str(i) for i in p['ids'])
+            missing_str = ', '.join(p['missing'])
+            lines.append(f"  {p['race_name']} {p['class_name']} [ids={ids_str}] — Missing: {missing_str}")
+        lines.append("")
+
+    if not real_problems:
+        lines.append("No unexpected problems found (all gaps match stock WOTLK or are custom combos).")
+        lines.append("")
+
+    return '\n'.join(lines)
+
+
 def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor):
     """
     Reset item and inventory_type slots to stock WOTLK values.
