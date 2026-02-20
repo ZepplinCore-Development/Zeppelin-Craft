@@ -1,4 +1,4 @@
-From a7a324811d81877a571c7be6ac95f94c5cf454b9 Mon Sep 17 00:00:00 2001
+From fd773543c8257f0120c9112916c4217b27581c4a Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 15 Feb 2026 10:16:23 +0000
 Subject: [PATCH] feat: Add Weak Flux to allowed items (F-020)

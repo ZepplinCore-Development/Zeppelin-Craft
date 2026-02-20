@@ -1,4 +1,4 @@
-From f3db848319658f3587b8f3856ed0e9c298084b33 Mon Sep 17 00:00:00 2001
+From 9cef5b312c8c673b7f098aa0147acab5c95ef128 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:51:51 +0000
 Subject: [PATCH] F-032: Add engineering to gathering skill level ups
@@ -12,7 +12,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
-index 5c95b6584..1334eb586 100644
+index 935ed65b6..d332c6d9e 100644
 --- a/src/server/game/Entities/Player/PlayerUpdates.cpp
 +++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
 @@ -794,6 +794,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,

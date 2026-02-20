@@ -1,66 +1,27 @@
-From 6bbee8579bc7171f762949ff95fd0ac8cceba585 Mon Sep 17 00:00:00 2001
+From 23c01e85c86bdaa4dddfc52b5f61ab8f274cd30c Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Fri, 30 Jan 2026 10:56:00 +0000
+Date: Fri, 20 Feb 2026 13:15:33 +0000
 Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
  Attunement
 
 Marks SPELL_AURA_MANA_SHIELD as positive effect alongside MOD_STEALTH.
 Fixes mana shield being treated as negative in certain proc checks.
 
-Adds HandleDummyAuraProc case for Magical Attunement (91056) which
-triggers mana restoration (91055) based on healing received.
+Adds AuraScript handler for Magical Attunement (91056) which triggers
+mana restoration (91055) based on percentage of healing received.
+Migrated from old HandleDummyAuraProc switch to new proc system.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/game/Entities/Unit/Unit.cpp | 29 ++++++++++++++++++++++++++
- src/server/game/Spells/SpellInfo.cpp   |  2 +-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ src/server/game/Spells/SpellInfo.cpp     |  2 +-
+ src/server/scripts/Spells/spell_mage.cpp | 50 +++++++++++++++++++++++-
+ 2 files changed, 50 insertions(+), 2 deletions(-)
 
-diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index f37d493ec..26a1702a3 100644
---- a/src/server/game/Entities/Unit/Unit.cpp
-+++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -7337,6 +7337,35 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
-                 }
-                 switch (dummySpell->Id)
-                 {
-+                    // Magical Attunement
-+                    case 91056:
-+                        {
-+                            // dont allow non-positive dots to proc
-+                            if (!procSpell || !procSpell->IsPositive())
-+                                return false;
-+
-+                            //if healed by another unit (victim)
-+                            //if (this == victim)
-+                            //    return false;
-+
-+                            HealInfo const* healInfo = eventInfo.GetHealInfo();
-+                            if (!healInfo)
-+                            {
-+                                return false;
-+                            }
-+
-+                            uint32 effectiveHeal = healInfo->GetEffectiveHeal();
-+                            if (effectiveHeal)
-+                            {
-+                                // heal amount
-+                                basepoints0 = int32(CalculatePct(effectiveHeal, triggerAmount));
-+                                target = this;
-+
-+                                if (basepoints0)
-+                                    triggered_spell_id = 91055;
-+                            }
-+                            break;
-+                        }
-                     // Glyph of Polymorph
-                     case 56375:
-                         {
 diff --git a/src/server/game/Spells/SpellInfo.cpp b/src/server/game/Spells/SpellInfo.cpp
-index 74b89e99b..d982eb168 100644
+index 209a54923..8606415a1 100644
 --- a/src/server/game/Spells/SpellInfo.cpp
 +++ b/src/server/game/Spells/SpellInfo.cpp
-@@ -2534,7 +2534,7 @@ bool SpellInfo::_IsPositiveEffect(uint8 effIndex, bool deep) const
+@@ -2533,7 +2533,7 @@ bool SpellInfo::_IsPositiveEffect(uint8 effIndex, bool deep) const
      // Special case: effects which determine positivity of whole spell
      for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
      {
@@ -69,6 +30,79 @@ index 74b89e99b..d982eb168 100644
              return true;
      }
  
+diff --git a/src/server/scripts/Spells/spell_mage.cpp b/src/server/scripts/Spells/spell_mage.cpp
+index 11b2f4bbf..c9b2b6ee0 100644
+--- a/src/server/scripts/Spells/spell_mage.cpp
++++ b/src/server/scripts/Spells/spell_mage.cpp
+@@ -70,7 +70,9 @@ enum MageSpells
+     SPELL_MAGE_CHILLED_R2                        = 12485,
+     SPELL_MAGE_CHILLED_R3                        = 12486,
+     SPELL_MAGE_MANA_SURGE                        = 37445,
+-    SPELL_MAGE_FROST_NOVA                        = 122
++    SPELL_MAGE_FROST_NOVA                        = 122,
++    SPELL_MAGE_MAGICAL_ATTUNEMENT                = 91056,
++    SPELL_MAGE_MAGICAL_ATTUNEMENT_MANA           = 91055
+ };
+ 
+ enum MageSpellIcons
+@@ -1542,6 +1544,51 @@ class spell_mage_missile_barrage_proc : public AuraScript
+     }
+ };
+ 
++// 91056 - Magical Attunement
++class spell_mage_magical_attunement : public AuraScript
++{
++    PrepareAuraScript(spell_mage_magical_attunement);
++
++    bool Validate(SpellInfo const* /*spellInfo*/) override
++    {
++        return ValidateSpellInfo({ SPELL_MAGE_MAGICAL_ATTUNEMENT_MANA });
++    }
++
++    bool CheckProc(ProcEventInfo& eventInfo)
++    {
++        SpellInfo const* spellInfo = eventInfo.GetSpellInfo();
++        if (!spellInfo || !spellInfo->IsPositive())
++            return false;
++
++        HealInfo const* healInfo = eventInfo.GetHealInfo();
++        return healInfo && healInfo->GetEffectiveHeal() > 0;
++    }
++
++    void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
++    {
++        PreventDefaultAction();
++
++        HealInfo const* healInfo = eventInfo.GetHealInfo();
++        if (!healInfo)
++            return;
++
++        uint32 effectiveHeal = healInfo->GetEffectiveHeal();
++        if (!effectiveHeal)
++            return;
++
++        int32 mana = int32(CalculatePct(effectiveHeal, aurEff->GetAmount()));
++        if (mana > 0)
++            GetTarget()->CastCustomSpell(SPELL_MAGE_MAGICAL_ATTUNEMENT_MANA,
++                SPELLVALUE_BASE_POINT0, mana, GetTarget(), true, nullptr, aurEff);
++    }
++
++    void Register() override
++    {
++        DoCheckProc += AuraCheckProcFn(spell_mage_magical_attunement::CheckProc);
++        OnEffectProc += AuraEffectProcFn(spell_mage_magical_attunement::HandleProc, EFFECT_0, SPELL_AURA_DUMMY);
++    }
++};
++
+ void AddSC_mage_spell_scripts()
+ {
+     RegisterSpellScript(spell_mage_arcane_blast);
+@@ -1584,4 +1631,5 @@ void AddSC_mage_spell_scripts()
+     RegisterSpellScript(spell_mage_summon_water_elemental);
+     RegisterSpellScript(spell_mage_fingers_of_frost);
+     RegisterSpellScript(spell_mage_magic_absorption);
++    RegisterSpellScript(spell_mage_magical_attunement);
+ }
 -- 
 2.34.1
 

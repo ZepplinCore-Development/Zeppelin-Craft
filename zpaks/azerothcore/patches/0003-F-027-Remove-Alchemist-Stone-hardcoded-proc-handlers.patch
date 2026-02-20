@@ -1,65 +1,37 @@
-From 557b2acb79d764bd5847c969f832dd7a26396cab Mon Sep 17 00:00:00 2001
+From 9343b1cca2a69e187eb467e9857f4097c4053cba Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Fri, 30 Jan 2026 11:04:14 +0000
+Date: Fri, 20 Feb 2026 13:16:21 +0000
 Subject: [PATCH] F-027: Remove Alchemist Stone hardcoded proc handlers
 
 Migrated Alchemist's Stone (17619) from server-side scripting to
-DBC-based ADD_PCT_MODIFIER aura. Removed SPELLFAMILY_POTION proc
-handler and spell_item_fel_mana_potion script. Triggered spells
-21399/21400 no longer needed - 40% bonus now applied via spell effect.
+DBC-based ADD_PCT_MODIFIER aura. Removed AlchemistStone enum,
+FelManaPotion enum, spell_item_fel_mana_potion class, and
+spell_item_alchemists_stone class. The 40% potion bonus is now
+handled entirely through DBC spell effects.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/game/Entities/Unit/Unit.cpp   | 30 ++-------------------
- src/server/scripts/Spells/spell_item.cpp | 34 +++---------------------
- 2 files changed, 5 insertions(+), 59 deletions(-)
+ src/server/scripts/Spells/spell_item.cpp | 84 ------------------------
+ 1 file changed, 84 deletions(-)
 
-diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 26a1702a3..ef9798d2c 100644
---- a/src/server/game/Entities/Unit/Unit.cpp
-+++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -8887,34 +8887,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, AuraEffect* triggere
-                 }
-                 break;
-             }
--        case SPELLFAMILY_POTION:
--            {
--                // alchemist's stone
--                if (dummySpell->Id == 17619)
--                {
--                    if (procSpell->SpellFamilyName == SPELLFAMILY_POTION)
--                    {
--                        for (uint8 i = 0; i < MAX_SPELL_EFFECTS; i++)
--                        {
--                            if (procSpell->Effects[i].Effect == SPELL_EFFECT_HEAL)
--                            {
--                                triggered_spell_id = 21399;
--                            }
--                            else if (procSpell->Effects[i].Effect == SPELL_EFFECT_ENERGIZE)
--                            {
--                                triggered_spell_id = 21400;
--                            }
--                            else
--                                continue;
--
--                            basepoints0 = int32(CalculateSpellDamage(this, procSpell, i) * 0.4f);
--                            CastCustomSpell(this, triggered_spell_id, &basepoints0, nullptr, nullptr, true, nullptr, triggeredByAura);
--                        }
--                        return true;
--                    }
--                }
--                break;
--            }
-+        // F-027: Removed SPELLFAMILY_POTION case - Alchemist's Stone (17619) now uses
-+        // ADD_PCT_MODIFIER aura instead of proc handler. Triggered spells 21399/21400 deprecated.
-         case SPELLFAMILY_PET:
-             {
-                 switch (dummySpell->SpellIconID)
 diff --git a/src/server/scripts/Spells/spell_item.cpp b/src/server/scripts/Spells/spell_item.cpp
-index d3fcc55b9..560ed53ec 100644
+index f2d237eda..65bae276a 100644
 --- a/src/server/scripts/Spells/spell_item.cpp
 +++ b/src/server/scripts/Spells/spell_item.cpp
-@@ -4076,36 +4076,8 @@ class spell_item_eye_of_grillok_aura : public AuraScript
+@@ -39,12 +39,6 @@ enum MassiveSeaforiumCharge
+     ITEM_MASSIVE_SEAFORIUM_CHARGE = 39213,
+ };
+ 
+-enum AlchemistStone
+-{
+-    SPELL_ALCHEMISTS_STONE_EXTRA_HEAL       = 21399,
+-    SPELL_ALCHEMISTS_STONE_EXTRA_MANA       = 21400
+-};
+-
+ enum DarkmoonCardGreatness
+ {
+     SPELL_DARKMOON_CARD_STRENGTH            = 60229,
+@@ -4310,37 +4304,6 @@ class spell_item_eye_of_grillok_aura : public AuraScript
      }
  };
  
@@ -93,20 +65,78 @@ index d3fcc55b9..560ed53ec 100644
 -        OnEffectPeriodic += AuraEffectPeriodicFn(spell_item_fel_mana_potion::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_ENERGIZE);
 -    }
 -};
-+// F-027: Removed spell_item_fel_mana_potion - Alchemist's Stone (17619) now uses
-+// ADD_PCT_MODIFIER aura. Fel Mana spell (38929) tagged with mana potion flag.
- 
+-
  // 32578 - Gor'drek's Ointment
  enum DreksOintment
-@@ -4415,7 +4387,7 @@ void AddSC_item_spell_scripts()
+ {
+@@ -4527,51 +4490,6 @@ class spell_item_bloodsail_admiral_hat : public AuraScript
+     }
+ };
+ 
+-// 17619 - Alchemist's Stone
+-class spell_item_alchemists_stone : public AuraScript
+-{
+-    PrepareAuraScript(spell_item_alchemists_stone);
+-
+-    bool Validate(SpellInfo const* /*spellInfo*/) override
+-    {
+-        return ValidateSpellInfo({ SPELL_ALCHEMISTS_STONE_EXTRA_HEAL, SPELL_ALCHEMISTS_STONE_EXTRA_MANA });
+-    }
+-
+-    void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+-    {
+-        PreventDefaultAction();
+-        SpellInfo const* spellInfo = eventInfo.GetSpellInfo();
+-        if (!spellInfo)
+-            return;
+-
+-        Unit* caster = eventInfo.GetActionTarget();
+-        for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+-        {
+-            uint32 spellId;
+-            int32 bp0;
+-            switch (spellInfo->Effects[i].Effect)
+-            {
+-                case SPELL_EFFECT_HEAL:
+-                    spellId = SPELL_ALCHEMISTS_STONE_EXTRA_HEAL;
+-                    bp0 = CalculatePct(spellInfo->Effects[i].CalcValue(caster), 40);
+-                    break;
+-                case SPELL_EFFECT_ENERGIZE:
+-                    spellId = SPELL_ALCHEMISTS_STONE_EXTRA_MANA;
+-                    bp0 = CalculatePct(spellInfo->Effects[i].CalcValue(caster), 40);
+-                    break;
+-                default:
+-                    continue;
+-            }
+-            caster->CastCustomSpell(spellId, SPELLVALUE_BASE_POINT0, bp0, nullptr, true, nullptr, aurEff);
+-        }
+-    }
+-
+-    void Register() override
+-    {
+-        OnEffectProc += AuraEffectProcFn(spell_item_alchemists_stone::HandleProc, EFFECT_0, SPELL_AURA_DUMMY);
+-    }
+-};
+-
+ // 57345 - Darkmoon Card: Greatness
+ class spell_item_darkmoon_card_greatness : public AuraScript
+ {
+@@ -6313,7 +6231,6 @@ void AddSC_item_spell_scripts()
      RegisterSpellScript(spell_item_venomhide_feed);
      RegisterSpellScript(spell_item_scroll_of_retribution);
      RegisterSpellAndAuraScriptPair(spell_item_eye_of_grillok, spell_item_eye_of_grillok_aura);
 -    RegisterSpellScript(spell_item_fel_mana_potion);
-+    // F-027: Removed spell_item_fel_mana_potion registration
      RegisterSpellScript(spell_item_gor_dreks_ointment);
      RegisterSpellScript(spell_item_skyguard_blasting_charges);
      RegisterSpellScript(spell_item_luffa);
+@@ -6321,7 +6238,6 @@ void AddSC_item_spell_scripts()
+     RegisterSpellScript(spell_item_multiphase_goggles);
+     RegisterSpellScript(spell_item_bloodsail_admiral_hat);
+     RegisterSpellScript(spell_item_brewfest_hops);
+-    RegisterSpellScript(spell_item_alchemists_stone);
+     RegisterSpellScript(spell_item_darkmoon_card_greatness);
+     RegisterSpellScript(spell_item_death_choice);
+     RegisterSpellScriptWithArgs(spell_item_lightning_capacitor, "spell_item_lightning_capacitor");
 -- 
 2.34.1
 

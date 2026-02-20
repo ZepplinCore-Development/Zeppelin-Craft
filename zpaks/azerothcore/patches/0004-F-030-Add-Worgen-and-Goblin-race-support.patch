@@ -1,4 +1,4 @@
-From 7ef98c9ee7bfd6d5ee89ac0040075713c442a363 Mon Sep 17 00:00:00 2001
+From 3e6905d51c6284813fd49c7458a7326915d89e38 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:13:41 +0000
 Subject: [PATCH] F-030: Add Worgen and Goblin race support
@@ -19,13 +19,13 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index b67d88ffa..8dbd8f203 100644
+index 290b89419..92d6032fd 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -12352,6 +12352,11 @@ float Player::GetReputationPriceDiscount(Creature const* creature) const
- 
- float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemplate) const
+@@ -12347,6 +12347,11 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
  {
+     float discount = 1.0f;
+ 
 +    if (HasSpell(69044)) // 69044 = Best Deals Anywhere
 +    {
 +        return 0.8f;
@@ -33,9 +33,9 @@ index b67d88ffa..8dbd8f203 100644
 +
      if (!factionTemplate || !factionTemplate->faction)
      {
-         return 1.0f;
+         sScriptMgr->OnPlayerGetReputationPriceDiscount(this, factionTemplate, discount);
 diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
-index eeff0d3d6..4d079bc4e 100644
+index acc3e15d7..cf78a0d70 100644
 --- a/src/server/game/Handlers/CharacterHandler.cpp
 +++ b/src/server/game/Handlers/CharacterHandler.cpp
 @@ -2169,7 +2169,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
@@ -48,7 +48,7 @@ index eeff0d3d6..4d079bc4e 100644
              stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHAR_SKILL_LANGUAGE);
              stmt->SetData(0, lowGuid);
 diff --git a/src/server/shared/SharedDefines.h b/src/server/shared/SharedDefines.h
-index b5a979dea..7c4989c9d 100644
+index 31b1f84f7..3cf0ed3b7 100644
 --- a/src/server/shared/SharedDefines.h
 +++ b/src/server/shared/SharedDefines.h
 @@ -76,10 +76,11 @@ enum Races

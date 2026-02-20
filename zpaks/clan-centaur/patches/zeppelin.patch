@@ -1,4 +1,4 @@
-From adf3e347aa9b2eb3c1fd68412fccf344a1152871 Mon Sep 17 00:00:00 2001
+From 7d0e4fbf72af8651b0eca19093d26e55e09ec5d5 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 5 Feb 2026 13:15:45 +0000
 Subject: [PATCH] fix: Remove invalid StatsCount column from item_template

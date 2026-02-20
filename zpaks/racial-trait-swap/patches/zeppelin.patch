@@ -1,4 +1,4 @@
-From 8dff8954aa9090d8a81b64255b3d59879530edfa Mon Sep 17 00:00:00 2001
+From 640f061839bb3631f6bf41844479345085462278 Mon Sep 17 00:00:00 2001
 From: justurn <justurn@live.com>
 Date: Wed, 26 Mar 2025 19:34:14 +0800
 Subject: [PATCH 1/2] Update world.RTS.sql
@@ -210,214 +210,620 @@ index 48a80a1..2ef77b9 100644
 2.34.1
 
 
-From 484ce4112e3d0cd7de85e7ec18c454ff915bbc4a Mon Sep 17 00:00:00 2001
-From: justurn <justurn@live.com>
-Date: Wed, 26 Mar 2025 19:34:14 +0800
-Subject: [PATCH 2/2] Update world.RTS.sql
+From 6b1454525465a0a4981ac47a251a842f5018d03b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 15 Feb 2026 13:10:17 +0000
+Subject: [PATCH 2/2] fix: Persist racial swaps across logout (F-071)
 
+- Add character_racial_swap table to store player's selected race
+- Extract spell-learning into reusable ApplyRacialSpells() function
+- Save swap choice to DB on each gossip transaction
+- Restore swapped racials in OnPlayerLogin after core spell loading
+- Clean up persistence row if player swaps back to their own race
+
+Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- data/sql/db-world/base/world.RTS.sql | 131 +--------------------------
- 1 file changed, 1 insertion(+), 130 deletions(-)
+ .../sql/db-characters/base/characters.RTS.sql |   5 +
+ src/RacialTraitSwap.cpp                       | 478 ++++++++++--------
+ 2 files changed, 283 insertions(+), 200 deletions(-)
+ create mode 100644 data/sql/db-characters/base/characters.RTS.sql
 
-diff --git a/data/sql/db-world/base/world.RTS.sql b/data/sql/db-world/base/world.RTS.sql
-index 48a80a1..2ef77b9 100644
---- a/data/sql/db-world/base/world.RTS.sql
-+++ b/data/sql/db-world/base/world.RTS.sql
-@@ -1,6 +1,6 @@
- -- NPC ID 98888 Swirl
- SET @NAME := 'Swirl';
--SET @SUBNAME := 'AzerothCore Racial Traits Swapper';
-+SET @SUBNAME := 'Racial Traits Swapper';
- SET @DISPLAY_ID := 19646;
+diff --git a/data/sql/db-characters/base/characters.RTS.sql b/data/sql/db-characters/base/characters.RTS.sql
+new file mode 100644
+index 0000000..b2d73f5
+--- /dev/null
++++ b/data/sql/db-characters/base/characters.RTS.sql
+@@ -0,0 +1,5 @@
++CREATE TABLE IF NOT EXISTS `character_racial_swap` (
++    `guid` INT UNSIGNED NOT NULL,
++    `selected_race` TINYINT UNSIGNED NOT NULL DEFAULT 0,
++    PRIMARY KEY (`guid`)
++) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+diff --git a/src/RacialTraitSwap.cpp b/src/RacialTraitSwap.cpp
+index db59820..4145898 100644
+--- a/src/RacialTraitSwap.cpp
++++ b/src/RacialTraitSwap.cpp
+@@ -30,6 +30,7 @@
+ #include "Chat.h"
+ #include "Config.h"
+ #include "Creature.h"
++#include "DatabaseEnv.h"
+ #include "GameEventMgr.h"
+ #include "Item.h"
+ #include "ItemEnchantmentMgr.h"
+@@ -389,6 +390,204 @@ void RemoveAllRacials(Player* player)
+     player->removeSpell(822, SPEC_MASK_ALL, false);   // unlearn Magic Resistance
+ }
  
- DELETE FROM `creature_template` WHERE `entry`=98888;
-@@ -11,186 +11,57 @@ DELETE FROM `creature_template_model` WHERE `CreatureID` = 98888;
- INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES
- (98888, 0, @DISPLAY_ID, 1, 1, 0);
++// Apply racial spells for a given WoW race ID
++void ApplyRacialSpells(Player* player, uint8 raceId)
++{
++    switch (raceId)
++    {
++        case RACE_BLOODELF: // 10
++            player->learnSpell(28877, false); // Arcane Affinity
++            player->learnSpell(822, false);   // Magic Resistance
++            switch (player->getClass())
++            {
++                case CLASS_DEATH_KNIGHT:
++                case CLASS_WARRIOR:
++                    player->learnSpell(50613, false); // Arcane Torrent (runic power)
++                    break;
++                case CLASS_HUNTER:
++                case CLASS_MAGE:
++                case CLASS_PALADIN:
++                case CLASS_PRIEST:
++                case CLASS_SHAMAN:
++                case CLASS_WARLOCK:
++                    player->learnSpell(28730, false); // Arcane Torrent (Mana)
++                    break;
++                case CLASS_ROGUE:
++                    player->learnSpell(25046, false); // Arcane Torrent (Energy)
++                    break;
++                case CLASS_DRUID:
++                    player->learnSpell(28730, false); // Arcane Torrent (Mana)
++                    player->learnSpell(25046, false); // Arcane Torrent (Energy)
++                    break;
++            }
++            break;
++
++        case RACE_DRAENEI: // 11
++            player->learnSpell(28875, false); // Gem Cutting
++            switch (player->getClass())
++            {
++                case CLASS_DEATH_KNIGHT:
++                case CLASS_HUNTER:
++                case CLASS_PALADIN:
++                case CLASS_ROGUE:
++                case CLASS_WARRIOR:
++                    player->learnSpell(6562, false); // Heroic Presence
++                    break;
++                case CLASS_DRUID:
++                case CLASS_MAGE:
++                case CLASS_PRIEST:
++                case CLASS_SHAMAN:
++                case CLASS_WARLOCK:
++                    player->learnSpell(28878, false); // Heroic Presence
++                    break;
++            }
++            switch (player->getClass())
++            {
++                case CLASS_DEATH_KNIGHT:
++                    player->learnSpell(59545, false); // Gift of Naaru
++                    player->learnSpell(59539, false); // Shadow Resistance
++                    break;
++                case CLASS_HUNTER:
++                    player->learnSpell(59543, false); // Gift of Naaru
++                    player->learnSpell(59536, false); // Shadow Resistance
++                    break;
++                case CLASS_MAGE:
++                case CLASS_WARLOCK:
++                    player->learnSpell(59548, false); // Gift of Naaru
++                    player->learnSpell(59541, false); // Shadow Resistance
++                    break;
++                case CLASS_PALADIN:
++                    player->learnSpell(59542, false); // Gift of Naaru
++                    player->learnSpell(59535, false); // Shadow Resistance
++                    break;
++                case CLASS_PRIEST:
++                    player->learnSpell(59544, false); // Gift of Naaru
++                    player->learnSpell(59538, false); // Shadow Resistance
++                    break;
++                case CLASS_DRUID:
++                case CLASS_SHAMAN:
++                    player->learnSpell(59547, false); // Gift of Naaru
++                    player->learnSpell(59540, false); // Shadow Resistance
++                    break;
++                case CLASS_ROGUE:
++                case CLASS_WARRIOR:
++                    player->learnSpell(28880, false); // Gift of Naaru
++                    player->learnSpell(59221, false); // Shadow Resistance
++                    break;
++            }
++            break;
++
++        case RACE_DWARF: // 3
++            player->learnSpell(2481, false);  // Find Treasure
++            player->learnSpell(20596, false); // Frost Resistance
++            player->learnSpell(20595, false); // Gun Specialization
++            player->learnSpell(59224, false); // Mace Specialization
++            player->learnSpell(20594, false); // Stoneform
++            break;
++
++        case RACE_GNOME: // 7
++            player->learnSpell(20592, false); // Arcane Resistance
++            player->learnSpell(20593, false); // Engineering Specialization
++            player->learnSpell(20589, false); // Escape Artist
++            player->learnSpell(20591, false); // Expansive Mind
++            break;
++
++        case RACE_HUMAN: // 1
++            player->learnSpell(20599, false); // Diplomacy
++            player->learnSpell(59752, false); // Every man for himself
++            player->learnSpell(20864, false); // Mace Specialization
++            player->learnSpell(58985, false); // Perception
++            player->learnSpell(20597, false); // Sword Specialization
++            player->learnSpell(20598, false); // The Human Spirit
++            break;
++
++        case RACE_NIGHTELF: // 4
++            player->learnSpell(20583, false); // Nature Resistance
++            player->learnSpell(20582, false); // Quickness
++            player->learnSpell(58984, false); // Shadowmeld
++            player->learnSpell(20585, false); // Wisp Spirit
++            player->learnSpell(21009, false); // Elusiveness
++            break;
++
++        case RACE_ORC: // 2
++            player->learnSpell(20574, false); // Axe Specialization
++            player->learnSpell(20573, false); // Hardiness
++            switch (player->getClass())
++            {
++                case CLASS_DEATH_KNIGHT:
++                    player->learnSpell(54562, false); // Command
++                    break;
++                case CLASS_HUNTER:
++                    player->learnSpell(20576, false); // Command
++                    break;
++                case CLASS_SHAMAN:
++                    player->learnSpell(65222, false); // Command
++                    break;
++                case CLASS_WARLOCK:
++                    player->learnSpell(20575, false); // Command
++                    break;
++                default:
++                    player->learnSpell(21563, false); // Command (non-pet)
++                    break;
++            }
++            switch (player->getClass())
++            {
++                case CLASS_ROGUE:
++                case CLASS_WARRIOR:
++                case CLASS_HUNTER:
++                case CLASS_DEATH_KNIGHT:
++                    player->learnSpell(20572, false); // Blood Fury (AP only)
++                    break;
++                case CLASS_SHAMAN:
++                case CLASS_DRUID:
++                case CLASS_PALADIN:
++                    player->learnSpell(33697, false); // Blood Fury (SP + AP)
++                    break;
++                case CLASS_MAGE:
++                case CLASS_WARLOCK:
++                case CLASS_PRIEST:
++                    player->learnSpell(33702, false); // Blood Fury (SP only)
++                    break;
++            }
++            break;
++
++        case RACE_TAUREN: // 6
++            player->learnSpell(20552, false); // Cultivation
++            player->learnSpell(20550, false); // Endurance
++            player->learnSpell(20551, false); // Nature Resistance
++            player->learnSpell(20549, false); // Warstomp
++            break;
++
++        case RACE_TROLL: // 8
++            player->learnSpell(20557, false); // Beast Slaying
++            player->learnSpell(26297, false); // Berserking
++            player->learnSpell(26290, false); // Bow Specialization
++            player->learnSpell(58943, false); // Da Voodoo Shuffle
++            player->learnSpell(20555, false); // Regeneration
++            player->learnSpell(20558, false); // Throwing Specialization
++            break;
++
++        case RACE_UNDEAD_PLAYER: // 5
++            player->learnSpell(20577, false); // Cannibalize
++            player->learnSpell(20579, false); // Shadow Resistance
++            player->learnSpell(5227, false);  // Underwater Breathing
++            player->learnSpell(7744, false);  // Will of the Forsaken
++            break;
++    }
++}
++
++// Save racial swap choice to database
++void SaveRacialSwap(ObjectGuid::LowType guid, uint8 raceId)
++{
++    CharacterDatabase.Execute("REPLACE INTO `character_racial_swap` (`guid`, `selected_race`) VALUES ({}, {})", guid, raceId);
++}
++
++// Delete racial swap record (player reset to original race)
++void DeleteRacialSwap(ObjectGuid::LowType guid)
++{
++    CharacterDatabase.Execute("DELETE FROM `character_racial_swap` WHERE `guid` = {}", guid);
++}
++
+ class Azerothcore_Race_Trait_announce : public PlayerScript
+ {
+ public:
+@@ -396,10 +595,27 @@ public:
+         PLAYERHOOK_ON_LOGIN
+     }) { }
  
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='koKR';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='frFR';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='deDE';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='zhCN';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='zhTW';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='esES';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='esMX';
--DELETE FROM `creature_template_locale` WHERE `entry`=98888 AND `locale`='ruRU';
--INSERT INTO `creature_template_locale` (`entry`, `locale`, `Name`, `Title`, `VerifiedBuild`) VALUES
--(98888, 'koKR', '소용돌이', '인종 특성 교환 자', 0),
--(98888, 'frFR', 'Tourbillon', 'Échangeur de traits raciaux', 0),
--(98888, 'deDE', 'Strudel', 'Rassenmerkmale Swapper', 0),
--(98888, 'zhCN', '漩涡', '种族特质交换', 0),
--(98888, 'zhTW', '漩渦', '種族特質交換', 0),
--(98888, 'esES', 'Remolino', 'Intercambiador de rasgos raciales', 0),
--(98888, 'esMX', 'Remolino', 'Intercambiador de rasgos raciales', 0),
--(98888, 'ruRU', 'Водоворот', 'Обмен расовыми чертами', 0);
+-    void OnPlayerLogin(Player* Player)
++    void OnPlayerLogin(Player* player)
+     {
+         if (sConfigMgr->GetOption<bool>("Azerothcore.Racial.Trait.Swap.Announce.enable", true))
+-            ChatHandler(Player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Azerothcore Racial Trait Swap NPC |rmodule.");
++            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Azerothcore Racial Trait Swap NPC |rmodule.");
++
++        // Restore racial swap from database (runs after core has loaded/scrubbed spells)
++        QueryResult result = CharacterDatabase.Query("SELECT `selected_race` FROM `character_racial_swap` WHERE `guid` = {}", player->GetGUID().GetCounter());
++        if (result)
++        {
++            uint8 selectedRace = (*result)[0].Get<uint8>();
++            if (selectedRace != player->getRace())
++            {
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, selectedRace);
++            }
++            else
++            {
++                // Player swapped to their own race — clean up the row
++                DeleteRacialSwap(player->GetGUID().GetCounter());
++            }
++        }
+     }
+ };
+ 
+@@ -798,37 +1014,13 @@ public:
+ 
+             case 112: // Blood Elf
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(28877, false); // Arcane Affinity
+-                player->learnSpell(822, false); // Magic Resistance
+-                // Arcane Torrent
+-                // NOTE: Druid will get 2 versions of Arcane Torrent since they can use both Energy and Mana. If the custom version of Arcane Torrent is added, the druid will also need to pick that up.
+-                switch (player->getClass())
+-                {
+-                    case CLASS_DEATH_KNIGHT:
+-                    case CLASS_WARRIOR:
+-                        player->learnSpell(50613, false); // Arcane Torrent
+-                        break;
+-                    case CLASS_HUNTER:
+-                    case CLASS_MAGE:
+-                    case CLASS_PALADIN:
+-                    case CLASS_PRIEST:
+-                    case CLASS_SHAMAN:
+-                    case CLASS_WARLOCK:
+-                        player->learnSpell(28730, false); // Arcane Torrent (Mana)
+-                        break;
+-                    case CLASS_ROGUE:
+-                        player->learnSpell(25046, false); // Arcane Torrent (Energy)
+-                        break;
+-                    case CLASS_DRUID:
+-                        player->learnSpell(28730, false); // Arcane Torrent (Mana)
+-                        player->learnSpell(25046, false); // Arcane Torrent (Energy)
+-                        break;
+-                }
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_BLOODELF);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_BLOODELF);
+                 break;
+ 
+             case 2: // Draenei Selection
+@@ -840,67 +1032,13 @@ public:
+ 
+             case 212: // Draenei
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(28875, false); // Gem Cutting
 -
- -- Initial Gossip 98888
- DELETE FROM `npc_text` WHERE `ID`=98888;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (98888, 'Greetings $n. \r\nYou can swap your racial traits and abilities with me for a cost. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\n\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with me for a cost. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\n\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
- 
--DELETE FROM `npc_text_locale` WHERE `ID`=98888;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(98888, 'koKR', '인사 $n. \r\n 비용을 지불하면 인종 특성과 능력을 저와 교환 할 수 있습니다. 선택한 인종에 $c 가 없으면 $c 인종적 특성을 잊게됩니다.\r\n\r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec moi moyennant un coût. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c.\r\n\r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'deDE', 'Grüße $n.\r\nSie können Ihre Rassenmerkmale und Fähigkeiten gegen eine Gebühr mit mir tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\n\r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'zhCN', '问候$n。 \r\ n您可以与我交换您的种族特质和能力，但需要付费。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特征。\r\n\r\n\r\n您的期望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'zhTW', '問候$n。 \r\ n您可以與我交換您的種族特質和能力，但需要付費。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特徵。\r\n\r\n\r\n您的期望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos raciales y habilidades conmigo por un costo. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales.\r\n\r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos raciales y habilidades conmigo por un costo. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales.\r\n\r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(98888, 'ruRU', 'Привет $n. \r\nВы можете обменять свои расовые черты и способности со мной за определенную плату. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\n\r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+-                // Heroic Presence Variants
+-                switch (player->getClass())
+-                {
+-                    case CLASS_DEATH_KNIGHT:
+-                    case CLASS_HUNTER:
+-                    case CLASS_PALADIN:
+-                    case CLASS_ROGUE:
+-                    case CLASS_WARRIOR:
+-                        player->learnSpell(6562, false); // Heroic Presence
+-                        break;
+-                    case CLASS_DRUID:
+-                    case CLASS_MAGE:
+-                    case CLASS_PRIEST:
+-                    case CLASS_SHAMAN:
+-                    case CLASS_WARLOCK:
+-                        player->learnSpell(28878, false); // Heroic Presence
+-                        break;
+-                }
 -
- -- Blood ELf Menu 988881
- DELETE FROM `npc_text` WHERE `ID`=988881;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988881, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Blood Elf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Arcane Affinity, Magic Resistance, and if you are a Death Knight, Hunter, Mage, Paladin, Rogue, or Warlock you will learn Arcane Torrent.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Blood Elf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Arcane Affinity, Magic Resistance, and if you are a Death Knight, Hunter, Mage, Paladin, Rogue, or Warlock you will learn Arcane Torrent.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988881;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988881, 'koKR', '인사 $n. \r\n 블러드 엘프와 인종 특성과 능력을 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잃게됩니다. \r\n아케인 친화력, 마법 저항력을 배우고 죽음의 기사, 사냥꾼, 마법사, 성기사, 도적, 또는 워록 당신은 비전 격류를 배울 것입니다. \r\n\r\n 당신의 소망은 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux de l\'elfe de sang. Si la race que vous avez choisie n’a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez l’affinité arcane, la résistance magique et si vous êtes un chevalier de la mort, un chasseur, un mage, un paladin, un voleur, ou Warlock, vous apprendrez Arcane Torrent. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Blutelfen austauschen. Wenn die Rasse, die Sie ausgewählt haben, kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Arkane Affinität, Magieresistenz und wenn Sie ein Todesritter, Jäger, Magier, Paladin, Schurke sind, oder Hexenmeister, du wirst Arcane Torrent lernen. \r\n\r\nWas ist dein Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'zhCN', '问候 $n。 \r\n您可以与血精灵的种族特征和能力交换。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特征。\r\n您将学习奥术亲和力，魔法抗性，并且如果您是死亡骑士，猎人，法师，圣骑士，流氓， 或术士，您将学习奥术洪流。\r\n\r\n您的愿望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'zhTW', '問候 $n。 \r\n您可以與血精靈的種族特徵和能力交換。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特徵。\r\n您將學習奧術親和力，魔法抗性，並且如果您是死亡騎士，獵人，法師，聖騎士，流氓， 或術士，您將學習奧術洪流。\r\n\r\n您的願望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del elfo de sangre. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Afinidad Arcana, Resistencia Mágica, y si eres Caballero de la Muerte, Cazador, Mago, Paladín, Pícaro, o Brujo aprenderás Torrente arcano. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del elfo de sangre. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Afinidad Arcana, Resistencia Mágica, y si eres Caballero de la Muerte, Cazador, Mago, Paladín, Pícaro, o Brujo aprenderás Torrente arcano. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988881, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на эльфов крови. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите близость к тайной магии, сопротивление магии, а если вы рыцарь смерти, охотник, маг, паладин, разбойник, или Чернокнижник, вы изучите Arcane Torrent. \r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+-                // Gift of Naaru + Shadow Resistance VARIANTS
+-                switch (player->getClass())
+-                {
+-                    case CLASS_DEATH_KNIGHT:
+-                        player->learnSpell(59545, false); // Gift of Naaru
+-                        player->learnSpell(59539, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_HUNTER:
+-                        player->learnSpell(59543, false); // Gift of Naaru
+-                        player->learnSpell(59536, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_MAGE:
+-                    case CLASS_WARLOCK:
+-                        player->learnSpell(59548, false); // Gift of Naaru
+-                        player->learnSpell(59541, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_PALADIN:
+-                        player->learnSpell(59542, false); // Gift of Naaru
+-                        player->learnSpell(59535, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_PRIEST:
+-                        player->learnSpell(59544, false); // Gift of Naaru
+-                        player->learnSpell(59538, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_DRUID:
+-                    case CLASS_SHAMAN:
+-                        player->learnSpell(59547, false); // Gift of Naaru
+-                        player->learnSpell(59540, false); // Shadow Resistance
+-                        break;
+-                    case CLASS_ROGUE:
+-                    case CLASS_WARRIOR:
+-                        player->learnSpell(28880, false); // Gift of Naaru
+-                        player->learnSpell(59221, false); // Shadow Resistance
+-                        break;
+-                }
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_DRAENEI);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_DRAENEI);
+                 break;
  
- -- Draenei Menu 988882
- DELETE FROM `npc_text` WHERE `ID`=988882;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988882, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Draenei. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Gem Cutting, Gift of Naaru, Shadow Resistance, and if you are a Death Knight, Hunter, Mage, Paladin, Priest, Shaman, or Warrior you will learn Heroic Presence. \r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Draenei. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Gem Cutting, Gift of Naaru, Shadow Resistance, and if you are a Death Knight, Hunter, Mage, Paladin, Priest, Shaman, or Warrior you will learn Heroic Presence. \r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988882;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988882, 'koKR', '인사 $n. \r\n 당신의 인종적 특성과 능력을 드레나이 족과 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잊게됩니다. \r\n 보석 절단, 나루의 선물, 암흑 저항을 배우고, 죽음의 기사, 사냥꾼, 마법사, 성기사, 사제, 주술사 또는 전사는 영웅의 존재를 배우게됩니다. \r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux des Draeneï. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la taille de gemmes, le don de Naaru, la résistance à l\'ombre, et si vous êtes un chevalier de la mort, un chasseur, un mage, Paladin, prêtre, chaman ou guerrier, vous apprendrez la présence héroïque. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen der Draenei tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Edelsteinschneiden, Geschenk von Naaru, Schattenresistenz und wenn Sie ein Todesritter, Jäger, Magier sind, Paladin, Priester, Schamane oder Krieger lernst du heroische Präsenz. \r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'zhCN', '问候$n。 \r\n您可以与德莱尼人的种族特征和能力交换。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特征。\r\n您将学习宝石切割，纳鲁的礼物，暗影抗性，并且如果您是死亡骑士，猎人，法师， 圣骑士，牧师，萨满或战士，您将学习英勇的存在。 \r\n\r\n您的要求是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'zhTW', '問候$n。 \r\n您可以與德萊尼人的種族特徵和能力交換。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特徵。\r\n您將學習寶石切割，納魯的禮物，暗影抗性，並且如果您是死亡騎士，獵人，法師， 聖騎士，牧師，薩滿或戰士，您將學習英勇的存在。 \r\n\r\n您的要求是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los Draenei. Si la raza que elegiste no tiene un $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás Tallado de gemas, Don de Naaru, Resistencia a las sombras, y si eres un Caballero de la Muerte, Cazador, Mago, Paladín, Sacerdote, Chamán o Guerrero, aprenderás Presencia heroica. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los Draenei. Si la raza que elegiste no tiene un $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás Tallado de gemas, Don de Naaru, Resistencia a las sombras, y si eres un Caballero de la Muerte, Cazador, Mago, Paladín, Sacerdote, Chamán o Guerrero, aprenderás Presencia heroica. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988882, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на таковые у дренеев. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите огранку драгоценных камней, дар наару, сопротивление тени, а если вы рыцарь смерти, охотник, маг, Паладин, Жрец, Шаман или Воин вы изучите Героическое Присутствие. \r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 3: // Dwarves Selection
+@@ -912,16 +1050,13 @@ public:
  
- -- Dwarves Menu 988883
- DELETE FROM `npc_text` WHERE `ID`=988883;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988883, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Dwarf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Find Treasure, Frost Resistance, Gun Specialization, Mace Specialization, and Stoneform.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Dwarf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Find Treasure, Frost Resistance, Gun Specialization, Mace Specialization, and Stoneform.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988883;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988883, 'koKR', '인사 $n. \r\n 당신은 당신의 인종 특성과 능력을 드워프와 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잊게됩니다. \r\n 보물 찾기, 냉기 저항, 총기 전문화, 철퇴 전문화 및 돌의 형태를 배우게됩니다. \ r\n\r\n 당신의 욕망은 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux du Nain. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez Find Treasure, Frost Resistance, Gun Specialization, Mace Specialization et Stoneform. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Zwergs tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Schatz finden, Frostresistenz, Waffenspezialisierung, Streitkolbenspezialisierung und Steinform. \r\n\r\nWas ist dein Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'zhCN', '问候$n。 \r\n您可以与矮人交换种族特质和能力。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特质。\r\n您将学习“寻找宝藏”，“抗霜冻”，“枪支专精”，“钉头锤专精”和“石形”。\r\n\r\n 你的愿望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'zhTW', '問候$n。 \r\n您可以與矮人交換種族特質和能力。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特質。\r\n您將學習“尋找寶藏”，“抗霜凍”，“槍支專精”，“釘頭鎚專精”和“石形”。\r\n\r\n 你的願望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Enano. Si la raza que eliges no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Encontrar tesoro, Resistencia a las heladas, Especialización en armas, Especialización en mazas y Forma de piedra. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Enano. Si la raza que eliges no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Encontrar tesoro, Resistencia a las heladas, Especialización en armas, Especialización en mazas y Forma de piedra. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988883, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на черты гнома. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы научитесь искать сокровища, морозостойкость, специализацию по оружию, специализацию по булаве и каменную форму. \r\n\r\nЧто вы хотите?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 31: // Dwarves
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(2481, false); // Find Treasure
+-                player->learnSpell(20596, false); // Frost Resistance
+-                player->learnSpell(20595, false); // Gun Specialization
+-                player->learnSpell(59224, false); // Mace Specialization
+-                player->learnSpell(20594, false); // Stoneform
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_DWARF);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_DWARF);
+                 break;
  
- -- Gnome Menu 988884
- DELETE FROM `npc_text` WHERE `ID`=988884;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988884, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Gnome. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Arcane Resistance, Engineering Specialization, Escape Artist, and Expansive Mind.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Gnome. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Arcane Resistance, Engineering Specialization, Escape Artist, and Expansive Mind.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988884;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988884, 'koKR', '인사 $n. \r\n 인종 특성과 능력을 노움과 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잊게됩니다. \r\n 비전 저항, 공학 전문화, 탈출 예술가, 확장 정신을 배우게됩니다. \r\n\r\n 무엇입니까? 당신의 욕망?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux du Gnome. Si la race que vous avez choisie n\’a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la résistance aux arcanes, la spécialisation en ingénierie, l\’artiste d’évasion et l’esprit expansif. \r\n\r\n votre désire?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Gnomen tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Arkanen Widerstand, technische Spezialisierung, Fluchtkünstler und expansiven Verstand. \r\n\r\nWas ist dein Verlangen?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'zhCN', '问候$n。 \r\n您可以与Gnome的种族特征和能力交换。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特质。\r\n您将学到奥术抵抗，工程专业化，逃脱艺术家和扩张性思维。\r\n\r\n是什么 你的愿望？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'zhTW', '問候$n。 \r\n您可以與Gnome的種族特徵和能力交換。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特質。\r\n您將學到奧術抵抗，工程專業化，逃脫藝術家和擴張性思維。\r\n\r\n是什麼 你的願望？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del gnomo. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Resistencia Arcana, Especialización en Ingeniería, Artista del Escape y Mente Expansiva. \r\n\r\nQué es ¿tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del gnomo. Si la raza que elegiste no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Resistencia Arcana, Especialización en Ingeniería, Artista del Escape y Mente Expansiva. \r\n\r\nQué es ¿tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988884, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на Гнома. Если у выбранной вами расы нет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите сопротивление тайной магии, инженерное дело, мастер побега и обширный разум. \r\n\r\nЧто такое Ваше желание?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 4: // Gnome Selection
+@@ -933,15 +1068,13 @@ public:
  
- -- Human Menu 988885
- DELETE FROM `npc_text` WHERE `ID`=988885;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988885, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Human. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Diplomacy, Every man for himself, Mace Specialization, Perception, Sword Specialization, and The Human Spirit.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Human. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Diplomacy, Every man for himself, Mace Specialization, Perception, Sword Specialization, and The Human Spirit.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988885;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988885, 'koKR', '인사 $n. \r\n 인종 특성과 능력을 인간과 바꿀 수 있습니다. 선택한 종족에 $c가 없으면 $c 종족 특성을 잊게됩니다. \r\n 외교, 모든 사람이 자신을 위해, 철퇴 전문화, 지각, 검 전문화 및 인간 정신을 배우게됩니다. \r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux de l\'humain. Si la race que vous avez choisie n\’a pas de $c, vous n\'apprendrez pas vos traits raciaux $c. \r\nVous apprendrez la diplomatie, Chacun pour soi, la specialisation Masse, la Perception, la specialisation Epee et l\'Esprit humain. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Menschen austauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Diplomatie, jeden Mann für sich, Streitkolbenspezialisierung, Wahrnehmung, Schwertspezialisierung und den menschlichen Geist. \r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'zhCN', '问候$n。 \r\n您可以将自己的种族特征和能力与人类的互换。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特征。\r\n您将学到外交，每个人自己，狼牙棒专精，感知，剑专精和人文精神。\r\n\r\n您的愿望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'zhTW', '問候$n。 \r\n您可以將自己的種族特徵和能力與人類的互換。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特徵。\r\n您將學到外交，每個人自己，狼牙棒專精，感知，劍專精和人文精神。\r\n\r\n您的願望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del humano. Si la raza que eliges no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Diplomacia, Cada hombre por sí mismo, Especialización en mazas, Percepción, Especialización en espadas y El espíritu humano. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del humano. Si la raza que eliges no tiene $c, entonces desaprenderás tus $c rasgos raciales. \r\nAprenderás Diplomacia, Cada hombre por sí mismo, Especialización en mazas, Percepción, Especialización en espadas y El espíritu humano. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988885, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на человеческие. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите дипломатию, каждого человека за себя, специализацию булавы, восприятие, специализацию по мече и человеческий дух. \r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 41: // Gnome
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occur and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20592, false); // Arcane Resistance
+-                player->learnSpell(20593, false); // Engineering Specialization
+-                player->learnSpell(20589, false); // Escape Artist
+-                player->learnSpell(20591, false); // Expansive Mind
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_GNOME);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_GNOME);
+                 break;
  
- -- Night Elf Menu 988886
- DELETE FROM `npc_text` WHERE `ID`=988886;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988886, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Night Elf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Nature Resistance, Quickness, Shadowmeld, and Wisp Spirit. If you are a Death Knight, Druid, Hunter, Priest, or Rogue you will learn  Elusiveness.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Night Elf. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Nature Resistance, Quickness, Shadowmeld, and Wisp Spirit. If you are a Death Knight, Druid, Hunter, Priest, or Rogue you will learn  Elusiveness.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988886;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988886, 'koKR', '인사 $n. \r\n 종족 특성과 능력을 나이트 엘프와 바꿀 수 있습니다. 선택한 종족에 $c가 없으면 $c 종족 특성을 잊게됩니다. \r\n 자연 저항, 신속성, Shadowmeld 및 Wisp Spirit을 배우게됩니다. 당신이 죽음의 기사, 드루이드, 사냥꾼, 사제 또는 도적이라면 도적을 배울 것입니다. \r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux de l\'elfe de la nuit. Si la race que vous avez choisie n\'a pas de $c, vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la résistance à la nature, la rapidité, l\'ombremeld et l\'esprit brindille. Si vous êtes un chevalier de la mort, un druide, un chasseur, un prêtre ou un voleur, vous apprendrez l’insaisissabilité. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Nachtelfen tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Naturresistenz, Schnelligkeit, Schattenmeldung und Wisp Spirit. Wenn Sie ein Todesritter, Druide, Jäger, Priester oder Schurke sind, lernen Sie Elusiveness. \r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'zhCN', '问候$n。 \r\n您可以与暗夜精灵交换种族特征和能力。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特质。\r\n您将学习“自然抵抗”，“敏捷”，“暗影融合”和“小精灵精神”。 如果您是死亡骑士，德鲁伊，猎人，牧师或流氓，您会学到难以捉摸的。\r\n\r\n您的愿望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'zhTW', '問候$n。 \r\n您可以與暗夜精靈交換種族特徵和能力。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特質。\r\n您將學習“自然抵抗”，“敏捷”，“暗影融合”和“小精靈精神”。 如果您是死亡騎士，德魯伊，獵人，牧師或流氓，您會學到難以捉摸的。\r\n\r\n您的願望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del elfo de la noche. Si la raza que eliges no tiene $c, desaprenderás tus rasgos raciales de $c . \r\nAprenderás Resistencia a la naturaleza, Rapidez, Mezcla de sombras y Espíritu Wisp. Si eres un Caballero de la Muerte, Druida, Cazador, Sacerdote o Pícaro, aprenderás a Elusividad. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del elfo de la noche. Si la raza que eliges no tiene $c, desaprenderás tus rasgos raciales de $c . \r\nAprenderás Resistencia a la naturaleza, Rapidez, Mezcla de sombras y Espíritu Wisp. Si eres un Caballero de la Muerte, Druida, Cazador, Sacerdote o Pícaro, aprenderás a Elusividad. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988886, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на черты ночного эльфа. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите сопротивление природе, быстроту, слияние теней и дух огоньков. Если вы рыцарь смерти, друид, охотник, жрец или разбойник, вы научитесь Неуловимости. \r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 5: // Human Selection
+@@ -953,17 +1086,13 @@ public:
  
- -- Orc Menu 988887
- DELETE FROM `npc_text` WHERE `ID`=988887;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988887, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Orc. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Axe Specialization, Hardiness, Command, and Blood Fury\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Orc. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Axe Specialization, Hardiness, Command, and Blood Fury\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988887;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988887, 'koKR', '인사 $n. \r\n 오크의 종족 특성과 능력을 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잊게됩니다. \r\nAx Specialization, Hardiness, Command 및 Blood Fury를 배우게됩니다. \r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux de l\'Orque. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la spécialisation de la hache, la robustesse, le commandement et la fureur de sang \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Orks tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Axt-Spezialisierung, Winterhärte, Befehl und Blutwut \r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'zhCN', '问候$n。 \r\n您可以与兽人的种族特征和能力交换。 如果您选择的种族没有$c，那么您将失去$c的种族特征。\r\n您将学习斧头专精，耐力，指挥和血腥狂\ r\n\r\n您的期望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'zhTW', '問候$n。 \r\n您可以與獸人的種族特徵和能力交換。 如果您選擇的種族沒有$c，那麼您將失去$c的種族特徵。\r\n您將學習斧頭專精，耐力，指揮和血腥狂\ r\n\r\n您的期望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Orco. Si la raza que elegiste no tiene un $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás especialización en hachas, resistencia, mando y furia sangrienta \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Orco. Si la raza que elegiste no tiene un $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás especialización en hachas, resistencia, mando y furia sangrienta \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988887, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на таковые орков. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы изучите специализацию по топору, выносливость, командование и кровавую ярость \r\n\r\nЧто вы хотите?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 51: // Human
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20599, false); // Diplomacy
+-                player->learnSpell(59752, false); // Every man for himself
+-                player->learnSpell(20864, false); // Mace Specialization
+-                player->learnSpell(58985, false); // Perception
+-                player->learnSpell(20597, false); // Sword Specialization
+-                player->learnSpell(20598, false); // The Human Spirit
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_HUMAN);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_HUMAN);
+                 break;
  
- -- Tauren Menu 988888
- DELETE FROM `npc_text` WHERE `ID`=988888;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988888, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Tauren. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Cultivation, Endurance, Nature Resistance, and War Stomp.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Orc. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Axe Specialization, Hardiness, Command, and Blood Fury\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988888;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988888, 'koKR', '인사 $n. \r\n 종족 특성과 능력을 타우렌과 바꿀 수 있습니다. 선택한 종족에 $c 가 없으면 $c 종족 특성을 잊게됩니다. \r\n 경작, 지구력, 자연 저항, 전쟁 스톰프를 배우게됩니다. \r\n\r\n 원하는 것은 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux des Taurens. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la cultivation, l\'endurance, la résistance à la nature et la guerre. \r\n\r\nQuel est votre désir ?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fahigkeiten mit denen der Tauren tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Kultivierung, Ausdauer, Naturresistenz und Kriegsstampfen. \r\n\r\nWas ist Ihr Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'zhCN', '问候$n。 \r\n您可以与牛头人交换自己的种族特质和能力。 如果您选择的种族没有 $c，那么您将失去 $c 的种族特质。\r\n您将学习耕种，耐力，自然抗性和战锤。\r\n\r\n您的期望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'zhTW', '問候$n。 \r\n您可以與牛頭人交換自己的種族特質和能力。 如果您選擇的種族沒有 $c，那麼您將失去 $c 的種族特質。\r\n您將學習耕種，耐力，自然抗性和戰鎚。\r\n\r\n您的期望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los Tauren. Si la raza que elegiste no tiene $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás Cultivo, Resistencia, Resistencia a la naturaleza y Pisotón de guerra. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los Tauren. Si la raza que elegiste no tiene $c, entonces desaprenderás tus rasgos raciales de $c. \r\nAprenderás Cultivo, Resistencia, Resistencia a la naturaleza y Pisotón de guerra. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988888, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на тауренов. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы научитесь совершенствованию, выносливости, сопротивлению силам природы и боевому топору. \r\n\r\nЧто вы хотите ?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 6: // Night Elf Selection
+@@ -975,16 +1104,13 @@ public:
  
- -- Troll Menu 988889
- DELETE FROM `npc_text` WHERE `ID`=988889;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988889, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Troll. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Beast Slaying, Berserking, Bow Specialization, Da Voodoo Shuffle, Regeneration, and Throwing Specialization.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Troll. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Beast Slaying, Berserking, Bow Specialization, Da Voodoo Shuffle, Regeneration, and Throwing Specialization.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988889;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988889, 'koKR', '인사 $n. \r\n 당신은 당신의 인종적 특성과 능력을 트롤들과 바꿀 수 있습니다. 선택한 종족에 $c가 없으면 $c 종족 특성을 잃게됩니다. \r\n 야수 사냥, 광전, 활 전문화, 다 부두 셔플, 재생 및 투척 전문화를 배우게됩니다. \r\n\r\n 원하는 것이 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux du Troll. Si la race que vous avez choisie n\'a pas de $c, vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez la spécialisation Beast Slaying, Berserking, Bow, Da Voodoo Shuffle, Regeneration et Throwing Specialization. \r\n\r\nQuel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen des Trolls austauschen. Wenn das von Ihnen gewählte Rennen kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Beast Slaying, Berserking, Bogenspezialisierung, Da Voodoo Shuffle, Regeneration und Throwing Specialization. \r\n\r\nWas ist dein Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'zhCN', '问候$n。 \r\n您可以将自己的种族特质和能力与巨魔的那些互换。 如果您选择的种族没有 $c，则您将失去 $c 的种族特质。\r\n您将学习野兽杀戮，狂暴，弓箭专长，达伏都教混洗，再生和投掷专长。\r\n\r\n您的愿望是什么？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'zhTW', '問候$n。 \r\n您可以將自己的種族特質和能力與巨魔的那些互換。 如果您選擇的種族沒有 $c，則您將失去 $c 的種族特質。\r\n您將學習野獸殺戮，狂暴，弓箭專長，達伏都教混洗，再生和投擲專長。\r\n\r\n您的願望是什麼？', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Troll. Si la raza que elegiste no tiene $c, desaprenderás tus rasgos raciales de $c. \r\nAprenderás Matanza de bestias, Berserking, Especialización con arco, Da Voodoo Shuffle, Regeneración y Especialización en lanzamiento. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los del Troll. Si la raza que elegiste no tiene $c, desaprenderás tus rasgos raciales de $c. \r\nAprenderás Matanza de bestias, Berserking, Especialización con arco, Da Voodoo Shuffle, Regeneración y Especialización en lanzamiento. \r\n\r\n¿Cuál es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988889, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на таковые у Тролля. Если у выбранной вами расы нет $c, то вы откажетесь от своих расовых черт $c. \r\nВы изучите Убийство зверей, Берсерк, Специализацию лука, Вудуистское перемешивание, Регенерацию и специализацию по метанию. \r\n\r\nЧего вы желаете?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 61: // Night Elf
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20583, false); // Nature Resistance
+-                player->learnSpell(20582, false); // Quickness
+-                player->learnSpell(58984, false); // Shadowmeld
+-                player->learnSpell(20585, false); // Wisp Spirit
+-                player->learnSpell(21009, false); // Elusiveness
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_NIGHTELF);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_NIGHTELF);
+                 break;
  
- -- Undead Menu 988880
- DELETE FROM `npc_text` WHERE `ID`=988880;
- INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `BroadcastTextID0`, `lang0`, `Probability0`, `em0_0`, `em0_1`, `em0_2`, `em0_3`, `em0_4`, `em0_5`, `text1_0`, `text1_1`, `BroadcastTextID1`, `lang1`, `Probability1`, `em1_0`, `em1_1`, `em1_2`, `em1_3`, `em1_4`, `em1_5`, `text2_0`, `text2_1`, `BroadcastTextID2`, `lang2`, `Probability2`, `em2_0`, `em2_1`, `em2_2`, `em2_3`, `em2_4`, `em2_5`, `text3_0`, `text3_1`, `BroadcastTextID3`, `lang3`, `Probability3`, `em3_0`, `em3_1`, `em3_2`, `em3_3`, `em3_4`, `em3_5`, `text4_0`, `text4_1`, `BroadcastTextID4`, `lang4`, `Probability4`, `em4_0`, `em4_1`, `em4_2`, `em4_3`, `em4_4`, `em4_5`, `text5_0`, `text5_1`, `BroadcastTextID5`, `lang5`, `Probability5`, `em5_0`, `em5_1`, `em5_2`, `em5_3`, `em5_4`, `em5_5`, `text6_0`, `text6_1`, `BroadcastTextID6`, `lang6`, `Probability6`, `em6_0`, `em6_1`, `em6_2`, `em6_3`, `em6_4`, `em6_5`, `text7_0`, `text7_1`, `BroadcastTextID7`, `lang7`, `Probability7`, `em7_0`, `em7_1`, `em7_2`, `em7_3`, `em7_4`, `em7_5`, `VerifiedBuild`) VALUES
- (988880, 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Undead. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Cannibalize, Shadow Resistance, Underwater Breating, and Will of the Forsaken.\r\n\r\nWhat is your desire?', 'Greetings $n. \r\nYou can swap your racial traits and abilities with the ones of the Undead. If the race you chose does not have a $c, then you will unlearn your $c racial traits.\r\nYou will learn Cannibalize, Shadow Resistance, Underwater Breating, and Will of the Forsaken.\r\n\r\nWhat is your desire?', 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
--DELETE FROM `npc_text_locale` WHERE `ID`=988880;
--INSERT INTO `npc_text_locale` (`ID`, `Locale`, `Text0_0`, `Text0_1`, `Text1_0`, `Text1_1`, `Text2_0`, `Text2_1`, `Text3_0`, `Text3_1`, `Text4_0`, `Text4_1`, `Text5_0`, `Text5_1`, `Text6_0`, `Text6_1`, `Text7_0`, `Text7_1`) VALUES
--(988880, 'koKR', '인사 $n. \r\n 언데드와 인종 특성 및 능력을 바꿀 수 있습니다. 선택한 종족에 $c가 없으면 $c 종족 특성을 잊게됩니다. \r\n 식인종, 암흑 저항, 수중 번식, 포세이큰의 의지를 배우게됩니다. \r\n\r\n당신의 욕망은 무엇입니까?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'frFR', 'Salutations $n. \r\nVous pouvez échanger vos traits et capacités raciales avec ceux des morts-vivants. Si la race que vous avez choisie n\'a pas de $c, alors vous désapprendrez vos traits raciaux $c. \r\nVous apprendrez Cannibalisation, Résistance à l\'ombre, Respiration sous-marine et Volonté des réprouvés. \r\n\r\n Quel est votre désir?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'deDE', 'Grüße $n. \r\nSie können Ihre Rassenmerkmale und Fähigkeiten mit denen der Untoten tauschen. Wenn die von Ihnen gewählte Rasse kein $c hat, werden Sie Ihre $c Rassenmerkmale verlernen. \r\nSie lernen Kannibalisierung, Schattenresistenz, Unterwasseratmung und Willen der Verlassenen. \r\n\r\n Was ist dein Wunsch?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'zhCN', '问候$n。 \r\n您可以将自己的种族特质和能力与亡灵者互换。 如果您选择的种族没有$c，那么您将失去$c的种族特征。\r\n您将学习食人族化，暗影抵抗，水下哺乳和遗忘者的意志。\r\n\r\n 你有什么愿望', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'zhTW', '問候$n。 \r\n您可以將自己的種族特質和能力與亡靈者互換。 如果您選擇的種族沒有$c，那麼您將失去$c的種族特徵。\r\n您將學習食人族化，暗影抵抗，水下哺乳和遺忘者的意志。\r\n\r\n 你有什麼願望', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'esES', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los no muertos. Si la raza que elegiste no tiene $c, desaprenderás tus $c rasgos raciales. \r\nAprenderás Canibalizar, Resistencia a las sombras, Respiración submarina y Voluntad de los renegados. \r\n\r\n ¿Cual es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'esMX', 'Saludos $n. \r\nPuedes intercambiar tus rasgos y habilidades raciales con los de los no muertos. Si la raza que elegiste no tiene $c, desaprenderás tus $c rasgos raciales. \r\nAprenderás Canibalizar, Resistencia a las sombras, Respiración submarina y Voluntad de los renegados. \r\n\r\n ¿Cual es tu deseo?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
--(988880, 'ruRU', 'Привет $n. \r\nВы можете поменять свои расовые черты и способности на способности Нежити. Если выбранная вами раса не имеет $c, вы откажетесь от своих $c расовых черт. \r\nВы научитесь каннибализму, сопротивлению теням, подводному дыханию и воле отрекшихся. \r\n\r\nЧто твое желание?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+             case 7: // Orc Selection
+@@ -996,53 +1122,13 @@ public:
+ 
+             case 71: // Orc
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20574, false); // Axe Specialization
+-                player->learnSpell(20573, false); // Hardiness
+-                // Command
+-                switch (player->getClass())
+-                {
+-                    case CLASS_DEATH_KNIGHT:
+-                        player->learnSpell(54562, false);
+-                        break;
+-                    case CLASS_HUNTER:
+-                        player->learnSpell(20576, false);
+-                        break;
+-                    case CLASS_SHAMAN:
+-                        player->learnSpell(65222, false);
+-                        break;
+-                    case CLASS_WARLOCK:
+-                        player->learnSpell(20575, false);
+-                        break;
+-                    // Command (Non Pet Users)
+-                    default:
+-                        player->learnSpell(21563, false);
+-                        break;
+-                }
+-                // Blood Fury
+-                switch (player->getClass())
+-                {
+-                    case CLASS_ROGUE:
+-                    case CLASS_WARRIOR:
+-                    case CLASS_HUNTER:
+-                    case CLASS_DEATH_KNIGHT:
+-                        player->learnSpell(20572, false); // Blood Fury (AP only)
+-                        break;
+-                    case CLASS_SHAMAN:
+-                    case CLASS_DRUID:
+-                    case CLASS_PALADIN:
+-                        player->learnSpell(33697, false); // Blood Fury (SP + AP)
+-                        break;
+-                    case CLASS_MAGE:
+-                    case CLASS_WARLOCK:
+-                    case CLASS_PRIEST:
+-                        player->learnSpell(33702, false); // Blood Fury (SP only)
+-                        break;
+-                }
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_ORC);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_ORC);
+                 break;
+ 
+             case 8: // Tauren Selection
+@@ -1054,15 +1140,13 @@ public:
+ 
+             case 81: // Tauren
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20552, false); // Cultivation
+-                player->learnSpell(20550, false); // Endurance
+-                player->learnSpell(20551, false); // Nature Resistance
+-                player->learnSpell(20549, false); // Warstomp
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_TAUREN);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_TAUREN);
+                 break;
+ 
+             case 9: // Troll Selection
+@@ -1074,17 +1158,13 @@ public:
+ 
+             case 91: // Troll
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20557, false); // Beast Slaying
+-                player->learnSpell(26297, false); // Berserking
+-                player->learnSpell(26290, false); // Bow Specialization
+-                player->learnSpell(58943, false); // Da Voodoo Shuffle
+-                player->learnSpell(20555, false); // Regeneration
+-                player->learnSpell(20558, false); // Throwing Specialization
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_TROLL);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_TROLL);
+                 break;
+ 
+             case 10: // Undead Selection
+@@ -1096,15 +1176,13 @@ public:
+ 
+             case 101: // Undead
+                 CloseGossipMenuFor(player);
+-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
++                if (!player->HasEnoughMoney(RTS1 * GOLD))
+                     return true;
+-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+-                player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
+-                RemoveAllRacials(player); // Remove all racials
+-                player->learnSpell(20577, false); // Cannibalize
+-                player->learnSpell(20579, false); // Shadow Resistance
+-                player->learnSpell(5227, false);  // Underwater Breating
+-                player->learnSpell(7744, false);  // Will of the Forsaken
++                player->ModifyMoney(-RTS1 * GOLD);
++                player->CastSpell(player, 47292);
++                RemoveAllRacials(player);
++                ApplyRacialSpells(player, RACE_UNDEAD_PLAYER);
++                SaveRacialSwap(player->GetGUID().GetCounter(), RACE_UNDEAD_PLAYER);
+                 break;
+ 
+             default:
 -- 
 2.34.1
 

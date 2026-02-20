@@ -1,4 +1,4 @@
-From 8a67c9065c9666e1038e3a07b46dd90102b3feeb Mon Sep 17 00:00:00 2001
+From 4b983f9cc7ede80bde3670957a9a830c32f94996 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 10 Feb 2026 16:40:23 +0000
 Subject: [PATCH] fix: Remove hardcoded SPELL_SPECIFIC_SCROLL exclusivity
@@ -24,10 +24,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/src/server/game/Spells/SpellInfo.cpp b/src/server/game/Spells/SpellInfo.cpp
-index d982eb168..39be51dea 100644
+index 8606415a1..fdef2d4c7 100644
 --- a/src/server/game/Spells/SpellInfo.cpp
 +++ b/src/server/game/Spells/SpellInfo.cpp
-@@ -1393,7 +1393,7 @@ bool SpellInfo::IsAuraExclusiveBySpecificWith(SpellInfo const* spellInfo) const
+@@ -1392,7 +1392,7 @@ bool SpellInfo::IsAuraExclusiveBySpecificWith(SpellInfo const* spellInfo) const
          case SPELL_SPECIFIC_MAGE_POLYMORPH:
          case SPELL_SPECIFIC_PRESENCE:
          case SPELL_SPECIFIC_CHARM:
@@ -36,7 +36,7 @@ index d982eb168..39be51dea 100644
          case SPELL_SPECIFIC_MAGE_ARCANE_BRILLANCE:
          case SPELL_SPECIFIC_PRIEST_DIVINE_SPIRIT:
              return spellSpec1 == spellSpec2;
-@@ -2070,21 +2070,22 @@ SpellSpecificType SpellInfo::LoadSpellSpecific() const
+@@ -2069,21 +2069,22 @@ SpellSpecificType SpellInfo::LoadSpellSpecific() const
                      else if (drink)
                          return SPELL_SPECIFIC_DRINK;
                  }

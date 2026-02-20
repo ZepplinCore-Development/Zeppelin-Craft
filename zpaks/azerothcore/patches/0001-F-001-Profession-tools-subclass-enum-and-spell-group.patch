@@ -1,4 +1,4 @@
-From a9a0bd3585be36e7ae76baf57198cd078a36c339 Mon Sep 17 00:00:00 2001
+From 0cc1fe34eb7f37a579ce4749dd3f4f3d50bd6721 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 10:47:20 +0000
 Subject: [PATCH] F-001: Profession tools - subclass enum and spell group fix
@@ -35,7 +35,7 @@ index b41616c11..894db4924 100644
  enum ItemSubclassProjectile
  {
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index ff26ef061..b67d88ffa 100644
+index a27181eec..290b89419 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
 @@ -7029,7 +7029,31 @@ void Player::ApplyItemObtainSpells(Item* item, bool apply)
