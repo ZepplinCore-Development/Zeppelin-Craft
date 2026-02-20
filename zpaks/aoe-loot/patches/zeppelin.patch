@@ -1,0 +1,35 @@
+From 3bcb1aa03d2465a7db1a448926d648be497eec6e Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Fri, 20 Feb 2026 12:08:05 +0000
+Subject: [PATCH] fix: Increment unlootedCount for AoE-merged loot items
+ (I-137)
+
+Items merged from nearby corpses into the main creature's loot were not
+incrementing unlootedCount, causing uint8 underflow when looted. This
+made isLooted() permanently false, preventing AllLootRemovedFromCorpse()
+from firing and the skinnable flag from being set.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/aoe_loot.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index befbda6..fb2f3e2 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -182,7 +182,11 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket& packet)
+     for (const auto& item : itemsToAdd)
+     {
+         if (mainLoot->items.size() < 15)
++        {
+             mainLoot->items.push_back(item);
++            if (!item.is_looted)
++                ++mainLoot->unlootedCount;
++        }
+     }
+ 
+     // Add quest items to player inventory
+-- 
+2.34.1
+
