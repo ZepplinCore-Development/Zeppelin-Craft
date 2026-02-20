@@ -273,6 +273,100 @@ def _print_step_header(step_name: str, zpak_name: str):
     print('=' * 80)
 
 
+def _preprocess_model_transforms(zpak: Dict[str, Any]) -> bool:
+    """Apply vertex transforms to M2 models in parsed-assets.
+
+    Reads model_transforms.json from the zpak root.  Each key is a path
+    relative to parsed-assets (UPPERCASE) and the value specifies dx, dy, dz
+    and scale to apply.  Source-assets are never modified.
+
+    To avoid cumulative drift, each target file is always re-copied from
+    source-assets before the transform is applied.
+    """
+    import json as _json
+    import shutil
+    from lib.m2_vertex_shifter import transform_vertices
+
+    zpak_path = Path(zpak['path'])
+    transforms_file = zpak_path / 'model_transforms.json'
+
+    if not transforms_file.exists():
+        return True  # nothing to do
+
+    source_dir = zpak_path / 'mpq' / 'source-assets'
+    parsed_dir = zpak_path / 'mpq' / 'parsed-assets'
+    if not parsed_dir.exists():
+        print("  No parsed-assets directory — skipping model transforms")
+        return True
+
+    with open(transforms_file) as f:
+        transforms = _json.load(f)
+
+    if not transforms:
+        return True
+
+    ok = 0
+    for rel_path, cfg in transforms.items():
+        m2_parsed = parsed_dir / rel_path.upper()
+
+        # Always re-copy from source-assets to ensure a clean baseline
+        # (staging may have skipped the file if it already existed)
+        m2_source = _find_source_file(source_dir, rel_path)
+        if m2_source and m2_source.exists():
+            m2_parsed.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(m2_source, m2_parsed)
+        elif not m2_parsed.exists():
+            print(f"  \033[33mSKIP\033[0m  {rel_path}  (not found in source or parsed)")
+            continue
+
+        dx = cfg.get('dx', 0.0)
+        dy = cfg.get('dy', 0.0)
+        dz = cfg.get('dz', 0.0)
+        scale = cfg.get('scale', 1.0)
+
+        try:
+            n = transform_vertices(m2_parsed, dx, dy, dz, scale=scale, backup=False)
+            print(f"  \033[32mOK\033[0m    {rel_path}  ({n} verts, scale={scale}, dz={dz:+.3f}, dx={dx:+.3f})")
+            ok += 1
+        except Exception as e:
+            print(f"  \033[31mERR\033[0m   {rel_path}  ({e})")
+            return False
+
+    print(f"\n  Transformed {ok}/{len(transforms)} model(s)")
+    return True
+
+
+def _find_source_file(source_dir: Path, rel_path: str) -> Path | None:
+    """Find a file in source-assets by case-insensitive match.
+
+    source-assets may use mixed case while rel_path is UPPERCASE.
+    """
+    # Try exact match first
+    exact = source_dir / rel_path
+    if exact.exists():
+        return exact
+
+    # Case-insensitive search through parent directory
+    target_upper = rel_path.upper()
+    parent = source_dir / Path(rel_path).parent
+    if not parent.exists():
+        # Try uppercase parent path
+        parent = source_dir / Path(rel_path).parent
+        # Walk source_dir for case-insensitive parent match
+        for candidate in source_dir.rglob('*'):
+            if candidate.is_file():
+                candidate_rel = str(candidate.relative_to(source_dir)).upper()
+                if candidate_rel == target_upper:
+                    return candidate
+    else:
+        name_upper = Path(rel_path).name.upper()
+        for f in parent.iterdir():
+            if f.name.upper() == name_upper:
+                return f
+
+    return None
+
+
 def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
     """Dispatch a named preprocessor.
 
@@ -291,6 +385,7 @@ def _run_named_preprocessor(name: str, zpak: Dict[str, Any]) -> bool:
         'dbc-export': _preprocess_dbc_export,
         'dbc-reorder': _preprocess_dbc_reorder,
         'atlasloot-generator': _preprocess_atlasloot,
+        'model-transforms': _preprocess_model_transforms,
     }
 
     func = dispatch.get(name)
@@ -548,9 +643,6 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
     zpak_names_list = [z['name'] for z, _ in buildable]
     _print_step_header('PACK', patch_name)
 
-    # conflicts: list of (skipped_file, zpak_that_was_skipped) tuples
-    conflicts = []
-
     if len(buildable) == 1:
         zpak, parsed = buildable[0]
         priority = zpak['manifest'].get('priority', 100)
@@ -558,25 +650,39 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
         if not _pack_mpq(parsed, output_path):
             return False
     else:
-        zpak, parsed = buildable[0]
-        priority = zpak['manifest'].get('priority', 100)
-        print(f"Packing {zpak['name']} [{priority}] into {patch_name}...")
-        if not _pack_mpq(parsed, output_path):
-            return False
+        # Merge all zpak parsed-assets into a single temp directory.
+        # Copy lowest priority first so higher priority overwrites on conflict.
+        # buildable is already sorted highest-priority-first, so reverse it.
+        merged_dir = Path(tempfile.mkdtemp(prefix='zpak-merge-'))
+        conflicts = []
+        try:
+            for zpak, parsed in reversed(buildable):
+                priority = zpak['manifest'].get('priority', 100)
+                print(f"Merging {zpak['name']} [{priority}]...")
+                for src_file in parsed.rglob('*'):
+                    if not src_file.is_file():
+                        continue
+                    if src_file.name in ('.gitkeep', '.gitignore'):
+                        continue
+                    rel = src_file.relative_to(parsed)
+                    dest = merged_dir / rel
+                    if dest.exists():
+                        # Higher priority overwrites lower — record the conflict
+                        conflicts.append((str(rel), zpak['name']))
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(src_file, dest)
 
-        for zpak, parsed in buildable[1:]:
-            priority = zpak['manifest'].get('priority', 100)
-            print(f"Adding {zpak['name']} [{priority}]...")
-            success, skipped = _add_to_mpq(parsed, output_path)
-            if not success:
+            if conflicts:
+                print(f"\n  File conflicts ({len(conflicts)} overrides):")
+                for filepath, winner in conflicts:
+                    print(f"    {filepath} (kept from {winner})")
+                print()
+
+            print(f"Packing merged directory into {patch_name}...")
+            if not _pack_mpq(merged_dir, output_path):
                 return False
-            for filepath in skipped:
-                conflicts.append((filepath, zpak['name']))
-
-    if conflicts:
-        print(f"\n  File conflicts ({len(conflicts)} files skipped):")
-        for filepath, zpak_name in conflicts:
-            print(f"    {filepath} (from {zpak_name} - overridden by higher priority)")
+        finally:
+            shutil.rmtree(merged_dir, ignore_errors=True)
 
     # Step 4: Update register
     zpak_names = ', '.join(zpak_names_list)

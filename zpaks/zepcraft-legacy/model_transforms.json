@@ -1,0 +1,16 @@
+{
+  "ITEM/OBJECTCOMPONENTS/HEAD/HELM_PLATE_D_04_DRM.M2": {
+    "note": "I-136 Draenei helm fix — source: Troll Male",
+    "dx": 0.03,
+    "dy": 0.0,
+    "dz": -0.13,
+    "scale": 0.855
+  },
+  "ITEM/OBJECTCOMPONENTS/HEAD/HELM_PLATE_D_04_DRF.M2": {
+    "note": "I-136 Draenei helm fix — source: Troll Female",
+    "dx": 0.03,
+    "dy": 0.0,
+    "dz": -0.13,
+    "scale": 0.855
+  }
+}
