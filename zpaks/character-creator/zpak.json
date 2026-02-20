@@ -3,10 +3,11 @@
   "name": "character-creator",
   "feature_id": "F-143",
   "version": "0.1.0",
-  "description": "HD Character Creator and Login - enhanced character creation and login screens",
+  "description": "HD character creation and login screens",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-L",
+  "patch_display_name": "Modern Login",
   "launcher": {
     "mandatory": true,
     "enabled_by_default": true,

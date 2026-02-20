@@ -95,7 +95,9 @@ def find_invtype_fixes(dbc_cursor, acore_cursor):
             # Weapons (class 2) - use skill-based inventory_type_ mapping
             if item_class == 2 and subclass in WEAPON_SKILLS:
                 skill_id, skill_name = WEAPON_SKILLS[subclass]
-                correct_inv_type = SKILL_TO_INVTYPE.get(skill_id, correct_inv_type)
+                # Preserve off-hand type (22) from item_template for dual-wield weapons
+                if correct_inv_type != 22:
+                    correct_inv_type = SKILL_TO_INVTYPE.get(skill_id, correct_inv_type)
 
             # Ammo (class 6) - always inventory_type_ 24
             elif item_class == 6:

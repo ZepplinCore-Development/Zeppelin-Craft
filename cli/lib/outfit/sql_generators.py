@@ -375,6 +375,23 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
         sql_lines.append(f"-- Cleaned up {len(duplicate_cleanups)} duplicate weapons/ammo")
         sql_lines.append("")
 
+    # SECTION: Inventory type fixes
+    if invtype_fixes:
+        sql_lines.append("-- " + "=" * 76)
+        sql_lines.append("-- INVENTORY TYPE FIXES")
+        sql_lines.append("-- " + "=" * 76)
+        sql_lines.append("-- Corrects inventory_type_ values that don't match item_template")
+        sql_lines.append("-- " + "=" * 76)
+        sql_lines.append("")
+
+        for fix in invtype_fixes:
+            sql_lines.append(f"-- {fix['race']} {fix['class']} ({fix['gender']}): "
+                            f"Fix {fix['item_name']} invtype to {fix['inv_type']}")
+            sql_lines.append(f"UPDATE `charstartoutfit` SET "
+                            f"`inventory_type_{fix['slot']}` = {fix['inv_type']} "
+                            f"WHERE `id` = {fix['outfit_id']};")
+            sql_lines.append("")
+
     # Write to file
     if output_mode == 'log':
         out = log_dir if log_dir else dbc_dir
@@ -437,6 +454,8 @@ def generate_weapon_fixes_sql(mismatches, weapon_additions, invtype_fixes, dupli
         click.echo(f"  {len(weapon_additions)} weapon additions")
         if duplicate_cleanups:
             click.echo(f"  {len(duplicate_cleanups)} duplicates cleaned")
+        if invtype_fixes:
+            click.echo(f"  {len(invtype_fixes)} invtype fixes")
         if preserved_tier:
             click.echo("  (preserved existing tier set section)")
 

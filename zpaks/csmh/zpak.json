@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "csmh",
   "version": "2.0.0",
-  "description": "Client & Server Message Handler framework for client-server addon communication",
+  "description": "Client-server addon messaging framework",
   "author": "Foereaper, Stoneharry, Terrorblade",
   "type": "acore-extension",
   "client_patch": "PATCH-A",

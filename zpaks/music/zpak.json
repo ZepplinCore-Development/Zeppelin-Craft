@@ -3,10 +3,11 @@
   "name": "music",
   "feature_id": "F-144",
   "version": "0.1.0",
-  "description": "Music - additional music tracks and improved audio",
+  "description": "Additional music tracks",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-M",
+  "patch_display_name": "Music",
   "launcher": {
     "mandatory": false,
     "enabled_by_default": false,

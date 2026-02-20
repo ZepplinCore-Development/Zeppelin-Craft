@@ -685,14 +685,34 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
             shutil.rmtree(merged_dir, ignore_errors=True)
 
     # Step 4: Update register
-    zpak_names = ', '.join(zpak_names_list)
+    # Resolve display name: check for patch_display_name in zpaks (highest priority first)
+    display_name = None
+    for zpak, _ in buildable:
+        display_name = zpak['manifest'].get('patch_display_name')
+        if display_name:
+            break
+    # Fallback: single zpak uses its name, multi-zpak joins names
+    if not display_name:
+        if len(buildable) == 1:
+            display_name = buildable[0][0]['name']
+        else:
+            display_name = ', '.join(zpak_names_list)
+
+    # Build description: "zpak_name - zpak_description" per line
+    desc_lines = []
+    for zpak, _ in buildable:
+        zpak_desc = zpak['manifest'].get('description', '')
+        desc_lines.append(f"{zpak['name']} - {zpak_desc}")
+    description = '\n'.join(desc_lines)
+
     bump_build_number(register)
 
     # Bump DBC version if any zpak has dbc-export preprocessor
     if any('dbc-export' in get_zpak_preprocessors(z) for z in zpaks):
         bump_dbc_version(register)
 
-    update_patch_entry(register, patch_name, output_path, zpak_name=zpak_names)
+    update_patch_entry(register, patch_name, output_path,
+                       zpak_name=display_name, description=description)
 
     elapsed = time.time() - start
     size_mb = output_path.stat().st_size / (1024 * 1024) if output_path.exists() else 0

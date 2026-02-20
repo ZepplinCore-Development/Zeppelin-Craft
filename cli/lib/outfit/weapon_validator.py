@@ -675,6 +675,11 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
         stock_weapon_map = {}  # skill_id -> (slot, item_id) for stock weapons that match CSV
         canonical_slots = {}  # skill_id -> canonical_slot for this race/class
 
+        # If no original_dbc data (Goblin/Worgen), fall back to current DB
+        # which will have worgoblin baseline after reset_to_stock()
+        if not stock_weapons:
+            stock_weapons = get_current_weapon_slots(source_cursor, acore_cursor, race_id, class_id, gender)
+
         for stock_weapon in stock_weapons:
             skill_id = stock_weapon['skill_id']
             if skill_id in available_skill_ids:
@@ -687,10 +692,6 @@ def validate_weapon_coverage(weapon_skills, source_cursor, original_cursor, acor
                     # This stock weapon's skill IS in CSV - prefer using it!
                     stock_weapon_map[skill_id] = (stock_weapon['slot'], stock_weapon['item_id'])
                     canonical_slots[skill_id] = stock_weapon['slot']
-
-        # For races without stock WOTLK data (Goblins, Worgen), do NOT create
-        # fallback canonical slots. The module author chose the slot positions,
-        # and forcing weapons to a different slot destroys other items there.
 
         # Track what weapons this outfit will have after fixes
         outfit_weapons = {}  # slot_idx -> (skill_id, item_id)

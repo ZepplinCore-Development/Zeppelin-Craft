@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "azerothcore",
   "version": "0.1.0",
-  "description": "AzerothCore main repository - base SQL and customization patches. Contains vanilla WOTLK 3.3.5a DBC files as baseline.",
+  "description": "AzerothCore base SQL and DBC baseline",
   "author": "Zeppelin Team",
   "type": "acore-extension",
   "dbc_source": "mpq/source-assets/DBFilesClient",

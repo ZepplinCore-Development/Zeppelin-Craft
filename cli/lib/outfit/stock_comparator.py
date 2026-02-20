@@ -6,6 +6,8 @@ shirts, armor, quivers, ammo, bags, and any other items.
 Also provides reset_to_stock() to restore item/invtype slots to stock values.
 """
 
+import re
+
 import click
 
 from .constants import RACE_NAMES, CLASS_NAMES, GENDER_NAMES, INVTYPE_NAMES
@@ -233,7 +235,7 @@ def _get_equipped_types(items, item_invtypes):
     return equipped
 
 
-def check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor):
+def check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor, worgoblin_path=None):
     """
     Verify every outfit has essential clothing: shirt/chest/robe, pants, and boots.
 
@@ -241,12 +243,13 @@ def check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor):
     that each has at least one real item (item > 0) providing body, legs, and
     feet coverage. Uses stock WOTLK data as reference — if a stock outfit also
     lacks an item type (e.g. Tauren have no boots), it's flagged as expected
-    rather than a problem.
+    rather than a problem. For custom races, uses worgoblin baseline if available.
 
     Args:
         dbc_cursor: Cursor for current dbc database
         original_dbc_cursor: Cursor for original_dbc (stock WOTLK reference)
         acore_cursor: Cursor for acore_world (item_template lookups)
+        worgoblin_path: Optional path to worgoblin charstartoutfit SQL file
 
     Returns:
         list of dicts with: outfit_id, race, class_id, gender, missing (list of str)
@@ -299,6 +302,34 @@ def check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor):
         key = (row[1], row[2])  # race, class
         if key not in stock_types:
             stock_types[key] = _get_equipped_types(row[4:28], item_invtypes)
+
+    # Add worgoblin baseline for custom races that have no original_dbc data
+    if worgoblin_path:
+        try:
+            worgoblin_data = _parse_worgoblin_inserts(worgoblin_path)
+            # Collect all worgoblin item IDs for batch lookup
+            wb_item_ids = set()
+            for (items, _invtypes) in worgoblin_data.values():
+                for item_id in items:
+                    if item_id and item_id > 0 and item_id != 6948:
+                        wb_item_ids.add(item_id)
+            # Batch lookup any worgoblin items not already in item_invtypes
+            missing_ids = wb_item_ids - set(item_invtypes.keys())
+            if missing_ids:
+                placeholders = ','.join(['%s'] * len(missing_ids))
+                acore_cursor.execute(f"""
+                    SELECT entry, InventoryType FROM item_template
+                    WHERE entry IN ({placeholders})
+                """, tuple(missing_ids))
+                for entry, inv_type in acore_cursor.fetchall():
+                    item_invtypes[entry] = inv_type
+
+            for (race_id, class_id, _gender), (items, _invtypes) in worgoblin_data.items():
+                key = (race_id, class_id)
+                if key not in stock_types:
+                    stock_types[key] = _get_equipped_types(items, item_invtypes)
+        except Exception:
+            pass  # Worgoblin parse failure is non-fatal for check
 
     # Check each outfit
     problems = []
@@ -392,18 +423,74 @@ def format_essential_items_report(problems):
     return '\n'.join(lines)
 
 
-def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor):
+def _parse_worgoblin_inserts(sql_path):
+    """
+    Parse DELETE+INSERT pairs from worgoblin charstartoutfit SQL.
+
+    Extracts item and inventory_type values for each (race, class, gender)
+    combination from the INSERT statements. Only parses DELETE+INSERT pairs
+    (new rows), not UPDATE statements.
+
+    Args:
+        sql_path: Path to the worgoblin SQL file
+
+    Returns:
+        dict: {(race, class, gender): (items_tuple_24, invtypes_tuple_24)}
+    """
+    with open(sql_path, 'r') as f:
+        content = f.read()
+
+    result = {}
+
+    # Match INSERT statements with full column list
+    # Column order: id, race, class, gender, outfit_id,
+    #   item_1..24 (24 cols), display_item_1..24 (24 cols), inventory_type_1..24 (24 cols)
+    # Total: 5 + 24 + 24 + 24 = 77 values
+    insert_re = re.compile(
+        r"INSERT INTO `charstartoutfit`\s*\([^)]+\)\s*VALUES\s*\(([^)]+)\);",
+        re.IGNORECASE
+    )
+
+    for match in insert_re.finditer(content):
+        values_str = match.group(1)
+        values = [v.strip() for v in values_str.split(',')]
+
+        if len(values) != 77:
+            continue
+
+        # Parse key fields
+        race_id = int(values[1])
+        class_id = int(values[2])
+        gender = int(values[3])
+
+        # Only care about races 1-12 for outfit pipeline
+        if race_id < 1 or race_id > 12 or class_id < 1 or class_id > 11:
+            continue
+
+        # Extract items (indices 5-28) and invtypes (indices 53-76)
+        items = tuple(int(v) for v in values[5:29])
+        invtypes = tuple(int(v) for v in values[53:77])
+
+        key = (race_id, class_id, gender)
+        result[key] = (items, invtypes)
+
+    return result
+
+
+def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor, worgoblin_path=None):
     """
     Reset item and inventory_type slots to stock WOTLK values.
 
     Updates item_1..24 and inventory_type_1..24 for every outfit that exists
-    in both current and stock. Skips Goblin (race=9) and Worgen (race=12)
-    since they have no stock data. Does NOT touch display_item columns.
+    in both current and stock. For races without original_dbc data (Goblin,
+    Worgen), falls back to worgoblin module baseline if provided.
+    Does NOT touch display_item columns.
 
     Args:
         dbc_cursor: Cursor for current dbc database
         dbc_conn: Connection for current dbc (for commit)
         original_dbc_cursor: Cursor for original_dbc (stock WOTLK)
+        worgoblin_path: Optional path to worgoblin charstartoutfit SQL file
 
     Returns:
         int: Number of rows reset
@@ -423,6 +510,15 @@ def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor):
         key = (row[1], row[2], row[3])
         stock_lookup[key] = row
 
+    # Parse worgoblin baseline if provided
+    worgoblin_lookup = {}
+    if worgoblin_path:
+        try:
+            worgoblin_lookup = _parse_worgoblin_inserts(worgoblin_path)
+            click.echo(f"Loaded {len(worgoblin_lookup)} worgoblin baseline entries")
+        except Exception as e:
+            click.echo(click.style(f"Warning: Failed to parse worgoblin SQL: {e}", fg='yellow'))
+
     # Read current data to get outfit IDs
     dbc_cursor.execute(_RESET_QUERY)
     current_rows = dbc_cursor.fetchall()
@@ -436,6 +532,7 @@ def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor):
     set_clause = ', '.join(set_cols)
 
     reset_count = 0
+    worgoblin_count = 0
     skipped_custom = 0
 
     for row in current_rows:
@@ -445,27 +542,35 @@ def reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor):
         key = (race_id, class_id, gender)
         stock_row = stock_lookup.get(key)
 
-        if stock_row is None:
+        if stock_row is not None:
+            # Has original_dbc data — reset to stock
+            stock_items = stock_row[4:28]
+            stock_invtypes = stock_row[28:52]
+            values = list(stock_items) + list(stock_invtypes) + [outfit_id]
+            dbc_cursor.execute(
+                f"UPDATE charstartoutfit SET {set_clause} WHERE id = %s",
+                values
+            )
+            reset_count += 1
+        elif key in worgoblin_lookup:
+            # No original_dbc but has worgoblin baseline — reset to worgoblin
+            wb_items, wb_invtypes = worgoblin_lookup[key]
+            values = list(wb_items) + list(wb_invtypes) + [outfit_id]
+            dbc_cursor.execute(
+                f"UPDATE charstartoutfit SET {set_clause} WHERE id = %s",
+                values
+            )
+            worgoblin_count += 1
+        else:
             skipped_custom += 1
-            continue
-
-        # Extract stock items (indices 4-27) and invtypes (indices 28-51)
-        stock_items = stock_row[4:28]
-        stock_invtypes = stock_row[28:52]
-
-        # Update current row to match stock
-        values = list(stock_items) + list(stock_invtypes) + [outfit_id]
-        dbc_cursor.execute(
-            f"UPDATE charstartoutfit SET {set_clause} WHERE id = %s",
-            values
-        )
-        reset_count += 1
 
     dbc_conn.commit()
 
     click.echo(f"Reset {reset_count} outfits to stock WOTLK values")
+    if worgoblin_count:
+        click.echo(f"Reset {worgoblin_count} outfits to worgoblin baseline")
     if skipped_custom:
-        click.echo(f"Skipped {skipped_custom} custom outfits (no stock data)")
+        click.echo(f"Skipped {skipped_custom} custom outfits (no stock or worgoblin data)")
     click.echo()
 
-    return reset_count
+    return reset_count + worgoblin_count

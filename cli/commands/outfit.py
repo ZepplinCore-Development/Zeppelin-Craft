@@ -46,6 +46,9 @@ CRAFT_ROOT = _cli_dir.parent
 ZPAK_NAME = 'zepcraft-legacy'
 ZPAK_DIR = CRAFT_ROOT / 'zpaks' / ZPAK_NAME
 
+# Worgoblin baseline for Goblin/Worgen races
+WORGOBLIN_CSO_SQL = CRAFT_ROOT / 'zpaks' / 'worgoblin' / 'dbc' / '[BASE,F-030]_charstartoutfit.sql'
+
 
 def _parse_class_list(value):
     """Parse comma-separated class IDs into a set."""
@@ -94,7 +97,7 @@ def _get_acore_connection():
 
 def _get_default_spreadsheet_path():
     """Get default path to Race and Class Masks.xlsx."""
-    return str(CRAFT_ROOT / 'Scripts' / 'Starting Weapons' / 'Race and Class Masks.xlsx')
+    return str(_cli_dir / 'data' / 'Race and Class Masks.xlsx')
 
 
 def _execute_world_sql(sql_content):
@@ -234,7 +237,9 @@ def check():
 
         # Essential items check (ALL races including custom)
         click.echo()
-        problems = check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor)
+        worgoblin_path = WORGOBLIN_CSO_SQL if WORGOBLIN_CSO_SQL.exists() else None
+        problems = check_essential_items(dbc_cursor, original_dbc_cursor, acore_cursor,
+                                          worgoblin_path=worgoblin_path)
         report = format_essential_items_report(problems)
         click.echo(report)
 
@@ -324,8 +329,10 @@ def fix(spreadsheet):
     acore_cursor = acore_conn.cursor()
 
     try:
-        # Step 3: Reset all item + invtype slots to stock WOTLK
-        reset_count = reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor)
+        # Step 3: Reset all item + invtype slots to stock WOTLK (+ worgoblin baseline)
+        worgoblin_path = WORGOBLIN_CSO_SQL if WORGOBLIN_CSO_SQL.exists() else None
+        reset_count = reset_to_stock(dbc_cursor, dbc_conn, original_dbc_cursor,
+                                      worgoblin_path=worgoblin_path)
 
         # Step 4: Validate starter weapon items
         validated_weapons = validate_starter_weapons(acore_cursor)

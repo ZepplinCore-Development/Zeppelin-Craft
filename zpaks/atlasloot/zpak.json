@@ -2,7 +2,7 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "atlasloot",
   "version": "1.0.0",
-  "description": "AtlasLoot Enhanced - database-driven loot tables for all dungeons and raids",
+  "description": "Loot table browser for dungeons and raids",
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-A",

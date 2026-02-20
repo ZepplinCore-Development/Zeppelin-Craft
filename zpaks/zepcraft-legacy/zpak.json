@@ -6,6 +6,7 @@
   "author": "Zeppelin Team",
   "type": "native",
   "client_patch": "PATCH-Z",
+  "patch_display_name": "Zepcraft",
   "launcher": {
     "mandatory": true,
     "enabled_by_default": true,

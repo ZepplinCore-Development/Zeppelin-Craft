@@ -5,7 +5,8 @@
   "description": "HD building and structure model replacements",
   "author": "Classic HD Appletrey",
   "type": "mpq",
-  "client_patch": "PATCH-R",
+  "client_patch": "PATCH-Q",
+  "patch_display_name": "HD Everything",
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_optional": true,

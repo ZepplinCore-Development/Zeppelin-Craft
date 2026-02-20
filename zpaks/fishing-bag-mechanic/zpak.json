@@ -3,10 +3,11 @@
   "name": "fishing-bag-mechanic",
   "feature_id": "F-157",
   "version": "0.1.0",
-  "description": "F-157: Fishing poles work from bags, lures become consumable buffs",
+  "description": "Fishing poles work from bags, lures become consumable buffs",
   "author": "Zeppelin Team",
   "type": "native",
   "client_patch": "PATCH-P",
+  "patch_display_name": "Professions",
   "contents": {
     "sql": [
       "sql/*.sql"

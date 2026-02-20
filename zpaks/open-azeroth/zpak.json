@@ -2,10 +2,11 @@
   "$schema": "../../schemas/zpak.schema.json",
   "name": "open-azeroth",
   "version": "1.0.0",
-  "description": "Open Azeroth terrain modifications - opens inaccessible areas of Kalimdor and Eastern Kingdoms",
+  "description": "Opens inaccessible areas of Kalimdor and Eastern Kingdoms",
   "author": "Open Azeroth Project",
   "type": "mpq",
   "client_patch": "PATCH-O",
+  "patch_display_name": "Open Azeroth",
   "build": {
     "preprocessor": "resource-parser",
     "preprocessor_mode": "full",

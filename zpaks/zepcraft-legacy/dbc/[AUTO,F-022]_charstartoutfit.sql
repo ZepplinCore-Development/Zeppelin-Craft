@@ -1,4 +1,334 @@
+-- Goblin Rogue (Male): Replace One-Handed Maces with Daggers
+UPDATE `charstartoutfit` SET `item_5` = 2092 WHERE `id` = 506;
 
+-- Goblin Rogue (Female): Replace One-Handed Maces with Daggers
+UPDATE `charstartoutfit` SET `item_5` = 2092 WHERE `id` = 507;
+
+-- Worgen Rogue (Male): Replace One-Handed Axes with Daggers
+UPDATE `charstartoutfit` SET `item_5` = 2092 WHERE `id` = 536;
+
+-- Worgen Rogue (Female): Replace One-Handed Axes with Daggers
+UPDATE `charstartoutfit` SET `item_5` = 2092 WHERE `id` = 537;
+
+-- ============================================================================
+-- INVENTORY TYPE FIXES
+-- ============================================================================
+-- Corrects inventory_type_ values that don't match item_template
+-- ============================================================================
+
+-- Human Hunter (Male): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 217;
+
+-- Human Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 217;
+
+-- Human Hunter (Female): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 218;
+
+-- Human Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 218;
+
+-- Human Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 207;
+
+-- Human Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 208;
+
+-- Human Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 219;
+
+-- Human Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 219;
+
+-- Human Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 220;
+
+-- Human Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 220;
+
+-- Orc Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 133;
+
+-- Orc Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 134;
+
+-- Orc Rogue (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 19;
+
+-- Orc Rogue (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 20;
+
+-- Orc Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 23;
+
+-- Orc Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 24;
+
+-- Dwarf Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 31;
+
+-- Dwarf Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 32;
+
+-- Dwarf Rogue (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 33;
+
+-- Dwarf Rogue (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 34;
+
+-- Dwarf Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 141;
+
+-- Dwarf Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 141;
+
+-- Dwarf Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 142;
+
+-- Dwarf Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 142;
+
+-- Night Elf Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 149;
+
+-- Night Elf Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 150;
+
+-- Night Elf Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 45;
+
+-- Night Elf Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 46;
+
+-- Night Elf Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 151;
+
+-- Night Elf Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 151;
+
+-- Night Elf Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 152;
+
+-- Night Elf Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 152;
+
+-- Undead Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 157;
+
+-- Undead Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 158;
+
+-- Undead Hunter (Male): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 159;
+
+-- Undead Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 159;
+
+-- Undead Hunter (Female): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 160;
+
+-- Undead Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 160;
+
+-- Undead Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 55;
+
+-- Undead Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 56;
+
+-- Undead Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 161;
+
+-- Undead Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 161;
+
+-- Undead Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 162;
+
+-- Undead Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 162;
+
+-- Tauren Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 165;
+
+-- Tauren Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 166;
+
+-- Tauren Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_6` = 15 WHERE `id` = 67;
+
+-- Tauren Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_6` = 15 WHERE `id` = 68;
+
+-- Tauren Rogue (Male): Fix Thug Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 167;
+
+-- Tauren Rogue (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 167;
+
+-- Tauren Rogue (Female): Fix Thug Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 168;
+
+-- Tauren Rogue (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 168;
+
+-- Tauren Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_4` = 13 WHERE `id` = 71;
+
+-- Tauren Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_4` = 13 WHERE `id` = 72;
+
+-- Gnome Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 175;
+
+-- Gnome Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 176;
+
+-- Gnome Hunter (Male): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 177;
+
+-- Gnome Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 177;
+
+-- Gnome Hunter (Female): Fix Rugged Trapper's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 178;
+
+-- Gnome Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 178;
+
+-- Gnome Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_6` = 26 WHERE `id` = 77;
+
+-- Gnome Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_6` = 26 WHERE `id` = 78;
+
+-- Gnome Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 181;
+
+-- Gnome Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 181;
+
+-- Gnome Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 182;
+
+-- Gnome Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 182;
+
+-- Troll Warrior (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 85;
+
+-- Troll Warrior (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 86;
+
+-- Troll Paladin (Male): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 185;
+
+-- Troll Paladin (Female): Fix Squire's Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 186;
+
+-- Troll Rogue (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 89;
+
+-- Troll Rogue (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 90;
+
+-- Troll Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_1` = 13 WHERE `id` = 95;
+
+-- Troll Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_1` = 13 WHERE `id` = 96;
+
+-- Goblin Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 504;
+
+-- Goblin Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 505;
+
+-- Goblin Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 506;
+
+-- Goblin Rogue (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 506;
+
+-- Goblin Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 507;
+
+-- Goblin Rogue (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 507;
+
+-- Goblin Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 512;
+
+-- Goblin Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 513;
+
+-- Blood Elf Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 103;
+
+-- Blood Elf Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_7` = 26 WHERE `id` = 104;
+
+-- Blood Elf Shaman (Male): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 193;
+
+-- Blood Elf Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 193;
+
+-- Blood Elf Shaman (Female): Fix Primitive Mantle invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 194;
+
+-- Blood Elf Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 194;
+
+-- Draenei Hunter (Male): Fix Weathered Crossbow invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 117;
+
+-- Draenei Hunter (Female): Fix Weathered Crossbow invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_8` = 15 WHERE `id` = 118;
+
+-- Draenei Rogue (Male): Fix Thug Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 197;
+
+-- Draenei Rogue (Male): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 197;
+
+-- Draenei Rogue (Female): Fix Thug Shirt invtype to 4
+UPDATE `charstartoutfit` SET `inventory_type_1` = 4 WHERE `id` = 198;
+
+-- Draenei Rogue (Female): Fix Crude Throwing Axe invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 198;
+
+-- Draenei Shaman (Male): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 123;
+
+-- Draenei Shaman (Female): Fix Worn Mace invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 124;
+
+-- Worgen Hunter (Male): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_6` = 15 WHERE `id` = 534;
+
+-- Worgen Hunter (Female): Fix Old Blunderbuss invtype to 15
+UPDATE `charstartoutfit` SET `inventory_type_6` = 15 WHERE `id` = 535;
+
+-- Worgen Rogue (Male): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 536;
+
+-- Worgen Rogue (Male): Fix Worn Axe invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 536;
+
+-- Worgen Rogue (Female): Fix Light Throwing Knife invtype to 26
+UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 537;
+
+-- Worgen Rogue (Female): Fix Worn Axe invtype to 13
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 537;-- ============================================================================
+-- WEAPON DISPLAY FIXES
+-- ============================================================================
+-- Updates display_item_ for weapon slots changed above
+
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 506;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 507;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 536;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 537;
 -- [TIER SET DISPLAY OVERRIDES - START]
 -- ============================================================================
 -- TIER SET DISPLAY OVERRIDES
@@ -7,17 +337,17 @@
 -- DO NOT EDIT MANUALLY - Regenerated on each tier apply
 -- ============================================================================
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_7` = 34215 WHERE `id` = 15;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34215 WHERE `id` = 15;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_9` = 34253 WHERE `id` = 15;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34253 WHERE `id` = 15;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_10` = 33983 WHERE `id` = 15;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33983 WHERE `id` = 15;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_11` = 33984 WHERE `id` = 15;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33984 WHERE `id` = 15;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 15;
@@ -28,17 +358,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 15;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 15;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_7` = 34215 WHERE `id` = 16;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34215 WHERE `id` = 16;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_9` = 34253 WHERE `id` = 16;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34253 WHERE `id` = 16;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_10` = 33983 WHERE `id` = 16;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33983 WHERE `id` = 16;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_11` = 33984 WHERE `id` = 16;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33984 WHERE `id` = 16;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 16;
@@ -49,17 +379,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 16;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 16;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 17;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 17;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 17;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 17;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 17;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 17;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 17;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 17;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 17;
@@ -73,17 +403,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 17;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 17;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 18;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 18;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 18;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 18;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 18;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 18;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 18;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 18;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 18;
@@ -97,17 +427,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 18;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 18;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 19;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 19;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 19;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 19;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 19;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 19;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 19;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 19;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 19;
@@ -121,17 +451,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 19;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 19;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 20;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 20;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 20;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 20;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 20;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 20;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 20;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 20;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 20;
@@ -145,23 +475,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 20;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 20;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 23;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 23;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 23;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 23;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_9` = 34081 WHERE `id` = 23;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 23;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_10` = 34082 WHERE `id` = 23;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 23;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 23;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_11` = 34083 WHERE `id` = 23;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 23;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 23;
@@ -169,23 +499,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 23;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 23;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 24;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 24;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 24;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 24;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_9` = 34081 WHERE `id` = 24;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 24;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_10` = 34082 WHERE `id` = 24;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 24;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 24;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_11` = 34083 WHERE `id` = 24;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 24;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 24;
@@ -193,17 +523,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 24;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 24;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 25;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 25;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 25;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 25;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 25;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 25;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 25;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 25;
@@ -214,17 +544,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 25;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 25;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 26;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 26;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 26;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 26;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 26;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 26;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 26;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 26;
@@ -235,17 +565,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 26;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 26;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_7` = 34215 WHERE `id` = 27;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34215 WHERE `id` = 27;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_8` = 34253 WHERE `id` = 27;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34253 WHERE `id` = 27;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 27;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 27;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 27;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 27;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 27;
@@ -256,17 +586,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 27;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 27;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_7` = 34215 WHERE `id` = 28;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34215 WHERE `id` = 28;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_8` = 34253 WHERE `id` = 28;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34253 WHERE `id` = 28;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 28;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 28;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 28;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 28;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 28;
@@ -277,17 +607,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 28;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 28;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 29;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 29;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 29;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 29;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_9` = 33635 WHERE `id` = 29;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 29;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_10` = 33636 WHERE `id` = 29;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 29;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 29;
@@ -298,17 +628,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33639 WHERE `id` = 29;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 29;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 30;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 30;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 30;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 30;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_9` = 33635 WHERE `id` = 30;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 30;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_10` = 33636 WHERE `id` = 30;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 30;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 30;
@@ -319,17 +649,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33639 WHERE `id` = 30;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 30;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 31;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 31;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 31;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 31;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 31;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 31;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 31;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 31;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 31;
@@ -343,17 +673,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 31;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 31;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 32;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 32;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 32;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 32;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 32;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 32;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 32;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 32;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 32;
@@ -367,17 +697,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 32;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 32;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 33;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 33;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 33;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 33;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 33;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 33;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 33;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 33;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 33;
@@ -391,17 +721,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 33;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_5` = 31864 WHERE `id` = 33;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 34;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 34;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 34;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 34;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 34;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 34;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 34;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 34;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 34;
@@ -415,17 +745,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 34;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_5` = 31864 WHERE `id` = 34;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 35;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 35;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 35;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 35;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 35;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 35;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 35;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 35;
@@ -436,17 +766,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 35;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 35;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 36;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 36;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 36;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 36;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 36;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 36;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 36;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 36;
@@ -457,17 +787,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 36;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 36;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_5` = 34215 WHERE `id` = 41;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34215 WHERE `id` = 41;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_6` = 34253 WHERE `id` = 41;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34253 WHERE `id` = 41;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 41;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 41;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 41;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 41;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_3` = 33986 WHERE `id` = 41;
@@ -478,17 +808,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 33989 WHERE `id` = 41;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_1` = 32000 WHERE `id` = 41;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_5` = 34215 WHERE `id` = 42;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34215 WHERE `id` = 42;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_6` = 34253 WHERE `id` = 42;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34253 WHERE `id` = 42;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 42;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 42;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 42;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 42;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_3` = 33986 WHERE `id` = 42;
@@ -499,17 +829,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 33989 WHERE `id` = 42;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_1` = 32000 WHERE `id` = 42;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 43;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 43;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 43;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 43;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 43;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 43;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 43;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 43;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_3` = 33672 WHERE `id` = 43;
@@ -523,17 +853,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 43;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 43;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 44;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 44;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 44;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 44;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 44;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 44;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 44;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 44;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_3` = 33672 WHERE `id` = 44;
@@ -547,17 +877,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 44;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 44;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 45;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 45;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 45;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 45;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 45;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 45;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 45;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 45;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 45;
@@ -571,17 +901,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 45;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 45;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 46;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 46;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 46;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 46;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 46;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 46;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 46;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 46;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 46;
@@ -595,17 +925,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 46;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 46;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 47;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 47;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 47;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 47;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_2` = 34047 WHERE `id` = 47;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 47;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 47;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 47;
@@ -616,17 +946,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 47;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 47;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 48;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 48;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 48;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 48;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_2` = 34047 WHERE `id` = 48;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 48;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 48;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 48;
@@ -637,59 +967,59 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 48;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 48;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 51;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 51;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 51;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 51;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 51;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 51;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 51;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 51;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 51;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 51;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 51;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 52;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 52;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 52;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 52;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 52;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 52;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 52;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 52;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 52;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 52;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 52;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_5` = 34215 WHERE `id` = 53;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34215 WHERE `id` = 53;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_6` = 34253 WHERE `id` = 53;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34253 WHERE `id` = 53;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 53;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 53;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 53;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 53;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 53;
@@ -700,17 +1030,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 53;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 53;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_5` = 34215 WHERE `id` = 54;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34215 WHERE `id` = 54;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_6` = 34253 WHERE `id` = 54;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34253 WHERE `id` = 54;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 54;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 54;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 54;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 54;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 54;
@@ -721,17 +1051,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 54;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 54;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 55;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 55;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 55;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 55;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 55;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 55;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 55;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 55;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 55;
@@ -745,17 +1075,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 55;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 55;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 56;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 56;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 56;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 56;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 56;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 56;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 56;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 56;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 56;
@@ -769,17 +1099,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 56;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 56;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 57;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 57;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 57;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 57;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 57;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 57;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 57;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 57;
@@ -790,17 +1120,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 57;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 57;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 58;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 58;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 58;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 58;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 58;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 58;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 58;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 58;
@@ -811,17 +1141,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 58;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 58;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 61;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 61;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 61;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 61;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 61;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 61;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 61;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 61;
@@ -832,17 +1162,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 61;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 61;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 62;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 62;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 62;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 62;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 62;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 62;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 62;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 62;
@@ -853,17 +1183,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 62;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 62;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 63;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 63;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 63;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 63;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 63;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 63;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 63;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 63;
@@ -874,17 +1204,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 63;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 63;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 64;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 64;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 64;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 64;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 64;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 64;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 64;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 64;
@@ -895,65 +1225,65 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 64;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 64;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 65;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 65;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_8` = 34253 WHERE `id` = 65;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34253 WHERE `id` = 65;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 65;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 65;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 65;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 65;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 65;
 
--- Warrior Battlegear of Wrath: feet = 33989
-UPDATE `charstartoutfit` SET `display_item_11` = 33989 WHERE `id` = 65;
+-- Warrior Battlegear of Wrath: feet = 33989 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 33989 WHERE `id` = 65;
 
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 65;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 66;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 66;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_8` = 34253 WHERE `id` = 66;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34253 WHERE `id` = 66;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 66;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 66;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 66;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 66;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 66;
 
--- Warrior Battlegear of Wrath: feet = 33989
-UPDATE `charstartoutfit` SET `display_item_11` = 33989 WHERE `id` = 66;
+-- Warrior Battlegear of Wrath: feet = 33989 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 33989 WHERE `id` = 66;
 
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 66;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 67;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 67;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 67;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 67;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 67;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 67;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 67;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 67;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 67;
 
--- Hunter Dragonstalker: feet = 34269
-UPDATE `charstartoutfit` SET `display_item_13` = 34269 WHERE `id` = 67;
+-- Hunter Dragonstalker: feet = 34269 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 8, `display_item_13` = 34269 WHERE `id` = 67;
 
 -- Hunter Dragonstalker: weapon_2h = 31857
 UPDATE `charstartoutfit` SET `display_item_4` = 31857 WHERE `id` = 67;
@@ -961,23 +1291,23 @@ UPDATE `charstartoutfit` SET `display_item_4` = 31857 WHERE `id` = 67;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 67;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 68;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 68;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 68;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 68;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 68;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 68;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 68;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 68;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 68;
 
--- Hunter Dragonstalker: feet = 34269
-UPDATE `charstartoutfit` SET `display_item_13` = 34269 WHERE `id` = 68;
+-- Hunter Dragonstalker: feet = 34269 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 8, `display_item_13` = 34269 WHERE `id` = 68;
 
 -- Hunter Dragonstalker: weapon_2h = 31857
 UPDATE `charstartoutfit` SET `display_item_4` = 31857 WHERE `id` = 68;
@@ -985,23 +1315,23 @@ UPDATE `charstartoutfit` SET `display_item_4` = 31857 WHERE `id` = 68;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 68;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_5` = 34217 WHERE `id` = 71;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34217 WHERE `id` = 71;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_6` = 34255 WHERE `id` = 71;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34255 WHERE `id` = 71;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_8` = 34081 WHERE `id` = 71;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 34081 WHERE `id` = 71;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 71;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 71;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 71;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 71;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34083 WHERE `id` = 71;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_4` = 31863 WHERE `id` = 71;
@@ -1009,23 +1339,23 @@ UPDATE `charstartoutfit` SET `display_item_4` = 31863 WHERE `id` = 71;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_7` = 34110 WHERE `id` = 71;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_5` = 34217 WHERE `id` = 72;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34217 WHERE `id` = 72;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_6` = 34255 WHERE `id` = 72;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34255 WHERE `id` = 72;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_8` = 34081 WHERE `id` = 72;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 34081 WHERE `id` = 72;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 72;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 72;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 72;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 72;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34083 WHERE `id` = 72;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_4` = 31863 WHERE `id` = 72;
@@ -1033,59 +1363,59 @@ UPDATE `charstartoutfit` SET `display_item_4` = 31863 WHERE `id` = 72;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_7` = 34110 WHERE `id` = 72;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 73;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 73;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 73;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 73;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 73;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 73;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 73;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 73;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 73;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 73;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 73;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 74;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 74;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 74;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 74;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 74;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 74;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 74;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 74;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 74;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 74;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 74;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 75;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 75;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 75;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 75;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 75;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 75;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 75;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 75;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 75;
@@ -1096,17 +1426,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 75;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 75;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 76;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 76;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 76;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 76;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 76;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 76;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 76;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 76;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 76;
@@ -1117,17 +1447,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 76;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 76;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_7` = 33743 WHERE `id` = 77;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 33743 WHERE `id` = 77;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 77;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 77;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 77;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 77;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 77;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 77;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 77;
@@ -1141,17 +1471,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34513 WHERE `id` = 77;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_5` = 31864 WHERE `id` = 77;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_7` = 33743 WHERE `id` = 78;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 33743 WHERE `id` = 78;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 78;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 78;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 78;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 78;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 78;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 78;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 78;
@@ -1165,17 +1495,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34513 WHERE `id` = 78;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_5` = 31864 WHERE `id` = 78;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_7` = 34218 WHERE `id` = 81;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34218 WHERE `id` = 81;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_8` = 34254 WHERE `id` = 81;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34254 WHERE `id` = 81;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 81;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 81;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 81;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 81;
@@ -1186,17 +1516,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 81;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_6` = 31964 WHERE `id` = 81;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_7` = 34218 WHERE `id` = 82;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34218 WHERE `id` = 82;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_8` = 34254 WHERE `id` = 82;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34254 WHERE `id` = 82;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 82;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 82;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 82;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 82;
@@ -1207,17 +1537,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 82;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_6` = 31964 WHERE `id` = 82;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 83;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 83;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 83;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 83;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 83;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 83;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 83;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 83;
@@ -1228,17 +1558,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34015 WHERE `id` = 83;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_5` = 31960 WHERE `id` = 83;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 84;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 84;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 84;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 84;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 84;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 84;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 84;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 84;
@@ -1249,65 +1579,65 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34015 WHERE `id` = 84;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_5` = 31960 WHERE `id` = 84;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_2` = 34215 WHERE `id` = 85;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34215 WHERE `id` = 85;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_5` = 34253 WHERE `id` = 85;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34253 WHERE `id` = 85;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 85;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 85;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 85;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 85;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_4` = 33986 WHERE `id` = 85;
 
--- Warrior Battlegear of Wrath: feet = 33989
-UPDATE `charstartoutfit` SET `display_item_11` = 33989 WHERE `id` = 85;
+-- Warrior Battlegear of Wrath: feet = 33989 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 33989 WHERE `id` = 85;
 
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_1` = 32000 WHERE `id` = 85;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_2` = 34215 WHERE `id` = 86;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34215 WHERE `id` = 86;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_5` = 34253 WHERE `id` = 86;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34253 WHERE `id` = 86;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 86;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 86;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 86;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 86;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_4` = 33986 WHERE `id` = 86;
 
--- Warrior Battlegear of Wrath: feet = 33989
-UPDATE `charstartoutfit` SET `display_item_11` = 33989 WHERE `id` = 86;
+-- Warrior Battlegear of Wrath: feet = 33989 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 33989 WHERE `id` = 86;
 
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_1` = 32000 WHERE `id` = 86;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_2` = 34367 WHERE `id` = 87;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34367 WHERE `id` = 87;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_8` = 34091 WHERE `id` = 87;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34091 WHERE `id` = 87;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 87;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 87;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 87;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 87;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_6` = 33672 WHERE `id` = 87;
 
--- Hunter Dragonstalker: feet = 34269
-UPDATE `charstartoutfit` SET `display_item_13` = 34269 WHERE `id` = 87;
+-- Hunter Dragonstalker: feet = 34269 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 8, `display_item_13` = 34269 WHERE `id` = 87;
 
 -- Hunter Dragonstalker: weapon_2h = 31857
 UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 87;
@@ -1315,23 +1645,23 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 87;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_5` = 32763 WHERE `id` = 87;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_2` = 34367 WHERE `id` = 88;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34367 WHERE `id` = 88;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_8` = 34091 WHERE `id` = 88;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34091 WHERE `id` = 88;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 88;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 88;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 88;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 88;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_6` = 33672 WHERE `id` = 88;
 
--- Hunter Dragonstalker: feet = 34269
-UPDATE `charstartoutfit` SET `display_item_13` = 34269 WHERE `id` = 88;
+-- Hunter Dragonstalker: feet = 34269 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 8, `display_item_13` = 34269 WHERE `id` = 88;
 
 -- Hunter Dragonstalker: weapon_2h = 31857
 UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 88;
@@ -1339,17 +1669,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 88;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_5` = 32763 WHERE `id` = 88;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_2` = 33743 WHERE `id` = 89;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 33743 WHERE `id` = 89;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 89;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 89;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 89;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 89;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 89;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 89;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_4` = 31115 WHERE `id` = 89;
@@ -1363,17 +1693,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 89;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 89;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_2` = 33743 WHERE `id` = 90;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 33743 WHERE `id` = 90;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 90;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 90;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 90;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 90;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 90;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 90;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_4` = 31115 WHERE `id` = 90;
@@ -1387,65 +1717,65 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 90;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 90;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_2` = 34233 WHERE `id` = 91;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34233 WHERE `id` = 91;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_3` = 34048 WHERE `id` = 91;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34048 WHERE `id` = 91;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 91;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_9` = 34051 WHERE `id` = 91;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34051 WHERE `id` = 91;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 91;
 
--- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_10` = 34055 WHERE `id` = 91;
+-- Priest Vestments of Transcendence: feet = 34055 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34055 WHERE `id` = 91;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 91;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_2` = 34233 WHERE `id` = 92;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34233 WHERE `id` = 92;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_3` = 34048 WHERE `id` = 92;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34048 WHERE `id` = 92;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 92;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_9` = 34051 WHERE `id` = 92;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34051 WHERE `id` = 92;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 92;
 
--- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_10` = 34055 WHERE `id` = 92;
+-- Priest Vestments of Transcendence: feet = 34055 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34055 WHERE `id` = 92;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 92;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_2` = 34217 WHERE `id` = 95;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34217 WHERE `id` = 95;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_3` = 34255 WHERE `id` = 95;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34255 WHERE `id` = 95;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_8` = 34081 WHERE `id` = 95;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 34081 WHERE `id` = 95;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 95;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 95;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_5` = 34084 WHERE `id` = 95;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 95;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34083 WHERE `id` = 95;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_1` = 31863 WHERE `id` = 95;
@@ -1453,23 +1783,23 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31863 WHERE `id` = 95;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_6` = 34110 WHERE `id` = 95;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_2` = 34217 WHERE `id` = 96;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34217 WHERE `id` = 96;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_3` = 34255 WHERE `id` = 96;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34255 WHERE `id` = 96;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_8` = 34081 WHERE `id` = 96;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 34081 WHERE `id` = 96;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 96;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 96;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_5` = 34084 WHERE `id` = 96;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 96;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34083 WHERE `id` = 96;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_1` = 31863 WHERE `id` = 96;
@@ -1477,17 +1807,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31863 WHERE `id` = 96;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_6` = 34110 WHERE `id` = 96;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 97;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 97;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 97;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 97;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 97;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 97;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 97;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 97;
@@ -1498,17 +1828,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 97;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 97;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 98;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 98;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 98;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 98;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 98;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 98;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 98;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 98;
@@ -1519,17 +1849,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 98;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 98;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 99;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 99;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 99;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 99;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_13` = 33635 WHERE `id` = 99;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 5, `display_item_13` = 33635 WHERE `id` = 99;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_14` = 33636 WHERE `id` = 99;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_14` = -1, `inventory_type_14` = 10, `display_item_14` = 33636 WHERE `id` = 99;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 99;
@@ -1540,17 +1870,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33639 WHERE `id` = 99;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_4` = 23875 WHERE `id` = 99;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 100;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 100;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 100;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 100;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_13` = 33635 WHERE `id` = 100;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 5, `display_item_13` = 33635 WHERE `id` = 100;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_14` = 33636 WHERE `id` = 100;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_14` = -1, `inventory_type_14` = 10, `display_item_14` = 33636 WHERE `id` = 100;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 100;
@@ -1561,17 +1891,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33639 WHERE `id` = 100;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_4` = 23875 WHERE `id` = 100;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 101;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 101;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 101;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 101;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 101;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 101;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 101;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 101;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 101;
@@ -1585,17 +1915,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 101;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 101;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 102;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 102;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_9` = 34091 WHERE `id` = 102;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34091 WHERE `id` = 102;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_12` = 33667 WHERE `id` = 102;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 102;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_13` = 33668 WHERE `id` = 102;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 102;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 102;
@@ -1609,17 +1939,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 102;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 102;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 103;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 103;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 103;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 103;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 103;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 103;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 103;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 103;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 103;
@@ -1633,17 +1963,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 103;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 103;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_5` = 33743 WHERE `id` = 104;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 33743 WHERE `id` = 104;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 104;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 104;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 104;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 104;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 104;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 104;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 104;
@@ -1657,17 +1987,17 @@ UPDATE `charstartoutfit` SET `display_item_1` = 34513 WHERE `id` = 104;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 104;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 105;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 105;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 105;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 105;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 105;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 105;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 105;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 105;
@@ -1678,17 +2008,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 105;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 105;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 106;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 106;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 106;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 106;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 106;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 106;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 106;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 106;
@@ -1699,17 +2029,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 106;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 106;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 109;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 109;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 109;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 109;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 109;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 109;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 109;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 109;
@@ -1720,17 +2050,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 109;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 109;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 110;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 110;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 110;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 110;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 110;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 110;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 110;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 110;
@@ -1741,17 +2071,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 110;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 110;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 111;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 111;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 111;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 111;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 111;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 111;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 111;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 111;
@@ -1762,17 +2092,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 111;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 111;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 112;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 112;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 112;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 112;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 112;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 112;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 112;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 112;
@@ -1783,17 +2113,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 112;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 112;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 113;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 113;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 113;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 113;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_8` = 33983 WHERE `id` = 113;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 33983 WHERE `id` = 113;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_9` = 33984 WHERE `id` = 113;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 33984 WHERE `id` = 113;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 113;
@@ -1804,17 +2134,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 113;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 113;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 114;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 114;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 114;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 114;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_8` = 33983 WHERE `id` = 114;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 33983 WHERE `id` = 114;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_9` = 33984 WHERE `id` = 114;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 33984 WHERE `id` = 114;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 114;
@@ -1825,59 +2155,59 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 114;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 114;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 115;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 115;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 115;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 115;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_8` = 33635 WHERE `id` = 115;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 33635 WHERE `id` = 115;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 115;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 33636 WHERE `id` = 115;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 115;
 
--- Paladin Judgment: feet = 33639
-UPDATE `charstartoutfit` SET `display_item_10` = 33639 WHERE `id` = 115;
+-- Paladin Judgment: feet = 33639 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 33639 WHERE `id` = 115;
 
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_3` = 23875 WHERE `id` = 115;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 116;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 116;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 116;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 116;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_8` = 33635 WHERE `id` = 116;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 5, `display_item_8` = 33635 WHERE `id` = 116;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 116;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 33636 WHERE `id` = 116;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_2` = 33637 WHERE `id` = 116;
 
--- Paladin Judgment: feet = 33639
-UPDATE `charstartoutfit` SET `display_item_10` = 33639 WHERE `id` = 116;
+-- Paladin Judgment: feet = 33639 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 33639 WHERE `id` = 116;
 
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_3` = 23875 WHERE `id` = 116;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 117;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 117;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_7` = 34091 WHERE `id` = 117;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34091 WHERE `id` = 117;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 117;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 117;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 117;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 117;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 117;
@@ -1891,17 +2221,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 31857 WHERE `id` = 117;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 117;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 118;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 118;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_7` = 34091 WHERE `id` = 118;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34091 WHERE `id` = 118;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_11` = 33667 WHERE `id` = 118;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 5, `display_item_11` = 33667 WHERE `id` = 118;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 118;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 33668 WHERE `id` = 118;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 118;
@@ -1915,59 +2245,59 @@ UPDATE `charstartoutfit` SET `display_item_3` = 31857 WHERE `id` = 118;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 118;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 119;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 119;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 119;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 119;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 119;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_8` = 34051 WHERE `id` = 119;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 10, `display_item_8` = 34051 WHERE `id` = 119;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_1` = 34049 WHERE `id` = 119;
 
--- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_9` = 34055 WHERE `id` = 119;
+-- Priest Vestments of Transcendence: feet = 34055 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 8, `display_item_9` = 34055 WHERE `id` = 119;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_3` = 31347 WHERE `id` = 119;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 120;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 120;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 120;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 120;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 120;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_8` = 34051 WHERE `id` = 120;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 10, `display_item_8` = 34051 WHERE `id` = 120;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_1` = 34049 WHERE `id` = 120;
 
--- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_9` = 34055 WHERE `id` = 120;
+-- Priest Vestments of Transcendence: feet = 34055 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 8, `display_item_9` = 34055 WHERE `id` = 120;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_3` = 31347 WHERE `id` = 120;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 123;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 123;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 123;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 123;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_13` = 34081 WHERE `id` = 123;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 5, `display_item_13` = 34081 WHERE `id` = 123;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_14` = 34082 WHERE `id` = 123;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_14` = -1, `inventory_type_14` = 10, `display_item_14` = 34082 WHERE `id` = 123;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 123;
@@ -1981,17 +2311,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 123;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 123;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 124;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 124;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 124;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 124;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_13` = 34081 WHERE `id` = 124;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 5, `display_item_13` = 34081 WHERE `id` = 124;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_14` = 34082 WHERE `id` = 124;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_14` = -1, `inventory_type_14` = 10, `display_item_14` = 34082 WHERE `id` = 124;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 124;
@@ -2005,59 +2335,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 124;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 124;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 125;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 125;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 125;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 125;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_2` = 34038 WHERE `id` = 125;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_9` = 34041 WHERE `id` = 125;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34041 WHERE `id` = 125;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_1` = 34039 WHERE `id` = 125;
 
--- Mage Netherwind Regalia: feet = 34044
-UPDATE `charstartoutfit` SET `display_item_10` = 34044 WHERE `id` = 125;
+-- Mage Netherwind Regalia: feet = 34044 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34044 WHERE `id` = 125;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_3` = 31964 WHERE `id` = 125;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 126;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 126;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 126;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 126;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_2` = 34038 WHERE `id` = 126;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_9` = 34041 WHERE `id` = 126;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34041 WHERE `id` = 126;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_1` = 34039 WHERE `id` = 126;
 
--- Mage Netherwind Regalia: feet = 34044
-UPDATE `charstartoutfit` SET `display_item_10` = 34044 WHERE `id` = 126;
+-- Mage Netherwind Regalia: feet = 34044 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 34044 WHERE `id` = 126;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_3` = 31964 WHERE `id` = 126;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 133;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 133;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 133;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 133;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 133;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 133;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 133;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 133;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 133;
@@ -2068,17 +2398,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 133;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 133;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 134;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 134;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 134;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 134;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 134;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 134;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 134;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 134;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 134;
@@ -2089,17 +2419,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 134;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 134;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 135;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 135;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 135;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 135;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 135;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 135;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 135;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 135;
@@ -2110,17 +2440,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 135;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 135;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 136;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 136;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 136;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 136;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 136;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 136;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 136;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 136;
@@ -2131,17 +2461,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 136;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 136;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 137;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 137;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 137;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 137;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 137;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 137;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 137;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 137;
@@ -2152,17 +2482,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 137;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 137;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 138;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 138;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 138;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 138;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 138;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 138;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 138;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 138;
@@ -2173,65 +2503,65 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 138;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 138;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 139;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 139;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 139;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 139;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 139;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 139;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 139;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 139;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 139;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 139;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 139;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 140;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 140;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 140;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 140;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 140;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 140;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 140;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 140;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 140;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 140;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 140;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 141;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 141;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 141;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 141;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 141;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 141;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 141;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 141;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 141;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 141;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 141;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 141;
@@ -2239,23 +2569,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 141;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 141;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 142;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 142;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 142;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 142;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 142;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 142;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 142;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 142;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 142;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 142;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 142;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 142;
@@ -2263,17 +2593,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 142;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 142;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_10` = 34218 WHERE `id` = 143;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 1, `display_item_10` = 34218 WHERE `id` = 143;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_11` = 34254 WHERE `id` = 143;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 3, `display_item_11` = 34254 WHERE `id` = 143;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 143;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_12` = 34041 WHERE `id` = 143;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 34041 WHERE `id` = 143;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 143;
@@ -2284,17 +2614,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 143;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 143;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_10` = 34218 WHERE `id` = 144;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 1, `display_item_10` = 34218 WHERE `id` = 144;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_11` = 34254 WHERE `id` = 144;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 3, `display_item_11` = 34254 WHERE `id` = 144;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 144;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_12` = 34041 WHERE `id` = 144;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 10, `display_item_12` = 34041 WHERE `id` = 144;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 144;
@@ -2305,17 +2635,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34044 WHERE `id` = 144;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 144;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 145;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 145;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 145;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 145;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 145;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 145;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 145;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 145;
@@ -2326,17 +2656,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 145;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 145;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 146;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 146;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 146;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 146;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 146;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 146;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 146;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 146;
@@ -2347,59 +2677,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 146;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 146;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 147;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 147;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 147;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 147;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 147;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 147;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 147;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 147;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 147;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 147;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 147;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 148;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 148;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 148;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 148;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 148;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 148;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 148;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 148;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 148;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 148;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 148;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 149;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 149;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 149;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 149;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 149;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 149;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 149;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 149;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 149;
@@ -2410,17 +2740,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 149;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 149;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 150;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 150;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 150;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 150;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 150;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 150;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 150;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 150;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 150;
@@ -2431,23 +2761,23 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 150;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 150;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 151;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 151;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 151;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 151;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 151;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 151;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 151;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 151;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 151;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 151;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 151;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 151;
@@ -2455,23 +2785,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 151;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 151;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 152;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 152;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 152;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 152;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 152;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 152;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 152;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 152;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 152;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 152;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 152;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 152;
@@ -2479,17 +2809,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 152;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 152;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 153;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 153;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 153;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 153;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 153;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 153;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 153;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 153;
@@ -2500,17 +2830,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 153;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 153;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 154;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 154;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 154;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 154;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 154;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 154;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 154;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 154;
@@ -2521,17 +2851,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 154;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 154;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 155;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 155;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 155;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 155;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 155;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 155;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 155;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 155;
@@ -2542,17 +2872,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 155;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 155;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 156;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 156;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 156;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 156;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 156;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 156;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 156;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 156;
@@ -2563,17 +2893,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 156;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 156;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 157;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 157;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 157;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 157;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 157;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 157;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 157;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 157;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 157;
@@ -2584,17 +2914,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 157;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 157;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 158;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 158;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 158;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 158;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 158;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 158;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 158;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 158;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 158;
@@ -2605,17 +2935,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 158;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 158;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 159;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 159;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 159;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 159;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 159;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 159;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 159;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 159;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 159;
@@ -2629,17 +2959,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 159;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 159;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 160;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 160;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 160;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 160;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 160;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 160;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 160;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 160;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 160;
@@ -2653,23 +2983,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 160;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 160;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 161;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 161;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 161;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 161;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 161;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 161;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 161;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 161;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 161;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 161;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 161;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 161;
@@ -2677,23 +3007,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 161;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 161;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 162;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 162;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 162;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 162;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 162;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 162;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 162;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 162;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 162;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 162;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 162;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 162;
@@ -2701,59 +3031,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 162;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 162;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 163;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 163;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 163;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 163;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 163;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 163;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 163;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 163;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 163;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 163;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 163;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 164;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 164;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 164;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 164;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 164;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 164;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 164;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 164;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 164;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 164;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 164;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 165;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 165;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 165;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 165;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 165;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 165;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 165;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 165;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 165;
@@ -2764,17 +3094,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 165;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 165;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 166;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 166;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 166;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 166;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 166;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 166;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 166;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 166;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 166;
@@ -2785,17 +3115,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 166;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 166;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 167;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 167;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 167;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 167;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 167;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 167;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 167;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 167;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 167;
@@ -2809,17 +3139,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 167;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 167;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 168;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 168;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 168;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 168;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 168;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 168;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 168;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 168;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 168;
@@ -2833,17 +3163,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 168;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 168;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 169;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 169;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 169;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 169;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 169;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 169;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 169;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 169;
@@ -2854,17 +3184,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 169;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 169;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_5` = 34233 WHERE `id` = 170;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34233 WHERE `id` = 170;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 170;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 170;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 170;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 170;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 170;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 170;
@@ -2875,17 +3205,17 @@ UPDATE `charstartoutfit` SET `display_item_7` = 34055 WHERE `id` = 170;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 170;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 171;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 171;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 171;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 171;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 171;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 171;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 171;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 171;
@@ -2896,17 +3226,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 171;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 171;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 172;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 172;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 172;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 172;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 172;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_13` = 34041 WHERE `id` = 172;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 34041 WHERE `id` = 172;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 172;
@@ -2917,17 +3247,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 172;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 172;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 173;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 173;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 173;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 173;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 173;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 173;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 173;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 173;
@@ -2938,17 +3268,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 173;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 173;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 174;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 174;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 174;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 174;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 174;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 174;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 174;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 174;
@@ -2959,17 +3289,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 174;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 174;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 175;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 175;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 175;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 175;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 175;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 175;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 175;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 175;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 175;
@@ -2980,17 +3310,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 175;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 175;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 176;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 176;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 176;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 176;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 176;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 176;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 176;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 176;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 176;
@@ -3001,17 +3331,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 176;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 176;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 177;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 177;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 177;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 177;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 177;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 177;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 177;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 177;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 177;
@@ -3025,17 +3355,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 177;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 177;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 178;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 178;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 178;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 178;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 178;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 178;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 178;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 178;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 178;
@@ -3049,17 +3379,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 178;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 178;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 179;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 179;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 179;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 179;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 179;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 179;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 179;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 179;
@@ -3070,17 +3400,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 179;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 179;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 180;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 180;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 180;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 180;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 180;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 180;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 180;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_3` = 34049 WHERE `id` = 180;
@@ -3091,23 +3421,23 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 180;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 180;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 181;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 181;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 181;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 181;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 181;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 181;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 181;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 181;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 181;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 181;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 181;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 181;
@@ -3115,23 +3445,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 181;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 181;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 182;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 182;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 182;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 182;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 182;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 182;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 182;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 182;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 182;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 182;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 182;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 182;
@@ -3139,59 +3469,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 182;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 182;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 183;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 183;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 183;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 183;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 183;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 183;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 183;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 183;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 183;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 183;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 183;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 184;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 184;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 184;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 184;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 184;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 184;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 184;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 184;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 184;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 184;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 184;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 185;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 185;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 185;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 185;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 185;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 185;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 185;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 185;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 185;
@@ -3202,17 +3532,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 185;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 185;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 186;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 186;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 186;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 186;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_1` = 33635 WHERE `id` = 186;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 186;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_9` = 33636 WHERE `id` = 186;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 186;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 186;
@@ -3223,17 +3553,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 186;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 186;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 187;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 187;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 187;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 187;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 187;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 187;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 187;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 187;
@@ -3244,17 +3574,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 187;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 187;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 188;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 188;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 188;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 188;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 188;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 188;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 188;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 188;
@@ -3265,59 +3595,59 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 188;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 188;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 189;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 189;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 189;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 189;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 189;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 189;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 189;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 189;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 189;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 189;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 189;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 190;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 190;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_6` = 30546 WHERE `id` = 190;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 30546 WHERE `id` = 190;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 190;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 190;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 190;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 190;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 190;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 190;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 190;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 191;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 191;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 191;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 191;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_1` = 33983 WHERE `id` = 191;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_13` = 33984 WHERE `id` = 191;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33984 WHERE `id` = 191;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 191;
@@ -3328,17 +3658,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 191;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 191;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 192;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 192;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 192;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 192;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_1` = 33983 WHERE `id` = 192;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_13` = 33984 WHERE `id` = 192;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33984 WHERE `id` = 192;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 192;
@@ -3349,23 +3679,23 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 192;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 192;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 193;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 193;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 193;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 193;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 193;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 193;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 193;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 193;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 193;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 193;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 193;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 193;
@@ -3373,23 +3703,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 193;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 193;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 194;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 194;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 194;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 194;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 194;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 194;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 194;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 194;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 194;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 194;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 194;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 194;
@@ -3397,59 +3727,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 194;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 194;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 195;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 195;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 195;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 195;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 195;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 195;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 195;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 195;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 195;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 195;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 195;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 196;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 196;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 196;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 196;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 196;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 196;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 196;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 196;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 196;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 196;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 196;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 197;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 197;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 197;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 197;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 197;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 197;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 197;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 197;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 197;
@@ -3463,17 +3793,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 197;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 197;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 198;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 198;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 198;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 198;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 198;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 198;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 198;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 198;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 198;
@@ -3487,17 +3817,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 198;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 198;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 199;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 199;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 199;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 199;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 199;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 199;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 199;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 199;
@@ -3508,17 +3838,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 199;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 199;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 200;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 200;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 200;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 200;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 200;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_9` = 34013 WHERE `id` = 200;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34013 WHERE `id` = 200;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 200;
@@ -3529,59 +3859,59 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 200;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 200;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 201;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 201;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 201;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 201;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 201;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 201;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 201;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 201;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 201;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 201;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 201;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 202;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 202;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 202;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 202;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 202;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 202;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 202;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 202;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 202;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 202;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 202;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 203;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 203;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 203;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 203;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 203;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 203;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 203;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 203;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 203;
@@ -3592,17 +3922,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 203;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 203;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 204;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 204;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 204;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 204;
 
--- Warrior Battlegear of Wrath: chest = 33983
-UPDATE `charstartoutfit` SET `display_item_9` = 33983 WHERE `id` = 204;
+-- Warrior Battlegear of Wrath: chest = 33983 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33983 WHERE `id` = 204;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 204;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 204;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 204;
@@ -3613,17 +3943,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 204;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 204;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 205;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 205;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 205;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 205;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_9` = 33635 WHERE `id` = 205;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 205;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_10` = 33636 WHERE `id` = 205;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 205;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 205;
@@ -3634,17 +3964,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 205;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 205;
 
--- Paladin Judgment: head = 45888
-UPDATE `charstartoutfit` SET `display_item_6` = 45888 WHERE `id` = 206;
+-- Paladin Judgment: head = 45888 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 45888 WHERE `id` = 206;
 
--- Paladin Judgment: shoulders = 34258
-UPDATE `charstartoutfit` SET `display_item_7` = 34258 WHERE `id` = 206;
+-- Paladin Judgment: shoulders = 34258 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34258 WHERE `id` = 206;
 
--- Paladin Judgment: chest = 33635
-UPDATE `charstartoutfit` SET `display_item_9` = 33635 WHERE `id` = 206;
+-- Paladin Judgment: chest = 33635 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 33635 WHERE `id` = 206;
 
--- Paladin Judgment: hands = 33636
-UPDATE `charstartoutfit` SET `display_item_10` = 33636 WHERE `id` = 206;
+-- Paladin Judgment: hands = 33636 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33636 WHERE `id` = 206;
 
 -- Paladin Judgment: legs = 33637
 UPDATE `charstartoutfit` SET `display_item_3` = 33637 WHERE `id` = 206;
@@ -3655,17 +3985,17 @@ UPDATE `charstartoutfit` SET `display_item_2` = 33639 WHERE `id` = 206;
 -- Paladin Judgment: weapon_2h = 23875
 UPDATE `charstartoutfit` SET `display_item_5` = 23875 WHERE `id` = 206;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 207;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 207;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 207;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 207;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 207;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 207;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 207;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 207;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 207;
@@ -3679,17 +4009,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 207;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 207;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 208;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 208;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 208;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 208;
 
--- Rogue Bloodfang: chest = 33650
-UPDATE `charstartoutfit` SET `display_item_10` = 33650 WHERE `id` = 208;
+-- Rogue Bloodfang: chest = 33650 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 5, `display_item_10` = 33650 WHERE `id` = 208;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_11` = 33651 WHERE `id` = 208;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 10, `display_item_11` = 33651 WHERE `id` = 208;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_3` = 31115 WHERE `id` = 208;
@@ -3703,17 +4033,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 208;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_7` = 31864 WHERE `id` = 208;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 209;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 209;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 209;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 209;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 209;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 209;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 209;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_2` = 34049 WHERE `id` = 209;
@@ -3724,17 +4054,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 209;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 209;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_6` = 34233 WHERE `id` = 210;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34233 WHERE `id` = 210;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_7` = 34048 WHERE `id` = 210;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34048 WHERE `id` = 210;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 210;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_10` = 34051 WHERE `id` = 210;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34051 WHERE `id` = 210;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_2` = 34049 WHERE `id` = 210;
@@ -3745,17 +4075,17 @@ UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 210;
 -- Priest Vestments of Transcendence: weapon_2h = 31347
 UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 210;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 213;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 213;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 213;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 213;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 213;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 213;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 213;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 213;
@@ -3766,17 +4096,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 213;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 213;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 214;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 214;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 214;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 214;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 214;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 214;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 214;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 214;
@@ -3787,17 +4117,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 214;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 214;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 215;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34218 WHERE `id` = 215;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 215;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34254 WHERE `id` = 215;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 215;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_10` = 34041 WHERE `id` = 215;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34041 WHERE `id` = 215;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 215;
@@ -3808,17 +4138,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 215;
 -- Mage Netherwind Regalia: weapon_2h = 31964
 UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 215;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_7` = 34369 WHERE `id` = 216;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34369 WHERE `id` = 216;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_8` = 34022 WHERE `id` = 216;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34022 WHERE `id` = 216;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 216;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_10` = 34013 WHERE `id` = 216;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34013 WHERE `id` = 216;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 216;
@@ -3829,17 +4159,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34015 WHERE `id` = 216;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 216;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 217;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 217;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 217;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 217;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 217;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 217;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 217;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 217;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 217;
@@ -3853,17 +4183,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 217;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 217;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_6` = 34367 WHERE `id` = 218;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34367 WHERE `id` = 218;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_10` = 34091 WHERE `id` = 218;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 3, `display_item_10` = 34091 WHERE `id` = 218;
 
--- Hunter Dragonstalker: chest = 33667
-UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 218;
+-- Hunter Dragonstalker: chest = 33667 (display-only)
+UPDATE `charstartoutfit` SET `item_12` = -1, `inventory_type_12` = 5, `display_item_12` = 33667 WHERE `id` = 218;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_12` = 33668 WHERE `id` = 218;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_13` = -1, `inventory_type_13` = 10, `display_item_13` = 33668 WHERE `id` = 218;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 218;
@@ -3877,23 +4207,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31857 WHERE `id` = 218;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 218;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 219;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 219;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 219;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 219;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 219;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 219;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 219;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 219;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 219;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 219;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 219;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 219;
@@ -3901,23 +4231,23 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 219;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 219;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_6` = 34217 WHERE `id` = 220;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34217 WHERE `id` = 220;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_7` = 34255 WHERE `id` = 220;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34255 WHERE `id` = 220;
 
--- Shaman The Ten Storms: chest = 34081
-UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 220;
+-- Shaman The Ten Storms: chest = 34081 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 5, `display_item_9` = 34081 WHERE `id` = 220;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 220;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 34082 WHERE `id` = 220;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 220;
 
--- Shaman The Ten Storms: feet = 34083
-UPDATE `charstartoutfit` SET `display_item_10` = 34083 WHERE `id` = 220;
+-- Shaman The Ten Storms: feet = 34083 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 8, `display_item_11` = 34083 WHERE `id` = 220;
 
 -- Shaman The Ten Storms: weapon_1h = 31863
 UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 220;
@@ -3925,53 +4255,53 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 220;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_8` = 34110 WHERE `id` = 220;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 221;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 221;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 221;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 221;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 221;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 221;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 221;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 221;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 221;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 221;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 221;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_4` = 33655 WHERE `id` = 222;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 222;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_5` = 30546 WHERE `id` = 222;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 222;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 222;
 
--- Druid Stormrage Raiment: hands = 34016
-UPDATE `charstartoutfit` SET `display_item_9` = 34016 WHERE `id` = 222;
+-- Druid Stormrage Raiment: hands = 34016 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34016 WHERE `id` = 222;
 
 -- Druid Stormrage Raiment: legs = 30540
 UPDATE `charstartoutfit` SET `display_item_3` = 30540 WHERE `id` = 222;
 
--- Druid Stormrage Raiment: feet = 30542
-UPDATE `charstartoutfit` SET `display_item_10` = 30542 WHERE `id` = 222;
+-- Druid Stormrage Raiment: feet = 30542 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 8, `display_item_10` = 30542 WHERE `id` = 222;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 222;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 500;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 500;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 500;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 500;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_2` = 33983 WHERE `id` = 500;
@@ -3988,11 +4318,11 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 500;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 500;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 501;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 501;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_7` = 34253 WHERE `id` = 501;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34253 WHERE `id` = 501;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_2` = 33983 WHERE `id` = 501;
@@ -4009,17 +4339,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 501;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_5` = 32000 WHERE `id` = 501;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 504;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 504;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_5` = 34091 WHERE `id` = 504;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34091 WHERE `id` = 504;
 
 -- Hunter Dragonstalker: chest = 33667
 UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 504;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_10` = 33668 WHERE `id` = 504;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33668 WHERE `id` = 504;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 504;
@@ -4033,17 +4363,17 @@ UPDATE `charstartoutfit` SET `display_item_11` = 31857 WHERE `id` = 504;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 504;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_4` = 34367 WHERE `id` = 505;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34367 WHERE `id` = 505;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_5` = 34091 WHERE `id` = 505;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34091 WHERE `id` = 505;
 
 -- Hunter Dragonstalker: chest = 33667
 UPDATE `charstartoutfit` SET `display_item_1` = 33667 WHERE `id` = 505;
 
--- Hunter Dragonstalker: hands = 33668
-UPDATE `charstartoutfit` SET `display_item_10` = 33668 WHERE `id` = 505;
+-- Hunter Dragonstalker: hands = 33668 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33668 WHERE `id` = 505;
 
 -- Hunter Dragonstalker: legs = 33672
 UPDATE `charstartoutfit` SET `display_item_2` = 33672 WHERE `id` = 505;
@@ -4057,17 +4387,17 @@ UPDATE `charstartoutfit` SET `display_item_11` = 31857 WHERE `id` = 505;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_8` = 32763 WHERE `id` = 505;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 506;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 506;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 506;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 506;
 
 -- Rogue Bloodfang: chest = 33650
 UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 506;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 506;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33651 WHERE `id` = 506;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 506;
@@ -4081,17 +4411,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 506;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_8` = 31864 WHERE `id` = 506;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_6` = 33743 WHERE `id` = 507;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 33743 WHERE `id` = 507;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_9` = 33653 WHERE `id` = 507;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 33653 WHERE `id` = 507;
 
 -- Rogue Bloodfang: chest = 33650
 UPDATE `charstartoutfit` SET `display_item_1` = 33650 WHERE `id` = 507;
 
--- Rogue Bloodfang: hands = 33651
-UPDATE `charstartoutfit` SET `display_item_10` = 33651 WHERE `id` = 507;
+-- Rogue Bloodfang: hands = 33651 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33651 WHERE `id` = 507;
 
 -- Rogue Bloodfang: legs = 31115
 UPDATE `charstartoutfit` SET `display_item_2` = 31115 WHERE `id` = 507;
@@ -4105,17 +4435,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 507;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_8` = 31864 WHERE `id` = 507;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_2` = 34233 WHERE `id` = 508;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34233 WHERE `id` = 508;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_3` = 34048 WHERE `id` = 508;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34048 WHERE `id` = 508;
 
 -- Priest Vestments of Transcendence: chest = 34047
-UPDATE `charstartoutfit` SET `display_item_5` = 34047 WHERE `id` = 508;
+UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 508;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_8` = 34051 WHERE `id` = 508;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 10, `display_item_5` = 34051 WHERE `id` = 508;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 508;
@@ -4124,19 +4454,19 @@ UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 508;
 UPDATE `charstartoutfit` SET `display_item_9` = 34055 WHERE `id` = 508;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
-UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 508;
+UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 508;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_2` = 34233 WHERE `id` = 509;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_2` = -1, `inventory_type_2` = 1, `display_item_2` = 34233 WHERE `id` = 509;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_3` = 34048 WHERE `id` = 509;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 3, `display_item_3` = 34048 WHERE `id` = 509;
 
 -- Priest Vestments of Transcendence: chest = 34047
-UPDATE `charstartoutfit` SET `display_item_5` = 34047 WHERE `id` = 509;
+UPDATE `charstartoutfit` SET `display_item_4` = 34047 WHERE `id` = 509;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_8` = 34051 WHERE `id` = 509;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 10, `display_item_5` = 34051 WHERE `id` = 509;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 509;
@@ -4145,19 +4475,19 @@ UPDATE `charstartoutfit` SET `display_item_6` = 34049 WHERE `id` = 509;
 UPDATE `charstartoutfit` SET `display_item_9` = 34055 WHERE `id` = 509;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
-UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 509;
+UPDATE `charstartoutfit` SET `display_item_1` = 31347 WHERE `id` = 509;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_7` = 34217 WHERE `id` = 512;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34217 WHERE `id` = 512;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_8` = 34255 WHERE `id` = 512;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34255 WHERE `id` = 512;
 
 -- Shaman The Ten Storms: chest = 34081
 UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 512;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 512;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 512;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 512;
@@ -4171,17 +4501,17 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 512;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_6` = 34110 WHERE `id` = 512;
 
--- Shaman The Ten Storms: head = 34217
-UPDATE `charstartoutfit` SET `display_item_7` = 34217 WHERE `id` = 513;
+-- Shaman The Ten Storms: head = 34217 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 1, `display_item_7` = 34217 WHERE `id` = 513;
 
--- Shaman The Ten Storms: shoulders = 34255
-UPDATE `charstartoutfit` SET `display_item_8` = 34255 WHERE `id` = 513;
+-- Shaman The Ten Storms: shoulders = 34255 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34255 WHERE `id` = 513;
 
 -- Shaman The Ten Storms: chest = 34081
 UPDATE `charstartoutfit` SET `display_item_1` = 34081 WHERE `id` = 513;
 
--- Shaman The Ten Storms: hands = 34082
-UPDATE `charstartoutfit` SET `display_item_9` = 34082 WHERE `id` = 513;
+-- Shaman The Ten Storms: hands = 34082 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 10, `display_item_9` = 34082 WHERE `id` = 513;
 
 -- Shaman The Ten Storms: legs = 34084
 UPDATE `charstartoutfit` SET `display_item_2` = 34084 WHERE `id` = 513;
@@ -4195,59 +4525,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 31863 WHERE `id` = 513;
 -- Shaman The Ten Storms: weapon_shield = 34110
 UPDATE `charstartoutfit` SET `display_item_6` = 34110 WHERE `id` = 513;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_3` = 34218 WHERE `id` = 514;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 1, `display_item_3` = 34218 WHERE `id` = 514;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_5` = 34254 WHERE `id` = 514;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34254 WHERE `id` = 514;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 514;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_6` = 34041 WHERE `id` = 514;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 10, `display_item_6` = 34041 WHERE `id` = 514;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 514;
 
 -- Mage Netherwind Regalia: feet = 34044
-UPDATE `charstartoutfit` SET `display_item_7` = 34044 WHERE `id` = 514;
+UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 514;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
-UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 514;
+UPDATE `charstartoutfit` SET `display_item_9` = 31964 WHERE `id` = 514;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_3` = 34218 WHERE `id` = 515;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 1, `display_item_3` = 34218 WHERE `id` = 515;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_5` = 34254 WHERE `id` = 515;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 34254 WHERE `id` = 515;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 515;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_6` = 34041 WHERE `id` = 515;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 10, `display_item_6` = 34041 WHERE `id` = 515;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 515;
 
 -- Mage Netherwind Regalia: feet = 34044
-UPDATE `charstartoutfit` SET `display_item_7` = 34044 WHERE `id` = 515;
+UPDATE `charstartoutfit` SET `display_item_4` = 34044 WHERE `id` = 515;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
-UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 515;
+UPDATE `charstartoutfit` SET `display_item_9` = 31964 WHERE `id` = 515;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 516;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 516;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 516;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 516;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 516;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_8` = 34013 WHERE `id` = 516;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 10, `display_item_8` = 34013 WHERE `id` = 516;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 516;
@@ -4258,17 +4588,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 516;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 516;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 517;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34369 WHERE `id` = 517;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 517;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 3, `display_item_7` = 34022 WHERE `id` = 517;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_1` = 34014 WHERE `id` = 517;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_8` = 34013 WHERE `id` = 517;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 10, `display_item_8` = 34013 WHERE `id` = 517;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_2` = 29857 WHERE `id` = 517;
@@ -4279,17 +4609,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 34015 WHERE `id` = 517;
 -- Warlock Nemesis Raiment: weapon_2h = 31960
 UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 517;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 530;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 530;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_9` = 34253 WHERE `id` = 530;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34253 WHERE `id` = 530;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_7` = 33983 WHERE `id` = 530;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 530;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 530;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 530;
@@ -4300,17 +4630,17 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 530;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 530;
 
--- Warrior Battlegear of Wrath: head = 34215
-UPDATE `charstartoutfit` SET `display_item_6` = 34215 WHERE `id` = 531;
+-- Warrior Battlegear of Wrath: head = 34215 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 1, `display_item_6` = 34215 WHERE `id` = 531;
 
--- Warrior Battlegear of Wrath: shoulders = 34253
-UPDATE `charstartoutfit` SET `display_item_9` = 34253 WHERE `id` = 531;
+-- Warrior Battlegear of Wrath: shoulders = 34253 (display-only)
+UPDATE `charstartoutfit` SET `item_9` = -1, `inventory_type_9` = 3, `display_item_9` = 34253 WHERE `id` = 531;
 
 -- Warrior Battlegear of Wrath: chest = 33983
 UPDATE `charstartoutfit` SET `display_item_7` = 33983 WHERE `id` = 531;
 
--- Warrior Battlegear of Wrath: hands = 33984
-UPDATE `charstartoutfit` SET `display_item_10` = 33984 WHERE `id` = 531;
+-- Warrior Battlegear of Wrath: hands = 33984 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 10, `display_item_10` = 33984 WHERE `id` = 531;
 
 -- Warrior Battlegear of Wrath: legs = 33986
 UPDATE `charstartoutfit` SET `display_item_2` = 33986 WHERE `id` = 531;
@@ -4321,11 +4651,11 @@ UPDATE `charstartoutfit` SET `display_item_3` = 33989 WHERE `id` = 531;
 -- Warrior Battlegear of Wrath: weapon_2h = 32000
 UPDATE `charstartoutfit` SET `display_item_4` = 32000 WHERE `id` = 531;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 534;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 534;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_8` = 34091 WHERE `id` = 534;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34091 WHERE `id` = 534;
 
 -- Hunter Dragonstalker: chest = 33667
 UPDATE `charstartoutfit` SET `display_item_10` = 33667 WHERE `id` = 534;
@@ -4345,11 +4675,11 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 534;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 534;
 
--- Hunter Dragonstalker: head = 34367
-UPDATE `charstartoutfit` SET `display_item_5` = 34367 WHERE `id` = 535;
+-- Hunter Dragonstalker: head = 34367 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 1, `display_item_5` = 34367 WHERE `id` = 535;
 
--- Hunter Dragonstalker: shoulders = 34091
-UPDATE `charstartoutfit` SET `display_item_8` = 34091 WHERE `id` = 535;
+-- Hunter Dragonstalker: shoulders = 34091 (display-only)
+UPDATE `charstartoutfit` SET `item_8` = -1, `inventory_type_8` = 3, `display_item_8` = 34091 WHERE `id` = 535;
 
 -- Hunter Dragonstalker: chest = 33667
 UPDATE `charstartoutfit` SET `display_item_10` = 33667 WHERE `id` = 535;
@@ -4369,11 +4699,11 @@ UPDATE `charstartoutfit` SET `display_item_1` = 31857 WHERE `id` = 535;
 -- Hunter Dragonstalker: weapon_ranged = 32763
 UPDATE `charstartoutfit` SET `display_item_6` = 32763 WHERE `id` = 535;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_10` = 33743 WHERE `id` = 536;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 1, `display_item_10` = 33743 WHERE `id` = 536;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_11` = 33653 WHERE `id` = 536;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 3, `display_item_11` = 33653 WHERE `id` = 536;
 
 -- Rogue Bloodfang: chest = 33650
 UPDATE `charstartoutfit` SET `display_item_7` = 33650 WHERE `id` = 536;
@@ -4393,11 +4723,11 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 536;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 536;
 
--- Rogue Bloodfang: head = 33743
-UPDATE `charstartoutfit` SET `display_item_10` = 33743 WHERE `id` = 537;
+-- Rogue Bloodfang: head = 33743 (display-only)
+UPDATE `charstartoutfit` SET `item_10` = -1, `inventory_type_10` = 1, `display_item_10` = 33743 WHERE `id` = 537;
 
--- Rogue Bloodfang: shoulders = 33653
-UPDATE `charstartoutfit` SET `display_item_11` = 33653 WHERE `id` = 537;
+-- Rogue Bloodfang: shoulders = 33653 (display-only)
+UPDATE `charstartoutfit` SET `item_11` = -1, `inventory_type_11` = 3, `display_item_11` = 33653 WHERE `id` = 537;
 
 -- Rogue Bloodfang: chest = 33650
 UPDATE `charstartoutfit` SET `display_item_7` = 33650 WHERE `id` = 537;
@@ -4417,59 +4747,59 @@ UPDATE `charstartoutfit` SET `display_item_5` = 34513 WHERE `id` = 537;
 -- Rogue Bloodfang: weapon_oh = 31864
 UPDATE `charstartoutfit` SET `display_item_6` = 31864 WHERE `id` = 537;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_3` = 34233 WHERE `id` = 538;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 1, `display_item_3` = 34233 WHERE `id` = 538;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 538;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 538;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 538;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_7` = 34051 WHERE `id` = 538;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34051 WHERE `id` = 538;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_2` = 34049 WHERE `id` = 538;
 
 -- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_8` = 34055 WHERE `id` = 538;
+UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 538;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
-UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 538;
+UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 538;
 
--- Priest Vestments of Transcendence: head = 34233
-UPDATE `charstartoutfit` SET `display_item_3` = 34233 WHERE `id` = 539;
+-- Priest Vestments of Transcendence: head = 34233 (display-only)
+UPDATE `charstartoutfit` SET `item_3` = -1, `inventory_type_3` = 1, `display_item_3` = 34233 WHERE `id` = 539;
 
--- Priest Vestments of Transcendence: shoulders = 34048
-UPDATE `charstartoutfit` SET `display_item_6` = 34048 WHERE `id` = 539;
+-- Priest Vestments of Transcendence: shoulders = 34048 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34048 WHERE `id` = 539;
 
 -- Priest Vestments of Transcendence: chest = 34047
 UPDATE `charstartoutfit` SET `display_item_1` = 34047 WHERE `id` = 539;
 
--- Priest Vestments of Transcendence: hands = 34051
-UPDATE `charstartoutfit` SET `display_item_7` = 34051 WHERE `id` = 539;
+-- Priest Vestments of Transcendence: hands = 34051 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34051 WHERE `id` = 539;
 
 -- Priest Vestments of Transcendence: legs = 34049
 UPDATE `charstartoutfit` SET `display_item_2` = 34049 WHERE `id` = 539;
 
 -- Priest Vestments of Transcendence: feet = 34055
-UPDATE `charstartoutfit` SET `display_item_8` = 34055 WHERE `id` = 539;
+UPDATE `charstartoutfit` SET `display_item_4` = 34055 WHERE `id` = 539;
 
 -- Priest Vestments of Transcendence: weapon_2h = 31347
-UPDATE `charstartoutfit` SET `display_item_4` = 31347 WHERE `id` = 539;
+UPDATE `charstartoutfit` SET `display_item_5` = 31347 WHERE `id` = 539;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 544;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34218 WHERE `id` = 544;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 544;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34254 WHERE `id` = 544;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 544;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_8` = 34041 WHERE `id` = 544;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34041 WHERE `id` = 544;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 544;
@@ -4478,19 +4808,19 @@ UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 544;
 UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 544;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
-UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 544;
+UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 544;
 
--- Mage Netherwind Regalia: head = 34218
-UPDATE `charstartoutfit` SET `display_item_6` = 34218 WHERE `id` = 545;
+-- Mage Netherwind Regalia: head = 34218 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34218 WHERE `id` = 545;
 
--- Mage Netherwind Regalia: shoulders = 34254
-UPDATE `charstartoutfit` SET `display_item_7` = 34254 WHERE `id` = 545;
+-- Mage Netherwind Regalia: shoulders = 34254 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34254 WHERE `id` = 545;
 
 -- Mage Netherwind Regalia: chest = 34038
 UPDATE `charstartoutfit` SET `display_item_1` = 34038 WHERE `id` = 545;
 
--- Mage Netherwind Regalia: hands = 34041
-UPDATE `charstartoutfit` SET `display_item_8` = 34041 WHERE `id` = 545;
+-- Mage Netherwind Regalia: hands = 34041 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34041 WHERE `id` = 545;
 
 -- Mage Netherwind Regalia: legs = 34039
 UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 545;
@@ -4499,19 +4829,19 @@ UPDATE `charstartoutfit` SET `display_item_2` = 34039 WHERE `id` = 545;
 UPDATE `charstartoutfit` SET `display_item_3` = 34044 WHERE `id` = 545;
 
 -- Mage Netherwind Regalia: weapon_2h = 31964
-UPDATE `charstartoutfit` SET `display_item_4` = 31964 WHERE `id` = 545;
+UPDATE `charstartoutfit` SET `display_item_5` = 31964 WHERE `id` = 545;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 546;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34369 WHERE `id` = 546;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 546;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34022 WHERE `id` = 546;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_2` = 34014 WHERE `id` = 546;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_8` = 34013 WHERE `id` = 546;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34013 WHERE `id` = 546;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 546;
@@ -4520,19 +4850,19 @@ UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 546;
 UPDATE `charstartoutfit` SET `display_item_1` = 34015 WHERE `id` = 546;
 
 -- Warlock Nemesis Raiment: weapon_2h = 31960
-UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 546;
+UPDATE `charstartoutfit` SET `display_item_5` = 31960 WHERE `id` = 546;
 
--- Warlock Nemesis Raiment: head = 34369
-UPDATE `charstartoutfit` SET `display_item_6` = 34369 WHERE `id` = 547;
+-- Warlock Nemesis Raiment: head = 34369 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 34369 WHERE `id` = 547;
 
--- Warlock Nemesis Raiment: shoulders = 34022
-UPDATE `charstartoutfit` SET `display_item_7` = 34022 WHERE `id` = 547;
+-- Warlock Nemesis Raiment: shoulders = 34022 (display-only)
+UPDATE `charstartoutfit` SET `item_6` = -1, `inventory_type_6` = 3, `display_item_6` = 34022 WHERE `id` = 547;
 
 -- Warlock Nemesis Raiment: chest = 34014
 UPDATE `charstartoutfit` SET `display_item_2` = 34014 WHERE `id` = 547;
 
--- Warlock Nemesis Raiment: hands = 34013
-UPDATE `charstartoutfit` SET `display_item_8` = 34013 WHERE `id` = 547;
+-- Warlock Nemesis Raiment: hands = 34013 (display-only)
+UPDATE `charstartoutfit` SET `item_7` = -1, `inventory_type_7` = 10, `display_item_7` = 34013 WHERE `id` = 547;
 
 -- Warlock Nemesis Raiment: legs = 29857
 UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 547;
@@ -4541,13 +4871,13 @@ UPDATE `charstartoutfit` SET `display_item_3` = 29857 WHERE `id` = 547;
 UPDATE `charstartoutfit` SET `display_item_1` = 34015 WHERE `id` = 547;
 
 -- Warlock Nemesis Raiment: weapon_2h = 31960
-UPDATE `charstartoutfit` SET `display_item_4` = 31960 WHERE `id` = 547;
+UPDATE `charstartoutfit` SET `display_item_5` = 31960 WHERE `id` = 547;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_5` = 33655 WHERE `id` = 548;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 548;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_9` = 30546 WHERE `id` = 548;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 548;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 548;
@@ -4562,13 +4892,13 @@ UPDATE `charstartoutfit` SET `display_item_8` = 30540 WHERE `id` = 548;
 UPDATE `charstartoutfit` SET `display_item_3` = 30542 WHERE `id` = 548;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
-UPDATE `charstartoutfit` SET `display_item_4` = 34135 WHERE `id` = 548;
+UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 548;
 
--- Druid Stormrage Raiment: head = 33655
-UPDATE `charstartoutfit` SET `display_item_5` = 33655 WHERE `id` = 549;
+-- Druid Stormrage Raiment: head = 33655 (display-only)
+UPDATE `charstartoutfit` SET `item_4` = -1, `inventory_type_4` = 1, `display_item_4` = 33655 WHERE `id` = 549;
 
--- Druid Stormrage Raiment: shoulders = 30546
-UPDATE `charstartoutfit` SET `display_item_9` = 30546 WHERE `id` = 549;
+-- Druid Stormrage Raiment: shoulders = 30546 (display-only)
+UPDATE `charstartoutfit` SET `item_5` = -1, `inventory_type_5` = 3, `display_item_5` = 30546 WHERE `id` = 549;
 
 -- Druid Stormrage Raiment: chest = 30536
 UPDATE `charstartoutfit` SET `display_item_2` = 30536 WHERE `id` = 549;
@@ -4583,6 +4913,6 @@ UPDATE `charstartoutfit` SET `display_item_8` = 30540 WHERE `id` = 549;
 UPDATE `charstartoutfit` SET `display_item_3` = 30542 WHERE `id` = 549;
 
 -- Druid Stormrage Raiment: weapon_2h = 34135
-UPDATE `charstartoutfit` SET `display_item_4` = 34135 WHERE `id` = 549;
+UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 549;
 
 -- [TIER SET DISPLAY OVERRIDES - END]

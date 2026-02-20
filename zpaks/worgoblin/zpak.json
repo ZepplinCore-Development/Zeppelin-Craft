@@ -6,6 +6,7 @@
   "author": "Worgoblin Team",
   "type": "acore-extension",
   "client_patch": "PATCH-G",
+  "patch_display_name": "Worgoblin",
   "acore": {
     "module": "mod-worgoblin",
     "source": "https://github.com/azerothcore/mod-worgoblin.git",

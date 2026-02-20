@@ -78,7 +78,8 @@ def save_register(register: Dict[str, Any], nginx_path: Path = None) -> bool:
 
 def update_patch_entry(register: Dict[str, Any], patch_name: str,
                        mpq_path: Path,
-                       zpak_name: Optional[str] = None) -> Dict[str, Any]:
+                       zpak_name: Optional[str] = None,
+                       description: Optional[str] = None) -> Dict[str, Any]:
     """Update metadata for a single patch after building.
 
     Increments version, recalculates checksum and size, updates timestamp.
@@ -87,7 +88,8 @@ def update_patch_entry(register: Dict[str, Any], patch_name: str,
         register: The full register dict (modified in place).
         patch_name: Patch key (e.g. "PATCH-Z.MPQ").
         mpq_path: Path to the built MPQ file.
-        zpak_name: Zpak name to store (keeps existing if not provided).
+        zpak_name: Display name for the patch (keeps existing if not provided).
+        description: Patch description (keeps existing if not provided).
 
     Returns:
         The updated patch entry dict.
@@ -97,6 +99,8 @@ def update_patch_entry(register: Dict[str, Any], patch_name: str,
 
     if zpak_name:
         entry['name'] = zpak_name
+    if description:
+        entry['description'] = description
 
     # Increment version
     entry['version'] = entry.get('version', 0) + 1
@@ -259,27 +263,32 @@ def regenerate_register(craft_root: Path, nginx_path: Path = None,
 
         # Combine names/descriptions from all zpaks sharing this patch letter
         if len(zpaks) == 1:
-            combined_name = zpaks[0]['manifest'].get('name', zpaks[0]['name'])
+            combined_name = (zpaks[0]['manifest'].get('patch_display_name')
+                             or zpaks[0]['manifest'].get('name', zpaks[0]['name']))
             combined_desc = zpaks[0]['manifest'].get('description', '')
         else:
-            # Multiple zpaks: use launcher.patch_name if set, otherwise
-            # fall back to patch key. List zpak names in description.
+            # Multiple zpaks: use patch_display_name (highest priority first),
+            # then launcher.patch_name, then fall back to patch key.
             combined_name = None
             for z in zpaks:
-                pn = z['manifest'].get('launcher', {}).get('patch_name')
-                if pn:
-                    combined_name = pn
+                combined_name = z['manifest'].get('patch_display_name')
+                if combined_name:
                     break
             if not combined_name:
+                for z in zpaks:
+                    pn = z['manifest'].get('launcher', {}).get('patch_name')
+                    if pn:
+                        combined_name = pn
+                        break
+            if not combined_name:
                 combined_name = patch_key.replace('.MPQ', '')
-            zpak_names = [z['manifest'].get('name', z['name']) for z in zpaks]
-            zpak_descs = '; '.join(
-                z['manifest'].get('description', '') for z in zpaks
-                if z['manifest'].get('description')
-            )
-            combined_desc = ', '.join(zpak_names)
-            if zpak_descs:
-                combined_desc += '\n' + zpak_descs
+            # Description: one line per zpak — "name - description"
+            desc_lines = []
+            for z in zpaks:
+                zname = z['manifest'].get('name', z['name'])
+                zdesc = z['manifest'].get('description', '')
+                desc_lines.append(f"{zname} - {zdesc}")
+            combined_desc = '\n'.join(desc_lines)
 
         # Use first zpak with a launcher block for launcher metadata
         launcher = {}
