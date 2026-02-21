@@ -3,11 +3,11 @@
 
 -- Update existing Uldaman normal entry to "Uldaman East"
 DELETE FROM `lfgdungeons` WHERE `id` = 22;
-INSERT INTO `lfgdungeons` (`id`, `name_enus`, `name_flags`, `min_level`, `max_level`, `target_level`, `target_level_min`, `target_level_max`, `map_id`, `difficulty`, `flags`, `type_id`, `faction`, `texture`, `expansion`, `order_id`, `group_id`, `tooltip_enus`, `tooltip_flags`) VALUES (22, 'Uldaman East', 16712190, 35, 45, 40, 37, 42, 70, 0, 3, 1, -1, 'ULDAMAN', 0, 0, 1, '', 16712188);
+INSERT INTO `lfgdungeons` (`id`, `name_enus`, `name_flags`, `min_level`, `max_level`, `target_level`, `target_level_min`, `target_level_max`, `map_id`, `difficulty`, `flags`, `type_id`, `faction`, `texture`, `expansion`, `order_id`, `group_id`, `tooltip_enus`, `tooltip_flags`) VALUES (22, 'Uldaman East', 16712190, 35, 43, 38, 37, 40, 70, 0, 3, 1, -1, 'ULDAMAN', 0, 0, 1, '', 16712188);
 
 -- New Uldaman West normal entry
 DELETE FROM `lfgdungeons` WHERE `id` = 452;
-INSERT INTO `lfgdungeons` (`id`, `name_enus`, `name_flags`, `min_level`, `max_level`, `target_level`, `target_level_min`, `target_level_max`, `map_id`, `difficulty`, `flags`, `type_id`, `faction`, `texture`, `expansion`, `order_id`, `group_id`, `tooltip_enus`, `tooltip_flags`) VALUES (452, 'Uldaman West', 16712190, 42, 52, 47, 44, 49, 70, 0, 3, 1, -1, 'ULDAMAN', 0, 0, 1, '', 16712188);
+INSERT INTO `lfgdungeons` (`id`, `name_enus`, `name_flags`, `min_level`, `max_level`, `target_level`, `target_level_min`, `target_level_max`, `map_id`, `difficulty`, `flags`, `type_id`, `faction`, `texture`, `expansion`, `order_id`, `group_id`, `tooltip_enus`, `tooltip_flags`) VALUES (452, 'Uldaman West', 16712190, 42, 50, 45, 44, 47, 70, 0, 3, 1, -1, 'ULDAMAN', 0, 0, 1, '', 16712188);
 
 -- Update existing Uldaman Heroic to "Uldaman East (Heroic)"
 DELETE FROM `lfgdungeons` WHERE `id` = 304;
