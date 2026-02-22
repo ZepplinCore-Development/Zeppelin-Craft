@@ -1,0 +1,5 @@
+## Interface: 30300
+## Title: Zeppelin LFG Fix
+## Notes: Fixes LFD reward texture and SoloLFG role display issues
+## LoadOnDemand: 0
+ZepLFGFix.lua
