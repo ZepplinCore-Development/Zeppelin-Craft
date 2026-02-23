@@ -19,6 +19,16 @@ from .adt_groundeffect_reader import ADTGroundEffectReader
 from .chunk_utils import read_chunk_header
 
 
+class MDDFEntry(NamedTuple):
+    """M2 doodad placement entry from MDDF chunk (36 bytes)."""
+    name_id: int         # Index into MMDX/MMID list
+    unique_id: int       # Unique identifier
+    position: Tuple[float, float, float]  # x, y, z world coordinates
+    rotation: Tuple[float, float, float]  # x, y, z rotation
+    scale: int           # Scale factor (1024 = 1.0x)
+    flags: int           # Placement flags
+
+
 class MODFEntry(NamedTuple):
     """WMO placement entry from MODF chunk (64 bytes)."""
     wmo_id: int          # Index into MWMO list

@@ -36,6 +36,7 @@ class ResourceParser:
             'detect_duplicate_wmos': True,
             'duplicate_wmo_threshold': 1.0,
             'fix_duplicate_wmos': True,
+            'fix_doodad_cells': True,
         }
 
         # Data files relative to script directory
@@ -81,6 +82,7 @@ class ResourceParser:
         self.all_missing = set()  # Cumulative missing assets across all phases
         self.duplicate_wmos = {}  # {adt_path: [(entry1, entry2, distance, wmo_name)]}
         self.fixed_adts = {}  # {adt_path: fix_result_dict}
+        self.doodad_cell_stats = {}  # {adt_path: fix_result_dict} from doodad cell recalculation
 
         # Area name resolution (for zone-based reporting)
         # Deferred to run() — paths aren't set yet at construction time
@@ -745,6 +747,159 @@ class ResourceParser:
         self.log(f'  Total WMO duplicates removed: {total_removed}')
         self.log(f'  Export location: {export_base}')
         self.log(f'\n  ✓ Fixed ADTs ready to package into custom patch MPQ')
+
+    def fix_doodad_cells(self):
+        """Recalculate doodad cell assignments (MCRF doodad refs) for all ADT files.
+
+        Fixes corrupt MCRF doodad indices and nDoodadRefs in MCNK headers
+        by recalculating which MDDF doodads belong to which cells using
+        position data and M2 horizontal bounding radii.
+
+        Runs on ALL ADTs (not just those with WMO duplicates), since doodad
+        corruption is independent of WMO duplication.
+        """
+        if not self.options.get('fix_doodad_cells', False):
+            return
+
+        from .parsers.adt_modf_editor import ADTMODFEditor, fix_adt_doodad_cells
+
+        self.log('\n' + '='*80)
+        self.log('DOODAD CELL RECALCULATION')
+        self.log('='*80)
+
+        # Build M2 file lookup from folder_cache (case-insensitive: UPPER_PATH → filesystem Path)
+        assets_dir = self.paths.get('assets_source')
+        if not assets_dir:
+            self.log('  ⚠️  No assets_source path configured — skipping doodad cell fix')
+            return
+
+        assets_dir = Path(assets_dir)
+        m2_file_map = {}  # {NORMALIZED_UPPER_PATH: filesystem_Path}
+        for folder_path, folder_contents in self.folder_cache.items():
+            for file_upper, file_path in folder_contents.items():
+                if file_upper.endswith(('.M2', '.MDX')):
+                    try:
+                        rel_path = file_path.relative_to(assets_dir)
+                        normalized = str(rel_path).upper().replace('\\', '/')
+                        m2_file_map[normalized] = file_path
+                    except ValueError:
+                        pass
+
+        self.log(f'\n  M2 models in asset library: {len(m2_file_map):,}')
+
+        # Extents cache: model_path_upper → (dx, dy) (avoids re-reading M2 files)
+        extents_cache = {}
+
+        export_base = self.paths['export'] / 'WORLD' / 'MAPS'
+        adt_dir = self.paths['adt']
+
+        # Get all ADT files (same set as parse_adts)
+        adt_files = list(adt_dir.rglob("*.adt")) + list(adt_dir.rglob("*.ADT"))
+        total_fixed = 0
+        total_cells_modified = 0
+        total_models_resolved = 0
+        total_models_missing = 0
+
+        self.log(f'  Processing {len(adt_files)} ADT files for doodad cell recalculation...\n')
+
+        for adt_idx, adt_file in enumerate(adt_files):
+            if (adt_idx + 1) % 100 == 0 or adt_idx + 1 == len(adt_files):
+                self.log(f'  Processing ADT {adt_idx + 1:,}/{len(adt_files):,}...')
+
+            adt_name = adt_file.name
+
+            # Determine input path: use WMO-deduped export if it exists, else source
+            try:
+                path_parts = adt_file.parts
+                maps_idx = next(i for i, p in enumerate(path_parts) if p.upper() == 'MAPS')
+                relative_parts = path_parts[maps_idx+1:]
+                export_path = export_base.joinpath(*relative_parts)
+            except (StopIteration, IndexError):
+                export_path = export_base / adt_name
+
+            # If WMO dedup already exported this ADT, read from export (it has corrected MODF)
+            if export_path.exists():
+                input_path = export_path
+            else:
+                input_path = adt_file
+
+            # Create editor just to parse model paths and build per-ADT extents
+            try:
+                editor = ADTMODFEditor(input_path)
+                editor.read_adt()
+                editor.scan_chunks()
+            except Exception as e:
+                self.debug_log(f'  ⚠️  {adt_name}: Failed to read — {e}')
+                continue
+
+            if editor.mddf_offset is None:
+                continue  # No doodads in this ADT
+
+            # Parse MMDX/MMID to get model paths for this ADT
+            model_paths = editor._parse_model_paths()
+            if not model_paths:
+                continue
+
+            # Build model_extents dict: name_id → (dx, dy) half-extents
+            model_extents = {}
+            for name_id, model_path in enumerate(model_paths):
+                if not model_path:
+                    continue
+
+                # Normalize path for cache lookup
+                path_upper = model_path.upper().replace('\\', '/')
+
+                # Check extents cache first
+                if path_upper in extents_cache:
+                    model_extents[name_id] = extents_cache[path_upper]
+                    continue
+
+                # Resolve M2 file in asset library (case-insensitive)
+                fs_path = m2_file_map.get(path_upper)
+
+                # Try alternate extension if not found (.M2 ↔ .MDX)
+                if fs_path is None:
+                    if path_upper.endswith('.M2'):
+                        fs_path = m2_file_map.get(path_upper[:-3] + '.MDX')
+                    elif path_upper.endswith('.MDX'):
+                        fs_path = m2_file_map.get(path_upper[:-4] + '.M2')
+
+                if fs_path is not None:
+                    ext = ADTMODFEditor.read_m2_horizontal_extents(fs_path)
+                    extents_cache[path_upper] = ext
+                    model_extents[name_id] = ext
+                    total_models_resolved += 1
+                else:
+                    # Model not in asset library — fall back to center-point
+                    extents_cache[path_upper] = (0.0, 0.0)
+                    model_extents[name_id] = (0.0, 0.0)
+                    total_models_missing += 1
+
+            # Free editor data before calling fix (fix_adt_doodad_cells creates its own)
+            editor.data = None
+
+            # Fix doodad cells and export
+            result = fix_adt_doodad_cells(
+                adt_path=input_path,
+                export_path=export_path,
+                model_extents=model_extents,
+            )
+
+            if result.get('success') and result.get('cells_modified', 0) > 0:
+                self.doodad_cell_stats[str(adt_file)] = result
+                total_fixed += 1
+                total_cells_modified += result['cells_modified']
+                self.debug_log(f'  ✓ {adt_name}: {result["cells_modified"]} cells modified (delta: {result["total_mcrf_delta"]:+d} bytes)')
+
+        self.log('\n  ' + '='*80)
+        self.log('  DOODAD CELL RECALCULATION COMPLETE')
+        self.log('  ' + '='*80)
+        self.log(f'  ADTs with cell changes: {total_fixed}')
+        self.log(f'  Total cells modified: {total_cells_modified:,}')
+        self.log(f'  M2 extents resolved: {len(extents_cache):,} unique models ({total_models_missing:,} not in library)')
+        if total_fixed > 0:
+            self.log(f'  Export location: {export_base}')
+        self.log(f'\n  ✓ Doodad cell assignments recalculated')
 
     def _load_modern_ground_effect_ids(self) -> set:
         """Load ground effect IDs from modern client CSV (modern expansion content)"""
@@ -2438,6 +2593,7 @@ class ResourceParser:
             # Step 2: Parse ADTs for asset references
             self.parse_adts()
             self.detect_duplicate_wmos()
+            self.fix_doodad_cells()
 
             # Step 3: Load stock assets registry
             self.load_stock_assets()
