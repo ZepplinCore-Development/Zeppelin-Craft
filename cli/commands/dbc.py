@@ -527,7 +527,7 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
             select_parts.append(f'`{col}`')
 
     select_str = ', '.join(select_parts)
-    clone_sql = f"INSERT INTO spell ({columns_str}) SELECT {select_str} FROM spell WHERE ID = {source_id};"
+    clone_sql = f"DELETE FROM spell WHERE id = {new_id};\nINSERT INTO spell ({columns_str}) SELECT {select_str} FROM spell WHERE ID = {source_id};"
 
     # Use modify command logic
     ctx.invoke(dbc_modify, sql=clone_sql, task_id=task_id,
