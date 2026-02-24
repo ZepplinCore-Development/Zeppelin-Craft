@@ -3,11 +3,11 @@
         "Bookmarks": [
         ],
         "Client": {
-            "ClientPath": "D:/Games/Zeppelin-Client",
+            "ClientPath": "C:/Games/Zeppelin-Client",
             "ClientVersion": "Wrath Of The Lich King"
         },
         "PinnedMaps": [
         ],
-        "ProjectName": "Open Azeroth"
+        "ProjectName": "OA"
     }
 }
