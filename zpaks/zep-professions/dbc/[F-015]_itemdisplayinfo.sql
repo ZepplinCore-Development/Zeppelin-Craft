@@ -1,6 +1,6 @@
 -- [F-015] Warding Scroll ItemDisplayInfo entries
 -- These 6 entries map display IDs to custom scroll icons for resistance scrolls.
--- Icons exist in custom-icons zpak but DBC entries were never migrated from Patch Builder.
+-- Recipe icons (AO_Scroll_01..05) are in the custom-icons zpak [F-142].
 
 -- Nature Resistance scrolls (items 57440-57447)
 DELETE FROM `itemdisplayinfo` WHERE `id` = 138251;
