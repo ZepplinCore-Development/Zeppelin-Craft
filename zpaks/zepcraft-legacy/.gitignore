@@ -6,6 +6,7 @@
 *.blp
 *.BLP
 *.skin
+*.SKIN
 *.anim
 *.bone
 *.wmo
@@ -21,3 +22,5 @@
 *.trs
 *.dbc
 *.DBC
+*.bak
+*.BAK

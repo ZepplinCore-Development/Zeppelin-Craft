@@ -30,6 +30,7 @@ temp.txt
 *.tmp
 
 # Log files
+*.log
 cli/logs/*.log
 cli/lib/resource_parser/*.log
 logs/
@@ -39,8 +40,18 @@ logs/
 
 # Backup files (use git for versioning)
 *.bak
+*.BAK
+
+# WoW model skin files (binary assets)
+*.skin
+*.SKIN
+
+# EXE patcher binaries (large, not source)
+EXE Patching/*.exe
+
+# Launcher build output
+Launcher/dist/
 
 # External zpaks (separate repos, managed by zep CLI)
 external/
 !external/.gitkeep
-*.log
