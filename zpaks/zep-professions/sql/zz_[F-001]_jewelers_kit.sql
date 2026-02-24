@@ -15,7 +15,8 @@ DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91244;
 -- Base tool, no cast speed buff - just update display and quality
 -- =====================================================
 UPDATE `item_template`
-SET `class` = 5,         -- Reagent
+SET `name` = 'Apprentice Jeweler''s Kit',
+    `class` = 5,         -- Reagent
     `subclass` = 1,      -- Tool
     `displayid` = 135861, -- AO_CopperCase
     `Quality` = 6,       -- Artifact
