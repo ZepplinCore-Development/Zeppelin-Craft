@@ -111,9 +111,11 @@ func installPendingPatches() InstallResult {
 func validatePendingPatchFile(tempFile string) bool {
 	filename := filepath.Base(tempFile)
 
-	expectedSize := getServerFileSize(MandatoryDownloadURL + filename)
-	if expectedSize < 0 {
-		expectedSize = getServerFileSize(OptionalDownloadURL + filename)
+	var expectedSize int64
+	if strings.HasSuffix(strings.ToLower(filename), ".exe") {
+		expectedSize = getServerFileSize(EXEDownloadURL + filename)
+	} else {
+		expectedSize = getServerFileSize(MPQDownloadURL + filename)
 	}
 
 	if expectedSize < 0 {

@@ -1,29 +1,174 @@
-From fd773543c8257f0120c9112916c4217b27581c4a Mon Sep 17 00:00:00 2001
+From 7864b31846067224cf9d018faf1592ac5c958910 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Sun, 15 Feb 2026 10:16:23 +0000
-Subject: [PATCH] feat: Add crafting reagents to allowed items (F-020)
+Subject: [PATCH 1/2] feat: Add Weak Flux to allowed items (F-020)
 
 - Add item 2880 (Weak Flux) to the item vault whitelist
-- Add item 3466 (Strong Flux) to the item vault whitelist
-- Add item 11291 (Star Wood) to the item vault whitelist
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- server/src/storage/definition/enum/allowed-item-enum.lua | 3 +++
- 1 file changed, 3 insertions(+)
+ server/src/storage/definition/enum/allowed-item-enum.lua | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
 index c9ab569..a296cb8 100644
 --- a/server/src/storage/definition/enum/allowed-item-enum.lua
 +++ b/server/src/storage/definition/enum/allowed-item-enum.lua
-@@ -677,4 +677,7 @@ return {
+@@ -677,4 +677,5 @@ return {
  	[732] = "Okra",
  	[1274] = "Hops",
  	[2296] = "Great Goretusk Snout",
 +	[2880] = "Weak Flux",
+ }
+-- 
+2.34.1
+
+
+From b827b312955ff2b26cfabe7dd8944f5588a6156a Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Fri, 20 Feb 2026 13:37:15 +0000
+Subject: [PATCH 2/2] feat: Add search filter to Item Vault UI (F-020)
+
+- Search box at top of vault panel filters items by name in real-time
+- Case-insensitive substring matching with compact grid repositioning
+- Escape clears search and drops focus, placeholder text when empty
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ client/src/1-configuration.lua                |  1 +
+ client/src/4-create-panel.lua                 | 84 ++++++++++++++++++-
+ .../definition/enum/allowed-item-enum.lua     |  2 +
+ 3 files changed, 86 insertions(+), 1 deletion(-)
+
+diff --git a/client/src/1-configuration.lua b/client/src/1-configuration.lua
+index 34c8c92..8b64bb5 100644
+--- a/client/src/1-configuration.lua
++++ b/client/src/1-configuration.lua
+@@ -6,3 +6,4 @@ internal.ITEM_SLOT_WIDTH = 40
+ internal.SCROLL_ROWS = 2
+ internal.MAX_COLUMN = 12
+ internal.MAX_QUANTITY = 4000000000
++internal.SEARCH_BOX_HEIGHT = 24
+diff --git a/client/src/4-create-panel.lua b/client/src/4-create-panel.lua
+index 59e19e2..93c45e2 100644
+--- a/client/src/4-create-panel.lua
++++ b/client/src/4-create-panel.lua
+@@ -63,10 +63,50 @@ local function refreshItemButton(button)
+ end
+ internal.refreshItemButton = refreshItemButton
+ 
++local function filterItems()
++	local query = ""
++	if internal.searchBox then
++		query = strlower(strtrim(internal.searchBox:GetText()))
++	end
++
++	local visible_index = 0
++
++	for i, button in ipairs(internal.itemSlots) do
++		local item_name = strlower(ItemVault_Data[button:GetID()] or "")
++		local matches = query == "" or string.find(item_name, query, 1, true)
++
++		if matches then
++			visible_index = visible_index + 1
++			local row = math.floor((visible_index - 1) / internal.MAX_COLUMN)
++			local col = (visible_index - 1) - row * internal.MAX_COLUMN
++
++			local offset_x = col * internal.ITEM_SLOT_WIDTH + internal.ITEM_SLOT_OFFSET_X
++			local offset_y = internal.ITEM_SLOT_OFFSET_Y - row * internal.ITEM_SLOT_WIDTH
++
++			button:ClearAllPoints()
++			button:SetPoint("TOPLEFT", internal.content, "TOPLEFT", offset_x, offset_y)
++			button:Show()
++		else
++			button:Hide()
++		end
++	end
++
++	internal.content:SetSize(
++		3 + internal.MAX_COLUMN * internal.ITEM_SLOT_WIDTH,
++		math.ceil(math.max(visible_index, 1) / internal.MAX_COLUMN) * internal.ITEM_SLOT_WIDTH + 3
++	)
++
++	if internal.scrollFrame then
++		internal.scrollFrame:SetVerticalScroll(0)
++	end
++end
++internal.filterItems = filterItems
++
+ local function refreshAllButtons()
+ 	for i, button in ipairs(internal.itemSlots) do
+ 		refreshItemButton(button)
+ 	end
++	filterItems()
+ end
+ internal.refreshAllButtons = refreshAllButtons
+ 
+@@ -165,10 +205,52 @@ local function initialize()
+ 	makeFrameMovable(window)
+ 	makeFrameCloseOnEscape(window)
+ 
++	local search_box = CreateFrame("EditBox", "ItemVault_SearchBox", window, "InputBoxTemplate")
++	internal.searchBox = search_box
++	search_box:SetSize(200, internal.SEARCH_BOX_HEIGHT)
++	search_box:SetPoint("TOPLEFT", ItemVault_PanelDialogBG, "TOPLEFT", 8, -6)
++	search_box:SetAutoFocus(false)
++	search_box:SetFontObject(ChatFontNormal)
++
++	local placeholder = search_box:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
++	placeholder:SetPoint("LEFT", search_box, "LEFT", 6, 0)
++	placeholder:SetText("Search...")
++	search_box.placeholder = placeholder
++
++	search_box:SetScript("OnTextChanged", function(self)
++		if self:GetText() == "" then
++			placeholder:Show()
++		else
++			placeholder:Hide()
++		end
++		filterItems()
++	end)
++
++	search_box:SetScript("OnEnterPressed", function(self)
++		self:ClearFocus()
++	end)
++
++	search_box:SetScript("OnEscapePressed", function(self)
++		self:SetText("")
++		self:ClearFocus()
++	end)
++
++	search_box:SetScript("OnEditFocusGained", function(self)
++		if self:GetText() ~= "" then
++			placeholder:Hide()
++		end
++	end)
++
++	search_box:SetScript("OnEditFocusLost", function(self)
++		if self:GetText() == "" then
++			placeholder:Show()
++		end
++	end)
++
+ 	local scroll_frame = CreateFrame("ScrollFrame", "ItemVault_ScrollFrame", window, "UIPanelScrollFrameTemplate")
+ 	internal.scrollFrame = scroll_frame
+ 
+-	scroll_frame:SetPoint("TOPLEFT", ItemVault_PanelDialogBG, "TOPLEFT", 3, -7)
++	scroll_frame:SetPoint("TOPLEFT", ItemVault_PanelDialogBG, "TOPLEFT", 3, -7 - internal.SEARCH_BOX_HEIGHT - 2)
+ 	scroll_frame:SetPoint("BOTTOMRIGHT", ItemVault_PanelDialogBG, "BOTTOMRIGHT", -23, 2)
+ 
+ 	local content = CreateFrame("Frame", nil, scroll_frame)
+diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
+index a296cb8..03f9b7e 100644
+--- a/server/src/storage/definition/enum/allowed-item-enum.lua
++++ b/server/src/storage/definition/enum/allowed-item-enum.lua
+@@ -678,4 +678,6 @@ return {
+ 	[1274] = "Hops",
+ 	[2296] = "Great Goretusk Snout",
+ 	[2880] = "Weak Flux",
 +	[3466] = "Strong Flux",
 +	[11291] = "Star Wood",
  }
---
+-- 
 2.34.1
 

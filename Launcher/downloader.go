@@ -41,16 +41,12 @@ func performDownload(
 	progressCh chan<- DownloadProgress,
 	cancelCh <-chan struct{},
 ) DownloadResult {
-	// Determine URL from is_mandatory flag
-	isMandatory := true
-	if pr != nil {
-		isMandatory = pr.IsMandatory(filename)
-	}
+	// Determine URL from file type
 	var baseURL string
-	if isMandatory {
-		baseURL = MandatoryDownloadURL
+	if strings.HasSuffix(strings.ToLower(filename), ".exe") {
+		baseURL = EXEDownloadURL
 	} else {
-		baseURL = OptionalDownloadURL
+		baseURL = MPQDownloadURL
 	}
 	fileURL := baseURL + filename
 

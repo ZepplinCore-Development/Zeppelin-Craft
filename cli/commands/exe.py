@@ -225,7 +225,7 @@ def exe_patch(ctx, dry_run, only, exclude, output, include_all, deploy):
         from lib.patch_register import load_register, save_register, update_exe_entry
 
         exe_file = Path(output_path)
-        deploy_path = NGINX_PATH / 'mandatory' / 'Wow.exe'
+        deploy_path = NGINX_PATH / 'EXE' / 'Wow.exe'
         backup_dir = NGINX_PATH / 'backup'
 
         click.echo()
@@ -252,4 +252,4 @@ def exe_patch(ctx, dry_run, only, exclude, output, include_all, deploy):
 
     elif deploy and dry_run:
         click.echo()
-        click.echo("[DRY RUN] Would deploy patched exe to nginx/mandatory/Wow.exe")
+        click.echo("[DRY RUN] Would deploy patched exe to nginx/EXE/Wow.exe")

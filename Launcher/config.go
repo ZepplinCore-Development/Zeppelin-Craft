@@ -6,9 +6,9 @@ const (
 	BaseURL    = "http://159.196.84.172:8111/"
 	Timeout    = 30 // seconds
 
-	PatchRegisterURL     = BaseURL + "patch_register.json"
-	MandatoryDownloadURL = BaseURL + "mandatory/"
-	OptionalDownloadURL  = BaseURL + "optional/"
+	PatchRegisterURL = BaseURL + "patch_register.json"
+	MPQDownloadURL   = BaseURL + "MPQ/"
+	EXEDownloadURL   = BaseURL + "EXE/"
 
 	WowExecutable = "Wow.exe"
 	DataDirectory = "Data"

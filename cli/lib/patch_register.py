@@ -151,23 +151,20 @@ def get_patch_output_path(nginx_path: Path, patch_name: str,
                           register: Dict[str, Any]) -> Path:
     """Resolve the output path for a patch MPQ file.
 
-    Uses the is_mandatory flag to determine mandatory/ vs optional/
-    subdirectory under the NGINX path.
+    All MPQ patches live under the MPQ/ subdirectory.
+    Wow.exe lives under the EXE/ subdirectory.
 
     Args:
         nginx_path: Path to NGINX root directory.
-        patch_name: Patch key (e.g. "PATCH-Z.MPQ").
+        patch_name: Patch key (e.g. "PATCH-Z.MPQ", "Wow.exe").
         register: The full register dict.
 
     Returns:
-        Absolute path where the MPQ file should be placed.
+        Absolute path where the file should be placed.
     """
-    entry = register.get('patches', {}).get(patch_name, {})
-
-    if entry.get('is_mandatory', False):
-        return nginx_path / 'mandatory' / patch_name
-    else:
-        return nginx_path / 'optional' / patch_name
+    if patch_name.lower().endswith('.exe'):
+        return nginx_path / 'EXE' / patch_name
+    return nginx_path / 'MPQ' / patch_name
 
 
 def format_register_summary(register: Dict[str, Any], nginx_path: Path = None) -> str:
@@ -430,10 +427,7 @@ def update_exe_entry(register: Dict[str, Any], exe_path: Path) -> Dict[str, Any]
 
 def _resolve_mpq_path(nginx_path: Path, patch_key: str, is_mandatory: bool) -> Path:
     """Resolve the expected path for a patch MPQ file."""
-    if is_mandatory:
-        return nginx_path / 'mandatory' / patch_key
-    else:
-        return nginx_path / 'optional' / patch_key
+    return nginx_path / 'MPQ' / patch_key
 
 
 # --- Private helpers ---
