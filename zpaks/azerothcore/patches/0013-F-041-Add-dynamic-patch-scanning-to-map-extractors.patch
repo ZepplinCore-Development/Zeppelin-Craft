@@ -1,4 +1,4 @@
-From b91c74001e480ba24daa48f0ba37e8142390b7e4 Mon Sep 17 00:00:00 2001
+From d931d69d1894cf1ecf5b0592c1dd8f189227c43a Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 1 Feb 2026 00:33:21 +0000
 Subject: [PATCH] F-041: Add dynamic patch scanning to map extractors

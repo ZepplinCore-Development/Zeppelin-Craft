@@ -1,15 +1,8 @@
-From 23c01e85c86bdaa4dddfc52b5f61ab8f274cd30c Mon Sep 17 00:00:00 2001
+From a5f16233210b648b4a50590349242b89e4f37990 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Fri, 20 Feb 2026 13:15:33 +0000
+Date: Tue, 24 Feb 2026 23:47:05 +0000
 Subject: [PATCH] F-014: Mage tanking - mana shield positivity and Magical
  Attunement
-
-Marks SPELL_AURA_MANA_SHIELD as positive effect alongside MOD_STEALTH.
-Fixes mana shield being treated as negative in certain proc checks.
-
-Adds AuraScript handler for Magical Attunement (91056) which triggers
-mana restoration (91055) based on percentage of healing received.
-Migrated from old HandleDummyAuraProc switch to new proc system.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
@@ -31,21 +24,21 @@ index 209a54923..8606415a1 100644
      }
  
 diff --git a/src/server/scripts/Spells/spell_mage.cpp b/src/server/scripts/Spells/spell_mage.cpp
-index 11b2f4bbf..c9b2b6ee0 100644
+index 67cfc1bf1..64da72994 100644
 --- a/src/server/scripts/Spells/spell_mage.cpp
 +++ b/src/server/scripts/Spells/spell_mage.cpp
-@@ -70,7 +70,9 @@ enum MageSpells
-     SPELL_MAGE_CHILLED_R2                        = 12485,
+@@ -71,7 +71,9 @@ enum MageSpells
      SPELL_MAGE_CHILLED_R3                        = 12486,
      SPELL_MAGE_MANA_SURGE                        = 37445,
--    SPELL_MAGE_FROST_NOVA                        = 122
-+    SPELL_MAGE_FROST_NOVA                        = 122,
+     SPELL_MAGE_FROST_NOVA                        = 122,
+-    SPELL_MAGE_LIVING_BOMB_R1                    = 44457
++    SPELL_MAGE_LIVING_BOMB_R1                    = 44457,
 +    SPELL_MAGE_MAGICAL_ATTUNEMENT                = 91056,
 +    SPELL_MAGE_MAGICAL_ATTUNEMENT_MANA           = 91055
  };
  
  enum MageSpellIcons
-@@ -1542,6 +1544,51 @@ class spell_mage_missile_barrage_proc : public AuraScript
+@@ -1559,6 +1561,51 @@ class spell_mage_missile_barrage_proc : public AuraScript
      }
  };
  
@@ -97,7 +90,7 @@ index 11b2f4bbf..c9b2b6ee0 100644
  void AddSC_mage_spell_scripts()
  {
      RegisterSpellScript(spell_mage_arcane_blast);
-@@ -1584,4 +1631,5 @@ void AddSC_mage_spell_scripts()
+@@ -1601,4 +1648,5 @@ void AddSC_mage_spell_scripts()
      RegisterSpellScript(spell_mage_summon_water_elemental);
      RegisterSpellScript(spell_mage_fingers_of_frost);
      RegisterSpellScript(spell_mage_magic_absorption);

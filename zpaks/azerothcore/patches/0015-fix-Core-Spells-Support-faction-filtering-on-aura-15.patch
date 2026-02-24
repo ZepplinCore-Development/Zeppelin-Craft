@@ -1,4 +1,4 @@
-From 15f212fa2280f56470e8d4e0fe35264c0ad107e9 Mon Sep 17 00:00:00 2001
+From d1a5aa4db30405550381f8f1fd088d9cd5d7030b Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 12 Feb 2026 16:01:21 +0000
 Subject: [PATCH] fix(Core/Spells): Support faction filtering on aura 156 for

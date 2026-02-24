@@ -1,4 +1,4 @@
-From 0cc1fe34eb7f37a579ce4749dd3f4f3d50bd6721 Mon Sep 17 00:00:00 2001
+From ce90b132a3321b77ac7de3cb2d91cbfbeead570d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 10:47:20 +0000
 Subject: [PATCH] F-001: Profession tools - subclass enum and spell group fix

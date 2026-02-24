@@ -1,4 +1,4 @@
-From 9343b1cca2a69e187eb467e9857f4097c4053cba Mon Sep 17 00:00:00 2001
+From e8bdce0032099d589618c571a0e7f6b51b15e977 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 20 Feb 2026 13:16:21 +0000
 Subject: [PATCH] F-027: Remove Alchemist Stone hardcoded proc handlers
@@ -15,7 +15,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 84 deletions(-)
 
 diff --git a/src/server/scripts/Spells/spell_item.cpp b/src/server/scripts/Spells/spell_item.cpp
-index f2d237eda..65bae276a 100644
+index 0fd4e999a..d858c4501 100644
 --- a/src/server/scripts/Spells/spell_item.cpp
 +++ b/src/server/scripts/Spells/spell_item.cpp
 @@ -39,12 +39,6 @@ enum MassiveSeaforiumCharge
@@ -31,7 +31,7 @@ index f2d237eda..65bae276a 100644
  enum DarkmoonCardGreatness
  {
      SPELL_DARKMOON_CARD_STRENGTH            = 60229,
-@@ -4310,37 +4304,6 @@ class spell_item_eye_of_grillok_aura : public AuraScript
+@@ -4284,37 +4278,6 @@ class spell_item_eye_of_grillok_aura : public AuraScript
      }
  };
  
@@ -69,7 +69,7 @@ index f2d237eda..65bae276a 100644
  // 32578 - Gor'drek's Ointment
  enum DreksOintment
  {
-@@ -4527,51 +4490,6 @@ class spell_item_bloodsail_admiral_hat : public AuraScript
+@@ -4501,51 +4464,6 @@ class spell_item_bloodsail_admiral_hat : public AuraScript
      }
  };
  
@@ -121,7 +121,7 @@ index f2d237eda..65bae276a 100644
  // 57345 - Darkmoon Card: Greatness
  class spell_item_darkmoon_card_greatness : public AuraScript
  {
-@@ -6313,7 +6231,6 @@ void AddSC_item_spell_scripts()
+@@ -6326,7 +6244,6 @@ void AddSC_item_spell_scripts()
      RegisterSpellScript(spell_item_venomhide_feed);
      RegisterSpellScript(spell_item_scroll_of_retribution);
      RegisterSpellAndAuraScriptPair(spell_item_eye_of_grillok, spell_item_eye_of_grillok_aura);
@@ -129,7 +129,7 @@ index f2d237eda..65bae276a 100644
      RegisterSpellScript(spell_item_gor_dreks_ointment);
      RegisterSpellScript(spell_item_skyguard_blasting_charges);
      RegisterSpellScript(spell_item_luffa);
-@@ -6321,7 +6238,6 @@ void AddSC_item_spell_scripts()
+@@ -6334,7 +6251,6 @@ void AddSC_item_spell_scripts()
      RegisterSpellScript(spell_item_multiphase_goggles);
      RegisterSpellScript(spell_item_bloodsail_admiral_hat);
      RegisterSpellScript(spell_item_brewfest_hops);
