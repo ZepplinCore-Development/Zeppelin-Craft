@@ -2,6 +2,10 @@
 -- Bhag'thera spawns at: (-12191,-944), (-12016,-896), (-12380,-787)
 -- Only the turn-in POI (ObjectiveIndex=-1) exists; objective area is missing
 
+-- Clean up any previous run
+DELETE FROM `quest_poi_points` WHERE `QuestID` = 193 AND `Idx1` = 1;
+DELETE FROM `quest_poi` WHERE `QuestID` = 193 AND `id` = 1;
+
 -- Add objective POI entry (id=1, ObjectiveIndex=4 for RequiredItemId1)
 -- ObjectiveIndex 0-3 = RequiredNpcOrGo1-4, 4-7 = RequiredItemId1-4
 INSERT INTO `quest_poi` (`QuestID`, `id`, `ObjectiveIndex`, `MapID`, `WorldMapAreaId`, `Floor`, `Priority`, `Flags`, `VerifiedBuild`)
