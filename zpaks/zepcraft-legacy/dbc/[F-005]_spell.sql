@@ -328,7 +328,7 @@ WHERE `id` = 59289;
 --      IGW talent made crop cast time reduction useless (R2 = instant).
 --      New tanking talent: +3% threat and +1% block chance per rank (5 ranks).
 --      User handles talent tree entry via editor tool; these are the spell defs.
---      Template based on Defiance (12303) and Anticipation (12297).
+--      Template based on Defiance (12303) and Shield Block (2565).
 -- ============================================================================
 -- Bastion of Earth Rank 1
 DELETE FROM `spell` WHERE `id` = 900109;
@@ -347,7 +347,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 49,
+    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 2015,
     `spell_name_enus` = 'Bastion of Earth',
@@ -382,7 +382,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 49,
+    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 2015,
     `spell_name_enus` = 'Bastion of Earth',
@@ -417,7 +417,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 49,
+    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 2015,
     `spell_name_enus` = 'Bastion of Earth',
@@ -452,7 +452,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 49,
+    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 2015,
     `spell_name_enus` = 'Bastion of Earth',
@@ -487,7 +487,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 49,
+    `effect_apply_aura_name_2` = 51,
     `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 2015,
     `spell_name_enus` = 'Bastion of Earth',

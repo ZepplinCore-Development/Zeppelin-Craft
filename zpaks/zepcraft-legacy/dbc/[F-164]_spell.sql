@@ -62,3 +62,5 @@ INSERT INTO `spell` SET
     `school_mask` = 8,
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
+
+UPDATE spell SET effect_apply_aura_name_2 = 51 WHERE id BETWEEN 900109 AND 900113;
