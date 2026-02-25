@@ -49,5 +49,8 @@
     },
     "Gnomeregan_Exterior": {
         "normal": [6208, 6209, 6210, 6213]
+    },
+    "Dustwallow_Marsh": {
+        "normal": [4328, 4329, 4331, 4334, 23687]
     }
 }
