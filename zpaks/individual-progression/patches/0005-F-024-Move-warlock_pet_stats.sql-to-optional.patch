@@ -1,4 +1,4 @@
-From d25af542ee614acf7fb7b0179d0cb0215219fca5 Mon Sep 17 00:00:00 2001
+From 1e83a02e9031cfe298ec7557f22050890f2ba432 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:46 +0000
 Subject: [PATCH] F-024: Move warlock_pet_stats.sql to optional

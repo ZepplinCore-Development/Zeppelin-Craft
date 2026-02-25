@@ -1,4 +1,4 @@
-From c7b60294c15288a3a9779df125d6e410e6cd9331 Mon Sep 17 00:00:00 2001
+From 92e18e2e6ea0fd655f93aac7d8939bc49777b81d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 20 Feb 2026 12:08:57 +0000
 Subject: [PATCH] chore: Accept upstream trainer column removal, apply

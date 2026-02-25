@@ -1,4 +1,4 @@
-From 640f061839bb3631f6bf41844479345085462278 Mon Sep 17 00:00:00 2001
+From c82ac99f9db46047a9f7419742112fb9737413aa Mon Sep 17 00:00:00 2001
 From: justurn <justurn@live.com>
 Date: Wed, 26 Mar 2025 19:34:14 +0800
 Subject: [PATCH 1/2] Update world.RTS.sql
@@ -210,7 +210,7 @@ index 48a80a1..2ef77b9 100644
 2.34.1
 
 
-From 6b1454525465a0a4981ac47a251a842f5018d03b Mon Sep 17 00:00:00 2001
+From 1b2f80a1ae79dd1b6a72deef3a05bef7d3cfcf39 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 15 Feb 2026 13:10:17 +0000
 Subject: [PATCH 2/2] fix: Persist racial swaps across logout (F-071)

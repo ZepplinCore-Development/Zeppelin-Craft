@@ -1,4 +1,4 @@
-From 780ab5ff8c0e24224765988369149b3589ac0a96 Mon Sep 17 00:00:00 2001
+From d2328fde290d4daa8bede3be31f3daa50e2d69b4 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:48:02 +0000
 Subject: [PATCH] F-024: Move player_starting_skillbars.sql to optional

@@ -1,4 +1,4 @@
-From e7ad9ed3c7cba5e9f7063e18ec95270106570d93 Mon Sep 17 00:00:00 2001
+From 6822035ddbd60b10a82d188d079af4b22252e797 Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
 Date: Wed, 31 Dec 2025 12:01:57 +0000
 Subject: [PATCH 1/2] Fix module for current AzerothCore API and add debug
@@ -256,7 +256,7 @@ index 9597675..d26a2cf 100644
 2.34.1
 
 
-From 83453141bfac79f46e9f1d9639d02b5cf847c4c0 Mon Sep 17 00:00:00 2001
+From b1423c93c89ee5d479ecf15b81ca2e834b072d72 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Mon, 16 Feb 2026 14:17:25 +0000
 Subject: [PATCH 2/2] fix: Make ALTER TABLE idempotent for guid PRIMARY KEY
