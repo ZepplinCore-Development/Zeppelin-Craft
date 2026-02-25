@@ -23,6 +23,9 @@
     ],
     "dbc": [
       "dbc/*.sql"
+    ],
+    "mpq": [
+      "mpq/**/*"
     ]
   },
   "enabled": true,
