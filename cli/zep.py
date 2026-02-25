@@ -1110,6 +1110,7 @@ from commands.creature import creature
 from commands.bag import bag
 from commands.teleport import teleport
 from commands.dungeon import dungeon
+from commands.generate import generate
 cli.add_command(world)
 world.add_command(sql)
 world.add_command(account)
@@ -1118,6 +1119,7 @@ world.add_command(creature)
 world.add_command(bag)
 world.add_command(teleport)
 world.add_command(dungeon)
+world.add_command(generate)
 
 # -- dbc: DBC database + outfit ---------------------------------------------
 from commands.dbc import dbc
