@@ -1558,617 +1558,437 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, GroupId, QuestRequired
 
 
 -- =====================================================
--- LINK REFERENCES TO GAMEOBJECTS
+-- LINK REFERENCES TO LOOT TABLES
 -- =====================================================
 
--- Journeyman bonus for GO 1731
+-- Journeyman bonus for Copper Vein (Loot ID: 1502)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1731, 9500, 92000, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 1731
+    (1502, 9500, 92000, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Copper Vein (Loot ID: 1502)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1731, 9501, 92001, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 1731
+    (1502, 9501, 92001, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Copper Vein (Loot ID: 1502)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1731, 9502, 92002, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 1731
+    (1502, 9502, 92002, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Copper Vein (Loot ID: 1502)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1731, 9503, 92003, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 103713
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103713, 9504, 92000, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 103713
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103713, 9505, 92001, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 103713
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103713, 9506, 92002, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 103713
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103713, 9507, 92003, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1502, 9503, 92003, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 1732
+-- Journeyman bonus for Tin Vein (Loot ID: 1503)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1732, 9508, 92004, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 1732
+    (1503, 9504, 92004, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Tin Vein (Loot ID: 1503)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1732, 9509, 92005, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 1732
+    (1503, 9505, 92005, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Tin Vein (Loot ID: 1503)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1732, 9510, 92006, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 1732
+    (1503, 9506, 92006, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Tin Vein (Loot ID: 1503)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1732, 9511, 92007, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 103711
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103711, 9512, 92004, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 103711
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103711, 9513, 92005, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 103711
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103711, 9514, 92006, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 103711
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (103711, 9515, 92007, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1503, 9507, 92007, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 1733
+-- Journeyman bonus for Ooze Covered Silver Vein (Loot ID: 1504)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1733, 9516, 92008, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 1733
+    (1504, 9508, 92008, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Ooze Covered Silver Vein (Loot ID: 1504)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1733, 9517, 92009, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 1733
+    (1504, 9509, 92009, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Ooze Covered Silver Vein (Loot ID: 1504)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1733, 9518, 92010, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 1733
+    (1504, 9510, 92010, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Ooze Covered Silver Vein (Loot ID: 1504)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1733, 9519, 92011, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 73940
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73940, 9520, 92008, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 73940
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73940, 9521, 92009, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 73940
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73940, 9522, 92010, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 73940
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73940, 9523, 92011, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 105569
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (105569, 9524, 92008, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 105569
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (105569, 9525, 92009, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 105569
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (105569, 9526, 92010, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 105569
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (105569, 9527, 92011, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1504, 9511, 92011, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 1735
+-- Journeyman bonus for Iron Deposit (Loot ID: 1505)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1735, 9528, 92012, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 1735
+    (1505, 9512, 92012, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Iron Deposit (Loot ID: 1505)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1735, 9529, 92013, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 1735
+    (1505, 9513, 92013, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Iron Deposit (Loot ID: 1505)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1735, 9530, 92014, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 1735
+    (1505, 9514, 92014, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Iron Deposit (Loot ID: 1505)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1735, 9531, 92015, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 73939
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73939, 9532, 92012, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 73939
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73939, 9533, 92013, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 73939
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73939, 9534, 92014, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 73939
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73939, 9535, 92015, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1505, 9515, 92015, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 1734
+-- Journeyman bonus for Gold Vein (Loot ID: 1506)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1734, 9536, 92016, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 1734
+    (1506, 9516, 92016, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Gold Vein (Loot ID: 1506)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1734, 9537, 92017, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 1734
+    (1506, 9517, 92017, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Gold Vein (Loot ID: 1506)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1734, 9538, 92018, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 1734
+    (1506, 9518, 92018, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Gold Vein (Loot ID: 1506)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1734, 9539, 92019, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 73941
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73941, 9540, 92016, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 73941
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73941, 9541, 92017, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 73941
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73941, 9542, 92018, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 73941
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (73941, 9543, 92019, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 150080
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150080, 9544, 92016, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 150080
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150080, 9545, 92017, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 150080
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150080, 9546, 92018, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 150080
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150080, 9547, 92019, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1506, 9519, 92019, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 2055
+-- Journeyman bonus for Copper Vein (Loot ID: 1735)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2055, 9548, 92020, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 2055
+    (1735, 9520, 92020, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Copper Vein (Loot ID: 1735)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2055, 9549, 92021, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 2055
+    (1735, 9521, 92021, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Copper Vein (Loot ID: 1735)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2055, 9550, 92022, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 2055
+    (1735, 9522, 92022, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Copper Vein (Loot ID: 1735)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2055, 9551, 92023, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1735, 9523, 92023, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 2054
+-- Journeyman bonus for Tin Vein (Loot ID: 1736)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2054, 9552, 92024, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 2054
+    (1736, 9524, 92024, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Tin Vein (Loot ID: 1736)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2054, 9553, 92025, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 2054
+    (1736, 9525, 92025, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Tin Vein (Loot ID: 1736)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2054, 9554, 92026, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 2054
+    (1736, 9526, 92026, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Tin Vein (Loot ID: 1736)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2054, 9555, 92027, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1736, 9527, 92027, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 2040
+-- Journeyman bonus for Mithril Deposit (Loot ID: 1742)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2040, 9556, 92028, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 2040
+    (1742, 9528, 92028, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Mithril Deposit (Loot ID: 1742)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2040, 9557, 92029, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 2040
+    (1742, 9529, 92029, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Mithril Deposit (Loot ID: 1742)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2040, 9558, 92030, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 2040
+    (1742, 9530, 92030, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Mithril Deposit (Loot ID: 1742)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2040, 9559, 92031, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 123310
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123310, 9560, 92028, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 123310
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123310, 9561, 92029, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 123310
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123310, 9562, 92030, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 123310
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123310, 9563, 92031, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 150079
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150079, 9564, 92028, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 150079
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150079, 9565, 92029, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 150079
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150079, 9566, 92030, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 150079
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150079, 9567, 92031, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (1742, 9531, 92031, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 3763
+-- Journeyman bonus for Copper Vein (Loot ID: 2626)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3763, 9568, 92032, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 3763
+    (2626, 9532, 92032, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Copper Vein (Loot ID: 2626)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3763, 9569, 92033, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 3763
+    (2626, 9533, 92033, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Copper Vein (Loot ID: 2626)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3763, 9570, 92034, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 3763
+    (2626, 9534, 92034, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Copper Vein (Loot ID: 2626)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3763, 9571, 92035, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (2626, 9535, 92035, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 3764
+-- Journeyman bonus for Tin Vein (Loot ID: 2627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3764, 9572, 92036, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 3764
+    (2627, 9536, 92036, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Tin Vein (Loot ID: 2627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3764, 9573, 92037, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 3764
+    (2627, 9537, 92037, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Tin Vein (Loot ID: 2627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3764, 9574, 92038, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 3764
+    (2627, 9538, 92038, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Tin Vein (Loot ID: 2627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3764, 9575, 92039, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (2627, 9539, 92039, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 2047
+-- Journeyman bonus for Ooze Covered Truesilver Deposit (Loot ID: 5045)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2047, 9576, 92040, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 2047
+    (5045, 9540, 92040, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Ooze Covered Truesilver Deposit (Loot ID: 5045)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2047, 9577, 92041, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 2047
+    (5045, 9541, 92041, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Ooze Covered Truesilver Deposit (Loot ID: 5045)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2047, 9578, 92042, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 2047
+    (5045, 9542, 92042, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Ooze Covered Truesilver Deposit (Loot ID: 5045)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2047, 9579, 92043, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 123309
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123309, 9580, 92040, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 123309
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123309, 9581, 92041, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 123309
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123309, 9582, 92042, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 123309
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123309, 9583, 92043, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 150081
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150081, 9584, 92040, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 150081
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150081, 9585, 92041, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 150081
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150081, 9586, 92042, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 150081
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150081, 9587, 92043, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (5045, 9543, 92043, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 324
+-- Journeyman bonus for Ooze Covered Thorium Vein (Loot ID: 9597)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (324, 9588, 92044, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 324
+    (9597, 9544, 92044, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Ooze Covered Thorium Vein (Loot ID: 9597)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (324, 9589, 92045, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 324
+    (9597, 9545, 92045, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Ooze Covered Thorium Vein (Loot ID: 9597)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (324, 9590, 92046, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 324
+    (9597, 9546, 92046, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Ooze Covered Thorium Vein (Loot ID: 9597)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (324, 9591, 92047, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 123848
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123848, 9592, 92044, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 123848
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123848, 9593, 92045, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 123848
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123848, 9594, 92046, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 123848
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (123848, 9595, 92047, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 150082
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150082, 9596, 92044, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 150082
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150082, 9597, 92045, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 150082
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150082, 9598, 92046, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 150082
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (150082, 9599, 92047, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (9597, 9547, 92047, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 165658
+-- Journeyman bonus for Dark Iron Deposit (Loot ID: 11213)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (165658, 9600, 92048, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 165658
+    (11213, 9548, 92048, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Dark Iron Deposit (Loot ID: 11213)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (165658, 9601, 92049, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 165658
+    (11213, 9549, 92049, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Dark Iron Deposit (Loot ID: 11213)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (165658, 9602, 92050, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 165658
+    (11213, 9550, 92050, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Dark Iron Deposit (Loot ID: 11213)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (165658, 9603, 92051, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (11213, 9551, 92051, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 175404
+-- Journeyman bonus for Ooze Covered Rich Thorium Vein (Loot ID: 12883)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (175404, 9604, 92052, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 175404
+    (12883, 9552, 92052, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Ooze Covered Rich Thorium Vein (Loot ID: 12883)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (175404, 9605, 92053, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 175404
+    (12883, 9553, 92053, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Ooze Covered Rich Thorium Vein (Loot ID: 12883)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (175404, 9606, 92054, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 175404
+    (12883, 9554, 92054, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Ooze Covered Rich Thorium Vein (Loot ID: 12883)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (175404, 9607, 92055, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 177388
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (177388, 9608, 92052, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 177388
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (177388, 9609, 92053, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 177388
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (177388, 9610, 92054, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 177388
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (177388, 9611, 92055, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (12883, 9555, 92055, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 176643
+-- Journeyman bonus for Small Thorium Vein (Loot ID: 13960)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176643, 9612, 92056, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 176643
+    (13960, 9556, 92056, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Small Thorium Vein (Loot ID: 13960)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176643, 9613, 92057, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 176643
+    (13960, 9557, 92057, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Small Thorium Vein (Loot ID: 13960)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176643, 9614, 92058, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 176643
+    (13960, 9558, 92058, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Small Thorium Vein (Loot ID: 13960)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176643, 9615, 92059, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (13960, 9559, 92059, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 176645
+-- Journeyman bonus for Mithril Deposit (Loot ID: 13961)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176645, 9616, 92060, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 176645
+    (13961, 9560, 92060, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Mithril Deposit (Loot ID: 13961)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176645, 9617, 92061, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 176645
+    (13961, 9561, 92061, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Mithril Deposit (Loot ID: 13961)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176645, 9618, 92062, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 176645
+    (13961, 9562, 92062, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Mithril Deposit (Loot ID: 13961)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176645, 9619, 92063, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (13961, 9563, 92063, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 180215
+-- Journeyman bonus for Hakkari Thorium Vein (Loot ID: 17241)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180215, 9620, 92064, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 180215
+    (17241, 9564, 92064, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Hakkari Thorium Vein (Loot ID: 17241)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180215, 9621, 92065, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 180215
+    (17241, 9565, 92065, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Hakkari Thorium Vein (Loot ID: 17241)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180215, 9622, 92066, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 180215
+    (17241, 9566, 92066, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Hakkari Thorium Vein (Loot ID: 17241)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180215, 9623, 92067, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (17241, 9567, 92067, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181108
+-- Journeyman bonus for Truesilver Deposit (Loot ID: 17938)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181108, 9624, 92068, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181108
+    (17938, 9568, 92068, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Truesilver Deposit (Loot ID: 17938)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181108, 9625, 92069, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181108
+    (17938, 9569, 92069, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Truesilver Deposit (Loot ID: 17938)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181108, 9626, 92070, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181108
+    (17938, 9570, 92070, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Truesilver Deposit (Loot ID: 17938)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181108, 9627, 92071, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (17938, 9571, 92071, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181109
+-- Journeyman bonus for Gold Vein (Loot ID: 17939)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181109, 9628, 92072, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181109
+    (17939, 9572, 92072, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Gold Vein (Loot ID: 17939)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181109, 9629, 92073, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181109
+    (17939, 9573, 92073, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Gold Vein (Loot ID: 17939)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181109, 9630, 92074, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181109
+    (17939, 9574, 92074, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Gold Vein (Loot ID: 17939)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181109, 9631, 92075, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (17939, 9575, 92075, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181248
+-- Journeyman bonus for Copper Vein (Loot ID: 18092)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181248, 9632, 92076, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181248
+    (18092, 9576, 92076, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Copper Vein (Loot ID: 18092)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181248, 9633, 92077, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181248
+    (18092, 9577, 92077, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Copper Vein (Loot ID: 18092)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181248, 9634, 92078, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181248
+    (18092, 9578, 92078, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Copper Vein (Loot ID: 18092)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181248, 9635, 92079, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (18092, 9579, 92079, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181249
+-- Journeyman bonus for Tin Vein (Loot ID: 18093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181249, 9636, 92080, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181249
+    (18093, 9580, 92080, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Tin Vein (Loot ID: 18093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181249, 9637, 92081, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181249
+    (18093, 9581, 92081, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Tin Vein (Loot ID: 18093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181249, 9638, 92082, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181249
+    (18093, 9582, 92082, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Tin Vein (Loot ID: 18093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181249, 9639, 92083, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (18093, 9583, 92083, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181555
+-- Journeyman bonus for Fel Iron Deposit (Loot ID: 18359)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181555, 9640, 92084, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181555
+    (18359, 9584, 92084, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Fel Iron Deposit (Loot ID: 18359)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181555, 9641, 92085, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181555
+    (18359, 9585, 92085, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Fel Iron Deposit (Loot ID: 18359)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181555, 9642, 92086, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181555
+    (18359, 9586, 92086, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Fel Iron Deposit (Loot ID: 18359)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181555, 9643, 92087, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (18359, 9587, 92087, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181556
+-- Journeyman bonus for Adamantite Deposit (Loot ID: 18361)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181556, 9644, 92088, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181556
+    (18361, 9588, 92088, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Adamantite Deposit (Loot ID: 18361)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181556, 9645, 92089, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181556
+    (18361, 9589, 92089, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Adamantite Deposit (Loot ID: 18361)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181556, 9646, 92090, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181556
+    (18361, 9590, 92090, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Adamantite Deposit (Loot ID: 18361)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181556, 9647, 92091, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (18361, 9591, 92091, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181557
+-- Journeyman bonus for Khorium Vein (Loot ID: 18363)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181557, 9648, 92092, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181557
+    (18363, 9592, 92092, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Khorium Vein (Loot ID: 18363)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181557, 9649, 92093, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181557
+    (18363, 9593, 92093, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Khorium Vein (Loot ID: 18363)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181557, 9650, 92094, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181557
+    (18363, 9594, 92094, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Khorium Vein (Loot ID: 18363)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181557, 9651, 92095, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (18363, 9595, 92095, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 185877
+-- Journeyman bonus for Nethercite Deposit (Loot ID: 22070)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185877, 9652, 92096, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 185877
+    (22070, 9596, 92096, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Nethercite Deposit (Loot ID: 22070)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185877, 9653, 92097, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 185877
+    (22070, 9597, 92097, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Nethercite Deposit (Loot ID: 22070)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185877, 9654, 92098, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 185877
+    (22070, 9598, 92098, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Nethercite Deposit (Loot ID: 22070)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185877, 9655, 92099, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (22070, 9599, 92099, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 189978
+-- Journeyman bonus for Cobalt Deposit (Loot ID: 24153)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189978, 9656, 92100, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 189978
+    (24153, 9600, 92100, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Cobalt Deposit (Loot ID: 24153)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189978, 9657, 92101, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 189978
+    (24153, 9601, 92101, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Cobalt Deposit (Loot ID: 24153)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189978, 9658, 92102, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 189978
+    (24153, 9602, 92102, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Cobalt Deposit (Loot ID: 24153)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189978, 9659, 92103, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (24153, 9603, 92103, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 189979
+-- Journeyman bonus for Rich Cobalt Deposit (Loot ID: 24154)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189979, 9660, 92104, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 189979
+    (24154, 9604, 92104, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Rich Cobalt Deposit (Loot ID: 24154)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189979, 9661, 92105, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 189979
+    (24154, 9605, 92105, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Rich Cobalt Deposit (Loot ID: 24154)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189979, 9662, 92106, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 189979
+    (24154, 9606, 92106, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Rich Cobalt Deposit (Loot ID: 24154)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189979, 9663, 92107, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (24154, 9607, 92107, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 189980
+-- Journeyman bonus for Saronite Deposit (Loot ID: 24155)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189980, 9664, 92108, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 189980
+    (24155, 9608, 92108, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Saronite Deposit (Loot ID: 24155)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189980, 9665, 92109, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 189980
+    (24155, 9609, 92109, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Saronite Deposit (Loot ID: 24155)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189980, 9666, 92110, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 189980
+    (24155, 9610, 92110, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Saronite Deposit (Loot ID: 24155)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189980, 9667, 92111, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (24155, 9611, 92111, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 189981
+-- Journeyman bonus for Rich Saronite Deposit (Loot ID: 24156)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189981, 9668, 92112, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 189981
+    (24156, 9612, 92112, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Rich Saronite Deposit (Loot ID: 24156)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189981, 9669, 92113, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 189981
+    (24156, 9613, 92113, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Rich Saronite Deposit (Loot ID: 24156)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189981, 9670, 92114, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 189981
+    (24156, 9614, 92114, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Rich Saronite Deposit (Loot ID: 24156)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189981, 9671, 92115, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (24156, 9615, 92115, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 191133
+-- Journeyman bonus for Titanium Vein (Loot ID: 24157)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191133, 9672, 92116, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 191133
+    (24157, 9616, 92116, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Titanium Vein (Loot ID: 24157)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191133, 9673, 92117, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 191133
+    (24157, 9617, 92117, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Titanium Vein (Loot ID: 24157)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191133, 9674, 92118, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 191133
+    (24157, 9618, 92118, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Titanium Vein (Loot ID: 24157)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191133, 9675, 92119, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (24157, 9619, 92119, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 181569
+-- Journeyman bonus for Rich Adamantite Deposit (Loot ID: 26861)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181569, 9676, 92120, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181569
+    (26861, 9620, 92120, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Rich Adamantite Deposit (Loot ID: 26861)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181569, 9677, 92121, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181569
+    (26861, 9621, 92121, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Rich Adamantite Deposit (Loot ID: 26861)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181569, 9678, 92122, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181569
+    (26861, 9622, 92122, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Rich Adamantite Deposit (Loot ID: 26861)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181569, 9679, 92123, 40, 0, 1, 1, 'Grand Master Pick Bonus');
--- Journeyman bonus for GO 181570
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181570, 9680, 92120, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 181570
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181570, 9681, 92121, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 181570
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181570, 9682, 92122, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 181570
-INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181570, 9683, 92123, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (26861, 9623, 92123, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 185557
+-- Journeyman bonus for Ancient Gem Vein (Loot ID: 26862)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185557, 9684, 92124, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 185557
+    (26862, 9624, 92124, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Ancient Gem Vein (Loot ID: 26862)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185557, 9685, 92125, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 185557
+    (26862, 9625, 92125, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Ancient Gem Vein (Loot ID: 26862)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185557, 9686, 92126, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 185557
+    (26862, 9626, 92126, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Ancient Gem Vein (Loot ID: 26862)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (185557, 9687, 92127, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (26862, 9627, 92127, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
--- Journeyman bonus for GO 195036
+-- Journeyman bonus for Pure Saronite Deposit (Loot ID: 27244)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (195036, 9688, 92128, 10, 0, 1, 1, 'Journeyman Pick Bonus');
--- Artisan bonus for GO 195036
+    (27244, 9628, 92128, 10, 0, 1, 1, 'Journeyman Pick Bonus');
+-- Artisan bonus for Pure Saronite Deposit (Loot ID: 27244)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (195036, 9689, 92129, 20, 0, 1, 1, 'Artisan Pick Bonus');
--- Master bonus for GO 195036
+    (27244, 9629, 92129, 20, 0, 1, 1, 'Artisan Pick Bonus');
+-- Master bonus for Pure Saronite Deposit (Loot ID: 27244)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (195036, 9690, 92130, 30, 0, 1, 1, 'Master Pick Bonus');
--- Grand Master bonus for GO 195036
+    (27244, 9630, 92130, 30, 0, 1, 1, 'Master Pick Bonus');
+-- Grand Master bonus for Pure Saronite Deposit (Loot ID: 27244)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (195036, 9691, 92131, 40, 0, 1, 1, 'Grand Master Pick Bonus');
+    (27244, 9631, 92131, 40, 0, 1, 1, 'Grand Master Pick Bonus');
 
 -- =====================================================
 -- CONDITIONS (Check for active pick auras)

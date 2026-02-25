@@ -1879,892 +1879,892 @@ INSERT INTO reference_loot_template (Entry, Item, Chance, GroupId, QuestRequired
 
 
 -- =====================================================
--- LINK REFERENCES TO GAMEOBJECTS
+-- LINK REFERENCES TO LOOT TABLES
 -- =====================================================
 
--- Journeyman bonus for GO 1617
+-- Journeyman bonus for Silverleaf (Loot ID: 1414)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1617, 9000, 91200, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1617
+    (1414, 9000, 91200, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Silverleaf (Loot ID: 1414)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1617, 9001, 91201, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1617
+    (1414, 9001, 91201, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Silverleaf (Loot ID: 1414)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1617, 9002, 91202, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1617
+    (1414, 9002, 91202, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Silverleaf (Loot ID: 1414)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1617, 9003, 91203, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1414, 9003, 91203, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1618
+-- Journeyman bonus for Peacebloom (Loot ID: 1415)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1618, 9004, 91204, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1618
+    (1415, 9004, 91204, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Peacebloom (Loot ID: 1415)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1618, 9005, 91205, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1618
+    (1415, 9005, 91205, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Peacebloom (Loot ID: 1415)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1618, 9006, 91206, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1618
+    (1415, 9006, 91206, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Peacebloom (Loot ID: 1415)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1618, 9007, 91207, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1415, 9007, 91207, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1619
+-- Journeyman bonus for Earthroot (Loot ID: 1416)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1619, 9008, 91208, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1619
+    (1416, 9008, 91208, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Earthroot (Loot ID: 1416)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1619, 9009, 91209, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1619
+    (1416, 9009, 91209, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Earthroot (Loot ID: 1416)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1619, 9010, 91210, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1619
+    (1416, 9010, 91210, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Earthroot (Loot ID: 1416)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1619, 9011, 91211, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1416, 9011, 91211, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1620
+-- Journeyman bonus for Mageroyal (Loot ID: 1417)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1620, 9012, 91212, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1620
+    (1417, 9012, 91212, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mageroyal (Loot ID: 1417)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1620, 9013, 91213, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1620
+    (1417, 9013, 91213, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mageroyal (Loot ID: 1417)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1620, 9014, 91214, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1620
+    (1417, 9014, 91214, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mageroyal (Loot ID: 1417)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1620, 9015, 91215, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1417, 9015, 91215, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1621
+-- Journeyman bonus for Briarthorn (Loot ID: 1418)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1621, 9016, 91216, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1621
+    (1418, 9016, 91216, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Briarthorn (Loot ID: 1418)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1621, 9017, 91217, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1621
+    (1418, 9017, 91217, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Briarthorn (Loot ID: 1418)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1621, 9018, 91218, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1621
+    (1418, 9018, 91218, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Briarthorn (Loot ID: 1418)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1621, 9019, 91219, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1418, 9019, 91219, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1622
+-- Journeyman bonus for Bruiseweed (Loot ID: 1419)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1622, 9020, 91220, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1622
+    (1419, 9020, 91220, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Bruiseweed (Loot ID: 1419)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1622, 9021, 91221, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1622
+    (1419, 9021, 91221, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Bruiseweed (Loot ID: 1419)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1622, 9022, 91222, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1622
+    (1419, 9022, 91222, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Bruiseweed (Loot ID: 1419)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1622, 9023, 91223, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1419, 9023, 91223, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1623
+-- Journeyman bonus for Wild Steelbloom (Loot ID: 1420)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1623, 9024, 91224, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1623
+    (1420, 9024, 91224, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Wild Steelbloom (Loot ID: 1420)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1623, 9025, 91225, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1623
+    (1420, 9025, 91225, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Wild Steelbloom (Loot ID: 1420)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1623, 9026, 91226, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1623
+    (1420, 9026, 91226, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Wild Steelbloom (Loot ID: 1420)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1623, 9027, 91227, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1420, 9027, 91227, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1624
+-- Journeyman bonus for Kingsblood (Loot ID: 1421)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1624, 9028, 91228, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1624
+    (1421, 9028, 91228, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Kingsblood (Loot ID: 1421)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1624, 9029, 91229, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1624
+    (1421, 9029, 91229, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Kingsblood (Loot ID: 1421)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1624, 9030, 91230, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1624
+    (1421, 9030, 91230, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Kingsblood (Loot ID: 1421)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1624, 9031, 91231, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1421, 9031, 91231, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2043
+-- Journeyman bonus for Khadgar's Whisker (Loot ID: 1423)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2043, 9032, 91232, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2043
+    (1423, 9032, 91232, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Khadgar's Whisker (Loot ID: 1423)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2043, 9033, 91233, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2043
+    (1423, 9033, 91233, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Khadgar's Whisker (Loot ID: 1423)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2043, 9034, 91234, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2043
+    (1423, 9034, 91234, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Khadgar's Whisker (Loot ID: 1423)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2043, 9035, 91235, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1423, 9035, 91235, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 1628
+-- Journeyman bonus for Grave Moss (Loot ID: 1424)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1628, 9036, 91236, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 1628
+    (1424, 9036, 91236, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Grave Moss (Loot ID: 1424)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1628, 9037, 91237, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 1628
+    (1424, 9037, 91237, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Grave Moss (Loot ID: 1424)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1628, 9038, 91238, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 1628
+    (1424, 9038, 91238, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Grave Moss (Loot ID: 1424)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (1628, 9039, 91239, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1424, 9039, 91239, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2041
+-- Journeyman bonus for Liferoot (Loot ID: 1730)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2041, 9040, 91240, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2041
+    (1730, 9040, 91240, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Liferoot (Loot ID: 1730)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2041, 9041, 91241, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2041
+    (1730, 9041, 91241, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Liferoot (Loot ID: 1730)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2041, 9042, 91242, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2041
+    (1730, 9042, 91242, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Liferoot (Loot ID: 1730)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2041, 9043, 91243, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1730, 9043, 91243, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2042
+-- Journeyman bonus for Fadeleaf (Loot ID: 1731)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2042, 9044, 91244, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2042
+    (1731, 9044, 91244, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Fadeleaf (Loot ID: 1731)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2042, 9045, 91245, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2042
+    (1731, 9045, 91245, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Fadeleaf (Loot ID: 1731)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2042, 9046, 91246, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2042
+    (1731, 9046, 91246, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Fadeleaf (Loot ID: 1731)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2042, 9047, 91247, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1731, 9047, 91247, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2044
+-- Journeyman bonus for Wintersbite (Loot ID: 1732)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2044, 9048, 91248, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2044
+    (1732, 9048, 91248, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Wintersbite (Loot ID: 1732)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2044, 9049, 91249, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2044
+    (1732, 9049, 91249, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Wintersbite (Loot ID: 1732)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2044, 9050, 91250, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2044
+    (1732, 9050, 91250, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Wintersbite (Loot ID: 1732)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2044, 9051, 91251, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1732, 9051, 91251, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2045
+-- Journeyman bonus for Stranglekelp (Loot ID: 1733)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2045, 9052, 91252, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2045
+    (1733, 9052, 91252, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Stranglekelp (Loot ID: 1733)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2045, 9053, 91253, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2045
+    (1733, 9053, 91253, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Stranglekelp (Loot ID: 1733)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2045, 9054, 91254, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2045
+    (1733, 9054, 91254, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Stranglekelp (Loot ID: 1733)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2045, 9055, 91255, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1733, 9055, 91255, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2046
+-- Journeyman bonus for Goldthorn (Loot ID: 1734)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2046, 9056, 91256, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2046
+    (1734, 9056, 91256, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Goldthorn (Loot ID: 1734)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2046, 9057, 91257, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2046
+    (1734, 9057, 91257, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Goldthorn (Loot ID: 1734)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2046, 9058, 91258, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2046
+    (1734, 9058, 91258, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Goldthorn (Loot ID: 1734)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2046, 9059, 91259, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (1734, 9059, 91259, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 2866
+-- Journeyman bonus for Firebloom (Loot ID: 2292)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2866, 9060, 91260, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 2866
+    (2292, 9060, 91260, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Firebloom (Loot ID: 2292)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2866, 9061, 91261, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 2866
+    (2292, 9061, 91261, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Firebloom (Loot ID: 2292)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2866, 9062, 91262, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 2866
+    (2292, 9062, 91262, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Firebloom (Loot ID: 2292)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (2866, 9063, 91263, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2292, 9063, 91263, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3725
+-- Journeyman bonus for Silverleaf (Loot ID: 2511)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3725, 9064, 91264, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3725
+    (2511, 9064, 91264, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Silverleaf (Loot ID: 2511)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3725, 9065, 91265, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3725
+    (2511, 9065, 91265, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Silverleaf (Loot ID: 2511)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3725, 9066, 91266, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3725
+    (2511, 9066, 91266, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Silverleaf (Loot ID: 2511)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3725, 9067, 91267, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2511, 9067, 91267, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3724
+-- Journeyman bonus for Peacebloom (Loot ID: 2512)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3724, 9068, 91268, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3724
+    (2512, 9068, 91268, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Peacebloom (Loot ID: 2512)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3724, 9069, 91269, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3724
+    (2512, 9069, 91269, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Peacebloom (Loot ID: 2512)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3724, 9070, 91270, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3724
+    (2512, 9070, 91270, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Peacebloom (Loot ID: 2512)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3724, 9071, 91271, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2512, 9071, 91271, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3726
+-- Journeyman bonus for Earthroot (Loot ID: 2513)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3726, 9072, 91272, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3726
+    (2513, 9072, 91272, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Earthroot (Loot ID: 2513)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3726, 9073, 91273, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3726
+    (2513, 9073, 91273, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Earthroot (Loot ID: 2513)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3726, 9074, 91274, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3726
+    (2513, 9074, 91274, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Earthroot (Loot ID: 2513)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3726, 9075, 91275, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2513, 9075, 91275, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3727
+-- Journeyman bonus for Mageroyal (Loot ID: 2514)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3727, 9076, 91276, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3727
+    (2514, 9076, 91276, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mageroyal (Loot ID: 2514)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3727, 9077, 91277, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3727
+    (2514, 9077, 91277, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mageroyal (Loot ID: 2514)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3727, 9078, 91278, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3727
+    (2514, 9078, 91278, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mageroyal (Loot ID: 2514)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3727, 9079, 91279, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2514, 9079, 91279, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3729
+-- Journeyman bonus for Briarthorn (Loot ID: 2515)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3729, 9080, 91280, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3729
+    (2515, 9080, 91280, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Briarthorn (Loot ID: 2515)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3729, 9081, 91281, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3729
+    (2515, 9081, 91281, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Briarthorn (Loot ID: 2515)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3729, 9082, 91282, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3729
+    (2515, 9082, 91282, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Briarthorn (Loot ID: 2515)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3729, 9083, 91283, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2515, 9083, 91283, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 3730
+-- Journeyman bonus for Bruiseweed (Loot ID: 2516)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3730, 9084, 91284, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 3730
+    (2516, 9084, 91284, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Bruiseweed (Loot ID: 2516)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3730, 9085, 91285, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 3730
+    (2516, 9085, 91285, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Bruiseweed (Loot ID: 2516)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3730, 9086, 91286, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 3730
+    (2516, 9086, 91286, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Bruiseweed (Loot ID: 2516)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (3730, 9087, 91287, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (2516, 9087, 91287, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142140
+-- Journeyman bonus for Purple Lotus (Loot ID: 6142)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142140, 9088, 91288, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142140
+    (6142, 9088, 91288, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Purple Lotus (Loot ID: 6142)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142140, 9089, 91289, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142140
+    (6142, 9089, 91289, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Purple Lotus (Loot ID: 6142)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142140, 9090, 91290, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142140
+    (6142, 9090, 91290, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Purple Lotus (Loot ID: 6142)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142140, 9091, 91291, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6142, 9091, 91291, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142141
+-- Journeyman bonus for Arthas' Tears (Loot ID: 6150)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142141, 9092, 91292, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142141
+    (6150, 9092, 91292, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Arthas' Tears (Loot ID: 6150)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142141, 9093, 91293, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142141
+    (6150, 9093, 91293, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Arthas' Tears (Loot ID: 6150)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142141, 9094, 91294, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142141
+    (6150, 9094, 91294, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Arthas' Tears (Loot ID: 6150)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142141, 9095, 91295, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6150, 9095, 91295, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142142
+-- Journeyman bonus for Sungrass (Loot ID: 6151)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142142, 9096, 91296, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142142
+    (6151, 9096, 91296, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Sungrass (Loot ID: 6151)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142142, 9097, 91297, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142142
+    (6151, 9097, 91297, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Sungrass (Loot ID: 6151)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142142, 9098, 91298, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142142
+    (6151, 9098, 91298, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Sungrass (Loot ID: 6151)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142142, 9099, 91299, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6151, 9099, 91299, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142143
+-- Journeyman bonus for Blindweed (Loot ID: 6152)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142143, 9100, 91300, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142143
+    (6152, 9100, 91300, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Blindweed (Loot ID: 6152)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142143, 9101, 91301, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142143
+    (6152, 9101, 91301, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Blindweed (Loot ID: 6152)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142143, 9102, 91302, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142143
+    (6152, 9102, 91302, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Blindweed (Loot ID: 6152)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142143, 9103, 91303, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6152, 9103, 91303, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142144
+-- Journeyman bonus for Ghost Mushroom (Loot ID: 6312)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142144, 9104, 91304, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142144
+    (6312, 9104, 91304, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Ghost Mushroom (Loot ID: 6312)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142144, 9105, 91305, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142144
+    (6312, 9105, 91305, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Ghost Mushroom (Loot ID: 6312)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142144, 9106, 91306, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142144
+    (6312, 9106, 91306, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Ghost Mushroom (Loot ID: 6312)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142144, 9107, 91307, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6312, 9107, 91307, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 142145
+-- Journeyman bonus for Gromsblood (Loot ID: 6313)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142145, 9108, 91308, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 142145
+    (6313, 9108, 91308, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Gromsblood (Loot ID: 6313)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142145, 9109, 91309, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 142145
+    (6313, 9109, 91309, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Gromsblood (Loot ID: 6313)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142145, 9110, 91310, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 142145
+    (6313, 9110, 91310, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Gromsblood (Loot ID: 6313)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (142145, 9111, 91311, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (6313, 9111, 91311, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176583
+-- Journeyman bonus for Golden Sansam (Loot ID: 13945)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176583, 9112, 91312, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176583
+    (13945, 9112, 91312, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Golden Sansam (Loot ID: 13945)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176583, 9113, 91313, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176583
+    (13945, 9113, 91313, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Golden Sansam (Loot ID: 13945)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176583, 9114, 91314, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176583
+    (13945, 9114, 91314, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Golden Sansam (Loot ID: 13945)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176583, 9115, 91315, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13945, 9115, 91315, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176584
+-- Journeyman bonus for Dreamfoil (Loot ID: 13946)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176584, 9116, 91316, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176584
+    (13946, 9116, 91316, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Dreamfoil (Loot ID: 13946)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176584, 9117, 91317, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176584
+    (13946, 9117, 91317, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Dreamfoil (Loot ID: 13946)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176584, 9118, 91318, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176584
+    (13946, 9118, 91318, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Dreamfoil (Loot ID: 13946)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176584, 9119, 91319, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13946, 9119, 91319, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176586
+-- Journeyman bonus for Mountain Silversage (Loot ID: 13947)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176586, 9120, 91320, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176586
+    (13947, 9120, 91320, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mountain Silversage (Loot ID: 13947)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176586, 9121, 91321, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176586
+    (13947, 9121, 91321, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mountain Silversage (Loot ID: 13947)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176586, 9122, 91322, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176586
+    (13947, 9122, 91322, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mountain Silversage (Loot ID: 13947)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176586, 9123, 91323, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13947, 9123, 91323, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176587
+-- Journeyman bonus for Plaguebloom (Loot ID: 13948)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176587, 9124, 91324, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176587
+    (13948, 9124, 91324, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Plaguebloom (Loot ID: 13948)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176587, 9125, 91325, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176587
+    (13948, 9125, 91325, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Plaguebloom (Loot ID: 13948)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176587, 9126, 91326, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176587
+    (13948, 9126, 91326, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Plaguebloom (Loot ID: 13948)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176587, 9127, 91327, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13948, 9127, 91327, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176588
+-- Journeyman bonus for Icecap (Loot ID: 13949)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176588, 9128, 91328, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176588
+    (13949, 9128, 91328, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Icecap (Loot ID: 13949)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176588, 9129, 91329, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176588
+    (13949, 9129, 91329, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Icecap (Loot ID: 13949)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176588, 9130, 91330, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176588
+    (13949, 9130, 91330, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Icecap (Loot ID: 13949)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176588, 9131, 91331, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13949, 9131, 91331, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176589
+-- Journeyman bonus for Black Lotus (Loot ID: 13950)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176589, 9132, 91332, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176589
+    (13950, 9132, 91332, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Black Lotus (Loot ID: 13950)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176589, 9133, 91333, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176589
+    (13950, 9133, 91333, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Black Lotus (Loot ID: 13950)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176589, 9134, 91334, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176589
+    (13950, 9134, 91334, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Black Lotus (Loot ID: 13950)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176589, 9135, 91335, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13950, 9135, 91335, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176636
+-- Journeyman bonus for Sungrass (Loot ID: 13965)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176636, 9136, 91336, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176636
+    (13965, 9136, 91336, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Sungrass (Loot ID: 13965)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176636, 9137, 91337, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176636
+    (13965, 9137, 91337, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Sungrass (Loot ID: 13965)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176636, 9138, 91338, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176636
+    (13965, 9138, 91338, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Sungrass (Loot ID: 13965)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176636, 9139, 91339, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13965, 9139, 91339, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176637
+-- Journeyman bonus for Gromsblood (Loot ID: 13966)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176637, 9140, 91340, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176637
+    (13966, 9140, 91340, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Gromsblood (Loot ID: 13966)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176637, 9141, 91341, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176637
+    (13966, 9141, 91341, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Gromsblood (Loot ID: 13966)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176637, 9142, 91342, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176637
+    (13966, 9142, 91342, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Gromsblood (Loot ID: 13966)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176637, 9143, 91343, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13966, 9143, 91343, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176638
+-- Journeyman bonus for Golden Sansam (Loot ID: 13967)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176638, 9144, 91344, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176638
+    (13967, 9144, 91344, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Golden Sansam (Loot ID: 13967)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176638, 9145, 91345, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176638
+    (13967, 9145, 91345, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Golden Sansam (Loot ID: 13967)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176638, 9146, 91346, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176638
+    (13967, 9146, 91346, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Golden Sansam (Loot ID: 13967)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176638, 9147, 91347, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13967, 9147, 91347, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176639
+-- Journeyman bonus for Dreamfoil (Loot ID: 13968)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176639, 9148, 91348, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176639
+    (13968, 9148, 91348, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Dreamfoil (Loot ID: 13968)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176639, 9149, 91349, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176639
+    (13968, 9149, 91349, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Dreamfoil (Loot ID: 13968)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176639, 9150, 91350, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176639
+    (13968, 9150, 91350, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Dreamfoil (Loot ID: 13968)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176639, 9151, 91351, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13968, 9151, 91351, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176640
+-- Journeyman bonus for Mountain Silversage (Loot ID: 13969)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176640, 9152, 91352, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176640
+    (13969, 9152, 91352, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mountain Silversage (Loot ID: 13969)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176640, 9153, 91353, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176640
+    (13969, 9153, 91353, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mountain Silversage (Loot ID: 13969)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176640, 9154, 91354, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176640
+    (13969, 9154, 91354, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mountain Silversage (Loot ID: 13969)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176640, 9155, 91355, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13969, 9155, 91355, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176642
+-- Journeyman bonus for Arthas' Tears (Loot ID: 13970)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176642, 9156, 91356, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176642
+    (13970, 9156, 91356, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Arthas' Tears (Loot ID: 13970)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176642, 9157, 91357, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176642
+    (13970, 9157, 91357, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Arthas' Tears (Loot ID: 13970)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176642, 9158, 91358, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176642
+    (13970, 9158, 91358, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Arthas' Tears (Loot ID: 13970)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176642, 9159, 91359, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13970, 9159, 91359, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 176641
+-- Journeyman bonus for Plaguebloom (Loot ID: 13971)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176641, 9160, 91360, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 176641
+    (13971, 9160, 91360, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Plaguebloom (Loot ID: 13971)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176641, 9161, 91361, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 176641
+    (13971, 9161, 91361, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Plaguebloom (Loot ID: 13971)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176641, 9162, 91362, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 176641
+    (13971, 9162, 91362, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Plaguebloom (Loot ID: 13971)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (176641, 9163, 91363, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (13971, 9163, 91363, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 180165
+-- Journeyman bonus for Purple Lotus (Loot ID: 17200)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180165, 9164, 91364, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 180165
+    (17200, 9164, 91364, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Purple Lotus (Loot ID: 17200)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180165, 9165, 91365, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 180165
+    (17200, 9165, 91365, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Purple Lotus (Loot ID: 17200)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180165, 9166, 91366, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 180165
+    (17200, 9166, 91366, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Purple Lotus (Loot ID: 17200)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180165, 9167, 91367, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (17200, 9167, 91367, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 180164
+-- Journeyman bonus for Sungrass (Loot ID: 17201)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180164, 9168, 91368, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 180164
+    (17201, 9168, 91368, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Sungrass (Loot ID: 17201)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180164, 9169, 91369, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 180164
+    (17201, 9169, 91369, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Sungrass (Loot ID: 17201)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180164, 9170, 91370, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 180164
+    (17201, 9170, 91370, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Sungrass (Loot ID: 17201)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180164, 9171, 91371, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (17201, 9171, 91371, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 180167
+-- Journeyman bonus for Golden Sansam (Loot ID: 17202)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180167, 9172, 91372, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 180167
+    (17202, 9172, 91372, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Golden Sansam (Loot ID: 17202)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180167, 9173, 91373, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 180167
+    (17202, 9173, 91373, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Golden Sansam (Loot ID: 17202)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180167, 9174, 91374, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 180167
+    (17202, 9174, 91374, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Golden Sansam (Loot ID: 17202)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180167, 9175, 91375, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (17202, 9175, 91375, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 180168
+-- Journeyman bonus for Dreamfoil (Loot ID: 17203)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180168, 9176, 91376, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 180168
+    (17203, 9176, 91376, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Dreamfoil (Loot ID: 17203)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180168, 9177, 91377, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 180168
+    (17203, 9177, 91377, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Dreamfoil (Loot ID: 17203)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180168, 9178, 91378, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 180168
+    (17203, 9178, 91378, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Dreamfoil (Loot ID: 17203)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180168, 9179, 91379, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (17203, 9179, 91379, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 180166
+-- Journeyman bonus for Mountain Silversage (Loot ID: 17204)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180166, 9180, 91380, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 180166
+    (17204, 9180, 91380, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mountain Silversage (Loot ID: 17204)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180166, 9181, 91381, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 180166
+    (17204, 9181, 91381, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mountain Silversage (Loot ID: 17204)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180166, 9182, 91382, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 180166
+    (17204, 9182, 91382, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mountain Silversage (Loot ID: 17204)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (180166, 9183, 91383, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (17204, 9183, 91383, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181166
+-- Journeyman bonus for Bloodthistle (Loot ID: 18009)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181166, 9184, 91384, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181166
+    (18009, 9184, 91384, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Bloodthistle (Loot ID: 18009)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181166, 9185, 91385, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181166
+    (18009, 9185, 91385, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Bloodthistle (Loot ID: 18009)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181166, 9186, 91386, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181166
+    (18009, 9186, 91386, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Bloodthistle (Loot ID: 18009)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181166, 9187, 91387, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18009, 9187, 91387, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181270
+-- Journeyman bonus for Felweed (Loot ID: 18111)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181270, 9188, 91388, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181270
+    (18111, 9188, 91388, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Felweed (Loot ID: 18111)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181270, 9189, 91389, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181270
+    (18111, 9189, 91389, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Felweed (Loot ID: 18111)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181270, 9190, 91390, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181270
+    (18111, 9190, 91390, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Felweed (Loot ID: 18111)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181270, 9191, 91391, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18111, 9191, 91391, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181271
+-- Journeyman bonus for Dreaming Glory (Loot ID: 18112)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181271, 9192, 91392, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181271
+    (18112, 9192, 91392, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Dreaming Glory (Loot ID: 18112)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181271, 9193, 91393, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181271
+    (18112, 9193, 91393, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Dreaming Glory (Loot ID: 18112)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181271, 9194, 91394, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181271
+    (18112, 9194, 91394, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Dreaming Glory (Loot ID: 18112)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181271, 9195, 91395, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18112, 9195, 91395, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181275
+-- Journeyman bonus for Ragveil (Loot ID: 18113)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181275, 9196, 91396, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181275
+    (18113, 9196, 91396, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Ragveil (Loot ID: 18113)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181275, 9197, 91397, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181275
+    (18113, 9197, 91397, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Ragveil (Loot ID: 18113)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181275, 9198, 91398, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181275
+    (18113, 9198, 91398, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Ragveil (Loot ID: 18113)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181275, 9199, 91399, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18113, 9199, 91399, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181276
+-- Journeyman bonus for Flame Cap (Loot ID: 18114)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181276, 9200, 91400, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181276
+    (18114, 9200, 91400, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Flame Cap (Loot ID: 18114)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181276, 9201, 91401, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181276
+    (18114, 9201, 91401, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Flame Cap (Loot ID: 18114)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181276, 9202, 91402, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181276
+    (18114, 9202, 91402, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Flame Cap (Loot ID: 18114)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181276, 9203, 91403, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18114, 9203, 91403, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181277
+-- Journeyman bonus for Terocone (Loot ID: 18115)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181277, 9204, 91404, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181277
+    (18115, 9204, 91404, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Terocone (Loot ID: 18115)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181277, 9205, 91405, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181277
+    (18115, 9205, 91405, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Terocone (Loot ID: 18115)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181277, 9206, 91406, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181277
+    (18115, 9206, 91406, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Terocone (Loot ID: 18115)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181277, 9207, 91407, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18115, 9207, 91407, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181278
+-- Journeyman bonus for Ancient Lichen (Loot ID: 18116)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181278, 9208, 91408, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181278
+    (18116, 9208, 91408, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Ancient Lichen (Loot ID: 18116)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181278, 9209, 91409, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181278
+    (18116, 9209, 91409, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Ancient Lichen (Loot ID: 18116)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181278, 9210, 91410, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181278
+    (18116, 9210, 91410, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Ancient Lichen (Loot ID: 18116)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181278, 9211, 91411, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18116, 9211, 91411, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181279
+-- Journeyman bonus for Netherbloom (Loot ID: 18117)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181279, 9212, 91412, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181279
+    (18117, 9212, 91412, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Netherbloom (Loot ID: 18117)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181279, 9213, 91413, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181279
+    (18117, 9213, 91413, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Netherbloom (Loot ID: 18117)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181279, 9214, 91414, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181279
+    (18117, 9214, 91414, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Netherbloom (Loot ID: 18117)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181279, 9215, 91415, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18117, 9215, 91415, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181280
+-- Journeyman bonus for Nightmare Vine (Loot ID: 18118)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181280, 9216, 91416, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181280
+    (18118, 9216, 91416, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Nightmare Vine (Loot ID: 18118)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181280, 9217, 91417, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181280
+    (18118, 9217, 91417, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Nightmare Vine (Loot ID: 18118)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181280, 9218, 91418, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181280
+    (18118, 9218, 91418, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Nightmare Vine (Loot ID: 18118)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181280, 9219, 91419, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18118, 9219, 91419, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 181281
+-- Journeyman bonus for Mana Thistle (Loot ID: 18119)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181281, 9220, 91420, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 181281
+    (18119, 9220, 91420, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Mana Thistle (Loot ID: 18119)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181281, 9221, 91421, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 181281
+    (18119, 9221, 91421, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Mana Thistle (Loot ID: 18119)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181281, 9222, 91422, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 181281
+    (18119, 9222, 91422, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Mana Thistle (Loot ID: 18119)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (181281, 9223, 91423, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (18119, 9223, 91423, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 183043
+-- Journeyman bonus for Ragveil (Loot ID: 19627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183043, 9224, 91424, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 183043
+    (19627, 9224, 91424, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Ragveil (Loot ID: 19627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183043, 9225, 91425, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 183043
+    (19627, 9225, 91425, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Ragveil (Loot ID: 19627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183043, 9226, 91426, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 183043
+    (19627, 9226, 91426, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Ragveil (Loot ID: 19627)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183043, 9227, 91427, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (19627, 9227, 91427, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 183044
+-- Journeyman bonus for Felweed (Loot ID: 19628)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183044, 9228, 91428, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 183044
+    (19628, 9228, 91428, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Felweed (Loot ID: 19628)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183044, 9229, 91429, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 183044
+    (19628, 9229, 91429, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Felweed (Loot ID: 19628)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183044, 9230, 91430, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 183044
+    (19628, 9230, 91430, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Felweed (Loot ID: 19628)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183044, 9231, 91431, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (19628, 9231, 91431, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 183045
+-- Journeyman bonus for Dreaming Glory (Loot ID: 19629)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183045, 9232, 91432, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 183045
+    (19629, 9232, 91432, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Dreaming Glory (Loot ID: 19629)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183045, 9233, 91433, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 183045
+    (19629, 9233, 91433, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Dreaming Glory (Loot ID: 19629)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183045, 9234, 91434, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 183045
+    (19629, 9234, 91434, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Dreaming Glory (Loot ID: 19629)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183045, 9235, 91435, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (19629, 9235, 91435, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 183046
+-- Journeyman bonus for Blindweed (Loot ID: 19630)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183046, 9236, 91436, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 183046
+    (19630, 9236, 91436, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Blindweed (Loot ID: 19630)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183046, 9237, 91437, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 183046
+    (19630, 9237, 91437, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Blindweed (Loot ID: 19630)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183046, 9238, 91438, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 183046
+    (19630, 9238, 91438, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Blindweed (Loot ID: 19630)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (183046, 9239, 91439, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (19630, 9239, 91439, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 189973
+-- Journeyman bonus for Goldclover (Loot ID: 24093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189973, 9240, 91440, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 189973
+    (24093, 9240, 91440, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Goldclover (Loot ID: 24093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189973, 9241, 91441, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 189973
+    (24093, 9241, 91441, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Goldclover (Loot ID: 24093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189973, 9242, 91442, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 189973
+    (24093, 9242, 91442, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Goldclover (Loot ID: 24093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (189973, 9243, 91443, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (24093, 9243, 91443, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190169
+-- Journeyman bonus for Tiger Lily (Loot ID: 24224)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190169, 9244, 91444, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190169
+    (24224, 9244, 91444, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Tiger Lily (Loot ID: 24224)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190169, 9245, 91445, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190169
+    (24224, 9245, 91445, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Tiger Lily (Loot ID: 24224)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190169, 9246, 91446, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190169
+    (24224, 9246, 91446, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Tiger Lily (Loot ID: 24224)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190169, 9247, 91447, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (24224, 9247, 91447, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190171
+-- Journeyman bonus for Lichbloom (Loot ID: 24226)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190171, 9248, 91448, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190171
+    (24226, 9248, 91448, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Lichbloom (Loot ID: 24226)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190171, 9249, 91449, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190171
+    (24226, 9249, 91449, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Lichbloom (Loot ID: 24226)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190171, 9250, 91450, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190171
+    (24226, 9250, 91450, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Lichbloom (Loot ID: 24226)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190171, 9251, 91451, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (24226, 9251, 91451, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190172
+-- Journeyman bonus for Icethorn (Loot ID: 24227)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190172, 9252, 91452, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190172
+    (24227, 9252, 91452, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Icethorn (Loot ID: 24227)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190172, 9253, 91453, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190172
+    (24227, 9253, 91453, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Icethorn (Loot ID: 24227)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190172, 9254, 91454, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190172
+    (24227, 9254, 91454, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Icethorn (Loot ID: 24227)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190172, 9255, 91455, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (24227, 9255, 91455, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 191019
+-- Journeyman bonus for Adder's Tongue (Loot ID: 25093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191019, 9256, 91456, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 191019
+    (25093, 9256, 91456, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Adder's Tongue (Loot ID: 25093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191019, 9257, 91457, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 191019
+    (25093, 9257, 91457, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Adder's Tongue (Loot ID: 25093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191019, 9258, 91458, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 191019
+    (25093, 9258, 91458, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Adder's Tongue (Loot ID: 25093)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (191019, 9259, 91459, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (25093, 9259, 91459, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190173
+-- Journeyman bonus for Frozen Herb (Loot ID: 25094)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190173, 9260, 91460, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190173
+    (25094, 9260, 91460, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Frozen Herb (Loot ID: 25094)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190173, 9261, 91461, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190173
+    (25094, 9261, 91461, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Frozen Herb (Loot ID: 25094)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190173, 9262, 91462, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190173
+    (25094, 9262, 91462, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Frozen Herb (Loot ID: 25094)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190173, 9263, 91463, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (25094, 9263, 91463, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190175
+-- Journeyman bonus for Frozen Herb (Loot ID: 25095)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190175, 9264, 91464, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190175
+    (25095, 9264, 91464, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Frozen Herb (Loot ID: 25095)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190175, 9265, 91465, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190175
+    (25095, 9265, 91465, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Frozen Herb (Loot ID: 25095)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190175, 9266, 91466, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190175
+    (25095, 9266, 91466, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Frozen Herb (Loot ID: 25095)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190175, 9267, 91467, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (25095, 9267, 91467, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
--- Journeyman bonus for GO 190174
+-- Journeyman bonus for Frozen Herb (Loot ID: 25096)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190174, 9268, 91468, 10, 0, 1, 1, 'Journeyman Shears Bonus');
--- Artisan bonus for GO 190174
+    (25096, 9268, 91468, 10, 0, 1, 1, 'Journeyman Shears Bonus');
+-- Artisan bonus for Frozen Herb (Loot ID: 25096)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190174, 9269, 91469, 20, 0, 1, 1, 'Artisan Shears Bonus');
--- Master bonus for GO 190174
+    (25096, 9269, 91469, 20, 0, 1, 1, 'Artisan Shears Bonus');
+-- Master bonus for Frozen Herb (Loot ID: 25096)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190174, 9270, 91470, 30, 0, 1, 1, 'Master Shears Bonus');
--- Grand Master bonus for GO 190174
+    (25096, 9270, 91470, 30, 0, 1, 1, 'Master Shears Bonus');
+-- Grand Master bonus for Frozen Herb (Loot ID: 25096)
 INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES
-    (190174, 9271, 91471, 40, 0, 1, 1, 'Grand Master Shears Bonus');
+    (25096, 9271, 91471, 40, 0, 1, 1, 'Grand Master Shears Bonus');
 
 -- =====================================================
 -- CONDITIONS (Check for active shear auras)

@@ -150,9 +150,9 @@ def _phase1_references(lines: List[str], loot_tables: list) -> dict:
 
 
 def _phase2_linkage(lines: List[str], loot_tables: list, items_by_loot_id: dict):
-    """Phase 2: Link references to gameobjects."""
+    """Phase 2: Link references to loot tables."""
     lines.append('-- =====================================================')
-    lines.append('-- LINK REFERENCES TO GAMEOBJECTS')
+    lines.append('-- LINK REFERENCES TO LOOT TABLES')
     lines.append('-- =====================================================')
     lines.append('')
 
@@ -161,20 +161,19 @@ def _phase2_linkage(lines: List[str], loot_tables: list, items_by_loot_id: dict)
 
     for lt in loot_tables:
         loot_id = lt['loot_id']
-        gameobject_ids = lt['gameobject_ids']
+        name = lt['example_name']
 
         if not items_by_loot_id.get(loot_id):
             ref_id += 4
             continue
 
-        for go_id in gameobject_ids:
-            for tier in TIERS:
-                tier_ref_id = ref_id + (tier['tier_id'] - 1)
-                chance = tier['chance']
-                lines.append(f"-- {tier['name']} bonus for GO {go_id}")
-                lines.append(f"INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES")
-                lines.append(f"    ({go_id}, {item_slot_id}, {tier_ref_id}, {chance}, 0, 1, 1, '{tier['name']} Pick Bonus');")
-                item_slot_id += 1
+        for tier in TIERS:
+            tier_ref_id = ref_id + (tier['tier_id'] - 1)
+            chance = tier['chance']
+            lines.append(f"-- {tier['name']} bonus for {name} (Loot ID: {loot_id})")
+            lines.append(f"INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequired, MinCount, MaxCount, Comment) VALUES")
+            lines.append(f"    ({loot_id}, {item_slot_id}, {tier_ref_id}, {chance}, 0, 1, 1, '{tier['name']} Pick Bonus');")
+            item_slot_id += 1
 
         ref_id += 4
         lines.append('')
