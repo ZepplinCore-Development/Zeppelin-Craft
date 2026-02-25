@@ -1,5 +1,5 @@
 -- =====================================================
--- ALCHEMY MORTAR QUEST SYSTEM
+-- ALCHEMY MORTAR QUEST SYSTEM (Fixed: leathering kit overlap resolved)
 -- =====================================================
 -- Journeyman: 8 city quests (90091-90098) [ExclusiveGroup 90091]
 -- Artisan: 8 city quests (90099-90106) [ExclusiveGroup 90099]

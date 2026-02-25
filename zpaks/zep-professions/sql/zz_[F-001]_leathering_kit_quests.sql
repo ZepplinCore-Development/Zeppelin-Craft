@@ -18,12 +18,12 @@
 -- ===================
 -- CLEANUP OLD QUESTS
 -- ===================
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90065 AND 90110;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90065 AND 90110;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90065 AND 90110;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90065 AND 90110;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90065 AND 90110;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90065 AND 90110;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90065 AND 90090 OR `ID` IN (90109, 90110);
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90065 AND 90090 OR `ID` IN (90109, 90110);
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90065 AND 90090 OR `ID` IN (90109, 90110);
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90065 AND 90090 OR `ID` IN (90109, 90110);
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90065 AND 90090 OR `quest` IN (90109, 90110);
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90065 AND 90090 OR `quest` IN (90109, 90110);
 
 -- ===================
 -- ADD QUESTGIVER FLAG TO TRAINERS

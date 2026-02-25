@@ -203,7 +203,7 @@ def _phase2_linkage(lines: List[str], loot_tables: list, items_by_loot_id: dict)
 
 
 def _phase3_conditions(lines: List[str], loot_tables: list, items_by_loot_id: dict):
-    """Phase 3: Generate conditions for shear aura checks."""
+    """Phase 3: Generate per-item conditions for shear aura checks."""
     lines.append('-- =====================================================')
     lines.append('-- CONDITIONS (Check for active shear auras)')
     lines.append('-- =====================================================')
@@ -222,8 +222,10 @@ def _phase3_conditions(lines: List[str], loot_tables: list, items_by_loot_id: di
             tier_ref_id = ref_id + (tier['tier_id'] - 1)
             spell_id = tier['spell']
             lines.append(f"-- {name} - {tier['name']} Shears condition (Ref {tier_ref_id})")
-            lines.append(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES")
-            lines.append(f"    (10, {tier_ref_id}, 0, 0, 0, 1, 0, {spell_id}, 1, 0);")
+            for item in items_by_loot_id[loot_id]:
+                item_id = item['item']
+                lines.append(f"INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES")
+                lines.append(f"    (10, {tier_ref_id}, {item_id}, 0, 0, 1, 0, {spell_id}, 1, 0);")
 
         ref_id += 4
         lines.append('')
