@@ -15,6 +15,13 @@ INSERT INTO `creature_template_model` SET
     `CreatureDisplayID` = 39097,
     `probability` = 1.0;
 
+DELETE FROM `creature_model_info` WHERE `DisplayID` = 39097;
+INSERT INTO `creature_model_info` SET
+    `DisplayID` = 39097,
+    `BoundingRadius` = 1.0,
+    `CombatReach` = 1.0,
+    `Gender` = 2;
+
 -- Giant Murloc Item Entry
 DELETE FROM `item_template` WHERE (`entry` = 58100);
 INSERT INTO `item_template`

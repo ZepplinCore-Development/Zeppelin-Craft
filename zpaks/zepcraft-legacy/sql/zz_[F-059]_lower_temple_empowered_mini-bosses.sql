@@ -6,8 +6,6 @@
         DELETE FROM `creature_template` WHERE (`entry` = 9102595);
         INSERT INTO `creature_template` SET
             `entry` = 9102595,
-            `difficulty_entry_1` = 9101306,
-            `difficulty_entry_2` = 9101351,
             `name` = 'Empowered Deep Lurker',
             `minlevel` = 47,
             `maxlevel` = 49,
@@ -25,7 +23,6 @@
             `type_flags` = 256,
             `lootid` = 9102595,
             `skinloot` = 100044,
-            `AIName` = 'SmartAI',
             `MovementType` = 1,
             `HealthModifier` = 12,
             `mechanic_immune_mask` = 16384,
@@ -82,8 +79,6 @@
         DELETE FROM `creature_template` WHERE (`entry` = 9102594);
         INSERT INTO `creature_template` SET
             `entry` = 9102594,
-            `difficulty_entry_1` = 9101311,
-            `difficulty_entry_2` = 9101356,
             `name` = 'Empowered Murk Worm',
             `minlevel` = 47,
             `maxlevel` = 48,
@@ -101,7 +96,6 @@
             `type_flags` = 65537,
             `lootid` = 9102594,
             `skinloot` = 5226,
-            `AIName` = 'SmartAI',
             `MovementType` = 1,
             `HealthModifier` = 12,
             `VerifiedBuild` = '12340';
@@ -169,8 +163,6 @@
         DELETE FROM `creature_template` WHERE (`entry` = 9102596);
         INSERT INTO `creature_template` SET
             `entry` = 9102596,
-            `difficulty_entry_1` = 9101316,
-            `difficulty_entry_2` = 9101361,
             `name` = 'Empowered Ooze',
             `minlevel` = 47,
             `maxlevel` = 48,
@@ -186,7 +178,6 @@
             `type` = 10,
             `lootid` = 9102596,
             `pickpocketloot` = 5228,
-            `AIName` = 'SmartAI',
             `MovementType` = 1,
             `HealthModifier` = 12,
             `VerifiedBuild` = '12340';
