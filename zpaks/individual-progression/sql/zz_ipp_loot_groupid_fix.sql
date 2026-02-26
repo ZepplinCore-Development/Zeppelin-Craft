@@ -43,3 +43,36 @@ UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 21213 AND `Ite
 UPDATE `creature_loot_template` SET `GroupId` = 3 WHERE `Entry` = 21213 AND `Item` = 36019 AND `GroupId` = 1;
 UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 21212 AND `Item` = 36025 AND `GroupId` = 1;
 UPDATE `creature_loot_template` SET `GroupId` = 3 WHERE `Entry` = 21212 AND `Item` = 36026 AND `GroupId` = 1;
+
+-- =============================================================================
+-- Independent drops (cloth, patterns) incorrectly grouped with 100% references
+-- These should be GroupId 0 (independent) not GroupId 1 (competing)
+-- =============================================================================
+
+-- Hyjal: Archimonde - gem patterns and formula refs are independent drops
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17968 AND `Item` = 34063 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17968 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Tempest Keep: High Astromancer Solarian - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 18805 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 18805 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Tempest Keep: Kael'thas Sunstrider - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 19622 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 19622 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Serpentshrine Cavern: Fathom-Lord Karathress - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21214 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21214 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Serpentshrine Cavern: Leotheras the Blind - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21215 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21215 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Serpentshrine Cavern: Morogrim Tidewalker - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21213 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21213 AND `Item` = 50501 AND `GroupId` = 1;
+
+-- Serpentshrine Cavern: Lady Vashj - cloth and formula refs
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21212 AND `Item` = 21877 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 21212 AND `Item` = 50501 AND `GroupId` = 1;
