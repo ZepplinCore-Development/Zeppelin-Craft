@@ -13,107 +13,107 @@ DELETE FROM `item_template` WHERE `entry` IN (57207, 57208, 57209, 57210);
 DELETE FROM `trainer_spell` WHERE `SpellId` IN (91252, 91253, 91254, 91255, 91256, 91257, 91258, 91259, 91260, 91261, 91262, 91263, 91264, 91265, 91266, 91267, 91268, 91269, 91270);
 
 -- =====================================================
--- BS RIVET ITEMS (Trade Goods, stackable, no bind)
+-- BS RIVET ITEMS (Trade Goods > Parts, stackable, no bind)
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57009, `class` = 7, `subclass` = 0,
+    `entry` = 57009, `class` = 7, `subclass` = 1,
     `name` = 'Copper Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154867, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57010, `class` = 7, `subclass` = 0,
+    `entry` = 57010, `class` = 7, `subclass` = 1,
     `name` = 'Truesilver Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 140159, `Quality` = 2, `ItemLevel` = 40,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57011, `class` = 7, `subclass` = 0,
+    `entry` = 57011, `class` = 7, `subclass` = 1,
     `name` = 'Adamantite Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 140380, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57012, `class` = 7, `subclass` = 0,
+    `entry` = 57012, `class` = 7, `subclass` = 1,
     `name` = 'Saronite Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154869, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 20, `bonding` = 0;
 
 -- =====================================================
--- JC FASTENER ITEMS (Trade Goods, stackable, no bind)
+-- JC FASTENER ITEMS (Trade Goods > Parts, stackable, no bind)
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57508, `class` = 7, `subclass` = 0,
+    `entry` = 57508, `class` = 7, `subclass` = 1,
     `name` = 'Copper Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154868, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57509, `class` = 7, `subclass` = 0,
+    `entry` = 57509, `class` = 7, `subclass` = 1,
     `name` = 'Truesilver Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 137462, `Quality` = 2, `ItemLevel` = 40,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57510, `class` = 7, `subclass` = 0,
+    `entry` = 57510, `class` = 7, `subclass` = 1,
     `name` = 'Adamantite Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 135539, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 20, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57511, `class` = 7, `subclass` = 0,
+    `entry` = 57511, `class` = 7, `subclass` = 1,
     `name` = 'Saronite Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154870, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 20, `bonding` = 0;
 
 -- =====================================================
--- ENG SCREWDRIVER ITEMS (Trade Goods, no bind)
+-- ENG SCREWDRIVER ITEMS (Reagent > Tool, no bind)
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57204, `class` = 7, `subclass` = 0,
+    `entry` = 57204, `class` = 5, `subclass` = 1,
     `name` = 'Copper Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154875, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57205, `class` = 7, `subclass` = 0,
+    `entry` = 57205, `class` = 5, `subclass` = 1,
     `name` = 'Fel Iron Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154876, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57206, `class` = 7, `subclass` = 0,
+    `entry` = 57206, `class` = 5, `subclass` = 1,
     `name` = 'Saronite Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154877, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 5, `bonding` = 0;
 
 -- =====================================================
--- ENG DRILL ITEMS (Trade Goods, no bind)
+-- ENG DRILL ITEMS (Reagent > Tool, no bind)
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57207, `class` = 7, `subclass` = 0,
+    `entry` = 57207, `class` = 5, `subclass` = 1,
     `name` = 'Copper Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154871, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57208, `class` = 7, `subclass` = 0,
+    `entry` = 57208, `class` = 5, `subclass` = 1,
     `name` = 'Gold Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154872, `Quality` = 2, `ItemLevel` = 40,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57209, `class` = 7, `subclass` = 0,
+    `entry` = 57209, `class` = 5, `subclass` = 1,
     `name` = 'Fel Iron Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154873, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57210, `class` = 7, `subclass` = 0,
+    `entry` = 57210, `class` = 5, `subclass` = 1,
     `name` = 'Saronite Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154874, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 5, `bonding` = 0;

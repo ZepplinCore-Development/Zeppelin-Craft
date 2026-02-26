@@ -150,3 +150,13 @@ UPDATE spell SET spell_icon_id = 335 WHERE id IN (91252, 91253, 91254, 91255);
 UPDATE spell SET spell_icon_id = 4662 WHERE id IN (91256, 91257, 91258, 91259, 91267, 91268, 91269, 91270);
 
 UPDATE spell SET spell_icon_id = 333 WHERE id IN (91260, 91261, 91262, 91263, 91264, 91265, 91266);
+
+UPDATE spell SET reagent_4 = 0, reagent_count_4 = 0 WHERE id = 91267;
+
+UPDATE spell SET reagent_1 = 57504, reagent_count_1 = 1, reagent_2 = 57010, reagent_count_2 = 12, reagent_3 = 57509, reagent_count_3 = 4, reagent_4 = 57208, reagent_count_4 = 1 WHERE id = 91268;
+
+UPDATE spell SET reagent_1 = 57505, reagent_count_1 = 1, reagent_2 = 57011, reagent_count_2 = 12, reagent_3 = 57510, reagent_count_3 = 4, reagent_4 = 57209, reagent_count_4 = 1 WHERE id = 91269;
+
+UPDATE spell SET reagent_1 = 57506, reagent_count_1 = 1, reagent_2 = 57012, reagent_count_2 = 12, reagent_3 = 57511, reagent_count_3 = 4, reagent_4 = 57210, reagent_count_4 = 1 WHERE id = 91270;
+
+UPDATE spell SET reagent_1 = 20815, reagent_count_1 = 1, reagent_2 = 57009, reagent_count_2 = 12, reagent_3 = 57508, reagent_count_3 = 4, reagent_4 = 57207, reagent_count_4 = 1 WHERE id = 91267;
