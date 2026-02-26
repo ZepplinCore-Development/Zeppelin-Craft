@@ -1972,6 +1972,9 @@ UPDATE `quest_template` SET
     `RewardMoney` = 400000, `RewardItem1` = 0, `RewardAmount1` = 0
 WHERE `ID` IN (9038, 9046, 9057, 9065, 9076, 9085, 9094, 9105, 9113);
 
+-- Quest 9065 (The Pattymac Special): Clear leftover stock RewardItem2
+UPDATE `quest_template` SET `RewardItem2` = 0, `RewardAmount2` = 0 WHERE `ID` = 9065;
+
 -- Chest Quests (all classes) - Artifact-only: 59331 (Kel'Thuzad's Phylactery Fragment)
 UPDATE `quest_template` SET
     `RequiredItemId1` = 59331, `RequiredItemCount1` = 1,

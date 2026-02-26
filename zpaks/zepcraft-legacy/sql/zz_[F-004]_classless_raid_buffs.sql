@@ -114,6 +114,15 @@ INSERT INTO `creature_loot_template` SET
     `Chance` = 20.0,
     `Comment` = 'Eadric the Pure (Heroic) - Codex: Prayer of Fortitude IV';
 
+-- Set lootid on ToC bosses so creature_loot_template is actually used
+-- (These bosses normally use chest-based loot only)
+UPDATE `creature_template` SET `lootid` = 18478 WHERE `entry` = 18478 AND `lootid` = 0;
+UPDATE `creature_template` SET `lootid` = 33546 WHERE `entry` = 33546 AND `lootid` = 0;
+UPDATE `creature_template` SET `lootid` = 33759 WHERE `entry` = 33759 AND `lootid` = 0;
+UPDATE `creature_template` SET `lootid` = 34102 WHERE `entry` = 34102 AND `lootid` = 0;
+UPDATE `creature_template` SET `lootid` = 34928 WHERE `entry` = 34928 AND `lootid` = 0;
+UPDATE `creature_template` SET `lootid` = 35119 WHERE `entry` = 35119 AND `lootid` = 0;
+
 
 
 

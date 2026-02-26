@@ -681,7 +681,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15262,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
 
@@ -691,7 +691,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15250,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Qiraji Mindslayer Loot
@@ -700,7 +700,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15246,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Qiraji Brainwasher Loot
@@ -709,7 +709,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15247,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Qiraji Lasher Loot
@@ -718,7 +718,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15249,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Anubisath Sentinel Loot
@@ -727,7 +727,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15264,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Obsidian Nullifier Loot
@@ -736,7 +736,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15312,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Anubisath Defender Loot
@@ -745,7 +745,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15277,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Qiraji Champion Loot
@@ -754,7 +754,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15252,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
     -- Anubisath Warder Loot
@@ -763,7 +763,7 @@ SET @BLUE_CRYSTAL = 21218,
             `Entry` = 15311,
             `Item` = @FRAGMENT_REFERENCE_LOOT,
             `Reference` = @FRAGMENT_REFERENCE_LOOT,
-            `GroupId` = 1,
+            `GroupId` = 0,
             `Comment` = 'Qiraji Crystal Fragment Reference Table';
 
 
