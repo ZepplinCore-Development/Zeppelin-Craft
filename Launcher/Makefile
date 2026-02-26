@@ -10,7 +10,7 @@
 
 # Local dev header prefix (if system packages unavailable)
 LOCAL_DEV := /tmp/localdev
-MINGW_DIR := $(wildcard /tmp/mingw/llvm-mingw-*/bin)
+MINGW_DIR := $(or $(wildcard /tmp/mingw/llvm-mingw-*/bin),/usr/bin)
 
 # CGO flags for local dev headers
 export CGO_CFLAGS  ?= -I$(LOCAL_DEV)/usr/include
