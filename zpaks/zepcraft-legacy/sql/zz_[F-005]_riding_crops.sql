@@ -125,7 +125,7 @@ DELETE FROM `item_template` WHERE `entry` = 100015;
 INSERT INTO `item_template` SET
     `entry` = 100015,
     `class` = 9,
-    `subclass` = 7,
+    `subclass` = 1,
     `name` = 'Pattern: Apprentice Riding Crop',
     `displayid` = 1102,
     `Quality` = 2,
@@ -151,7 +151,7 @@ DELETE FROM `item_template` WHERE `entry` = 100016;
 INSERT INTO `item_template` SET
     `entry` = 100016,
     `class` = 9,
-    `subclass` = 7,
+    `subclass` = 1,
     `name` = 'Pattern: Journeyman Riding Crop',
     `displayid` = 1102,
     `Quality` = 2,
@@ -177,7 +177,7 @@ DELETE FROM `item_template` WHERE `entry` = 100017;
 INSERT INTO `item_template` SET
     `entry` = 100017,
     `class` = 9,
-    `subclass` = 7,
+    `subclass` = 1,
     `name` = 'Pattern: Expert Riding Crop',
     `displayid` = 1102,
     `Quality` = 2,
@@ -203,7 +203,7 @@ DELETE FROM `item_template` WHERE `entry` = 100018;
 INSERT INTO `item_template` SET
     `entry` = 100018,
     `class` = 9,
-    `subclass` = 7,
+    `subclass` = 1,
     `name` = 'Pattern: Artisan Riding Crop',
     `displayid` = 1102,
     `Quality` = 2,
@@ -229,7 +229,7 @@ DELETE FROM `item_template` WHERE `entry` = 100019;
 INSERT INTO `item_template` SET
     `entry` = 100019,
     `class` = 9,
-    `subclass` = 7,
+    `subclass` = 1,
     `name` = 'Pattern: Master Riding Crop',
     `displayid` = 1102,
     `Quality` = 2,
