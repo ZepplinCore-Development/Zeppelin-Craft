@@ -93,17 +93,9 @@ DELETE FROM `spell_group` WHERE `id` = 1127;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1127;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91222;
 
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1127, 91231), -- Runed Titanium Rod
-(1127, 91230), -- Runed Cobalt Rod
-(1127, 91229), -- Runed Eternium Rod
-(1127, 91228), -- Runed Adamantite Rod
-(1127, 91227), -- Runed Fel Iron Rod
-(1127, 91226), -- Runed Arcanite Rod
-(1127, 91225), -- Runed Truesilver Rod
-(1127, 91224), -- Runed Golden Rod
-(1127, 91223), -- Runed Silver Rod
-(1127, 91222); -- Runed Copper Rod
+(1127, 91222); -- Runed Copper Rod (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1127, 1, 'Enchanting Rods - exclusive with rank priority');

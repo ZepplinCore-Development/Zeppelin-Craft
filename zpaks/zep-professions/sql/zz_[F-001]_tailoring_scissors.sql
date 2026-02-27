@@ -106,10 +106,8 @@ SET `entry` = 57407,
 -- =====================================================
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91164;
 
-INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91167; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91166; -- Master
-INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91165; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91164; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1118, `spell_id` = 91164; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
 (1118, 1);

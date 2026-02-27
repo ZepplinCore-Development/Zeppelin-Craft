@@ -339,11 +339,8 @@ DELETE FROM `spell_group` WHERE `id` = 1121;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1121;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 100010;
 
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100014; -- Master (+25%)
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100013; -- Artisan (+20%)
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100012; -- Expert (+15%)
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100011; -- Journeyman (+10%)
-INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100010; -- Apprentice (+5%)
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1121, `spell_id` = 100010; -- Apprentice (+5%, first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1121, 1, 'Riding Crops - exclusive with rank priority');

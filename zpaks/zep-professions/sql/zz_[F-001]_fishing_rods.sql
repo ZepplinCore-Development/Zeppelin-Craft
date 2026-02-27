@@ -61,14 +61,9 @@ DELETE FROM `spell_group` WHERE `id` = 1129;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1129;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 15956;
 
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1129, 24301),  -- Arcanite Fishing Pole (+40)
-(1129, 59731),  -- Kalu'ak / Bone / Jeweled (+30)
-(1129, 8082),   -- Nat's Lucky (+25)
-(1129, 7826),   -- Big Iron / Nat Pagle's / Seth's (+20)
-(1129, 7825),   -- Darkwood (+15)
-(1129, 7823),   -- Strong (+5)
-(1129, 15956);  -- Blump Family (+3)
+(1129, 15956);  -- Blump Family (+3, first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1129, 1, 'Fishing Rods - exclusive with rank priority');

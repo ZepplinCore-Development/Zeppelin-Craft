@@ -124,10 +124,8 @@ SET `entry` = 57507,
 -- Spell group + ranks: Jeweler's Kit (EXCLUSIVE + rank-aware)
 -- =====================================================
 
-INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91247; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91246; -- Master
-INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91245; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91244; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1124, `spell_id` = 91244; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
 (1124, 1);

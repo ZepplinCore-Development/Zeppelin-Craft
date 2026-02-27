@@ -126,10 +126,8 @@ SET `entry` = 57489,
 -- Spell group + ranks: Writing Table (EXCLUSIVE + rank-aware)
 -- =====================================================
 
-INSERT INTO `spell_group` SET `id` = 1130, `spell_id` = 91251; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1130, `spell_id` = 91250; -- Master
-INSERT INTO `spell_group` SET `id` = 1130, `spell_id` = 91249; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1130, `spell_id` = 91248; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1130, `spell_id` = 91248; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`) VALUES
 (1130, 1);

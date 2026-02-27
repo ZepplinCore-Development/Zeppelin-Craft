@@ -103,21 +103,10 @@ INSERT INTO `item_template` SET
 -- =====================================================
 -- Spell group + ranks: Tinkering Tools (EXCLUSIVE + rank-aware patch)
 -- =====================================================
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` SET
     `id` = 1120,
-    `spell_id` = '91217';
-
-INSERT INTO `spell_group` SET
-    `id` = 1120,
-    `spell_id` = '91216';
-
-INSERT INTO `spell_group` SET
-    `id` = 1120,
-    `spell_id` = '91215';
-
-INSERT INTO `spell_group` SET
-    `id` = 1120,
-    `spell_id` = '91214';
+    `spell_id` = '91214'; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` SET
     `group_id` = 1120,

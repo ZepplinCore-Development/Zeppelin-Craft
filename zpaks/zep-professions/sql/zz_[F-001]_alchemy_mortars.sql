@@ -62,11 +62,9 @@ DELETE FROM spell_group WHERE id = 1122;
 DELETE FROM spell_group_stack_rules WHERE group_id = 1122;
 DELETE FROM spell_ranks WHERE first_spell_id = 91200;
 
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1122, 91200),
-(1122, 91201),
-(1122, 91202),
-(1122, 91203);
+(1122, 91200); -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1122, 1, 'Alchemy Mortars - exclusive with rank priority');

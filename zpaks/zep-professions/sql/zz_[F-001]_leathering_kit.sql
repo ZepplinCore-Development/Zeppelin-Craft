@@ -131,11 +131,8 @@ DELETE FROM `spell_group` WHERE `id` = 1123;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1123;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91182;
 
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91186; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91185; -- Master
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91184; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91183; -- Expert
-INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91182; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1123, `spell_id` = 91182; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1123, 1, 'Leathering Kits - exclusive with rank priority');

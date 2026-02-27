@@ -71,10 +71,8 @@ DELETE FROM `spell_group` WHERE `id` = 1116;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1116;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91140;
 
-INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91143; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91142; -- Master
-INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91141; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91140; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1116, `spell_id` = 91140; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
     (1116, 1, 'Pruning Shears - exclusive with rank priority');

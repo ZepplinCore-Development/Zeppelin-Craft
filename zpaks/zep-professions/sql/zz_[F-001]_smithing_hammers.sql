@@ -191,13 +191,9 @@ DELETE FROM `spell_group` WHERE `id` = 1114;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1114;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91120;
 
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
 INSERT INTO `spell_group` (`id`, `spell_id`) VALUES
-(1114, 91130), -- Titanium
-(1114, 91128), -- Felsteel
-(1114, 91126), -- Thorium
-(1114, 91124), -- Mithril
-(1114, 91122), -- Iron
-(1114, 91120); -- Bronze
+(1114, 91120); -- Bronze (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`, `stack_rule`, `description`) VALUES
 (1114, 1, 'Smithing Hammers - exclusive with rank priority');

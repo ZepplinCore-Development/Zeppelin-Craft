@@ -98,10 +98,8 @@ DELETE FROM `spell_group` WHERE `id` = 1128;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1128;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91240;
 
-INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91243; -- Grand Master
-INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91242; -- Master
-INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91241; -- Artisan
-INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91240; -- Journeyman
+-- Only first rank needed; AC auto-includes higher ranks via spell_ranks
+INSERT INTO `spell_group` SET `id` = 1128, `spell_id` = 91240; -- Journeyman (first rank)
 
 INSERT INTO `spell_group_stack_rules` (`group_id`,`stack_rule`,`description`) VALUES
     (1128, 1, 'Skinning Knives - exclusive with rank priority');
