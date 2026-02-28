@@ -25,7 +25,7 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` IN (30706
 
 -- 90136: Catarina Stanford (30713) - Stormwind
 INSERT INTO `quest_template` SET
-    `ID` = 90136, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1519,
+    `ID` = 90136, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -44,7 +44,7 @@ INSERT INTO `creature_questender` VALUES (30713, 90136);
 
 -- 90137: Elise Brightletter (30717) - Ironforge
 INSERT INTO `quest_template` SET
-    `ID` = 90137, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1537,
+    `ID` = 90137, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -63,7 +63,7 @@ INSERT INTO `creature_questender` VALUES (30717, 90137);
 
 -- 90138: Feyden Darkin (30715) - Darnassus
 INSERT INTO `quest_template` SET
-    `ID` = 90138, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1657,
+    `ID` = 90138, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -82,7 +82,7 @@ INSERT INTO `creature_questender` VALUES (30715, 90138);
 
 -- 90139: Thoth (30716) - Exodar
 INSERT INTO `quest_template` SET
-    `ID` = 90139, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 3557,
+    `ID` = 90139, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -101,7 +101,7 @@ INSERT INTO `creature_questender` VALUES (30716, 90139);
 
 -- 90140: Jo'mah (30706) - Orgrimmar
 INSERT INTO `quest_template` SET
-    `ID` = 90140, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1637,
+    `ID` = 90140, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -120,7 +120,7 @@ INSERT INTO `creature_questender` VALUES (30706, 90140);
 
 -- 90141: Poshken Hardbinder (30709) - Thunder Bluff
 INSERT INTO `quest_template` SET
-    `ID` = 90141, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1638,
+    `ID` = 90141, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -139,7 +139,7 @@ INSERT INTO `creature_questender` VALUES (30709, 90141);
 
 -- 90142: Zantasia (30710) - Silvermoon
 INSERT INTO `quest_template` SET
-    `ID` = 90142, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 3487,
+    `ID` = 90142, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -158,7 +158,7 @@ INSERT INTO `creature_questender` VALUES (30710, 90142);
 
 -- 90143: Margaux Parchley (30711) - Undercity
 INSERT INTO `quest_template` SET
-    `ID` = 90143, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = 1497,
+    `ID` = 90143, `QuestLevel` = 20, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39349, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 38682, `RequiredItemCount2` = 5,
@@ -184,7 +184,7 @@ INSERT INTO `creature_questender` VALUES (30711, 90143);
 
 -- 90144: Catarina Stanford (30713) - Stormwind
 INSERT INTO `quest_template` SET
-    `ID` = 90144, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1519,
+    `ID` = 90144, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -203,7 +203,7 @@ INSERT INTO `creature_questender` VALUES (30713, 90144);
 
 -- 90145: Elise Brightletter (30717) - Ironforge
 INSERT INTO `quest_template` SET
-    `ID` = 90145, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1537,
+    `ID` = 90145, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -222,7 +222,7 @@ INSERT INTO `creature_questender` VALUES (30717, 90145);
 
 -- 90146: Feyden Darkin (30715) - Darnassus
 INSERT INTO `quest_template` SET
-    `ID` = 90146, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1657,
+    `ID` = 90146, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -241,7 +241,7 @@ INSERT INTO `creature_questender` VALUES (30715, 90146);
 
 -- 90147: Thoth (30716) - Exodar
 INSERT INTO `quest_template` SET
-    `ID` = 90147, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 3557,
+    `ID` = 90147, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -260,7 +260,7 @@ INSERT INTO `creature_questender` VALUES (30716, 90147);
 
 -- 90148: Jo'mah (30706) - Orgrimmar
 INSERT INTO `quest_template` SET
-    `ID` = 90148, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1637,
+    `ID` = 90148, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -279,7 +279,7 @@ INSERT INTO `creature_questender` VALUES (30706, 90148);
 
 -- 90149: Poshken Hardbinder (30709) - Thunder Bluff
 INSERT INTO `quest_template` SET
-    `ID` = 90149, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1638,
+    `ID` = 90149, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -298,7 +298,7 @@ INSERT INTO `creature_questender` VALUES (30709, 90149);
 
 -- 90150: Zantasia (30710) - Silvermoon
 INSERT INTO `quest_template` SET
-    `ID` = 90150, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 3487,
+    `ID` = 90150, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -317,7 +317,7 @@ INSERT INTO `creature_questender` VALUES (30710, 90150);
 
 -- 90151: Margaux Parchley (30711) - Undercity
 INSERT INTO `quest_template` SET
-    `ID` = 90151, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = 1497,
+    `ID` = 90151, `QuestLevel` = 50, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 39350, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 37602, `RequiredItemCount2` = 5,
@@ -343,7 +343,7 @@ INSERT INTO `creature_questender` VALUES (30711, 90151);
 
 -- 90152: Michael Schwan (30721) - Outland
 INSERT INTO `quest_template` SET
-    `ID` = 90152, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = 3703,
+    `ID` = 90152, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
@@ -360,7 +360,7 @@ INSERT INTO `creature_questender` VALUES (30721, 90152);
 
 -- 90153: Neferatti (30722) - Outland
 INSERT INTO `quest_template` SET
-    `ID` = 90153, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = 3703,
+    `ID` = 90153, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
@@ -383,7 +383,7 @@ INSERT INTO `creature_questender` VALUES (30722, 90153);
 
 -- 90154: Professor Pallin (28702) - Dalaran
 INSERT INTO `quest_template` SET
-    `ID` = 90154, `QuestLevel` = 77, `MinLevel` = 0, `QuestSortID` = 4395,
+    `ID` = 90154, `QuestLevel` = 77, `MinLevel` = 0, `QuestSortID` = -773,
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43146, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 43145, `RequiredItemCount2` = 5,

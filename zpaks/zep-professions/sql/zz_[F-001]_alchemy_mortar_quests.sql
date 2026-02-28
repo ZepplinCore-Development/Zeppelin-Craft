@@ -52,7 +52,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1519, -- Stormwind City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -97,7 +97,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1537, -- Ironforge
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -142,7 +142,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1657, -- Darnassus
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -187,7 +187,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 3557, -- The Exodar
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -232,7 +232,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1637, -- Orgrimmar
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -277,7 +277,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1638, -- Thunder Bluff
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -322,7 +322,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1497, -- Undercity
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -367,7 +367,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 3487, -- Silvermoon City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -418,7 +418,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1519, -- Stormwind City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -466,7 +466,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1537, -- Ironforge
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -514,7 +514,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1657, -- Darnassus
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -562,7 +562,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 3557, -- The Exodar
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -610,7 +610,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1637, -- Orgrimmar
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -658,7 +658,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1638, -- Thunder Bluff
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -706,7 +706,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 1497, -- Undercity
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -754,7 +754,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = 3487, -- Silvermoon City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -808,7 +808,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3703, -- Shattrath City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 13446, -- Major Healing Potion
@@ -856,7 +856,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3703, -- Shattrath City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -907,7 +907,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3703, -- Shattrath City
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -964,7 +964,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = 4395, -- Dalaran
+    `QuestSortID` = -171, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 33447, -- Runic Healing Potion

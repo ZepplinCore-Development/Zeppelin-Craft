@@ -40,7 +40,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1519, -- Stormwind City
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -89,7 +89,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1537, -- Ironforge
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -138,7 +138,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1657, -- Darnassus
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -187,7 +187,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 3557, -- The Exodar
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -236,7 +236,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1637, -- Orgrimmar
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -285,7 +285,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1638, -- Thunder Bluff
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -334,7 +334,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 1497, -- Undercity
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -383,7 +383,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = 3487, -- Silvermoon City
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2318, -- Light Leather
@@ -438,7 +438,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1519, -- Stormwind City
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -486,7 +486,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1537, -- Ironforge
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -534,7 +534,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1657, -- Darnassus
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -582,7 +582,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 3557, -- The Exodar
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -630,7 +630,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1637, -- Orgrimmar
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -678,7 +678,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1638, -- Thunder Bluff
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -726,7 +726,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 1497, -- Undercity
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -774,7 +774,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = 3487, -- Silvermoon City
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4304, -- Thick Leather
@@ -828,7 +828,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3483, -- Hellfire Peninsula
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -879,7 +879,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3483, -- Hellfire Peninsula
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -930,7 +930,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = 3703, -- Shattrath City
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 21887, -- Knothide Leather
@@ -986,7 +986,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = 4395, -- Dalaran
+    `QuestSortID` = -393, -- Skinning
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 33568, -- Borean Leather
