@@ -260,7 +260,7 @@ function PlayerTalentFrame_OnLoad(self)
 	end
 
 	-- setup tabs
-	PanelTemplates_SetNumTabs(self, MAX_TALENT_TABS + 1);	-- add one for the GLYPH_TALENT_TAB
+	PanelTemplates_SetNumTabs(self, MAX_TALENT_TABS);
 
 	-- initialize active spec as a fail safe
 	local activeTalentGroup = GetActiveTalentGroup();
@@ -627,21 +627,25 @@ function PlayerTalentFrame_UpdateTabs(playerLevel)
 
 	local spec = specs[selectedSpec];
 
-	-- setup glyph tabs, right now there is only one
+	-- update glyph side button visibility and checked state
+	local glyphSideButton = PlayerTalentFrameGlyphTab;
 	playerLevel = playerLevel or UnitLevel("player");
 	local meetsGlyphLevel = playerLevel >= SHOW_INSCRIPTION_LEVEL;
-	tab = _G["PlayerTalentFrameTab"..GLYPH_TALENT_TAB];
-	if ( meetsGlyphLevel and spec.hasGlyphs ) then
-		tab:Show();
-		firstShownTab = firstShownTab or tab;
-		PanelTemplates_TabResize(tab, 0);
-		talentTabWidthCache[GLYPH_TALENT_TAB] = PanelTemplates_GetTabWidth(tab);
-		totalTabWidth = totalTabWidth + talentTabWidthCache[GLYPH_TALENT_TAB];
-	else
-		tab:Hide();
-		talentTabWidthCache[GLYPH_TALENT_TAB] = 0;
+	if ( glyphSideButton ) then
+		if ( meetsGlyphLevel and spec and spec.hasGlyphs ) then
+			glyphSideButton:Show();
+		else
+			glyphSideButton:Hide();
+			-- if glyph tab was selected but is now unavailable, fall back
+			if ( selectedTab == GLYPH_TALENT_TAB ) then
+				if ( firstShownTab ) then
+					PlayerTalentFrameTab_OnClick(firstShownTab);
+				end
+				return false;
+			end
+		end
+		glyphSideButton:SetChecked(selectedTab == GLYPH_TALENT_TAB);
 	end
-	local numGlyphTabs = 1;
 
 	-- select the first shown tab if the selected tab does not exist for the selected spec
 	tab = _G["PlayerTalentFrameTab"..selectedTab];
@@ -672,7 +676,7 @@ function PlayerTalentFrame_UpdateTabs(playerLevel)
 	end
 
 	-- update the tabs
-	PanelTemplates_SetNumTabs(PlayerTalentFrame, numTabs + numGlyphTabs);
+	PanelTemplates_SetNumTabs(PlayerTalentFrame, numTabs);
 	PanelTemplates_UpdateTabs(PlayerTalentFrame);
 
 	return true;
@@ -738,25 +742,26 @@ function PlayerTalentTab_GetBestDefaultTab(specIndex)
 end
 
 
--- PlayerGlyphTab
+-- PlayerGlyphSideTab
 
-function PlayerGlyphTab_OnLoad(self)
-	PlayerTalentFrameTab_OnLoad(self);
-
+function PlayerGlyphSideTab_OnLoad(self)
 	self:RegisterEvent("PLAYER_LEVEL_UP");
-	GLYPH_TALENT_TAB = self:GetID();
-	-- we can record the text width for the glyph tab now since it never changes
-	self.textWidth = self:GetTextWidth();
+	self:SetNormalTexture("Interface\\Icons\\INV_Inscription_Tradeskill01");
+	self.tooltip = GLYPHS;
 end
 
-function PlayerGlyphTab_OnClick(self)
-	PlayerTalentFrameTab_OnClick(self);
-	SetButtonPulse(_G["PlayerTalentFrameTab"..GLYPH_TALENT_TAB], 0, 0);
+function PlayerGlyphSideTab_OnClick(self)
+	PlaySound("igCharacterInfoTab");
+	PanelTemplates_SetTab(PlayerTalentFrame, GLYPH_TALENT_TAB);
+	PlayerTalentFrame_Refresh();
+	SetButtonPulse(self, 0, 0);
 end
 
-function PlayerGlyphTab_OnEvent(self, event, ...)
-	if ( UnitLevel("player") == (SHOW_INSCRIPTION_LEVEL - 1) and PanelTemplates_GetSelectedTab(PlayerTalentFrame) ~= self:GetID() ) then
-		SetButtonPulse(self, 60, 0.75);
+function PlayerGlyphSideTab_OnEvent(self, event, ...)
+	if ( event == "PLAYER_LEVEL_UP" ) then
+		if ( UnitLevel("player") >= SHOW_INSCRIPTION_LEVEL and PanelTemplates_GetSelectedTab(PlayerTalentFrame) ~= GLYPH_TALENT_TAB ) then
+			SetButtonPulse(PlayerTalentFrameGlyphTab, 60, 0.75);
+		end
 	end
 end
 

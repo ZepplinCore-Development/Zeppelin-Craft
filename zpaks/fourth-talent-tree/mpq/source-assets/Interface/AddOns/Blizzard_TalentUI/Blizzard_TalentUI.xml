@@ -697,15 +697,6 @@
 					</Anchor>
 				</Anchors>
 			</Button>
-			<Button name="PlayerTalentFrameTab5" inherits="PlayerGlyphTabTemplate" text="GLYPHS" id="5">
-				<Anchors>
-					<Anchor point="LEFT" relativeTo="PlayerTalentFrameTab4" relativePoint="RIGHT">
-						<Offset>
-							<AbsDimension x="-15" y="0"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-			</Button>
 			<CheckButton name="PlayerSpecTab1" inherits="PlayerSpecTabTemplate" id="1">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
@@ -789,6 +780,35 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
+			</CheckButton>
+			<!-- Glyph side icon - replaces the bottom glyph tab to save space
+			     with 4 talent trees. Uses same visual style as spec tabs. -->
+			<CheckButton name="PlayerTalentFrameGlyphTab" inherits="PlayerSpecTabTemplate" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="PlayerSpecTab3" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="-40"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						PlayerGlyphSideTab_OnLoad(self);
+					</OnLoad>
+					<OnClick>
+						PlayerGlyphSideTab_OnClick(self);
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:SetText(self.tooltip);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnEvent>
+						PlayerGlyphSideTab_OnEvent(self, event, ...);
+					</OnEvent>
+				</Scripts>
 			</CheckButton>
 		</Frames>
 		<Scripts>

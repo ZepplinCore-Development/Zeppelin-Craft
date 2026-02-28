@@ -1003,3 +1003,69 @@ INSERT INTO `quest_request_items` SET
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Replace with reference conditions so
+-- completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+-- Remove hard-coded PrevQuestID from all chained quests
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90099 AND 90108 OR `ID` IN (90111, 90112);
+
+-- Reference condition -90091: completed ANY Journeyman mortar quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90091;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90091, 0, 0, 0, 0, 8, 0, 90091, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Stormwind)'),
+(-90091, 0, 0, 0, 1, 8, 0, 90092, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Ironforge)'),
+(-90091, 0, 0, 0, 2, 8, 0, 90093, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Darnassus)'),
+(-90091, 0, 0, 0, 3, 8, 0, 90094, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Exodar)'),
+(-90091, 0, 0, 0, 4, 8, 0, 90095, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Orgrimmar)'),
+(-90091, 0, 0, 0, 5, 8, 0, 90096, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Thunder Bluff)'),
+(-90091, 0, 0, 0, 6, 8, 0, 90097, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Undercity)'),
+(-90091, 0, 0, 0, 7, 8, 0, 90098, 0, 0, 0, 0, 0, '', 'JM mortar rewarded (Silvermoon)');
+
+-- Reference condition -90099: completed ANY Artisan mortar quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90099;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90099, 0, 0, 0, 0, 8, 0, 90099, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Stormwind)'),
+(-90099, 0, 0, 0, 1, 8, 0, 90100, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Ironforge)'),
+(-90099, 0, 0, 0, 2, 8, 0, 90101, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Darnassus)'),
+(-90099, 0, 0, 0, 3, 8, 0, 90102, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Exodar)'),
+(-90099, 0, 0, 0, 4, 8, 0, 90103, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Orgrimmar)'),
+(-90099, 0, 0, 0, 5, 8, 0, 90104, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Thunder Bluff)'),
+(-90099, 0, 0, 0, 6, 8, 0, 90105, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Undercity)'),
+(-90099, 0, 0, 0, 7, 8, 0, 90106, 0, 0, 0, 0, 0, '', 'Artisan mortar rewarded (Silvermoon)');
+
+-- Reference condition -90107: completed ANY Master mortar quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90107;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90107, 0, 0, 0, 0, 8, 0, 90107, 0, 0, 0, 0, 0, '', 'Master mortar rewarded (Shattrath)'),
+(-90107, 0, 0, 0, 1, 8, 0, 90111, 0, 0, 0, 0, 0, '', 'Master mortar rewarded (Honor Hold)'),
+(-90107, 0, 0, 0, 2, 8, 0, 90112, 0, 0, 0, 0, 0, '', 'Master mortar rewarded (Thrallmar)');
+
+-- Artisan quests (90099-90106): require any Journeyman mortar
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90099 AND 90106;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90099, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (SW) - any JM mortar'),
+(19, 0, 90100, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (IF) - any JM mortar'),
+(19, 0, 90101, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (Darn) - any JM mortar'),
+(19, 0, 90102, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (Exo) - any JM mortar'),
+(19, 0, 90103, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (Org) - any JM mortar'),
+(19, 0, 90104, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (TB) - any JM mortar'),
+(19, 0, 90105, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (UC) - any JM mortar'),
+(19, 0, 90106, 0, 0, -90091, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Mortar (SM) - any JM mortar');
+
+-- Master quests (90107, 90111, 90112): require any Artisan mortar
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90107, 90111, 90112);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90107, 0, 0, -90099, 0, 0, 0, 0, 0, 0, 0, '', 'Master Mortar (Shat) - any Artisan mortar'),
+(19, 0, 90111, 0, 0, -90099, 0, 0, 0, 0, 0, 0, 0, '', 'Master Mortar (HH) - any Artisan mortar'),
+(19, 0, 90112, 0, 0, -90099, 0, 0, 0, 0, 0, 0, 0, '', 'Master Mortar (Thrall) - any Artisan mortar');
+
+-- Grand Master quest (90108): require any Master mortar
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90108;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90108, 0, 0, -90107, 0, 0, 0, 0, 0, 0, 0, '', 'GM Mortar (Dalaran) - any Master mortar');
