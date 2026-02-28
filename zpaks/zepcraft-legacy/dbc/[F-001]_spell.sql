@@ -160,3 +160,15 @@ UPDATE spell SET reagent_1 = 57505, reagent_count_1 = 1, reagent_2 = 57011, reag
 UPDATE spell SET reagent_1 = 57506, reagent_count_1 = 1, reagent_2 = 57012, reagent_count_2 = 12, reagent_3 = 57511, reagent_count_3 = 4, reagent_4 = 57210, reagent_count_4 = 1 WHERE id = 91270;
 
 UPDATE spell SET reagent_1 = 20815, reagent_count_1 = 1, reagent_2 = 57009, reagent_count_2 = 12, reagent_3 = 57508, reagent_count_3 = 4, reagent_4 = 57207, reagent_count_4 = 1 WHERE id = 91267;
+
+UPDATE spell SET totem_category_1 = 191 WHERE id IN (91256, 91257, 91258, 91259, 91267, 91268, 91269, 91270);
+
+UPDATE spell SET totem_category_1 = 14 WHERE id IN (91260, 91261, 91262, 91263, 91264, 91265, 91266);
+
+UPDATE spell SET spell_name_enus = 'Bronze Rivets', reagent_1 = 2841 WHERE id = 91252;
+
+UPDATE spell SET spell_name_enus = 'Bronze Fasteners', reagent_1 = 2841 WHERE id = 91256;
+
+UPDATE spell SET spell_name_enus = 'Bronze Screwdriver', reagent_1 = 2841 WHERE id = 91260;
+
+UPDATE spell SET spell_name_enus = 'Bronze Drill', reagent_1 = 2841 WHERE id = 91263;

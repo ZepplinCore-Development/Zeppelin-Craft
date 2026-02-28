@@ -18,7 +18,7 @@ DELETE FROM `trainer_spell` WHERE `SpellId` IN (91252, 91253, 91254, 91255, 9125
 
 INSERT INTO `item_template` SET
     `entry` = 57009, `class` = 7, `subclass` = 1,
-    `name` = 'Copper Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
+    `name` = 'Bronze Rivets', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154867, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 20, `bonding` = 0;
 
@@ -46,7 +46,7 @@ INSERT INTO `item_template` SET
 
 INSERT INTO `item_template` SET
     `entry` = 57508, `class` = 7, `subclass` = 1,
-    `name` = 'Copper Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
+    `name` = 'Bronze Fasteners', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154868, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 20, `bonding` = 0;
 
@@ -74,7 +74,7 @@ INSERT INTO `item_template` SET
 
 INSERT INTO `item_template` SET
     `entry` = 57204, `class` = 5, `subclass` = 1,
-    `name` = 'Copper Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
+    `name` = 'Bronze Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154875, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
@@ -96,7 +96,7 @@ INSERT INTO `item_template` SET
 
 INSERT INTO `item_template` SET
     `entry` = 57207, `class` = 5, `subclass` = 1,
-    `name` = 'Copper Drill', `description` = 'Used in Jewelcrafting kit assembly.',
+    `name` = 'Bronze Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154871, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
