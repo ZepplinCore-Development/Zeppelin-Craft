@@ -431,6 +431,10 @@ class LootDatabase:
                 chance = item['drop_chance']
                 quality = item['quality']
 
+                # Skip orphaned items (exist in loot table but not in item_template)
+                if quality is None:
+                    continue
+
                 # Quality-based thresholds for reference loot (stricter than direct loot)
                 # Only rare (Q3) or better from reference tables
                 is_quest_item = (item['item_class'] == 12)
