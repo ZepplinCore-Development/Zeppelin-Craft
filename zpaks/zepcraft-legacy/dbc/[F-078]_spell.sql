@@ -1,7 +1,11 @@
--- [F-078] Mage Food Improvement: spell
--- Conjure Water per-level scaling (split from [BASE,F-044]_spell.sql)
+-- [F-078] Food and Drink Efficacy: spell
+-- QOL buff to all food and drink restoration values
 
-UPDATE `spell` SET `max_level` = 5, `base_level` = 1, `spell_level` = 1, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5504;
-UPDATE `spell` SET `max_level` = 9, `base_level` = 5, `spell_level` = 5, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5505;
-UPDATE `spell` SET `max_level` = 19, `base_level` = 15, `spell_level` = 15, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 5506;
-UPDATE `spell` SET `max_level` = 29, `base_level` = 25, `spell_level` = 25, `effect_real_points_per_level_1` = '4.0000000000000000', `effect_base_points_1` = 3, `spell_tooltip_flags` = 16712190 WHERE `id` = 6127;
+-- Food/Drink efficacy buff
+-- Drink: 2x mana restoration (all spells named 'Drink' with periodic energize aura)
+UPDATE `spell` SET `effect_base_points_2` = `effect_base_points_2` * 2
+WHERE `spell_name_enus` = 'Drink' AND `effect_apply_aura_name_2` = 226 AND `effect_base_points_2` > 0;
+
+-- Food: 1.5x health restoration (all spells named 'Food' with periodic heal aura)
+UPDATE `spell` SET `effect_base_points_1` = FLOOR(`effect_base_points_1` * 1.5)
+WHERE `spell_name_enus` = 'Food' AND `effect_apply_aura_name_1` = 84 AND `effect_base_points_1` > 0;
