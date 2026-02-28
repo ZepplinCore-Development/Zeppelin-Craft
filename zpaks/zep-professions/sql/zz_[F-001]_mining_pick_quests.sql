@@ -3,9 +3,9 @@
 -- =====================================================
 -- Journeyman: 8 city quests (90027-90034) [ExclusiveGroup 90027]
 -- Artisan: 8 city quests (90035-90042) [ExclusiveGroup 90035]
--- Master: 3 Outland quests (90043-90044, 90114) [ExclusiveGroup 90043]
+-- Master: 2 Outland quests (90043-90044) [ExclusiveGroup 90043]
 -- Grand Master: 1 Dalaran quest (90045)
--- Total: 20 quests
+-- Total: 19 quests
 --
 -- Features:
 -- - ExclusiveGroup prevents multiple completions per tier
@@ -17,12 +17,19 @@
 -- ===================
 -- CLEANUP OLD QUESTS
 -- ===================
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90027 AND 90045 OR `ID` = 90114;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90027 AND 90045 OR `ID` = 90114;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90027 AND 90045 OR `ID` = 90114;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90027 AND 90045 OR `ID` = 90114;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90027 AND 90045 OR `quest` = 90114;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90027 AND 90045 OR `quest` = 90114;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90027 AND 90045;
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90027 AND 90045;
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90027 AND 90045;
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90027 AND 90045;
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90027 AND 90045;
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90027 AND 90045;
+-- Cleanup orphaned quest 90114 (removed: no Mining trainer in Shattrath)
+DELETE FROM `quest_template` WHERE `ID` = 90114;
+DELETE FROM `quest_template_addon` WHERE `ID` = 90114;
+DELETE FROM `quest_offer_reward` WHERE `ID` = 90114;
+DELETE FROM `quest_request_items` WHERE `ID` = 90114;
+DELETE FROM `creature_queststarter` WHERE `quest` = 90114;
+DELETE FROM `creature_questender` WHERE `quest` = 90114;
 
 -- =====================================================
 -- JOURNEYMAN MINING PICK QUESTS (75+ Mining)
@@ -40,7 +47,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -87,7 +94,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -134,7 +141,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -181,7 +188,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -228,7 +235,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -275,7 +282,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -322,7 +329,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -369,7 +376,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2770, -- Copper Ore
@@ -422,7 +429,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -470,7 +477,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -518,7 +525,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -566,7 +573,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -614,7 +621,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -662,7 +669,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -710,7 +717,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -758,7 +765,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3858, -- Mithril Ore
@@ -812,7 +819,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -863,7 +870,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -904,55 +911,8 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
--- -----------------------------------------------------
--- Quest 90114: Shattrath Neutral (Grutah - 19042)
--- -----------------------------------------------------
-SET @quest := 90114;
-SET @npc := 19042;
-
-INSERT INTO `quest_template` SET
-    `ID` = @quest,
-    `QuestLevel` = 70,
-    `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
-    `RewardXPDifficulty` = 5,
-    `Flags` = 136,
-    `RequiredItemId1` = 23424, -- Fel Iron Ore
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 23425, -- Adamantite Ore
-    `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57401, -- Artisan Mining Pick (trade-in)
-    `RequiredItemCount3` = 1,
-    `RewardFactionID1` = 1011, -- Lower City
-    `RewardFactionValue1` = 5,
-    `LogTitle` = 'Master Mining Pick',
-    `LogDescription` = 'Trade in your Artisan pick and collect ore to exchange for a Master Pick',
-    `QuestDescription` = 'Miner from Azeroth, welcome. The veins here... they are not like your home. Fel-hardened stone, adamantite deposits that shatter lesser picks. Your Artisan pick will chip and dull quickly - you will lose precious ore from every deposit.$B$BI have Master picks forged for Outland''s harsh minerals. Trade in your old Artisan pick and bring me 20 Fel Iron Ore and 20 Adamantite Ore from these unforgiving lands, and the Master pick is yours. Reinforced head, balanced weight - you''ll extract more ore and work faster. Essential tools for survival here.$B$BRequired:$B- 20 Fel Iron Ore$B- 20 Adamantite Ore',
-    `QuestCompletionLog` = 'Return the ore to Grutah in Shattrath City',
-    `RewardItem1` = 57402,
-    `RewardAmount1` = 1,
-    `VerifiedBuild` = '0';
-
-INSERT INTO `quest_template_addon` SET
-    `ID` = @quest,
-    `RequiredSkillID` = 186, -- Mining
-    `RequiredSkillPoints` = 300,
-    `PrevQuestID` = 90035, -- Requires Artisan tier
-    `ExclusiveGroup` = 90043;
-
-INSERT INTO `quest_offer_reward` SET
-    `ID` = @quest,
-    `RewardText` = 'Quality ore from the shattered world. I''ll take that Artisan pick - it served well in Azeroth. This Master pick is forged for Outland - hardened steel, tempered for fel-corrupted stone. It will serve you well through your time here.';
-
-INSERT INTO `quest_request_items` SET
-    `ID` = @quest,
-    `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Fel Iron Ore, 20 Adamantite Ore, and your old Artisan pick?';
-
-UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
-
-INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
-INSERT INTO `creature_questender` VALUES (@npc, @quest);
+-- Quest 90114 removed: no Mining trainer exists in Shattrath.
+-- Master tier is Alliance (Honor Hold, 90043) + Horde (Thrallmar, 90044) only.
 
 -- =====================================================
 -- GRAND MASTER MINING PICK QUEST (375+ Mining)
@@ -970,7 +930,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = -186, -- Mining
+    `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 36909, -- Cobalt Ore

@@ -3,9 +3,9 @@
 -- =====================================================
 -- Journeyman: 8 city quests (90008-90015) [ExclusiveGroup 90008]
 -- Artisan: 8 city quests (90016-90023) [ExclusiveGroup 90016]
--- Master: 3 Outland quests (90024-90025, 90113) [ExclusiveGroup 90024]
+-- Master: 2 Outland quests (90024-90025) [ExclusiveGroup 90024]
 -- Grand Master: 1 Dalaran quest (90026)
--- Total: 20 quests
+-- Total: 19 quests
 --
 -- Features:
 -- - ExclusiveGroup prevents multiple completions per tier
@@ -17,12 +17,19 @@
 -- ===================
 -- CLEANUP OLD QUESTS
 -- ===================
-DELETE FROM `quest_template` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
-DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
-DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
-DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90008 AND 90026 OR `ID` = 90113;
-DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90008 AND 90026 OR `quest` = 90113;
-DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90008 AND 90026 OR `quest` = 90113;
+DELETE FROM `quest_template` WHERE `ID` BETWEEN 90008 AND 90026;
+DELETE FROM `quest_template_addon` WHERE `ID` BETWEEN 90008 AND 90026;
+DELETE FROM `quest_offer_reward` WHERE `ID` BETWEEN 90008 AND 90026;
+DELETE FROM `quest_request_items` WHERE `ID` BETWEEN 90008 AND 90026;
+DELETE FROM `creature_queststarter` WHERE `quest` BETWEEN 90008 AND 90026;
+DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90008 AND 90026;
+-- Cleanup orphaned quest 90113 (removed: no Herbalism trainer in Shattrath)
+DELETE FROM `quest_template` WHERE `ID` = 90113;
+DELETE FROM `quest_template_addon` WHERE `ID` = 90113;
+DELETE FROM `quest_offer_reward` WHERE `ID` = 90113;
+DELETE FROM `quest_request_items` WHERE `ID` = 90113;
+DELETE FROM `creature_queststarter` WHERE `quest` = 90113;
+DELETE FROM `creature_questender` WHERE `quest` = 90113;
 
 -- =====================================================
 -- JOURNEYMAN SHEARS QUESTS (75+ Herbalism)
@@ -40,7 +47,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -87,7 +94,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -134,7 +141,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -181,7 +188,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -228,7 +235,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -275,7 +282,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -322,7 +329,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -369,7 +376,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2447, -- Peacebloom
@@ -422,7 +429,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -472,7 +479,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -522,7 +529,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -572,7 +579,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -622,7 +629,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -672,7 +679,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -722,7 +729,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -772,7 +779,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 8838, -- Sungrass
@@ -828,7 +835,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -879,7 +886,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -920,55 +927,8 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
--- -----------------------------------------------------
--- Quest 90113: Shattrath Neutral (Ruak Stronghorn - 19041)
--- -----------------------------------------------------
-SET @quest := 90113;
-SET @npc := 19041;
-
-INSERT INTO `quest_template` SET
-    `ID` = @quest,
-    `QuestLevel` = 70,
-    `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
-    `RewardXPDifficulty` = 5,
-    `Flags` = 136,
-    `RequiredItemId1` = 22785, -- Felweed
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 22786, -- Dreaming Glory
-    `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57301, -- Artisan's Pruning Shears (trade-in)
-    `RequiredItemCount3` = 1,
-    `RewardFactionID1` = 1011, -- Lower City
-    `RewardFactionValue1` = 5,
-    `LogTitle` = 'Master Pruning Shears',
-    `LogDescription` = 'Trade in your Artisan shears and collect herbs to exchange for Master Shears',
-    `QuestDescription` = 'Greetings, herbalist. Outland''s flora is unlike anything in Azeroth - fel-touched, resilient, with roots that grip like iron. Your Artisan shears will dull quickly here, and you''ll miss valuable herbs from each harvest.$B$BI have Master shears crafted specifically for Outland''s twisted plants. Trade in your old Artisan shears and bring me 20 Felweed and 20 Dreaming Glory from these harsh lands, and the Master shears are yours. They''re tempered to handle fel-corrupted stems - you''ll harvest faster and gather more from each node.$B$BRequired:$B- 20 Felweed$B- 20 Dreaming Glory',
-    `QuestCompletionLog` = 'Return the herbs to Ruak Stronghorn in Shattrath City',
-    `RewardItem1` = 57302,
-    `RewardAmount1` = 1,
-    `VerifiedBuild` = '0';
-
-INSERT INTO `quest_template_addon` SET
-    `ID` = @quest,
-    `RequiredSkillID` = 182, -- Herbalism
-    `RequiredSkillPoints` = 300,
-    `PrevQuestID` = 90016, -- Requires Artisan tier
-    `ExclusiveGroup` = 90024;
-
-INSERT INTO `quest_offer_reward` SET
-    `ID` = @quest,
-    `RewardText` = 'Excellent specimens from this shattered world. I''ll take those Artisan shears - they served their purpose. These Master shears are built for Outland''s harsh flora - reinforced blades, balanced for thick stems. They will serve you well here.';
-
-INSERT INTO `quest_request_items` SET
-    `ID` = @quest,
-    `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Felweed, 20 Dreaming Glory, and your old Artisan shears?';
-
-UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
-
-INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
-INSERT INTO `creature_questender` VALUES (@npc, @quest);
+-- Quest 90113 removed: no Herbalism trainer exists in Shattrath.
+-- Master tier is Alliance (Honor Hold, 90024) + Horde (Thrallmar, 90025) only.
 
 -- =====================================================
 -- GRAND MASTER SHEARS QUEST (375+ Herbalism)
@@ -986,7 +946,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = -182, -- Herbalism
+    `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 36901, -- Goldclover

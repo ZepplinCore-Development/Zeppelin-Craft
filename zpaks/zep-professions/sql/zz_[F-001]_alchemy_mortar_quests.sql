@@ -4,6 +4,9 @@
 -- Journeyman: 8 city quests (90091-90098) [ExclusiveGroup 90091]
 -- Artisan: 8 city quests (90099-90106) [ExclusiveGroup 90099]
 -- Master: 3 Outland quests (90107, 90111-90112) [ExclusiveGroup 90107]
+-- 90107: Shattrath Neutral (Lorokeem - 19052)
+-- 90111: Honor Hold Alliance (Alchemist Gribble - 18802)
+-- 90112: Thrallmar Horde (Apothecary Antonivich - 16588)
 -- Grand Master: 1 Dalaran quest (90108)
 -- Total: 20 quests
 --
@@ -52,7 +55,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -97,7 +100,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -142,7 +145,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -187,7 +190,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -232,7 +235,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -277,7 +280,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -322,7 +325,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -367,7 +370,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 858, -- Lesser Healing Potion
@@ -418,7 +421,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -466,7 +469,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -514,7 +517,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -562,7 +565,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -610,7 +613,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -658,7 +661,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -706,7 +709,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -754,7 +757,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 3928, -- Superior Healing Potion
@@ -808,7 +811,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 13446, -- Major Healing Potion
@@ -847,16 +850,16 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90111: Honor Hold Alliance (Apothecary Antonivich - 18987)
+-- Quest 90111: Honor Hold Alliance (Alchemist Gribble - 18802)
 -- -----------------------------------------------------
 SET @quest := 90111;
-SET @npc := 18987;
+SET @npc := 18802;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -871,7 +874,7 @@ INSERT INTO `quest_template` SET
     `LogTitle` = 'Master''s Mortar',
     `LogDescription` = 'Collect potions to exchange for a Master Alchemy Mortar',
     `QuestDescription` = 'Ah, an alchemist from Azeroth. Your artisan mortar served well there, but Outland''s reagents... they are different. Fel-touched. Volatile.$B$BThat worn mortar cannot handle dreamfoil, terocone, felweed - the compounds are too aggressive. Your brewing slows, your potions lose strength. Dangerous, yes?$B$BBring me 5 Major Healing Potions and 5 Major Mana Potions, and trade in your Azerothian mortar. I craft you master''s mortar from netherstorm crystal - handles Outland reagents perfectly. Faster brewing, much stronger potions. You will see.$B$BRequired:$B- 5 Major Healing Potions$B- 5 Major Mana Potions',
-    `QuestCompletionLog` = 'Return the potions to Apothecary Antonivich in Honor Hold',
+    `QuestCompletionLog` = 'Return the potions to Alchemist Gribble in Honor Hold',
     `RewardItem1` = 56902,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -898,16 +901,16 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90112: Thrallmar Horde (Apothecary Albreck - 18991)
+-- Quest 90112: Thrallmar Horde (Apothecary Antonivich - 16588)
 -- -----------------------------------------------------
 SET @quest := 90112;
-SET @npc := 18991;
+SET @npc := 16588;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -922,7 +925,7 @@ INSERT INTO `quest_template` SET
     `LogTitle` = 'Master''s Mortar',
     `LogDescription` = 'Collect potions to exchange for a Master Alchemy Mortar',
     `QuestDescription` = 'Welcome to Outland, alchemist. Your artisan mortar... adequate for Azeroth, but not here. Outland reagents are fel-tainted, unstable. That mortar cannot properly grind felweed or terocone - your potions will be weak, your brewing slow.$B$BBring me 5 Major Healing Potions and 5 Major Mana Potions. Trade in that Azerothian mortar. I will provide you a master''s mortar infused with fel-resistant compounds. It will handle Outland''s volatile herbs properly. Faster brewing, stronger potions. Essential for survival here.$B$BRequired:$B- 5 Major Healing Potions$B- 5 Major Mana Potions',
-    `QuestCompletionLog` = 'Return the potions to Apothecary Albreck in Thrallmar',
+    `QuestCompletionLog` = 'Return the potions to Apothecary Antonivich in Thrallmar',
     `RewardItem1` = 56902,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -964,7 +967,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = -171, -- Alchemy
+    `QuestSortID` = -181, -- Alchemy
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 33447, -- Runic Healing Potion

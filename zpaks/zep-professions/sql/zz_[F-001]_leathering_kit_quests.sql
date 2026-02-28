@@ -54,7 +54,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -99,7 +99,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -144,7 +144,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -189,7 +189,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -234,7 +234,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -279,7 +279,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -324,7 +324,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -369,7 +369,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4231, -- Cured Light Hide
@@ -420,7 +420,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -468,7 +468,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -516,7 +516,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -564,7 +564,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -612,7 +612,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -660,7 +660,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -708,7 +708,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -756,7 +756,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 35,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4233, -- Cured Medium Hide
@@ -810,7 +810,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -858,7 +858,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -906,7 +906,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -954,7 +954,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -1002,7 +1002,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -1050,7 +1050,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -1098,7 +1098,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -1146,7 +1146,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 50,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4236, -- Cured Heavy Hide
@@ -1200,7 +1200,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 15407, -- Cured Rugged Hide
@@ -1248,7 +1248,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -1299,7 +1299,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -1356,7 +1356,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = -165, -- Leatherworking
+    `QuestSortID` = -182, -- Leatherworking
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 38425, -- Heavy Borean Leather

@@ -40,7 +40,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -87,7 +87,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -134,7 +134,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -181,7 +181,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -228,7 +228,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -275,7 +275,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -322,7 +322,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -369,7 +369,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 20,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 2589, -- Linen Cloth
@@ -422,7 +422,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -470,7 +470,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -518,7 +518,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -566,7 +566,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -614,7 +614,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -662,7 +662,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -710,7 +710,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -758,7 +758,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 60,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 4338, -- Mageweave Cloth
@@ -812,7 +812,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
@@ -863,7 +863,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
@@ -914,7 +914,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 70,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 21877, -- Netherweave Cloth
@@ -970,7 +970,7 @@ INSERT INTO `quest_template` SET
     `ID` = @quest,
     `QuestLevel` = 80,
     `MinLevel` = 0,
-    `QuestSortID` = -197, -- Tailoring
+    `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `RequiredItemId1` = 33470, -- Frostweave Cloth
