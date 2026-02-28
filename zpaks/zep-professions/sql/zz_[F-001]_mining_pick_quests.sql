@@ -968,3 +968,66 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Replace with reference conditions so
+-- completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90035 AND 90045;
+
+-- Reference condition -90027: completed ANY Journeyman pick quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90027;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90027, 0, 0, 0, 0, 8, 0, 90027, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Stormwind)'),
+(-90027, 0, 0, 0, 1, 8, 0, 90028, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Ironforge)'),
+(-90027, 0, 0, 0, 2, 8, 0, 90029, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Darnassus)'),
+(-90027, 0, 0, 0, 3, 8, 0, 90030, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Exodar)'),
+(-90027, 0, 0, 0, 4, 8, 0, 90031, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Orgrimmar)'),
+(-90027, 0, 0, 0, 5, 8, 0, 90032, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Thunder Bluff)'),
+(-90027, 0, 0, 0, 6, 8, 0, 90033, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Undercity)'),
+(-90027, 0, 0, 0, 7, 8, 0, 90034, 0, 0, 0, 0, 0, '', 'JM pick rewarded (Silvermoon)');
+
+-- Reference condition -90035: completed ANY Artisan pick quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90035;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90035, 0, 0, 0, 0, 8, 0, 90035, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Stormwind)'),
+(-90035, 0, 0, 0, 1, 8, 0, 90036, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Ironforge)'),
+(-90035, 0, 0, 0, 2, 8, 0, 90037, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Darnassus)'),
+(-90035, 0, 0, 0, 3, 8, 0, 90038, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Exodar)'),
+(-90035, 0, 0, 0, 4, 8, 0, 90039, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Orgrimmar)'),
+(-90035, 0, 0, 0, 5, 8, 0, 90040, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Thunder Bluff)'),
+(-90035, 0, 0, 0, 6, 8, 0, 90041, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Undercity)'),
+(-90035, 0, 0, 0, 7, 8, 0, 90042, 0, 0, 0, 0, 0, '', 'Artisan pick rewarded (Silvermoon)');
+
+-- Reference condition -90043: completed ANY Master pick quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90043;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90043, 0, 0, 0, 0, 8, 0, 90043, 0, 0, 0, 0, 0, '', 'Master pick rewarded (HH Alliance)'),
+(-90043, 0, 0, 0, 1, 8, 0, 90044, 0, 0, 0, 0, 0, '', 'Master pick rewarded (HH Horde)');
+
+-- Artisan quests: require any Journeyman pick
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90035 AND 90042;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90035, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (SW) - any JM pick'),
+(19, 0, 90036, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (IF) - any JM pick'),
+(19, 0, 90037, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (Darn) - any JM pick'),
+(19, 0, 90038, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (Exo) - any JM pick'),
+(19, 0, 90039, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (Org) - any JM pick'),
+(19, 0, 90040, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (TB) - any JM pick'),
+(19, 0, 90041, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (UC) - any JM pick'),
+(19, 0, 90042, 0, 0, -90027, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Pick (SM) - any JM pick');
+
+-- Master quests: require any Artisan pick
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90043, 90044);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90043, 0, 0, -90035, 0, 0, 0, 0, 0, 0, 0, '', 'Master Pick (HH Alli) - any Artisan pick'),
+(19, 0, 90044, 0, 0, -90035, 0, 0, 0, 0, 0, 0, 0, '', 'Master Pick (HH Horde) - any Artisan pick');
+
+-- Grand Master quest: require any Master pick
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90045;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90045, 0, 0, -90043, 0, 0, 0, 0, 0, 0, 0, '', 'GM Pick (Dalaran) - any Master pick');

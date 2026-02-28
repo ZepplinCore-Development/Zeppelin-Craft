@@ -1008,3 +1008,68 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Replace with reference conditions so
+-- completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90054 AND 90064 OR `ID` = 90115;
+
+-- Reference condition -90046: completed ANY Journeyman scissors quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90046;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90046, 0, 0, 0, 0, 8, 0, 90046, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Stormwind)'),
+(-90046, 0, 0, 0, 1, 8, 0, 90047, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Ironforge)'),
+(-90046, 0, 0, 0, 2, 8, 0, 90048, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Darnassus)'),
+(-90046, 0, 0, 0, 3, 8, 0, 90049, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Orgrimmar)'),
+(-90046, 0, 0, 0, 4, 8, 0, 90050, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Thunder Bluff)'),
+(-90046, 0, 0, 0, 5, 8, 0, 90051, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Undercity)'),
+(-90046, 0, 0, 0, 6, 8, 0, 90052, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Exodar)'),
+(-90046, 0, 0, 0, 7, 8, 0, 90053, 0, 0, 0, 0, 0, '', 'JM scissors rewarded (Silvermoon)');
+
+-- Reference condition -90054: completed ANY Artisan scissors quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90054;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90054, 0, 0, 0, 0, 8, 0, 90054, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Stormwind)'),
+(-90054, 0, 0, 0, 1, 8, 0, 90055, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Ironforge)'),
+(-90054, 0, 0, 0, 2, 8, 0, 90056, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Darnassus)'),
+(-90054, 0, 0, 0, 3, 8, 0, 90057, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Orgrimmar)'),
+(-90054, 0, 0, 0, 4, 8, 0, 90058, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Thunder Bluff)'),
+(-90054, 0, 0, 0, 5, 8, 0, 90059, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Undercity)'),
+(-90054, 0, 0, 0, 6, 8, 0, 90060, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Exodar)'),
+(-90054, 0, 0, 0, 7, 8, 0, 90061, 0, 0, 0, 0, 0, '', 'Artisan scissors rewarded (Silvermoon)');
+
+-- Reference condition -90062: completed ANY Master scissors quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90062;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90062, 0, 0, 0, 0, 8, 0, 90062, 0, 0, 0, 0, 0, '', 'Master scissors rewarded (Honor Hold)'),
+(-90062, 0, 0, 0, 1, 8, 0, 90063, 0, 0, 0, 0, 0, '', 'Master scissors rewarded (Thrallmar)'),
+(-90062, 0, 0, 0, 2, 8, 0, 90115, 0, 0, 0, 0, 0, '', 'Master scissors rewarded (Shattrath)');
+
+-- Artisan quests: require any Journeyman scissors
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90054 AND 90061;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90054, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (SW) - any JM scissors'),
+(19, 0, 90055, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (IF) - any JM scissors'),
+(19, 0, 90056, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (Darn) - any JM scissors'),
+(19, 0, 90057, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (Org) - any JM scissors'),
+(19, 0, 90058, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (TB) - any JM scissors'),
+(19, 0, 90059, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (UC) - any JM scissors'),
+(19, 0, 90060, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (Exo) - any JM scissors'),
+(19, 0, 90061, 0, 0, -90046, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Scissors (SM) - any JM scissors');
+
+-- Master quests: require any Artisan scissors
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90062, 90063, 90115);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90062, 0, 0, -90054, 0, 0, 0, 0, 0, 0, 0, '', 'Master Scissors (HH) - any Artisan scissors'),
+(19, 0, 90063, 0, 0, -90054, 0, 0, 0, 0, 0, 0, 0, '', 'Master Scissors (Thrall) - any Artisan scissors'),
+(19, 0, 90115, 0, 0, -90054, 0, 0, 0, 0, 0, 0, 0, '', 'Master Scissors (Shat) - any Artisan scissors');
+
+-- Grand Master quest: require any Master scissors
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90064;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90064, 0, 0, -90062, 0, 0, 0, 0, 0, 0, 0, '', 'GM Scissors (Dalaran) - any Master scissors');

@@ -984,3 +984,66 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Replace with reference conditions so
+-- completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90016 AND 90026;
+
+-- Reference condition -90008: completed ANY Journeyman shears quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90008;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90008, 0, 0, 0, 0, 8, 0, 90008, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Stormwind)'),
+(-90008, 0, 0, 0, 1, 8, 0, 90009, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Ironforge)'),
+(-90008, 0, 0, 0, 2, 8, 0, 90010, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Darnassus)'),
+(-90008, 0, 0, 0, 3, 8, 0, 90011, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Orgrimmar)'),
+(-90008, 0, 0, 0, 4, 8, 0, 90012, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Thunder Bluff)'),
+(-90008, 0, 0, 0, 5, 8, 0, 90013, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Undercity)'),
+(-90008, 0, 0, 0, 6, 8, 0, 90014, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Exodar)'),
+(-90008, 0, 0, 0, 7, 8, 0, 90015, 0, 0, 0, 0, 0, '', 'JM shears rewarded (Silvermoon)');
+
+-- Reference condition -90016: completed ANY Artisan shears quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90016;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90016, 0, 0, 0, 0, 8, 0, 90016, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Stormwind)'),
+(-90016, 0, 0, 0, 1, 8, 0, 90017, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Ironforge)'),
+(-90016, 0, 0, 0, 2, 8, 0, 90018, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Darnassus)'),
+(-90016, 0, 0, 0, 3, 8, 0, 90019, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Orgrimmar)'),
+(-90016, 0, 0, 0, 4, 8, 0, 90020, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Thunder Bluff)'),
+(-90016, 0, 0, 0, 5, 8, 0, 90021, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Undercity)'),
+(-90016, 0, 0, 0, 6, 8, 0, 90022, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Exodar)'),
+(-90016, 0, 0, 0, 7, 8, 0, 90023, 0, 0, 0, 0, 0, '', 'Artisan shears rewarded (Silvermoon)');
+
+-- Reference condition -90024: completed ANY Master shears quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90024;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90024, 0, 0, 0, 0, 8, 0, 90024, 0, 0, 0, 0, 0, '', 'Master shears rewarded (Honor Hold)'),
+(-90024, 0, 0, 0, 1, 8, 0, 90025, 0, 0, 0, 0, 0, '', 'Master shears rewarded (Thrallmar)');
+
+-- Artisan quests: require any Journeyman shears
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90016 AND 90023;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90016, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (SW) - any JM shears'),
+(19, 0, 90017, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (IF) - any JM shears'),
+(19, 0, 90018, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (Darn) - any JM shears'),
+(19, 0, 90019, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (Org) - any JM shears'),
+(19, 0, 90020, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (TB) - any JM shears'),
+(19, 0, 90021, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (UC) - any JM shears'),
+(19, 0, 90022, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (Exo) - any JM shears'),
+(19, 0, 90023, 0, 0, -90008, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Shears (SM) - any JM shears');
+
+-- Master quests: require any Artisan shears
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90024, 90025);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90024, 0, 0, -90016, 0, 0, 0, 0, 0, 0, 0, '', 'Master Shears (HH) - any Artisan shears'),
+(19, 0, 90025, 0, 0, -90016, 0, 0, 0, 0, 0, 0, 0, '', 'Master Shears (Thrall) - any Artisan shears');
+
+-- Grand Master quest: require any Master shears
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90026;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90026, 0, 0, -90024, 0, 0, 0, 0, 0, 0, 0, '', 'GM Shears (Dalaran) - any Master shears');

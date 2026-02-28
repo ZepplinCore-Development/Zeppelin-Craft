@@ -1024,3 +1024,70 @@ UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Negative PrevQuestID means "quest must
+-- be active" which is also wrong for prerequisites.
+-- Replace with reference conditions so completing ANY
+-- city's quest unlocks the next tier.
+-- =====================================================
+
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90124 AND 90135;
+
+-- Reference condition -90116: completed ANY Journeyman knife quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90116;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90116, 0, 0, 0, 0, 8, 0, 90116, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Stormwind)'),
+(-90116, 0, 0, 0, 1, 8, 0, 90117, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Ironforge)'),
+(-90116, 0, 0, 0, 2, 8, 0, 90118, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Darnassus)'),
+(-90116, 0, 0, 0, 3, 8, 0, 90119, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Exodar)'),
+(-90116, 0, 0, 0, 4, 8, 0, 90120, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Orgrimmar)'),
+(-90116, 0, 0, 0, 5, 8, 0, 90121, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Thunder Bluff)'),
+(-90116, 0, 0, 0, 6, 8, 0, 90122, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Undercity)'),
+(-90116, 0, 0, 0, 7, 8, 0, 90123, 0, 0, 0, 0, 0, '', 'JM knife rewarded (Silvermoon)');
+
+-- Reference condition -90124: completed ANY Artisan knife quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90124;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90124, 0, 0, 0, 0, 8, 0, 90124, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Stormwind)'),
+(-90124, 0, 0, 0, 1, 8, 0, 90125, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Ironforge)'),
+(-90124, 0, 0, 0, 2, 8, 0, 90126, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Darnassus)'),
+(-90124, 0, 0, 0, 3, 8, 0, 90127, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Exodar)'),
+(-90124, 0, 0, 0, 4, 8, 0, 90128, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Orgrimmar)'),
+(-90124, 0, 0, 0, 5, 8, 0, 90129, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Thunder Bluff)'),
+(-90124, 0, 0, 0, 6, 8, 0, 90130, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Undercity)'),
+(-90124, 0, 0, 0, 7, 8, 0, 90131, 0, 0, 0, 0, 0, '', 'Artisan knife rewarded (Silvermoon)');
+
+-- Reference condition -90132: completed ANY Master knife quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90132;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90132, 0, 0, 0, 0, 8, 0, 90132, 0, 0, 0, 0, 0, '', 'Master knife rewarded (Honor Hold)'),
+(-90132, 0, 0, 0, 1, 8, 0, 90133, 0, 0, 0, 0, 0, '', 'Master knife rewarded (Thrallmar)'),
+(-90132, 0, 0, 0, 2, 8, 0, 90134, 0, 0, 0, 0, 0, '', 'Master knife rewarded (Shattrath)');
+
+-- Artisan quests: require any Journeyman knife
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90124 AND 90131;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90124, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (SW) - any JM knife'),
+(19, 0, 90125, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (IF) - any JM knife'),
+(19, 0, 90126, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (Darn) - any JM knife'),
+(19, 0, 90127, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (Exo) - any JM knife'),
+(19, 0, 90128, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (Org) - any JM knife'),
+(19, 0, 90129, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (TB) - any JM knife'),
+(19, 0, 90130, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (UC) - any JM knife'),
+(19, 0, 90131, 0, 0, -90116, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Knife (SM) - any JM knife');
+
+-- Master quests: require any Artisan knife
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90132 AND 90134;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90132, 0, 0, -90124, 0, 0, 0, 0, 0, 0, 0, '', 'Master Knife (HH) - any Artisan knife'),
+(19, 0, 90133, 0, 0, -90124, 0, 0, 0, 0, 0, 0, 0, '', 'Master Knife (Thrall) - any Artisan knife'),
+(19, 0, 90134, 0, 0, -90124, 0, 0, 0, 0, 0, 0, 0, '', 'Master Knife (Shat) - any Artisan knife');
+
+-- Grand Master quest: require any Master knife
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90135;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90135, 0, 0, -90132, 0, 0, 0, 0, 0, 0, 0, '', 'GM Knife (Dalaran) - any Master knife');

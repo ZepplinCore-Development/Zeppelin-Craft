@@ -1392,3 +1392,92 @@ INSERT INTO `quest_request_items` SET
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN FIX
+-- PrevQuestID only checks the exact quest ID, not the
+-- ExclusiveGroup. Replace with reference conditions so
+-- completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+UPDATE `quest_template_addon` SET `PrevQuestID` = 0
+    WHERE `ID` BETWEEN 90073 AND 90090 OR `ID` IN (90109, 90110);
+
+-- Reference condition -90065: completed ANY Journeyman kit quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90065;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90065, 0, 0, 0, 0, 8, 0, 90065, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Stormwind)'),
+(-90065, 0, 0, 0, 1, 8, 0, 90066, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Ironforge)'),
+(-90065, 0, 0, 0, 2, 8, 0, 90067, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Darnassus)'),
+(-90065, 0, 0, 0, 3, 8, 0, 90068, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Exodar)'),
+(-90065, 0, 0, 0, 4, 8, 0, 90069, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Orgrimmar)'),
+(-90065, 0, 0, 0, 5, 8, 0, 90070, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Thunder Bluff)'),
+(-90065, 0, 0, 0, 6, 8, 0, 90071, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Undercity)'),
+(-90065, 0, 0, 0, 7, 8, 0, 90072, 0, 0, 0, 0, 0, '', 'JM kit rewarded (Silvermoon)');
+
+-- Reference condition -90073: completed ANY Expert kit quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90073;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90073, 0, 0, 0, 0, 8, 0, 90073, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Stormwind)'),
+(-90073, 0, 0, 0, 1, 8, 0, 90074, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Ironforge)'),
+(-90073, 0, 0, 0, 2, 8, 0, 90075, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Darnassus)'),
+(-90073, 0, 0, 0, 3, 8, 0, 90076, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Exodar)'),
+(-90073, 0, 0, 0, 4, 8, 0, 90077, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Orgrimmar)'),
+(-90073, 0, 0, 0, 5, 8, 0, 90078, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Thunder Bluff)'),
+(-90073, 0, 0, 0, 6, 8, 0, 90079, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Undercity)'),
+(-90073, 0, 0, 0, 7, 8, 0, 90080, 0, 0, 0, 0, 0, '', 'Expert kit rewarded (Silvermoon)');
+
+-- Reference condition -90081: completed ANY Artisan kit quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90081;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90081, 0, 0, 0, 0, 8, 0, 90081, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Stormwind)'),
+(-90081, 0, 0, 0, 1, 8, 0, 90082, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Ironforge)'),
+(-90081, 0, 0, 0, 2, 8, 0, 90083, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Darnassus)'),
+(-90081, 0, 0, 0, 3, 8, 0, 90084, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Exodar)'),
+(-90081, 0, 0, 0, 4, 8, 0, 90085, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Orgrimmar)'),
+(-90081, 0, 0, 0, 5, 8, 0, 90086, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Thunder Bluff)'),
+(-90081, 0, 0, 0, 6, 8, 0, 90087, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Undercity)'),
+(-90081, 0, 0, 0, 7, 8, 0, 90088, 0, 0, 0, 0, 0, '', 'Artisan kit rewarded (Silvermoon)');
+
+-- Reference condition -90089: completed ANY Master kit quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90089;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90089, 0, 0, 0, 0, 8, 0, 90089, 0, 0, 0, 0, 0, '', 'Master kit rewarded (Shattrath)'),
+(-90089, 0, 0, 0, 1, 8, 0, 90109, 0, 0, 0, 0, 0, '', 'Master kit rewarded (Honor Hold)'),
+(-90089, 0, 0, 0, 2, 8, 0, 90110, 0, 0, 0, 0, 0, '', 'Master kit rewarded (Thrallmar)');
+
+-- Expert quests: require any Journeyman kit
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90073 AND 90080;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90073, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (SW) - any JM kit'),
+(19, 0, 90074, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (IF) - any JM kit'),
+(19, 0, 90075, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (Darn) - any JM kit'),
+(19, 0, 90076, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (Exo) - any JM kit'),
+(19, 0, 90077, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (Org) - any JM kit'),
+(19, 0, 90078, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (TB) - any JM kit'),
+(19, 0, 90079, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (UC) - any JM kit'),
+(19, 0, 90080, 0, 0, -90065, 0, 0, 0, 0, 0, 0, 0, '', 'Expert Kit (SM) - any JM kit');
+
+-- Artisan quests: require any Expert kit
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90081 AND 90088;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90081, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (SW) - any Expert kit'),
+(19, 0, 90082, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (IF) - any Expert kit'),
+(19, 0, 90083, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (Darn) - any Expert kit'),
+(19, 0, 90084, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (Exo) - any Expert kit'),
+(19, 0, 90085, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (Org) - any Expert kit'),
+(19, 0, 90086, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (TB) - any Expert kit'),
+(19, 0, 90087, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (UC) - any Expert kit'),
+(19, 0, 90088, 0, 0, -90073, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Kit (SM) - any Expert kit');
+
+-- Master quests: require any Artisan kit
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90089, 90109, 90110);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90089, 0, 0, -90081, 0, 0, 0, 0, 0, 0, 0, '', 'Master Kit (Shat) - any Artisan kit'),
+(19, 0, 90109, 0, 0, -90081, 0, 0, 0, 0, 0, 0, 0, '', 'Master Kit (HH) - any Artisan kit'),
+(19, 0, 90110, 0, 0, -90081, 0, 0, 0, 0, 0, 0, 0, '', 'Master Kit (Thrall) - any Artisan kit');
+
+-- Grand Master quest: require any Master kit
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90090;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90090, 0, 0, -90089, 0, 0, 0, 0, 0, 0, 0, '', 'GM Kit (Dalaran) - any Master kit');
