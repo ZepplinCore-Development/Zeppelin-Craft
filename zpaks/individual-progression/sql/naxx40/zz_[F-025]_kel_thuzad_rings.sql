@@ -27,6 +27,7 @@ INSERT INTO `item_template` SET
     `RequiredLevel` = 60,
     `maxcount` = 1,
     `ContainerSlots` = 1,
+    `Flags` = 4,
     `bonding` = 1;
 
 -- ============================================================================
