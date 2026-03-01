@@ -1,0 +1,96 @@
+From 61d498a0455001141aefbde1b76c3afad4608843 Mon Sep 17 00:00:00 2001
+From: Claude <claude@buttzeppelin>
+Date: Sun, 1 Mar 2026 12:46:37 +0000
+Subject: [PATCH] fix: Invert gathering XP curve and fix integer division bug
+ (I-145)
+
+- Curve formula used integer division (minSkill/450 always 0 for skill<450)
+- Inverted to give more XP at low skill, tapering to 1x at 450
+- Reduced base XP from 1% to 0.2% (curve scales it to ~1% at skill 1)
+- Disabled fishing XP in defaults
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ conf/mod-profession-experience.conf.dist | 18 +++++++++---------
+ src/ProfessionExp.cpp                    |  6 +++---
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/conf/mod-profession-experience.conf.dist b/conf/mod-profession-experience.conf.dist
+index 3e902bc..0dfcec8 100644
+--- a/conf/mod-profession-experience.conf.dist
++++ b/conf/mod-profession-experience.conf.dist
+@@ -49,8 +49,9 @@ ProfessionExperience.MultGrandMaster = 1.0
+ 
+ #
+ #    ProfessionExperience.MultCurve
+-#        Description: Multiplicator to Experience applied as an exponential curve. Formula is "xp x mult ^ (minSkill/450).
+-#                     Close to 1 at skill 1. Square root at skill 225. Values below 1.0 apply a penalty at higher level instead.
++#        Description: Multiplicator to Experience applied as an inverted exponential curve. Formula is "xp x mult ^ (1 - minSkill/450)".
++#                     Full multiplier at skill 1, tapering down to 1x at skill 450.
++#                     With default 5.0: ~5x at skill 1, ~2.2x at skill 225, 1x at skill 450.
+ #        Default:     5.0
+ #        Disabled:    0.0
+ 
+@@ -60,10 +61,9 @@ ProfessionExperience.MultCurve = 5.0
+ #
+ #    ProfessionExperience.*.Experience
+ #        Description: Part of a level gained for performing the action
+-#        Default:     0.01 - (1%, ProfessionExperience.Fishing.Experience)
+-#                     0.01 - (1%, ProfessionExperience.Herbalism.Experience)
+-#                     0.01 - (1%, ProfessionExperience.Mining.Experience)
+-#                     0.00 - (Disabled, the rest)
++#        Default:     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Herbalism.Experience)
++#                     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Mining.Experience)
++#                     0.00  - (Disabled, the rest)
+ 
+ ProfessionExperience.Alchemy.Experience        = 0.00
+ ProfessionExperience.Blacksmith.Experience     = 0.00
+@@ -71,14 +71,14 @@ ProfessionExperience.Cooking.Experience        = 0.00
+ ProfessionExperience.Disenchanting.Experience  = 0.00
+ ProfessionExperience.Enchanting.Experience     = 0.00
+ ProfessionExperience.Engineering.Experience    = 0.00
+-ProfessionExperience.Fishing.Experience        = 0.01
++ProfessionExperience.Fishing.Experience        = 0.00
+ ProfessionExperience.FirstAid.Experience       = 0.00
+-ProfessionExperience.Herbalism.Experience      = 0.01
++ProfessionExperience.Herbalism.Experience      = 0.002
+ ProfessionExperience.Inscription.Experience    = 0.00
+ ProfessionExperience.Jewelcrafting.Experience  = 0.00
+ ProfessionExperience.Leatherworking.Experience = 0.00
+ ProfessionExperience.Lockpick.Experience       = 0.00
+-ProfessionExperience.Mining.Experience         = 0.01
++ProfessionExperience.Mining.Experience         = 0.002
+ ProfessionExperience.Skinning.Experience       = 0.00
+ ProfessionExperience.Smelting.Experience       = 0.00
+ ProfessionExperience.Tailoring.Experience      = 0.00
+diff --git a/src/ProfessionExp.cpp b/src/ProfessionExp.cpp
+index 4b7a66b..95e8971 100644
+--- a/src/ProfessionExp.cpp
++++ b/src/ProfessionExp.cpp
+@@ -57,12 +57,12 @@ public:
+         SetConfigValue<float>(PEConfig::ENGINEERING_EXPERIENCE,    "ProfessionExperience.Engineering.Experience",    0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::FISHING_EXPERIENCE,        "ProfessionExperience.Fishing.Experience",        0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::FIRST_AID_EXPERIENCE,      "ProfessionExperience.FirstAid.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::HERBALISM_EXPERIENCE,      "ProfessionExperience.Herbalism.Experience",      0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
++        SetConfigValue<float>(PEConfig::HERBALISM_EXPERIENCE,      "ProfessionExperience.Herbalism.Experience",      0.002f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::INSCRIPTION_EXPERIENCE,    "ProfessionExperience.Inscription.Experience",    0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::JEWELCRAFTING_EXPERIENCE,  "ProfessionExperience.Jewelcrafting.Experience",  0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::LEATHERWORKING_EXPERIENCE, "ProfessionExperience.Leatherworking.Experience", 0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::LOCKPICK_EXPERIENCE,       "ProfessionExperience.Lockpick.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MINING_EXPERIENCE,         "ProfessionExperience.Mining.Experience",         0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
++        SetConfigValue<float>(PEConfig::MINING_EXPERIENCE,         "ProfessionExperience.Mining.Experience",         0.002f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::SKINNING_EXPERIENCE,       "ProfessionExperience.Skinning.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::SMELTING_EXPERIENCE,       "ProfessionExperience.Smelting.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::TAILORING_EXPERIENCE,      "ProfessionExperience.Tailoring.Experience",      0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+@@ -206,7 +206,7 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+             xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_APPRENTICE);
+ 
+         if (float curve = peConfigData.GetConfigValue<float>(PEConfig::MULT_CURVE))
+-            xp = xp * pow(curve,(minSkill/450));
++            xp = xp * pow(curve, 1.0 - (double)minSkill / 450.0);
+ 
+         player->GiveXP(xp, nullptr);
+     }
+-- 
+2.34.1
+
