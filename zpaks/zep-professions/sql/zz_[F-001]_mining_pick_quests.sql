@@ -427,7 +427,7 @@ SET @npc := 5513;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -475,7 +475,7 @@ SET @npc := 4254;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -523,7 +523,7 @@ SET @npc := 70;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -571,7 +571,7 @@ SET @npc := 16752;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -619,7 +619,7 @@ SET @npc := 3357;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -667,7 +667,7 @@ SET @npc := 3001;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -715,7 +715,7 @@ SET @npc := 4598;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,
@@ -763,7 +763,7 @@ SET @npc := 16663;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -377, -- Mining
     `RewardXPDifficulty` = 5,

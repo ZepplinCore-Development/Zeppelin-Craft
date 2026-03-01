@@ -10,7 +10,7 @@
 -- Features:
 -- - ExclusiveGroup prevents multiple completions per tier
 -- - Reputation rewards for city factions (+5 rep each)
--- - Progressive cloth requirements matching skill tiers
+-- - Progressive bolt requirements matching skill tiers
 -- - Tailoring-specific benefits: faster crafting speed
 -- =====================================================
 
@@ -26,7 +26,7 @@ DELETE FROM `creature_questender` WHERE `quest` BETWEEN 90046 AND 90064 OR `ques
 
 -- =====================================================
 -- JOURNEYMAN TAILORING SCISSORS QUESTS (75+ Tailoring)
--- 20 Linen Cloth + 20 Wool Cloth
+-- 10 Bolt of Linen Cloth + 10 Bolt of Woolen Cloth
 -- Reward: Journeyman Tailoring Scissors (57404)
 -- =====================================================
 
@@ -43,16 +43,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Cutting cloth with basic shears? Your stitching is taking twice as long as it should. I have proper scissors available - bring me 20 Linen Cloth and 20 Wool Cloth to replenish my stock, and they''re yours. You''ll cut your weaving time in half with the right tools.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Georgio Bolero in Stormwind',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Cutting cloth with basic shears? Your stitching is taking twice as long as it should. I have proper scissors available - bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth to replenish my stock, and they''re yours. You''ll cut your weaving time in half with the right tools.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Georgio Bolero in Stormwind',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -70,7 +70,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Linen Cloth and 20 Wool Cloth?';
+    `CompletionText` = 'Did you bring the 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -90,16 +90,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Bah! Still usin'' basic shears, are ye? No wonder yer stitchin'' takes all day! I''ve got proper scissors here - fetch me 20 Linen Cloth and 20 Wool Cloth fer me shop, and I''ll trade ye fer them. Ye''ll be weavin'' twice as fast, I guarantee it.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Jormund Stonebrow in Ironforge',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Bah! Still usin'' basic shears, are ye? No wonder yer stitchin'' takes all day! I''ve got proper scissors here - fetch me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth fer me shop, and I''ll trade ye fer them. Ye''ll be weavin'' twice as fast, I guarantee it.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Jormund Stonebrow in Ironforge',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -117,7 +117,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got that cloth? 20 Linen and 20 Wool, aye?';
+    `CompletionText` = 'Got those bolts? 10 Linen and 10 Woolen, aye?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -137,16 +137,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'I see you weave without proper tools. Your hands work with grace, but precision scissors would quicken your craft considerably. I have scissors available. If you bring me 20 Linen Cloth and 20 Wool Cloth for my work, I will trade them to you. You will find your stitching flows like water.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Me''lynn in Darnassus',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'I see you weave without proper tools. Your hands work with grace, but precision scissors would quicken your craft considerably. I have scissors available. If you bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth for my work, I will trade them to you. You will find your stitching flows like water.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Me''lynn in Darnassus',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -164,7 +164,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the cloth I require?';
+    `CompletionText` = 'Have you gathered the bolts I require?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -184,16 +184,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Basic shears? Slow. Weaving takes too long. Need better scissors. I have scissors. 20 Linen Cloth, 20 Wool Cloth. Bring. Trade for scissors. Work faster. Simple.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Magar in Orgrimmar',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Basic shears? Slow. Weaving takes too long. Need better scissors. I have scissors. 10 Bolts of Linen Cloth, 10 Bolts of Woolen Cloth. Bring. Trade for scissors. Work faster. Simple.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Magar in Orgrimmar',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -211,7 +211,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have cloth? 20 Linen and 20 Wool?';
+    `CompletionText` = 'You have bolts? 10 Linen and 10 Woolen?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -231,16 +231,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Brother/Sister, I see you weave without proper tools. The Earth Mother teaches that respect for the craft brings greater speed. I have scissors here - bring me 20 Linen Cloth and 20 Wool Cloth for my needs, and I will trade them to you. You will find your stitching quickens considerably.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Tepa in Thunder Bluff',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Brother/Sister, I see you weave without proper tools. The Earth Mother teaches that respect for the craft brings greater speed. I have scissors here - bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth for my needs, and I will trade them to you. You will find your stitching quickens considerably.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Tepa in Thunder Bluff',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -258,7 +258,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the cloth, friend?';
+    `CompletionText` = 'Do you have the bolts, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -278,16 +278,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Weaving with basic tools? How... inefficient. You''re wasting valuable time with each stitch. I have proper scissors available - bring me 20 Linen Cloth and 20 Wool Cloth to replenish my stock, and I''ll part with them. Your crafting speed will become considerably less... pitiful.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Josef Gregorian in Undercity',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Weaving with basic tools? How... inefficient. You''re wasting valuable time with each stitch. I have proper scissors available - bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth to replenish my stock, and I''ll part with them. Your crafting speed will become considerably less... pitiful.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Josef Gregorian in Undercity',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -305,7 +305,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the cloth I require?';
+    `CompletionText` = 'Do you have the bolts I require?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -325,16 +325,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'I observe you weave without refined instruments. Your technique is sound, but proper tools would increase your speed significantly. I have scissors available - if you bring me 20 Linen Cloth and 20 Wool Cloth to replenish my supplies, I will trade them to you. The Light will guide your hands to swifter crafting.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Mathreyn in The Exodar',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'I observe you weave without refined instruments. Your technique is sound, but proper tools would increase your speed significantly. I have scissors available - if you bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth to replenish my supplies, I will trade them to you. The Light will guide your hands to swifter crafting.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Mathreyn in The Exodar',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -372,16 +372,16 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 2589, -- Linen Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 2592, -- Wool Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 2996, -- Bolt of Linen Cloth
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 2997, -- Bolt of Woolen Cloth
+    `RequiredItemCount2` = 10,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'My First Tailoring Scissors',
-    `LogDescription` = 'Collect cloth to exchange for Journeyman Tailoring Scissors',
-    `QuestDescription` = 'Weaving with such... primitive methods? How do you expect to maximize your efficiency without proper tools? I have scissors available. Bring me 20 Linen Cloth and 20 Wool Cloth - quality specimens, mind you - and I''ll trade them to you. Your stitching speed will improve dramatically.$B$BRequired:$B- 20 Linen Cloth$B- 20 Wool Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Keelen Sheets in Silvermoon City',
+    `LogDescription` = 'Collect bolts to exchange for Journeyman Tailoring Scissors',
+    `QuestDescription` = 'Weaving with such... primitive methods? How do you expect to maximize your efficiency without proper tools? I have scissors available. Bring me 10 Bolts of Linen Cloth and 10 Bolts of Woolen Cloth - quality specimens, mind you - and I''ll trade them to you. Your stitching speed will improve dramatically.$B$BRequired:$B- 10 Bolt of Linen Cloth$B- 10 Bolt of Woolen Cloth',
+    `QuestCompletionLog` = 'Return the bolts to Keelen Sheets in Silvermoon City',
     `RewardItem1` = 57404,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -399,7 +399,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the cloth I requested?';
+    `CompletionText` = 'Have you acquired the bolts I requested?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -408,7 +408,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- ARTISAN TAILORING SCISSORS QUESTS (225+ Tailoring)
--- 20 Mageweave Cloth + 20 Runecloth
+-- 10 Bolt of Mageweave + 10 Bolt of Runecloth
 -- Reward: Artisan Tailoring Scissors (57405)
 -- =====================================================
 
@@ -420,23 +420,23 @@ SET @npc := 1346;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Your skills are growing, but those Journeyman scissors are getting dull on finer cloth - your stitching is slowing down. I have Artisan scissors here. Trade in your old Journeyman scissors and bring me 20 Mageweave Cloth and 20 Runecloth for my stock, and the Artisan scissors are yours. Your crafting speed will increase considerably.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Georgio Bolero in Stormwind',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Your skills are growing, but those Journeyman scissors are getting dull on finer cloth - your stitching is slowing down. I have Artisan scissors here. Trade in your old Journeyman scissors and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth for my stock, and the Artisan scissors are yours. Your crafting speed will increase considerably.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Georgio Bolero in Stormwind',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -455,7 +455,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Mageweave Cloth, 20 Runecloth, and your old Journeyman scissors?';
+    `CompletionText` = 'Did you bring the 10 Bolts of Mageweave, 10 Bolts of Runecloth, and your old Journeyman scissors?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -468,23 +468,23 @@ SET @npc := 1103;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Yer outgrowin'' those Journeyman scissors, I see! They''re dullin'' on the finer cloth - yer stitchin''s slowin'' down! Time fer an upgrade, aye? Trade in yer old scissors and fetch me 20 Mageweave Cloth and 20 Runecloth fer me shop, and these Artisan scissors are yers. Ye''ll be weavin'' twice as fast.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Jormund Stonebrow in Ironforge',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Yer outgrowin'' those Journeyman scissors, I see! They''re dullin'' on the finer cloth - yer stitchin''s slowin'' down! Time fer an upgrade, aye? Trade in yer old scissors and fetch me 10 Bolts of Mageweave and 10 Bolts of Runecloth fer me shop, and these Artisan scissors are yers. Ye''ll be weavin'' twice as fast.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Jormund Stonebrow in Ironforge',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -503,7 +503,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Got that cloth and yer old Journeyman scissors? 20 Mageweave, 20 Runecloth, and the old scissors, aye?';
+    `CompletionText` = 'Got those bolts and yer old Journeyman scissors? 10 Mageweave, 10 Runecloth, and the old scissors, aye?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -516,23 +516,23 @@ SET @npc := 4159;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Your craft deepens, friend. The Journeyman scissors have served well, but I see them struggling with finer cloth now - your stitching flows less smoothly. I have Artisan scissors available. Trade in your old Journeyman scissors and bring me 20 Mageweave Cloth and 20 Runecloth for my work, and the Artisan scissors are yours. Your weaving will flow like water with sharper tools.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Me''lynn in Darnassus',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Your craft deepens, friend. The Journeyman scissors have served well, but I see them struggling with finer cloth now - your stitching flows less smoothly. I have Artisan scissors available. Trade in your old Journeyman scissors and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth for my work, and the Artisan scissors are yours. Your weaving will flow like water with sharper tools.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Me''lynn in Darnassus',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -551,7 +551,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you gathered the cloth and your old Journeyman scissors?';
+    `CompletionText` = 'Have you gathered the bolts and your old Journeyman scissors?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -564,23 +564,23 @@ SET @npc := 3363;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Journeyman scissors too dull now. Finer cloth. Stitching slower. Need better scissors. Trade in old Journeyman scissors. 20 Mageweave Cloth, 20 Runecloth. Bring. Get Artisan scissors. Work faster with each piece.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Magar in Orgrimmar',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Journeyman scissors too dull now. Finer cloth. Stitching slower. Need better scissors. Trade in old Journeyman scissors. 10 Bolts of Mageweave, 10 Bolts of Runecloth. Bring. Get Artisan scissors. Work faster with each piece.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Magar in Orgrimmar',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -599,7 +599,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'You have cloth and old Journeyman scissors? 20 Mageweave, 20 Runecloth, old scissors?';
+    `CompletionText` = 'You have bolts and old Journeyman scissors? 10 Mageweave, 10 Runecloth, old scissors?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -612,23 +612,23 @@ SET @npc := 3004;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Friend, your journey continues. The Journeyman scissors have guided you well, but I see them dulling on finer cloth - your stitching slows. The Earth Mother teaches that better tools bring harmony with the craft. I have Artisan scissors for you. Trade in your old Journeyman scissors and bring me 20 Mageweave Cloth and 20 Runecloth from richer weaves, and we shall trade. Your work will flow more freely.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Tepa in Thunder Bluff',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Friend, your journey continues. The Journeyman scissors have guided you well, but I see them dulling on finer cloth - your stitching slows. The Earth Mother teaches that better tools bring harmony with the craft. I have Artisan scissors for you. Trade in your old Journeyman scissors and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth from richer weaves, and we shall trade. Your work will flow more freely.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Tepa in Thunder Bluff',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -647,7 +647,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the cloth and your old Journeyman scissors, friend?';
+    `CompletionText` = 'Do you have the bolts and your old Journeyman scissors, friend?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -660,23 +660,23 @@ SET @npc := 4576;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Ah, still struggling with those Journeyman scissors? How... wasteful. I see them failing on finer cloth - you''re wasting valuable time with each pathetic stitch. I have Artisan scissors available. Trade in that inadequate Journeyman pair and bring me 20 Mageweave Cloth and 20 Runecloth, and your... pitiful... crafting speed will improve considerably.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Josef Gregorian in Undercity',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Ah, still struggling with those Journeyman scissors? How... wasteful. I see them failing on finer cloth - you''re wasting valuable time with each pathetic stitch. I have Artisan scissors available. Trade in that inadequate Journeyman pair and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth, and your... pitiful... crafting speed will improve considerably.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Josef Gregorian in Undercity',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -695,7 +695,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the cloth and that old Journeyman pair?';
+    `CompletionText` = 'Do you have the bolts and that old Journeyman pair?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
@@ -708,23 +708,23 @@ SET @npc := 16273;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'I see your mastery grows. Those Journeyman scissors served their purpose, but they struggle with finer cloth now - you lose valuable time with each weave. I have Artisan scissors available. Trade in your old Journeyman scissors and bring me 20 Mageweave Cloth and 20 Runecloth to replenish my workshop, and I will trade them to you. The Light will guide your hands to swifter crafting.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Mathreyn in The Exodar',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'I see your mastery grows. Those Journeyman scissors served their purpose, but they struggle with finer cloth now - you lose valuable time with each weave. I have Artisan scissors available. Trade in your old Journeyman scissors and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth to replenish my workshop, and I will trade them to you. The Light will guide your hands to swifter crafting.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Mathreyn in The Exodar',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -756,23 +756,23 @@ SET @npc := 16640;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 4338, -- Mageweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 14047, -- Runecloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 4339, -- Bolt of Mageweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 14048, -- Bolt of Runecloth
+    `RequiredItemCount2` = 10,
     `RequiredItemId3` = 57404, -- Journeyman Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Artisan Tailoring Scissors',
-    `LogDescription` = 'Trade in your Journeyman scissors and collect cloth to exchange for Artisan Scissors',
-    `QuestDescription` = 'Still using Journeyman scissors for artisan-level cloth? How do you expect to maximize efficiency with such inferior equipment? I see those dull blades wasting precious time. I have Artisan scissors available. Relinquish that inferior Journeyman pair and bring me 20 Mageweave Cloth and 20 Runecloth - quality specimens, please - and we shall trade. Your crafting efficiency will improve markedly.$B$BRequired:$B- 20 Mageweave Cloth$B- 20 Runecloth',
-    `QuestCompletionLog` = 'Return the cloth to Keelen Sheets in Silvermoon City',
+    `LogDescription` = 'Trade in your Journeyman scissors and collect bolts to exchange for Artisan Scissors',
+    `QuestDescription` = 'Still using Journeyman scissors for artisan-level cloth? How do you expect to maximize efficiency with such inferior equipment? I see those dull blades wasting precious time. I have Artisan scissors available. Relinquish that inferior Journeyman pair and bring me 10 Bolts of Mageweave and 10 Bolts of Runecloth - quality specimens, please - and we shall trade. Your crafting efficiency will improve markedly.$B$BRequired:$B- 10 Bolt of Mageweave$B- 10 Bolt of Runecloth',
+    `QuestCompletionLog` = 'Return the bolts to Keelen Sheets in Silvermoon City',
     `RewardItem1` = 57405,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -791,14 +791,14 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Have you acquired the cloth and that inferior Journeyman pair?';
+    `CompletionText` = 'Have you acquired the bolts and that inferior Journeyman pair?';
 
 INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- MASTER TAILORING SCISSORS QUESTS (300+ Tailoring)
--- 20 Netherweave Cloth + 20 Imbued Netherweave Cloth
+-- 10 Bolt of Netherweave + 3 Bolt of Imbued Netherweave
 -- Reward: Master Tailoring Scissors (57406)
 -- =====================================================
 
@@ -816,18 +816,18 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 1101, -- Alliance
-    `RequiredItemId1` = 21877, -- Netherweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 21845, -- Imbued Netherweave Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 21840, -- Bolt of Netherweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 21842, -- Bolt of Imbued Netherweave
+    `RequiredItemCount2` = 3,
     `RequiredItemId3` = 57405, -- Artisan Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect cloth to exchange for Master Scissors',
-    `QuestDescription` = 'Welcome to Outland, tailor. The cloth here is far tougher than anything from Azeroth - your Artisan scissors will dull on it, and your stitching will slow down. I have Master scissors designed for Outland fabrics. Trade in your old Artisan scissors and bring me 20 Netherweave Cloth and 20 Imbued Netherweave Cloth from these harsh lands, and the Master scissors are yours. You''ll need the increased speed for the challenges ahead.$B$BRequired:$B- 20 Netherweave Cloth$B- 20 Imbued Netherweave Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Hama at Honor Hold',
+    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
+    `QuestDescription` = 'Welcome to Outland, tailor. The cloth here is far tougher than anything from Azeroth - your Artisan scissors will dull on it, and your stitching will slow down. I have Master scissors designed for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. You''ll need the increased speed for the challenges ahead.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `QuestCompletionLog` = 'Return the bolts to Hama at Honor Hold',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -846,7 +846,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Netherweave Cloth, 20 Imbued Netherweave Cloth, and your old Artisan scissors?';
+    `CompletionText` = 'Did you bring the 10 Bolts of Netherweave, 3 Bolts of Imbued Netherweave, and your old Artisan scissors?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -867,18 +867,18 @@ INSERT INTO `quest_template` SET
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
     `AllowableRaces` = 690, -- Horde
-    `RequiredItemId1` = 21877, -- Netherweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 21845, -- Imbued Netherweave Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 21840, -- Bolt of Netherweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 21842, -- Bolt of Imbued Netherweave
+    `RequiredItemCount2` = 3,
     `RequiredItemId3` = 57405, -- Artisan Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect cloth to exchange for Master Scissors',
-    `QuestDescription` = 'Brother/Sister, the cloth weaves differently in this broken land. The fabrics here are far tougher than those of Azeroth - your Artisan scissors struggle with their thickness, and precious time is lost. I have Master scissors for these twisted lands. Trade in your old Artisan scissors and bring me 20 Netherweave Cloth and 20 Imbued Netherweave Cloth from Outland''s harsh weaves, and we shall trade. Greater speed will flow from these sharper blades.$B$BRequired:$B- 20 Netherweave Cloth$B- 20 Imbued Netherweave Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Dalinna at Thrallmar',
+    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
+    `QuestDescription` = 'Brother/Sister, the cloth weaves differently in this broken land. The fabrics here are far tougher than those of Azeroth - your Artisan scissors struggle with their thickness, and precious time is lost. I have Master scissors for these twisted lands. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from Outland''s harsh weaves, and we shall trade. Greater speed will flow from these sharper blades.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `QuestCompletionLog` = 'Return the bolts to Dalinna at Thrallmar',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -897,7 +897,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Do you have the Outland cloth and your old Artisan scissors, friend?';
+    `CompletionText` = 'Do you have the Outland bolts and your old Artisan scissors, friend?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -917,18 +917,18 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 21877, -- Netherweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 21845, -- Imbued Netherweave Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 21840, -- Bolt of Netherweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 21842, -- Bolt of Imbued Netherweave
+    `RequiredItemCount2` = 3,
     `RequiredItemId3` = 57405, -- Artisan Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1011, -- Lower City
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Artisan scissors and collect cloth to exchange for Master Scissors',
-    `QuestDescription` = 'Tailor from Azeroth, welcome to Shattrath. The cloth here is unlike anything from your homeland - netherweave, touched by the Twisting Nether, resistant to ordinary blades. Your Artisan scissors will dull quickly, and your stitching will slow.$B$BI have Master scissors crafted specifically for Outland fabrics. Trade in your old Artisan scissors and bring me 20 Netherweave Cloth and 20 Imbued Netherweave Cloth from these harsh lands, and the Master scissors are yours. Reinforced blades, balanced for nether-touched fibers - you''ll cut faster and weave with greater precision.$B$BRequired:$B- 20 Netherweave Cloth$B- 20 Imbued Netherweave Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Miralisse in Shattrath City',
+    `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
+    `QuestDescription` = 'Tailor from Azeroth, welcome to Shattrath. The cloth here is unlike anything from your homeland - netherweave, touched by the Twisting Nether, resistant to ordinary blades. Your Artisan scissors will dull quickly, and your stitching will slow.$B$BI have Master scissors crafted specifically for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. Reinforced blades, balanced for nether-touched fibers - you''ll cut faster and weave with greater precision.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
+    `QuestCompletionLog` = 'Return the bolts to Miralisse in Shattrath City',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -947,7 +947,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Netherweave Cloth, 20 Imbued Netherweave Cloth, and your old Artisan scissors?';
+    `CompletionText` = 'Did you bring the 10 Bolts of Netherweave, 3 Bolts of Imbued Netherweave, and your old Artisan scissors?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 
@@ -956,7 +956,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- =====================================================
 -- GRAND MASTER TAILORING SCISSORS QUEST (375+ Tailoring)
--- 20 Frostweave Cloth + 20 Imbued Frostweave Cloth
+-- 10 Bolt of Frostweave + 3 Bolt of Imbued Frostweave
 -- Reward: Grand Master Tailoring Scissors (57407)
 -- =====================================================
 
@@ -973,18 +973,18 @@ INSERT INTO `quest_template` SET
     `QuestSortID` = -264, -- Tailoring
     `RewardXPDifficulty` = 5,
     `Flags` = 136,
-    `RequiredItemId1` = 33470, -- Frostweave Cloth
-    `RequiredItemCount1` = 20,
-    `RequiredItemId2` = 42253, -- Imbued Frostweave Cloth
-    `RequiredItemCount2` = 20,
+    `RequiredItemId1` = 41510, -- Bolt of Frostweave
+    `RequiredItemCount1` = 10,
+    `RequiredItemId2` = 41511, -- Bolt of Imbued Frostweave
+    `RequiredItemCount2` = 3,
     `RequiredItemId3` = 57406, -- Master Tailoring Scissors (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1090, -- Kirin Tor
     `RewardFactionValue1` = 5,
     `LogTitle` = 'Grand Master Tailoring Scissors',
-    `LogDescription` = 'Trade in your Master scissors and collect cloth to exchange for Grand Master Scissors',
-    `QuestDescription` = 'Northrend presents new challenges for even master tailors. The arctic cloth here is thick as leather and frozen stiff - your Master scissors will feel sluggish, and your stitching will slow considerably. I have Grand Master scissors, the finest tools available. Trade in your old Master scissors and bring me 20 Frostweave Cloth and 20 Imbued Frostweave Cloth from Northrend''s frozen weaves, and the Grand Master scissors are yours - forged for maximum speed in the harshest conditions.$B$BRequired:$B- 20 Frostweave Cloth$B- 20 Imbued Frostweave Cloth',
-    `QuestCompletionLog` = 'Return the cloth to Benjamin Clegg in Dalaran',
+    `LogDescription` = 'Trade in your Master scissors and collect bolts to exchange for Grand Master Scissors',
+    `QuestDescription` = 'Northrend presents new challenges for even master tailors. The arctic cloth here is thick as leather and frozen stiff - your Master scissors will feel sluggish, and your stitching will slow considerably. I have Grand Master scissors, the finest tools available. Trade in your old Master scissors and bring me 10 Bolts of Frostweave and 3 Bolts of Imbued Frostweave from Northrend''s frozen weaves, and the Grand Master scissors are yours - forged for maximum speed in the harshest conditions.$B$BRequired:$B- 10 Bolt of Frostweave$B- 3 Bolt of Imbued Frostweave',
+    `QuestCompletionLog` = 'Return the bolts to Benjamin Clegg in Dalaran',
     `RewardItem1` = 57407,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
@@ -1002,7 +1002,7 @@ INSERT INTO `quest_offer_reward` SET
 INSERT INTO `quest_request_items` SET
     `ID` = @quest,
     `EmoteOnComplete` = 1,
-    `CompletionText` = 'Did you bring the 20 Frostweave Cloth, 20 Imbued Frostweave Cloth, and your old Master scissors?';
+    `CompletionText` = 'Did you bring the 10 Bolts of Frostweave, 3 Bolts of Imbued Frostweave, and your old Master scissors?';
 
 UPDATE `creature_template` SET `npcflag` = `npcflag` | 2 WHERE `entry` = @npc;
 

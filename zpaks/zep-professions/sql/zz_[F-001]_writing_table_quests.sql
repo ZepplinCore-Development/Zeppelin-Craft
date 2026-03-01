@@ -343,7 +343,7 @@ INSERT INTO `creature_questender` VALUES (30711, 90151);
 
 -- 90152: Michael Schwan (30721) - Outland
 INSERT INTO `quest_template` SET
-    `ID` = 90152, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
+    `ID` = 90152, `QuestLevel` = 70, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
@@ -360,7 +360,7 @@ INSERT INTO `creature_questender` VALUES (30721, 90152);
 
 -- 90153: Neferatti (30722) - Outland
 INSERT INTO `quest_template` SET
-    `ID` = 90153, `QuestLevel` = 65, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
+    `ID` = 90153, `QuestLevel` = 70, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43124, `RequiredItemCount1` = 10,
     `RequiredItemId2` = 43125, `RequiredItemCount2` = 10,
@@ -383,7 +383,7 @@ INSERT INTO `creature_questender` VALUES (30722, 90153);
 
 -- 90154: Professor Pallin (28702) - Dalaran
 INSERT INTO `quest_template` SET
-    `ID` = 90154, `QuestLevel` = 77, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
+    `ID` = 90154, `QuestLevel` = 80, `MinLevel` = 0, `QuestSortID` = -371, -- Inscription
     `RewardXPDifficulty` = 5, `Flags` = 136,
     `RequiredItemId1` = 43146, `RequiredItemCount1` = 5,
     `RequiredItemId2` = 43145, `RequiredItemCount2` = 5,

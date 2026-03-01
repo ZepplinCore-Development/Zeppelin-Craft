@@ -436,7 +436,7 @@ SET @npc := 1292;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -484,7 +484,7 @@ SET @npc := 6291;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -532,7 +532,7 @@ SET @npc := 6292;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -580,7 +580,7 @@ SET @npc := 16273;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -628,7 +628,7 @@ SET @npc := 7089;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -676,7 +676,7 @@ SET @npc := 7088;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -724,7 +724,7 @@ SET @npc := 7087;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,
@@ -772,7 +772,7 @@ SET @npc := 16692;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -378, -- Skinning
     `RewardXPDifficulty` = 5,

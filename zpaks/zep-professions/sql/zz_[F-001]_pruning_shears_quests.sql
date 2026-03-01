@@ -427,7 +427,7 @@ SET @npc := 5566;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -477,7 +477,7 @@ SET @npc := 5137;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -527,7 +527,7 @@ SET @npc := 4204;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -577,7 +577,7 @@ SET @npc := 3404;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -627,7 +627,7 @@ SET @npc := 3013;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -677,7 +677,7 @@ SET @npc := 4614;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -727,7 +727,7 @@ SET @npc := 16736;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
@@ -777,7 +777,7 @@ SET @npc := 16644;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
-    `QuestLevel` = 60,
+    `QuestLevel` = 50,
     `MinLevel` = 0,
     `QuestSortID` = -24, -- Herbalism
     `RewardXPDifficulty` = 5,
