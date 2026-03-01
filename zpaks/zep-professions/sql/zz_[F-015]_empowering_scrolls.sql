@@ -30,6 +30,19 @@ DELETE FROM `spell_group` WHERE `spell_id` = 8096;   -- Intellect
 DELETE FROM `spell_group` WHERE `spell_id` = 8118;   -- Strength
 DELETE FROM `spell_group` WHERE `spell_id` = 8112;   -- Spirit
 
+-- Clean up parent group references to now-empty child groups 1066-1070
+-- 1087 (Scrolls) referenced all five; 1083/1084/1085 referenced one each
+DELETE FROM `spell_group` WHERE `id` = 1087 AND `spell_id` IN (-1066, -1067, -1068, -1069, -1070);
+DELETE FROM `spell_group` WHERE `id` = 1083 AND `spell_id` = -1068;  -- was Intellect
+DELETE FROM `spell_group` WHERE `id` = 1084 AND `spell_id` = -1069;  -- was Stamina
+DELETE FROM `spell_group` WHERE `id` = 1085 AND `spell_id` = -1070;  -- was Spirit
+
+-- Re-link new group 1131 into parent groups so scrolls still interact with class buffs
+INSERT IGNORE INTO `spell_group` VALUES (1087, -1131);  -- Scrolls meta-group
+INSERT IGNORE INTO `spell_group` VALUES (1083, -1131);  -- Single Intellect Buffs
+INSERT IGNORE INTO `spell_group` VALUES (1084, -1131);  -- Single Stamina Buffs
+INSERT IGNORE INTO `spell_group` VALUES (1085, -1131);  -- Single Spirit Buffs
+
 
 
 -- Add one spell per scroll type to group 1131 (core handles rank filtering)
