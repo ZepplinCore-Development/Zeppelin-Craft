@@ -101,6 +101,9 @@ DELETE FROM creature_loot_template WHERE Item BETWEEN 59300 AND 59370 AND Item N
 
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEEN 59310 AND 59370;
 
+-- Clean up old MC/T1 reference_loot_template entries replaced by satchels
+DELETE FROM reference_loot_template WHERE Entry IN (30338, 30339, 30343, 30344, 30349, 30350, 30352, 30353, 30355, 30356, 30357, 30365, 30366, 30367, 30368, 30488);
+
 -- =============================================================================
 -- 3. REFERENCE LOOT TABLES (one per class per slot)
 -- =============================================================================

@@ -89,6 +89,12 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 -- Remove old hilt references from AQ20 bosses
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (15339, 15340, 15369, 15370) AND `Reference` IN (30425, 30428, 30434);
 
+-- Clean up old AQ20 hilt reference_loot_template entries replaced by cache
+DELETE FROM `reference_loot_template` WHERE `Entry` IN (30425, 30428, 30434);
+
+-- Remove any existing cache entries (idempotency)
+DELETE FROM `creature_loot_template` WHERE `Entry` IN (15339, 15340, 15369, 15370) AND `Item` = 59337;
+
 -- Add Qiraji Weapon Cache to AQ20 bosses
 INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (15339, 59337, 0, 100, 0, 1, 0, 1, 1, 'Ossirian - Qiraji Weapon Cache'),

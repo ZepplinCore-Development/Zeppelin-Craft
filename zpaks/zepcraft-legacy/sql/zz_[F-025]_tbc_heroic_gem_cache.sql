@@ -323,6 +323,9 @@ FROM `reference_loot_template` WHERE `Entry` = 59601;
 -- Remove gem reference tables (43002-43016) from heroic bosses
 -- Replace with Ornate Gem Cache (59338) with same chance as end boss had
 
+-- Clean up old TBC gem reference_loot_template entries replaced by cache
+DELETE FROM `reference_loot_template` WHERE `Entry` IN (35094, 43003, 43004, 43005, 43006, 43007, 43008, 43009, 43010, 43011, 43012, 43013, 43014, 43015, 43016);
+
 -- Remove all gem references from heroic bosses
 DELETE FROM `creature_loot_template` WHERE `Entry` IN (
     -- Underbog (43002)
