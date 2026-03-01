@@ -231,10 +231,23 @@ UPDATE spell SET
     effect_spell_class_mask_c_1 = 8192
 WHERE id IN (91271, 91272, 91273, 91274, 91275);
 
--- Fix cooking kit descriptions (were copy-pasted from Alchemy Mortar template)
-UPDATE spell SET spell_desc_enus = 'Reduces craft time for Cooking recipes by $s1%. Increases food efficacy by $s2% and drink efficacy by $s3%. Does not stack with other Cooking Kit effects.' WHERE id IN (91271, 91272, 91273, 91274, 91275);
+-- Fix cooking pot descriptions (were copy-pasted from Alchemy Mortar template)
+UPDATE spell SET spell_desc_enus = 'Reduces craft time for Cooking recipes by $s1%. Increases food efficacy by $s2% and drink efficacy by $s3%. Does not stack with other Cooking Pot effects.' WHERE id IN (91271, 91272, 91273, 91274, 91275);
+
+-- Rename Cooking Kit → Cooking Pot (matches cauldron icon)
+UPDATE spell SET spell_name_enus = 'Journeyman Cooking Pot' WHERE id = 91271;
+UPDATE spell SET spell_name_enus = 'Expert Cooking Pot' WHERE id = 91272;
+UPDATE spell SET spell_name_enus = 'Artisan Cooking Pot' WHERE id = 91273;
+UPDATE spell SET spell_name_enus = 'Master Cooking Pot' WHERE id = 91274;
+UPDATE spell SET spell_name_enus = 'Grand Master Cooking Pot' WHERE id = 91275;
 
 -- Fix alchemy mortar descriptions (said "Alchemy Scissors", missing potion potency)
 -- This duplicates the fix in [F-027]_spell.sql but is needed here because F-001's
 -- DELETE+INSERT clobbers F-027's UPDATE when F-001 is re-applied alone.
 UPDATE spell SET spell_desc_enus = 'Reduces craft time for Alchemy recipes by $s1%. Increases potion potency by $s2%. Does not stack with other Alchemy Mortar effects.' WHERE id IN (91200, 91201, 91202, 91203);
+
+UPDATE spell SET cast_time_index=14, spell_class_set=14, spell_class_mask_1=4, excluded_stances=0 WHERE ID=32606;
+
+UPDATE spell SET cast_time_index=14, spell_class_set=14, spell_class_mask_1=128, excluded_stances=0, attributes=144 WHERE ID=49383;
+
+UPDATE spell SET cast_time_index=11 WHERE ID IN (8613, 8617, 8618, 10768, 32678, 50305);
