@@ -47,7 +47,7 @@
         `RewardXPDifficulty` = 7,
         `RewardMoney` = 129120,
         `Flags` = 8,
-        `RewardItem1` = 57200,
+        `RewardItem1` = 57211,
         `RewardAmount1` = 1,
         `RewardFactionID1` = 21,
         `RewardFactionValue1` = 6,

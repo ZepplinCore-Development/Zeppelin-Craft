@@ -1,7 +1,7 @@
 -- Schematic: Skill Injector
-    DELETE FROM `item_template` WHERE (`entry` = 57200);
+    DELETE FROM `item_template` WHERE (`entry` = 57211);
     INSERT INTO `item_template`
-    SET `entry` = 57200,
+    SET `entry` = 57211,
         `class` = 9, -- Recipe
         `name` = 'Schematic: Skill Injector',
         `displayid` = 1301,
@@ -17,9 +17,9 @@
         `spelltrigger_2` = 6;
 
 -- Skill Injector
-    DELETE FROM `item_template` WHERE (`entry` = 57201);
+    DELETE FROM `item_template` WHERE (`entry` = 57212);
     INSERT INTO `item_template`
-    SET `entry` = 57201,
+    SET `entry` = 57212,
         `class` = 0, -- Consumable
         `subclass` = 8, -- Other        
         `SellPrice` = 100000, -- 10G       

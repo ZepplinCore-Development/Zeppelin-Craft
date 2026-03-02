@@ -1,8 +1,8 @@
 UPDATE acore_characters.item_instance
 SET `itemEntry` = CASE
     -- Engineering
-    WHEN `itemEntry` = 902306 THEN 57200    -- Skill Injector Schematic    
-    WHEN `itemEntry` = 902307 THEN 57201    -- Skill Injector
+    WHEN `itemEntry` = 902306 THEN 57211    -- Skill Injector Schematic
+    WHEN `itemEntry` = 902307 THEN 57212    -- Skill Injector
                                             -- SPARE
                                             -- SPARE
     WHEN `itemEntry` = 902304 THEN 57204    -- Schematic: Elementium Targeting Matrix  
