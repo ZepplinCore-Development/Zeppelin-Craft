@@ -15,7 +15,7 @@ UPDATE achievement SET category = 15064 WHERE category = 14808 AND name_enus LIK
 
 UPDATE achievement SET category = 15065 WHERE id IN (685, 686, 687, 688, 689);
 
-UPDATE achievement SET spell_icon = 3656 WHERE id IN (5120, 5121, 5122);
+UPDATE achievement SET spell_icon = 3870 WHERE id IN (5120, 5121, 5122);
 
 UPDATE achievement SET category = 15066 WHERE category = 14805 AND name_enus LIKE 'Heroic:%';
 
