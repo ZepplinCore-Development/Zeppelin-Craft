@@ -1,6 +1,13 @@
 -- [F-060] zepcraft-legacy: dungeonencounter
 -- Classic Heroic and Mythic boss encounter entries
 
+-- F-059: Sunken Temple Lower heroic/mythic Atal'alarion encounters
+-- (matches instance_encounters entries 1349/1350 from zz_[F-059]_instance_encounters.sql)
+DELETE FROM `dungeonencounter` WHERE `id` = 1349;
+INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (1349, 109, 1, 0, 0, 'Atal''alarion', 16712190, 0);
+DELETE FROM `dungeonencounter` WHERE `id` = 1350;
+INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (1350, 109, 2, 0, 0, 'Atal''alarion', 16712190, 0);
+
 -- dungeonencounter: 352 inserts (heroic difficulty=1 + mythic difficulty=2)
 DELETE FROM `dungeonencounter` WHERE `id` = 990;
 INSERT INTO `dungeonencounter` (`id`, `map_id`, `difficulty`, `order_index`, `bit`, `name_enus`, `name_flags`, `icon_id`) VALUES (990, 34, 1, 4000, 4, 'Dextren Ward', 16712190, 0);

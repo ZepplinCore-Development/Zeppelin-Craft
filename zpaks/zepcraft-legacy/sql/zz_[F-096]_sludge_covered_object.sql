@@ -53,3 +53,6 @@ INSERT INTO `creature_loot_template` SET
 -- Move conditions over to the Murkblood Foreman.
 UPDATE `conditions` SET `SourceGroup` = 23305 WHERE (`SourceTypeOrReferenceId` = 1) AND (`SourceGroup` = 23286) AND (`SourceEntry` = 32726);
 UPDATE `conditions` SET `SourceGroup` = 23305 WHERE (`SourceTypeOrReferenceId` = 1) AND (`SourceGroup` = 32724) AND (`SourceEntry` = 32726);
+
+-- Remove stale item_loot_template condition (32726 no longer drops from 32724)
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 5 AND `SourceGroup` = 32724 AND `SourceEntry` = 32726;

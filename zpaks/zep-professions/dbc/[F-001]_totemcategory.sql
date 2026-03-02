@@ -24,6 +24,8 @@ DELETE FROM `totemcategory` WHERE `id` = 199;
 INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (199, 'Basic Pruning Shears', 0, 0, 1);
 DELETE FROM `totemcategory` WHERE `id` = 200;
 INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (200, 'Bronze Pruning Shears', 0, 0, 3);
+DELETE FROM `totemcategory` WHERE `id` = 201;
+INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (201, 'Grand Master Pruning Shears', 0, 0, 7);
 
 -- Tinkering Tools
 DELETE FROM `totemcategory` WHERE `id` = 220;
