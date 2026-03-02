@@ -1,5 +1,5 @@
 -- Starting creature skinning table
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 299);
+DELETE FROM `skinning_loot_template` WHERE (`Entry` = 299) AND `Reference` = 0;
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (299, 2934, 0, 100, 0, 1, 0, 1, 3, '');
 

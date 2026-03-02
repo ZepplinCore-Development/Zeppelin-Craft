@@ -2731,7 +2731,7 @@ SET `ID` = 441168,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441168);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441168,
-    `ProvidedItemCount` = 1,
+    `ProvidedItemCount` = 0,
     `MaxLevel` = 58,
     `SpecialFlags` = 1;
 
@@ -2850,7 +2850,7 @@ SET `ID` = 441196,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441196);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441196,
-    `ProvidedItemCount` = 1,
+    `ProvidedItemCount` = 0,
     `MaxLevel` = 58,
     `SpecialFlags` = 1;
 
@@ -6233,7 +6233,7 @@ SET `ID` = 441215,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441215);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441215,
-    `ProvidedItemCount` = 1,
+    `ProvidedItemCount` = 0,
     `MaxLevel` = 50,
     `SpecialFlags` = 1;
 
@@ -6352,7 +6352,7 @@ SET `ID` = 441216,
 DELETE FROM `quest_template_addon` WHERE (`ID` = 441216);
 INSERT INTO `quest_template_addon`
 SET `ID` = 441216,
-    `ProvidedItemCount` = 1,
+    `ProvidedItemCount` = 0,
     `MaxLevel` = 50,
     `SpecialFlags` = 1;
 

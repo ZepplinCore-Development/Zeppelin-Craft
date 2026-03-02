@@ -1,5 +1,6 @@
 -- Remove the trash in Room 1 of UBRS to make room for players to spawn in RDF
 DELETE FROM `creature` WHERE (`id1` = 9817 OR `id1` = 9818);
+DELETE FROM `creature_addon` WHERE `guid` = 137933;
 
 INSERT INTO `creature` SET
     `id1` = 9817,

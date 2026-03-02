@@ -1228,15 +1228,8 @@ INSERT INTO `spell_group` VALUES (1119, 103245);
 -- to ensure they don't stack with resistance scrolls
 -- =====================================================
 
--- Scroll of Protection (8 ranks: 8091, 8094, 8095, 12175, 33079, 43196, 58452, 58453)
-INSERT INTO `spell_group` VALUES (1119, 8091);   -- Rank I
-INSERT INTO `spell_group` VALUES (1119, 8094);   -- Rank II
-INSERT INTO `spell_group` VALUES (1119, 8095);   -- Rank III
-INSERT INTO `spell_group` VALUES (1119, 12175);  -- Rank IV
-INSERT INTO `spell_group` VALUES (1119, 33079);  -- Rank V
-INSERT INTO `spell_group` VALUES (1119, 43196);  -- Rank VI
-INSERT INTO `spell_group` VALUES (1119, 58452);  -- Rank VII
-INSERT INTO `spell_group` VALUES (1119, 58453);  -- Rank VIII
+-- Scroll of Protection - only rank 1 needed (AC auto-includes all ranks from spell_ranks chain)
+INSERT INTO `spell_group` VALUES (1119, 8091);   -- Rank I (chain: 8091 -> 8094 -> 8095 -> 12175 -> 33079 -> 43196 -> 58452 -> 58453)
 
 
 -- =====================================================

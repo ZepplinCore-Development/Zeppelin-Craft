@@ -1,5 +1,5 @@
 -- 1 - 15 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100020);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100020);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100020, 774, 0, 10, 0, 1, 2, 1, 1, 'Malachite'),
 (100020, 818, 0, 10, 0, 1, 2, 1, 1, 'Tigerseye'),
@@ -10,7 +10,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100020, 2836, 0, 50, 0, 1, 1, 1, 3, 'Coarse Stone');
 
 -- 16 - 25 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100021);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100021);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100021, 1206, 0, 10, 0, 1, 2, 1, 1, 'Moss Agate'),
 (100021, 1210, 0, 10, 0, 1, 2, 1, 1, 'Shadowgem'),
@@ -23,7 +23,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100021, 7067, 0, 10, 0, 1, 1, 1, 2, 'Elemental Earth');
 
 -- 26 - 35 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100022);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100022);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100022, 7067, 0, 10, 0, 1, 1, 1, 1, 'Elemental Earth'),
 (100022, 2838, 0, 90, 0, 1, 1, 1, 3, 'Heavy Stone'),
@@ -34,7 +34,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100022, 1529, 0, 10, 0, 1, 2, 1, 1, 'Jade');
 
 -- 36 - 50 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100023);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100023);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100023, 7075, 0, 10, 0, 1, 1, 1, 1, 'Core of Earth'),
 (100023, 7912, 0, 90, 0, 1, 1, 1, 3, 'Solid Stone'),
@@ -44,7 +44,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100023, 3864, 0, 10, 0, 1, 2, 1, 1, 'Citrine');
 
 -- 51 - 60 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100024);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100024);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100024, 7076, 0, 10, 0, 1, 1, 1, 1, 'Essence of Earth'),
 (100024, 7075, 0, 10, 0, 1, 1, 1, 1, 'Core of Earth'),
@@ -61,7 +61,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100024, 10620, 0, 50, 0, 1, 2, 1, 3, 'Thorium Ore');
 
 -- Vanilla Raid Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100025);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100025);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100025, 7076, 0, 10, 0, 1, 1, 1, 1, 'Essence of Earth'),
 (100025, 17011, 0, 10, 0, 1, 1, 1, 1, 'Lava Core'),
@@ -79,7 +79,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100025, 10620, 0, 40, 0, 1, 2, 1, 3, 'Thorium Ore');
 
 -- Outlands 60 - 65 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100026);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100026);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100026, 22573, 0, 10, 0, 1, 1, 1, 2, 'Mote of Earth'),
 (100026, 22574, 0, 20, 0, 1, 1, 1, 2, 'Mote of Fire'),
@@ -89,9 +89,9 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100026, 23424, 0, 95, 0, 1, 0, 1, 2, 'Fel Iron Ore');
 
 -- Outlands 66 - 69 Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80101); -- Original Template
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 80101); -- Original Template
 
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100027);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100027);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100027, 22573, 0, 20, 0, 1, 1, 1, 2, 'Mote of Earth'),
 (100027, 22574, 0, 10, 0, 1, 1, 1, 2, 'Mote of Fire'),
@@ -101,7 +101,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100027, 23425, 0, 95, 0, 1, 0, 1, 2, 'Adamantite Ore');
 
 -- Outlands 70+ Mining Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100028); -- Existing template
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100028); -- Existing template
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100028, 22573, 0, 20, 0, 1, 1, 1, 2, 'Mote of Earth'),
 (100028, 22574, 0, 10, 0, 1, 1, 1, 2, 'Mote of Fire'),

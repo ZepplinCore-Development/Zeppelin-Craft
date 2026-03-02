@@ -14,6 +14,28 @@ UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 22887 AND `Ite
 UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 22871 AND `Item` = 36128 AND `GroupId` = 1;
 UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 22841 AND `Item` = 36126 AND `GroupId` = 1;
 
+-- Black Temple: Illidan Stormrage (3 refs + warglaives + patterns, all jammed into Group 1)
+UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 22917 AND `Item` = 36138 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 3 WHERE `Entry` = 22917 AND `Item` = 36139 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22917 AND `Item` = 32837 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22917 AND `Item` = 32838 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22917 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22917 AND `Item` = 34069 AND `GroupId` = 2;
+
+-- Black Temple: Pattern refs incorrectly in exclusive groups (should be independent)
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22948 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22948 AND `Item` = 34069 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22947 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22947 AND `Item` = 34069 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22898 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22898 AND `Item` = 34069 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22887 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22887 AND `Item` = 34069 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22871 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22871 AND `Item` = 34069 AND `GroupId` = 2;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22841 AND `Item` = 90069 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 22841 AND `Item` = 34069 AND `GroupId` = 2;
+
 -- Hyjal bosses (2-3 items each)
 UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 17767 AND `Item` = 36102 AND `GroupId` = 1;
 UPDATE `creature_loot_template` SET `GroupId` = 2 WHERE `Entry` = 17808 AND `Item` = 36104 AND `GroupId` = 1;
@@ -49,9 +71,17 @@ UPDATE `creature_loot_template` SET `GroupId` = 3 WHERE `Entry` = 21212 AND `Ite
 -- These should be GroupId 0 (independent) not GroupId 1 (competing)
 -- =============================================================================
 
--- Hyjal: Archimonde - gem patterns and formula refs are independent drops
+-- Hyjal: gem patterns and formula refs are independent drops (all bosses)
 UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17968 AND `Item` = 34063 AND `GroupId` = 1;
 UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17968 AND `Item` = 50501 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17808 AND `Item` = 34063 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17808 AND `Item` = 50501 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17842 AND `Item` = 34063 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17842 AND `Item` = 50501 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17888 AND `Item` = 34063 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17888 AND `Item` = 50501 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17767 AND `Item` = 34063 AND `GroupId` = 1;
+UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 17767 AND `Item` = 50501 AND `GroupId` = 1;
 
 -- Tempest Keep: High Astromancer Solarian - cloth and formula refs
 UPDATE `creature_loot_template` SET `GroupId` = 0 WHERE `Entry` = 18805 AND `Item` = 21877 AND `GroupId` = 1;

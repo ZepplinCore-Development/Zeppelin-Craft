@@ -1,5 +1,5 @@
 -- Azeroth 1 - 15 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100040);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100040);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100040, 765, 0, 0, 0, 1, 1, 1, 3, 'Silverleaf'),
 (100040, 785, 0, 0, 0, 1, 1, 1, 3, 'Mageroyal'),
@@ -10,7 +10,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100040, 23331, 0, 0, 0, 1, 1, 1, 2, 'Broken Vine');
 
 -- Azeroth 16 - 25 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100041);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100041);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100041, 2452, 0, 0, 0, 1, 1, 1, 3, 'Swiftthistle'),
 (100041, 2450, 0, 0, 0, 1, 1, 1, 3, 'Briarthorn'),
@@ -22,7 +22,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100041, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Azeroth 26 - 35 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100042);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100042);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100042, 3356, 0, 0, 0, 1, 1, 1, 1, 'Kingsblood'),
 (100042, 3357, 0, 0, 0, 1, 1, 1, 1, 'Liferoot'),
@@ -32,7 +32,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100042, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Azeroth 36 - 45 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100043);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100043);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100043, 3821, 0, 0, 0, 1, 1, 1, 1, 'Goldthorn'),
 (100043, 3358, 0, 0, 0, 1, 1, 1, 3, 'Khadgars Whisker'),
@@ -44,7 +44,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100043, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Azeroth 46 - 55 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100044);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100044);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100044, 8831, 0, 0, 0, 1, 1, 1, 1, 'Purple Lotus'),
 (100044, 8836, 0, 0, 0, 1, 1, 1, 1, 'Arthas Tears'),
@@ -58,7 +58,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100044, 23331, 0, 0, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Azeroth 56 - 60 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100045);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100045);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100045, 13463, 0, 20, 0, 1, 1, 1, 1, 'Dreamfoil'),
 (100045, 13465, 0, 20, 0, 1, 1, 1, 1, 'Mountain Silversage'),
@@ -68,11 +68,11 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100045, 23331, 0, 15, 0, 1, 1, 1, 3, 'Broken Vine');
 
 -- Outland 60 - 70 Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80000); -- Original template
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80001); -- Original template
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 80002); -- Original template
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 80000); -- Original template
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 80001); -- Original template
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 80002); -- Original template
 
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100046);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100046);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100046, 22785, 0, 0, 0, 1, 2, 1, 1, 'Felweed'),
 (100046, 22786, 0, 0, 0, 1, 2, 1, 1, 'Dreaming Glory'),
@@ -84,7 +84,7 @@ INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `Q
 (100046, 24401, 0, 0, 0, 1, 1, 1, 1, 'Unidentified Plant Parts');
 
 -- Outland 70+ Herbalism Loot
-DELETE FROM `skinning_loot_template` WHERE (`Entry` = 100047);
+DELETE FROM `skinning_loot_template` WHERE `Reference` < 93000 AND (`Entry` = 100047);
 INSERT INTO `skinning_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
 (100047, 22785, 0, 0, 0, 1, 2, 1, 1, 'Felweed'),
 (100047, 22786, 0, 0, 0, 1, 2, 1, 1, 'Dreaming Glory'),

@@ -101,13 +101,6 @@ DELETE FROM creature_loot_template WHERE Item BETWEEN 59300 AND 59370 AND Item N
 
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEEN 59310 AND 59370;
 
--- Shazzrah (12264) non-tier epics: copy from ref 30367 BEFORE it's deleted below
-DELETE FROM reference_loot_template WHERE Entry = 59370;
-INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment)
-SELECT 59370, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, CONCAT('Shazzrah Epic - ', Comment)
-FROM reference_loot_template
-WHERE Entry = 30367 AND Item NOT IN (16811, 16803, 16824);
-
 -- Clean up old MC/T1 reference_loot_template entries replaced by satchels
 DELETE FROM reference_loot_template WHERE Entry IN (30338, 30339, 30343, 30344, 30349, 30350, 30352, 30353, 30355, 30356, 30357, 30365, 30366, 30367, 30368, 30488);
 
@@ -1411,10 +1404,25 @@ INSERT INTO `creature_loot_template` SET
     `Item` = 59305,
     `Comment` = 'Gehennas - Flamewaker Armor Cache - Boots (F-025)';
 
--- SHAZZRAH (12264) - Gloves + Boots satchels
--- Current T1 refs: 30367 (boots: Priest, Rogue, Lock + epics), 30368 (gloves: Mage, Druid, Hunter)
--- Note: 30367 non-tier epics already copied to ref 59370 above (before 30367 was deleted)
+-- SHAZZRAH (12264) - Gloves + Boots satchels + non-tier epics
+-- Remove old stock tier refs and our satchel/epic items (idempotent)
 DELETE FROM creature_loot_template WHERE Entry = 12264 AND Reference IN (30367, 30368);
+DELETE FROM creature_loot_template WHERE Entry = 12264 AND Item IN (59303, 59305);
+DELETE FROM creature_loot_template WHERE Entry = 12264 AND Reference = 59370;
+
+-- Rebuild non-tier epics ref (from stock ref 30367, excluding tier boots 16811/16803/16824)
+DELETE FROM reference_loot_template WHERE Entry = 59370;
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment) VALUES
+(59370, 17077, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Crimson Shocker'),
+(59370, 18861, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Flamewaker Legplates'),
+(59370, 18870, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Helm of the Lifegiver'),
+(59370, 18872, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Manastorm Leggings'),
+(59370, 18875, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Salamander Scale Pants'),
+(59370, 18878, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Sorcerous Dagger'),
+(59370, 18879, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Heavy Dark Iron Ring'),
+(59370, 19145, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Robe of Volatile Power'),
+(59370, 19146, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Wristguards of Stability'),
+(59370, 19147, 0, 0, 0, 1, 1, 1, 1, 'Shazzrah Epic - Ring of Spell Power');
 
 INSERT INTO `creature_loot_template` SET
     `Entry` = 12264,
