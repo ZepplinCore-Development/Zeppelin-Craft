@@ -93,13 +93,20 @@ INSERT INTO `item_template` SET
 -- =============================================================================
 -- 2. CLEANUP OLD STRUCTURES
 -- =============================================================================
-DELETE FROM reference_loot_template WHERE Entry BETWEEN 59310 AND 59370;
+DELETE FROM reference_loot_template WHERE Entry BETWEEN 59310 AND 59369;
 
 DELETE FROM item_loot_template WHERE Entry BETWEEN 59300 AND 59305;
 
 DELETE FROM creature_loot_template WHERE Item BETWEEN 59300 AND 59370 AND Item NOT IN (59337, 59338);
 
 DELETE FROM conditions WHERE SourceTypeOrReferenceId = 10 AND SourceGroup BETWEEN 59310 AND 59370;
+
+-- Shazzrah (12264) non-tier epics: copy from ref 30367 BEFORE it's deleted below
+DELETE FROM reference_loot_template WHERE Entry = 59370;
+INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment)
+SELECT 59370, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, CONCAT('Shazzrah Epic - ', Comment)
+FROM reference_loot_template
+WHERE Entry = 30367 AND Item NOT IN (16811, 16803, 16824);
 
 -- Clean up old MC/T1 reference_loot_template entries replaced by satchels
 DELETE FROM reference_loot_template WHERE Entry IN (30338, 30339, 30343, 30344, 30349, 30350, 30352, 30353, 30355, 30356, 30357, 30365, 30366, 30367, 30368, 30488);
@@ -1406,15 +1413,7 @@ INSERT INTO `creature_loot_template` SET
 
 -- SHAZZRAH (12264) - Gloves + Boots satchels
 -- Current T1 refs: 30367 (boots: Priest, Rogue, Lock + epics), 30368 (gloves: Mage, Druid, Hunter)
--- Note: 30367 also contains non-tier epics - we need to keep those dropping!
--- Create a new ref for non-tier Shazzrah epics (59370 - outside satchel ref range)
-DELETE FROM reference_loot_template WHERE Entry = 59370;
-
-INSERT INTO reference_loot_template (Entry, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, Comment)
-SELECT 59370, Item, Reference, Chance, QuestRequired, LootMode, GroupId, MinCount, MaxCount, CONCAT('Shazzrah Epic - ', Comment)
-FROM reference_loot_template
-WHERE Entry = 30367 AND Item NOT IN (16811, 16803, 16824);
-
+-- Note: 30367 non-tier epics already copied to ref 59370 above (before 30367 was deleted)
 DELETE FROM creature_loot_template WHERE Entry = 12264 AND Reference IN (30367, 30368);
 
 INSERT INTO `creature_loot_template` SET
