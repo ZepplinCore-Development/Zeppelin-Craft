@@ -16,9 +16,9 @@
     WHERE (`entry` = 2901);
 
 -- Journeyman Mining Pick ITEM TEMPLATE
-    DELETE FROM `item_template` WHERE (`entry` = 57400);
+    DELETE FROM `item_template` WHERE (`entry` = 57700);
     INSERT INTO `item_template`
-    SET `entry` = 57400,
+    SET `entry` = 57700,
         `class` = 5, -- Reagent
         `subclass` = 1, -- Tool
         `SellPrice` = 30, -- 30C
@@ -34,9 +34,9 @@
         `bonding` = 1; -- BOP
 
 -- Artisan Mining Pick ITEM TEMPLATE
-    DELETE FROM `item_template` WHERE (`entry` = 57401);
+    DELETE FROM `item_template` WHERE (`entry` = 57701);
     INSERT INTO `item_template`
-    SET `entry` = 57401,
+    SET `entry` = 57701,
         `class` = 5, -- Reagent
         `subclass` = 1, -- Tool
         `SellPrice` = 90, -- 90C
@@ -52,9 +52,9 @@
         `bonding` = 1; -- BOP
 
 -- Master Mining Pick ITEM TEMPLATE
-    DELETE FROM `item_template` WHERE (`entry` = 57402);
+    DELETE FROM `item_template` WHERE (`entry` = 57702);
     INSERT INTO `item_template`
-    SET `entry` = 57402,
+    SET `entry` = 57702,
         `class` = 5, -- Reagent
         `subclass` = 1, -- Tool
         `SellPrice` = 900, -- 9S
@@ -70,9 +70,9 @@
         `bonding` = 1; -- BOP
 
 -- Grand Master Mining Pick ITEM TEMPLATE
-    DELETE FROM `item_template` WHERE (`entry` = 57403);
+    DELETE FROM `item_template` WHERE (`entry` = 57703);
     INSERT INTO `item_template`
-    SET `entry` = 57403,
+    SET `entry` = 57703,
         `class` = 5, -- Reagent
         `subclass` = 1, -- Tool
         `SellPrice` = 9000, -- 90S

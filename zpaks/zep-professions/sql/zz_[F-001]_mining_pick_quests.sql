@@ -34,7 +34,7 @@ DELETE FROM `creature_questender` WHERE `quest` = 90114;
 -- =====================================================
 -- JOURNEYMAN MINING PICK QUESTS (75+ Mining)
 -- 20 Copper Ore + 20 Tin Ore
--- Reward: Journeyman Mining Pick (57400)
+-- Reward: Journeyman Mining Pick (57700)
 -- =====================================================
 
 -- -----------------------------------------------------
@@ -60,7 +60,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Mining with basic tools? You''re missing extra ore from every vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and they''re yours. You''ll extract more ore per vein with the right equipment.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Gelman Stonehand in Stormwind',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -107,7 +107,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Bah! Still usin'' basic tools, are ye? No wonder yer only gettin'' a trickle from each vein! I''ve got proper picks here - fetch me 20 Copper Ore and 20 Tin Ore fer me forge, and I''ll trade ye fer one. Ye''ll pull twice the ore from each vein, I guarantee it.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Geofram Bouldertoe in Ironforge',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -154,7 +154,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'I see you work the stone without proper tools. The earth gives more freely when approached with respect and precision. I have picks available. If you bring me 20 Copper Ore and 20 Tin Ore for my work, I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Borin Irondelve in Darnassus',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -201,7 +201,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'I observe you mine without refined instruments. Your technique is sound, but proper tools would increase your yield significantly. I have picks available - if you bring me 20 Copper Ore and 20 Tin Ore to replenish my supplies, I will trade one to you. The Light will guide your hands to greater harvests.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Muaat in the Exodar',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -248,7 +248,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Basic tools? Wasteful. Get little ore from veins. Need better pick. I have picks. 20 Copper Ore, 20 Tin Ore. Bring. Trade for pick. Get more ore from each vein. Simple.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Makaru in Orgrimmar',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -295,7 +295,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Brother/Sister, I see you work the earth without proper tools. The Earth Mother teaches that respect for the stone brings greater bounty. I have picks here - bring me 20 Copper Ore and 20 Tin Ore for my needs, and I will trade one to you. You will find each vein yields more generously.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Brek Stonehoof in Thunder Bluff',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -342,7 +342,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Mining with basic tools? How... inefficient. You''re wasting valuable ore with each vein you tap. I have proper picks available - bring me 20 Copper Ore and 20 Tin Ore to replenish my stock, and I''ll part with one. Your yields will become considerably less... pitiful.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Brom Killian in Undercity',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -389,7 +389,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Collect ore to exchange for a Journeyman Mining Pick',
     `QuestDescription` = 'Mining with such... primitive methods? How do you expect to maximize your yield without proper tools? I have picks available. Bring me 20 Copper Ore and 20 Tin Ore - quality specimens, mind you - and I''ll trade one to you. Your yield per vein will improve dramatically.$B$BRequired:$B- 20 Copper Ore$B- 20 Tin Ore',
     `QuestCompletionLog` = 'Return the ore to Belil in Silvermoon City',
-    `RewardItem1` = 57400,
+    `RewardItem1` = 57700,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -416,7 +416,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 -- =====================================================
 -- ARTISAN MINING PICK QUESTS (225+ Mining)
 -- 20 Mithril Ore + 20 Thorium Ore
--- Reward: Artisan Mining Pick (57401)
+-- Reward: Artisan Mining Pick (57701)
 -- =====================================================
 
 -- -----------------------------------------------------
@@ -436,7 +436,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 72, -- Stormwind
     `RewardFactionValue1` = 5,
@@ -444,7 +444,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Your skills are growing, but that Journeyman pick is chipping on harder veins - you''re missing extra ore from each deposit. I have Artisan picks here. Trade in your old Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore for my stock, and the Artisan pick is yours. Your yield will increase considerably.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Gelman Stonehand in Stormwind',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -484,7 +484,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 47, -- Ironforge
     `RewardFactionValue1` = 5,
@@ -492,7 +492,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Yer outgrowin'' that Journeyman pick, I see! It''s chippin'' on the harder veins - yer missin'' ore ye could be gettin''! Time fer an upgrade, aye? Trade in yer old pick and fetch me 20 Mithril Ore and 20 Thorium Ore fer me forge, and this Artisan pick is yers. Ye''ll be pullin'' twice as much from each vein.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Geofram Bouldertoe in Ironforge',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -532,7 +532,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 69, -- Darnassus
     `RewardFactionValue1` = 5,
@@ -540,7 +540,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Your craft deepens, friend. The Journeyman pick has served well, but I see it struggling with harder stone now - you lose precious ore from each vein. I have Artisan picks available. Trade in your old Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore for my work, and the Artisan pick is yours. The veins will yield more generously to sharper tools.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Borin Irondelve in Darnassus',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -580,7 +580,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 930, -- Exodar
     `RewardFactionValue1` = 5,
@@ -588,7 +588,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'I see your mastery grows. That Journeyman pick served its purpose, but it struggles with tougher veins now - you lose valuable material with each extraction. I have Artisan picks available. Trade in your old Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore to replenish my workshop, and I will trade one to you. The Light will guide your hands to greater yields.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Muaat in the Exodar',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -628,7 +628,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 76, -- Orgrimmar
     `RewardFactionValue1` = 5,
@@ -636,7 +636,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Journeyman pick too weak now. Harder veins. Losing ore. Need better pick. Trade in old Journeyman pick. 20 Mithril Ore, 20 Thorium Ore. Bring. Get Artisan pick. Get more ore from each vein.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Makaru in Orgrimmar',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -676,7 +676,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 81, -- Thunder Bluff
     `RewardFactionValue1` = 5,
@@ -684,7 +684,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Friend, your journey continues. The Journeyman pick has guided you well, but I see it chipping on stronger stone - precious ore is lost with each extraction. The Earth Mother teaches that better tools bring harmony with the land. I have Artisan picks for you. Trade in your old Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore from deeper veins, and we shall trade. Your yields will flow more freely.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Brek Stonehoof in Thunder Bluff',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -724,7 +724,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 68, -- Undercity
     `RewardFactionValue1` = 5,
@@ -732,7 +732,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Ah, still struggling with that Journeyman pick? How... wasteful. I see it failing on harder veins - you''re losing valuable ore with each pathetic extraction. I have Artisan picks available. Trade in that inadequate Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore, and your... pitiful... yields will improve considerably.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Brom Killian in Undercity',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -772,7 +772,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 10620, -- Thorium Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57400, -- Journeyman Mining Pick (trade-in)
+    `RequiredItemId3` = 57700, -- Journeyman Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 911, -- Silvermoon City
     `RewardFactionValue1` = 5,
@@ -780,7 +780,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Journeyman pick and collect ore to exchange for an Artisan Pick',
     `QuestDescription` = 'Still using Journeyman equipment for artisan-level veins? How do you expect to maximize yields with such inferior tools? I see that dull pick wasting precious material. I have Artisan picks available. Relinquish that inferior Journeyman pick and bring me 20 Mithril Ore and 20 Thorium Ore - quality specimens, please - and we shall trade. Your mining efficiency will improve markedly.$B$BRequired:$B- 20 Mithril Ore$B- 20 Thorium Ore',
     `QuestCompletionLog` = 'Return the ore to Belil in Silvermoon City',
-    `RewardItem1` = 57401,
+    `RewardItem1` = 57701,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -806,7 +806,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 -- =====================================================
 -- MASTER MINING PICK QUESTS (300+ Mining)
 -- 20 Fel Iron Ore + 20 Adamantite Ore
--- Reward: Master Mining Pick (57402)
+-- Reward: Master Mining Pick (57702)
 -- =====================================================
 
 -- -----------------------------------------------------
@@ -827,7 +827,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 23425, -- Adamantite Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57401, -- Artisan Mining Pick (trade-in)
+    `RequiredItemId3` = 57701, -- Artisan Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 946, -- Honor Hold
     `RewardFactionValue1` = 5,
@@ -835,7 +835,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Artisan pick and collect ore to exchange for a Master Pick',
     `QuestDescription` = 'Welcome to Outland, miner. The veins here are far tougher than anything from Azeroth - your Artisan pick will chip on them, and you''ll miss valuable ore from each deposit. I have Master picks designed for Outland minerals. Trade in your old Artisan pick and bring me 20 Fel Iron Ore and 20 Adamantite Ore from these harsh lands, and the Master pick is yours. You''ll need the increased yield for the challenges ahead.$B$BRequired:$B- 20 Fel Iron Ore$B- 20 Adamantite Ore',
     `QuestCompletionLog` = 'Return the ore to Hurnak Grimmord at Honor Hold',
-    `RewardItem1` = 57402,
+    `RewardItem1` = 57702,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -878,7 +878,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 23425, -- Adamantite Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57401, -- Artisan Mining Pick (trade-in)
+    `RequiredItemId3` = 57701, -- Artisan Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 947, -- Thrallmar
     `RewardFactionValue1` = 5,
@@ -886,7 +886,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Artisan pick and collect ore to exchange for a Master Pick',
     `QuestDescription` = 'Brother/Sister, the stone speaks differently in this broken land. The veins here are far harder than those of Azeroth - your Artisan pick struggles with their toughness, and precious ore is lost. I have Master picks for these twisted lands. Trade in your old Artisan pick and bring me 20 Fel Iron Ore and 20 Adamantite Ore from Outland''s harsh veins, and we shall trade. Greater yields will flow from these stronger blades.$B$BRequired:$B- 20 Fel Iron Ore$B- 20 Adamantite Ore',
     `QuestCompletionLog` = 'Return the ore to Krugosh at Thrallmar',
-    `RewardItem1` = 57402,
+    `RewardItem1` = 57702,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
@@ -917,7 +917,7 @@ INSERT INTO `creature_questender` VALUES (@npc, @quest);
 -- =====================================================
 -- GRAND MASTER MINING PICK QUEST (375+ Mining)
 -- 20 Cobalt Ore + 20 Saronite Ore
--- Reward: Grand Master Mining Pick (57403)
+-- Reward: Grand Master Mining Pick (57703)
 -- =====================================================
 
 -- -----------------------------------------------------
@@ -937,7 +937,7 @@ INSERT INTO `quest_template` SET
     `RequiredItemCount1` = 20,
     `RequiredItemId2` = 36912, -- Saronite Ore
     `RequiredItemCount2` = 20,
-    `RequiredItemId3` = 57402, -- Master Mining Pick (trade-in)
+    `RequiredItemId3` = 57702, -- Master Mining Pick (trade-in)
     `RequiredItemCount3` = 1,
     `RewardFactionID1` = 1090, -- Kirin Tor
     `RewardFactionValue1` = 5,
@@ -945,7 +945,7 @@ INSERT INTO `quest_template` SET
     `LogDescription` = 'Trade in your Master pick and collect ore to exchange for a Grand Master Pick',
     `QuestDescription` = 'Northrend presents new challenges for even master miners. The arctic veins here have stone hard as steel and ore frozen solid in ice - your Master pick will feel sluggish, and you''ll miss valuable ore from each deposit. I have Grand Master picks, the finest tools available. Trade in your old Master pick and bring me 20 Cobalt Ore and 20 Saronite Ore from Northrend''s frozen veins, and the Grand Master pick is yours - forged for maximum yields in the harshest conditions.$B$BRequired:$B- 20 Cobalt Ore$B- 20 Saronite Ore',
     `QuestCompletionLog` = 'Return the ore to Jedidiah Handers in Dalaran',
-    `RewardItem1` = 57403,
+    `RewardItem1` = 57703,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
 
