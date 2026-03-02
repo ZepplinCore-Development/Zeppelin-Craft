@@ -1969,7 +1969,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 500000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9037, 9045, 9056, 9064, 9075, 9084, 9093, 9104, 9112);
+WHERE `ID` IN (9037, 9045, 9056, 9070, 9079, 9088, 9097, 9105, 9113);
 
 -- Shoulder Quests (all classes) - Artifact-only: 59330 (Grobbulus's Injection Vial)
 UPDATE `quest_template` SET
@@ -1978,10 +1978,10 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 400000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9038, 9046, 9057, 9065, 9076, 9085, 9094, 9105, 9113);
+WHERE `ID` IN (9038, 9046, 9057, 9071, 9080, 9089, 9098, 9106, 9114);
 
--- Quest 9065 (The Pattymac Special): Clear leftover stock RewardItem2
-UPDATE `quest_template` SET `RewardItem2` = 0, `RewardAmount2` = 0 WHERE `ID` = 9065;
+-- Quest 9071 (Earthshatter Spaulders): Clear leftover stock RewardItem2
+UPDATE `quest_template` SET `RewardItem2` = 0, `RewardAmount2` = 0 WHERE `ID` = 9071;
 
 -- Chest Quests (all classes) - Artifact-only: 59331 (Kel'Thuzad's Phylactery Fragment)
 UPDATE `quest_template` SET
@@ -1990,7 +1990,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 600000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9034, 9043, 9054, 9061, 9072, 9080, 9089, 9100, 9109);
+WHERE `ID` IN (9034, 9043, 9054, 9068, 9077, 9086, 9095, 9103, 9111);
 
 -- Legs Quests (all classes) - Artifact-only: 59332 (Loatheb's Spore Essence)
 UPDATE `quest_template` SET
@@ -1999,7 +1999,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 500000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9036, 9044, 9055, 9063, 9074, 9083, 9092, 9103, 9111);
+WHERE `ID` IN (9036, 9044, 9055, 9069, 9078, 9087, 9096, 9104, 9112);
 
 -- Boots Quests (all classes) - Artifact-only: 59333 (Gothik's Unholy Sigil)
 UPDATE `quest_template` SET
@@ -2008,7 +2008,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 400000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9039, 9047, 9058, 9066, 9077, 9086, 9095, 9106, 9114);
+WHERE `ID` IN (9039, 9047, 9058, 9072, 9081, 9090, 9099, 9107, 9115);
 
 -- Bracers Quests (all classes) - Artifact-only: 59334 (Faerlina's Webbing)
 UPDATE `quest_template` SET
@@ -2017,7 +2017,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 300000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9042, 9050, 9061, 9069, 9079, 9088, 9097, 9108, 9116);
+WHERE `ID` IN (9042, 9050, 9061, 9075, 9084, 9093, 9102, 9110, 9118);
 
 -- Gloves Quests (all classes) - Artifact-only: 59335 (Maexxna's Fang)
 UPDATE `quest_template` SET
@@ -2026,7 +2026,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 400000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9040, 9048, 9059, 9067, 9078, 9087, 9096, 9107, 9115);
+WHERE `ID` IN (9040, 9048, 9059, 9073, 9082, 9091, 9100, 9108, 9116);
 
 -- Belt Quests (all classes) - Artifact-only: 59336 (Heigan's Plague Vial)
 UPDATE `quest_template` SET
@@ -2035,7 +2035,7 @@ UPDATE `quest_template` SET
     `RequiredItemId3` = 0, `RequiredItemCount3` = 0,
     `RequiredItemId4` = 0, `RequiredItemCount4` = 0,
     `RewardMoney` = 300000, `RewardItem1` = 0, `RewardAmount1` = 0
-WHERE `ID` IN (9041, 9049, 9060, 9068, 9078, 9087, 9096, 9107, 9115);
+WHERE `ID` IN (9041, 9049, 9060, 9074, 9083, 9092, 9101, 9109, 9117);
 
 -- ============================================================================
 -- SECTION 7: WARTORN SCRAP DAILY QUESTS
