@@ -127,3 +127,7 @@ function InspectTalentFrameTab_OnEnter(self)
 		GameTooltip:SetText(self:GetText());
 	end
 end
+
+-- Stock Blizzard_InspectUI.lua calls this from InspectFrame_UpdateTalentTab (line 127).
+-- Our custom file merged tab logic into InspectTalentFrame_Update, so alias it.
+InspectTalentFrame_UpdateTabs = InspectTalentFrame_Update;
