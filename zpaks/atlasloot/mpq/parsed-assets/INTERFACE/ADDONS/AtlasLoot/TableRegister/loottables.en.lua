@@ -1467,6 +1467,10 @@ end
 
   -- Misc Factions
 	AtlasLoot_TableNames["MiscFactions"] = { AL["Factions - Original WoW"], "AtlasLootOriginalWoW" };
+  -- Magram Clan Centaur
+	AtlasLoot_TableNames["MagramCentaur"] = { BabbleFaction["Magram Clan Centaur"], "AtlasLootOriginalWoW" };
+  -- Gelkis Clan Centaur
+	AtlasLoot_TableNames["GelkisCentaur"] = { BabbleFaction["Gelkis Clan Centaur"], "AtlasLootOriginalWoW" };
   -- Alterac Valley Factions
 	AtlasLoot_TableNames["AlteracFactions"] = { BabbleZone["Alterac Valley"], "AtlasLootOriginalWoW" };
   -- Argent Dawn
