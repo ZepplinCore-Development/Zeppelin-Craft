@@ -55,5 +55,8 @@
     },
     "Elwynn_Forest": {
         "named_solo_fight": [448]
+    },
+    "Tanaris_Sandfury_Ruins": {
+        "normal": [5645, 5646, 5647]
     }
 }
