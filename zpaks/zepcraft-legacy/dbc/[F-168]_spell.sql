@@ -159,3 +159,34 @@ UPDATE `spell` SET
     `spell_desc_enus` = 'Restores $<drinkps> mana per second for $d and sobers you up.  Must remain seated while drinking.',
     `spell_desc_variable_id` = 186
 WHERE `id` = 49472;
+
+
+-- =====================================================
+-- TOOLTIP UPDATES (spell_tooltip_enus)
+-- =====================================================
+-- Item tooltips (shown when hovering food/drink in bags) still use raw
+-- base formulas ($/5;s1, ${$m2/5}) that don't reflect cooking pot bonuses.
+-- Update them to use the same F-168 variable references as the descriptions.
+
+-- ---------------------------------------------------
+-- Standard food tooltips (all with variable_id=186)
+-- "Restores $/5;s1 health per second." → "$<food1>"
+-- ---------------------------------------------------
+UPDATE `spell` SET `spell_tooltip_enus` = 'Restores $<food1> health per second.'
+WHERE `spell_desc_variable_id` = 186
+AND `spell_tooltip_enus` = 'Restores $/5;s1 health per second.';
+
+-- ---------------------------------------------------
+-- Standard drink tooltips (all with variable_id=186)
+-- "Restores ${$m2/5} mana per second." → "$<drinkps>"
+-- ---------------------------------------------------
+UPDATE `spell` SET `spell_tooltip_enus` = 'Restores $<drinkps> mana per second.'
+WHERE `spell_desc_variable_id` = 186
+AND `spell_tooltip_enus` = 'Restores ${$m2/5} mana per second.';
+
+-- ---------------------------------------------------
+-- Brain food tooltips (mana via eating, uses $<food1>)
+-- "Restores $/5;s1 mana per second." → "$<food1>"
+-- ---------------------------------------------------
+UPDATE `spell` SET `spell_tooltip_enus` = 'Restores $<food1> mana per second.'
+WHERE `id` IN (25701, 25887, 42308, 42312);
