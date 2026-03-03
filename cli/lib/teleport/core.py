@@ -36,8 +36,8 @@ class CityTeleport:
     technique_id: int
     technique_spell: int
     inscription_level: int
-    vendor_id: int
-    vendor_name: str
+    vendor_ids: List[int]
+    vendor_names: List[str]
 
 
 def load_cities(csv_path: Path = CSV_FILE) -> List[CityTeleport]:
@@ -57,8 +57,8 @@ def load_cities(csv_path: Path = CSV_FILE) -> List[CityTeleport]:
                 technique_id=int(row[4]),
                 technique_spell=int(row[5]),
                 inscription_level=int(row[6]),
-                vendor_id=int(row[7]),
-                vendor_name=row[8],
+                vendor_ids=[int(v) for v in row[7].split(';')],
+                vendor_names=[n.strip() for n in row[8].split(';')],
             ))
     return cities
 
@@ -103,12 +103,13 @@ def generate_sql(cities: List[CityTeleport]) -> str:
         lines.append(f"    `spelltrigger_2` = 6;")
         lines.append("")
 
-        # Vendor entry
-        lines.append(f"-- {city.vendor_name} - Scroll of Teleport {city.city}")
+        # Vendor entries
         lines.append(f"DELETE FROM `npc_vendor` WHERE (`item` = {city.technique_id});")
-        lines.append(f"INSERT INTO `npc_vendor`")
-        lines.append(f"SET `entry` = {city.vendor_id},")
-        lines.append(f"    `item` = {city.technique_id};")
+        for vid, vname in zip(city.vendor_ids, city.vendor_names):
+            lines.append(f"-- {vname} - Scroll of Teleport {city.city}")
+            lines.append(f"INSERT INTO `npc_vendor`")
+            lines.append(f"SET `entry` = {vid},")
+            lines.append(f"    `item` = {city.technique_id};")
         lines.append("")
         lines.append("")
 
@@ -124,7 +125,8 @@ def run(output_path: Path, verbose: bool = True) -> Tuple[int, int]:
 
     if verbose:
         for c in cities:
-            print(f"  {c.city:<20} scroll={c.scroll_id}  technique={c.technique_id}  inscription={c.inscription_level}")
+            vendors = ', '.join(str(v) for v in c.vendor_ids)
+            print(f"  {c.city:<20} scroll={c.scroll_id}  technique={c.technique_id}  inscription={c.inscription_level}  vendors=[{vendors}]")
 
     sql_content = generate_sql(cities)
 
