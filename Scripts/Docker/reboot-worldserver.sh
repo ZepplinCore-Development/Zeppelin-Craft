@@ -110,8 +110,11 @@ if ! docker inspect -f '{{.State.Status}}' "$DB_CONTAINER" 2>/dev/null | grep -q
     exit 1
 fi
 
-# Query online players via database container
-QUERY="SELECT guid, name, level, class, race, zone FROM characters WHERE online = 1 ORDER BY name"
+# Bot characters to ignore (e.g. WowChat discord bridge)
+BOT_NAMES="'chat'"
+
+# Query online players via database container (excluding bots)
+QUERY="SELECT guid, name, level, class, race, zone FROM characters WHERE online = 1 AND name NOT IN ($BOT_NAMES) ORDER BY name"
 RESULT=$(docker exec "$DB_CONTAINER" mysql -u "$CHARS_DB_USER" -p"$CHARS_DB_PASS" "$CHARS_DB_NAME" \
     --batch --skip-column-names -e "$QUERY" 2>/dev/null) || {
     echo -e "${RED}ERROR: Failed to query characters database${NC}"
