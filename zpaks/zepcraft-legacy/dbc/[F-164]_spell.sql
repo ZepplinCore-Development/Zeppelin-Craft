@@ -42,7 +42,7 @@ INSERT INTO `spell` SET
     `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 6,
     `effect_implicit_target_a_2` = 6,
-    `spell_visual_1` = 7660,
+    `spell_visual_1` = 1165,
     `spell_icon_id` = 5488,
     `spell_name_enus` = 'Earthen Reprisal',
     `spell_name_flags` = 16712190,
@@ -273,8 +273,8 @@ INSERT INTO `spell` SET
     `effect_1` = 2,
     `effect_2` = 64,
     `effect_die_sides_1` = 1,
-    `effect_real_points_per_level_1` = 4.0,
-    `effect_base_points_1` = 99,
+    `effect_real_points_per_level_1` = 8.0,
+    `effect_base_points_1` = 199,
     `effect_implicit_target_a_1` = 6,
     `effect_implicit_target_a_2` = 1,
     `effect_trigger_spell_2` = 900120,
@@ -283,9 +283,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<total> Physical damage, scaling with Attack Power. Grants $900120s1% increased block chance for $900120d.',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<min> to $<max> Physical damage, scaling with Attack Power. Grants $900120s1% increased block chance for $900120d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Physical damage and increases block chance by $900120s1% for $900120d.',
+    `spell_tooltip_enus` = 'Deals $<min> to $<max> Physical damage and increases block chance by $900120s1% for $900120d.',
     `spell_tooltip_flags` = 16712190,
     `power_cost_percentage` = 8,
     `start_recovery_category` = 133,
@@ -298,7 +298,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_2` = 1.0,
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 0.2,
+    `effect_bonus_multiplier_1` = 0.25,
     `spell_desc_variable_id` = 189;
 
 -- ----------------------------------------------------------------------------
@@ -378,7 +378,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Tectonic Blast',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Sends a wave of force through the ground in front of the caster, causing $<total> Nature damage to all enemies within 13 yards in a frontal cone. Causes a high amount of threat.',
+    `spell_desc_enus` = 'Sends a wave of force through the ground in front of the caster, causing $<total> Nature damage, scaling with Attack Power, to all enemies within 13 yards in a frontal cone. Causes a high amount of threat.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<total> Nature damage in a frontal cone. Causes a high amount of threat.',
     `spell_tooltip_flags` = 16712190,
@@ -666,7 +666,9 @@ INSERT INTO `spell` SET
 -- and ADD_FLAT_MODIFIER (aura 107) for threat.
 -- E1: SPELLMOD_EFFECT1 (misc 3) → boosts MOD_ATTACK_POWER (E1) by 25%/50%
 -- E2: SPELLMOD_EFFECT2 (misc 12) → boosts MOD_THREAT (E2) by +5%/+10%
--- Per-effect class masks target spell_class_mask_3 = 128 (Rockbiter Passive).
+-- Mask mapping: A/B/C = Effect 1/2/3, suffix 1/2/3 = mask_1/mask_2/mask_3
+-- E1 targets Rockbiter Passive via A3 (spell_class_mask_3 = 128, bit 72)
+-- E2 targets Rockbiter Passive via B3 (spell_class_mask_3 = 128, bit 72)
 -- ============================================================================
 -- ----------------------------------------------------------------------------
 -- Improved Rockbiter Weapon R1 (900129): +25% AP, +5% threat
@@ -685,14 +687,14 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 3,
     `effect_implicit_target_a_1` = 1,
-    `effect_spell_class_mask_c_1` = 128,
+    `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
     `effect_base_points_2` = 4,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
-    `effect_spell_class_mask_c_2` = 128,
+    `effect_spell_class_mask_b_3` = 128,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Improved Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -726,14 +728,14 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 3,
     `effect_implicit_target_a_1` = 1,
-    `effect_spell_class_mask_c_1` = 128,
+    `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
     `effect_base_points_2` = 9,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
-    `effect_spell_class_mask_c_2` = 128,
+    `effect_spell_class_mask_b_3` = 128,
     `spell_icon_id` = 688,
     `spell_name_enus` = 'Improved Rockbiter Weapon',
     `spell_name_flags` = 16712190,
@@ -1538,11 +1540,66 @@ UPDATE spell SET effect_base_points_1 = 3 WHERE ID = 900151;
 UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900152;
 
 -- Rockbiter Weapon imbue desc - calculated AP from aura spells + conditional threat from Imp Rockbiter
-UPDATE spell SET spell_desc_variable_id = 190, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?a900129[  Increases threat generated by $<threat>%.][]$?a900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8017;
-UPDATE spell SET spell_desc_variable_id = 191, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?a900129[  Increases threat generated by $<threat>%.][]$?a900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8018;
-UPDATE spell SET spell_desc_variable_id = 192, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?a900129[  Increases threat generated by $<threat>%.][]$?a900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8019;
-UPDATE spell SET spell_desc_variable_id = 193, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?a900129[  Increases threat generated by $<threat>%.][]$?a900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 10399;
+UPDATE spell SET spell_desc_variable_id = 190, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?s900129[  Increases threat generated by $<threat>%.][]$?s900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8017;
+UPDATE spell SET spell_desc_variable_id = 191, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?s900129[  Increases threat generated by $<threat>%.][]$?s900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8018;
+UPDATE spell SET spell_desc_variable_id = 192, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?s900129[  Increases threat generated by $<threat>%.][]$?s900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8019;
+UPDATE spell SET spell_desc_variable_id = 193, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?s900129[  Increases threat generated by $<threat>%.][]$?s900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 10399;
 
 -- Improved Rockbiter Weapon descriptions
 UPDATE spell SET spell_desc_enus = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.' WHERE id = 900129;
 UPDATE spell SET spell_desc_enus = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.' WHERE id = 900130;
+
+UPDATE spell SET spell_class_mask_3 = 32768 WHERE ID = 900122;
+
+UPDATE spell SET effect_spell_class_mask_c_1 = 32768 WHERE ID IN (900123, 900124);
+
+UPDATE spell SET effect_spell_class_mask_c_1 = 0, effect_spell_class_mask_a_3 = 32768 WHERE ID IN (900123, 900124);
+
+UPDATE spell SET effect_base_points_1 = 2 WHERE ID = 900123;
+
+UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900124;
+
+DELETE FROM `spell` WHERE `id` = 900153;
+
+INSERT INTO `spell` SET
+    `id` = 900153,
+    `category` = 82,
+    `attributes` = 327696,
+    `attributes_ex_2` = 67108864,
+    `attributes_ex_4` = 2048,
+    `attributes_ex_6` = 8388608,
+    `stances` = 131072,
+    `cast_time_index` = 1,
+    `category_recovery_time` = 8000,
+    `proc_chance` = 101,
+    `base_level` = 10,
+    `spell_level` = 10,
+    `duration_index` = 27,
+    `power_type` = 1,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 114,
+    `effect_2` = 6,
+    `effect_implicit_target_a_1` = 6,
+    `effect_implicit_target_a_2` = 6,
+    `effect_apply_aura_name_2` = 11,
+    `spell_visual_1` = 34,
+    `spell_icon_id` = 24,
+    `spell_name_enus` = 'Ancestral Shout',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712188,
+    `spell_desc_enus` = 'Taunts the target to attack you, but has no effect if the target is already attacking you.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Taunted.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 4,
+    `spell_class_mask_1` = 32768,
+    `damage_class` = 1,
+    `prevention_type` = 1,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0;
+
+UPDATE spell SET spell_class_set = 7, spell_class_mask_1 = 0, spell_class_mask_2 = 0, spell_class_mask_3 = 0, stances = 0, power_type = 0, power_cost = 0, spell_icon_id = 4781, spell_desc_enus = 'Taunts the target to attack you, but has no effect if the target is already attacking you.' WHERE id = 900153;
