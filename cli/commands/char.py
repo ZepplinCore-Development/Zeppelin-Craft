@@ -27,6 +27,8 @@ CHARS_DB_USER = os.getenv('CHARS_DB_USER', 'chars')
 CHARS_DB_PASS = os.getenv('CHARS_DB_PASS', '')
 CHARS_DB_NAME = os.getenv('CHARS_DB_NAME', 'acore_characters')
 
+
+
 # Race name -> ID mapping (display order)
 RACE_LIST = [
     ('human', 1),
@@ -79,6 +81,7 @@ def _run_query(query: str) -> Tuple[bool, str]:
         return False, str(e)
     finally:
         os.unlink(cnf_path)
+
 
 
 def _parse_race(value: str) -> int:
@@ -235,3 +238,53 @@ def char_morph(name: str, race: Optional[str], gender: Optional[str]):
 
 
 char_morph.menu_passthrough = True
+
+
+@char.command('reset-talents')
+@click.argument('name')
+def char_reset_talents(name: str):
+    """Reset a character's talents on next login. Character must be offline.
+
+    Sets the AT_LOGIN_RESET_TALENTS flag so the server handles the full
+    reset (talents, spells, and pet talents) on next login.
+
+    Examples:
+        zep world char reset-talents Vera
+        zep world char reset-talents One
+    """
+    AT_LOGIN_RESET_TALENTS = 0x04
+    AT_LOGIN_RESET_PET_TALENTS = 0x10
+    RESET_FLAGS = AT_LOGIN_RESET_TALENTS | AT_LOGIN_RESET_PET_TALENTS
+
+    # Look up character
+    success, output = _run_query(
+        f"SELECT guid, name, online, at_login FROM characters WHERE name = '{name}'"
+    )
+    if not success:
+        raise click.ClickException(f"Query failed: {output}")
+
+    lines = output.strip().split('\n')
+    if len(lines) < 2:
+        raise click.ClickException(f"Character '{name}' not found")
+
+    fields = lines[1].split('\t')
+    guid = fields[0]
+    char_name = fields[1]
+    online = int(fields[2])
+    at_login = int(fields[3])
+
+    if online:
+        raise click.ClickException(f"{char_name} is online — log out first")
+
+    if at_login & AT_LOGIN_RESET_TALENTS:
+        click.echo(f"  {char_name}: talent reset already pending")
+        return
+
+    success, output = _run_query(
+        f"UPDATE characters SET at_login = at_login | {RESET_FLAGS}, "
+        f"resettalents_cost = 0, resettalents_time = 0 WHERE guid = {guid}"
+    )
+    if not success:
+        raise click.ClickException(f"Update failed: {output}")
+
+    click.echo(f"  {char_name}: talents will reset on next login")
