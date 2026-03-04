@@ -12,6 +12,12 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200068, 9001, 900123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200069, 9001, 900124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+-- Improved Rockbiter Weapon (900129-900130) on Earthwarden skill line
+DELETE FROM `skilllineability` WHERE `id` IN (200076, 200077);
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200076, 9001, 900129, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200077, 9001, 900130, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
 -- Shield Mastery (900133-900137) on Enhancement skill line for Shaman class
 DELETE FROM `skilllineability` WHERE `id` IN (200070, 200071, 200072, 200073, 200074);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES

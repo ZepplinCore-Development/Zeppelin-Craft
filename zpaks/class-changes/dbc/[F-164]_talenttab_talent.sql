@@ -132,7 +132,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2905, 900, 1, 2,
-    900109, 900110, 900111, 900112, 900113,
+    900109, 900110, 900111, 0, 0,
     0, 0, 0, 0,
     0, 0, 0,
     0, 0, 0,
