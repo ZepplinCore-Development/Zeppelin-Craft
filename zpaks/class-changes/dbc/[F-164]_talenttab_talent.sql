@@ -1,8 +1,8 @@
 -- [F-164] fourth-talent-tree: talenttab and talent
--- Guardian spec (4th Shaman tree) - duplicated from Enhancement with new IDs
+-- Earthwarden spec (4th Shaman tree) - duplicated from Enhancement with new IDs
 
 -- ============================================================================
--- TalentTab: Guardian (id=900)
+-- TalentTab: Earthwarden (id=900)
 -- ============================================================================
 INSERT INTO `talenttab` (
     `id`, `name_enus`,
@@ -12,7 +12,7 @@ INSERT INTO `talenttab` (
     `name_flags`, `spell_icon`, `race_mask`, `class_mask`,
     `creature_family`, `order_index`, `background_file`
 ) VALUES (
-    900, 'Guardian',
+    900, 'Earthwarden',
     '', '', '', '', '',
     '', '', '', '', '',
     '', '', '', '', '',
@@ -22,9 +22,9 @@ INSERT INTO `talenttab` (
 
 -- ============================================================================
 -- Talent entries (29 rows) - duplicated from Enhancement
--- New IDs 2900-2928, all pointing to spec_id=900
+-- New IDs 2900-2928, all pointing to spec_id=900 (Earthwarden)
 --
--- ID mapping (old Enhancement → new Guardian):
+-- ID mapping (old Enhancement → new Earthwarden):
 --   610→2900, 2101→2901, 614→2902, 609→2903, 613→2904, 605→2905, 607→2906
 --   611→2907, 617→2908, 601→2909, 602→2910, 615→2911, 1647→2912, 616→2913
 --   2083→2914, 1689→2915, 1643→2916, 2263→2917, 1692→2918, 1690→2919, 901→2920
@@ -71,7 +71,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2902 (was 614) - tier 0, col 2
+-- 2902 - tier 0, col 2 - Relentless (5 ranks, replaces Ancestral Knowledge)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -81,7 +81,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2902, 900, 0, 2,
-    17485, 17486, 17487, 17488, 17489,
+    900142, 900143, 900144, 900145, 900146,
     0, 0, 0, 0,
     0, 0, 0,
     0, 0, 0,
@@ -105,7 +105,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2904 (was 613) - tier 1, col 1
+-- 2904 - tier 1, col 1 - Shield Mastery (5 ranks, replaces Thundering Strikes)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -115,7 +115,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2904, 900, 1, 1,
-    16255, 16302, 16303, 16304, 16305,
+    900133, 900134, 900135, 900136, 900137,
     0, 0, 0, 0,
     0, 0, 0,
     0, 0, 0,
@@ -156,7 +156,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2907 (was 611) - tier 2, col 0
+-- 2907 - tier 2, col 0 - Improved Rockbiter Weapon (2 ranks, replaces Elemental Weapons)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -166,7 +166,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2907, 900, 2, 0,
-    16266, 29079, 29080, 0, 0,
+    900129, 900130, 0, 0, 0,
     0, 0, 0, 0,
     0, 0, 0,
     0, 0, 0,
@@ -207,7 +207,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2910 (was 602) - tier 3, col 1 - prereq: 613→2904 rank 4
+-- 2910 - tier 3, col 1 - Elemental Bulwark (3 ranks, replaces Flurry) - prereq: Shield Mastery (2904) rank 4
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -217,7 +217,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2910, 900, 3, 1,
-    16256, 16281, 16282, 16283, 16284,
+    900147, 900148, 900149, 0, 0,
     0, 0, 0, 0,
     2904, 0, 0,
     4, 0, 0,
@@ -343,7 +343,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2918 (was 1692) - tier 6, col 0 - prereq: 1690→2919 rank 0
+-- 2918 - tier 6, col 0 - Rockslam (1 rank) - prereq: Stone Skin (2919)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -353,14 +353,14 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2918, 900, 6, 0,
-    30816, 30818, 30819, 0, 0,
+    900119, 0, 0, 0, 0,
     0, 0, 0, 0,
     2919, 0, 0,
     0, 0, 0,
-    0, 0, 0, 0
+    1, 0, 0, 0
 );
 
--- 2919 (was 1690) - tier 6, col 1 - prereq: 616→2913 rank 0
+-- 2919 - tier 6, col 1 - Stone Skin (3 ranks) - prereq: Spirit Weapons (2913)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -370,14 +370,14 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2919, 900, 6, 1,
-    30798, 0, 0, 0, 0,
+    900115, 900127, 900128, 0, 0,
     0, 0, 0, 0,
     2913, 0, 0,
     0, 0, 0,
     0, 0, 0, 0
 );
 
--- 2920 (was 901) - tier 6, col 2
+-- 2920 - tier 6, col 2 - Volcanic Shield (1 rank, active shield buff) - prereq: Stone Skin (2919)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -387,9 +387,9 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2920, 900, 6, 2,
-    17364, 0, 0, 0, 0,
+    900116, 0, 0, 0, 0,
     0, 0, 0, 0,
-    0, 0, 0,
+    2919, 0, 0,
     0, 0, 0,
     1, 0, 0, 0
 );
@@ -411,7 +411,7 @@ INSERT INTO `talent` (
     0, 0, 0, 0
 );
 
--- 2922 (was 2249) - tier 7, col 1 - prereq: 1690→2919 rank 0
+-- 2922 - tier 7, col 1 - Tectonic Blast (1 rank) - prereq: Stone Skin (2919)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -421,14 +421,14 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2922, 900, 7, 1,
-    60103, 0, 0, 0, 0,
+    900121, 0, 0, 0, 0,
     0, 0, 0, 0,
     2919, 0, 0,
     0, 0, 0,
     1, 0, 0, 0
 );
 
--- 2923 (was 2054) - tier 7, col 2 - prereq: 901→2920 rank 0
+-- 2923 - tier 7, col 2 - Improved Volcanic Shield (2 ranks) - prereq: Volcanic Shield (2920)
 INSERT INTO `talent` (
     `id`, `spec_id`, `tier_id`, `column_index`,
     `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
@@ -438,7 +438,7 @@ INSERT INTO `talent` (
     `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
 ) VALUES (
     2923, 900, 7, 2,
-    51521, 51522, 0, 0, 0,
+    900123, 900124, 0, 0, 0,
     0, 0, 0, 0,
     2920, 0, 0,
     0, 0, 0,

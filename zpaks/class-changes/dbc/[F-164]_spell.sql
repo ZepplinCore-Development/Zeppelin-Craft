@@ -669,13 +669,13 @@ INSERT INTO `spell` SET
 -- Passive talent, 2 ranks. Uses ADD_PCT_MODIFIER (aura 108) for AP boost
 -- and ADD_FLAT_MODIFIER (aura 107) for threat.
 -- E1: SPELLMOD_EFFECT1 (misc 3) → boosts MOD_ATTACK_POWER (E1) by 25%/50%
--- E2: SPELLMOD_EFFECT2 (misc 12) → boosts MOD_THREAT (E2) by +5%/+10%
+-- E2: SPELLMOD_EFFECT2 (misc 12) → boosts MOD_THREAT (E2) by +8%/+15%
 -- Mask mapping: A/B/C = Effect 1/2/3, suffix 1/2/3 = mask_1/mask_2/mask_3
 -- E1 targets Rockbiter Passive via A3 (spell_class_mask_3 = 128, bit 72)
 -- E2 targets Rockbiter Passive via B3 (spell_class_mask_3 = 128, bit 72)
 -- ============================================================================
 -- ----------------------------------------------------------------------------
--- Improved Rockbiter Weapon R1 (900129): +25% AP, +5% threat
+-- Improved Rockbiter Weapon R1 (900129): +25% AP, +8% threat
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900129;
 
@@ -694,7 +694,7 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 4,
+    `effect_base_points_2` = 7,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -716,7 +716,7 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
--- Improved Rockbiter Weapon R2 (900130): +50% AP, +10% threat
+-- Improved Rockbiter Weapon R2 (900130): +50% AP, +15% threat
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900130;
 
@@ -735,7 +735,7 @@ INSERT INTO `spell` SET
     `effect_spell_class_mask_a_3` = 128,
     `effect_2` = 6,
     `effect_apply_aura_name_2` = 107,
-    `effect_base_points_2` = 9,
+    `effect_base_points_2` = 14,
     `effect_die_sides_2` = 1,
     `effect_misc_value_a_2` = 12,
     `effect_implicit_target_a_2` = 1,
@@ -935,12 +935,12 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Bastion of Earth (900109-900113)
--- 5-rank passive. E1: MOD_THREAT (aura 10, all schools),
+-- Bastion of Earth (900109-900111)
+-- 3-rank passive. E1: MOD_THREAT (aura 10, all schools),
 -- E2: MOD_HEALING_RECEIVED (aura 283, ref Grace 47930).
 -- Stun/incapacitate reduction moved to Relentless (900142-900146).
 -- ============================================================================
--- Bastion of Earth R1 (+3% threat, +3% healing received)
+-- Bastion of Earth R1 (+5% threat, +5% healing received)
 DELETE FROM `spell` WHERE `id` = 900109;
 
 INSERT INTO `spell` SET
@@ -953,8 +953,8 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 2,
-    `effect_base_points_2` = 2,
+    `effect_base_points_1` = 4,
+    `effect_base_points_2` = 4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
@@ -975,7 +975,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth R2 (+6% threat, +6% healing received)
+-- Bastion of Earth R2 (+10% threat, +10% healing received)
 DELETE FROM `spell` WHERE `id` = 900110;
 
 INSERT INTO `spell` SET
@@ -988,8 +988,8 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 5,
-    `effect_base_points_2` = 5,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,
@@ -1010,7 +1010,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth R3 (+9% threat, +9% healing received)
+-- Bastion of Earth R3 (+15% threat, +15% healing received)
 DELETE FROM `spell` WHERE `id` = 900111;
 
 INSERT INTO `spell` SET
@@ -1023,8 +1023,8 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 8,
-    `effect_base_points_2` = 8,
+    `effect_base_points_1` = 14,
+    `effect_base_points_2` = 14,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_1` = 10,

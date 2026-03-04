@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "class-changes",
+  "version": "0.1.0",
+  "description": "Class balance changes - Shaman Earthwarden spec, Deflection/Anticipation tuning",
+  "author": "Zeppelin Team",
+  "type": "hybrid",
+  "client_patch": "PATCH-A",
+  "contents": {
+    "sql": [
+      "sql/*.sql"
+    ],
+    "dbc": [
+      "dbc/*.sql"
+    ],
+    "mpq": [
+      "mpq/**/*"
+    ]
+  },
+  "feature_id": "F-164",
+  "enabled": true,
+  "priority": 100
+}
