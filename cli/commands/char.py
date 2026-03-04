@@ -27,8 +27,6 @@ CHARS_DB_USER = os.getenv('CHARS_DB_USER', 'chars')
 CHARS_DB_PASS = os.getenv('CHARS_DB_PASS', '')
 CHARS_DB_NAME = os.getenv('CHARS_DB_NAME', 'acore_characters')
 
-
-
 # Race name -> ID mapping (display order)
 RACE_LIST = [
     ('human', 1),
@@ -81,7 +79,6 @@ def _run_query(query: str) -> Tuple[bool, str]:
         return False, str(e)
     finally:
         os.unlink(cnf_path)
-
 
 
 def _parse_race(value: str) -> int:
