@@ -20,3 +20,7 @@ INSERT INTO `itemdisplayinfo` (`id`, `left_model`, `right_model`, `left_model_te
 -- Tier 5: Master Riding Crop (item 100014) - Red
 DELETE FROM `itemdisplayinfo` WHERE `id` = 200014;
 INSERT INTO `itemdisplayinfo` (`id`, `left_model`, `right_model`, `left_model_texture`, `right_model_texture`, `icon_1`, `icon_2`, `geoset_group_1`, `geoset_group_2`, `geoset_group_3`, `flags`, `spell_visual_id`, `group_sound_index`, `helmet_geoset_male`, `helmet_geoset_female`, `upper_arm_texture`, `lower_arm_texture`, `hands_texture`, `upper_torso_texture`, `lower_torso_texture`, `upper_leg_texture`, `lower_leg_texture`, `foot_texture`, `item_visual`, `particle_colour_id`) VALUES (200014, '', '', '', '', 'inv_misc_crop_02_DOMINANT_RED', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', '', '', '', 0, 0);
+
+-- Tier 6: Grand Master Riding Crop (item 100020) - Mint
+DELETE FROM `itemdisplayinfo` WHERE `id` = 200015;
+INSERT INTO `itemdisplayinfo` (`id`, `left_model`, `right_model`, `left_model_texture`, `right_model_texture`, `icon_1`, `icon_2`, `geoset_group_1`, `geoset_group_2`, `geoset_group_3`, `flags`, `spell_visual_id`, `group_sound_index`, `helmet_geoset_male`, `helmet_geoset_female`, `upper_arm_texture`, `lower_arm_texture`, `hands_texture`, `upper_torso_texture`, `lower_torso_texture`, `upper_leg_texture`, `lower_leg_texture`, `foot_texture`, `item_visual`, `particle_colour_id`) VALUES (200015, '', '', '', '', 'inv_misc_crop_02_DOMINANT_MINT', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', '', '', '', 0, 0);

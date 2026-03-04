@@ -238,12 +238,59 @@ INSERT INTO `item_template` SET
     `SellPrice` = 40000,
     `ItemLevel` = 80,
     `RequiredSkill` = 165,
-    `RequiredSkillRank` = 450,
+    `RequiredSkillRank` = 375,
     `spellid_1` = 483,
     `spellcharges_1` = -1,
     `spellid_2` = 100024,
     `spelltrigger_2` = 6,
     `description` = 'Teaches you how to craft Master Riding Crop.',
+    `Material` = 4,
+    `maxcount` = 1;
+
+
+
+-- Tier 6: Grand Master Riding Crop (+24% mount speed)
+DELETE FROM `item_template` WHERE `entry` = 100020;
+
+INSERT INTO `item_template` SET
+    `entry` = 100020,
+    `class` = 5,
+    `subclass` = 1,
+    `name` = 'Grand Master Riding Crop',
+    `displayid` = 200015,
+    `Quality` = 6,
+    `BuyPrice` = 1600000,
+    `SellPrice` = 400000,
+    `ItemLevel` = 80,
+    `maxcount` = 1,
+    `spellid_1` = 100015,
+    `spelltrigger_1` = 5,
+    `bonding` = 1,
+    `TotemCategory` = 210;
+
+
+
+-- Pattern: Grand Master Riding Crop
+DELETE FROM `item_template` WHERE `entry` = 100021;
+
+INSERT INTO `item_template` SET
+    `entry` = 100021,
+    `class` = 9,
+    `subclass` = 1,
+    `name` = 'Pattern: Grand Master Riding Crop',
+    `displayid` = 1102,
+    `Quality` = 2,
+    `Flags` = 64,
+    `BuyPrice` = 320000,
+    `SellPrice` = 80000,
+    `ItemLevel` = 80,
+    `RequiredSkill` = 165,
+    `RequiredSkillRank` = 450,
+    `spellid_1` = 483,
+    `spellcharges_1` = -1,
+    `spellid_2` = 100025,
+    `spelltrigger_2` = 6,
+    `description` = 'Teaches you how to craft Grand Master Riding Crop.',
     `Material` = 4,
     `maxcount` = 1;
 
@@ -290,42 +337,48 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 
 
 
--- Tier 3: Expert Pattern - Drop from UBRS bosses
+-- Tier 3: Expert Pattern - Drop from classic dungeon bosses (10%)
 DELETE FROM `creature_loot_template` WHERE `Item` = 100017;
 
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 10363,
-    `Item` = 100017,
-    `Chance` = 5.0,
-    `Comment` = 'General Drakkisath - Pattern: Expert Riding Crop';
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(7604,  100017, 10.0, 'Sergeant Bly (Zul''Farrak) - Pattern: Expert Riding Crop'),
+(7228,  100017, 10.0, 'Ironaya (Uldaman) - Pattern: Expert Riding Crop'),
+(3977,  100017, 10.0, 'High Inquisitor Whitemane (SM Cathedral) - Pattern: Expert Riding Crop');
 
 
 
--- Tier 4: Artisan Pattern - Drop from MC/BWL bosses
+-- Tier 4: Artisan Pattern - Drop from level 60 dungeon bosses (10%), DM North guards (5%)
 DELETE FROM `creature_loot_template` WHERE `Item` = 100018;
 
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 11583,
-    `Item` = 100018,
-    `Chance` = 8.0,
-    `Comment` = 'Nefarian - Pattern: Artisan Riding Crop';
-
-INSERT INTO `creature_loot_template` SET
-    `Entry` = 11502,
-    `Item` = 100018,
-    `Chance` = 8.0,
-    `Comment` = 'Ragnaros - Pattern: Artisan Riding Crop';
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Chance`, `Comment`) VALUES
+(10363, 100018, 10.0, 'General Drakkisath (UBRS) - Pattern: Artisan Riding Crop'),
+(10440, 100018, 10.0, 'Baron Rivendare (Stratholme) - Pattern: Artisan Riding Crop'),
+(9568,  100018, 10.0, 'Overlord Wyrmthalak (LBRS) - Pattern: Artisan Riding Crop'),
+(14321, 100018,  5.0, 'Guard Fengus (DM North) - Pattern: Artisan Riding Crop'),
+(14323, 100018,  5.0, 'Guard Slip''kik (DM North) - Pattern: Artisan Riding Crop'),
+(14326, 100018,  5.0, 'Guard Mol''dar (DM North) - Pattern: Artisan Riding Crop');
 
 
 
--- Tier 5: Master Pattern - Drop from Naxxramas
+-- Tier 5: Master Pattern - Drop from TBC dungeon boss (10%)
 DELETE FROM `creature_loot_template` WHERE `Item` = 100019;
 
 INSERT INTO `creature_loot_template` SET
-    `Entry` = 15990,
+    `Entry` = 17941,
     `Item` = 100019,
     `Chance` = 10.0,
-    `Comment` = 'KelThuzad - Pattern: Master Riding Crop';
+    `Comment` = 'Mennu the Betrayer (Slave Pens) - Pattern: Master Riding Crop';
+
+
+
+-- Tier 6: Grand Master Pattern - Drop from WotLK dungeon boss (10%)
+DELETE FROM `creature_loot_template` WHERE `Item` = 100021;
+
+INSERT INTO `creature_loot_template` SET
+    `Entry` = 26693,
+    `Item` = 100021,
+    `Chance` = 10.0,
+    `Comment` = 'Skadi the Ruthless (Utgarde Pinnacle) - Pattern: Grand Master Riding Crop';
 
 
 
@@ -350,7 +403,8 @@ INSERT INTO `spell_ranks` (`first_spell_id`, `spell_id`, `rank`) VALUES
 (100010, 100011, 2),
 (100010, 100012, 3),
 (100010, 100013, 4),
-(100010, 100014, 5);
+(100010, 100014, 5),
+(100010, 100015, 6);
 
 -- =====================================================
 -- NOTE: Crafting spells and passive aura spells are

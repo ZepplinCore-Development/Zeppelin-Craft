@@ -324,187 +324,6 @@ UPDATE `spell` SET
 WHERE `id` = 59289;
 
 -- ============================================================================
--- 13b. BASTION OF EARTH (900109-900113) - Replacement for Improved Ghost Wolf
---      IGW talent made crop cast time reduction useless (R2 = instant).
---      New tanking talent: +3% threat and +1% block chance per rank (5 ranks).
---      User handles talent tree entry via editor tool; these are the spell defs.
---      Template based on Defiance (12303) and Shield Block (2565).
--- ============================================================================
--- Bastion of Earth Rank 1
-DELETE FROM `spell` WHERE `id` = 900109;
-
-INSERT INTO `spell` SET
-    `id` = 900109,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 2,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 51,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 2015,
-    `spell_name_enus` = 'Bastion of Earth',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 1',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
-
--- Bastion of Earth Rank 2
-DELETE FROM `spell` WHERE `id` = 900110;
-
-INSERT INTO `spell` SET
-    `id` = 900110,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 5,
-    `effect_base_points_2` = 1,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 51,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 2015,
-    `spell_name_enus` = 'Bastion of Earth',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 2',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
-
--- Bastion of Earth Rank 3
-DELETE FROM `spell` WHERE `id` = 900111;
-
-INSERT INTO `spell` SET
-    `id` = 900111,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 8,
-    `effect_base_points_2` = 2,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 51,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 2015,
-    `spell_name_enus` = 'Bastion of Earth',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 3',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
-
--- Bastion of Earth Rank 4
-DELETE FROM `spell` WHERE `id` = 900112;
-
-INSERT INTO `spell` SET
-    `id` = 900112,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 11,
-    `effect_base_points_2` = 3,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 51,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 2015,
-    `spell_name_enus` = 'Bastion of Earth',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 4',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
-
--- Bastion of Earth Rank 5
-DELETE FROM `spell` WHERE `id` = 900113;
-
-INSERT INTO `spell` SET
-    `id` = 900113,
-    `attributes` = 464,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 14,
-    `effect_base_points_2` = 4,
-    `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
-    `effect_apply_aura_name_2` = 51,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 2015,
-    `spell_name_enus` = 'Bastion of Earth',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 5',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and your chance to block by $s2%.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and block chance by $s2%.',
-    `spell_tooltip_flags` = 16712190,
-    `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
-
--- ============================================================================
 -- 14. GLYPH OF AQUATIC FORM (57856) - Move to family 14, own mask = bit 27
 --     Retarget from spell_class_mask_2 bit 31 to spell_class_mask_1 bit 26
 --     Fix misc_value_a: 3 (SPELLMOD_EFFECT1) -> 12 (SPELLMOD_EFFECT2)
@@ -543,9 +362,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 4,
-    `effect_base_points_2` = -21,
-    `effect_base_points_3` = 4,
+    `effect_base_points_1` = 3,
+    `effect_base_points_2` = -11,
+    `effect_base_points_3` = 3,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -597,9 +416,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 9,
-    `effect_base_points_2` = -41,
-    `effect_base_points_3` = 9,
+    `effect_base_points_1` = 7,
+    `effect_base_points_2` = -21,
+    `effect_base_points_3` = 7,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -651,9 +470,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 14,
-    `effect_base_points_2` = -61,
-    `effect_base_points_3` = 14,
+    `effect_base_points_1` = 11,
+    `effect_base_points_2` = -31,
+    `effect_base_points_3` = 11,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -705,9 +524,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 19,
-    `effect_base_points_2` = -81,
-    `effect_base_points_3` = 19,
+    `effect_base_points_1` = 15,
+    `effect_base_points_2` = -41,
+    `effect_base_points_3` = 15,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -759,9 +578,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 24,
-    `effect_base_points_2` = -91,
-    `effect_base_points_3` = 199,
+    `effect_base_points_1` = 19,
+    `effect_base_points_2` = -51,
+    `effect_base_points_3` = 19,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
@@ -940,6 +759,90 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190;
 
+-- Grand Master Riding Crop (passive)
+DELETE FROM `spell` WHERE `id` = 100015;
+
+INSERT INTO `spell` SET
+    `id` = 100015,
+    `attributes` = 128,
+    `attributes_ex_1` = 268435456,
+    `attributes_ex_4` = 4096,
+    `cast_time_index` = 1,
+    `proc_flags` = 1,
+    `proc_chance` = 101,
+    `duration_index` = 21,
+    `range_index` = 1,
+    `stack_amount` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_3` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_1` = 23,
+    `effect_base_points_2` = -61,
+    `effect_base_points_3` = 23,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_1` = 107,
+    `effect_apply_aura_name_2` = 108,
+    `effect_apply_aura_name_3` = 108,
+    `effect_misc_value_a_1` = 12,
+    `effect_misc_value_a_2` = 10,
+    `effect_misc_value_a_3` = 23,
+    `effect_spell_class_mask_a_1` = 2147483648,
+    `effect_spell_class_mask_b_1` = 2147483648,
+    `effect_spell_class_mask_c_1` = 2147483648,
+    `spell_icon_id` = 2241,
+    `spell_name_enus` = 'Grand Master Riding Crop',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases mount speed by $s1% and reduces mount cast time by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0;
+
+-- Grand Master Riding Crop (crafting)
+DELETE FROM `spell` WHERE `id` = 100025;
+
+INSERT INTO `spell` SET
+    `id` = 100025,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 5,
+    `range_index` = 1,
+    `reagent_1` = 38425,
+    `reagent_2` = 44128,
+    `reagent_3` = 100014,
+    `reagent_count_1` = 40,
+    `reagent_count_2` = 8,
+    `reagent_count_3` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 100020,
+    `spell_icon_id` = 346,
+    `spell_name_enus` = 'Grand Master Riding Crop',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Craft a Grand Master Riding Crop.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712190;
+
 -- ============================================================================
 -- PART C: RIDING CROP TARGETING (I-049, I-050)
 -- Update crop effect masks to include druid forms and Ghost Wolf.
@@ -983,6 +886,12 @@ UPDATE `spell` SET
     `effect_spell_class_mask_b_1` = 3489660928,
     `effect_spell_class_mask_c_1` = 2147483648
 WHERE `id` = 100014;
+
+UPDATE `spell` SET
+    `effect_spell_class_mask_a_1` = 3489660928,
+    `effect_spell_class_mask_b_1` = 3489660928,
+    `effect_spell_class_mask_c_1` = 2147483648
+WHERE `id` = 100015;
 
 UPDATE `spell` SET `spell_desc_variable_id` = 184 WHERE `id` = 5421;
 
