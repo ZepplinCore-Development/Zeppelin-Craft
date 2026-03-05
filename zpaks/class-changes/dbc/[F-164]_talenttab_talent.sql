@@ -103,7 +103,7 @@ INSERT INTO `talent` SET
     `rank_4` = 900112,
     `rank_5` = 900113;
 
--- 2906 - tier 1, col 3
+-- 2906 - tier 1, col 3 - Lightning Ward (3 ranks, replaces Improved Shields)
 DELETE FROM `talent` WHERE `id` = 2906;
 
 INSERT INTO `talent` SET
@@ -111,9 +111,9 @@ INSERT INTO `talent` SET
     `spec_id` = 900,
     `tier_id` = 1,
     `column_index` = 3,
-    `rank_1` = 16261,
-    `rank_2` = 16290,
-    `rank_3` = 51881;
+    `rank_1` = 900157,
+    `rank_2` = 900158,
+    `rank_3` = 900159;
 
 -- 2933 - tier 2, col 0 - Rockslam (1 rank)
 DELETE FROM `talent` WHERE `id` = 2933;
@@ -136,7 +136,7 @@ INSERT INTO `talent` SET
     `rank_1` = 43338,
     `flags` = 1;
 
--- 2909 - tier 2, col 3
+-- 2909 - tier 2, col 3 - Anticipation (3 ranks, cloned with icon 5340)
 DELETE FROM `talent` WHERE `id` = 2909;
 
 INSERT INTO `talent` SET
@@ -144,9 +144,9 @@ INSERT INTO `talent` SET
     `spec_id` = 900,
     `tier_id` = 2,
     `column_index` = 3,
-    `rank_1` = 16254,
-    `rank_2` = 16271,
-    `rank_3` = 16272;
+    `rank_1` = 900154,
+    `rank_2` = 900155,
+    `rank_3` = 900156;
 
 -- 2929 - tier 3, col 0 - Spirit Weapons (1 rank)
 DELETE FROM `talent` WHERE `id` = 2929;
@@ -229,7 +229,7 @@ INSERT INTO `talent` SET
     `rank_2` = 30808,
     `rank_3` = 30809;
 
--- 2930 - tier 5, col 1 - Stone Skin (3 ranks)
+-- 2930 - tier 5, col 1 - Elemental Ward (3 ranks, was Stone Skin)
 DELETE FROM `talent` WHERE `id` = 2930;
 
 INSERT INTO `talent` SET

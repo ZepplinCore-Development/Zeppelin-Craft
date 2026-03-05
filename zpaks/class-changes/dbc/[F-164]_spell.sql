@@ -69,8 +69,8 @@ INSERT INTO `spell` SET
 -- Improved Volcanic Shield (new), triggered spells
 -- ============================================================================
 -- ----------------------------------------------------------------------------
--- Stone Skin (900115, 900127, 900128) - 3 ranks, cloned from Thick Hide R3
--- 4% armor and 2% crit mitigation per rank.
+-- Elemental Ward (900115, 900127, 900128) - 3 ranks, cloned from Elemental Warding (28996-28998)
+-- Reduces all damage taken by 2/4/6% per rank. Icon 5440.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900115;
 
@@ -82,36 +82,21 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_3` = 6,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 3,
-    `effect_base_points_2` = -3,
-    `effect_base_points_3` = -3,
+    `effect_base_points_1` = -3,
     `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_apply_aura_name_2` = 179,
-    `effect_apply_aura_name_3` = 181,
-    `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 5469,
-    `spell_name_enus` = 'Stone Skin',
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1% and reduces the chance you are critically hit by $s2%.',
+    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1% and reduces crit chance against you by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `school_mask` = 1;
 
 
 DELETE FROM `spell` WHERE `id` = 900127;
@@ -124,36 +109,21 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_3` = 6,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 7,
-    `effect_base_points_2` = -5,
-    `effect_base_points_3` = -5,
+    `effect_base_points_1` = -5,
     `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_apply_aura_name_2` = 179,
-    `effect_apply_aura_name_3` = 181,
-    `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 5469,
-    `spell_name_enus` = 'Stone Skin',
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1% and reduces the chance you are critically hit by $s2%.',
+    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1% and reduces crit chance against you by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `school_mask` = 1;
 
 
 DELETE FROM `spell` WHERE `id` = 900128;
@@ -166,36 +136,149 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_2` = 6,
-    `effect_3` = 6,
     `effect_die_sides_1` = 1,
-    `effect_die_sides_2` = 1,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_1` = 11,
-    `effect_base_points_2` = -7,
-    `effect_base_points_3` = -7,
+    `effect_base_points_1` = -7,
     `effect_implicit_target_a_1` = 1,
-    `effect_implicit_target_a_2` = 1,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_apply_aura_name_2` = 179,
-    `effect_apply_aura_name_3` = 181,
-    `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 5469,
-    `spell_name_enus` = 'Stone Skin',
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 5440,
+    `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your armor from items by $s1% and reduces the chance you are critically hit by $s2%.',
+    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1% and reduces crit chance against you by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
+-- ----------------------------------------------------------------------------
+-- Molten Plating (900161, 900162, 900163) - 3 ranks, passive
+-- Increases armor from items by 10/20/30%. Icon 4644.
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900161;
+
+INSERT INTO `spell` SET
+    `id` = 900161,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4644,
+    `spell_name_enus` = 'Molten Plating',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
+DELETE FROM `spell` WHERE `id` = 900162;
+
+INSERT INTO `spell` SET
+    `id` = 900162,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4644,
+    `spell_name_enus` = 'Molten Plating',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
+DELETE FROM `spell` WHERE `id` = 900163;
+
+INSERT INTO `spell` SET
+    `id` = 900163,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 142,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4644,
+    `spell_name_enus` = 'Molten Plating',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your armor from items by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+
+-- ----------------------------------------------------------------------------
+-- Stoneskin (900164) - Active defensive cooldown, 1 rank
+-- -30% damage taken, +10% block chance, 10s duration, 2 min cooldown.
+-- Icon 5469, Visual 5787 (Stoneform).
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900164;
+
+INSERT INTO `spell` SET
+    `id` = 900164,
+    `attributes` = 16,
+    `cast_time_index` = 1,
+    `duration_index` = 1,
+    `recovery_time` = 120000,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = -31,
+    `effect_base_points_2` = 9,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_apply_aura_name_2` = 51,
+    `effect_misc_value_a_1` = 127,
+    `spell_icon_id` = 5469,
+    `spell_visual_1` = 5787,
+    `spell_name_enus` = 'Stoneskin',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Encases you in stone, reducing all damage taken by $s1% and increasing block chance by $s2% for $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces damage taken by $s1% and increases block chance by $s2%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 1,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `spell_class_set` = 11,
+    `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
 -- Volcanic Shield (900116) - Active shield buff, cloned from Lightning Shield
@@ -1541,3 +1624,199 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 UPDATE spell SET spell_class_set = 7, spell_class_mask_1 = 0, spell_class_mask_2 = 0, spell_class_mask_3 = 0, stances = 0, power_type = 0, power_cost = 0, spell_icon_id = 4781, spell_desc_enus = 'Taunts the target to attack you, but has no effect if the target is already attacking you.' WHERE id = 900153;
+
+-- ============================================================================
+-- Anticipation (900154-900156) - Cloned from 16254/16271/16272 with icon 5340
+-- Earthwarden talent tree (tier 2, col 3)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900154;
+
+INSERT INTO `spell` SET
+    `id` = 900154,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -17,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900155;
+
+INSERT INTO `spell` SET
+    `id` = 900155,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = -26,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900156;
+
+INSERT INTO `spell` SET
+    `id` = 900156,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 2,
+    `effect_base_points_2` = -51,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 49,
+    `effect_apply_aura_name_2` = 234,
+    `effect_misc_value_a_2` = 3,
+    `spell_icon_id` = 5340,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Anticipation',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your chance to dodge by an additional $s1%, and reduces the duration of all Disarm effects used against you by $s2%. This does not stack with other Disarm duration reducing effects.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Lightning Ward (900157, 900158, 900159) - 3 ranks
+-- Reduces all magic damage taken by 3/6/10%.
+-- Replaces Improved Shields in Earthwarden tree (talent 2906, tier 1 col 3).
+-- Effect 1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 126 (all magic schools)
+-- Icon: 5317
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900157;
+
+INSERT INTO `spell` SET
+    `id` = 900157,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5317,
+    `spell_name_enus` = 'Lightning Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900158;
+
+INSERT INTO `spell` SET
+    `id` = 900158,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -7,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5317,
+    `spell_name_enus` = 'Lightning Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900159;
+
+INSERT INTO `spell` SET
+    `id` = 900159,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -11,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 126,
+    `spell_icon_id` = 5317,
+    `spell_name_enus` = 'Lightning Ward',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces all magic damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
