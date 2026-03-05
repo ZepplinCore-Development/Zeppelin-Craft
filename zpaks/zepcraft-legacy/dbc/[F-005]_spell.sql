@@ -895,3 +895,13 @@ WHERE `id` = 100015;
 
 UPDATE `spell` SET `spell_desc_variable_id` = 184 WHERE `id` = 5421;
 
+
+UPDATE spell SET reagent_1=2318, reagent_count_1=12, reagent_2=2320, reagent_count_2=2 WHERE id=100020;
+
+UPDATE spell SET reagent_1=2319, reagent_count_1=20, reagent_2=4234, reagent_count_2=4, reagent_3=100010, reagent_count_3=1 WHERE id=100021;
+
+UPDATE spell SET reagent_1=4304, reagent_count_1=20, reagent_2=8170, reagent_count_2=4, reagent_3=100011, reagent_count_3=1 WHERE id=100022;
+
+UPDATE spell SET reagent_1=8170, reagent_count_1=20, reagent_2=15407, reagent_count_2=8, reagent_3=100012, reagent_count_3=1 WHERE id=100023;
+
+UPDATE spell SET reagent_1=23793, reagent_count_1=20, reagent_2=21887, reagent_count_2=8, reagent_3=100013, reagent_count_3=1 WHERE id=100024;
