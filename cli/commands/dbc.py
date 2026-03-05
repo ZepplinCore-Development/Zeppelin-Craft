@@ -501,9 +501,9 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
     if success and output.strip() and str(new_id) in output:
         raise click.ClickException(f"Target spell {new_id} already exists")
 
-    # Get columns
+    # Get column names and types
     success, output = run_sql(
-        "SELECT COLUMN_NAME FROM information_schema.columns "
+        "SELECT COLUMN_NAME, DATA_TYPE FROM information_schema.columns "
         "WHERE table_schema = DATABASE() AND table_name = 'spell' "
         "ORDER BY ORDINAL_POSITION",
         config, config.live
@@ -511,23 +511,78 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
     if not success:
         raise click.ClickException("Could not get spell table columns")
 
-    columns = [line.strip() for line in output.strip().split('\n')[1:] if line.strip()]
+    col_info = []
+    for line in output.strip().split('\n')[1:]:
+        parts = line.strip().split('\t')
+        if len(parts) >= 2:
+            col_info.append((parts[0], parts[1].lower()))
 
-    # Build clone SQL
-    columns_str = ', '.join(f'`{col}`' for col in columns)
+    # Query all values from source spell
+    success, output = run_sql(
+        f"SELECT * FROM spell WHERE ID = {source_id}",
+        config, config.live
+    )
+    if not success or not output.strip():
+        raise click.ClickException(f"Could not read source spell {source_id}")
 
-    select_parts = []
-    for col in columns:
-        if col.lower() == 'id':
-            select_parts.append(str(new_id))
-        elif col == 'spell_name_enus' and new_name:
-            escaped_name = new_name.replace("'", "\\'")
-            select_parts.append(f"'{escaped_name}'")
+    lines = output.strip().split('\n')
+    if len(lines) < 2:
+        raise click.ClickException(f"Source spell {source_id} returned no data")
+
+    values = lines[1].split('\t')
+    if len(values) != len(col_info):
+        raise click.ClickException(
+            f"Column count mismatch: {len(col_info)} columns, {len(values)} values")
+
+    # Build INSERT INTO spell SET with only non-default values
+    string_types = {'varchar', 'text', 'longtext', 'mediumtext', 'char', 'tinytext'}
+    set_clauses = []
+
+    for (col_name, col_type), value in zip(col_info, values):
+        is_string = col_type in string_types
+
+        # Always include id with new value
+        if col_name.lower() == 'id':
+            set_clauses.append(f"    `id` = {new_id}")
+            continue
+
+        # Use custom name if provided
+        if col_name == 'spell_name_enus' and new_name:
+            escaped = new_name.replace("'", "''")
+            set_clauses.append(f"    `spell_name_enus` = '{escaped}'")
+            continue
+
+        # Skip default values (0 for numeric, empty for strings)
+        if is_string:
+            if not value or value == 'NULL':
+                continue
+            escaped = value.replace("'", "''")
+            set_clauses.append(f"    `{col_name}` = '{escaped}'")
         else:
-            select_parts.append(f'`{col}`')
+            if not value or value == 'NULL':
+                continue
+            try:
+                num = float(value)
+            except ValueError:
+                set_clauses.append(f"    `{col_name}` = {value}")
+                continue
+            if num == 0.0:
+                continue
+            # Clean up float precision: 1.0000000000000000 -> 1.0
+            if '.' in value:
+                cleaned = f"{num:g}"
+                # Ensure floats keep at least one decimal
+                if '.' not in cleaned and col_type in ('float', 'double', 'decimal'):
+                    cleaned += '.0'
+                set_clauses.append(f"    `{col_name}` = {cleaned}")
+            else:
+                set_clauses.append(f"    `{col_name}` = {value}")
 
-    select_str = ', '.join(select_parts)
-    clone_sql = f"DELETE FROM spell WHERE id = {new_id};\nINSERT INTO spell ({columns_str}) SELECT {select_str} FROM spell WHERE ID = {source_id};"
+    clone_sql = (
+        f"DELETE FROM `spell` WHERE `id` = {new_id};\n\n"
+        f"INSERT INTO `spell` SET\n"
+        + ",\n".join(set_clauses) + ";"
+    )
 
     # Use modify command logic
     ctx.invoke(dbc_modify, sql=clone_sql, task_id=task_id,
