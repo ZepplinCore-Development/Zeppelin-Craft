@@ -1,6 +1,6 @@
 -- ============================================================================
 -- F-001: Mass SpellFamily tagging for profession crafting spells
--- 
+--
 -- Blacksmithing, Leatherworking, Engineering, and Alchemy crafting spells
 -- were never tagged with their SpellFamily, causing cast-speed tools
 -- (Smithing Hammers, Leathering Kits, Tinkering Tools, Alchemy Mortars)
@@ -8,6 +8,11 @@
 --
 -- Tailoring (family 14, mask 32) and Enchanting (family 14, mask 256)
 -- were already correctly tagged in [F-001]_spell.sql.
+-- ============================================================================
+--
+-- Also tags potion CONSUMPTION spells (SpellFamily 13) with category masks
+-- so Alchemy Mortar effect 2 (potency boost, targeting mask 0x0E) can match.
+-- See FamilyPotions.json: Health=0x02, Mana=0x04, Rejuv=0x08
 -- ============================================================================
 
 -- Blacksmithing: 511 crafting spells -> spell_class_set=14, spell_class_mask_1=1 (0x00000001)
@@ -69,3 +74,26 @@ WHERE id IN (
     103323, 103324, 103325, 103326, 103327, 103328, 103329, 103330, 103331, 103332, 103333, 103334, 103335, 103336, 103337, 103338, 103339, 103340, 103341, 103342,
     103343, 103344, 103345, 103346, 103347
 ) AND spell_class_set = 0;
+
+
+-- =====================================================
+-- POTION CONSUMPTION SPELLS (SpellFamily 13)
+-- Tags existing family-13 spells with category masks
+-- for Alchemy Mortar / Alchemist Stone targeting
+-- =====================================================
+
+-- Health Potions: 20 spells -> spell_class_mask_1 |= 2 (0x02, bit 2)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 2
+  WHERE id IN (439,440,441,2024,4042,17534,21393,21394,28495,41306,41619,41620,43185,53144,53670,54572,58862,62352,67486,67489)
+  AND spell_class_set = 13;
+
+-- Mana Potions: 24 spells -> spell_class_mask_1 |= 4 (0x04, bit 3)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 4
+  WHERE id IN (436,437,438,2023,6612,6613,9512,11903,17528,17530,17531,21395,21396,28499,28718,29236,41304,41617,41618,43186,49748,58864,67487,67490)
+  AND spell_class_set = 13;
+
+-- Rejuvenation Potions: 5 spells -> spell_class_mask_1 |= 8 (0x08, bit 4)
+-- (8 others already tagged via [BASE,F-044]_spell.sql)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8
+  WHERE id IN (11387,18832,19199,52697,53750)
+  AND spell_class_set = 13;
