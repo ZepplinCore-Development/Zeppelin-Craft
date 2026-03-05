@@ -8,6 +8,7 @@
 *.skin
 *.SKIN
 *.anim
+*.ANIM
 *.bone
 *.wmo
 *.WMO
@@ -24,3 +25,5 @@
 *.DBC
 *.bak
 *.BAK
+*.phys
+*.PHYS

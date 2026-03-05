@@ -54,8 +54,8 @@ INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `
 -- Wands (skill 228) - classMask 400
 INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1013, 228, 4095, 400, 128, 0, 0, 0);
 
--- Polearms (skill 229) - classMask 39
-INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1014, 229, 4095, 39, 128, 0, 0, 0);
+-- Polearms (skill 229) - classMask 1063
+INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1014, 229, 4095, 1063, 128, 0, 0, 0);
 
 -- Shield (skill 433) - classMask 67
 INSERT INTO `skillraceclassinfo` (`id`, `skill_id`, `race_mask`, `class_mask`, `flags`, `min_level`, `skill_tier_id`, `skill_cost_id`) VALUES (1015, 433, 4095, 67, 128, 0, 0, 0);

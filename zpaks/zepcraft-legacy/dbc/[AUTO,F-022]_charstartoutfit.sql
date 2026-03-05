@@ -320,15 +320,10 @@ UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 536;
 UPDATE `charstartoutfit` SET `inventory_type_4` = 26 WHERE `id` = 537;
 
 -- Worgen Rogue (Female): Fix Worn Axe invtype to 13
-UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 537;-- ============================================================================
--- WEAPON DISPLAY FIXES
--- ============================================================================
--- Updates display_item_ for weapon slots changed above
+UPDATE `charstartoutfit` SET `inventory_type_5` = 13 WHERE `id` = 537;
 
-UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 506;
-UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 507;
-UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 536;
-UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 537;
+
+
 -- [TIER SET DISPLAY OVERRIDES - START]
 -- ============================================================================
 -- TIER SET DISPLAY OVERRIDES
@@ -4916,3 +4911,14 @@ UPDATE `charstartoutfit` SET `display_item_3` = 30542 WHERE `id` = 549;
 UPDATE `charstartoutfit` SET `display_item_1` = 34135 WHERE `id` = 549;
 
 -- [TIER SET DISPLAY OVERRIDES - END]
+
+
+-- ============================================================================
+-- WEAPON DISPLAY FIXES
+-- ============================================================================
+-- Updates display_item_ for weapon slots changed above
+
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 506;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 507;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 536;
+UPDATE `charstartoutfit` SET `display_item_5` = 6442 WHERE `id` = 537;
