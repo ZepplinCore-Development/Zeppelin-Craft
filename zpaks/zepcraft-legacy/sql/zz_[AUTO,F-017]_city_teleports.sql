@@ -199,6 +199,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58554);
 INSERT INTO `npc_vendor`
 SET `entry` = 1307,
     `item` = 58554;
+-- Kyra Boucher - Scroll of Teleport Stormwind
+INSERT INTO `npc_vendor`
+SET `entry` = 1275,
+    `item` = 58554;
 
 
 -- Scroll of Teleport Orgrimmar
