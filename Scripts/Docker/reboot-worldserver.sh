@@ -111,7 +111,7 @@ if ! docker inspect -f '{{.State.Status}}' "$DB_CONTAINER" 2>/dev/null | grep -q
 fi
 
 # Bot characters to ignore (e.g. WowChat discord bridge)
-BOT_NAMES="'chat'"
+BOT_NAMES="'Chat'"
 
 # Query online players via database container (excluding bots)
 QUERY="SELECT guid, name, level, class, race, zone FROM characters WHERE online = 1 AND name NOT IN ($BOT_NAMES) ORDER BY name"
