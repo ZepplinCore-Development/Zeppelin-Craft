@@ -231,9 +231,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Nature damage to the attacker. Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Fire damage to the attacker. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Nature damage to attackers when you block. Unlimited charges.',
+    `spell_tooltip_enus` = 'Deals $<total> Fire damage to attackers when you block. Unlimited charges.',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -244,7 +244,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 8,
+    `school_mask` = 4,
     `effect_bonus_multiplier_1` = 0.267,
     `spell_desc_variable_id` = 187;
 
@@ -414,29 +414,29 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 2,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 293,
-    `effect_real_points_per_level_1` = 21,
+    `effect_base_points_1` = 59,
+    `effect_real_points_per_level_1` = 16,
     `effect_implicit_target_a_1` = 6,
     `effect_2` = 137,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -1,
     `effect_implicit_target_a_2` = 1,
-    `spell_level` = 40,
-    `base_level` = 40,
-    `max_level` = 84,
+    `spell_level` = 30,
+    `base_level` = 30,
+    `max_level` = 80,
     `spell_visual_1` = 3444,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Deals $s1 Nature damage.',
+    `spell_desc_enus` = 'Deals $s1 Fire damage.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 256,
-    `school_mask` = 8,
+    `school_mask` = 4,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `effect_bonus_multiplier_1` = 0.3;
@@ -1469,8 +1469,8 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- Volcanic Shield desc with conditional mana restore from Molten Core talent
-UPDATE spell SET spell_desc_enus = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Nature damage to the attacker. Damage scales with spell power.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.' WHERE ID = 900116;
-UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Nature damage to attackers when you block.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]' WHERE ID = 900116;
+UPDATE spell SET spell_desc_enus = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Fire damage to the attacker. Damage scales with spell power.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.' WHERE ID = 900116;
+UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Fire damage to attackers when you block.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]' WHERE ID = 900116;
 
 -- Elemental Bulwark base_points fix
 UPDATE spell SET effect_base_points_1 = 1 WHERE ID = 900150;
