@@ -634,7 +634,7 @@
       "name": "nameplate-distance",
       "description": "Increase nameplate render distance from 41 to 60 yards (squared float: 1681.0 to 3600.0)",
       "source": "FrostAtom/awesome_wotlk (confirmed VA 0x00ADAA7C)",
-      "enabled": true,
+      "enabled": false,
       "edits": [
         {
           "offset": "0x5FCFF8",
