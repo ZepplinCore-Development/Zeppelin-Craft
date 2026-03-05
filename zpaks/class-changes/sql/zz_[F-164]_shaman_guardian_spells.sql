@@ -25,7 +25,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- spell_proc - Block-only proc filtering (HitMask=64 = PROC_HIT_BLOCK)
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
@@ -33,4 +33,11 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900124, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0);
+(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Elemental Bulwark buff — consume all stacks when Healing Wave is cast
+-- SpellFamilyName=11 (Shaman), SpellFamilyMask0=64 (Healing Wave)
+-- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
+-- Same pattern as Maelstrom Weapon buff (53817)
+(900150, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900151, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900152, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);

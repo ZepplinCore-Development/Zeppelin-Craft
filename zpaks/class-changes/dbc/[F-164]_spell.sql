@@ -1389,9 +1389,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900150s1% for $900150d. Stacks up to 3 times.',
+    `spell_desc_enus` = 'Successful blocks increase your armor by $900150s1% for $900150d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900150s2%. Casting Healing Wave consumes all stacks.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900150s1% for $900150d, stacking up to 3 times.',
+    `spell_tooltip_enus` = 'Successful blocks increase armor by $900150s1% for $900150d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900150s2%. Casting Healing Wave consumes all stacks.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1419,9 +1419,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900151s1% for $900151d. Stacks up to 3 times.',
+    `spell_desc_enus` = 'Successful blocks increase your armor by $900151s1% for $900151d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900151s2%. Casting Healing Wave consumes all stacks.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900151s1% for $900151d, stacking up to 3 times.',
+    `spell_tooltip_enus` = 'Successful blocks increase armor by $900151s1% for $900151d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900151s2%. Casting Healing Wave consumes all stacks.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1449,9 +1449,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900152s1% for $900152d. Stacks up to 3 times.',
+    `spell_desc_enus` = 'Successful blocks increase your armor by $900152s1% for $900152d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900152s2%. Casting Healing Wave consumes all stacks.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900152s1% for $900152d, stacking up to 3 times.',
+    `spell_tooltip_enus` = 'Successful blocks increase armor by $900152s1% for $900152d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900152s2%. Casting Healing Wave consumes all stacks.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1559,6 +1559,58 @@ UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Fire damage to attackers w
 UPDATE spell SET effect_base_points_1 = 1 WHERE ID = 900150;
 UPDATE spell SET effect_base_points_1 = 3 WHERE ID = 900151;
 UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900152;
+
+-- ============================================================================
+-- Elemental Bulwark buff — Elemental Fortitude integration
+-- Each stack also reduces Healing Wave cast time and mana cost by 33%.
+-- At 3 stacks: Healing Wave is instant and free (-99%).
+-- Casting Healing Wave consumes all stacks (proc_charges=1, same as Maelstrom Weapon).
+-- Effect 2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -33%/stack
+-- Effect 3: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), -33%/stack
+-- Targets: Healing Wave (Shaman class_set=11, spell_class_mask_1=64)
+-- ============================================================================
+
+-- Add HW cast time reduction (effect 2) to all EB buff ranks
+UPDATE spell SET
+    effect_2 = 6,
+    effect_die_sides_2 = 1,
+    effect_base_points_2 = -34,
+    effect_implicit_target_a_2 = 1,
+    effect_apply_aura_name_2 = 108,
+    effect_misc_value_a_2 = 10,
+    effect_spell_class_mask_a_2 = 64,
+    effect_damage_multiplier_2 = 1.0,
+    effect_bonus_multiplier_2 = 1.0
+WHERE ID IN (900150, 900151, 900152);
+
+-- Add HW mana cost reduction (effect 3) to all EB buff ranks
+UPDATE spell SET
+    effect_3 = 6,
+    effect_die_sides_3 = 1,
+    effect_base_points_3 = -34,
+    effect_implicit_target_a_3 = 1,
+    effect_apply_aura_name_3 = 108,
+    effect_misc_value_a_3 = 14,
+    effect_spell_class_mask_a_3 = 64,
+    effect_damage_multiplier_3 = 1.0,
+    effect_bonus_multiplier_3 = 1.0
+WHERE ID IN (900150, 900151, 900152);
+
+-- Add proc behavior: consume all stacks when Healing Wave is cast
+-- proc_flags=81920 (same as Maelstrom Weapon buff 53817)
+-- proc_charges=1 (entire buff removed on first proc, regardless of stack count)
+UPDATE spell SET
+    proc_flags = 81920,
+    proc_charges = 1,
+    proc_chance = 100
+WHERE ID IN (900150, 900151, 900152);
+
+-- Update buff icon to 5310 and descriptions
+UPDATE spell SET
+    spell_icon_id = 5310,
+    spell_desc_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    spell_tooltip_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.'
+WHERE ID IN (900150, 900151, 900152);
 
 -- Rockbiter Weapon imbue desc - calculated AP from aura spells + conditional threat from Imp Rockbiter
 UPDATE spell SET spell_desc_variable_id = 190, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $<total>.$?s900129[  Increases threat generated by $<threat>%.][]$?s900130[  Increases threat generated by $<threat>%.][]  Lasts 30 minutes.' WHERE id = 8017;
