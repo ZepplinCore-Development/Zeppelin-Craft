@@ -1,531 +1,347 @@
 -- [F-164] fourth-talent-tree: talenttab and talent
--- Earthwarden spec (4th Shaman tree) - duplicated from Enhancement with new IDs
-
+-- Earthwarden spec (4th Shaman tree)
 -- ============================================================================
 -- TalentTab: Earthwarden (id=900)
 -- ============================================================================
-INSERT INTO `talenttab` (
-    `id`, `name_enus`,
-    `name_kokr`, `name_frfr`, `name_dede`, `name_zhcn`, `name_zhtw`,
-    `name_eses`, `name_esmx`, `name_ruru`, `name_jajp`, `name_ptpt`,
-    `name_itit`, `name_unused_1`, `name_unused_2`, `name_unused_3`, `name_unused_4`,
-    `name_flags`, `spell_icon`, `race_mask`, `class_mask`,
-    `creature_family`, `order_index`, `background_file`
-) VALUES (
-    900, 'Earthwarden',
-    '', '', '', '', '',
-    '', '', '', '', '',
-    '', '', '', '', '',
-    16712190, 19, 4095, 64,
-    0, 3, 'ShamanEnhancement'
-);
+DELETE FROM `talenttab` WHERE `id` = 900;
+
+INSERT INTO `talenttab` SET
+    `id` = 900,
+    `name_enus` = 'Earthwarden',
+    `name_kokr` = '',
+    `name_frfr` = '',
+    `name_dede` = '',
+    `name_zhcn` = '',
+    `name_zhtw` = '',
+    `name_eses` = '',
+    `name_esmx` = '',
+    `name_ruru` = '',
+    `name_jajp` = '',
+    `name_ptpt` = '',
+    `name_itit` = '',
+    `name_unused_1` = '',
+    `name_unused_2` = '',
+    `name_unused_3` = '',
+    `name_unused_4` = '',
+    `name_flags` = 16712190,
+    `spell_icon` = 19,
+    `race_mask` = 4095,
+    `class_mask` = 64,
+    `order_index` = 3,
+    `background_file` = 'ShamanEnhancement';
 
 -- ============================================================================
--- Talent entries (29 rows) - duplicated from Enhancement
--- New IDs 2900-2928, all pointing to spec_id=900 (Earthwarden)
---
--- ID mapping (old Enhancement → new Earthwarden):
---   610→2900, 2101→2901, 614→2902, 609→2903, 613→2904, 605→2905, 607→2906
---   611→2907, 617→2908, 601→2909, 602→2910, 615→2911, 1647→2912, 616→2913
---   2083→2914, 1689→2915, 1643→2916, 2263→2917, 1692→2918, 1690→2919, 901→2920
---   2055→2921, 2249→2922, 2054→2923, 1691→2924, 1693→2925, 2056→2926, 2057→2927, 2058→2928
---
--- Prereq remapping:
---   613→2904 (talent 602/2910 prereq)
---   616→2913 (talent 1690/2919 prereq)
---   1690→2919 (talents 1692/2918 and 2249/2922 prereqs)
---   901→2920 (talent 2054/2923 prereq)
+-- Talent entries (27 rows) for spec_id=900 (Earthwarden)
 -- ============================================================================
+-- 2900 - tier 0, col 0 - Improved Rockbiter Weapon (2 ranks)
+DELETE FROM `talent` WHERE `id` = 2900;
 
--- 2900 (was 610) - tier 0, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2900, 900, 0, 0,
-    16259, 16295, 52456, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2900,
+    `spec_id` = 900,
+    `rank_1` = 900129,
+    `rank_2` = 900130;
 
--- 2901 (was 2101) - tier 0, col 1
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2901, 900, 0, 1,
-    16043, 16130, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2901 - tier 0, col 1
+DELETE FROM `talent` WHERE `id` = 2901;
 
--- 2902 - tier 0, col 2 - Relentless (5 ranks, replaces Ancestral Knowledge)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2902, 900, 0, 2,
-    900142, 900143, 900144, 900145, 900146,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2901,
+    `spec_id` = 900,
+    `column_index` = 1,
+    `rank_1` = 16043,
+    `rank_2` = 16130;
 
--- 2903 (was 609) - tier 1, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2903, 900, 1, 0,
-    16258, 16293, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2902 - tier 0, col 2 - Relentless (5 ranks)
+DELETE FROM `talent` WHERE `id` = 2902;
 
--- 2904 - tier 1, col 1 - Shield Mastery (5 ranks, replaces Thundering Strikes)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2904, 900, 1, 1,
-    900133, 900134, 900135, 900136, 900137,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2902,
+    `spec_id` = 900,
+    `column_index` = 2,
+    `rank_1` = 900142,
+    `rank_2` = 900143,
+    `rank_3` = 900144,
+    `rank_4` = 900145,
+    `rank_5` = 900146;
 
--- 2905 (was 605) - tier 1, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2905, 900, 1, 2,
-    900109, 900110, 900111, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2903 - tier 1, col 0
+DELETE FROM `talent` WHERE `id` = 2903;
 
--- 2906 (was 607) - tier 1, col 3
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2906, 900, 1, 3,
-    16261, 16290, 51881, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2903,
+    `spec_id` = 900,
+    `tier_id` = 1,
+    `rank_1` = 16258,
+    `rank_2` = 16293;
 
--- 2907 - tier 2, col 0 - Improved Rockbiter Weapon (2 ranks, replaces Elemental Weapons)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2907, 900, 2, 0,
-    900129, 900130, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2904 - tier 1, col 1 - Shield Mastery (5 ranks)
+DELETE FROM `talent` WHERE `id` = 2904;
 
--- 2908 (was 617) - tier 2, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2908, 900, 2, 2,
-    43338, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2904,
+    `spec_id` = 900,
+    `tier_id` = 1,
+    `column_index` = 1,
+    `rank_1` = 900133,
+    `rank_2` = 900134,
+    `rank_3` = 900135,
+    `rank_4` = 900136,
+    `rank_5` = 900137;
 
--- 2909 (was 601) - tier 2, col 3
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2909, 900, 2, 3,
-    16254, 16271, 16272, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2905 - tier 1, col 2 (5 ranks)
+DELETE FROM `talent` WHERE `id` = 2905;
 
--- 2910 - tier 3, col 1 - Elemental Bulwark (3 ranks, replaces Flurry) - prereq: Shield Mastery (2904) rank 4
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2910, 900, 3, 1,
-    900147, 900148, 900149, 0, 0,
-    0, 0, 0, 0,
-    2904, 0, 0,
-    4, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2905,
+    `spec_id` = 900,
+    `tier_id` = 1,
+    `column_index` = 2,
+    `rank_1` = 900109,
+    `rank_2` = 900110,
+    `rank_3` = 900111,
+    `rank_4` = 900112,
+    `rank_5` = 900113;
 
--- 2911 (was 615) - tier 3, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2911, 900, 3, 2,
-    16252, 16306, 16307, 16308, 16309,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2906 - tier 1, col 3
+DELETE FROM `talent` WHERE `id` = 2906;
 
--- 2912 (was 1647) - tier 4, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2912, 900, 4, 0,
-    29192, 29193, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2906,
+    `spec_id` = 900,
+    `tier_id` = 1,
+    `column_index` = 3,
+    `rank_1` = 16261,
+    `rank_2` = 16290,
+    `rank_3` = 51881;
 
--- 2913 (was 616) - tier 4, col 1
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2913, 900, 4, 1,
-    16268, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2933 - tier 2, col 0 - Rockslam (1 rank)
+DELETE FROM `talent` WHERE `id` = 2933;
 
--- 2914 (was 2083) - tier 4, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2914, 900, 4, 2,
-    51883, 51884, 51885, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2933,
+    `spec_id` = 900,
+    `tier_id` = 2,
+    `rank_1` = 900119,
+    `flags` = 1;
 
--- 2915 (was 1689) - tier 5, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2915, 900, 5, 0,
-    30802, 30808, 30809, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2908 - tier 2, col 2
+DELETE FROM `talent` WHERE `id` = 2908;
 
--- 2916 (was 1643) - tier 5, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2916, 900, 5, 2,
-    29082, 29084, 29086, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2908,
+    `spec_id` = 900,
+    `tier_id` = 2,
+    `column_index` = 2,
+    `rank_1` = 43338,
+    `flags` = 1;
 
--- 2917 (was 2263) - tier 5, col 3
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2917, 900, 5, 3,
-    63373, 63374, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2909 - tier 2, col 3
+DELETE FROM `talent` WHERE `id` = 2909;
 
--- 2918 - tier 6, col 0 - Rockslam (1 rank) - prereq: Stone Skin (2919)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2918, 900, 6, 0,
-    900119, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    2919, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2909,
+    `spec_id` = 900,
+    `tier_id` = 2,
+    `column_index` = 3,
+    `rank_1` = 16254,
+    `rank_2` = 16271,
+    `rank_3` = 16272;
 
--- 2919 - tier 6, col 1 - Stone Skin (3 ranks) - prereq: Spirit Weapons (2913)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2919, 900, 6, 1,
-    900115, 900127, 900128, 0, 0,
-    0, 0, 0, 0,
-    2913, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2929 - tier 3, col 0 - Spirit Weapons (1 rank)
+DELETE FROM `talent` WHERE `id` = 2929;
 
--- 2920 - tier 6, col 2 - Volcanic Shield (1 rank, active shield buff) - prereq: Stone Skin (2919)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2920, 900, 6, 2,
-    900116, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    2919, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2929,
+    `spec_id` = 900,
+    `tier_id` = 3,
+    `rank_1` = 16268;
 
--- 2921 (was 2055) - tier 7, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2921, 900, 7, 0,
-    51525, 51526, 51527, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2910 - tier 3, col 1 - Elemental Bulwark (3 ranks) - prereq: Shield Mastery (2904) rank 3
+DELETE FROM `talent` WHERE `id` = 2910;
 
--- 2922 - tier 7, col 1 - Tectonic Blast (1 rank) - prereq: Stone Skin (2919)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2922, 900, 7, 1,
-    900121, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    2919, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2910,
+    `spec_id` = 900,
+    `tier_id` = 3,
+    `column_index` = 1,
+    `rank_1` = 900147,
+    `rank_2` = 900148,
+    `rank_3` = 900149,
+    `pre_req_talent_1` = 2904,
+    `pre_req_rank_1` = 3;
+
+-- 2911 - tier 3, col 2
+DELETE FROM `talent` WHERE `id` = 2911;
+
+INSERT INTO `talent` SET
+    `id` = 2911,
+    `spec_id` = 900,
+    `tier_id` = 3,
+    `column_index` = 2,
+    `rank_1` = 16252,
+    `rank_2` = 16306,
+    `rank_3` = 16307,
+    `rank_4` = 16308,
+    `rank_5` = 16309;
+
+-- 2912 - tier 4, col 0
+DELETE FROM `talent` WHERE `id` = 2912;
+
+INSERT INTO `talent` SET
+    `id` = 2912,
+    `spec_id` = 900,
+    `tier_id` = 4,
+    `rank_1` = 29192,
+    `rank_2` = 29193;
+
+-- 2914 - tier 4, col 2
+DELETE FROM `talent` WHERE `id` = 2914;
+
+INSERT INTO `talent` SET
+    `id` = 2914,
+    `spec_id` = 900,
+    `tier_id` = 4,
+    `column_index` = 2,
+    `rank_1` = 30812,
+    `rank_2` = 30813,
+    `rank_3` = 30814;
+
+-- 2932 - tier 4, col 3 - Tectonic Blast (1 rank)
+DELETE FROM `talent` WHERE `id` = 2932;
+
+INSERT INTO `talent` SET
+    `id` = 2932,
+    `spec_id` = 900,
+    `tier_id` = 4,
+    `column_index` = 3,
+    `rank_1` = 900121,
+    `flags` = 1;
+
+-- 2915 - tier 5, col 0
+DELETE FROM `talent` WHERE `id` = 2915;
+
+INSERT INTO `talent` SET
+    `id` = 2915,
+    `spec_id` = 900,
+    `tier_id` = 5,
+    `rank_1` = 30802,
+    `rank_2` = 30808,
+    `rank_3` = 30809;
+
+-- 2930 - tier 5, col 1 - Stone Skin (3 ranks)
+DELETE FROM `talent` WHERE `id` = 2930;
+
+INSERT INTO `talent` SET
+    `id` = 2930,
+    `spec_id` = 900,
+    `tier_id` = 5,
+    `column_index` = 1,
+    `rank_1` = 900115,
+    `rank_2` = 900127,
+    `rank_3` = 900128;
+
+-- 2916 - tier 5, col 2
+DELETE FROM `talent` WHERE `id` = 2916;
+
+INSERT INTO `talent` SET
+    `id` = 2916,
+    `spec_id` = 900,
+    `tier_id` = 5,
+    `column_index` = 2,
+    `rank_1` = 29082,
+    `rank_2` = 29084,
+    `rank_3` = 29086;
+
+-- 2917 - tier 5, col 3
+DELETE FROM `talent` WHERE `id` = 2917;
+
+INSERT INTO `talent` SET
+    `id` = 2917,
+    `spec_id` = 900,
+    `tier_id` = 5,
+    `column_index` = 3,
+    `rank_1` = 63373,
+    `rank_2` = 63374;
+
+-- 2920 - tier 6, col 2 - Volcanic Shield (1 rank)
+DELETE FROM `talent` WHERE `id` = 2920;
+
+INSERT INTO `talent` SET
+    `id` = 2920,
+    `spec_id` = 900,
+    `tier_id` = 6,
+    `column_index` = 2,
+    `rank_1` = 900116,
+    `flags` = 1;
+
+-- 2921 - tier 7, col 0
+DELETE FROM `talent` WHERE `id` = 2921;
+
+INSERT INTO `talent` SET
+    `id` = 2921,
+    `spec_id` = 900,
+    `tier_id` = 7,
+    `rank_1` = 51525,
+    `rank_2` = 51526,
+    `rank_3` = 51527;
 
 -- 2923 - tier 7, col 2 - Improved Volcanic Shield (2 ranks) - prereq: Volcanic Shield (2920)
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2923, 900, 7, 2,
-    900123, 900124, 0, 0, 0,
-    0, 0, 0, 0,
-    2920, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+DELETE FROM `talent` WHERE `id` = 2923;
 
--- 2924 (was 1691) - tier 8, col 0
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2924, 900, 8, 0,
-    30812, 30813, 30814, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2923,
+    `spec_id` = 900,
+    `tier_id` = 7,
+    `column_index` = 2,
+    `rank_1` = 900123,
+    `rank_2` = 900124,
+    `pre_req_talent_1` = 2920;
 
--- 2925 (was 1693) - tier 8, col 1
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2925, 900, 8, 1,
-    30823, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+-- 2925 - tier 8, col 1
+DELETE FROM `talent` WHERE `id` = 2925;
 
--- 2926 (was 2056) - tier 8, col 2
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2926, 900, 8, 2,
-    51523, 51524, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2925,
+    `spec_id` = 900,
+    `tier_id` = 8,
+    `column_index` = 1,
+    `rank_1` = 30823,
+    `flags` = 1;
 
--- 2927 (was 2057) - tier 9, col 1
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2927, 900, 9, 1,
-    51528, 51529, 51530, 51531, 51532,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    0, 0, 0, 0
-);
+-- 2926 - tier 8, col 2
+DELETE FROM `talent` WHERE `id` = 2926;
 
--- 2928 (was 2058) - tier 10, col 1
-INSERT INTO `talent` (
-    `id`, `spec_id`, `tier_id`, `column_index`,
-    `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`,
-    `rank_6`, `rank_7`, `rank_8`, `rank_9`,
-    `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`,
-    `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`,
-    `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`
-) VALUES (
-    2928, 900, 10, 1,
-    51533, 0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0,
-    0, 0, 0,
-    1, 0, 0, 0
-);
+INSERT INTO `talent` SET
+    `id` = 2926,
+    `spec_id` = 900,
+    `tier_id` = 8,
+    `column_index` = 2,
+    `rank_1` = 51523,
+    `rank_2` = 51524;
+
+-- 2927 - tier 9, col 1
+DELETE FROM `talent` WHERE `id` = 2927;
+
+INSERT INTO `talent` SET
+    `id` = 2927,
+    `spec_id` = 900,
+    `tier_id` = 9,
+    `column_index` = 1,
+    `rank_1` = 51528,
+    `rank_2` = 51529,
+    `rank_3` = 51530,
+    `rank_4` = 51531,
+    `rank_5` = 51532;
+
+-- 2928 - tier 10, col 1
+DELETE FROM `talent` WHERE `id` = 2928;
+
+INSERT INTO `talent` SET
+    `id` = 2928,
+    `spec_id` = 900,
+    `tier_id` = 10,
+    `column_index` = 1,
+    `rank_1` = 51533,
+    `flags` = 1;
+
