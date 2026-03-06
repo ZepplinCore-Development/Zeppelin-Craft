@@ -15,6 +15,8 @@ from typing import Tuple, Optional
 from .lua_parser import AtlasLootParser
 from .loot_query import LootDatabase
 from .lua_generator import LuaGenerator
+from .vendor_query import VendorDatabase
+from .rep_generator import generate_faction_tables
 
 
 # =============================================================================
@@ -77,6 +79,7 @@ TBC_GAMEOBJECT_SECTIONS = _clean_mapping(_mappings['tbc_gameobject_sections'])
 TBC_MULTI_SOURCE_SECTIONS = {k: v for k, v in _mappings.get('tbc_multi_source_sections', {}).items() if not k.startswith('_')}
 VANILLA_MULTI_SOURCE_SECTIONS = {k: v for k, v in _mappings.get('vanilla_multi_source_sections', {}).items() if not k.startswith('_')}
 SINGLE_BOSS_GO_SECTIONS = _clean_mapping(_mappings.get('single_boss_go_sections', {}))
+REP_FACTIONS = _mappings.get('rep_factions', {})
 
 
 # =============================================================================
@@ -599,6 +602,146 @@ def generate_section(lua_file_path: str, section_name: str, db: LootDatabase,
 
 
 # =============================================================================
+# Reputation Vendor Generation
+# =============================================================================
+
+def generate_rep_factions(lua_file_path: str, expansion: str,
+                          db: VendorDatabase, dry_run: bool = False,
+                          verbose: bool = False,
+                          faction_filter: str = None) -> Tuple[int, int]:
+    """Generate AtlasLoot sections for reputation vendor factions.
+
+    Args:
+        lua_file_path: Path to the expansion's Lua file
+        expansion: Expansion key in rep_factions config ('tbc', 'wotlk', 'vanilla')
+        db: Connected VendorDatabase instance
+        dry_run: Preview without writing
+        verbose: Detailed output
+        faction_filter: Optional specific faction section_base to generate (e.g., 'CExpedition')
+
+    Returns:
+        (success_count, fail_count)
+    """
+    factions = REP_FACTIONS.get(expansion, {})
+    # Filter out comments
+    factions = {k: v for k, v in factions.items() if not k.startswith('_') and isinstance(v, dict)}
+
+    if faction_filter:
+        if faction_filter in factions:
+            factions = {faction_filter: factions[faction_filter]}
+        else:
+            logger.error(f"Unknown faction '{faction_filter}' in {expansion}")
+            return (0, 1)
+
+    back_menu_map = {
+        'tbc': 'REPMENU_BURNINGCRUSADE',
+        'wotlk': 'REPMENU_WOTLK',
+        'vanilla': 'REPMENU_ORIGINALWOW',
+    }
+    back_menu = back_menu_map.get(expansion, 'REPMENU')
+
+    success = 0
+    fail = 0
+
+    for section_base, config in factions.items():
+        faction_id = config['faction_id']
+        icon = config['icon']
+        vendor_id = config.get('vendor_id')
+
+        logger.info(f"--- Processing rep faction: {section_base} (faction {faction_id}) ---")
+
+        items_by_rank = db.get_faction_vendor_items(faction_id, vendor_id)
+        if not items_by_rank:
+            logger.warning(f"No vendor items found for faction {faction_id} ({section_base})")
+            fail += 1
+            continue
+
+        pages = generate_faction_tables(
+            section_base=section_base,
+            items_by_rank=items_by_rank,
+            icon=icon,
+            back_menu=back_menu,
+        )
+
+        if not pages:
+            logger.error(f"Failed to generate tables for {section_base}")
+            fail += 1
+            continue
+
+        if dry_run:
+            for page in pages:
+                logger.info(f"DRY RUN: Would write {page['section_name']} ({page['item_count']} items)")
+                if verbose:
+                    print(f"\n--- {page['section_name']} ---")
+                    print(page['lua_code'])
+            success += 1
+            continue
+
+        # Determine addon name for registration
+        addon_name_map = {
+            'tbc': 'AtlasLootBurningCrusade',
+            'wotlk': 'AtlasLootWotLK',
+            'vanilla': 'AtlasLootOriginalWoW',
+        }
+        addon_name = addon_name_map.get(expansion, 'AtlasLootBurningCrusade')
+        faction_display = section_base.replace('CExpedition', 'Cenarion Expedition') \
+            .replace('HonorHold', 'Honor Hold') \
+            .replace('KeepersofTime', 'Keepers of Time') \
+            .replace('LowerCity', 'Lower City') \
+            .replace('ScaleSands', 'The Scale of the Sands') \
+            .replace('SunOffensive', 'Shattered Sun Offensive') \
+            .replace('VioletEye', 'The Violet Eye')
+
+        # Write each page — reload parser after each save to keep content in sync
+        all_pages_ok = True
+        for page in pages:
+            section_name = page['section_name']
+            lua_code = page['lua_code']
+
+            # Fresh parser for each page to avoid stale content after replacements
+            parser = AtlasLootParser(lua_file_path)
+
+            if parser.section_exists(section_name):
+                if not parser.replace_section(section_name, lua_code):
+                    logger.error(f"Failed to replace section '{section_name}'")
+                    all_pages_ok = False
+                    continue
+            else:
+                all_sections = parser.get_all_sections()
+                related = [s for s in all_sections if s.startswith(section_base)]
+                if related:
+                    ref = related[-1]
+                else:
+                    faction_sections = []
+                    for other_base in factions:
+                        faction_sections.extend(s for s in all_sections if s.startswith(other_base))
+                    ref = faction_sections[-1] if faction_sections else all_sections[-1] if all_sections else None
+
+                if ref:
+                    if not parser.insert_section_after(ref, section_name,
+                                                       lua_code.split('\n', 1)[1].rsplit('\n', 1)[0] + '\n'):
+                        logger.error(f"Failed to insert section '{section_name}'")
+                        all_pages_ok = False
+                        continue
+                else:
+                    logger.error(f"No reference section found for inserting '{section_name}'")
+                    all_pages_ok = False
+                    continue
+
+            parser.save_file(backup=False)
+            ensure_section_registered(section_name, faction_display, addon_name, dry_run=dry_run)
+
+        if all_pages_ok:
+            total_items = sum(p['item_count'] for p in pages)
+            logger.info(f"SUCCESS: {section_base} - {len(pages)} page(s), {total_items} items")
+            success += 1
+        else:
+            fail += 1
+
+    return (success, fail)
+
+
+# =============================================================================
 # Main Entry Point
 # =============================================================================
 
@@ -884,6 +1027,29 @@ def run(addon_base_dir: Path, dry_run: bool = False,
             )
         if success:
             success_count += 1
+
+    # Handle rep option (faction reputation vendors)
+    rep_target = targets.get('rep')
+    if rep_target:
+        vdb = VendorDatabase()
+        if not vdb.connect():
+            logger.error("Failed to connect to database for rep vendor queries")
+        else:
+            # Determine expansion and optional faction filter
+            if rep_target == 'all' or rep_target == 'tbc':
+                rep_success, rep_fail = generate_rep_factions(
+                    tbc_lua_file, 'tbc', vdb, dry_run=dry_run, verbose=verbose)
+                success_count += rep_success
+                total_count += rep_success + rep_fail
+            elif rep_target in REP_FACTIONS.get('tbc', {}):
+                rep_success, rep_fail = generate_rep_factions(
+                    tbc_lua_file, 'tbc', vdb, dry_run=dry_run, verbose=verbose,
+                    faction_filter=rep_target)
+                success_count += rep_success
+                total_count += rep_success + rep_fail
+            else:
+                logger.warning(f"Unknown rep target: {rep_target}")
+            vdb.disconnect()
 
     # Disconnect database
     db.disconnect()

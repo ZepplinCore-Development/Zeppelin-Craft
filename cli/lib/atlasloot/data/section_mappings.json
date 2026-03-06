@@ -853,5 +853,120 @@
     "recipe_min_chance": 5,
     "_comment2": "Custom items (ID >= this) always shown",
     "custom_item_min_id": 900000
+  },
+
+  "rep_factions": {
+    "_comment": "Faction reputation vendor mappings. section_base = AtlasLoot section prefix, faction_id = WoW faction ID, icon = header icon texture, vendor_id = primary quartermaster creature entry (optional), lua_file = target expansion file, back_menu = navigation back target",
+
+    "tbc": {
+      "Aldor": {
+        "faction_id": 932,
+        "icon": "INV_Jewelry_Talisman_08",
+        "vendor_id": 19321
+      },
+      "CExpedition": {
+        "faction_id": 942,
+        "icon": "INV_Misc_Ammo_Arrow_02",
+        "vendor_id": 17904
+      },
+      "HonorHold": {
+        "faction_id": 946,
+        "icon": "INV_BannerPVP_02",
+        "vendor_id": 17657
+      },
+      "Kurenai": {
+        "faction_id": 978,
+        "icon": "INV_Misc_Foot_Centaur",
+        "vendor_id": 20240
+      },
+      "Maghar": {
+        "faction_id": 941,
+        "icon": "INV_Misc_Foot_Centaur",
+        "vendor_id": 20241
+      },
+      "Ogrila": {
+        "faction_id": 1038,
+        "icon": "inv_misc_apexis_crystal",
+        "vendor_id": 23428
+      },
+      "Scryer": {
+        "faction_id": 934,
+        "icon": "INV_Misc_Foot_Centaur",
+        "vendor_id": 19331
+      },
+      "Skyguard": {
+        "faction_id": 1031,
+        "icon": "INV_Misc_Ribbon_01",
+        "vendor_id": 23367
+      },
+      "Sporeggar": {
+        "faction_id": 970,
+        "icon": "inv_mushroom_11",
+        "vendor_id": 18382
+      },
+      "Tranquillien": {
+        "faction_id": 922,
+        "icon": "INV_Misc_Bandana_03",
+        "vendor_id": 16528
+      },
+      "Ashtongue": {
+        "faction_id": 1012,
+        "icon": "achievement_reputation_ashtonguedeathsworn",
+        "vendor_id": 23159
+      },
+      "Consortium": {
+        "faction_id": 933,
+        "icon": "INV_Weapon_Shortblade_31",
+        "vendor_id": 20242
+      },
+      "KeepersofTime": {
+        "faction_id": 989,
+        "icon": "Ability_Warrior_VictoryRush",
+        "vendor_id": 21643
+      },
+      "LowerCity": {
+        "faction_id": 1011,
+        "icon": "Spell_Holy_ChampionsBond",
+        "vendor_id": 21655
+      },
+      "Netherwing": {
+        "faction_id": 1015,
+        "icon": "Ability_Mount_Netherdrakepurple",
+        "vendor_id": 23489
+      },
+      "ScaleSands": {
+        "faction_id": 990,
+        "icon": "INV_Misc_MonsterScales_13",
+        "vendor_id": 23437
+      },
+      "Shatar": {
+        "faction_id": 935,
+        "icon": "Ability_Warrior_ShieldMastery",
+        "vendor_id": 21432
+      },
+      "SunOffensive": {
+        "faction_id": 1077,
+        "icon": "inv_shield_48",
+        "vendor_id": 25032
+      },
+      "Thrallmar": {
+        "faction_id": 947,
+        "icon": "INV_BannerPVP_01",
+        "vendor_id": 17585
+      },
+      "VioletEye": {
+        "faction_id": 967,
+        "icon": "spell_holy_mindsooth",
+        "vendor_id": 18255
+      }
+    },
+
+    "wotlk": {
+      "_comment": "WotLK factions - can be added later for full automation"
+    },
+
+    "vanilla": {
+      "_comment": "Vanilla factions - can be added later for full automation"
+    }
   }
 }
