@@ -2151,13 +2151,13 @@ WHERE `id` IN (
 -- 1-rank passive talent. Hidden aura on Shaman that procs when a totem is
 -- summoned, triggering an AOE threat pulse around the caster.
 -- E1: PROC_TRIGGER_SPELL (aura 42) → 900166
--- proc_flags = 65536 (DONE_SPELL_NONE_DMG_CLASS_POS — covers totem summons).
--- NOTE: proc filtering to totem-only spells needs spell_proc or C++ script.
--- Triggered spell (900166): AOE Nature damage around caster, 0.3 AP coeff
+-- proc_flags = 16384 (DONE_SPELL_MAGIC_DMG_CLASS_POS — totem summons are positive magic spells).
+-- NOTE: proc filtering to earth-totem-only spells via spell_proc SpellFamilyMask2 bit 17.
+-- Triggered spell (900166): AOE Nature damage around caster, 0.10 AP coeff
 -- via spell_bonus_data, high flat threat via spell_threat.
 -- ============================================================================
 -- Totemic Impact (900165) — passive talent aura, procs on totem summon
--- PROC_TRIGGER_SPELL (aura 42) → 900166. proc_flags=65536 (DONE_SPELL_NONE_DMG_CLASS_POS).
+-- PROC_TRIGGER_SPELL (aura 42) → 900166. proc_flags=16384 (DONE_SPELL_MAGIC_DMG_CLASS_POS).
 -- spell_proc filters to totem summon spells via SpellFamilyMask (all totem bits).
 -- Shaman is the caster so visual plays at shaman and threat goes to shaman.
 DELETE FROM `spell` WHERE `id` = 900165;
@@ -2174,7 +2174,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900166,
-    `proc_flags` = 65536,
+    `proc_flags` = 16384,
     `proc_chance` = 100,
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
