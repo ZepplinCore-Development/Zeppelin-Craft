@@ -6,13 +6,14 @@
 -- ============================================================================
 -- spell_bonus_data
 -- ============================================================================
-DELETE FROM `spell_bonus_data` WHERE `entry` IN (900116, 900117, 900118, 900119, 900122, 900121, 900166);
+DELETE FROM `spell_bonus_data` WHERE `entry` IN (900116, 900117, 900118, 900119, 900122, 900121, 900166, 900174);
 
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
 (900119, 0, 0, 0.25, 0, 'Rockslam - 25% AP as bonus physical damage'),
 (900122, 0.20, 0, 0, 0, 'Volcanic Shield (triggered) - 20% SP as AOE fire damage on block'),
 (900121, 0, 0, 0.20, 0, 'Tectonic Blast - 20% AP as bonus nature damage'),
-(900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on totem summon');
+(900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on totem summon'),
+(900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
 
 -- ============================================================================
 -- spell_threat - Tectonic Blast high threat multiplier

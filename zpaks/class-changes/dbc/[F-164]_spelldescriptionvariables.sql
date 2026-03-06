@@ -32,6 +32,16 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 189;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, '$apbonus=${$AP*0.25}
 $dmg=${$m1+$<apbonus>}');
 
+-- ============================================================================
+-- Variable ID 194: Thunderborne Leap (spell 900173)
+-- Triggered spell 900174 deals base Nature damage + 3/level + 20% AP coefficient.
+-- $apbonus = attack power contribution (20% of AP)
+-- $total   = base damage + AP bonus (shown in tooltip)
+-- ============================================================================
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 194;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (194, '$apbonus=${$AP*0.2}
+$total=${$900174m2+$<apbonus>}');
+
 -- Variables 190-193 removed: Rockbiter Weapon descriptions now inline $XXXXm1
 -- references directly (client auto-applies Imp Rockbiter SpellMod to those).
 DELETE FROM `spelldescriptionvariables` WHERE `id` IN (190, 191, 192, 193);

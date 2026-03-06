@@ -39,6 +39,16 @@ INSERT INTO `skilllineability` (
 ) VALUES
 (200075, 9001, 900153, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+-- Thunderborne Leap on Earthwarden skill line
+DELETE FROM `skilllineability` WHERE `id` = 200078;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200078, 9001, 900173, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Stoneskin on Earthwarden skill line
+DELETE FROM `skilllineability` WHERE `id` = 200079;
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200079, 9001, 900164, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
 -- Earthen Reprisal on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200045;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200045, 9001, 900114, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
