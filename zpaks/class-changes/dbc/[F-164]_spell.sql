@@ -13,7 +13,8 @@ UPDATE `spell` SET `attributes` = `attributes` & ~65536 WHERE `id` = 36936;
 -- ============================================================================
 -- Earthen Reprisal (900114) - Reactive melee strike for Shaman
 -- Becomes active after blocking, dodging, or parrying (AURA_STATE_DEFENSE).
--- Deals 50% weapon damage + Nature bonus (scales +4/level above 6).
+-- E1: 50% weapon damage, E2: Nature bonus (scales +4/level above 6)
+-- E3: ENERGIZE_PCT - restores 10% max mana (same mechanic as Volcanic Shield)
 -- Modeled after Warrior Counter (91001, F-154).
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900114;
@@ -42,13 +43,17 @@ INSERT INTO `spell` SET
     `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 6,
     `effect_implicit_target_a_2` = 6,
+    `effect_3` = 137,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = 9,
+    `effect_implicit_target_a_3` = 1,
     `spell_visual_1` = 1165,
     `spell_icon_id` = 5488,
     `spell_name_enus` = 'Earthen Reprisal',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $s1% weapon damage plus $s2 Nature damage.',
+    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $s1% weapon damage plus $s2 Nature damage and restores $s3% of your maximum mana.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
@@ -59,6 +64,7 @@ INSERT INTO `spell` SET
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 8,
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
@@ -1530,18 +1536,18 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Bastion of Earth Buff (900150-900152) - Triggered stacking armor buff
--- Aura 101 (MOD_RESISTANCE_PCT), misc 1 (armor), 10s duration, 3 stacks.
+-- Aura 101 (MOD_RESISTANCE_PCT), misc 1 (armor), 15s duration, 3 stacks.
 -- Same aura as Unbreakable Armor (51271).
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - +2% armor, 10s, 3 stacks
+-- Bastion of Earth buff R1 (900150) - +2% armor, 15s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
     `id` = 900150,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
-    `duration_index` = 1,
+    `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
     `equipped_item_class` = -1,
@@ -1563,14 +1569,14 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - +4% armor, 10s, 3 stacks
+-- Bastion of Earth buff R2 (900151) - +4% armor, 15s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
     `id` = 900151,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
-    `duration_index` = 1,
+    `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
     `equipped_item_class` = -1,
@@ -1592,14 +1598,14 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - +6% armor, 10s, 3 stacks
+-- Bastion of Earth buff R3 (900152) - +6% armor, 15s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
     `id` = 900152,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
-    `duration_index` = 1,
+    `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
     `equipped_item_class` = -1,
