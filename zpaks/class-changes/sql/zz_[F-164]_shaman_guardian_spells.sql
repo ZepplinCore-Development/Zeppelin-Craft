@@ -33,12 +33,12 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
 (900123, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900124, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+(900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
+(900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
+(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
 -- Totemic Impact — proc only on earth totem summon spells
 -- SpellFamilyName=11 (Shaman), Mask2=131072 (bit 17, custom earth totem flag)
-(900165, 0, 11, 0, 0, 131072, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(900165, 0, 11, 0, 0, 131072, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 -- Bastion of Earth buff — consume all stacks when Healing Wave is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=64 (Healing Wave)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
