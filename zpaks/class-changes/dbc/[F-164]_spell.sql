@@ -70,7 +70,7 @@ INSERT INTO `spell` SET
 -- ============================================================================
 -- ----------------------------------------------------------------------------
 -- Elemental Ward (900115, 900127, 900128) - 3 ranks, cloned from Elemental Warding (28996-28998)
--- Reduces all damage taken by 2/4/6% per rank. Icon 5440.
+-- Reduces magic damage taken by 3/5/7% per rank. Icon 5440.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900115;
 
@@ -86,13 +86,13 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = -3,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_1` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -113,13 +113,13 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = -5,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_1` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -140,13 +140,13 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = -7,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
-    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_1` = 126,
     `spell_icon_id` = 5440,
     `spell_name_enus` = 'Elemental Ward',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces all damage taken by $s1%.',
+    `spell_desc_enus` = 'Reduces magic damage taken by $s1%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -314,9 +314,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Fire damage to the attacker. Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Fire damage to attackers when you block. Unlimited charges.',
+    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -479,8 +479,8 @@ INSERT INTO `spell` SET
     `spell_desc_variable_id` = 188;
 
 -- ----------------------------------------------------------------------------
--- Volcanic Shield Triggered (900122) - Nature damage + % mana regen on block
--- E1: SCHOOL_DAMAGE (effect 2) - Nature damage to attacker, 30% SP coeff, 21.19 ppl (targets ~3x LS per proc for ~30% block rate)
+-- Volcanic Shield Triggered (900122) - AOE Fire damage + % mana regen on block
+-- E1: SCHOOL_DAMAGE (effect 2) - 8yd AOE Fire damage around caster, 30% SP coeff, Fire Nova visual
 -- E2: ENERGIZE_PCT (effect 137) - base 0% max mana, boosted by Imp VS modifier
 --     Ref: Mana Leech (34650). Instant % mana restore, no duration needed.
 -- spell_class_mask_3 = 256 (bit 8) for modifier targeting by Imp VS
@@ -497,9 +497,11 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 2,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 59,
-    `effect_real_points_per_level_1` = 16,
-    `effect_implicit_target_a_1` = 6,
+    `effect_base_points_1` = 35,
+    `effect_real_points_per_level_1` = 10,
+    `effect_implicit_target_a_1` = 22,
+    `effect_implicit_target_b_1` = 15,
+    `effect_radius_index_1` = 14,
     `effect_2` = 137,
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -1,
@@ -507,13 +509,13 @@ INSERT INTO `spell` SET
     `spell_level` = 30,
     `base_level` = 30,
     `max_level` = 80,
-    `spell_visual_1` = 3444,
+    `spell_visual_1` = 90001,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Deals $s1 Fire damage.',
+    `spell_desc_enus` = 'Deals $s1 Fire damage to nearby enemies.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
@@ -522,7 +524,7 @@ INSERT INTO `spell` SET
     `school_mask` = 4,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_1` = 0.3;
+    `effect_bonus_multiplier_1` = 0.2;
 
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R1 (900123) - ADD_FLAT_MODIFIER boosting 900122 E2
@@ -1018,12 +1020,13 @@ INSERT INTO `spell` SET
     `school_mask` = 8;
 
 -- ============================================================================
--- Bastion of Earth (900109-900111)
--- 3-rank passive. E1: MOD_THREAT (aura 10, all schools),
+-- Natural Endurance (900109-900113)
+-- 5-rank passive. E1: MOD_TOTAL_STAT_PERCENTAGE (aura 137), misc 2 (Stamina),
 -- E2: MOD_HEALING_RECEIVED (aura 283, ref Grace 47930).
--- Stun/incapacitate reduction moved to Relentless (900142-900146).
+-- +2% stam and +3% healing received per rank. Threat moved to Relentless.
+-- Ref: Toughness (16252) uses same aura 137/misc 2 pattern for % stamina.
 -- ============================================================================
--- Bastion of Earth R1 (+5% threat, +5% healing received)
+-- Natural Endurance R1 (+2% stam, +3% healing received)
 DELETE FROM `spell` WHERE `id` = 900109;
 
 INSERT INTO `spell` SET
@@ -1036,21 +1039,21 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 4,
-    `effect_base_points_2` = 4,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = 2,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_1` = 137,
     `effect_apply_aura_name_2` = 283,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 5043,
-    `spell_name_enus` = 'Bastion of Earth',
+    `effect_misc_value_a_1` = 2,
+    `spell_icon_id` = 5330,
+    `spell_name_enus` = 'Natural Endurance',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and healing received by $s2%.',
+    `spell_desc_enus` = 'Increases your total Stamina by $s1% and healing received by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and healing received by $s2%.',
+    `spell_tooltip_enus` = 'Increases Stamina by $s1% and healing received by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1058,7 +1061,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth R2 (+10% threat, +10% healing received)
+-- Natural Endurance R2 (+4% stam, +6% healing received)
 DELETE FROM `spell` WHERE `id` = 900110;
 
 INSERT INTO `spell` SET
@@ -1071,21 +1074,21 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 9,
-    `effect_base_points_2` = 9,
+    `effect_base_points_1` = 3,
+    `effect_base_points_2` = 5,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_1` = 137,
     `effect_apply_aura_name_2` = 283,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 5043,
-    `spell_name_enus` = 'Bastion of Earth',
+    `effect_misc_value_a_1` = 2,
+    `spell_icon_id` = 5330,
+    `spell_name_enus` = 'Natural Endurance',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and healing received by $s2%.',
+    `spell_desc_enus` = 'Increases your total Stamina by $s1% and healing received by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and healing received by $s2%.',
+    `spell_tooltip_enus` = 'Increases Stamina by $s1% and healing received by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1093,7 +1096,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth R3 (+15% threat, +15% healing received)
+-- Natural Endurance R3 (+6% stam, +9% healing received)
 DELETE FROM `spell` WHERE `id` = 900111;
 
 INSERT INTO `spell` SET
@@ -1106,21 +1109,21 @@ INSERT INTO `spell` SET
     `effect_2` = 6,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 14,
-    `effect_base_points_2` = 14,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = 8,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
-    `effect_apply_aura_name_1` = 10,
+    `effect_apply_aura_name_1` = 137,
     `effect_apply_aura_name_2` = 283,
-    `effect_misc_value_a_1` = 127,
-    `spell_icon_id` = 5043,
-    `spell_name_enus` = 'Bastion of Earth',
+    `effect_misc_value_a_1` = 2,
+    `spell_icon_id` = 5330,
+    `spell_name_enus` = 'Natural Endurance',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases your threat generation by $s1% and healing received by $s2%.',
+    `spell_desc_enus` = 'Increases your total Stamina by $s1% and healing received by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases threat by $s1% and healing received by $s2%.',
+    `spell_tooltip_enus` = 'Increases Stamina by $s1% and healing received by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1128,19 +1131,86 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0,
     `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth R4/R5 removed (reduced to 3 ranks)
+-- Natural Endurance R4 (+8% stam, +12% healing received)
 DELETE FROM `spell` WHERE `id` = 900112;
+
+INSERT INTO `spell` SET
+    `id` = 900112,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 7,
+    `effect_base_points_2` = 11,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 283,
+    `effect_misc_value_a_1` = 2,
+    `spell_icon_id` = 5330,
+    `spell_name_enus` = 'Natural Endurance',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your total Stamina by $s1% and healing received by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases Stamina by $s1% and healing received by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
+
+-- Natural Endurance R5 (+10% stam, +15% healing received)
 DELETE FROM `spell` WHERE `id` = 900113;
+
+INSERT INTO `spell` SET
+    `id` = 900113,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = 14,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 283,
+    `effect_misc_value_a_1` = 2,
+    `spell_icon_id` = 5330,
+    `spell_name_enus` = 'Natural Endurance',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your total Stamina by $s1% and healing received by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases Stamina by $s1% and healing received by $s2%.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0;
 
 -- ============================================================================
 -- Relentless (900142-900146)
--- 5-rank passive. Reduces duration of stun, fear, and silence effects.
--- E1: MECHANIC_DURATION_MOD (aura 232), misc 12 (STUN)
--- E2: MECHANIC_DURATION_MOD (aura 232), misc 5 (FEAR/CHARM)
+-- 5-rank passive. Threat generation + stun/silence duration reduction.
+-- E1: MOD_THREAT (aura 10), misc 127 (all schools) — moved from Bastion of Earth
+-- E2: MECHANIC_DURATION_MOD (aura 232), misc 12 (STUN)
 -- E3: MECHANIC_DURATION_MOD (aura 232), misc 9 (SILENCE)
+-- Fear/charm reduction removed (covered by Tremor Totem).
 -- Ref: Unbreakable Will (14522). Icon 5460. 3% per rank.
 -- ============================================================================
--- Relentless R1 (900142): -3% stun/fear/silence duration
+-- Relentless R1 (900142): +3% threat, -3% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900142;
 
 INSERT INTO `spell` SET
@@ -1155,26 +1225,26 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = -4,
+    `effect_base_points_1` = 2,
     `effect_base_points_2` = -4,
     `effect_base_points_3` = -4,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 232,
+    `effect_apply_aura_name_1` = 10,
     `effect_apply_aura_name_2` = 232,
     `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 5,
+    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_2` = 12,
     `effect_misc_value_a_3` = 9,
     `spell_icon_id` = 5460,
     `spell_name_enus` = 'Relentless',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces the duration of stun, fear, and silence effects on the Shaman by $s1%.',
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces stun, fear, and silence duration on the Shaman by $s1%.',
+    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1184,7 +1254,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R2 (900143): -6% stun/fear/silence duration
+-- Relentless R2 (900143): +6% threat, -6% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900143;
 
 INSERT INTO `spell` SET
@@ -1199,26 +1269,26 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = -7,
+    `effect_base_points_1` = 5,
     `effect_base_points_2` = -7,
     `effect_base_points_3` = -7,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 232,
+    `effect_apply_aura_name_1` = 10,
     `effect_apply_aura_name_2` = 232,
     `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 5,
+    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_2` = 12,
     `effect_misc_value_a_3` = 9,
     `spell_icon_id` = 5460,
     `spell_name_enus` = 'Relentless',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces the duration of stun, fear, and silence effects on the Shaman by $s1%.',
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces stun, fear, and silence duration on the Shaman by $s1%.',
+    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1228,7 +1298,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R3 (900144): -9% stun/fear/silence duration
+-- Relentless R3 (900144): +9% threat, -9% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900144;
 
 INSERT INTO `spell` SET
@@ -1243,26 +1313,26 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = -10,
+    `effect_base_points_1` = 8,
     `effect_base_points_2` = -10,
     `effect_base_points_3` = -10,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 232,
+    `effect_apply_aura_name_1` = 10,
     `effect_apply_aura_name_2` = 232,
     `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 5,
+    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_2` = 12,
     `effect_misc_value_a_3` = 9,
     `spell_icon_id` = 5460,
     `spell_name_enus` = 'Relentless',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces the duration of stun, fear, and silence effects on the Shaman by $s1%.',
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces stun, fear, and silence duration on the Shaman by $s1%.',
+    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1272,7 +1342,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R4 (900145): -12% stun/fear/silence duration
+-- Relentless R4 (900145): +12% threat, -12% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900145;
 
 INSERT INTO `spell` SET
@@ -1287,26 +1357,26 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = -13,
+    `effect_base_points_1` = 11,
     `effect_base_points_2` = -13,
     `effect_base_points_3` = -13,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 232,
+    `effect_apply_aura_name_1` = 10,
     `effect_apply_aura_name_2` = 232,
     `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 5,
+    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_2` = 12,
     `effect_misc_value_a_3` = 9,
     `spell_icon_id` = 5460,
     `spell_name_enus` = 'Relentless',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 4',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces the duration of stun, fear, and silence effects on the Shaman by $s1%.',
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces stun, fear, and silence duration on the Shaman by $s1%.',
+    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1316,7 +1386,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Relentless R5 (900146): -15% stun/fear/silence duration
+-- Relentless R5 (900146): +15% threat, -15% stun/silence duration
 DELETE FROM `spell` WHERE `id` = 900146;
 
 INSERT INTO `spell` SET
@@ -1331,26 +1401,26 @@ INSERT INTO `spell` SET
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
     `effect_die_sides_3` = 1,
-    `effect_base_points_1` = -16,
+    `effect_base_points_1` = 14,
     `effect_base_points_2` = -16,
     `effect_base_points_3` = -16,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_1` = 232,
+    `effect_apply_aura_name_1` = 10,
     `effect_apply_aura_name_2` = 232,
     `effect_apply_aura_name_3` = 232,
-    `effect_misc_value_a_1` = 12,
-    `effect_misc_value_a_2` = 5,
+    `effect_misc_value_a_1` = 127,
+    `effect_misc_value_a_2` = 12,
     `effect_misc_value_a_3` = 9,
     `spell_icon_id` = 5460,
     `spell_name_enus` = 'Relentless',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 5',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces the duration of stun, fear, and silence effects on the Shaman by $s1%.',
+    `spell_desc_enus` = 'Increases your threat generation by $s1% and reduces the duration of stun and silence effects by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces stun, fear, and silence duration on the Shaman by $s1%.',
+    `spell_tooltip_enus` = 'Increases threat by $s1% and reduces stun and silence duration by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
@@ -1361,14 +1431,14 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_3` = 1.0;
 
 -- ============================================================================
--- Elemental Bulwark (900147-900149) - Passive talent, procs on block
+-- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: triggers stacking armor buff (900150-900152).
--- Each successful block adds a stack of +3%/+4%/+5% armor for 10s (max 3 stacks).
+-- Each successful block adds a stack of +2%/+4%/+6% armor for 10s (max 3 stacks).
 -- Uses same proc pattern as Volcanic Shield: proc_flags=40, spell_proc HitMask=64.
 -- Buff uses aura 101 (MOD_RESISTANCE_PCT) like Unbreakable Armor (51271).
 -- ============================================================================
 
--- Elemental Bulwark R1 (900147) - Passive, triggers 900150 on block
+-- Bastion of Earth R1 (900147) - Passive, triggers 900150 on block
 DELETE FROM `spell` WHERE `id` = 900147;
 
 INSERT INTO `spell` SET
@@ -1384,8 +1454,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900150,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
@@ -1398,7 +1468,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Elemental Bulwark R2 (900148) - Passive, triggers 900151 on block
+-- Bastion of Earth R2 (900148) - Passive, triggers 900151 on block
 DELETE FROM `spell` WHERE `id` = 900148;
 
 INSERT INTO `spell` SET
@@ -1414,8 +1484,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900151,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
@@ -1428,7 +1498,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Elemental Bulwark R3 (900149) - Passive, triggers 900152 on block
+-- Bastion of Earth R3 (900149) - Passive, triggers 900152 on block
 DELETE FROM `spell` WHERE `id` = 900149;
 
 INSERT INTO `spell` SET
@@ -1444,8 +1514,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900152,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
@@ -1459,12 +1529,12 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- ============================================================================
--- Elemental Bulwark Buff (900150-900152) - Triggered stacking armor buff
+-- Bastion of Earth Buff (900150-900152) - Triggered stacking armor buff
 -- Aura 101 (MOD_RESISTANCE_PCT), misc 1 (armor), 10s duration, 3 stacks.
 -- Same aura as Unbreakable Armor (51271).
 -- ============================================================================
 
--- Elemental Bulwark buff R1 (900150) - +3% armor, 10s, 3 stacks
+-- Bastion of Earth buff R1 (900150) - +2% armor, 10s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1481,8 +1551,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_desc_enus` = 'Armor increased by $s1%.',
     `spell_desc_flags` = 16712190,
@@ -1493,7 +1563,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Elemental Bulwark buff R2 (900151) - +4% armor, 10s, 3 stacks
+-- Bastion of Earth buff R2 (900151) - +4% armor, 10s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1510,8 +1580,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_desc_enus` = 'Armor increased by $s1%.',
     `spell_desc_flags` = 16712190,
@@ -1522,7 +1592,7 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Elemental Bulwark buff R3 (900152) - +5% armor, 10s, 3 stacks
+-- Bastion of Earth buff R3 (900152) - +6% armor, 10s, 3 stacks
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1539,8 +1609,8 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 3016,
-    `spell_name_enus` = 'Elemental Bulwark',
+    `spell_icon_id` = 5043,
+    `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
     `spell_desc_enus` = 'Armor increased by $s1%.',
     `spell_desc_flags` = 16712190,
@@ -1552,25 +1622,25 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- Volcanic Shield desc with conditional mana restore from Molten Core talent
-UPDATE spell SET spell_desc_enus = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield deals $<total> Fire damage to the attacker. Damage scales with spell power.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.' WHERE ID = 900116;
-UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Fire damage to attackers when you block.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]' WHERE ID = 900116;
+UPDATE spell SET spell_desc_enus = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.' WHERE ID = 900116;
+UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]' WHERE ID = 900116;
 
--- Elemental Bulwark base_points fix
+-- Bastion of Earth base_points fix
 UPDATE spell SET effect_base_points_1 = 1 WHERE ID = 900150;
 UPDATE spell SET effect_base_points_1 = 3 WHERE ID = 900151;
 UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900152;
 
 -- ============================================================================
--- Elemental Bulwark buff — Elemental Fortitude integration
+-- Bastion of Earth buff — Elemental Fortitude integration
 -- Each stack also reduces Healing Wave cast time and mana cost by 33%.
 -- At 3 stacks: Healing Wave is instant and free (-99%).
 -- Casting Healing Wave consumes all stacks (proc_charges=1, same as Maelstrom Weapon).
 -- Effect 2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -33%/stack
 -- Effect 3: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), -33%/stack
--- Targets: Healing Wave (Shaman class_set=11, spell_class_mask_1=64)
+-- Targets: Healing Wave (Shaman class_set=11, spell_class_mask_1 bit 6 = 64)
 -- ============================================================================
 
--- Add HW cast time reduction (effect 2) to all EB buff ranks
+-- Add HW cast time reduction (effect 2) to all BoE buff ranks
 UPDATE spell SET
     effect_2 = 6,
     effect_die_sides_2 = 1,
@@ -1578,12 +1648,12 @@ UPDATE spell SET
     effect_implicit_target_a_2 = 1,
     effect_apply_aura_name_2 = 108,
     effect_misc_value_a_2 = 10,
-    effect_spell_class_mask_a_2 = 64,
+    effect_spell_class_mask_b_1 = 64,
     effect_damage_multiplier_2 = 1.0,
     effect_bonus_multiplier_2 = 1.0
 WHERE ID IN (900150, 900151, 900152);
 
--- Add HW mana cost reduction (effect 3) to all EB buff ranks
+-- Add HW mana cost reduction (effect 3) to all BoE buff ranks
 UPDATE spell SET
     effect_3 = 6,
     effect_die_sides_3 = 1,
@@ -1591,7 +1661,7 @@ UPDATE spell SET
     effect_implicit_target_a_3 = 1,
     effect_apply_aura_name_3 = 108,
     effect_misc_value_a_3 = 14,
-    effect_spell_class_mask_a_3 = 64,
+    effect_spell_class_mask_c_1 = 64,
     effect_damage_multiplier_3 = 1.0,
     effect_bonus_multiplier_3 = 1.0
 WHERE ID IN (900150, 900151, 900152);
@@ -1605,9 +1675,10 @@ UPDATE spell SET
     proc_chance = 100
 WHERE ID IN (900150, 900151, 900152);
 
--- Update buff icon to 5310 and descriptions
+-- Update buff icon and descriptions
 UPDATE spell SET
-    spell_icon_id = 5310,
+    spell_icon_id = 5043,
+    spell_name_enus = 'Bastion of Earth',
     spell_desc_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     spell_tooltip_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.'
 WHERE ID IN (900150, 900151, 900152);
@@ -1658,7 +1729,7 @@ INSERT INTO `spell` SET
     `effect_apply_aura_name_2` = 11,
     `spell_visual_1` = 34,
     `spell_icon_id` = 24,
-    `spell_name_enus` = 'Ancestral Shout',
+    `spell_name_enus` = 'Ancestral Warcry',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712188,
     `spell_desc_enus` = 'Taunts the target to attack you, but has no effect if the target is already attacking you.',
@@ -1872,3 +1943,281 @@ INSERT INTO `spell` SET
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Living Guardian (900167, 900168, 900169) - 3 rank talent (proc trigger)
+-- After receiving a heal, reduces physical damage taken by 3/6/10% for 10s.
+-- Passive aura that procs Living Guardian buff on heal received.
+-- Cloned from Ancestral Healing (16176). Icon 4408.
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900167;
+
+INSERT INTO `spell` SET
+    `id` = 900167,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_flags` = 262144,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900170,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $900170s1% for $900170d after receiving a heal.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900168;
+
+INSERT INTO `spell` SET
+    `id` = 900168,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_flags` = 262144,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900171,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $900171s1% for $900171d after receiving a heal.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900169;
+
+INSERT INTO `spell` SET
+    `id` = 900169,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_flags` = 262144,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900172,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $900172s1% for $900172d after receiving a heal.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ----------------------------------------------------------------------------
+-- Living Guardian Buff (900170, 900171, 900172) - 3 ranks
+-- Reduces physical damage taken by 3/6/10% for 10 seconds.
+-- Triggered by Living Guardian talent when receiving a heal.
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900170;
+
+INSERT INTO `spell` SET
+    `id` = 900170,
+    `attributes` = 464,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900171;
+
+INSERT INTO `spell` SET
+    `id` = 900171,
+    `attributes` = 464,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -6,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900172;
+
+INSERT INTO `spell` SET
+    `id` = 900172,
+    `attributes` = 464,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `duration_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -10,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 87,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4408,
+    `spell_name_enus` = 'Living Guardian',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Earth Totem family mask tag — bit 17 in spell_class_mask_3 (131072)
+-- Adds a custom family flag to all earth totem summon spells so spell_proc
+-- can filter procs to earth totems only. Used by Totemic Impact (900165).
+-- Earth totems: Earthbind, Stoneclaw, Stoneskin, Strength of Earth, Tremor,
+-- Earth Elemental.
+-- ============================================================================
+UPDATE `spell` SET `spell_class_mask_3` = `spell_class_mask_3` | 131072
+WHERE `id` IN (
+    2062, 44130,                                          -- Earth Elemental Totem
+    2484,                                                 -- Earthbind Totem
+    5730, 6390, 6391, 6392, 10427, 10428, 25525,         -- Stoneclaw Totem
+    58580, 58581, 58582,
+    8071, 8154, 8155, 10406, 10407, 10408, 25508, 25509, -- Stoneskin Totem
+    38115, 58751, 58753,
+    8075, 8160, 8161, 10442, 25361, 25528, 31633,        -- Strength of Earth Totem
+    57622, 58643,
+    8143                                                  -- Tremor Totem
+);
+
+-- ============================================================================
+-- Totemic Impact (900165) + Triggered AOE Threat (900166)
+-- 1-rank passive talent. Hidden aura on Shaman that procs when a totem is
+-- summoned, triggering an AOE threat pulse around the caster.
+-- E1: PROC_TRIGGER_SPELL (aura 42) → 900166
+-- proc_flags = 65536 (DONE_SPELL_NONE_DMG_CLASS_POS — covers totem summons).
+-- NOTE: proc filtering to totem-only spells needs spell_proc or C++ script.
+-- Triggered spell (900166): AOE Nature damage around caster, 0.3 AP coeff
+-- via spell_bonus_data, high flat threat via spell_threat.
+-- ============================================================================
+-- Totemic Impact (900165) — passive talent aura, procs on totem summon
+-- PROC_TRIGGER_SPELL (aura 42) → 900166. proc_flags=65536 (DONE_SPELL_NONE_DMG_CLASS_POS).
+-- spell_proc filters to totem summon spells via SpellFamilyMask (all totem bits).
+-- Shaman is the caster so visual plays at shaman and threat goes to shaman.
+DELETE FROM `spell` WHERE `id` = 900165;
+
+INSERT INTO `spell` SET
+    `id` = 900165,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900166,
+    `proc_flags` = 65536,
+    `proc_chance` = 100,
+    `spell_icon_id` = 5312,
+    `spell_name_enus` = 'Totemic Impact',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Summoning an earth totem sends a shockwave through the ground, generating threat to all nearby enemies.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Your earth totems generate AOE threat on summon.',
+    `spell_tooltip_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 1,
+    `effect_bonus_multiplier_1` = 1.0;
+
+-- Totemic Impact (900166) — triggered AOE threat pulse
+-- SCHOOL_DAMAGE (2), Nature, AOE around caster (target 22, 10yd).
+-- Low damage (9 base + 0.5/level = 10 at lvl 10, 45 at 80) with 0.1 AP coeff.
+-- 3.0x threat multiplier. Target: ~300 threat at lvl 50 with 800 AP.
+-- Earthquake visual (9490). base_level=10 so scaling starts at level 10.
+DELETE FROM `spell` WHERE `id` = 900166;
+
+INSERT INTO `spell` SET
+    `id` = 900166,
+    `attributes` = 464,
+    `attributes_ex_1` = 1024,
+    `attributes_ex_3` = 268435456,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 2,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_real_points_per_level_1` = 0.5,
+    `effect_implicit_target_a_1` = 22,
+    `effect_radius_index_1` = 13,
+    `base_level` = 10,
+    `max_level` = 80,
+    `spell_visual_1` = 145,
+    `spell_icon_id` = 5312,
+    `spell_name_enus` = 'Totemic Impact',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'The earth trembles, generating threat to all nearby enemies.',
+    `spell_desc_flags` = 16712190,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8,
+    `effect_bonus_multiplier_1` = 1.0,
+    `spell_class_set` = 11,
+    `spell_class_mask_3` = 65536;
