@@ -55,8 +55,6 @@ def build(ctx):
 @build.command('patch-mpq')
 @click.option('--patch', '-p', 'patch_letter',
               help='Patch letter to build (e.g., Z, O, B)')
-@click.option('--all', '-a', 'build_all', is_flag=True,
-              help='Build all patches with packable assets')
 @click.option('--build', '-b', 'build_only', is_flag=True,
               help='Pack existing parsed-assets into MPQ (no preprocessing)')
 @click.option('--parse', is_flag=True,
@@ -66,7 +64,7 @@ def build(ctx):
 @click.option('--dry-run', '-n', is_flag=True,
               help='Show what would be built without building')
 @click.pass_context
-def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
+def build_patch(ctx, patch_letter: Optional[str],
                 build_only: bool, parse: bool, parse_build: bool,
                 dry_run: bool):
     """Build client patches (MPQ files).
@@ -80,8 +78,6 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
         zep build patch-mpq -p Z --build       # Pack PATCH-Z (no preprocessing)
         zep build patch-mpq -p Z --parse       # Run preprocessors only (no pack)
         zep build patch-mpq -p Z --parse-build # Run preprocessors then pack
-        zep build patch-mpq --all              # Build all patches
-        zep build patch-mpq --all --parse-build # Process + build all
         zep build patch-mpq --dry-run          # Preview what would be built
     """
     # --parse = preprocessors only (no pack)
@@ -105,10 +101,7 @@ def build_patch(ctx, patch_letter: Optional[str], build_all: bool,
     register = load_register(nginx_path)
 
     # --- Step 1: Select patch ---
-    if build_all:
-        selected = sorted(patches.keys())
-        modes = {letter: {'parse': parse, 'parse_only': parse_only} for letter in selected}
-    elif patch_letter:
+    if patch_letter:
         letter = patch_letter.upper()
         if letter not in patches:
             click.echo(f"No zpaks assigned to PATCH-{letter}")
@@ -246,7 +239,7 @@ def _select_patch_menu(patches: dict, register: dict,
     try:
         from simple_term_menu import TerminalMenu
     except ImportError:
-        click.echo("Specify --patch <letter> or --all")
+        click.echo("Specify --patch <letter> (e.g., -p Z)")
         return None
 
     options = []
@@ -533,8 +526,10 @@ def _run_regenerate(craft_root: Path, nginx_path: Path, dry_run: bool):
 @build.command('atlasloot')
 @click.option('--dry-run', '-n', is_flag=True, help='Preview without modifying files')
 @click.option('--verbose', '-v', is_flag=True, help='Detailed output')
+@click.option('--rep', type=str, default=None,
+              help='Generate rep vendor tables. Use "all", "tbc", or a faction name (e.g., CExpedition)')
 @click.pass_context
-def build_atlasloot(ctx, dry_run, verbose):
+def build_atlasloot(ctx, dry_run, verbose, rep):
     """Generate AtlasLoot Lua tables from database."""
     craft_root = ctx.obj['craft_root']
     addon_dir = craft_root / 'zpaks' / 'atlasloot' / 'mpq' / 'source-assets' / 'Interface' / 'AddOns'
@@ -544,7 +539,16 @@ def build_atlasloot(ctx, dry_run, verbose):
         raise SystemExit(1)
 
     from lib.atlasloot.core import run
-    success, failed = run(addon_base_dir=addon_dir, dry_run=dry_run, verbose=verbose)
+
+    # Build targets based on options
+    if rep:
+        # Rep-only mode: only generate reputation vendor tables
+        targets = {'rep': rep}
+    else:
+        targets = None  # Default: generate all boss loot (original behavior)
+
+    success, failed = run(addon_base_dir=addon_dir, dry_run=dry_run,
+                          targets=targets, verbose=verbose)
 
     if success > 0:
         click.echo(click.style(f"\nDone: {success} succeeded, {failed} failed", fg='green'))
