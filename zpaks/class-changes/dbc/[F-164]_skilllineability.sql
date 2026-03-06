@@ -27,7 +27,7 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200073, 373, 900136, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
 (200074, 373, 900137, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 
--- Ancestral Shout on Earthwarden skill line
+-- Ancestral Warcry on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200075;
 INSERT INTO `skilllineability` (
     `id`, `skill_line`, `spell_id`,

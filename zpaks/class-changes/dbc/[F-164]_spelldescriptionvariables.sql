@@ -5,11 +5,11 @@
 -- ============================================================================
 -- Variable ID 187: Volcanic Shield (spell 900116)
 -- Triggered spell 900122 deals AOE Fire damage + 20% SP coefficient.
--- $spbonus = spell power contribution (20% of $SP)
+-- $spbonus = spell power contribution (20% of $sp)
 -- $total   = base damage + SP bonus (shown in tooltip)
 -- ============================================================================
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, '$spbonus=${$SP*0.2}
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, '$spbonus=${$sp*0.2}
 $total=${$900122m1+$<spbonus>}');
 
 -- ============================================================================

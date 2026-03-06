@@ -1953,9 +1953,10 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian (900167, 900168, 900169) - 3 rank talent (proc trigger)
--- After receiving a heal, reduces physical damage taken by 3/6/10% for 10s.
+-- After receiving a heal, reduces physical damage taken by 4/7/10% for 10s.
 -- Passive aura that procs Living Guardian buff on heal received.
 -- Cloned from Ancestral Healing (16176). Icon 4408.
+-- proc_flags 559104 = TAKEN_SPELL_NONE_DMG_CLASS_POS | TAKEN_SPELL_MAGIC_DMG_CLASS_POS | TAKEN_PERIODIC
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900167;
 
@@ -1963,7 +1964,7 @@ INSERT INTO `spell` SET
     `id` = 900167,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 262144,
+    `proc_flags` = 559104,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1982,7 +1983,6 @@ INSERT INTO `spell` SET
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `spell_class_set` = 11,
     `school_mask` = 1;
 
 DELETE FROM `spell` WHERE `id` = 900168;
@@ -1991,7 +1991,7 @@ INSERT INTO `spell` SET
     `id` = 900168,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 262144,
+    `proc_flags` = 559104,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -2010,7 +2010,6 @@ INSERT INTO `spell` SET
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `spell_class_set` = 11,
     `school_mask` = 1;
 
 DELETE FROM `spell` WHERE `id` = 900169;
@@ -2019,7 +2018,7 @@ INSERT INTO `spell` SET
     `id` = 900169,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 262144,
+    `proc_flags` = 559104,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -2038,7 +2037,6 @@ INSERT INTO `spell` SET
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
-    `spell_class_set` = 11,
     `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
@@ -2059,7 +2057,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -3,
+    `effect_base_points_1` = -4,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -2088,7 +2086,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -6,
+    `effect_base_points_1` = -7,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
