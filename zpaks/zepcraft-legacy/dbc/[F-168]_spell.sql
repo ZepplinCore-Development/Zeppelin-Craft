@@ -13,11 +13,8 @@
 --
 -- Skipped categories (Phase 4 / N/A):
 --   - Percentage-based ($s1% / 4%)
---   - Cross-spell references ($XXXXXo1, ${$XXXXXm2/5*30})
---   - Refreshment combos (food+drink in one spell)
 --   - Brewfest drinks ($m1-based mana)
 --   - $o1 variant drinks (mana in effect 1)
---   - Dual-restore food ($o1 health and $o2 mana)
 --   - Empty/no-amount descriptions
 
 
@@ -162,6 +159,24 @@ WHERE `id` = 49472;
 
 
 -- =====================================================
+-- PHASE 4: REFRESHMENT COMBOS (3 spells)
+-- =====================================================
+-- Dual food+drink spells converted to food-only display.
+-- Mana portion dropped from description (food regen is the primary value).
+
+-- ---------------------------------------------------
+-- Group H: Dual-restore food → food-only (3 spells)
+-- "$o1 health and $o2 mana" → "$<food1> health per second"
+-- ---------------------------------------------------
+
+UPDATE `spell` SET `spell_desc_enus` = 'Restores $<food1> health per second for $d.  Must remain seated while eating.', `spell_desc_variable_id` = 186 WHERE `id` = 2639;
+
+UPDATE `spell` SET `spell_desc_enus` = 'Restores $<food1> health per second for $d.  Must remain seated while eating.', `spell_desc_variable_id` = 186 WHERE `id` = 25697;
+
+UPDATE `spell` SET `spell_desc_enus` = 'Restores $<food1> health per second for $d.  Must remain seated while eating.  If you spend at least 10 seconds eating you will become well fed and gain $64057s1 attack power and $64057s2 spell power for $64057d.', `spell_desc_variable_id` = 186 WHERE `id` = 64056;
+
+
+-- =====================================================
 -- TOOLTIP UPDATES (spell_tooltip_enus)
 -- =====================================================
 -- Item tooltips (shown when hovering food/drink in bags) still use raw
@@ -190,3 +205,10 @@ AND `spell_tooltip_enus` = 'Restores ${$m2/5} mana per second.';
 -- ---------------------------------------------------
 UPDATE `spell` SET `spell_tooltip_enus` = 'Restores $<food1> mana per second.'
 WHERE `id` IN (25701, 25887, 42308, 42312);
+
+-- ---------------------------------------------------
+-- Dual-restore food tooltips → food-only
+-- "Restores $/5;s1 health and $/5;s2 mana per second." → "$<food1>"
+-- ---------------------------------------------------
+UPDATE `spell` SET `spell_tooltip_enus` = 'Restores $<food1> health per second.'
+WHERE `id` IN (2639, 25697);
