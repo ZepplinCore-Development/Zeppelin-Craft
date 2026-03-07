@@ -1033,13 +1033,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901715, "", "=q1=Wyrmthalak's War Horn", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Overlord Wyrmthalak", "=q5=CHANCE TO DROP"};
     { 6, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
-    { 7, 13143, "", "=q4=Mark of the Dragon Lord", "=ds=#s13#", "", "2.00%" };
-    { 9, 0, "AO_Unknown", "=q6=Overlord Wyrmthalak", "=q5=ONE WILL DROP"};
-    { 10, 13161, "", "=q3=Trindlehaven Staff", "=ds=#w9#", "", "20.0%" };
-    { 11, 13162, "", "=q3=Reiver Claws", "=ds=#a4#", "", "20.0%" };
-    { 12, 13163, "", "=q3=Relentless Scythe", "=ds=#w10#", "", "20.0%" };
-    { 13, 16679, "", "=q3=Beaststalker's Mantle", "=ds=#a3#", "", "20.0%" };
-    { 14, 22321, "", "=q3=Heart of Wyrmthalak", "=ds=#s14#", "", "20.0%" };
+    { 7, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 8, 13143, "", "=q4=Mark of the Dragon Lord", "=ds=#s13#", "", "2.00%" };
+    { 10, 0, "AO_Unknown", "=q6=Overlord Wyrmthalak", "=q5=ONE WILL DROP"};
+    { 11, 13161, "", "=q3=Trindlehaven Staff", "=ds=#w9#", "", "20.0%" };
+    { 12, 13162, "", "=q3=Reiver Claws", "=ds=#a4#", "", "20.0%" };
+    { 13, 13163, "", "=q3=Relentless Scythe", "=ds=#w10#", "", "20.0%" };
+    { 14, 16679, "", "=q3=Beaststalker's Mantle", "=ds=#a3#", "", "20.0%" };
+    { 15, 22321, "", "=q3=Heart of Wyrmthalak", "=ds=#s14#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["LBRSFelguard"] = {
@@ -1183,7 +1184,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901720, "", "=q1=Black Dragonflight Cipher", "=ds=#m3#", "", "100%" };
     { 4, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=General Drakkisath", "=q5=CHANCE TO DROP"};
-    { 7, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
+    { 7, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 8, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
     { 16, 0, "AO_Unknown", "=q6=General Drakkisath", "=q5=ONE WILL DROP"};
     { 17, 12602, "", "=q3=Draconian Deflector", "=ds=#w8#", "", "18.0%" };
     { 18, 13098, "", "=q3=Painweaver Band", "=ds=#s13#", "", "18.0%" };
@@ -2283,10 +2285,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 19, 0, "RoM_stellar_dice", "=q6=High Inquisitor Whitemane", "=q5=CHANCE TO DROP"};
     { 20, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
     { 21, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
-    { 23, 0, "AO_Unknown", "=q6=High Inquisitor Whitemane", "=q5=ONE WILL DROP"};
-    { 24, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
-    { 25, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
-    { 26, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
+    { 22, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 24, 0, "AO_Unknown", "=q6=High Inquisitor Whitemane", "=q5=ONE WILL DROP"};
+    { 25, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
+    { 26, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
+    { 27, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["SMGVishas"] = {
@@ -3361,8 +3364,9 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 0, "RoM_stellar_dice", "=q6=Baron Rivendare", "=q5=CHANCE TO DROP"};
     { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 100003, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
-    { 10, 13340, "", "=q3=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
-    { 11, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
+    { 10, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 11, 13340, "", "=q3=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
+    { 12, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
     { 16, 0, "AO_Unknown", "=q6=Baron Rivendare", "=q5=ONE WILL DROP"};
     { 17, 13344, "", "=q3=Dracorian Gauntlets", "=ds=#a3#", "", "8.70%" };
     { 18, 13345, "", "=q3=Seal of Rivendare", "=ds=#s13#", "", "8.70%" };
@@ -3644,10 +3648,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UldIronaya"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Ironaya", "=q5=ALL WILL DROP"};
     { 2, 901728, "", "=q1=Titanforged Beacon", "=ds=#m3#", "", "100%" };
-    { 4, 0, "AO_Unknown", "=q6=Ironaya", "=q5=ONE WILL DROP"};
-    { 5, 9407, "", "=q3=Stoneweaver Leggings", "=ds=#a1#", "", "40.0%" };
-    { 6, 9409, "", "=q3=Ironaya's Bracers", "=ds=#a3#", "", "40.0%" };
-    { 7, 9408, "", "=q3=Ironshod Bludgeon", "=ds=#w9#", "", "20.0%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Ironaya", "=q5=CHANCE TO DROP"};
+    { 5, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 7, 0, "AO_Unknown", "=q6=Ironaya", "=q5=ONE WILL DROP"};
+    { 8, 9407, "", "=q3=Stoneweaver Leggings", "=ds=#a1#", "", "40.0%" };
+    { 9, 9409, "", "=q3=Ironaya's Bracers", "=ds=#a3#", "", "40.0%" };
+    { 10, 9408, "", "=q3=Ironshod Bludgeon", "=ds=#w9#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["UldObsidianSentinel"] = {
@@ -3853,6 +3859,8 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["ZFSergeantBly"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Sergeant Bly", "=q5=ALL WILL DROP"};
     { 2, 8548, "", "=q1=Divino-matic Rod", "=ds=#m3#", "", "100%" };
+    { 4, 0, "RoM_stellar_dice", "=q6=Sergeant Bly", "=q5=CHANCE TO DROP"};
+    { 5, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["ZFHydromancerVelratha"] = {

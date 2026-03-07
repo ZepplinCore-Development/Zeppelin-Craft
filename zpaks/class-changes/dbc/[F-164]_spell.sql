@@ -2041,7 +2041,7 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian Buff (900170, 900171, 900172) - 3 ranks
--- Reduces physical damage taken by 3/6/10% for 10 seconds.
+-- Reduces physical damage taken by 4/7/10% for 10 seconds.
 -- Triggered by Living Guardian talent when receiving a heal.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900170;
@@ -2056,7 +2056,8 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_base_points_1` = -4,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -5,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -2084,7 +2085,8 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_base_points_1` = -7,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -8,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
@@ -2112,7 +2114,8 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_base_points_1` = -10,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = -11,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,

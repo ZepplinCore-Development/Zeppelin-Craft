@@ -28,7 +28,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- spell_proc - Block-only proc filtering (HitMask=64 = PROC_HIT_BLOCK)
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -40,15 +40,14 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Totemic Impact — proc only on earth totem summon spells
 -- SpellFamilyName=11 (Shaman), Mask2=131072 (bit 17, custom earth totem flag)
 (900165, 0, 11, 0, 0, 131072, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+-- Improved Rockslam — proc block buff on Rockslam cast
+-- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
+(900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(900182, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 -- Bastion of Earth buff — consume all stacks when Healing Wave is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=64 (Healing Wave)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
 -- Same pattern as Maelstrom Weapon buff (53817)
 (900150, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 (900151, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
-(900152, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
--- Living Guardian — proc on heal received
--- SpellTypeMask=2 (HEAL), SpellPhaseMask=2 (HIT = when heal lands)
-(900167, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0),
-(900168, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0),
-(900169, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0);
+(900152, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);
