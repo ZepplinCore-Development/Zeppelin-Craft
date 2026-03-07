@@ -273,10 +273,12 @@ def char_reset_talents(name: str):
     if online:
         raise click.ClickException(f"{char_name} is online — log out first")
 
-    if at_login & AT_LOGIN_RESET_TALENTS:
-        click.echo(f"  {char_name}: talent reset already pending")
-        return
+    # Clear talent data directly (prevents crash-on-load from corrupt/missing talent entries)
+    success, output = _run_query(f"DELETE FROM character_talent WHERE guid = {guid}")
+    if not success:
+        raise click.ClickException(f"Failed to clear talents: {output}")
 
+    # Set at-login flag so server does a full clean reset (relearns class spells, pet talents, etc.)
     success, output = _run_query(
         f"UPDATE characters SET at_login = at_login | {RESET_FLAGS}, "
         f"resettalents_cost = 0, resettalents_time = 0 WHERE guid = {guid}"
@@ -284,4 +286,4 @@ def char_reset_talents(name: str):
     if not success:
         raise click.ClickException(f"Update failed: {output}")
 
-    click.echo(f"  {char_name}: talents will reset on next login")
+    click.echo(f"  {char_name}: talents cleared and will reset on next login")
