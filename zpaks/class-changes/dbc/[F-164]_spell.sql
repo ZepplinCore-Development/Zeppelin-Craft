@@ -11,10 +11,18 @@ UPDATE spell SET spell_desc_enus = 'Gives a chance to parry enemy melee attacks.
 UPDATE `spell` SET `attributes` = `attributes` & ~65536 WHERE `id` = 36936;
 
 -- ============================================================================
+-- Earthen Reprisal scaling (shared between spell and desc variable 197)
+SET @er_dmg_base = 10;
+SET @er_dmg_die = 1;
+SET @er_dmg_perlevel = 5.0;
+SET @er_base_level = 6;
+SET @er_max_level = 80;
+SET @er_ap_coeff = 0.1;
+
 -- Earthen Reprisal (900114) - Reactive melee strike for Shaman
 -- Becomes active after blocking, dodging, or parrying (AURA_STATE_DEFENSE).
--- E1: 50% weapon damage, E2: Nature bonus (scales +4/level above 6)
--- E3: ENERGIZE_PCT - restores 10% max mana (same mechanic as Volcanic Shield)
+-- E1: Physical damage (base + perlevel + 10% AP via spell_bonus_data)
+-- E2: ENERGIZE_PCT - restores 10% max mana
 -- Modeled after Warrior Counter (91001, F-154).
 -- ============================================================================
 DELETE FROM `spell` WHERE `id` = 900114;
@@ -29,31 +37,27 @@ INSERT INTO `spell` SET
     `cast_time_index` = 1,
     `recovery_time` = 6000,
     `proc_chance` = 101,
-    `max_level` = 80,
-    `base_level` = 6,
-    `spell_level` = 6,
+    `max_level` = @er_max_level,
+    `base_level` = @er_base_level,
+    `spell_level` = @er_base_level,
     `range_index` = 2,
     `equipped_item_class` = -1,
-    `effect_1` = 31,
-    `effect_2` = 2,
-    `effect_die_sides_1` = 1,
+    `effect_1` = 2,
+    `effect_2` = 137,
+    `effect_die_sides_1` = @er_dmg_die,
     `effect_die_sides_2` = 1,
-    `effect_real_points_per_level_2` = 2.0,
-    `effect_base_points_1` = 49,
+    `effect_real_points_per_level_1` = @er_dmg_perlevel,
+    `effect_base_points_1` = @er_dmg_base,
     `effect_base_points_2` = 9,
     `effect_implicit_target_a_1` = 6,
-    `effect_implicit_target_a_2` = 6,
-    `effect_3` = 137,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = 9,
-    `effect_implicit_target_a_3` = 1,
+    `effect_implicit_target_a_2` = 1,
     `spell_visual_1` = 1165,
     `spell_icon_id` = 5488,
     `spell_name_enus` = 'Earthen Reprisal',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = '',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $s1% weapon damage plus $s2 Nature damage and restores $s3% of your maximum mana.',
+    `spell_desc_enus` = 'A strike that becomes active after blocking, dodging, or parrying an opponent''s attack. Deals $<dmg> damage and restores $s2% of your maximum mana.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
@@ -64,10 +68,15 @@ INSERT INTO `spell` SET
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
-    `school_mask` = 8,
-    `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0;
+    `school_mask` = 1,
+    `spell_desc_variable_id` = 197;
+
+-- Variable 197: Earthen Reprisal tooltip damage (base + per-level + AP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 197;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (197, CONCAT(
+    '$perlevel=${($pl-', @er_base_level, ')*', @er_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @er_ap_coeff, '}\n',
+    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- ============================================================================
 -- Earthwarden Talent Tree Spells (F-164 Phase 2)
@@ -286,6 +295,15 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `school_mask` = 1;
 
+-- Volcanic Shield scaling (shared between aura buff, triggered spell, and desc variable 187)
+SET @vs_dmg_base = 35;
+SET @vs_dmg_die = 1;
+SET @vs_dmg_perlevel = 10;
+SET @vs_spell_level = 30;
+SET @vs_base_level = 30;
+SET @vs_max_level = 80;
+SET @vs_sp_coeff = 0.2;
+
 -- ----------------------------------------------------------------------------
 -- Volcanic Shield (900116) - Active shield buff, cloned from Lightning Shield
 -- Old ranks 900117/900118 deleted (was 3-rank passive, now 1-rank active)
@@ -304,9 +322,9 @@ INSERT INTO `spell` SET
     `cast_time_index` = 1,
     `proc_flags` = 40,
     `proc_chance` = 100,
-    `max_level` = 84,
-    `base_level` = 80,
-    `spell_level` = 80,
+    `max_level` = @vs_max_level,
+    `base_level` = @vs_base_level,
+    `spell_level` = @vs_spell_level,
     `duration_index` = 6,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -315,14 +333,18 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900122,
+    `effect_2` = 3,
+    `effect_die_sides_2` = @vs_dmg_die,
+    `effect_base_points_2` = @vs_dmg_base,
+    `effect_real_points_per_level_2` = @vs_dmg_perlevel,
     `spell_visual_1` = 7757,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds. Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.',
+    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -337,9 +359,17 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 0.267,
     `spell_desc_variable_id` = 187;
 
+-- Rockslam scaling (shared between spell and desc variable 189)
+SET @rs_dmg_base = 75;
+SET @rs_dmg_die = 1;
+SET @rs_dmg_perlevel = 6.0;
+SET @rs_base_level = 20;
+SET @rs_max_level = 80;
+SET @rs_ap_coeff = 0.25;
+
 -- ----------------------------------------------------------------------------
 -- Rockslam (900119) - Shield bash dealing flat damage + block buff
--- E1: SCHOOL_DAMAGE (effect 2) - 100 base + 4/level + 20% AP
+-- E1: SCHOOL_DAMAGE (effect 2) - base + perlevel + 25% AP
 -- E2: TRIGGER_SPELL → 900120 (block chance buff on self)
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900119;
@@ -353,42 +383,46 @@ INSERT INTO `spell` SET
     `cast_time_index` = 1,
     `recovery_time` = 8000,
     `proc_chance` = 101,
-    `max_level` = 80,
-    `base_level` = 40,
-    `spell_level` = 40,
+    `max_level` = @rs_max_level,
+    `base_level` = @rs_base_level,
+    `spell_level` = @rs_base_level,
     `range_index` = 2,
     `equipped_item_class` = 4,
     `equipped_item_subclass_mask` = 64,
     `effect_1` = 2,
-    `effect_2` = 64,
-    `effect_die_sides_1` = 1,
-    `effect_real_points_per_level_1` = 8.0,
-    `effect_base_points_1` = 199,
+    `effect_die_sides_1` = @rs_dmg_die,
+    `effect_real_points_per_level_1` = @rs_dmg_perlevel,
+    `effect_base_points_1` = @rs_dmg_base,
     `effect_implicit_target_a_1` = 6,
-    `effect_implicit_target_a_2` = 1,
-    `effect_trigger_spell_2` = 900120,
     `spell_visual_1` = 42,
     `spell_icon_id` = 5489,
     `spell_name_enus` = 'Rockslam',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage, scaling with Attack Power. Grants $900120s1% increased block chance for $900120d.',
+    `spell_desc_enus` = 'Bashes the target with your shield, dealing $<dmg> Physical damage, scaling with Attack Power.$?s900182[ Grants $900120s1% increased block chance for $900120d.][]$?s900181[ Grants $900180s1% increased block chance for $900180d.][]',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<dmg> Physical damage and increases block chance by $900120s1% for $900120d.',
+    `spell_tooltip_enus` = 'Deals $<dmg> Physical damage.',
     `spell_tooltip_flags` = 16712190,
     `power_cost_percentage` = 8,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
     `spell_class_set` = 11,
-    `spell_class_mask_2` = 16777232,
+    `spell_class_mask_3` = 262144,
     `damage_class` = 2,
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 0.25,
+    `effect_bonus_multiplier_1` = @rs_ap_coeff,
     `spell_desc_variable_id` = 189;
+
+-- Variable 189: Rockslam tooltip damage (base + per-level + AP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 189;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (189, CONCAT(
+    '$perlevel=${($pl-', @rs_base_level, ')*', @rs_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @rs_ap_coeff, '}\n',
+    '$dmg=${$m1+$<perlevel>+$<apbonus>}'));
 
 -- ----------------------------------------------------------------------------
 -- Rockslam Block Buff (900120) - cloned from Shield Block
@@ -428,13 +462,20 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = 'Block chance increased by $s1%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
-    `spell_class_mask_1` = 4096,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
+-- Tectonic Blast scaling (shared between spell and desc variable 188)
+SET @tb_dmg_base = 99;
+SET @tb_dmg_die = 1;
+SET @tb_dmg_perlevel = 4.0;
+SET @tb_base_level = 40;
+SET @tb_max_level = 80;
+SET @tb_ap_coeff = 0.2;
+
 -- Tectonic Blast (900121) - cloned from Shockwave
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900121;
@@ -447,17 +488,17 @@ INSERT INTO `spell` SET
     `category_recovery_time` = 10000,
     `aura_interrupt_flags` = 4718592,
     `proc_chance` = 101,
-    `max_level` = 80,
-    `base_level` = 40,
-    `spell_level` = 40,
+    `max_level` = @tb_max_level,
+    `base_level` = @tb_base_level,
+    `spell_level` = @tb_base_level,
     `duration_index` = 35,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 2,
-    `effect_die_sides_1` = 1,
+    `effect_die_sides_1` = @tb_dmg_die,
     `effect_die_sides_3` = 1,
-    `effect_real_points_per_level_1` = 4.0,
-    `effect_base_points_1` = 99,
+    `effect_real_points_per_level_1` = @tb_dmg_perlevel,
+    `effect_base_points_1` = @tb_dmg_base,
     `effect_mechanic_1` = 12,
     `effect_implicit_target_a_1` = 104,
     `effect_radius_index_1` = 17,
@@ -484,12 +525,19 @@ INSERT INTO `spell` SET
     `school_mask` = 8,
     `spell_desc_variable_id` = 188;
 
+-- Variable 188: Tectonic Blast tooltip damage (base + per-level + AP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 188;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (188, CONCAT(
+    '$perlevel=${($pl-', @tb_base_level, ')*', @tb_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @tb_ap_coeff, '}\n',
+    '$total=${$m1+$<perlevel>+$<apbonus>}'));
+
 -- ----------------------------------------------------------------------------
 -- Volcanic Shield Triggered (900122) - AOE Fire damage + % mana regen on block
 -- E1: SCHOOL_DAMAGE (effect 2) - 8yd AOE Fire damage around caster, 30% SP coeff, Fire Nova visual
 -- E2: ENERGIZE_PCT (effect 137) - base 0% max mana, boosted by Imp VS modifier
 --     Ref: Mana Leech (34650). Instant % mana restore, no duration needed.
--- spell_class_mask_3 = 256 (bit 8) for modifier targeting by Imp VS
+-- spell_class_mask_3 = 32768 (bit 15) for modifier targeting by Imp VS
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900122;
 
@@ -502,9 +550,9 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 2,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 35,
-    `effect_real_points_per_level_1` = 10,
+    `effect_die_sides_1` = @vs_dmg_die,
+    `effect_base_points_1` = @vs_dmg_base,
+    `effect_real_points_per_level_1` = @vs_dmg_perlevel,
     `effect_implicit_target_a_1` = 22,
     `effect_implicit_target_b_1` = 15,
     `effect_radius_index_1` = 14,
@@ -512,9 +560,9 @@ INSERT INTO `spell` SET
     `effect_die_sides_2` = 1,
     `effect_base_points_2` = -1,
     `effect_implicit_target_a_2` = 1,
-    `spell_level` = 30,
-    `base_level` = 30,
-    `max_level` = 80,
+    `spell_level` = @vs_spell_level,
+    `base_level` = @vs_base_level,
+    `max_level` = @vs_max_level,
     `spell_visual_1` = 90001,
     `spell_icon_id` = 4610,
     `spell_name_enus` = 'Volcanic Shield',
@@ -526,16 +574,23 @@ INSERT INTO `spell` SET
     `spell_tooltip_enus` = '',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
-    `spell_class_mask_3` = 256,
+    `spell_class_mask_3` = 32768,
     `school_mask` = 4,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
     `effect_bonus_multiplier_1` = 0.2;
 
+-- Variable 187: Volcanic Shield tooltip damage (base + per-level + SP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, CONCAT(
+    '$perlevel=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '}\n',
+    '$spbonus=${$sp*', @vs_sp_coeff, '}\n',
+    '$total=${$m2+$<perlevel>+$<spbonus>}'));
+
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R1 (900123) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +2% to Volcanic Shield's OBS_MOD_MANA (aura 21) effect.
--- Targets spell_class_mask_3 = 256 (bit 8, Volcanic Shield trigger)
+-- Adds +6% to Volcanic Shield's ENERGIZE_PCT effect.
+-- Targets spell_class_mask_a_3 = 32768 (bit 15, Volcanic Shield trigger)
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900123;
 
@@ -548,11 +603,11 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 107,
-    `effect_base_points_1` = 1,
+    `effect_base_points_1` = 5,
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 12,
     `effect_implicit_target_a_1` = 1,
-    `effect_spell_class_mask_c_1` = 256,
+    `effect_spell_class_mask_a_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
@@ -568,7 +623,7 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R2 (900124) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +4% to Volcanic Shield's OBS_MOD_MANA (aura 21) effect.
+-- Adds +12% to Volcanic Shield's ENERGIZE_PCT effect.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900124;
 
@@ -581,11 +636,11 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_apply_aura_name_1` = 107,
-    `effect_base_points_1` = 3,
+    `effect_base_points_1` = 11,
     `effect_die_sides_1` = 1,
     `effect_misc_value_a_1` = 12,
     `effect_implicit_target_a_1` = 1,
-    `effect_spell_class_mask_c_1` = 256,
+    `effect_spell_class_mask_a_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
@@ -795,7 +850,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Rockbiter Weapon is active, increases its attack power bonus by $s1% and threat generation by $s2%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
     `spell_tooltip_flags` = 16712190,
@@ -836,7 +891,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Rockbiter Weapon is active, increases its attack power bonus by $s1% and threat generation by $s2%.',
+    `spell_desc_enus` = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Rockbiter AP increased by $s1% and threat by $s2%.',
     `spell_tooltip_flags` = 16712190,
@@ -868,6 +923,7 @@ DELETE FROM `spell` WHERE `id` = 900133;
 INSERT INTO `spell` SET
     `id` = 900133,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -901,6 +957,7 @@ DELETE FROM `spell` WHERE `id` = 900134;
 INSERT INTO `spell` SET
     `id` = 900134,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -934,6 +991,7 @@ DELETE FROM `spell` WHERE `id` = 900135;
 INSERT INTO `spell` SET
     `id` = 900135,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -967,6 +1025,7 @@ DELETE FROM `spell` WHERE `id` = 900136;
 INSERT INTO `spell` SET
     `id` = 900136,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1000,6 +1059,7 @@ DELETE FROM `spell` WHERE `id` = 900137;
 INSERT INTO `spell` SET
     `id` = 900137,
     `attributes` = 327760,
+    `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1540,42 +1600,68 @@ INSERT INTO `spell` SET
 -- Same aura as Unbreakable Armor (51271).
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - +2% armor, 15s, 3 stacks
+-- Bastion of Earth buff R1 (900150) - +2% armor per stack, 15s, 3 stacks
+-- E2: HW cast time reduction (-33%/stack), E3: HW mana cost reduction (-33%/stack)
+-- Casting Healing Wave consumes all stacks (proc_charges=1, same as Maelstrom Weapon)
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
     `id` = 900150,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
+    `proc_flags` = 81920,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 2,
+    `effect_base_points_1` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -34,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 10,
+    `effect_spell_class_mask_b_1` = 64,
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = -34,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 108,
+    `effect_misc_value_a_3` = 14,
+    `effect_spell_class_mask_c_1` = 64,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%.',
+    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%.',
+    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_1` = 1.0;
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - +4% armor, 15s, 3 stacks
+-- Bastion of Earth buff R2 (900151) - +4% armor per stack
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
     `id` = 900151,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
+    `proc_flags` = 81920,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
@@ -1586,108 +1672,85 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -34,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 10,
+    `effect_spell_class_mask_b_1` = 64,
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = -34,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 108,
+    `effect_misc_value_a_3` = 14,
+    `effect_spell_class_mask_c_1` = 64,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%.',
+    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%.',
+    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_1` = 1.0;
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - +6% armor, 15s, 3 stacks
+-- Bastion of Earth buff R3 (900152) - +6% armor per stack
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
     `id` = 900152,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
+    `proc_flags` = 81920,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
     `stack_amount` = 3,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 4,
+    `effect_base_points_1` = 5,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 101,
     `effect_misc_value_a_1` = 1,
+    `effect_2` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -34,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_2` = 108,
+    `effect_misc_value_a_2` = 10,
+    `effect_spell_class_mask_b_1` = 64,
+    `effect_3` = 6,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_3` = -34,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_3` = 108,
+    `effect_misc_value_a_3` = 14,
+    `effect_spell_class_mask_c_1` = 64,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%.',
+    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%.',
+    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_1` = 1.0;
-
--- Volcanic Shield desc with conditional mana restore from Molten Core talent
-UPDATE spell SET spell_desc_enus = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.' WHERE ID = 900116;
-UPDATE spell SET spell_tooltip_enus = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]' WHERE ID = 900116;
-
--- Bastion of Earth base_points fix
-UPDATE spell SET effect_base_points_1 = 1 WHERE ID = 900150;
-UPDATE spell SET effect_base_points_1 = 3 WHERE ID = 900151;
-UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900152;
-
--- ============================================================================
--- Bastion of Earth buff — Elemental Fortitude integration
--- Each stack also reduces Healing Wave cast time and mana cost by 33%.
--- At 3 stacks: Healing Wave is instant and free (-99%).
--- Casting Healing Wave consumes all stacks (proc_charges=1, same as Maelstrom Weapon).
--- Effect 2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), -33%/stack
--- Effect 3: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), -33%/stack
--- Targets: Healing Wave (Shaman class_set=11, spell_class_mask_1 bit 6 = 64)
--- ============================================================================
-
--- Add HW cast time reduction (effect 2) to all BoE buff ranks
-UPDATE spell SET
-    effect_2 = 6,
-    effect_die_sides_2 = 1,
-    effect_base_points_2 = -34,
-    effect_implicit_target_a_2 = 1,
-    effect_apply_aura_name_2 = 108,
-    effect_misc_value_a_2 = 10,
-    effect_spell_class_mask_b_1 = 64,
-    effect_damage_multiplier_2 = 1.0,
-    effect_bonus_multiplier_2 = 1.0
-WHERE ID IN (900150, 900151, 900152);
-
--- Add HW mana cost reduction (effect 3) to all BoE buff ranks
-UPDATE spell SET
-    effect_3 = 6,
-    effect_die_sides_3 = 1,
-    effect_base_points_3 = -34,
-    effect_implicit_target_a_3 = 1,
-    effect_apply_aura_name_3 = 108,
-    effect_misc_value_a_3 = 14,
-    effect_spell_class_mask_c_1 = 64,
-    effect_damage_multiplier_3 = 1.0,
-    effect_bonus_multiplier_3 = 1.0
-WHERE ID IN (900150, 900151, 900152);
-
--- Add proc behavior: consume all stacks when Healing Wave is cast
--- proc_flags=81920 (same as Maelstrom Weapon buff 53817)
--- proc_charges=1 (entire buff removed on first proc, regardless of stack count)
-UPDATE spell SET
-    proc_flags = 81920,
-    proc_charges = 1,
-    proc_chance = 100
-WHERE ID IN (900150, 900151, 900152);
-
--- Update buff icon and descriptions
-UPDATE spell SET
-    spell_icon_id = 5043,
-    spell_name_enus = 'Bastion of Earth',
-    spell_desc_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
-    spell_tooltip_enus = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.'
-WHERE ID IN (900150, 900151, 900152);
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `effect_bonus_multiplier_1` = 1.0,
+    `effect_bonus_multiplier_2` = 1.0,
+    `effect_bonus_multiplier_3` = 1.0;
 
 -- Rockbiter Weapon imbue desc - AP from passive aura (client auto-applies Imp Rockbiter SpellMod)
 -- Threat shown conditionally when Imp Rockbiter is known
@@ -1695,20 +1758,6 @@ UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman
 UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900139m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 8018;
 UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900140m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 8019;
 UPDATE spell SET spell_desc_variable_id = 0, spell_desc_enus = 'Imbue the Shaman''s weapon, increasing attack power by $900141m1.$?s900129[  Increases threat generated by $900129m2%.][]$?s900130[  Increases threat generated by $900130m2%.][]  Lasts 30 minutes.' WHERE id = 10399;
-
--- Improved Rockbiter Weapon descriptions
-UPDATE spell SET spell_desc_enus = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.' WHERE id = 900129;
-UPDATE spell SET spell_desc_enus = 'Your Rockbiter Weapon increases threat generated by $s2% and increases attack power bonus of Rockbiter Weapon by $s1%.' WHERE id = 900130;
-
-UPDATE spell SET spell_class_mask_3 = 32768 WHERE ID = 900122;
-
-UPDATE spell SET effect_spell_class_mask_c_1 = 32768 WHERE ID IN (900123, 900124);
-
-UPDATE spell SET effect_spell_class_mask_c_1 = 0, effect_spell_class_mask_a_3 = 32768 WHERE ID IN (900123, 900124);
-
-UPDATE spell SET effect_base_points_1 = 5 WHERE ID = 900123;
-
-UPDATE spell SET effect_base_points_1 = 11 WHERE ID = 900124;
 
 DELETE FROM `spell` WHERE `id` = 900153;
 
@@ -1719,14 +1768,12 @@ INSERT INTO `spell` SET
     `attributes_ex_2` = 67108864,
     `attributes_ex_4` = 2048,
     `attributes_ex_6` = 8388608,
-    `stances` = 131072,
     `cast_time_index` = 1,
     `category_recovery_time` = 8000,
     `proc_chance` = 101,
     `base_level` = 10,
     `spell_level` = 10,
     `duration_index` = 27,
-    `power_type` = 1,
     `range_index` = 4,
     `equipped_item_class` = -1,
     `effect_1` = 114,
@@ -1735,7 +1782,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 6,
     `effect_apply_aura_name_2` = 11,
     `spell_visual_1` = 34,
-    `spell_icon_id` = 24,
+    `spell_icon_id` = 4781,
     `spell_name_enus` = 'Ancestral Warcry',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712188,
@@ -1743,8 +1790,7 @@ INSERT INTO `spell` SET
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Taunted.',
     `spell_tooltip_flags` = 16712190,
-    `spell_class_set` = 4,
-    `spell_class_mask_1` = 32768,
+    `spell_class_set` = 7,
     `damage_class` = 1,
     `prevention_type` = 1,
     `effect_damage_multiplier_1` = 1.0,
@@ -1752,8 +1798,6 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 1,
     `effect_bonus_multiplier_1` = 1.0;
-
-UPDATE spell SET spell_class_set = 7, spell_class_mask_1 = 0, spell_class_mask_2 = 0, spell_class_mask_3 = 0, stances = 0, power_type = 0, power_cost = 0, spell_icon_id = 4781, spell_desc_enus = 'Taunts the target to attack you, but has no effect if the target is already attacking you.' WHERE id = 900153;
 
 -- ============================================================================
 -- Anticipation (900154-900156) - Cloned from 16254/16271/16272 with icon 5340
@@ -2048,8 +2092,8 @@ DELETE FROM `spell` WHERE `id` = 900170;
 
 INSERT INTO `spell` SET
     `id` = 900170,
-    `attributes` = 464,
-    `attributes_ex_1` = 1024,
+    `attributes` = 0,
+    `attributes_ex_1` = 0,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `duration_index` = 1,
@@ -2077,8 +2121,8 @@ DELETE FROM `spell` WHERE `id` = 900171;
 
 INSERT INTO `spell` SET
     `id` = 900171,
-    `attributes` = 464,
-    `attributes_ex_1` = 1024,
+    `attributes` = 0,
+    `attributes_ex_1` = 0,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `duration_index` = 1,
@@ -2106,8 +2150,8 @@ DELETE FROM `spell` WHERE `id` = 900172;
 
 INSERT INTO `spell` SET
     `id` = 900172,
-    `attributes` = 464,
-    `attributes_ex_1` = 1024,
+    `attributes` = 0,
+    `attributes_ex_1` = 0,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `duration_index` = 1,
@@ -2133,8 +2177,9 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Earth Totem family mask tag — bit 17 in spell_class_mask_3 (131072)
--- Adds a custom family flag to all earth totem summon spells so spell_proc
--- can filter procs to earth totems only. Used by Totemic Impact (900165).
+-- Custom family flag on earth totem summon spells. Originally used by Totemic
+-- Impact proc filtering (now uses Totemic Focus mask 0x200B0018 for all totems).
+-- Retained for potential future use.
 -- Earth totems: Earthbind, Stoneclaw, Stoneskin, Strength of Earth, Tremor,
 -- Earth Elemental.
 -- ============================================================================
@@ -2151,19 +2196,29 @@ WHERE `id` IN (
     8143                                                  -- Tremor Totem
 );
 
+-- Totemic Impact damage scaling (shared between triggered spell 900166 and desc variable 198)
+SET @ti_dmg_base = 9;
+SET @ti_dmg_die = 1;
+SET @ti_dmg_perlevel = 0.5;
+SET @ti_base_level = 10;
+SET @ti_max_level = 80;
+SET @ti_ap_coeff = 0.10;
+
 -- ============================================================================
--- Totemic Impact (900165) + Triggered AOE Threat (900166)
--- 1-rank passive talent. Hidden aura on Shaman that procs when a totem is
--- summoned, triggering an AOE threat pulse around the caster.
+-- Totemic Impact (900165) + Triggered AOE Damage (900166)
+-- 1-rank passive talent. Aura on Shaman that procs when ANY totem is summoned,
+-- triggering AOE Nature damage around the caster with 3x threat multiplier.
 -- E1: PROC_TRIGGER_SPELL (aura 42) → 900166
 -- proc_flags = 16384 (DONE_SPELL_MAGIC_DMG_CLASS_POS — totem summons are positive magic spells).
--- NOTE: proc filtering to earth-totem-only spells via spell_proc SpellFamilyMask2 bit 17.
+-- Proc filter: SpellFamilyMask0=537399320 (all totem bits, same as Totemic Focus 16173).
+-- 4 sec ICD via spell_proc Cooldown.
 -- Triggered spell (900166): AOE Nature damage around caster, 0.10 AP coeff
--- via spell_bonus_data, high flat threat via spell_threat.
+-- via spell_bonus_data, 3.0x threat via spell_threat.
 -- ============================================================================
--- Totemic Impact (900165) — passive talent aura, procs on totem summon
+-- Totemic Impact (900165) — passive talent aura, procs on any totem summon
 -- PROC_TRIGGER_SPELL (aura 42) → 900166. proc_flags=16384 (DONE_SPELL_MAGIC_DMG_CLASS_POS).
--- spell_proc filters to totem summon spells via SpellFamilyMask (all totem bits).
+-- 4 sec ICD via spell_proc Cooldown. SpellFamilyMask0=537399320 filters to
+-- totem summon spells only (same mask as Totemic Focus 16173).
 -- Shaman is the caster so visual plays at shaman and threat goes to shaman.
 DELETE FROM `spell` WHERE `id` = 900165;
 
@@ -2184,45 +2239,491 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summoning an earth totem sends a shockwave through the ground, generating threat to all nearby enemies.',
+    `spell_desc_enus` = 'Summoning a totem sends a shockwave through the ground, dealing $<dmg> Nature damage to all nearby enemies and generating 3 times normal threat. Cannot occur more than once every 4 sec.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Your earth totems generate AOE threat on summon.',
+    `spell_tooltip_enus` = 'Your totem summons deal $<dmg> Nature damage and generate 3x threat. 4 sec cooldown.',
     `spell_tooltip_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1,
-    `effect_bonus_multiplier_1` = 1.0;
+    `effect_bonus_multiplier_1` = 1.0,
+    `spell_desc_variable_id` = 198;
 
--- Totemic Impact (900166) — triggered AOE threat pulse
--- SCHOOL_DAMAGE (2), Nature, AOE around caster (target 22, 10yd).
--- Low damage (9 base + 0.5/level = 10 at lvl 10, 45 at 80) with 0.1 AP coeff.
--- 3.0x threat multiplier. Target: ~300 threat at lvl 50 with 800 AP.
--- Earthquake visual (9490). base_level=10 so scaling starts at level 10.
+-- Totemic Impact (900166) — triggered AOE Nature damage + threat
+-- SCHOOL_DAMAGE (2), Nature, AOE around caster (target_a=22, target_b=15, 10yd).
+-- Low damage (9 base + 0.5/level = 10 at lvl 10, 45 at 80) with 0.10 AP coeff.
+-- 3.0x threat multiplier via spell_threat. Target: ~735 threat at lvl 80 with 2000 AP.
+-- Matches Volcanic Shield (900122) structure for triggered AOE damage.
 DELETE FROM `spell` WHERE `id` = 900166;
 
 INSERT INTO `spell` SET
     `id` = 900166,
-    `attributes` = 464,
+    `attributes` = 327696,
     `attributes_ex_1` = 1024,
-    `attributes_ex_3` = 268435456,
     `cast_time_index` = 1,
+    `proc_chance` = 101,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 2,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 9,
-    `effect_real_points_per_level_1` = 0.5,
+    `effect_die_sides_1` = @ti_dmg_die,
+    `effect_base_points_1` = @ti_dmg_base,
+    `effect_real_points_per_level_1` = @ti_dmg_perlevel,
     `effect_implicit_target_a_1` = 22,
+    `effect_implicit_target_b_1` = 15,
     `effect_radius_index_1` = 13,
-    `base_level` = 10,
-    `max_level` = 80,
+    `spell_level` = @ti_base_level,
+    `base_level` = @ti_base_level,
+    `max_level` = @ti_max_level,
     `spell_visual_1` = 145,
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'The earth trembles, generating threat to all nearby enemies.',
+    `spell_desc_enus` = 'The earth trembles, dealing Nature damage and generating high threat.',
     `spell_desc_flags` = 16712190,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 8,
     `effect_bonus_multiplier_1` = 1.0,
     `spell_class_set` = 11,
     `spell_class_mask_3` = 65536;
+
+-- Variable 198: Totemic Impact tooltip damage (base + per-level + AP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 198;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (198, CONCAT(
+    '$perlevel=${($pl-', @ti_base_level, ')*', @ti_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @ti_ap_coeff, '}\n',
+    '$dmg=${$900166m1+$<perlevel>+$<apbonus>}'));
+
+-- Thunderborne Leap damage scaling (shared between triggered spell, cast dummy, and desc variable 194)
+SET @tbl_dmg_base = 99;
+SET @tbl_dmg_die = 1;
+SET @tbl_dmg_perlevel = 3;
+SET @tbl_spell_level = 40;
+SET @tbl_base_level = 40;
+SET @tbl_max_level = 80;
+SET @tbl_ap_coeff = 0.2;
+
+-- ============================================================================
+-- Thunderborne Leap (900173) — cast spell
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900173;
+
+INSERT INTO `spell` SET
+    `id` = 900173,
+    `category` = 1211,
+    `attributes` = 327696,
+    `attributes_ex_1` = 32768,
+    `attributes_ex_2` = 4,
+    `attributes_ex_6` = 1088,
+    `cast_time_index` = 1,
+    `category_recovery_time` = 45000,
+    `proc_chance` = 101,
+    `base_level` = @tbl_base_level,
+    `spell_level` = @tbl_spell_level,
+    `duration_index` = 407,
+    `power_cost_percentage` = 10,
+    `range_index` = 95,
+    `equipped_item_class` = -1,
+    `effect_1` = 42,
+    `effect_2` = 64,
+    `effect_3` = 6,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_2` = -1,
+    `effect_implicit_target_a_1` = 6,
+    `effect_implicit_target_b_1` = 75,
+    `effect_implicit_target_a_2` = 6,
+    `effect_die_sides_3` = @tbl_dmg_die,
+    `effect_base_points_3` = @tbl_dmg_base,
+    `effect_real_points_per_level_3` = @tbl_dmg_perlevel,
+    `effect_implicit_target_a_3` = 1,
+    `effect_radius_index_1` = 14,
+    `effect_apply_aura_name_3` = 77,
+    `effect_multiple_value_1` = 4.0,
+    `effect_misc_value_a_1` = 10,
+    `effect_misc_value_a_3` = 7,
+    `effect_misc_value_b_1` = 75,
+    `effect_trigger_spell_2` = 900174,
+    `spell_visual_1` = 29,
+    `spell_icon_id` = 5364,
+    `active_icon_id` = 5364,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Thunderborne Leap',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a2 yards, causing $<total> Nature damage and stunning them for $900174d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712190,
+    `spell_desc_variable_id` = 194,
+    `start_recovery_category` = 133,
+    `start_recovery_time` = 1500,
+    `spell_class_set` = 11,
+    `damage_class` = 2,
+    `prevention_type` = 2,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 8;
+
+-- ============================================================================
+-- Thunderborne Leap Impact (900174) — hidden triggered AoE
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900174;
+
+INSERT INTO `spell` SET
+    `id` = 900174,
+    `attributes` = 327696,
+    `attributes_ex_1` = 1024,
+    `attributes_ex_2` = 4,
+    `attributes_ex_3` = 268436224,
+    `targets` = 64,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `base_level` = @tbl_base_level,
+    `spell_level` = @tbl_spell_level,
+    `max_level` = @tbl_max_level,
+    `duration_index` = 39,
+    `power_type` = 1,
+    `range_index` = 13,
+    `speed` = 28.0,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 2,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = @tbl_dmg_die,
+    `effect_base_points_1` = -1,
+    `effect_base_points_2` = @tbl_dmg_base,
+    `effect_real_points_per_level_2` = @tbl_dmg_perlevel,
+    `effect_mechanic_1` = 11,
+    `effect_implicit_target_a_1` = 16,
+    `effect_implicit_target_a_2` = 16,
+    `effect_radius_index_1` = 14,
+    `effect_radius_index_2` = 14,
+    `effect_apply_aura_name_1` = 12,
+    `spell_visual_1` = 11441,
+    `spell_icon_id` = 5364,
+    `active_icon_id` = 5364,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Thunderborne Leap',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a1 yards, dealing $900174s2 Nature damage and stunning them for $900174d.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Stunned.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `damage_class` = 2,
+    `prevention_type` = 2,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 8;
+
+-- Variable 194: Thunderborne Leap tooltip damage (base + per-level + AP scaling)
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 194;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (194, CONCAT(
+    '$perlevel=${($pl-', @tbl_base_level, ')*', @tbl_dmg_perlevel, '}\n',
+    '$apbonus=${$AP*', @tbl_ap_coeff, '}\n',
+    '$total=${$m3+$<perlevel>+$<apbonus>}'));
+
+-- ============================================================================
+-- Juggernaut (900175-900179) — 5-rank passive
+-- +2/4/6/8/10% Stamina, -6/12/18/24/30% movement slow duration
+-- Cloned from Toughness (16252). Icon 5452.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900175;
+
+INSERT INTO `spell` SET
+    `id` = 900175,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 1,
+    `effect_base_points_2` = -7,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 232,
+    `effect_misc_value_a_1` = 2,
+    `effect_misc_value_a_2` = 11,
+    `spell_icon_id` = 5452,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Juggernaut',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your Stamina by $s1%, and reduces the duration of movement slowing effects on you by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900176;
+
+INSERT INTO `spell` SET
+    `id` = 900176,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 3,
+    `effect_base_points_2` = -13,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 232,
+    `effect_misc_value_a_1` = 2,
+    `effect_misc_value_a_2` = 11,
+    `spell_icon_id` = 5452,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Juggernaut',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your Stamina by $s1%, and reduces the duration of movement slowing effects on you by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900177;
+
+INSERT INTO `spell` SET
+    `id` = 900177,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = -19,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 232,
+    `effect_misc_value_a_1` = 2,
+    `effect_misc_value_a_2` = 11,
+    `spell_icon_id` = 5452,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Juggernaut',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your Stamina by $s1%, and reduces the duration of movement slowing effects on you by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900178;
+
+INSERT INTO `spell` SET
+    `id` = 900178,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 7,
+    `effect_base_points_2` = -25,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 232,
+    `effect_misc_value_a_1` = 2,
+    `effect_misc_value_a_2` = 11,
+    `spell_icon_id` = 5452,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Juggernaut',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your Stamina by $s1%, and reduces the duration of movement slowing effects on you by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900179;
+
+INSERT INTO `spell` SET
+    `id` = 900179,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = -31,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 137,
+    `effect_apply_aura_name_2` = 232,
+    `effect_misc_value_a_1` = 2,
+    `effect_misc_value_a_2` = 11,
+    `spell_icon_id` = 5452,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Juggernaut',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your Stamina by $s1%, and reduces the duration of movement slowing effects on you by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Rockslam Block Buff R1 (900180) — triggered +5% block, 10s
+-- Cloned from 900120 with reduced block value.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900180;
+
+INSERT INTO `spell` SET
+    `id` = 900180,
+    `attributes` = 327696,
+    `attributes_ex_1` = 1024,
+    `attributes_ex_3` = 2,
+    `stances` = 131072,
+    `cast_time_index` = 1,
+    `recovery_time` = 60000,
+    `proc_chance` = 101,
+    `base_level` = 16,
+    `spell_level` = 16,
+    `duration_index` = 1,
+    `power_type` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = 4,
+    `equipped_item_subclass_mask` = 64,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 51,
+    `effect_spell_class_mask_c_2` = 512,
+    `spell_visual_1` = 3442,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Rockslam',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Block chance increased by $s1%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Block chance increased by $s1%.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Improved Rockslam R1 (900181) — +15% damage, procs block buff R1 (900180)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900181;
+
+INSERT INTO `spell` SET
+    `id` = 900181,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_flags` = 16,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 14,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 42,
+    `effect_misc_value_a_1` = 3,
+    `effect_trigger_spell_2` = 900180,
+    `effect_spell_class_mask_a_3` = 262144,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Improved Rockslam',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1% and causes it to grant 5% increased block chance for 10 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1% and causes it to grant 5% increased block chance for 10 sec.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- ============================================================================
+-- Improved Rockslam R2 (900182) — +25% damage, procs block buff R2 (900120)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900182;
+
+INSERT INTO `spell` SET
+    `id` = 900182,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_flags` = 16,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 24,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 42,
+    `effect_misc_value_a_1` = 3,
+    `effect_trigger_spell_2` = 900120,
+    `effect_spell_class_mask_a_3` = 262144,
+    `spell_icon_id` = 5489,
+    `spell_name_enus` = 'Improved Rockslam',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases the damage dealt by Rockslam by $s1% and causes it to grant 10% increased block chance for 10 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases the damage dealt by Rockslam by $s1% and causes it to grant 10% increased block chance for 10 sec.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;

@@ -6,13 +6,14 @@
 -- ============================================================================
 -- spell_bonus_data
 -- ============================================================================
-DELETE FROM `spell_bonus_data` WHERE `entry` IN (900116, 900117, 900118, 900119, 900122, 900121, 900166, 900174);
+DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900116, 900117, 900118, 900119, 900122, 900121, 900166, 900174);
 
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
+(900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage'),
 (900119, 0, 0, 0.25, 0, 'Rockslam - 25% AP as bonus physical damage'),
 (900122, 0.20, 0, 0, 0, 'Volcanic Shield (triggered) - 20% SP as AOE fire damage on block'),
 (900121, 0, 0, 0.20, 0, 'Tectonic Blast - 20% AP as bonus nature damage'),
-(900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on totem summon'),
+(900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on any totem summon'),
 (900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
 
 -- ============================================================================
@@ -37,9 +38,14 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
 (900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
 (900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
--- Totemic Impact — proc only on earth totem summon spells
--- SpellFamilyName=11 (Shaman), Mask2=131072 (bit 17, custom earth totem flag)
-(900165, 0, 11, 0, 0, 131072, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+-- Living Guardian — proc only on heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL)
+(900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
+(900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
+(900169, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
+-- Totemic Impact — proc on any totem summon spell, 4 sec ICD
+-- SpellFamilyName=11 (Shaman), Mask0=537399320 (all totem family bits, same as Totemic Focus 16173)
+-- Cooldown=4000ms (4 sec ICD)
+(900165, 0, 11, 537399320, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 4000, 0),
 -- Improved Rockslam — proc block buff on Rockslam cast
 -- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
 (900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
