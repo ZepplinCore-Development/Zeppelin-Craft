@@ -1,0 +1,69 @@
+From dd1c8e0a7cd2cbf2757c4c9a13127155ccd64765 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 7 Mar 2026 12:16:22 +0000
+Subject: [PATCH] feat: Add BidOnly mode for buyer bot (F-156)
+
+When enabled, the buyer bot will only place bids on player auctions
+instead of buying them out instantly. Players must wait for the
+auction timer to expire to receive payment.
+
+New config: AuctionHouseBot.Buyer.BidOnly (default: false)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/AuctionHouseBot.cpp | 5 ++++-
+ src/AuctionHouseBot.h   | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/AuctionHouseBot.cpp b/src/AuctionHouseBot.cpp
+index a8f4a45..f5cb3ec 100644
+--- a/src/AuctionHouseBot.cpp
++++ b/src/AuctionHouseBot.cpp
+@@ -64,6 +64,7 @@ AuctionHouseBot::AuctionHouseBot() :
+     ListingExpireTimeInSecondsMax(86400),
+     BuyingBotAcceptablePriceModifier(1),
+     BuyingBotAlwaysBidMaxCalculatedPrice(false),
++    BuyingBotBidOnly(false),
+     BuyingBotWillBidAgainstPlayers(false),
+     AHCharactersGUIDsForQuery(""),
+     ItemsPerCycle(75),
+@@ -1645,7 +1646,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
+         bool doBid = false;
+         uint64 calcBidAmount = 0;
+ 
+-        if (auction->buyout != 0 && auction->buyout < willingToPayForStackPrice)
++        if (auction->buyout != 0 && auction->buyout < willingToPayForStackPrice && !BuyingBotBidOnly)
+             doBuyout = true;
+         else
+         {
+@@ -1713,6 +1714,7 @@ void AuctionHouseBot::AddNewAuctionBuyerBotBid(std::vector<Player*> AHBPlayers,
+             LOG_INFO("module", "AHBuyer: Calculated Bid Amount (0 means too expensive to bid): {}", calcBidAmount);
+             LOG_INFO("module", "AHBuyer: Decided to Buyout?: {}", doBuyout);
+             LOG_INFO("module", "AHBuyer: Decided to Bid?: {}", doBid);
++            LOG_INFO("module", "AHBuyer: Bid Only Mode?: {}", BuyingBotBidOnly);
+             LOG_INFO("module", "AHBuyer: Stopped from buying due to 'PreventOverpayingForVendorItems'?: {}", preventedOverpayingForVendorItem);
+             LOG_INFO("module", "-------------------------------------------------");
+         }
+@@ -1924,6 +1926,7 @@ void AuctionHouseBot::InitializeConfiguration()
+     SetBuyingBotBuyCandidatesPerBuyCycle();
+     BuyingBotAcceptablePriceModifier = sConfigMgr->GetOption<float>("AuctionHouseBot.Buyer.AcceptablePriceModifier", 1);
+     BuyingBotAlwaysBidMaxCalculatedPrice = sConfigMgr->GetOption<bool>("AuctionHouseBot.Buyer.AlwaysBidMaxCalculatedPrice", false);
++    BuyingBotBidOnly = sConfigMgr->GetOption<bool>("AuctionHouseBot.Buyer.BidOnly", false);
+     PreventOverpayingForVendorItems = sConfigMgr->GetOption<bool>("AuctionHouseBot.Buyer.PreventOverpayingForVendorItems", true);
+     if (PreventOverpayingForVendorItems)
+         PopulateVendorItemsPrices();
+diff --git a/src/AuctionHouseBot.h b/src/AuctionHouseBot.h
+index 91729b2..70f7df4 100644
+--- a/src/AuctionHouseBot.h
++++ b/src/AuctionHouseBot.h
+@@ -152,6 +152,7 @@ private:
+     uint32 ListingExpireTimeInSecondsMax;
+     float BuyingBotAcceptablePriceModifier;
+     bool BuyingBotAlwaysBidMaxCalculatedPrice;
++    bool BuyingBotBidOnly;
+     bool BuyingBotWillBidAgainstPlayers;
+     std::vector<uint32> vendorItemsPrices;
+     std::string AHCharactersGUIDsForQuery;
+-- 
+2.34.1
+
