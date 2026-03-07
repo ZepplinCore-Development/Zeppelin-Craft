@@ -19,7 +19,6 @@ DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91271;
 INSERT INTO `item_template` SET
     `entry` = 57900, `class` = 5, `subclass` = 1,
     `name` = 'Journeyman Cooking Pot',
-    `description` = 'Improves cooking speed and food/drink potency.',
     `displayid` = 46255, `Quality` = 6, `ItemLevel` = 20,
     `stackable` = 1, `bonding` = 1,
     `spellid_1` = 91271, `spelltrigger_1` = 5,
@@ -29,7 +28,6 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 57901, `class` = 5, `subclass` = 1,
     `name` = 'Expert Cooking Pot',
-    `description` = 'Improves cooking speed and food/drink potency.',
     `displayid` = 46257, `Quality` = 6, `ItemLevel` = 30,
     `stackable` = 1, `bonding` = 1,
     `spellid_1` = 91272, `spelltrigger_1` = 5,
@@ -39,7 +37,6 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 57902, `class` = 5, `subclass` = 1,
     `name` = 'Artisan Cooking Pot',
-    `description` = 'Improves cooking speed and food/drink potency.',
     `displayid` = 46254, `Quality` = 6, `ItemLevel` = 45,
     `stackable` = 1, `bonding` = 1,
     `spellid_1` = 91273, `spelltrigger_1` = 5,
@@ -49,7 +46,6 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 57903, `class` = 5, `subclass` = 1,
     `name` = 'Master Cooking Pot',
-    `description` = 'Improves cooking speed and food/drink potency.',
     `displayid` = 46256, `Quality` = 6, `ItemLevel` = 60,
     `stackable` = 1, `bonding` = 1,
     `spellid_1` = 91274, `spelltrigger_1` = 5,
@@ -59,7 +55,6 @@ INSERT INTO `item_template` SET
 INSERT INTO `item_template` SET
     `entry` = 57904, `class` = 5, `subclass` = 1,
     `name` = 'Grand Master Cooking Pot',
-    `description` = 'Improves cooking speed and food/drink potency.',
     `displayid` = 46258, `Quality` = 6, `ItemLevel` = 75,
     `stackable` = 1, `bonding` = 1,
     `spellid_1` = 91275, `spelltrigger_1` = 5,
