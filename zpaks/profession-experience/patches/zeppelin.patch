@@ -1,51 +1,101 @@
-From 61d498a0455001141aefbde1b76c3afad4608843 Mon Sep 17 00:00:00 2001
+From d3ee6ef38c5b0624fc19f198b0cc2c27c7f4dcba Mon Sep 17 00:00:00 2001
 From: Claude <claude@buttzeppelin>
-Date: Sun, 1 Mar 2026 12:46:37 +0000
-Subject: [PATCH] fix: Invert gathering XP curve and fix integer division bug
- (I-145)
+Date: Sat, 7 Mar 2026 12:26:25 +0000
+Subject: [PATCH] feat: Use creature kill XP as profession experience baseline
 
-- Curve formula used integer division (minSkill/450 always 0 for skill<450)
-- Inverted to give more XP at low skill, tapering to 1x at 450
-- Reduced base XP from 1% to 0.2% (curve scales it to ~1% at skill 1)
-- Disabled fishing XP in defaults
+- Base XP = same-level creature kill XP (via Acore::XP::BaseGain)
+- Recipe color adjusts: orange +25%, yellow baseline, green -25%, gray 0
+- KillsEquivalent config to scale by number of equivalent kills (default 1)
+- Removed old percentage-based system, rank multipliers, and curve
+- Herbalism and Mining enabled by default
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- conf/mod-profession-experience.conf.dist | 18 +++++++++---------
- src/ProfessionExp.cpp                    |  6 +++---
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ conf/mod-profession-experience.conf.dist | 61 +++++++--------------
+ src/ProfessionExp.cpp                    | 70 ++++++++----------------
+ 2 files changed, 43 insertions(+), 88 deletions(-)
 
 diff --git a/conf/mod-profession-experience.conf.dist b/conf/mod-profession-experience.conf.dist
-index 3e902bc..0dfcec8 100644
+index 3e902bc..2f39db4 100644
 --- a/conf/mod-profession-experience.conf.dist
 +++ b/conf/mod-profession-experience.conf.dist
-@@ -49,8 +49,9 @@ ProfessionExperience.MultGrandMaster = 1.0
- 
+@@ -7,12 +7,24 @@
+ ########################################
+ # Profession Experience Configuration
+ ########################################
++#
++#    ProfessionExperience.KillsEquivalent
++#        Description: How many same-level creature kills each profession action is worth.
++#                     Base XP is calculated as if the player killed a creature at their own level,
++#                     then multiplied by this value. Recipe difficulty color applies on top.
++#        Default:     1.0
++#
++
++ProfessionExperience.KillsEquivalent = 1.0
++
++
  #
- #    ProfessionExperience.MultCurve
+ #    ProfessionExperience.MultGray
+ #    ProfessionExperience.MultGreen
+ #    ProfessionExperience.MultYellow
+ #    ProfessionExperience.MultOrange
+-#        Description: Multiplicator to experience when using a skill with this difficulty
++#        Description: Multiplier based on recipe difficulty color.
++#                     Gray recipes give no XP. Green gives -25%, Yellow is baseline, Orange gives +25%.
+ #        Default:     0.0  - (ProfessionExperience.MultGray)
+ #                     0.75 - (ProfessionExperience.MultGreen)
+ #                     1.0  - (ProfessionExperience.MultYellow)
+@@ -24,46 +36,11 @@ ProfessionExperience.MultYellow = 1.0
+ ProfessionExperience.MultOrange = 1.25
+ 
+ 
+-#
+-#    ProfessionExperience.MultApprentice    1-75
+-#    ProfessionExperience.MultJourneyman   76-150
+-#    ProfessionExperience.MultExpert      151-225
+-#    ProfessionExperience.MultArtisan     226-300
+-#    ProfessionExperience.MultMaster      301-375
+-#    ProfessionExperience.MultGrandMaster 376-450
+-#        Description: Multiplicator to experience when using a skill in this skill range
+-#        Default:     1.0 - (ProfessionExperience.MultApprentice)
+-#                     1.0 - (ProfessionExperience.MultJourneyman)
+-#                     1.0 - (ProfessionExperience.MultExpert)
+-#                     1.0 - (ProfessionExperience.MultArtisan)
+-#                     1.0 - (ProfessionExperience.MultMaster)
+-#                     1.0 - (ProfessionExperience.MultGrandMaster)
+-
+-ProfessionExperience.MultApprentice  = 1.0
+-ProfessionExperience.MultJourneyman  = 1.0
+-ProfessionExperience.MultExpert      = 1.0
+-ProfessionExperience.MultArtisan     = 1.0
+-ProfessionExperience.MultMaster      = 1.0
+-ProfessionExperience.MultGrandMaster = 1.0
+-
+-
+-#
+-#    ProfessionExperience.MultCurve
 -#        Description: Multiplicator to Experience applied as an exponential curve. Formula is "xp x mult ^ (minSkill/450).
 -#                     Close to 1 at skill 1. Square root at skill 225. Values below 1.0 apply a penalty at higher level instead.
-+#        Description: Multiplicator to Experience applied as an inverted exponential curve. Formula is "xp x mult ^ (1 - minSkill/450)".
-+#                     Full multiplier at skill 1, tapering down to 1x at skill 450.
-+#                     With default 5.0: ~5x at skill 1, ~2.2x at skill 225, 1x at skill 450.
- #        Default:     5.0
- #        Disabled:    0.0
- 
-@@ -60,10 +61,9 @@ ProfessionExperience.MultCurve = 5.0
+-#        Default:     5.0
+-#        Disabled:    0.0
+-
+-ProfessionExperience.MultCurve = 5.0
+-
+-
  #
  #    ProfessionExperience.*.Experience
- #        Description: Part of a level gained for performing the action
+-#        Description: Part of a level gained for performing the action
 -#        Default:     0.01 - (1%, ProfessionExperience.Fishing.Experience)
 -#                     0.01 - (1%, ProfessionExperience.Herbalism.Experience)
 -#                     0.01 - (1%, ProfessionExperience.Mining.Experience)
 -#                     0.00 - (Disabled, the rest)
-+#        Default:     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Herbalism.Experience)
-+#                     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Mining.Experience)
-+#                     0.00  - (Disabled, the rest)
++#        Description: Enable/disable XP for each profession. Set to 1.0 to enable, 0.0 to disable.
++#        Default:     1.0 - (Enabled: Herbalism, Mining)
++#                     0.0 - (Disabled: everything else)
  
  ProfessionExperience.Alchemy.Experience        = 0.00
  ProfessionExperience.Blacksmith.Experience     = 0.00
-@@ -71,14 +71,14 @@ ProfessionExperience.Cooking.Experience        = 0.00
+@@ -71,14 +48,14 @@ ProfessionExperience.Cooking.Experience        = 0.00
  ProfessionExperience.Disenchanting.Experience  = 0.00
  ProfessionExperience.Enchanting.Experience     = 0.00
  ProfessionExperience.Engineering.Experience    = 0.00
@@ -53,41 +103,154 @@ index 3e902bc..0dfcec8 100644
 +ProfessionExperience.Fishing.Experience        = 0.00
  ProfessionExperience.FirstAid.Experience       = 0.00
 -ProfessionExperience.Herbalism.Experience      = 0.01
-+ProfessionExperience.Herbalism.Experience      = 0.002
++ProfessionExperience.Herbalism.Experience      = 1.00
  ProfessionExperience.Inscription.Experience    = 0.00
  ProfessionExperience.Jewelcrafting.Experience  = 0.00
  ProfessionExperience.Leatherworking.Experience = 0.00
  ProfessionExperience.Lockpick.Experience       = 0.00
 -ProfessionExperience.Mining.Experience         = 0.01
-+ProfessionExperience.Mining.Experience         = 0.002
++ProfessionExperience.Mining.Experience         = 1.00
  ProfessionExperience.Skinning.Experience       = 0.00
  ProfessionExperience.Smelting.Experience       = 0.00
  ProfessionExperience.Tailoring.Experience      = 0.00
 diff --git a/src/ProfessionExp.cpp b/src/ProfessionExp.cpp
-index 4b7a66b..95e8971 100644
+index 4b7a66b..20d2523 100644
 --- a/src/ProfessionExp.cpp
 +++ b/src/ProfessionExp.cpp
-@@ -57,12 +57,12 @@ public:
+@@ -5,6 +5,8 @@
+ #include "Chat.h"
+ #include "Config.h"
+ #include "ConfigValueCache.h"
++#include "DBCStores.h"
++#include "Formulas.h"
+ #include "Player.h"
+ #include "ScriptMgr.h"
+ 
+@@ -31,13 +33,7 @@ enum class PEConfig
+     MULT_GREEN,
+     MULT_YELLOW,
+     MULT_ORANGE,
+-    MULT_APPRENTICE,
+-    MULT_JOURNEYMAN,
+-    MULT_EXPERT,
+-    MULT_ARTISAN,
+-    MULT_MASTER,
+-    MULT_GRANDMASTER,
+-    MULT_CURVE,
++    KILLS_EQUIVALENT,
+ 
+     NUM_CONFIGS,
+ };
+@@ -55,14 +51,14 @@ public:
+         SetConfigValue<float>(PEConfig::DISENCHANTING_EXPERIENCE,  "ProfessionExperience.Disenchanting.Experience",  0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::ENCHANTING_EXPERIENCE,     "ProfessionExperience.Enchanting.Experience",     0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::ENGINEERING_EXPERIENCE,    "ProfessionExperience.Engineering.Experience",    0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
-         SetConfigValue<float>(PEConfig::FISHING_EXPERIENCE,        "ProfessionExperience.Fishing.Experience",        0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::FISHING_EXPERIENCE,        "ProfessionExperience.Fishing.Experience",        0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
++        SetConfigValue<float>(PEConfig::FISHING_EXPERIENCE,        "ProfessionExperience.Fishing.Experience",        0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::FIRST_AID_EXPERIENCE,      "ProfessionExperience.FirstAid.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
 -        SetConfigValue<float>(PEConfig::HERBALISM_EXPERIENCE,      "ProfessionExperience.Herbalism.Experience",      0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
-+        SetConfigValue<float>(PEConfig::HERBALISM_EXPERIENCE,      "ProfessionExperience.Herbalism.Experience",      0.002f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
++        SetConfigValue<float>(PEConfig::HERBALISM_EXPERIENCE,      "ProfessionExperience.Herbalism.Experience",      1.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::INSCRIPTION_EXPERIENCE,    "ProfessionExperience.Inscription.Experience",    0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::JEWELCRAFTING_EXPERIENCE,  "ProfessionExperience.Jewelcrafting.Experience",  0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::LEATHERWORKING_EXPERIENCE, "ProfessionExperience.Leatherworking.Experience", 0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::LOCKPICK_EXPERIENCE,       "ProfessionExperience.Lockpick.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
 -        SetConfigValue<float>(PEConfig::MINING_EXPERIENCE,         "ProfessionExperience.Mining.Experience",         0.01f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
-+        SetConfigValue<float>(PEConfig::MINING_EXPERIENCE,         "ProfessionExperience.Mining.Experience",         0.002f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
++        SetConfigValue<float>(PEConfig::MINING_EXPERIENCE,         "ProfessionExperience.Mining.Experience",         1.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::SKINNING_EXPERIENCE,       "ProfessionExperience.Skinning.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::SMELTING_EXPERIENCE,       "ProfessionExperience.Smelting.Experience",       0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
          SetConfigValue<float>(PEConfig::TAILORING_EXPERIENCE,      "ProfessionExperience.Tailoring.Experience",      0.00f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
-@@ -206,7 +206,7 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
-             xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_APPRENTICE);
+@@ -72,14 +68,7 @@ public:
+         SetConfigValue<float>(PEConfig::MULT_YELLOW, "ProfessionExperience.MultYellow", 1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+         SetConfigValue<float>(PEConfig::MULT_ORANGE, "ProfessionExperience.MultOrange", 1.25f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
  
-         if (float curve = peConfigData.GetConfigValue<float>(PEConfig::MULT_CURVE))
+-        SetConfigValue<float>(PEConfig::MULT_APPRENTICE, "ProfessionExperience.MultApprentice", 1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_JOURNEYMAN, "ProfessionExperience.MultJourneyman", 1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_EXPERT,     "ProfessionExperience.MultExpert",     1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_ARTISAN,    "ProfessionExperience.MultArtisan",    1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_MASTER,     "ProfessionExperience.MultMaster",     1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_GRANDMASTER,"ProfessionExperience.MultGrandMaster",1.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-        SetConfigValue<float>(PEConfig::MULT_CURVE,      "ProfessionExperience.MultCurve",      5.0f,  ConfigValueCache::Reloadable::Yes, [](float const& value) { return value >= 0.0f; }, ">= 0");
+-
++        SetConfigValue<float>(PEConfig::KILLS_EQUIVALENT, "ProfessionExperience.KillsEquivalent", 1.0f, ConfigValueCache::Reloadable::Yes, [](float const& value) { return value > 0.0f; }, "> 0");
+     }
+ };
+ static PEConfigData peConfigData;
+@@ -95,8 +84,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+ 
+     bool OnPlayerUpdateFishingSkill(Player* player, int32 skill, int32 zone_skill, int32 /*chance*/, int32 /*roll*/) override
+     {
+-        if (float xpFactor = peConfigData.GetConfigValue<float>(PEConfig::FISHING_EXPERIENCE))
+-            RewardXP(player, skill, zone_skill + 100, zone_skill + 50, zone_skill + 25, zone_skill, xpFactor);
++        if (peConfigData.GetConfigValue<float>(PEConfig::FISHING_EXPERIENCE) > 0.0f)
++            RewardXP(player, skill, zone_skill + 100, zone_skill + 50, zone_skill + 25);
+ 
+         return true;
+     }
+@@ -122,8 +111,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+                 return;
+         }
+ 
+-        if (float xpFactor = peConfigData.GetConfigValue<float>(experienceSetting))
+-            RewardXP(player, currentLevel, gray, green, yellow, yellow -25, xpFactor);
++        if (peConfigData.GetConfigValue<float>(experienceSetting) > 0.0f)
++            RewardXP(player, currentLevel, gray, green, yellow);
+     }
+ 
+     void OnPlayerUpdateCraftingSkill(Player *player, SkillLineAbilityEntry const* skill, uint32 currentLevel, uint32& /*gain*/) override
+@@ -170,43 +159,32 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+             default:
+                 return;
+         }
+-        if (float xpFactor = peConfigData.GetConfigValue<float>(experienceSetting))
++        if (peConfigData.GetConfigValue<float>(experienceSetting) > 0.0f)
+         {
+             uint32 gray = skill->TrivialSkillLineRankHigh;
+             uint32 green = (skill->TrivialSkillLineRankHigh + skill->TrivialSkillLineRankLow) / 2;
+             uint32 yellow = skill->TrivialSkillLineRankLow;
+-            uint32 min = skill->MinSkillLineRank;
+-            RewardXP(player, currentLevel, gray, green, yellow, min, xpFactor);
++            RewardXP(player, currentLevel, gray, green, yellow);
+         }
+     }
+ 
+-    void RewardXP(Player* player, uint32 currentLevel, uint32 gray, uint32 green, uint32 yellow, uint32 minSkill, float xpFraction)
++    void RewardXP(Player* player, uint32 currentLevel, uint32 gray, uint32 green, uint32 yellow)
+     {
+-        uint32 xp = player->GetUInt32Value(PLAYER_NEXT_LEVEL_XP) * xpFraction;
++        uint8 playerLevel = player->GetLevel();
++        ContentLevels content = GetContentLevelsForMapAndZone(player->GetMapId(), player->GetZoneId());
++        uint32 xp = Acore::XP::BaseGain(playerLevel, playerLevel, content);
++
++        float colorMult;
+         if (currentLevel >= gray)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_GRAY);
++            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_GRAY);
+         else if (currentLevel >= green)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_GREEN);
++            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_GREEN);
+         else if (currentLevel >= yellow)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_YELLOW);
+-        else
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_ORANGE);
+-
+-        if (minSkill > 375)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_GRANDMASTER);
+-        else if (minSkill > 300)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_MASTER);
+-        else if (minSkill > 225)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_ARTISAN);
+-        else if (minSkill > 150)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_EXPERT);
+-        else if (minSkill > 75)
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_JOURNEYMAN);
++            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_YELLOW);
+         else
+-            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_APPRENTICE);
++            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_ORANGE);
+ 
+-        if (float curve = peConfigData.GetConfigValue<float>(PEConfig::MULT_CURVE))
 -            xp = xp * pow(curve,(minSkill/450));
-+            xp = xp * pow(curve, 1.0 - (double)minSkill / 450.0);
++        xp = uint32(xp * colorMult * peConfigData.GetConfigValue<float>(PEConfig::KILLS_EQUIVALENT));
  
          player->GiveXP(xp, nullptr);
      }
