@@ -18,14 +18,14 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 (200076, 9001, 900129, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 (200077, 9001, 900130, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
--- Shield Mastery (900133-900137) on Enhancement skill line for Shaman class
+-- Shield Mastery (900133-900137) on Earthwarden skill line (9001)
 DELETE FROM `skilllineability` WHERE `id` IN (200070, 200071, 200072, 200073, 200074);
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
-(200070, 373, 900133, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200071, 373, 900134, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200072, 373, 900135, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200073, 373, 900136, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-(200074, 373, 900137, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+(200070, 9001, 900133, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(200071, 9001, 900134, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(200072, 9001, 900135, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(200073, 9001, 900136, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(200074, 9001, 900137, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 
 -- Ancestral Warcry on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200075;
