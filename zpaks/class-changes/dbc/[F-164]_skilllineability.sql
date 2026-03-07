@@ -52,3 +52,18 @@ INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`
 -- Earthen Reprisal on Earthwarden skill line
 DELETE FROM `skilllineability` WHERE `id` = 200045;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (200045, 9001, 900114, 0, 64, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+
+-- Bastion of Earth (ranks 1-3) on Earthwarden skill line
+DELETE FROM `skilllineability` WHERE `id` IN (200080, 200081, 200082);
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200080, 9001, 900147, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200081, 9001, 900148, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200082, 9001, 900149, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+-- Move Stoneclaw Totem (all ranks) from Elemental Combat (375) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` IN (4456, 4457, 4458, 4459, 5590, 5591, 13298, 20055, 20056, 20057);
+
+-- Move Stoneskin Totem (all ranks) from Enhancement (373) to Earthwarden (9001)
+UPDATE `skilllineability` SET `skill_line` = 9001
+WHERE `id` IN (8764, 8765, 8766, 8767, 8769, 8770, 13295, 13297, 20070, 20071);
