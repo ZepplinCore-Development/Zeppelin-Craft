@@ -273,12 +273,22 @@ def char_reset_talents(name: str):
     if online:
         raise click.ClickException(f"{char_name} is online — log out first")
 
-    # Clear talent data directly (prevents crash-on-load from corrupt/missing talent entries)
+    # Remove talent-granted spells from character_spell before clearing talent rows
+    # (character_talent references spells the server would normally removeSpell() during reset)
+    success, output = _run_query(
+        f"DELETE cs FROM character_spell cs "
+        f"INNER JOIN character_talent ct ON cs.guid = ct.guid AND cs.spell = ct.spell "
+        f"WHERE cs.guid = {guid}"
+    )
+    if not success:
+        raise click.ClickException(f"Failed to clear talent spells: {output}")
+
+    # Clear talent data (prevents crash-on-load from corrupt/missing DBC talent entries)
     success, output = _run_query(f"DELETE FROM character_talent WHERE guid = {guid}")
     if not success:
         raise click.ClickException(f"Failed to clear talents: {output}")
 
-    # Set at-login flag so server does a full clean reset (relearns class spells, pet talents, etc.)
+    # Set at-login flag so server does a full clean reset (pet talents, etc.)
     success, output = _run_query(
         f"UPDATE characters SET at_login = at_login | {RESET_FLAGS}, "
         f"resettalents_cost = 0, resettalents_time = 0 WHERE guid = {guid}"
@@ -286,4 +296,4 @@ def char_reset_talents(name: str):
     if not success:
         raise click.ClickException(f"Update failed: {output}")
 
-    click.echo(f"  {char_name}: talents cleared and will reset on next login")
+    click.echo(f"  {char_name}: talents and talent spells cleared, will reset on next login")

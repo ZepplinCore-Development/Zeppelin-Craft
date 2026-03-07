@@ -7,7 +7,7 @@ Integrates with the four-database architecture for safe, traceable editing.
 Commands:
     zep dbc query "..."              Query DBC database
     zep dbc query -f file.sql        Query from file
-    zep dbc modify --task F-XXX "..."  Modify with tracking
+    zep dbc modify <file.sql>           Apply zpak SQL file
     zep dbc clone <src> <dst> --task   Clone spell
     zep dbc status                   Check uncommitted changes
     zep dbc diff [--sql]             Show differences
@@ -108,7 +108,10 @@ def get_dbc_config(ctx) -> DBCConfig:
 def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry) -> Optional[Path]:
     """Find zpak path for a feature ID.
 
-    First checks registry feature_index, then scans zpak.json files.
+    Priority order:
+    1. Zpak with matching feature_id in zpak.json manifest (authoritative)
+    2. Registry cache (from previous lookups)
+    3. Zpak with matching [F-XXX] in DBC/SQL filenames (fallback)
 
     Args:
         craft_root: Path to Zeppelin-Craft
@@ -118,19 +121,14 @@ def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry)
     Returns:
         Path to zpak directory or None
     """
-    # Check registry first
-    zpak_name = registry.get_zpak_for_feature(feature_id)
-    if zpak_name:
-        for base in [craft_root / 'zpaks', craft_root / 'external']:
-            candidate = base / zpak_name
-            if candidate.exists():
-                return candidate
+    bases = [craft_root / 'zpaks', craft_root / 'external']
+    filename_match = None
 
-    # Scan zpaks - check manifest fields then scan DBC/SQL filenames
-    for base in [craft_root / 'zpaks', craft_root / 'external']:
+    # Pass 1: scan all zpaks, prioritise manifest feature_id declaration
+    for base in bases:
         if not base.exists():
             continue
-        for pkg_dir in base.iterdir():
+        for pkg_dir in sorted(base.iterdir()):
             if not pkg_dir.is_dir():
                 continue
             manifest_path = pkg_dir / 'zpak.json'
@@ -141,22 +139,34 @@ def find_zpak_for_feature(craft_root: Path, feature_id: str, registry: Registry)
             if not manifest:
                 continue
 
-            # Check manifest feature_id field
-            ids = set()
-            if manifest.get('feature_id'):
-                ids.add(manifest['feature_id'])
-
-            # Scan DBC filenames for feature IDs
-            dbc_dir = pkg_dir / 'dbc'
-            if dbc_dir.exists():
-                for f in dbc_dir.glob('*.sql'):
-                    ids.update(extract_feature_ids(f.name))
-
-            if feature_id in ids:
-                # Auto-register for future lookups
+            # Manifest feature_id is authoritative — return immediately
+            if manifest.get('feature_id') == feature_id:
                 registry.register_feature(feature_id, pkg_dir.name)
                 registry.save()
                 return pkg_dir
+
+            # Track filename matches as fallback (first match wins)
+            if filename_match is None:
+                dbc_dir = pkg_dir / 'dbc'
+                if dbc_dir.exists():
+                    for f in dbc_dir.glob('*.sql'):
+                        if feature_id in extract_feature_ids(f.name):
+                            filename_match = pkg_dir
+                            break
+
+    # Pass 2: check registry cache (only if no manifest declared it)
+    zpak_name = registry.get_zpak_for_feature(feature_id)
+    if zpak_name:
+        for base in bases:
+            candidate = base / zpak_name
+            if candidate.exists():
+                return candidate
+
+    # Pass 3: fall back to filename match
+    if filename_match:
+        registry.register_feature(feature_id, filename_match.name)
+        registry.save()
+        return filename_match
 
     return None
 
@@ -291,7 +301,9 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
     if is_modification(sql):
         raise click.ClickException(
             "Modification detected (INSERT/UPDATE/DELETE).\n"
-            "Use 'zep dbc modify --task F-XXX \"...\"' for modifications."
+            "Write SQL to a zpak dbc/ file, then apply with:\n"
+            "  zep dbc edit modify <file.sql>\n"
+            "  zep dbc db apply --changed"
         )
 
     # Get config and run query
@@ -324,90 +336,60 @@ def dbc_query(ctx, sql: Optional[str], sql_file: Optional[str], database: str):
 # =============================================================================
 
 @edit.command('modify')
-@click.argument('sql', required=False)
-@click.option('--file', '-f', 'sql_file', type=click.Path(exists=True),
-              help='SQL file to execute')
-@click.option('--task', '-t', 'task_id', required=True,
-              help='Task ID (F-XXX or I-XXX)')
-@click.option('--zpak', '-z', 'zpak_name',
-              help='Target zpak name (required if task not registered to a zpak)')
-@click.option('--description', '-d', 'description',
-              help='Commit description (only with --commit)')
-@click.option('--commit', is_flag=True,
-              help='Create git commit (default: no commit)')
+@click.argument('sql_file', type=click.Path(exists=True))
+@click.option('--task', '-t', 'task_id',
+              help='Task ID (F-XXX or I-XXX) — auto-detected from filename if not given')
 @click.pass_context
-def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
-               zpak_name: Optional[str], description: Optional[str], commit: bool):
-    """Modify DBC database with tracking.
+def dbc_modify(ctx, sql_file: str, task_id: Optional[str]):
+    """Apply a DBC SQL file to live and expected databases.
 
-    Execute modifications (INSERT/UPDATE/DELETE) with proper tracking:
-    - Validates task ID format
-    - Saves SQL to zpak dbc/ folder (F-XXX_table.sql)
-    - Applies to live and expected databases
+    Takes a SQL file path (must already exist in a zpak dbc/ folder) and
+    applies it to both the live and expected DBC databases.
 
-    History is preserved in the zpak SQL files. Commit when ready with --commit
-    or manually via git.
+    The task ID is auto-detected from the filename (e.g. [F-004]_spell.sql)
+    but can be overridden with --task.
+
+    Write your SQL changes to zpak files first, then apply with this command.
+    For bulk application of new/modified files, use 'zep dbc db apply --changed'.
 
     Examples:
-        zep dbc modify --task F-004 "UPDATE spell SET SpellName0='Test' WHERE ID=900001"
-        zep dbc modify --task I-015 -f changes.sql --zpak zepcraft-legacy
-        zep dbc modify --task F-004 "..." --commit  # Also commit to git
+        zep dbc edit modify zpaks/class-changes/dbc/[F-164]_spell.sql
+        zep dbc edit modify path/to/file.sql --task F-004
     """
-    # Validate task ID
+    sql_path = Path(sql_file).resolve()
+
+    # Read SQL from file
+    with open(sql_path) as f:
+        sql = f.read()
+
+    if not sql.strip():
+        raise click.ClickException("SQL file is empty")
+
+    if not is_modification(sql):
+        raise click.ClickException(
+            "No modification detected in SQL.\n"
+            "Use 'zep dbc info query' for read-only queries."
+        )
+
+    # Auto-detect task ID from filename if not provided
+    if not task_id:
+        import re as _re
+        match = _re.search(r'\[([FI]-\d+)\]', sql_path.name)
+        if match:
+            task_id = match.group(1)
+        else:
+            raise click.ClickException(
+                "Could not detect task ID from filename.\n"
+                "Use --task/-t to specify, or name file like [F-XXX]_table.sql"
+            )
+
     if not validate_task_id(task_id):
         raise click.ClickException(
             f"Invalid task ID: {task_id}\n"
             "Must be in format F-XXX or I-XXX"
         )
 
-    # Get SQL
-    if sql_file:
-        with open(sql_file) as f:
-            sql = f.read()
-    elif not sql:
-        if not sys.stdin.isatty():
-            sql = sys.stdin.read()
-        else:
-            raise click.ClickException("No SQL provided")
-
-    if not sql.strip():
-        raise click.ClickException("Empty SQL provided")
-
-    # Verify it's a modification
-    if not is_modification(sql):
-        raise click.ClickException(
-            "No modification detected in SQL.\n"
-            "Use 'zep dbc query' for read-only queries."
-        )
-
-    craft_root = ctx.obj['craft_root']
-    registry = ctx.obj['registry']
     config = get_dbc_config(ctx)
-
-    # Find zpak for this task
-    zpak_path = None
-
-    # If --zpak specified, use it directly
-    if zpak_name:
-        for base in [craft_root / 'zpaks', craft_root / 'external']:
-            candidate = base / zpak_name
-            if candidate.exists() and (candidate / 'zpak.json').exists():
-                zpak_path = candidate
-                break
-        if not zpak_path:
-            raise click.ClickException(
-                f"Zpak '{zpak_name}' not found.\n"
-                f"Use 'zep zpak list' to see available zpaks."
-            )
-    else:
-        zpak_path = find_zpak_for_feature(craft_root, task_id, registry)
-
-    if not zpak_path:
-        raise click.ClickException(
-            f"No zpak found for {task_id}.\n"
-            f"Specify a target zpak with --zpak/-z, e.g.:\n"
-            f"  zep dbc modify --task {task_id} --zpak <zpak-name> ..."
-        )
 
     # Detect which tables are being modified
     tables = detect_modified_tables(sql)
@@ -415,7 +397,7 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
         raise click.ClickException("Could not detect target tables from SQL")
 
     click.echo(f"Task: {task_id}")
-    click.echo(f"Zpak: {zpak_path.name}")
+    click.echo(f"File: {sql_path.name}")
     click.echo(f"Tables: {', '.join(sorted(tables))}")
 
     # Execute on live database
@@ -432,23 +414,6 @@ def dbc_modify(ctx, sql: Optional[str], sql_file: Optional[str], task_id: str,
         click.echo(click.style(f"  Warning: {output}", fg='yellow'))
     else:
         click.echo(click.style("  OK", fg='green'))
-
-    # Save SQL to zpak dbc/<feature>/ folder (per-feature, per-table files)
-    # This enables easy reorganization - moving F-004 to another zpak
-    # is simply moving the dbc/F-004/ folder
-    modified_files = []
-    for table in tables:
-        sql_file_path = append_to_zpak_dbc(zpak_path, table, sql, feature_id=task_id)
-        modified_files.append(sql_file_path)
-        click.echo(f"Saved: {sql_file_path.relative_to(craft_root)}")
-
-    # Git commit (only if --commit flag)
-    if commit:
-        desc = description or f"DBC: {', '.join(sorted(tables))}"
-        if git_commit_changes(craft_root, modified_files + [zpak_path / 'zpak.json'], task_id, desc):
-            click.echo(click.style(f"\nCommit created: WIP: {task_id}", fg='green'))
-        else:
-            click.echo(click.style("\nNo changes to commit", fg='yellow'))
 
     click.echo(click.style("\nModification complete", fg='green'))
 
@@ -584,9 +549,38 @@ def dbc_clone(ctx, source_id: int, new_id: int, task_id: str, new_name: Optional
         + ",\n".join(set_clauses) + ";"
     )
 
-    # Use modify command logic
-    ctx.invoke(dbc_modify, sql=clone_sql, task_id=task_id,
-               description=f"clone spell {source_id} -> {new_id}")
+    craft_root = ctx.obj['craft_root']
+    registry = ctx.obj['registry']
+    config = get_dbc_config(ctx)
+
+    # Find zpak for this task
+    zpak_path = find_zpak_for_feature(craft_root, task_id, registry)
+    if not zpak_path:
+        raise click.ClickException(
+            f"No zpak found for {task_id}.\n"
+            f"Register the task to a zpak first."
+        )
+
+    # Save SQL to zpak dbc/ folder
+    sql_file_path = append_to_zpak_dbc(zpak_path, 'spell', clone_sql, feature_id=task_id)
+    click.echo(f"Saved: {sql_file_path.relative_to(craft_root)}")
+
+    # Apply to live database
+    click.echo(f"\nApplying to {config.live}...")
+    success, output = run_sql(clone_sql, config, config.live)
+    if not success:
+        raise click.ClickException(f"Failed to apply to live database: {output}")
+    click.echo(click.style("  OK", fg='green'))
+
+    # Apply to expected database
+    click.echo(f"Applying to {config.expected}...")
+    success, output = run_sql(clone_sql, config, config.expected)
+    if not success:
+        click.echo(click.style(f"  Warning: {output}", fg='yellow'))
+    else:
+        click.echo(click.style("  OK", fg='green'))
+
+    click.echo(click.style("\nClone complete", fg='green'))
 
 
 # =============================================================================
@@ -2339,8 +2333,7 @@ def dbc_apply(ctx, target: Optional[str], task_id: Optional[str], zpak_name: Opt
               changed: bool, run_all: bool, dry_run: bool, force: bool):
     """Apply existing zpak DBC files to databases.
 
-    Use this when you've manually created/edited DBC SQL files in a zpak
-    and want to apply them without the modify command's save step.
+    Use this to apply DBC SQL files from zpaks to the databases.
 
     With --changed, only applies files that have been modified since last apply.
     Before applying, checks for row conflicts with higher-priority already-applied
