@@ -1996,1343 +1996,1343 @@ INSERT INTO gameobject_loot_template (Entry, Item, Reference, Chance, QuestRequi
 
 -- Copper Vein - Journeyman Pick condition (Ref 92000)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92000, 774, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92000, 774, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92000, 818, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92000, 818, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92000, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92000, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92000, 2770, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92000, 2770, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92000, 2835, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92000, 2835, 0, 0, 1, 0, 91158, 0, 0);
 -- Copper Vein - Artisan Pick condition (Ref 92001)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92001, 774, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92001, 774, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92001, 818, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92001, 818, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92001, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92001, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92001, 2770, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92001, 2770, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92001, 2835, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92001, 2835, 0, 0, 1, 0, 91159, 0, 0);
 -- Copper Vein - Master Pick condition (Ref 92002)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92002, 774, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92002, 774, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92002, 818, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92002, 818, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92002, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92002, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92002, 2770, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92002, 2770, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92002, 2835, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92002, 2835, 0, 0, 1, 0, 91160, 0, 0);
 -- Copper Vein - Grand Master Pick condition (Ref 92003)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92003, 774, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92003, 774, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92003, 818, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92003, 818, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92003, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92003, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92003, 2770, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92003, 2770, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92003, 2835, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92003, 2835, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Tin Vein - Journeyman Pick condition (Ref 92004)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 1206, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 1206, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 1529, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 1529, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 2771, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 2771, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92004, 2836, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92004, 2836, 0, 0, 1, 0, 91158, 0, 0);
 -- Tin Vein - Artisan Pick condition (Ref 92005)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 1206, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 1206, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 1529, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 1529, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 2771, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 2771, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92005, 2836, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92005, 2836, 0, 0, 1, 0, 91159, 0, 0);
 -- Tin Vein - Master Pick condition (Ref 92006)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 1206, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 1206, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 1529, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 1529, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 2771, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 2771, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92006, 2836, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92006, 2836, 0, 0, 1, 0, 91160, 0, 0);
 -- Tin Vein - Grand Master Pick condition (Ref 92007)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 1206, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 1206, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 1529, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 1529, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 2771, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 2771, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92007, 2836, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92007, 2836, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Ooze Covered Silver Vein - Journeyman Pick condition (Ref 92008)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92008, 1206, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92008, 1206, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92008, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92008, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92008, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92008, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92008, 2775, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92008, 2775, 0, 0, 1, 0, 91158, 0, 0);
 -- Ooze Covered Silver Vein - Artisan Pick condition (Ref 92009)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92009, 1206, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92009, 1206, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92009, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92009, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92009, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92009, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92009, 2775, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92009, 2775, 0, 0, 1, 0, 91159, 0, 0);
 -- Ooze Covered Silver Vein - Master Pick condition (Ref 92010)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92010, 1206, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92010, 1206, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92010, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92010, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92010, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92010, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92010, 2775, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92010, 2775, 0, 0, 1, 0, 91160, 0, 0);
 -- Ooze Covered Silver Vein - Grand Master Pick condition (Ref 92011)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92011, 1206, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92011, 1206, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92011, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92011, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92011, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92011, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92011, 2775, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92011, 2775, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Iron Deposit - Journeyman Pick condition (Ref 92012)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 1529, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 1529, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 2772, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 2772, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 2838, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 2838, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92012, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92012, 7909, 0, 0, 1, 0, 91158, 0, 0);
 -- Iron Deposit - Artisan Pick condition (Ref 92013)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 1529, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 1529, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 2772, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 2772, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 2838, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 2838, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92013, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92013, 7909, 0, 0, 1, 0, 91159, 0, 0);
 -- Iron Deposit - Master Pick condition (Ref 92014)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 1529, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 1529, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 2772, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 2772, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 2838, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 2838, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92014, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92014, 7909, 0, 0, 1, 0, 91160, 0, 0);
 -- Iron Deposit - Grand Master Pick condition (Ref 92015)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 1529, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 1529, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 2772, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 2772, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 2838, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 2838, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92015, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92015, 7909, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Gold Vein - Journeyman Pick condition (Ref 92016)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92016, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92016, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92016, 2776, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92016, 2776, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92016, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92016, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92016, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92016, 7909, 0, 0, 1, 0, 91158, 0, 0);
 -- Gold Vein - Artisan Pick condition (Ref 92017)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92017, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92017, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92017, 2776, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92017, 2776, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92017, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92017, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92017, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92017, 7909, 0, 0, 1, 0, 91159, 0, 0);
 -- Gold Vein - Master Pick condition (Ref 92018)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92018, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92018, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92018, 2776, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92018, 2776, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92018, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92018, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92018, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92018, 7909, 0, 0, 1, 0, 91160, 0, 0);
 -- Gold Vein - Grand Master Pick condition (Ref 92019)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92019, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92019, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92019, 2776, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92019, 2776, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92019, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92019, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92019, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92019, 7909, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Copper Vein - Journeyman Pick condition (Ref 92020)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 774, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 774, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 818, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 818, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 2770, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 2770, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 2798, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 2798, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92020, 2835, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92020, 2835, 0, 0, 1, 0, 91158, 0, 0);
 -- Copper Vein - Artisan Pick condition (Ref 92021)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 774, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 774, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 818, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 818, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 2770, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 2770, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 2798, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 2798, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92021, 2835, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92021, 2835, 0, 0, 1, 0, 91159, 0, 0);
 -- Copper Vein - Master Pick condition (Ref 92022)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 774, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 774, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 818, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 818, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 2770, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 2770, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 2798, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 2798, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92022, 2835, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92022, 2835, 0, 0, 1, 0, 91160, 0, 0);
 -- Copper Vein - Grand Master Pick condition (Ref 92023)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 774, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 774, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 818, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 818, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 2770, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 2770, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 2798, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 2798, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92023, 2835, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92023, 2835, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Tin Vein - Journeyman Pick condition (Ref 92024)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 1206, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 1206, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 1529, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 1529, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 2771, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 2771, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 2798, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 2798, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92024, 2836, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92024, 2836, 0, 0, 1, 0, 91158, 0, 0);
 -- Tin Vein - Artisan Pick condition (Ref 92025)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 1206, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 1206, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 1529, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 1529, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 2771, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 2771, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 2798, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 2798, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92025, 2836, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92025, 2836, 0, 0, 1, 0, 91159, 0, 0);
 -- Tin Vein - Master Pick condition (Ref 92026)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 1206, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 1206, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 1529, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 1529, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 2771, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 2771, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 2798, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 2798, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92026, 2836, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92026, 2836, 0, 0, 1, 0, 91160, 0, 0);
 -- Tin Vein - Grand Master Pick condition (Ref 92027)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 1206, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 1206, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 1529, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 1529, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 2771, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 2771, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 2798, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 2798, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92027, 2836, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92027, 2836, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Mithril Deposit - Journeyman Pick condition (Ref 92028)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 3858, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 3858, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 7909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 7910, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 7910, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 7912, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 7912, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92028, 9262, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92028, 9262, 0, 0, 1, 0, 91158, 0, 0);
 -- Mithril Deposit - Artisan Pick condition (Ref 92029)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 3858, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 3858, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 7909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 7910, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 7910, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 7912, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 7912, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92029, 9262, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92029, 9262, 0, 0, 1, 0, 91159, 0, 0);
 -- Mithril Deposit - Master Pick condition (Ref 92030)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 3858, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 3858, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 7909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 7910, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 7910, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 7912, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 7912, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92030, 9262, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92030, 9262, 0, 0, 1, 0, 91160, 0, 0);
 -- Mithril Deposit - Grand Master Pick condition (Ref 92031)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 3858, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 3858, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 7909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 7910, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 7910, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 7912, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 7912, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92031, 9262, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92031, 9262, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Copper Vein - Journeyman Pick condition (Ref 92032)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 774, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 774, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 818, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 818, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 2770, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 2770, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 2835, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 2835, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92032, 5075, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92032, 5075, 0, 0, 1, 0, 91158, 0, 0);
 -- Copper Vein - Artisan Pick condition (Ref 92033)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 774, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 774, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 818, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 818, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 2770, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 2770, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 2835, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 2835, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92033, 5075, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92033, 5075, 0, 0, 1, 0, 91159, 0, 0);
 -- Copper Vein - Master Pick condition (Ref 92034)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 774, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 774, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 818, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 818, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 2770, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 2770, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 2835, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 2835, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92034, 5075, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92034, 5075, 0, 0, 1, 0, 91160, 0, 0);
 -- Copper Vein - Grand Master Pick condition (Ref 92035)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 774, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 774, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 818, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 818, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 2770, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 2770, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 2835, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 2835, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92035, 5075, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92035, 5075, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Tin Vein - Journeyman Pick condition (Ref 92036)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 1206, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 1206, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 1529, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 1529, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 2771, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 2771, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 2836, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 2836, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92036, 5075, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92036, 5075, 0, 0, 1, 0, 91158, 0, 0);
 -- Tin Vein - Artisan Pick condition (Ref 92037)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 1206, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 1206, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 1529, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 1529, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 2771, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 2771, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 2836, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 2836, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92037, 5075, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92037, 5075, 0, 0, 1, 0, 91159, 0, 0);
 -- Tin Vein - Master Pick condition (Ref 92038)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 1206, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 1206, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 1529, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 1529, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 2771, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 2771, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 2836, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 2836, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92038, 5075, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92038, 5075, 0, 0, 1, 0, 91160, 0, 0);
 -- Tin Vein - Grand Master Pick condition (Ref 92039)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 1206, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 1206, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 1529, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 1529, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 2771, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 2771, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 2836, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 2836, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92039, 5075, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92039, 5075, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Ooze Covered Truesilver Deposit - Journeyman Pick condition (Ref 92040)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92040, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92040, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92040, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92040, 7909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92040, 7910, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92040, 7910, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92040, 7911, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92040, 7911, 0, 0, 1, 0, 91158, 0, 0);
 -- Ooze Covered Truesilver Deposit - Artisan Pick condition (Ref 92041)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92041, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92041, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92041, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92041, 7909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92041, 7910, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92041, 7910, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92041, 7911, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92041, 7911, 0, 0, 1, 0, 91159, 0, 0);
 -- Ooze Covered Truesilver Deposit - Master Pick condition (Ref 92042)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92042, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92042, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92042, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92042, 7909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92042, 7910, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92042, 7910, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92042, 7911, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92042, 7911, 0, 0, 1, 0, 91160, 0, 0);
 -- Ooze Covered Truesilver Deposit - Grand Master Pick condition (Ref 92043)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92043, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92043, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92043, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92043, 7909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92043, 7910, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92043, 7910, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92043, 7911, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92043, 7911, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Ooze Covered Thorium Vein - Journeyman Pick condition (Ref 92044)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92044, 10620, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92044, 10620, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92044, 12365, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92044, 12365, 0, 0, 1, 0, 91158, 0, 0);
 -- Ooze Covered Thorium Vein - Artisan Pick condition (Ref 92045)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92045, 10620, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92045, 10620, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92045, 12365, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92045, 12365, 0, 0, 1, 0, 91159, 0, 0);
 -- Ooze Covered Thorium Vein - Master Pick condition (Ref 92046)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92046, 10620, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92046, 10620, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92046, 12365, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92046, 12365, 0, 0, 1, 0, 91160, 0, 0);
 -- Ooze Covered Thorium Vein - Grand Master Pick condition (Ref 92047)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92047, 10620, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92047, 10620, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92047, 12365, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92047, 12365, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Dark Iron Deposit - Journeyman Pick condition (Ref 92048)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92048, 9262, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92048, 9262, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92048, 11370, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92048, 11370, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92048, 11382, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92048, 11382, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92048, 11754, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92048, 11754, 0, 0, 1, 0, 91158, 0, 0);
 -- Dark Iron Deposit - Artisan Pick condition (Ref 92049)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92049, 9262, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92049, 9262, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92049, 11370, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92049, 11370, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92049, 11382, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92049, 11382, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92049, 11754, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92049, 11754, 0, 0, 1, 0, 91159, 0, 0);
 -- Dark Iron Deposit - Master Pick condition (Ref 92050)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92050, 9262, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92050, 9262, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92050, 11370, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92050, 11370, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92050, 11382, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92050, 11382, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92050, 11754, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92050, 11754, 0, 0, 1, 0, 91160, 0, 0);
 -- Dark Iron Deposit - Grand Master Pick condition (Ref 92051)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92051, 9262, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92051, 9262, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92051, 11370, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92051, 11370, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92051, 11382, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92051, 11382, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92051, 11754, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92051, 11754, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Ooze Covered Rich Thorium Vein - Journeyman Pick condition (Ref 92052)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92052, 10620, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92052, 10620, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92052, 12365, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92052, 12365, 0, 0, 1, 0, 91158, 0, 0);
 -- Ooze Covered Rich Thorium Vein - Artisan Pick condition (Ref 92053)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92053, 10620, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92053, 10620, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92053, 12365, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92053, 12365, 0, 0, 1, 0, 91159, 0, 0);
 -- Ooze Covered Rich Thorium Vein - Master Pick condition (Ref 92054)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92054, 10620, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92054, 10620, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92054, 12365, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92054, 12365, 0, 0, 1, 0, 91160, 0, 0);
 -- Ooze Covered Rich Thorium Vein - Grand Master Pick condition (Ref 92055)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92055, 10620, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92055, 10620, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92055, 12365, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92055, 12365, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Small Thorium Vein - Journeyman Pick condition (Ref 92056)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92056, 10620, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92056, 10620, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92056, 11513, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92056, 11513, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92056, 12365, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92056, 12365, 0, 0, 1, 0, 91158, 0, 0);
 -- Small Thorium Vein - Artisan Pick condition (Ref 92057)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92057, 10620, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92057, 10620, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92057, 11513, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92057, 11513, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92057, 12365, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92057, 12365, 0, 0, 1, 0, 91159, 0, 0);
 -- Small Thorium Vein - Master Pick condition (Ref 92058)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92058, 10620, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92058, 10620, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92058, 11513, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92058, 11513, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92058, 12365, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92058, 12365, 0, 0, 1, 0, 91160, 0, 0);
 -- Small Thorium Vein - Grand Master Pick condition (Ref 92059)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92059, 10620, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92059, 10620, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92059, 11513, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92059, 11513, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92059, 12365, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92059, 12365, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Mithril Deposit - Journeyman Pick condition (Ref 92060)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 3858, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 3858, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 7909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 7910, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 7910, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 7912, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 7912, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 9262, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 9262, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92060, 11513, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92060, 11513, 0, 0, 1, 0, 91158, 0, 0);
 -- Mithril Deposit - Artisan Pick condition (Ref 92061)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 3858, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 3858, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 7909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 7910, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 7910, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 7912, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 7912, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 9262, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 9262, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92061, 11513, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92061, 11513, 0, 0, 1, 0, 91159, 0, 0);
 -- Mithril Deposit - Master Pick condition (Ref 92062)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 3858, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 3858, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 7909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 7910, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 7910, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 7912, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 7912, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 9262, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 9262, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92062, 11513, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92062, 11513, 0, 0, 1, 0, 91160, 0, 0);
 -- Mithril Deposit - Grand Master Pick condition (Ref 92063)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 3858, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 3858, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 7909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 7910, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 7910, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 7912, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 7912, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 9262, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 9262, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92063, 11513, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92063, 11513, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Hakkari Thorium Vein - Journeyman Pick condition (Ref 92064)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92064, 10620, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92064, 10620, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92064, 12365, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92064, 12365, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92064, 19774, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92064, 19774, 0, 0, 1, 0, 91158, 0, 0);
 -- Hakkari Thorium Vein - Artisan Pick condition (Ref 92065)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92065, 10620, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92065, 10620, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92065, 12365, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92065, 12365, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92065, 19774, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92065, 19774, 0, 0, 1, 0, 91159, 0, 0);
 -- Hakkari Thorium Vein - Master Pick condition (Ref 92066)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92066, 10620, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92066, 10620, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92066, 12365, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92066, 12365, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92066, 19774, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92066, 19774, 0, 0, 1, 0, 91160, 0, 0);
 -- Hakkari Thorium Vein - Grand Master Pick condition (Ref 92067)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92067, 10620, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92067, 10620, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92067, 12365, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92067, 12365, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92067, 19774, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92067, 19774, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Truesilver Deposit - Journeyman Pick condition (Ref 92068)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92068, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92068, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92068, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92068, 7909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92068, 7910, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92068, 7910, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92068, 7911, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92068, 7911, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92068, 11513, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92068, 11513, 0, 0, 1, 0, 91158, 0, 0);
 -- Truesilver Deposit - Artisan Pick condition (Ref 92069)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92069, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92069, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92069, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92069, 7909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92069, 7910, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92069, 7910, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92069, 7911, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92069, 7911, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92069, 11513, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92069, 11513, 0, 0, 1, 0, 91159, 0, 0);
 -- Truesilver Deposit - Master Pick condition (Ref 92070)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92070, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92070, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92070, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92070, 7909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92070, 7910, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92070, 7910, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92070, 7911, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92070, 7911, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92070, 11513, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92070, 11513, 0, 0, 1, 0, 91160, 0, 0);
 -- Truesilver Deposit - Grand Master Pick condition (Ref 92071)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92071, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92071, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92071, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92071, 7909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92071, 7910, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92071, 7910, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92071, 7911, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92071, 7911, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92071, 11513, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92071, 11513, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Gold Vein - Journeyman Pick condition (Ref 92072)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92072, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92072, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92072, 2776, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92072, 2776, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92072, 3864, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92072, 3864, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92072, 7909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92072, 7909, 0, 0, 1, 0, 91158, 0, 0);
 -- Gold Vein - Artisan Pick condition (Ref 92073)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92073, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92073, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92073, 2776, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92073, 2776, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92073, 3864, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92073, 3864, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92073, 7909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92073, 7909, 0, 0, 1, 0, 91159, 0, 0);
 -- Gold Vein - Master Pick condition (Ref 92074)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92074, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92074, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92074, 2776, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92074, 2776, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92074, 3864, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92074, 3864, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92074, 7909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92074, 7909, 0, 0, 1, 0, 91160, 0, 0);
 -- Gold Vein - Grand Master Pick condition (Ref 92075)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92075, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92075, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92075, 2776, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92075, 2776, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92075, 3864, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92075, 3864, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92075, 7909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92075, 7909, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Copper Vein - Journeyman Pick condition (Ref 92076)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 774, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 774, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 818, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 818, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 2770, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 2770, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 2835, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 2835, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92076, 22634, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92076, 22634, 0, 0, 1, 0, 91158, 0, 0);
 -- Copper Vein - Artisan Pick condition (Ref 92077)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 774, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 774, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 818, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 818, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 2770, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 2770, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 2835, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 2835, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92077, 22634, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92077, 22634, 0, 0, 1, 0, 91159, 0, 0);
 -- Copper Vein - Master Pick condition (Ref 92078)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 774, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 774, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 818, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 818, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 2770, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 2770, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 2835, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 2835, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92078, 22634, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92078, 22634, 0, 0, 1, 0, 91160, 0, 0);
 -- Copper Vein - Grand Master Pick condition (Ref 92079)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 774, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 774, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 818, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 818, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 2770, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 2770, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 2835, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 2835, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92079, 22634, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92079, 22634, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Tin Vein - Journeyman Pick condition (Ref 92080)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 1206, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 1206, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 1210, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 1210, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 1529, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 1529, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 1705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 1705, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 2771, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 2771, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 2836, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 2836, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92080, 22634, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92080, 22634, 0, 0, 1, 0, 91158, 0, 0);
 -- Tin Vein - Artisan Pick condition (Ref 92081)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 1206, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 1206, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 1210, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 1210, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 1529, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 1529, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 1705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 1705, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 2771, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 2771, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 2836, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 2836, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92081, 22634, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92081, 22634, 0, 0, 1, 0, 91159, 0, 0);
 -- Tin Vein - Master Pick condition (Ref 92082)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 1206, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 1206, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 1210, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 1210, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 1529, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 1529, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 1705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 1705, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 2771, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 2771, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 2836, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 2836, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92082, 22634, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92082, 22634, 0, 0, 1, 0, 91160, 0, 0);
 -- Tin Vein - Grand Master Pick condition (Ref 92083)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 1206, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 1206, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 1210, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 1210, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 1529, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 1529, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 1705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 1705, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 2771, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 2771, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 2836, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 2836, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92083, 22634, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92083, 22634, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Fel Iron Deposit - Journeyman Pick condition (Ref 92084)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92084, 22573, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92084, 22573, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92084, 22574, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92084, 22574, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92084, 23424, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92084, 23424, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92084, 23427, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92084, 23427, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92084, 35229, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92084, 35229, 0, 0, 1, 0, 91158, 0, 0);
 -- Fel Iron Deposit - Artisan Pick condition (Ref 92085)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92085, 22573, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92085, 22573, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92085, 22574, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92085, 22574, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92085, 23424, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92085, 23424, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92085, 23427, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92085, 23427, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92085, 35229, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92085, 35229, 0, 0, 1, 0, 91159, 0, 0);
 -- Fel Iron Deposit - Master Pick condition (Ref 92086)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92086, 22573, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92086, 22573, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92086, 22574, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92086, 22574, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92086, 23424, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92086, 23424, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92086, 23427, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92086, 23427, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92086, 35229, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92086, 35229, 0, 0, 1, 0, 91160, 0, 0);
 -- Fel Iron Deposit - Grand Master Pick condition (Ref 92087)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92087, 22573, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92087, 22573, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92087, 22574, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92087, 22574, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92087, 23424, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92087, 23424, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92087, 23427, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92087, 23427, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92087, 35229, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92087, 35229, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Adamantite Deposit - Journeyman Pick condition (Ref 92088)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92088, 22573, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92088, 22573, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92088, 23425, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92088, 23425, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92088, 23427, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92088, 23427, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92088, 35229, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92088, 35229, 0, 0, 1, 0, 91158, 0, 0);
 -- Adamantite Deposit - Artisan Pick condition (Ref 92089)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92089, 22573, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92089, 22573, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92089, 23425, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92089, 23425, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92089, 23427, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92089, 23427, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92089, 35229, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92089, 35229, 0, 0, 1, 0, 91159, 0, 0);
 -- Adamantite Deposit - Master Pick condition (Ref 92090)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92090, 22573, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92090, 22573, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92090, 23425, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92090, 23425, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92090, 23427, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92090, 23427, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92090, 35229, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92090, 35229, 0, 0, 1, 0, 91160, 0, 0);
 -- Adamantite Deposit - Grand Master Pick condition (Ref 92091)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92091, 22573, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92091, 22573, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92091, 23425, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92091, 23425, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92091, 23427, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92091, 23427, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92091, 35229, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92091, 35229, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Khorium Vein - Journeyman Pick condition (Ref 92092)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92092, 22573, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92092, 22573, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92092, 22574, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92092, 22574, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92092, 23426, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92092, 23426, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92092, 23427, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92092, 23427, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92092, 35229, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92092, 35229, 0, 0, 1, 0, 91158, 0, 0);
 -- Khorium Vein - Artisan Pick condition (Ref 92093)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92093, 22573, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92093, 22573, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92093, 22574, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92093, 22574, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92093, 23426, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92093, 23426, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92093, 23427, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92093, 23427, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92093, 35229, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92093, 35229, 0, 0, 1, 0, 91159, 0, 0);
 -- Khorium Vein - Master Pick condition (Ref 92094)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92094, 22573, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92094, 22573, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92094, 22574, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92094, 22574, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92094, 23426, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92094, 23426, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92094, 23427, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92094, 23427, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92094, 35229, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92094, 35229, 0, 0, 1, 0, 91160, 0, 0);
 -- Khorium Vein - Grand Master Pick condition (Ref 92095)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92095, 22573, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92095, 22573, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92095, 22574, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92095, 22574, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92095, 23426, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92095, 23426, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92095, 23427, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92095, 23427, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92095, 35229, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92095, 35229, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Nethercite Deposit - Journeyman Pick condition (Ref 92096)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92096, 22573, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92096, 22573, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92096, 22574, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92096, 22574, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92096, 32464, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92096, 32464, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92096, 32506, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92096, 32506, 0, 0, 1, 0, 91158, 0, 0);
 -- Nethercite Deposit - Artisan Pick condition (Ref 92097)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92097, 22573, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92097, 22573, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92097, 22574, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92097, 22574, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92097, 32464, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92097, 32464, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92097, 32506, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92097, 32506, 0, 0, 1, 0, 91159, 0, 0);
 -- Nethercite Deposit - Master Pick condition (Ref 92098)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92098, 22573, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92098, 22573, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92098, 22574, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92098, 22574, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92098, 32464, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92098, 32464, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92098, 32506, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92098, 32506, 0, 0, 1, 0, 91160, 0, 0);
 -- Nethercite Deposit - Grand Master Pick condition (Ref 92099)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92099, 22573, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92099, 22573, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92099, 22574, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92099, 22574, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92099, 32464, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92099, 32464, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92099, 32506, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92099, 32506, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Cobalt Deposit - Journeyman Pick condition (Ref 92100)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92100, 36909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92100, 36909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92100, 37701, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92100, 37701, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92100, 37705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92100, 37705, 0, 0, 1, 0, 91158, 0, 0);
 -- Cobalt Deposit - Artisan Pick condition (Ref 92101)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92101, 36909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92101, 36909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92101, 37701, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92101, 37701, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92101, 37705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92101, 37705, 0, 0, 1, 0, 91159, 0, 0);
 -- Cobalt Deposit - Master Pick condition (Ref 92102)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92102, 36909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92102, 36909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92102, 37701, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92102, 37701, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92102, 37705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92102, 37705, 0, 0, 1, 0, 91160, 0, 0);
 -- Cobalt Deposit - Grand Master Pick condition (Ref 92103)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92103, 36909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92103, 36909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92103, 37701, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92103, 37701, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92103, 37705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92103, 37705, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Rich Cobalt Deposit - Journeyman Pick condition (Ref 92104)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92104, 36909, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92104, 36909, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92104, 37701, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92104, 37701, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92104, 37705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92104, 37705, 0, 0, 1, 0, 91158, 0, 0);
 -- Rich Cobalt Deposit - Artisan Pick condition (Ref 92105)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92105, 36909, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92105, 36909, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92105, 37701, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92105, 37701, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92105, 37705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92105, 37705, 0, 0, 1, 0, 91159, 0, 0);
 -- Rich Cobalt Deposit - Master Pick condition (Ref 92106)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92106, 36909, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92106, 36909, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92106, 37701, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92106, 37701, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92106, 37705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92106, 37705, 0, 0, 1, 0, 91160, 0, 0);
 -- Rich Cobalt Deposit - Grand Master Pick condition (Ref 92107)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92107, 36909, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92107, 36909, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92107, 37701, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92107, 37701, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92107, 37705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92107, 37705, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Saronite Deposit - Journeyman Pick condition (Ref 92108)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92108, 36912, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92108, 36912, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92108, 37701, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92108, 37701, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92108, 37703, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92108, 37703, 0, 0, 1, 0, 91158, 0, 0);
 -- Saronite Deposit - Artisan Pick condition (Ref 92109)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92109, 36912, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92109, 36912, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92109, 37701, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92109, 37701, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92109, 37703, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92109, 37703, 0, 0, 1, 0, 91159, 0, 0);
 -- Saronite Deposit - Master Pick condition (Ref 92110)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92110, 36912, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92110, 36912, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92110, 37701, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92110, 37701, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92110, 37703, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92110, 37703, 0, 0, 1, 0, 91160, 0, 0);
 -- Saronite Deposit - Grand Master Pick condition (Ref 92111)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92111, 36912, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92111, 36912, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92111, 37701, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92111, 37701, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92111, 37703, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92111, 37703, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Rich Saronite Deposit - Journeyman Pick condition (Ref 92112)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92112, 36912, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92112, 36912, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92112, 37701, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92112, 37701, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92112, 37703, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92112, 37703, 0, 0, 1, 0, 91158, 0, 0);
 -- Rich Saronite Deposit - Artisan Pick condition (Ref 92113)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92113, 36912, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92113, 36912, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92113, 37701, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92113, 37701, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92113, 37703, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92113, 37703, 0, 0, 1, 0, 91159, 0, 0);
 -- Rich Saronite Deposit - Master Pick condition (Ref 92114)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92114, 36912, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92114, 36912, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92114, 37701, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92114, 37701, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92114, 37703, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92114, 37703, 0, 0, 1, 0, 91160, 0, 0);
 -- Rich Saronite Deposit - Grand Master Pick condition (Ref 92115)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92115, 36912, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92115, 36912, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92115, 37701, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92115, 37701, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92115, 37703, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92115, 37703, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Titanium Vein - Journeyman Pick condition (Ref 92116)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92116, 36910, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92116, 36910, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92116, 37700, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92116, 37700, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92116, 37701, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92116, 37701, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92116, 37702, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92116, 37702, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92116, 37705, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92116, 37705, 0, 0, 1, 0, 91158, 0, 0);
 -- Titanium Vein - Artisan Pick condition (Ref 92117)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92117, 36910, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92117, 36910, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92117, 37700, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92117, 37700, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92117, 37701, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92117, 37701, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92117, 37702, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92117, 37702, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92117, 37705, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92117, 37705, 0, 0, 1, 0, 91159, 0, 0);
 -- Titanium Vein - Master Pick condition (Ref 92118)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92118, 36910, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92118, 36910, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92118, 37700, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92118, 37700, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92118, 37701, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92118, 37701, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92118, 37702, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92118, 37702, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92118, 37705, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92118, 37705, 0, 0, 1, 0, 91160, 0, 0);
 -- Titanium Vein - Grand Master Pick condition (Ref 92119)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92119, 36910, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92119, 36910, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92119, 37700, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92119, 37700, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92119, 37701, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92119, 37701, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92119, 37702, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92119, 37702, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92119, 37705, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92119, 37705, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Rich Adamantite Deposit - Journeyman Pick condition (Ref 92120)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92120, 22573, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92120, 22573, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92120, 23425, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92120, 23425, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92120, 23427, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92120, 23427, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92120, 35229, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92120, 35229, 0, 0, 1, 0, 91158, 0, 0);
 -- Rich Adamantite Deposit - Artisan Pick condition (Ref 92121)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92121, 22573, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92121, 22573, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92121, 23425, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92121, 23425, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92121, 23427, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92121, 23427, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92121, 35229, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92121, 35229, 0, 0, 1, 0, 91159, 0, 0);
 -- Rich Adamantite Deposit - Master Pick condition (Ref 92122)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92122, 22573, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92122, 22573, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92122, 23425, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92122, 23425, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92122, 23427, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92122, 23427, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92122, 35229, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92122, 35229, 0, 0, 1, 0, 91160, 0, 0);
 -- Rich Adamantite Deposit - Grand Master Pick condition (Ref 92123)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92123, 22573, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92123, 22573, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92123, 23425, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92123, 23425, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92123, 23427, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92123, 23427, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92123, 35229, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92123, 35229, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Ancient Gem Vein - Journeyman Pick condition (Ref 92124)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92124, 34907, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92124, 34907, 0, 0, 1, 0, 91158, 0, 0);
 -- Ancient Gem Vein - Artisan Pick condition (Ref 92125)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92125, 34907, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92125, 34907, 0, 0, 1, 0, 91159, 0, 0);
 -- Ancient Gem Vein - Master Pick condition (Ref 92126)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92126, 34907, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92126, 34907, 0, 0, 1, 0, 91160, 0, 0);
 -- Ancient Gem Vein - Grand Master Pick condition (Ref 92127)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92127, 34907, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92127, 34907, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Pure Saronite Deposit - Journeyman Pick condition (Ref 92128)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92128, 35624, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92128, 35624, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92128, 35627, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92128, 35627, 0, 0, 1, 0, 91158, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92128, 36912, 0, 0, 1, 0, 91158, 1, 0);
+    (10, 92128, 36912, 0, 0, 1, 0, 91158, 0, 0);
 -- Pure Saronite Deposit - Artisan Pick condition (Ref 92129)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92129, 35624, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92129, 35624, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92129, 35627, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92129, 35627, 0, 0, 1, 0, 91159, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92129, 36912, 0, 0, 1, 0, 91159, 1, 0);
+    (10, 92129, 36912, 0, 0, 1, 0, 91159, 0, 0);
 -- Pure Saronite Deposit - Master Pick condition (Ref 92130)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92130, 35624, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92130, 35624, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92130, 35627, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92130, 35627, 0, 0, 1, 0, 91160, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92130, 36912, 0, 0, 1, 0, 91160, 1, 0);
+    (10, 92130, 36912, 0, 0, 1, 0, 91160, 0, 0);
 -- Pure Saronite Deposit - Grand Master Pick condition (Ref 92131)
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92131, 35624, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92131, 35624, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92131, 35627, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92131, 35627, 0, 0, 1, 0, 91161, 0, 0);
 INSERT INTO conditions (SourceTypeOrReferenceId, SourceGroup, SourceEntry, SourceId, ElseGroup, ConditionTypeOrReference, ConditionTarget, ConditionValue1, ConditionValue2, ConditionValue3) VALUES
-    (10, 92131, 36912, 0, 0, 1, 0, 91161, 1, 0);
+    (10, 92131, 36912, 0, 0, 1, 0, 91161, 0, 0);
 
 -- Done!
