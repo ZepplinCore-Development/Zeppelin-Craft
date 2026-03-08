@@ -2196,6 +2196,21 @@ WHERE `id` IN (
     8143                                                  -- Tremor Totem
 );
 
+-- ============================================================================
+-- Call of the Elements / Ancestors / Spirits (66842-66844) — Totemic Impact fix
+-- These stock spells have spell_class_set=0, spell_class_mask_1=0, damage_class=0.
+-- Totemic Impact proc requires SpellFamilyName=11 + totem family bits + CAST phase
+-- with PROC_FLAG_DONE_SPELL_MAGIC_DMG_CLASS_POS (16384).
+-- Tag them as Shaman family with a totem summon bit (536870912) so the
+-- spell_proc filter (SpellFamilyName=11, SpellFamilyMask0=537399320) matches.
+-- Individual totem summon spells are triggered (skip CAST phase procs),
+-- so the proc must fire from the Call spell itself.
+-- ============================================================================
+UPDATE `spell` SET
+    `spell_class_set` = 11,
+    `spell_class_mask_1` = 536870912
+    WHERE `id` IN (66842, 66843, 66844);
+
 -- Totemic Impact damage scaling (shared between triggered spell 900166 and desc variable 198)
 SET @ti_dmg_base = 9;
 SET @ti_dmg_die = 1;
@@ -2216,7 +2231,10 @@ SET @ti_ap_coeff = 0.10;
 -- via spell_bonus_data, 3.0x threat via spell_threat.
 -- ============================================================================
 -- Totemic Impact (900165) — passive talent aura, procs on any totem summon
--- PROC_TRIGGER_SPELL (aura 42) → 900166. proc_flags=16384 (DONE_SPELL_MAGIC_DMG_CLASS_POS).
+-- PROC_TRIGGER_SPELL (aura 42) → 900166.
+-- proc_flags = 278528 (DONE_SPELL_MAGIC_DMG_CLASS_POS | DONE_SPELL_NONE_DMG_CLASS_POS)
+-- Both flags needed: most totem summons are damage_class=1 (MAGIC) but Searing Totem
+-- and Call of the Elements/Ancestors/Spirits are damage_class=0 (NONE).
 -- 4 sec ICD via spell_proc Cooldown. SpellFamilyMask0=537399320 filters to
 -- totem summon spells only (same mask as Totemic Focus 16173).
 -- Shaman is the caster so visual plays at shaman and threat goes to shaman.
@@ -2234,7 +2252,7 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900166,
-    `proc_flags` = 16384,
+    `proc_flags` = 278528,
     `proc_chance` = 100,
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
@@ -2313,33 +2331,21 @@ INSERT INTO `spell` SET
     `attributes_ex_2` = 4,
     `attributes_ex_6` = 1088,
     `cast_time_index` = 1,
-    `category_recovery_time` = 45000,
+    `category_recovery_time` = 5000,
     `proc_chance` = 101,
     `base_level` = @tbl_base_level,
     `spell_level` = @tbl_spell_level,
-    `duration_index` = 407,
+    `max_level` = @tbl_max_level,
+    `duration_index` = 39,
     `power_cost_percentage` = 10,
     `range_index` = 95,
     `equipped_item_class` = -1,
     `effect_1` = 42,
-    `effect_2` = 64,
-    `effect_3` = 6,
-    `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -1,
     `effect_implicit_target_a_1` = 6,
     `effect_implicit_target_b_1` = 75,
-    `effect_implicit_target_a_2` = 6,
-    `effect_die_sides_3` = @tbl_dmg_die,
-    `effect_base_points_3` = @tbl_dmg_base,
-    `effect_real_points_per_level_3` = @tbl_dmg_perlevel,
-    `effect_implicit_target_a_3` = 1,
-    `effect_radius_index_1` = 14,
-    `effect_apply_aura_name_3` = 77,
-    `effect_multiple_value_1` = 4.0,
     `effect_misc_value_a_1` = 10,
-    `effect_misc_value_a_3` = 7,
     `effect_misc_value_b_1` = 75,
-    `effect_trigger_spell_2` = 900174,
+    `effect_multiple_value_1` = 4.0,
     `spell_visual_1` = 7660,
     `spell_icon_id` = 5364,
     `active_icon_id` = 5364,
@@ -2347,7 +2353,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Thunderborne Leap',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a2 yards, causing $<total> Nature damage and stunning them for $900174d.',
+    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a1 yards, causing $<total> Nature damage and stunning them for $900174d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_desc_variable_id` = 194,
@@ -2357,8 +2363,6 @@ INSERT INTO `spell` SET
     `damage_class` = 2,
     `prevention_type` = 2,
     `effect_damage_multiplier_1` = 1.0,
-    `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
     `school_mask` = 8;
 
 -- ============================================================================
@@ -2380,7 +2384,6 @@ INSERT INTO `spell` SET
     `duration_index` = 39,
     `power_type` = 1,
     `range_index` = 13,
-    `speed` = 28.0,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_2` = 2,
@@ -2419,7 +2422,7 @@ DELETE FROM `spelldescriptionvariables` WHERE `id` = 194;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (194, CONCAT(
     '$perlevel=${($pl-', @tbl_base_level, ')*', @tbl_dmg_perlevel, '}\n',
     '$apbonus=${$AP*', @tbl_ap_coeff, '}\n',
-    '$total=${$m3+$<perlevel>+$<apbonus>}'));
+    '$total=${$900174m2+$<perlevel>+$<apbonus>}'));
 
 -- ============================================================================
 -- Juggernaut (900175-900179) — 5-rank passive
