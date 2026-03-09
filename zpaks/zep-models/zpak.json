@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "zep-models",
+  "version": "0.1.0",
+  "description": "Custom model swaps and backports",
+  "author": "Zeppelin Team",
+  "type": "mpq",
+  "client_patch": "PATCH-Z",
+  "enabled": true,
+  "priority": 50
+}

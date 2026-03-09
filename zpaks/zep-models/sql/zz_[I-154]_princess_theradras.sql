@@ -1,4 +1,4 @@
--- Replace Princess Theradras model with the modern Therazane model (Model was 12292)
+-- I-154: Replace Princess Theradras model with the modern Therazane model (Model was 12292)
 UPDATE `creature_template_model` SET `CreatureDisplayID` = 32913 WHERE `CreatureID` = 12201;
 
 DELETE FROM `creature_model_info` WHERE `DisplayID` = 32913;
