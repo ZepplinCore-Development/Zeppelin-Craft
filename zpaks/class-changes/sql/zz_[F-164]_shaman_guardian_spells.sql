@@ -4,6 +4,13 @@
 -- Tectonic Blast (900121): 20% AP coefficient on nature damage
 
 -- ============================================================================
+-- spell_script_names — C++ SpellScript bindings
+-- ============================================================================
+DELETE FROM `spell_script_names` WHERE `spell_id` = 900173;
+INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
+(900173, 'spell_sha_thunderborne_leap');
+
+-- ============================================================================
 -- spell_bonus_data
 -- ============================================================================
 DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900116, 900117, 900118, 900119, 900122, 900121, 900166, 900174);
@@ -35,10 +42,11 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
 (900123, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
 (900124, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
-(900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
-(900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
-(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
--- Living Guardian — proc only on heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL)
+-- Bastion of Earth passive — 25% chance on block, no ICD (no stacking)
+(900147, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+(900148, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+(900149, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0),
+-- Living Guardian — proc only on direct heals received (SpellTypeMask=2 = PROC_SPELL_TYPE_HEAL, no TAKEN_PERIODIC in DBC proc_flags)
 (900167, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (900168, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
 (900169, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -50,7 +58,7 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
 (900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 (900182, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
--- Bastion of Earth buff — consume all stacks when Healing Wave is cast
+-- Bastion of Earth buff — consumed when Healing Wave is cast
 -- SpellFamilyName=11 (Shaman), SpellFamilyMask0=64 (Healing Wave)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
 -- Same pattern as Maelstrom Weapon buff (53817)

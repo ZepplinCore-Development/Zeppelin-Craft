@@ -1498,20 +1498,21 @@ INSERT INTO `spell` SET
 
 -- ============================================================================
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
--- 3 ranks: triggers stacking armor buff (900150-900152).
--- Each successful block adds a stack of +2%/+4%/+6% armor for 10s (max 3 stacks).
--- Uses same proc pattern as Volcanic Shield: proc_flags=40, spell_proc HitMask=64.
--- Buff uses aura 101 (MOD_RESISTANCE_PCT) like Unbreakable Armor (51271).
+-- 3 ranks: 25% chance on block to trigger buff (900150-900152).
+-- Buff gives 10% physical damage reduction and reduces HW cast time/mana cost.
+-- Each talent rank gives 33% more HW reduction (R1=33%, R2=66%, R3=100%).
+-- No stacking — buff is consumed when Healing Wave is cast.
+-- Choice: keep buff for 10% phys DR, or cast HW to heal (consuming it).
 -- ============================================================================
 
--- Bastion of Earth R1 (900147) - Passive, triggers 900150 on block
+-- Bastion of Earth R1 (900147) - Passive, 25% on block, triggers 900150
 DELETE FROM `spell` WHERE `id` = 900147;
 
 INSERT INTO `spell` SET
     `id` = 900147,
     `attributes` = 327760,
     `proc_flags` = 40,
-    `proc_chance` = 100,
+    `proc_chance` = 25,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1525,23 +1526,23 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900150s1% for $900150d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900150s2%. Casting Healing Wave consumes all stacks.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900150d and reduce the cast time and mana cost of Healing Wave by $900150s2%. Casting Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900150s1% for $900150d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900150s2%. Casting Healing Wave consumes all stacks.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900150d. Healing Wave cast time and mana cost reduced by $900150s2%. Casting Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth R2 (900148) - Passive, triggers 900151 on block
+-- Bastion of Earth R2 (900148) - Passive, 25% on block, triggers 900151
 DELETE FROM `spell` WHERE `id` = 900148;
 
 INSERT INTO `spell` SET
     `id` = 900148,
     `attributes` = 327760,
     `proc_flags` = 40,
-    `proc_chance` = 100,
+    `proc_chance` = 25,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1555,23 +1556,23 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900151s1% for $900151d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900151s2%. Casting Healing Wave consumes all stacks.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900151d and reduce the cast time and mana cost of Healing Wave by $900151s2%. Casting Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900151s1% for $900151d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900151s2%. Casting Healing Wave consumes all stacks.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900151d. Healing Wave cast time and mana cost reduced by $900151s2%. Casting Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_bonus_multiplier_1` = 1.0;
 
--- Bastion of Earth R3 (900149) - Passive, triggers 900152 on block
+-- Bastion of Earth R3 (900149) - Passive, 25% on block, triggers 900152
 DELETE FROM `spell` WHERE `id` = 900149;
 
 INSERT INTO `spell` SET
     `id` = 900149,
     `attributes` = 327760,
     `proc_flags` = 40,
-    `proc_chance` = 100,
+    `proc_chance` = 25,
     `cast_time_index` = 1,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -1585,9 +1586,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks increase your armor by $900152s1% for $900152d. Stacks up to 3 times. Each stack also reduces the cast time and mana cost of Healing Wave by $900152s2%. Casting Healing Wave consumes all stacks.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900152d and reduce the cast time and mana cost of Healing Wave by $900152s2%. Casting Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Successful blocks increase armor by $900152s1% for $900152d, stacking up to 3 times. Each stack reduces Healing Wave cast time and mana cost by $900152s2%. Casting Healing Wave consumes all stacks.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900152d. Healing Wave cast time and mana cost reduced by $900152s2%. Casting Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1595,14 +1596,15 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 1.0;
 
 -- ============================================================================
--- Bastion of Earth Buff (900150-900152) - Triggered stacking armor buff
--- Aura 101 (MOD_RESISTANCE_PCT), misc 1 (armor), 15s duration, 3 stacks.
--- Same aura as Unbreakable Armor (51271).
+-- Bastion of Earth Buff (900150-900152) - Triggered physical DR buff
+-- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -10%
+-- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), HW reduction
+-- E3: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), HW reduction
+-- No stacking. Consumed when Healing Wave is cast (proc_charges=1).
+-- R1=-33%, R2=-66%, R3=-100% HW cast time/mana cost reduction.
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - +2% armor per stack, 15s, 3 stacks
--- E2: HW cast time reduction (-33%/stack), E3: HW mana cost reduction (-33%/stack)
--- Casting Healing Wave consumes all stacks (proc_charges=1, same as Maelstrom Weapon)
+-- Bastion of Earth buff R1 (900150) - 10% phys DR, -33% HW cast/mana
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1614,13 +1616,12 @@ INSERT INTO `spell` SET
     `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
-    `stack_amount` = 3,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 1,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 101,
+    `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
@@ -1639,9 +1640,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1652,7 +1653,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - +4% armor per stack
+-- Bastion of Earth buff R2 (900151) - 10% phys DR, -66% HW cast/mana
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1664,24 +1665,23 @@ INSERT INTO `spell` SET
     `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
-    `stack_amount` = 3,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 3,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 101,
+    `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -34,
+    `effect_base_points_2` = -67,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
     `effect_spell_class_mask_b_1` = 64,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -34,
+    `effect_base_points_3` = -67,
     `effect_implicit_target_a_3` = 1,
     `effect_apply_aura_name_3` = 108,
     `effect_misc_value_a_3` = 14,
@@ -1689,9 +1689,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1702,7 +1702,7 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_2` = 1.0,
     `effect_bonus_multiplier_3` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - +6% armor per stack
+-- Bastion of Earth buff R3 (900152) - 10% phys DR, -100% HW cast/mana (instant+free)
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1714,24 +1714,23 @@ INSERT INTO `spell` SET
     `proc_chance` = 100,
     `duration_index` = 8,
     `range_index` = 1,
-    `stack_amount` = 3,
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 5,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 101,
+    `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 1,
     `effect_2` = 6,
     `effect_die_sides_2` = 1,
-    `effect_base_points_2` = -34,
+    `effect_base_points_2` = -101,
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
     `effect_spell_class_mask_b_1` = 64,
     `effect_3` = 6,
     `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -34,
+    `effect_base_points_3` = -101,
     `effect_implicit_target_a_3` = 1,
     `effect_apply_aura_name_3` = 108,
     `effect_misc_value_a_3` = 14,
@@ -1739,9 +1738,9 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Armor increased by $s1%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1979,7 +1978,7 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 87,
     `effect_misc_value_a_1` = 126,
@@ -1997,10 +1996,10 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian (900167, 900168, 900169) - 3 rank talent (proc trigger)
--- After receiving a heal, reduces physical damage taken by 4/7/10% for 10s.
--- Passive aura that procs Living Guardian buff on heal received.
+-- After receiving a direct heal, increases armor from items by 5/10/15% for 10s.
+-- Passive aura that procs Living Guardian buff on direct heal received.
 -- Cloned from Ancestral Healing (16176). Icon 4408.
--- proc_flags 559104 = TAKEN_SPELL_NONE_DMG_CLASS_POS | TAKEN_SPELL_MAGIC_DMG_CLASS_POS | TAKEN_PERIODIC
+-- proc_flags 557056 = TAKEN_SPELL_NONE_DMG_CLASS_POS | TAKEN_SPELL_MAGIC_DMG_CLASS_POS (no TAKEN_PERIODIC)
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900167;
 
@@ -2008,7 +2007,7 @@ INSERT INTO `spell` SET
     `id` = 900167,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 559104,
+    `proc_flags` = 557056,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -2023,7 +2022,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $900170s1% for $900170d after receiving a heal.',
+    `spell_desc_enus` = 'Increases armor from items by $900170s1% for $900170d after receiving a direct heal.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -2035,7 +2034,7 @@ INSERT INTO `spell` SET
     `id` = 900168,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 559104,
+    `proc_flags` = 557056,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -2050,7 +2049,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $900171s1% for $900171d after receiving a heal.',
+    `spell_desc_enus` = 'Increases armor from items by $900171s1% for $900171d after receiving a direct heal.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -2062,7 +2061,7 @@ INSERT INTO `spell` SET
     `id` = 900169,
     `attributes` = 464,
     `cast_time_index` = 1,
-    `proc_flags` = 559104,
+    `proc_flags` = 557056,
     `proc_chance` = 100,
     `range_index` = 1,
     `equipped_item_class` = -1,
@@ -2077,7 +2076,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $900172s1% for $900172d after receiving a heal.',
+    `spell_desc_enus` = 'Increases armor from items by $900172s1% for $900172d after receiving a direct heal.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
@@ -2085,8 +2084,8 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian Buff (900170, 900171, 900172) - 3 ranks
--- Reduces physical damage taken by 4/7/10% for 10 seconds.
--- Triggered by Living Guardian talent when receiving a heal.
+-- Increases armor from items by 5/10/15% for 10 seconds.
+-- Triggered by Living Guardian talent when receiving a direct heal.
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900170;
 
@@ -2101,18 +2100,18 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -5,
+    `effect_base_points_1` = 4,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
+    `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2130,18 +2129,18 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -8,
+    `effect_base_points_1` = 9,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
+    `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2159,18 +2158,18 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = -11,
+    `effect_base_points_1` = 14,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 87,
+    `effect_apply_aura_name_1` = 142,
     `effect_misc_value_a_1` = 1,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by $s1%. Lasts $d.',
+    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by $s1%.',
+    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2346,7 +2345,7 @@ INSERT INTO `spell` SET
     `effect_misc_value_a_1` = 10,
     `effect_misc_value_b_1` = 75,
     `effect_multiple_value_1` = 4.0,
-    `spell_visual_1` = 7660,
+    `spell_visual_1` = 8251,
     `spell_icon_id` = 5364,
     `active_icon_id` = 5364,
     `spell_priority` = 50,
@@ -2375,7 +2374,7 @@ INSERT INTO `spell` SET
     `attributes` = 327696,
     `attributes_ex_1` = 1024,
     `attributes_ex_2` = 4,
-    `attributes_ex_3` = 268436224,
+    `attributes_ex_3` = 268435968,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `base_level` = @tbl_base_level,
