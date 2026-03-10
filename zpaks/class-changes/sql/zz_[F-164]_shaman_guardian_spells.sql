@@ -65,3 +65,16 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900150, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 (900151, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 (900152, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);
+
+-- ============================================================================
+-- Spirit Communion — consume Spirited buff when active is cast
+-- spell_linked_spell: casting 900185 removes aura 900184
+-- ============================================================================
+DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 900185 AND `spell_effect` = -900184;
+INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
+(900185, -900184, 0, 'Spirit Communion: remove Spirited buff on cast');
+
+-- Spirit Communion — auto-teach passive (900183) when active (900185) is learned
+DELETE FROM `spell_linked_spell` WHERE `spell_trigger` = 900185 AND `spell_effect` = 900183 AND `type` = 2;
+INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comment`) VALUES
+(900185, 900183, 2, 'Spirit Communion: learn passive on-kill proc when active is learned');

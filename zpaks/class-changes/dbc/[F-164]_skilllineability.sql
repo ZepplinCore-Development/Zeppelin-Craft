@@ -67,3 +67,10 @@ WHERE `id` IN (4456, 4457, 4458, 4459, 5590, 5591, 13298, 20055, 20056, 20057);
 -- Move Stoneskin Totem (all ranks) from Enhancement (373) to Earthwarden (9001)
 UPDATE `skilllineability` SET `skill_line` = 9001
 WHERE `id` IN (8764, 8765, 8766, 8767, 8769, 8770, 13295, 13297, 20070, 20071);
+
+-- Spirit Communion (active 900185) on Restoration skill line (374), trainer-learned
+-- Passive (900183) also on Restoration, auto-learned via spell_linked_spell
+DELETE FROM `skilllineability` WHERE `id` IN (200083, 200084);
+INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES
+(200083, 374, 900185, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(200084, 374, 900183, 0, 64, 0, 0, 0, 0, 1, 0, 0, 0, 0);
