@@ -37,7 +37,7 @@ $swimspeed2=${$m3+($pl-20)*2+$<crop>}
 $speed=${$m2+$<crop>}
 $speed2=${$m2+($pl-20)*2+$<crop>}
 $travelspeed=${$5419m2+$<crop>}
-$travelspeed2=${$5419m2+($pl-20)*2+$<crop>}
+$travelspeed2=${20+($pl-20)*2+$<crop>}
 $flightspeed=${$33948m2+$<crop>}
 $swiftflightspeed=${$40121m2+$<crop>}');
 
@@ -91,3 +91,30 @@ $crop=${$<c1>+$<c2>+$<c3>+$<c4>+$<c5>+$<c6>}
 $glyph=$?a57856[${$57856m1}][${0}]
 $swimspeed=${$m2+$<crop>+$<glyph>}
 $swimspeed2=${$m2+($pl-20)*2+$<crop>+$<glyph>}');
+
+-- ============================================================================
+-- Variable ID 186: Aquatic Form cast spell (1066) tooltip
+-- Spell 1066 is a shapeshift cast — its own effects have no speed data.
+-- Uses cross-spell reference $5421m2 for tooltip (resolves with per-level
+-- scaling from the active buff) and hardcoded base 20 for description
+-- (avoids cross-spell double-counting, matches mount $groundspeed2 pattern).
+-- Includes crop bonus and Glyph of Aquatic Form conditional.
+--
+-- Variables:
+--   $c1-$c6     = Riding crop speed bonus per tier (same as 182/184)
+--   $crop       = Combined crop bonus (only one non-zero due to anti-stack)
+--   $glyph      = Glyph of Aquatic Form bonus (50% when active, 0 otherwise)
+--   $swimspeed  = Swim speed for tooltip (5421 buff value + crop + glyph)
+--   $swimspeed2 = Swim speed for description (base 20 + level scaling + crop + glyph)
+-- ============================================================================
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 186;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (186, '$c1=$?a100010[${$100010m1}][${0}]
+$c2=$?a100011[${$100011m1}][${0}]
+$c3=$?a100012[${$100012m1}][${0}]
+$c4=$?a100013[${$100013m1}][${0}]
+$c5=$?a100014[${$100014m1}][${0}]
+$c6=$?a100015[${$100015m1}][${0}]
+$crop=${$<c1>+$<c2>+$<c3>+$<c4>+$<c5>+$<c6>}
+$glyph=$?a57856[${$57856m1}][${0}]
+$swimspeed=${$5421m2+$<crop>+$<glyph>}
+$swimspeed2=${20+($pl-20)*2+$<crop>+$<glyph>}');

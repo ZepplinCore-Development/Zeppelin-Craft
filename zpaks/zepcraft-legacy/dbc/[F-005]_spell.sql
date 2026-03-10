@@ -200,14 +200,31 @@ UPDATE `spell` SET
 WHERE `id` = 783;
 
 -- ============================================================================
+-- 8c. AQUATIC FORM (1066) - Tooltip with variable 186 (cross-spell ref to 5421)
+--     Section 10 swapped swim speed from E1 -> E2 on passive 5421, breaking
+--     the old $5421s1 reference. Use variable 186 with $<swimspeed> which
+--     references $5421m2 (cross-spell) + crop + glyph bonus.
+--     Cannot reuse variable 184 because 1066's own $m2 is mechanic immunity,
+--     not swim speed — need cross-spell refs in a separate variable.
+-- ============================================================================
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 186,
+    `spell_desc_enus` = 'Shapeshift into aquatic form, increasing swim speed by $<swimspeed2>% and allowing the druid to breathe underwater.  Also protects the caster from Polymorph effects.$?a57856[ Your Glyph of Aquatic Form increases swim speed by an additional $<glyph>%.][]The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.',
+    `spell_tooltip_enus` = 'Immune to Polymorph effects.  Increases swim speed by $<swimspeed>% and allows underwater breathing.$?a57856[ (Includes $<glyph>% from Glyph of Aquatic Form.)][]'
+WHERE `id` = 1066;
+
+-- ============================================================================
 -- 9. TRAVEL FORM PASSIVE (5419) - Family 14, mask to bit 28
 --    Swap speed from effect 1 -> effect 2 so crop SPELLMOD_EFFECT2 works
+--    Fix base_level=20 / max_level=60 to match ground mount scaling formula
 -- ============================================================================
 -- [BASE,F-044] layout: E1 = MOD_SPEED (+20% scaling), E2 = empty
 -- New layout:           E1 = empty, E2 = MOD_SPEED (+20% scaling)
 UPDATE `spell` SET
     `spell_class_set` = 14,
     `spell_class_mask_1` = 268435456,
+    `base_level` = 20,
+    `max_level` = 60,
     `effect_1` = 0,
     `effect_die_sides_1` = 0,
     `effect_real_points_per_level_1` = '0.0000000000000000',
@@ -233,6 +250,8 @@ UPDATE `spell` SET
     `spell_class_set` = 14,
     `spell_class_mask_1` = 335544320,
     `spell_class_mask_2` = 0,
+    `base_level` = 20,
+    `max_level` = 60,
     `effect_1` = 6,
     `effect_die_sides_1` = 0,
     `effect_real_points_per_level_1` = '0.0000000000000000',
@@ -892,9 +911,6 @@ UPDATE `spell` SET
     `effect_spell_class_mask_b_1` = 3489660928,
     `effect_spell_class_mask_c_1` = 2147483648
 WHERE `id` = 100015;
-
-UPDATE `spell` SET `spell_desc_variable_id` = 184 WHERE `id` = 5421;
-
 
 UPDATE spell SET reagent_1=2318, reagent_count_1=12, reagent_2=2320, reagent_count_2=2 WHERE id=100020;
 
