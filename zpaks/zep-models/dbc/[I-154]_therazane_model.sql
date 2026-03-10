@@ -36,4 +36,5 @@ INSERT INTO creaturemodeldata SET
     missile_collision_raise = 0.0;
 
 -- Point display ID 32913 (Theradras replacement) to the new Therazane model
-UPDATE creaturedisplayinfo SET model_id = 900001 WHERE id = 32913;
+-- Clear old Tharazun texture overrides so the M2's built-in textures are used
+UPDATE creaturedisplayinfo SET model_id = 900001, texture_variation_1 = '', texture_variation_2 = '' WHERE id = 32913;
