@@ -1,256 +1,3137 @@
 -- [F-015] zepcraft-legacy: spell
 -- Magic Resistance Scrolls - buff spells, crafting spells, and Warding: Protection renames
 -- Extracted from [BASE,F-044]_spell.sql
-
 -- spell: 96 inserts, 48 updates, 96 deletes
-
 -- Buff spells (Warding: Fire/Frost/Arcane/Shadow/Nature/Holy, Ranks I-VIII)
 DELETE FROM `spell` WHERE `id` = 103198;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103198, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 16712190, 'Rank 1', 16712190, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Fire resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103198,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103199;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103199, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 2', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103199,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103200;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103200, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 3', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103200,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103201;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103201, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 4', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103201,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103202;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103202, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 5', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103202,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103203;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103203, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 6', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103203,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103204;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103204, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 7', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103204,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103205;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103205, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5644, 0, 0, 'Warding: Fire', 0, 'Rank 8', 0, 'Increases Fire Resistance by $s1 for $d.  Warding Scroll.', 0, 'Fire resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103205,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 4,
+    `spell_icon_id` = 5644,
+    `spell_name_enus` = 'Warding: Fire',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Fire Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Fire resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103206;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103206, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 16712190, 'Rank 1', 16712190, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Frost resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103206,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103207;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103207, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 2', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103207,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103208;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103208, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 3', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103208,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103209;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103209, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 4', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103209,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103210;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103210, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 5', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103210,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103211;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103211, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 6', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103211,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103212;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103212, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 7', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103212,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103213;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103213, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4905, 0, 0, 'Warding: Frost', 0, 'Rank 8', 0, 'Increases Frost Resistance by $s1 for $d.  Warding Scroll.', 0, 'Frost resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103213,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 16,
+    `spell_icon_id` = 4905,
+    `spell_name_enus` = 'Warding: Frost',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Frost Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Frost resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103214;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103214, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 16712190, 'Rank 1', 16712190, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Arcane resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103214,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103215;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103215, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 2', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103215,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103216;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103216, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 3', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103216,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103217;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103217, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 4', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103217,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103218;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103218, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 5', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103218,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103219;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103219, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 6', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103219,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103220;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103220, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 7', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103220,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103221;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103221, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4793, 0, 0, 'Warding: Arcane', 0, 'Rank 8', 0, 'Increases Arcane Resistance by $s1 for $d.  Warding Scroll.', 0, 'Arcane resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103221,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 64,
+    `spell_icon_id` = 4793,
+    `spell_name_enus` = 'Warding: Arcane',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Arcane Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Arcane resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103222;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103222, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 16712190, 'Rank 1', 16712190, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Shadow resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103222,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103223;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103223, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 2', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103223,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103224;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103224, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 3', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103224,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103225;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103225, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 4', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103225,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103226;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103226, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 5', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103226,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103227;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103227, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 6', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103227,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103228;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103228, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 7', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103228,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103229;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103229, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5058, 0, 0, 'Warding: Shadow', 0, 'Rank 8', 0, 'Increases Shadow Resistance by $s1 for $d.  Warding Scroll.', 0, 'Shadow resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103229,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 32,
+    `spell_icon_id` = 5058,
+    `spell_name_enus` = 'Warding: Shadow',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Shadow Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Shadow resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103230;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103230, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 16712190, 'Rank 1', 16712190, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Nature resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103230,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103231;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103231, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 2', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103231,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103232;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103232, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 3', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103232,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103233;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103233, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 4', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103233,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103234;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103234, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 5', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103234,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103235;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103235, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 6', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103235,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103236;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103236, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 7', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103236,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103237;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103237, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5183, 0, 0, 'Warding: Nature', 0, 'Rank 8', 0, 'Increases Nature Resistance by $s1 for $d.  Warding Scroll.', 0, 'Nature resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103237,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 8,
+    `spell_icon_id` = 5183,
+    `spell_name_enus` = 'Warding: Nature',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Nature Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Nature resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103238;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103238, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 9, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 16712190, 'Rank 1', 16712190, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 16712190, 'Holy resistance increased by $s1.', 16712190, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103238,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `spell_tooltip_flags` = 16712190,
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103239;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103239, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 19, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 2', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103239,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103240;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103240, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 34, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 3', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103240,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 34,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103241;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103241, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 49, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 4', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103241,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 49,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 4',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103242;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103242, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 64, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 5', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103242,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 64,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 5',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103243;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103243, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 79, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 6', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103243,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 79,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 6',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103244;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103244, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 99, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 7', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103244,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 99,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 7',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103245;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103245, 0, 1, 0, 65536, 0, 536870912, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 30, 0, 0, 0, 0, 0, 4, '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 6, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 129, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5546, 0, 0, 'Warding: Holy', 0, 'Rank 8', 0, 'Increases Holy Resistance by $s1 for $d.  Warding Scroll.', 0, 'Holy resistance increased by $s1.', 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103245,
+    `dispel` = 1,
+    `attributes_ex_2` = 536870912,
+    `cast_time_index` = 1,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `duration_index` = 30,
+    `range_index` = 4,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 129,
+    `effect_implicit_target_a_1` = 21,
+    `effect_apply_aura_name_1` = 143,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 5546,
+    `spell_name_enus` = 'Warding: Holy',
+    `spell_subtext_enus` = 'Rank 8',
+    `spell_desc_enus` = 'Increases Holy Resistance by $s1 for $d. Warding Scroll.',
+    `spell_tooltip_enus` = 'Holy resistance increased by $s1.',
+    `start_recovery_category` = 133,
+    `damage_class` = 1,
+    `prevention_type` = 1;
 
 -- Crafting spells (Scroll of [School] Warding, Ranks I-VIII)
 DELETE FROM `spell` WHERE `id` = 103300;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103300, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57408, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103300,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57408,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103301;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103301, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57416, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103301,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57416,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103302;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103302, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57424, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103302,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57424,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103303;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103303, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57432, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103303,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57432,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103304;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103304, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57440, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103304,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57440,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103305;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103305, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 37101, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57448, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103305,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 37101,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57448,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103306;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103306, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57409, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103306,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57409,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103307;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103307, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57417, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103307,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57417,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103308;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103308, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57425, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103308,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57425,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103309;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103309, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57433, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103309,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57433,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103310;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103310, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57441, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103310,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57441,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103311;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103311, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 39774, 0, 0, 0, 0, 0, 39354, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57449, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding II', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103311,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 39774,
+    `reagent_8` = 39354,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57449,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding II',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103312;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103312, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57410, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103312,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57410,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103313;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103313, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57418, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103313,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57418,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103314;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103314, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57426, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103314,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57426,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103315;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103315, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57434, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103315,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57434,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103316;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103316, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57442, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103316,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57442,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103317;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103317, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43118, 0, 0, 0, 0, 0, 10648, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57450, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding III', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103317,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43118,
+    `reagent_8` = 10648,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57450,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding III',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103318;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103318, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 7078, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57411, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103318,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_3` = 7078,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57411,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103319;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103319, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 7080, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57419, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103319,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_3` = 7080,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57419,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103320;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103320, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 7082, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57427, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103320,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_3` = 7082,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57427,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103321;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103321, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 12808, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57435, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103321,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_3` = 12808,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57435,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103322;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103322, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 12803, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57443, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103322,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_3` = 12803,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57443,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103323;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103323, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43120, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57451, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding IV', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103323,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43120,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57451,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding IV',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103324;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103324, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57412, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103324,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57412,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103325;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103325, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57420, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103325,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57420,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103326;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103326, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57428, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103326,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57428,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103327;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103327, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103327,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57436,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103328;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103328, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57444, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103328,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57444,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103329;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103329, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57452, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding V', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103329,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57452,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding V',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103330;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103330, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 21884, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57413, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103330,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_3` = 21884,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57413,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103331;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103331, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 21885, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57421, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103331,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_3` = 21885,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57421,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103332;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103332, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 22457, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57429, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103332,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_3` = 22457,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57429,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103333;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103333, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 22456, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57437, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103333,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_3` = 22456,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57437,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103334;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103334, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 21886, 0, 0, 0, 0, 39501, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57445, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103334,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_3` = 21886,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57445,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103335;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103335, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43124, 0, 0, 0, 0, 0, 39501, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57453, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding VI', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103335,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43124,
+    `reagent_8` = 39501,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57453,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding VI',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103336;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103336, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57414, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103336,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57414,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103337;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103337, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57422, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103337,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57422,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103338;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103338, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57430, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103338,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57430,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103339;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103339, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57438, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103339,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57438,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103340;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103340, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57446, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103340,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57446,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103341;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103341, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57454, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding VII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103341,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57454,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding VII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103342;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103342, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 36860, 0, 0, 0, 0, 39502, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57415, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Fire Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103342,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_3` = 36860,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57415,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Fire Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103343;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103343, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 35622, 0, 0, 0, 0, 39502, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57423, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Frost Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103343,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_3` = 35622,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57423,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Frost Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103344;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103344, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 35623, 0, 0, 0, 0, 39502, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57431, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Arcane Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103344,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_3` = 35623,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57431,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Arcane Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103345;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103345, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 35627, 0, 0, 0, 0, 39502, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57439, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Shadow Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103345,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_3` = 35627,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57439,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Shadow Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103346;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103346, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 35625, 0, 0, 0, 0, 39502, 0, 1, 1, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57447, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Nature Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103346,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_3` = 35625,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_3` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57447,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Nature Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
+
 DELETE FROM `spell` WHERE `id` = 103347;
-INSERT INTO `spell` (`id`, `category`, `dispel`, `mechanic`, `attributes`, `attributes_ex_1`, `attributes_ex_2`, `attributes_ex_3`, `attributes_ex_4`, `attributes_ex_5`, `attributes_ex_6`, `attributes_ex_7`, `stances`, `unk_1`, `excluded_stances`, `unk_2`, `targets`, `target_creature_type`, `spell_focus_object`, `facing_caster_flags`, `caster_aura_state`, `target_aura_state`, `excluded_caster_aura_state`, `excluded_target_aura_state`, `caster_aura_spell`, `target_aura_spell`, `excluded_caster_aura_spell`, `excluded_target_aura_spell`, `cast_time_index`, `recovery_time`, `category_recovery_time`, `interrupt_flags`, `aura_interrupt_flags`, `channel_interrupt_flags`, `proc_flags`, `proc_chance`, `proc_charges`, `max_level`, `base_level`, `spell_level`, `duration_index`, `power_type`, `power_cost`, `power_cost_per_level`, `power_per_second`, `power_per_second_per_level`, `range_index`, `speed`, `modal_next_spell`, `stack_amount`, `totem_1`, `totem_2`, `reagent_1`, `reagent_2`, `reagent_3`, `reagent_4`, `reagent_5`, `reagent_6`, `reagent_7`, `reagent_8`, `reagent_count_1`, `reagent_count_2`, `reagent_count_3`, `reagent_count_4`, `reagent_count_5`, `reagent_count_6`, `reagent_count_7`, `reagent_count_8`, `equipped_item_class`, `equipped_item_subclass_mask`, `equipped_item_inventorytype_mask`, `effect_1`, `effect_2`, `effect_3`, `effect_die_sides_1`, `effect_die_sides_2`, `effect_die_sides_3`, `effect_real_points_per_level_1`, `effect_real_points_per_level_2`, `effect_real_points_per_level_3`, `effect_base_points_1`, `effect_base_points_2`, `effect_base_points_3`, `effect_mechanic_1`, `effect_mechanic_2`, `effect_mechanic_3`, `effect_implicit_target_a_1`, `effect_implicit_target_a_2`, `effect_implicit_target_a_3`, `effect_implicit_target_b_1`, `effect_implicit_target_b_2`, `effect_implicit_target_b_3`, `effect_radius_index_1`, `effect_radius_index_2`, `effect_radius_index_3`, `effect_apply_aura_name_1`, `effect_apply_aura_name_2`, `effect_apply_aura_name_3`, `effect_amplitude_1`, `effect_amplitude_2`, `effect_amplitude_3`, `effect_multiple_value_1`, `effect_multiple_value_2`, `effect_multiple_value_3`, `effect_chain_target_1`, `effect_chain_target_2`, `effect_chain_target_3`, `effect_item_type_1`, `effect_item_type_2`, `effect_item_type_3`, `effect_misc_value_a_1`, `effect_misc_value_a_2`, `effect_misc_value_a_3`, `effect_misc_value_b_1`, `effect_misc_value_b_2`, `effect_misc_value_b_3`, `effect_trigger_spell_1`, `effect_trigger_spell_2`, `effect_trigger_spell_3`, `effect_points_per_combo_point_1`, `effect_points_per_combo_point_2`, `effect_points_per_combo_point_3`, `effect_spell_class_mask_a_1`, `effect_spell_class_mask_a_2`, `effect_spell_class_mask_a_3`, `effect_spell_class_mask_b_1`, `effect_spell_class_mask_b_2`, `effect_spell_class_mask_b_3`, `effect_spell_class_mask_c_1`, `effect_spell_class_mask_c_2`, `effect_spell_class_mask_c_3`, `spell_visual_1`, `spell_visual_2`, `spell_icon_id`, `active_icon_id`, `spell_priority`, `spell_name_enus`, `spell_name_flags`, `spell_subtext_enus`, `spell_subtext_flags`, `spell_desc_enus`, `spell_desc_flags`, `spell_tooltip_enus`, `spell_tooltip_flags`, `power_cost_percentage`, `start_recovery_category`, `start_recovery_time`, `maximum_target_level`, `spell_class_set`, `spell_class_mask_1`, `spell_class_mask_2`, `spell_class_mask_3`, `max_affected_targets`, `damage_class`, `prevention_type`, `stance_bar_order`, `effect_damage_multiplier_1`, `effect_damage_multiplier_2`, `effect_damage_multiplier_3`, `min_faction_id`, `min_reputation`, `req_aura_vision`, `totem_category_1`, `totem_category_2`, `area_group_id`, `school_mask`, `rune_cost_id`, `spell_missile_id`, `power_display_id`, `effect_bonus_multiplier_1`, `effect_bonus_multiplier_2`, `effect_bonus_multiplier_3`, `spell_desc_variable_id`, `spell_difficulty_id`) VALUES (103347, 0, 0, 0, 65568, 1024, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 15, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, '0E-16', 0, 0, 0, 0, 0, 43126, 0, 0, 0, 0, 0, 39502, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 24, 0, 0, 1, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 57455, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0, 0, 0, 0, 0, 0, 0, 0, 10130, 0, 2557, 0, 0, 'Scroll of Holy Warding VIII', 16712190, '', 16712172, '', 16712188, '', 16712188, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '1.0000000000000000', '1.0000000000000000', '1.0000000000000000', 0, 0, 0, 121, 0, 0, 1, 0, 0, 0, '0E-16', '0E-16', '0E-16', 0, 0);
+
+INSERT INTO `spell` SET
+    `id` = 103347,
+    `attributes` = 65568,
+    `attributes_ex_1` = 1024,
+    `cast_time_index` = 33,
+    `interrupt_flags` = 15,
+    `proc_chance` = 101,
+    `range_index` = 1,
+    `reagent_2` = 43126,
+    `reagent_8` = 39502,
+    `reagent_count_2` = 1,
+    `reagent_count_8` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 24,
+    `effect_die_sides_1` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_item_type_1` = 57455,
+    `spell_visual_1` = 10130,
+    `spell_icon_id` = 2557,
+    `spell_name_enus` = 'Scroll of Holy Warding VIII',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = '',
+    `spell_subtext_flags` = 16712172,
+    `spell_desc_enus` = '',
+    `spell_desc_flags` = 16712188,
+    `spell_tooltip_enus` = '',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `totem_category_1` = 121,
+    `school_mask` = 1;
 
 -- Rename existing Scroll of Protection buffs to Warding: Protection
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8091;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8094;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8095;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 12175;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 33079;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 43196;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58452;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58453;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8091;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8094;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 8095;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 12175;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 33079;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 43196;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58452;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Warding: Protection', `spell_desc_enus` = 'Increases Armor by $s1 for $d.  Warding Scroll.' WHERE `id` = 58453;
 
 -- ============================================================================
 -- Empowered Stat Scrolls
 -- Rename Scroll of [Stat] buff spells to "Empowered: [Stat]"
 -- ============================================================================
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8096;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8097;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8098;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8099;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8100;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8101;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8112;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8113;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8114;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8115;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8116;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8117;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8118;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8119;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8120;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 12174;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 12176;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 12177;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 12178;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 12179;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 33077;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 33078;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 33080;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 33081;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 33082;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 43194;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 43195;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 43197;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 43198;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 43199;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 48099;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 48100;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 48101;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 48102;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 48103;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 48104;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 58448;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 58449;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 58450;
-UPDATE `spell` SET `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 58451;
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8096;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8097;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 8098;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8099;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8100;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 8101;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8112;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8113;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 8114;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8115;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8116;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 8117;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8118;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8119;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 8120;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 12174;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 12176;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 12177;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 12178;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 12179;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 33077;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 33078;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 33080;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 33081;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 33082;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 43194;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 43195;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 43197;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 43198;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 43199;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 48099;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_icon_id` = 4899, `spell_name_enus` = 'Empowered: Intellect', `spell_desc_enus` = 'Increases Intellect by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Intellect increased by $s1.  Empowering Scroll.' WHERE `id` = 48100;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 48101;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Stamina', `spell_desc_enus` = 'Increases Stamina by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Stamina increased by $s1.  Empowering Scroll.' WHERE `id` = 48102;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 48103;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Spirit', `spell_desc_enus` = 'Increases Spirit by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Spirit increased by $s1.  Empowering Scroll.' WHERE `id` = 48104;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 58448;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Strength', `spell_desc_enus` = 'Increases Strength by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Strength increased by $s1.  Empowering Scroll.' WHERE `id` = 58449;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 58450;
+
+UPDATE `spell` SET `attributes` = 0, `attributes_ex_2` = 536870912, `spell_name_enus` = 'Empowered: Agility', `spell_desc_enus` = 'Increases Agility by $s1 for $d. Empowering Scroll.', `spell_tooltip_enus` = 'Agility increased by $s1.  Empowering Scroll.' WHERE `id` = 58451;
+
