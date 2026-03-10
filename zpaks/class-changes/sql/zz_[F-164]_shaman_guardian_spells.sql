@@ -58,13 +58,13 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
 (900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
 (900182, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
--- Bastion of Earth buff — consumed when Healing Wave is cast
--- SpellFamilyName=11 (Shaman), SpellFamilyMask0=64 (Healing Wave)
+-- Bastion of Earth buff — consumed when Lesser Healing Wave is cast
+-- SpellFamilyName=11 (Shaman), SpellFamilyMask0=128 (Lesser Healing Wave)
 -- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
 -- Same pattern as Maelstrom Weapon buff (53817)
-(900150, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
-(900151, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
-(900152, 0, 11, 64, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);
+(900150, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900151, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900152, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);
 
 -- ============================================================================
 -- Spirit Communion — consume Spirited buff when active is cast

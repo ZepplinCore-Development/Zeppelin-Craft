@@ -342,9 +342,9 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana per block.][]$?s900123[ Also restores $900123s1% of your maximum mana per block.][] Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Also restores $900124s1% of your maximum mana.][]$?s900123[ Also restores $900123s1% of your maximum mana.][]',
+    `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
     `spell_tooltip_flags` = 16712190,
     `start_recovery_category` = 133,
     `start_recovery_time` = 1500,
@@ -581,21 +581,56 @@ INSERT INTO `spell` SET
     `effect_bonus_multiplier_1` = 0.2;
 
 -- Variable 187: Volcanic Shield tooltip damage (base + per-level + SP scaling)
+-- Uses hardcoded base instead of $m2 to avoid double-counting per-level in buff tooltip context
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 187;
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (187, CONCAT(
+    '$base=${', (@vs_dmg_base + @vs_dmg_die), '}\n',
     '$perlevel=${($pl-', @vs_base_level, ')*', @vs_dmg_perlevel, '}\n',
     '$spbonus=${$sp*', @vs_sp_coeff, '}\n',
-    '$total=${$m2+$<perlevel>+$<spbonus>}'));
+    '$total=${$<base>+$<perlevel>+$<spbonus>}'));
 
 -- ----------------------------------------------------------------------------
 -- Improved Volcanic Shield R1 (900123) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +6% to Volcanic Shield's ENERGIZE_PCT effect.
+-- Adds +3% to Volcanic Shield's ENERGIZE_PCT effect.
 -- Targets spell_class_mask_a_3 = 32768 (bit 15, Volcanic Shield trigger)
 -- ----------------------------------------------------------------------------
 DELETE FROM `spell` WHERE `id` = 900123;
 
 INSERT INTO `spell` SET
     `id` = 900123,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_apply_aura_name_1` = 107,
+    `effect_base_points_1` = 2,
+    `effect_die_sides_1` = 1,
+    `effect_misc_value_a_1` = 12,
+    `effect_implicit_target_a_1` = 1,
+    `effect_spell_class_mask_a_3` = 32768,
+    `spell_icon_id` = 5494,
+    `spell_name_enus` = 'Improved Volcanic Shield',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'When your Volcanic Shield activates, it also restores $s1% of your maximum mana.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Volcanic Shield activation restores $s1% max mana.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- ----------------------------------------------------------------------------
+-- Improved Volcanic Shield R2 (900124) - ADD_FLAT_MODIFIER boosting 900122 E2
+-- Adds +6% to Volcanic Shield's ENERGIZE_PCT effect.
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900124;
+
+INSERT INTO `spell` SET
+    `id` = 900124,
     `attributes` = 327760,
     `attributes_ex_4` = 32768,
     `cast_time_index` = 1,
@@ -611,44 +646,11 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 1',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Volcanic Shield is active, each block also restores $s1% of your maximum mana.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield block restores $s1% max mana.',
-    `spell_tooltip_flags` = 16712190,
-    `spell_class_set` = 11,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 8;
-
--- ----------------------------------------------------------------------------
--- Improved Volcanic Shield R2 (900124) - ADD_FLAT_MODIFIER boosting 900122 E2
--- Adds +12% to Volcanic Shield's ENERGIZE_PCT effect.
--- ----------------------------------------------------------------------------
-DELETE FROM `spell` WHERE `id` = 900124;
-
-INSERT INTO `spell` SET
-    `id` = 900124,
-    `attributes` = 327760,
-    `attributes_ex_4` = 32768,
-    `cast_time_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_apply_aura_name_1` = 107,
-    `effect_base_points_1` = 11,
-    `effect_die_sides_1` = 1,
-    `effect_misc_value_a_1` = 12,
-    `effect_implicit_target_a_1` = 1,
-    `effect_spell_class_mask_a_3` = 32768,
-    `spell_icon_id` = 5494,
-    `spell_name_enus` = 'Improved Volcanic Shield',
-    `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'While Volcanic Shield is active, each block also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'When your Volcanic Shield activates, it also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield block restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Volcanic Shield activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
@@ -1499,10 +1501,10 @@ INSERT INTO `spell` SET
 -- ============================================================================
 -- Bastion of Earth (900147-900149) - Passive talent, procs on block
 -- 3 ranks: 25% chance on block to trigger buff (900150-900152).
--- Buff gives 10% physical damage reduction and reduces HW cast time/mana cost.
--- Each talent rank gives 33% more HW reduction (R1=33%, R2=66%, R3=100%).
--- No stacking — buff is consumed when Healing Wave is cast.
--- Choice: keep buff for 10% phys DR, or cast HW to heal (consuming it).
+-- Buff gives 10% physical damage reduction and reduced LHW cast time.
+-- Each talent rank gives 33% more LHW cast time reduction (R1=33%, R2=66%, R3=100%).
+-- Full mana cost. No stacking — buff consumed on LHW cast.
+-- Choice: keep buff for 10% phys DR, or cast LHW to heal (consuming it).
 -- ============================================================================
 
 -- Bastion of Earth R1 (900147) - Passive, 25% on block, triggers 900150
@@ -1526,9 +1528,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900150d and reduce the cast time and mana cost of Healing Wave by $900150s2%. Casting Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900150d and reduce the cast time of Lesser Healing Wave by $900150s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900150d. Healing Wave cast time and mana cost reduced by $900150s2%. Casting Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900150d. Lesser Healing Wave cast time reduced by $900150s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1556,9 +1558,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900151d and reduce the cast time and mana cost of Healing Wave by $900151s2%. Casting Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900151d and reduce the cast time of Lesser Healing Wave by $900151s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900151d. Healing Wave cast time and mana cost reduced by $900151s2%. Casting Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900151d. Lesser Healing Wave cast time reduced by $900151s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1586,9 +1588,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900152d and reduce the cast time and mana cost of Healing Wave by $900152s2%. Casting Healing Wave consumes the buff.',
+    `spell_desc_enus` = 'Successful blocks have a 25% chance to reduce physical damage taken by 10% for $900152d and reduce the cast time of Lesser Healing Wave by $900152s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900152d. Healing Wave cast time and mana cost reduced by $900152s2%. Casting Healing Wave consumes the buff.',
+    `spell_tooltip_enus` = '25% chance on block to reduce physical damage taken by 10% for $900152d. Lesser Healing Wave cast time reduced by $900152s2%. Casting Lesser Healing Wave consumes the buff.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
@@ -1598,13 +1600,12 @@ INSERT INTO `spell` SET
 -- ============================================================================
 -- Bastion of Earth Buff (900150-900152) - Triggered physical DR buff
 -- E1: Aura 87 (MOD_DAMAGE_PERCENT_TAKEN), misc 1 (physical), -10%
--- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), HW reduction
--- E3: Aura 108 (ADD_PCT_MODIFIER), misc 14 (SPELLMOD_COST), HW reduction
--- No stacking. Consumed when Healing Wave is cast (proc_charges=1).
--- R1=-33%, R2=-66%, R3=-100% HW cast time/mana cost reduction.
+-- E2: Aura 108 (ADD_PCT_MODIFIER), misc 10 (SPELLMOD_CASTING_TIME), LHW cast time reduction
+-- No stacking. Consumed when Lesser Healing Wave is cast (proc_charges=1).
+-- R1=-33%, R2=-66%, R3=-100% LHW cast time reduction. Full mana cost.
 -- ============================================================================
 
--- Bastion of Earth buff R1 (900150) - 10% phys DR, -33% HW cast/mana
+-- Bastion of Earth buff R1 (900150) - 10% phys DR, -33% LHW cast time
 DELETE FROM `spell` WHERE `id` = 900150;
 
 INSERT INTO `spell` SET
@@ -1629,31 +1630,22 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 64,
-    `effect_3` = 6,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -34,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 108,
-    `effect_misc_value_a_3` = 14,
-    `effect_spell_class_mask_c_1` = 64,
+    `effect_spell_class_mask_b_1` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R2 (900151) - 10% phys DR, -66% HW cast/mana
+-- Bastion of Earth buff R2 (900151) - 10% phys DR, -66% LHW cast time
 DELETE FROM `spell` WHERE `id` = 900151;
 
 INSERT INTO `spell` SET
@@ -1678,31 +1670,22 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 64,
-    `effect_3` = 6,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -67,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 108,
-    `effect_misc_value_a_3` = 14,
-    `effect_spell_class_mask_c_1` = 64,
+    `effect_spell_class_mask_b_1` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `effect_bonus_multiplier_2` = 1.0;
 
--- Bastion of Earth buff R3 (900152) - 10% phys DR, -100% HW cast/mana (instant+free)
+-- Bastion of Earth buff R3 (900152) - 10% phys DR, -100% LHW cast time (instant)
 DELETE FROM `spell` WHERE `id` = 900152;
 
 INSERT INTO `spell` SET
@@ -1727,29 +1710,20 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_2` = 1,
     `effect_apply_aura_name_2` = 108,
     `effect_misc_value_a_2` = 10,
-    `effect_spell_class_mask_b_1` = 64,
-    `effect_3` = 6,
-    `effect_die_sides_3` = 1,
-    `effect_base_points_3` = -101,
-    `effect_implicit_target_a_3` = 1,
-    `effect_apply_aura_name_3` = 108,
-    `effect_misc_value_a_3` = 14,
-    `effect_spell_class_mask_c_1` = 64,
+    `effect_spell_class_mask_b_1` = 128,
     `spell_icon_id` = 5043,
     `spell_name_enus` = 'Bastion of Earth',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_desc_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Healing Wave cast time and mana cost reduced by $s2%.',
+    `spell_tooltip_enus` = 'Reduces physical damage taken by 10%. Lesser Healing Wave cast time reduced by $s2%.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `school_mask` = 8,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_damage_multiplier_3` = 1.0,
     `effect_bonus_multiplier_1` = 1.0,
-    `effect_bonus_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_3` = 1.0;
+    `effect_bonus_multiplier_2` = 1.0;
 
 -- Rockbiter Weapon imbue desc - AP from passive aura (client auto-applies Imp Rockbiter SpellMod)
 -- Threat shown conditionally when Imp Rockbiter is known

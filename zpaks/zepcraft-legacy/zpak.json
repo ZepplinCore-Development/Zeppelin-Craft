@@ -15,7 +15,8 @@
   },
   "feature_id": "F-044",
   "build": {
-    "preprocessors": ["model-transforms", "item-dbc-sync", "dbc-export"]
+    "preprocessors": ["model-transforms", "item-dbc-sync", "dbc-export"],
+    "force_parse": true
   },
   "contents": {
     "sql": [

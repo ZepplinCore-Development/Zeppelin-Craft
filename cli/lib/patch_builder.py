@@ -593,6 +593,15 @@ def build_patch(letter: str, zpaks: List[Dict[str, Any]],
     patch_name = f'PATCH-{letter}.MPQ'
     output_path = get_patch_output_path(nginx_path, patch_name, register)
 
+    # Auto-enable preprocessing if any zpak has force_parse
+    if not parse and not parse_only:
+        for zpak in zpaks:
+            if zpak.get('manifest', {}).get('build', {}).get('force_parse'):
+                parse = True
+                print(f"  [{zpak['name']}] force_parse enabled — "
+                      f"running preprocessors automatically")
+                break
+
     # Step 1: Run preprocessors
     if parse or parse_only:
         if not _run_preprocessors(zpaks, dry_run=dry_run):
