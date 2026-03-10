@@ -2767,7 +2767,6 @@ INSERT INTO `spell` SET
 DELETE FROM `spell` WHERE `id` = 900184;
 INSERT INTO `spell` SET
     `id` = 900184,
-    `attributes` = 384,
     `cast_time_index` = 1,
     `duration_index` = 18,
     `range_index` = 1,
@@ -2802,8 +2801,10 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 136,
     `effect_2` = 137,
-    `effect_base_points_1` = 10,
-    `effect_base_points_2` = 10,
+    `effect_base_points_1` = 9,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_2` = 9,
+    `effect_die_sides_2` = 1,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
     `effect_misc_value_a_2` = 0,
