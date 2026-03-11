@@ -93,7 +93,7 @@ $swimspeed=${$m2+$<crop>+$<glyph>}
 $swimspeed2=${$m2+($pl-20)*2+$<crop>+$<glyph>}');
 
 -- ============================================================================
--- Variable ID 186: Aquatic Form cast spell (1066) tooltip
+-- Variable ID 199: Aquatic Form cast spell (1066) tooltip
 -- Spell 1066 is a shapeshift cast — its own effects have no speed data.
 -- Uses cross-spell reference $5421m2 for tooltip (resolves with per-level
 -- scaling from the active buff) and hardcoded base 20 for description
@@ -107,8 +107,8 @@ $swimspeed2=${$m2+($pl-20)*2+$<crop>+$<glyph>}');
 --   $swimspeed  = Swim speed for tooltip (5421 buff value + crop + glyph)
 --   $swimspeed2 = Swim speed for description (base 20 + level scaling + crop + glyph)
 -- ============================================================================
-DELETE FROM `spelldescriptionvariables` WHERE `id` = 186;
-INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (186, '$c1=$?a100010[${$100010m1}][${0}]
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 199;
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (199, '$c1=$?a100010[${$100010m1}][${0}]
 $c2=$?a100011[${$100011m1}][${0}]
 $c3=$?a100012[${$100012m1}][${0}]
 $c4=$?a100013[${$100013m1}][${0}]

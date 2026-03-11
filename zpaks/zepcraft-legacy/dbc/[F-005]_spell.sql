@@ -200,15 +200,15 @@ UPDATE `spell` SET
 WHERE `id` = 783;
 
 -- ============================================================================
--- 8c. AQUATIC FORM (1066) - Tooltip with variable 186 (cross-spell ref to 5421)
+-- 8c. AQUATIC FORM (1066) - Tooltip with variable 199 (cross-spell ref to 5421)
 --     Section 10 swapped swim speed from E1 -> E2 on passive 5421, breaking
---     the old $5421s1 reference. Use variable 186 with $<swimspeed> which
+--     the old $5421s1 reference. Use variable 199 with $<swimspeed> which
 --     references $5421m2 (cross-spell) + crop + glyph bonus.
 --     Cannot reuse variable 184 because 1066's own $m2 is mechanic immunity,
 --     not swim speed — need cross-spell refs in a separate variable.
 -- ============================================================================
 UPDATE `spell` SET
-    `spell_desc_variable_id` = 186,
+    `spell_desc_variable_id` = 199,
     `spell_desc_enus` = 'Shapeshift into aquatic form, increasing swim speed by $<swimspeed2>% and allowing the druid to breathe underwater.  Also protects the caster from Polymorph effects.$?a57856[ Your Glyph of Aquatic Form increases swim speed by an additional $<glyph>%.][]The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.',
     `spell_tooltip_enus` = 'Immune to Polymorph effects.  Increases swim speed by $<swimspeed>% and allows underwater breathing.$?a57856[ (Includes $<glyph>% from Glyph of Aquatic Form.)][]'
 WHERE `id` = 1066;
