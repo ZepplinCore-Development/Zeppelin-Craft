@@ -43,30 +43,30 @@
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 377,
 			`name` = 'Blackrock Depths - Upper City (Mythic)',
-			`position_x` = 881.5,
-			`position_y` = -237.3,
-			`position_z` = -49.9,
-			`orientation` = 5.8;
+			`position_x` = 893.6,
+			`position_y` = -226.3,
+			`position_z` = -50.1,
+			`orientation` = 2.0;
 
 	-- Blackrock Depths - Upper City (Heroic)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 276;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 276,
 			`name` = 'Blackrock Depths - Upper City (Heroic)',
-			`position_x` = 881.5,
-			`position_y` = -237.3,
-			`position_z` = -49.9,
-			`orientation` = 5.8;
+			`position_x` = 893.6,
+			`position_y` = -226.3,
+			`position_z` = -50.1,
+			`orientation` = 2.0;
 
 	-- Blackrock Depths - Upper City (Normal)
 		DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 321;
 		INSERT INTO `lfg_dungeon_template` SET
 			`dungeonId` = 321,
 			`name` = 'Blackrock Depths - Upper City (Normal)',
-			`position_x` = 881.5,
-			`position_y` = -237.3,
-			`position_z` = -49.9,
-			`orientation` = 5.8;
+			`position_x` = 893.6,
+			`position_y` = -226.3,
+			`position_z` = -50.1,
+			`orientation` = 2.0;
 
 -- Coren Direbrew
 	DELETE FROM `lfg_dungeon_template` WHERE `dungeonId` = 287;

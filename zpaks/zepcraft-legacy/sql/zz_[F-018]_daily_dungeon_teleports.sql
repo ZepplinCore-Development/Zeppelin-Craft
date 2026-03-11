@@ -204,10 +204,10 @@
                 SET `ID` = 91026,
                     `EffectIndex` = '0',
                     `MapID` = 230,
-                    `PositionX` = 881.5,
-                    `PositionY` = -237.3,
-                    `PositionZ` = -49.9,
-                    `Orientation` = 5.8,
+                    `PositionX` = 893.6,
+                    `PositionY` = -226.3,
+                    `PositionZ` = -50.1,
+                    `Orientation` = 2.0,
                     `VerifiedBuild` = '0';
                     
                 -- Blackrock Depths Upper City - Teleport Orb
