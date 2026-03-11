@@ -8,8 +8,8 @@
 -- Clean up
 DELETE FROM `item_template` WHERE `entry` IN (57009, 57010, 57011, 57012);
 DELETE FROM `item_template` WHERE `entry` IN (57508, 57509, 57510, 57511);
-DELETE FROM `item_template` WHERE `entry` IN (57204, 57205, 57206);
-DELETE FROM `item_template` WHERE `entry` IN (57207, 57208, 57209, 57210);
+DELETE FROM `item_template` WHERE `entry` IN (57213, 57214, 57215);
+DELETE FROM `item_template` WHERE `entry` IN (57216, 57217, 57218, 57219);
 DELETE FROM `trainer_spell` WHERE `SpellId` IN (91252, 91253, 91254, 91255, 91256, 91257, 91258, 91259, 91260, 91261, 91262, 91263, 91264, 91265, 91266, 91267, 91268, 91269, 91270);
 
 -- =====================================================
@@ -73,19 +73,19 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57204, `class` = 5, `subclass` = 1,
+    `entry` = 57213, `class` = 5, `subclass` = 1,
     `name` = 'Bronze Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154875, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57205, `class` = 5, `subclass` = 1,
+    `entry` = 57214, `class` = 5, `subclass` = 1,
     `name` = 'Fel Iron Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154876, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57206, `class` = 5, `subclass` = 1,
+    `entry` = 57215, `class` = 5, `subclass` = 1,
     `name` = 'Saronite Screwdriver', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154877, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 5, `bonding` = 0;
@@ -95,25 +95,25 @@ INSERT INTO `item_template` SET
 -- =====================================================
 
 INSERT INTO `item_template` SET
-    `entry` = 57207, `class` = 5, `subclass` = 1,
+    `entry` = 57216, `class` = 5, `subclass` = 1,
     `name` = 'Bronze Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154871, `Quality` = 2, `ItemLevel` = 10,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57208, `class` = 5, `subclass` = 1,
+    `entry` = 57217, `class` = 5, `subclass` = 1,
     `name` = 'Gold Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154872, `Quality` = 2, `ItemLevel` = 40,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57209, `class` = 5, `subclass` = 1,
+    `entry` = 57218, `class` = 5, `subclass` = 1,
     `name` = 'Fel Iron Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154873, `Quality` = 2, `ItemLevel` = 60,
     `stackable` = 5, `bonding` = 0;
 
 INSERT INTO `item_template` SET
-    `entry` = 57210, `class` = 5, `subclass` = 1,
+    `entry` = 57219, `class` = 5, `subclass` = 1,
     `name` = 'Saronite Drill', `description` = 'Used in Jewelcrafting kit assembly.',
     `displayid` = 154874, `Quality` = 2, `ItemLevel` = 75,
     `stackable` = 5, `bonding` = 0;
