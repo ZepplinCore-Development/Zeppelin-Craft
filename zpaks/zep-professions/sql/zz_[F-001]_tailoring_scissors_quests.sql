@@ -905,10 +905,10 @@ INSERT INTO `creature_queststarter` VALUES (@npc, @quest);
 INSERT INTO `creature_questender` VALUES (@npc, @quest);
 
 -- -----------------------------------------------------
--- Quest 90115: Shattrath Neutral (Miralisse - 19063)
+-- Quest 90115: Shattrath Neutral (Eiin - 19213)
 -- -----------------------------------------------------
 SET @quest := 90115;
-SET @npc := 19063;
+SET @npc := 19213;
 
 INSERT INTO `quest_template` SET
     `ID` = @quest,
@@ -928,7 +928,7 @@ INSERT INTO `quest_template` SET
     `LogTitle` = 'Master Tailoring Scissors',
     `LogDescription` = 'Trade in your Artisan scissors and collect bolts to exchange for Master Scissors',
     `QuestDescription` = 'Tailor from Azeroth, welcome to Shattrath. The cloth here is unlike anything from your homeland - netherweave, touched by the Twisting Nether, resistant to ordinary blades. Your Artisan scissors will dull quickly, and your stitching will slow.$B$BI have Master scissors crafted specifically for Outland fabrics. Trade in your old Artisan scissors and bring me 10 Bolts of Netherweave and 3 Bolts of Imbued Netherweave from these harsh lands, and the Master scissors are yours. Reinforced blades, balanced for nether-touched fibers - you''ll cut faster and weave with greater precision.$B$BRequired:$B- 10 Bolt of Netherweave$B- 3 Bolt of Imbued Netherweave',
-    `QuestCompletionLog` = 'Return the bolts to Miralisse in Shattrath City',
+    `QuestCompletionLog` = 'Return the bolts to Eiin in Shattrath City',
     `RewardItem1` = 57406,
     `RewardAmount1` = 1,
     `VerifiedBuild` = '0';
