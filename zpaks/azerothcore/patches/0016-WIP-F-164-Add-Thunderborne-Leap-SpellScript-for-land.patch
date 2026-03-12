@@ -12,8 +12,8 @@ Subject: [PATCH] WIP: F-164 - Add Thunderborne Leap SpellScript for landing
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/scripts/Spells/spell_shaman.cpp | 57 +++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ src/server/scripts/Spells/spell_shaman.cpp | 67 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
 
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
 index cb7da23d9..3fe3c93e8 100644
@@ -28,7 +28,7 @@ index cb7da23d9..3fe3c93e8 100644
  };
  
  enum ShamanSpellIcons
-@@ -2170,6 +2172,60 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2170,6 +2172,70 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -45,8 +45,16 @@ index cb7da23d9..3fe3c93e8 100644
 +
 +    void HandleOnCast()
 +    {
-+        if (Unit* caster = GetCaster())
-+            caster->SetSheath(SHEATH_STATE_MELEE);
++        Player* player = GetCaster()->ToPlayer();
++        if (!player)
++            return;
++
++        // Draw weapons before the jump spline packet is sent.
++        // SetSheath alone is batched (end-of-tick), so force an
++        // immediate object update so the client sees weapons
++        // drawn before the SMSG_MONSTER_MOVE arrives.
++        player->SetSheath(SHEATH_STATE_MELEE);
++        player->SendUpdateToPlayer(player);
 +    }
 +
 +    void HandleAfterCast()
@@ -60,20 +68,32 @@ index cb7da23d9..3fe3c93e8 100644
 +        uint32 travelTimeMs = caster->movespline->Duration();
 +
 +        ObjectGuid casterGUID = caster->GetGUID();
-+        caster->m_Events.AddEventAtOffset(
-+            [casterGUID]()
-+            {
-+                if (Player* player =
-+                        ObjectAccessor::FindPlayer(casterGUID))
-+                {
-+                    player->CastSpell(player,
-+                        SPELL_SHAMAN_THUNDERBORNE_LEAP_IMPACT,
-+                        true);
 +
-+                    // Start auto-attack on landing target
-+                    if (Unit* target = player->GetVictim())
-+                        player->Attack(target, true);
-+                }
++        // Capture the spell target for auto-attack on landing.
++        // GetVictim() is null at this point because melee hasn't
++        // started yet — we need the explicit spell target instead.
++        Unit* target = GetExplTargetUnit();
++        ObjectGuid targetGUID = target ? target->GetGUID()
++                                       : ObjectGuid::Empty;
++
++        caster->m_Events.AddEventAtOffset(
++            [casterGUID, targetGUID]()
++            {
++                Player* player =
++                    ObjectAccessor::FindPlayer(casterGUID);
++                if (!player)
++                    return;
++
++                player->CastSpell(player,
++                    SPELL_SHAMAN_THUNDERBORNE_LEAP_IMPACT,
++                    true);
++
++                // Start auto-attack on the leap target
++                if (!targetGUID.IsEmpty())
++                    if (Unit* victim = ObjectAccessor::GetUnit(
++                            *player, targetGUID))
++                        if (player->IsValidAttackTarget(victim))
++                            player->Attack(victim, true);
 +            },
 +            Milliseconds(travelTimeMs));
 +    }
