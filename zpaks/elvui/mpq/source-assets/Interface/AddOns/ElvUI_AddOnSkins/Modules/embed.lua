@@ -424,6 +424,7 @@ end
 
 if AS:IsAddonLODorEnabled("Details") then
 	local Details = _G._details or _G._detalhes
+	if not Details then return end
 
 	local numberToEmbed = 0
 
