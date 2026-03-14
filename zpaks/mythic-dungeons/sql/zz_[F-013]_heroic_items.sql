@@ -1,3 +1,8 @@
+-- Heroic Creature Loot Template (links bosses with lootid 9100400 to the reference table)
+DELETE FROM `creature_loot_template` WHERE (`Entry` = 9100400);
+INSERT INTO `creature_loot_template` (`Entry`, `Item`, `Reference`, `Chance`, `QuestRequired`, `LootMode`, `GroupId`, `MinCount`, `MaxCount`, `Comment`) VALUES
+(9100400, 0, 9100400, 100, 0, 1, 1, 1, 1, '');
+
 -- Heroic Reference Loot Template
    DELETE FROM `reference_loot_template` WHERE (`Entry` = 9100400);
 

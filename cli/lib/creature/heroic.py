@@ -112,7 +112,8 @@ def fetch_creature(cursor, entry: int) -> Optional[Dict]:
 
 
 def modify_creature(
-    row: Dict, challenge: str, is_mythic: bool, mythic_loot_id: int
+    row: Dict, challenge: str, is_mythic: bool,
+    heroic_loot_id: int, mythic_loot_id: int
 ) -> Tuple[Dict, str, str]:
     """Modify creature stats based on challenge type and difficulty.
 
@@ -143,8 +144,11 @@ def modify_creature(
             random.uniform(getattr(stats, hp_min), getattr(stats, hp_max)), 2
         )
 
-        if challenge == "boss" and is_mythic:
-            row["lootid"] = mythic_loot_id
+        if challenge == "boss":
+            if is_mythic:
+                row["lootid"] = mythic_loot_id
+            else:
+                row["lootid"] = heroic_loot_id
 
     return row, creature_name, prefixed_name
 
@@ -311,6 +315,7 @@ def run(
 
             new_entry = dungeon_data["entry_start"]
             map_id = dungeon_data["map_id"]
+            heroic_loot_id = dungeon_data["loot_id"]
             mythic_loot_id = dungeon_data["mythic_loot_id"]
 
             creature_groups = [
@@ -331,6 +336,7 @@ def run(
 
                     modified, name, prefixed = modify_creature(
                         creature, challenge, is_mythic=False,
+                        heroic_loot_id=heroic_loot_id,
                         mythic_loot_id=mythic_loot_id
                     )
                     queries = generate_sql(
@@ -358,6 +364,7 @@ def run(
 
                     modified, name, prefixed = modify_creature(
                         creature, challenge, is_mythic=True,
+                        heroic_loot_id=heroic_loot_id,
                         mythic_loot_id=mythic_loot_id
                     )
                     queries = generate_sql(
