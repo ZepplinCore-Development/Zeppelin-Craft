@@ -129,6 +129,28 @@ class ResourceParser:
 
         return normalized
 
+    @staticmethod
+    def normalize_case(rel_path: str) -> str:
+        """
+        Normalize path casing for MPQ output.
+
+        Most WoW asset paths are uppercased for consistency. However, addon
+        folder names under Interface/AddOns/ must preserve their original case
+        because the WoW client uses the folder name as the addon identity in
+        Lua (e.g. ``ElvUI`` != ``ELVUI``).
+
+        Rules:
+        - ``Interface/AddOns/<AddonName>/...`` → ``INTERFACE/ADDONS/<AddonName>/...``
+          (first two segments uppercased, addon folder name and contents preserved)
+        - All other paths → fully uppercased
+        """
+        parts = Path(rel_path).parts
+        # Check if path is under Interface/AddOns/
+        if len(parts) >= 3 and parts[0].upper() == 'INTERFACE' and parts[1].upper() == 'ADDONS':
+            # Uppercase INTERFACE/ADDONS, preserve addon folder name and below
+            return str(Path(parts[0].upper(), parts[1].upper(), *parts[2:]))
+        return str(rel_path).upper()
+
     def log(self, message: str):
         """Add message to log buffer and print to terminal"""
         self.log_lines.append(message)
@@ -314,12 +336,31 @@ class ResourceParser:
 
         return " → ".join(formatted_parts)
 
+    def _is_addon_dir_or_child(self, dir_path: Path) -> bool:
+        """Check if a directory is an addon folder or inside one under Interface/AddOns/."""
+        export_dir = self.paths.get('export')
+        if not export_dir:
+            return False
+        try:
+            rel = dir_path.relative_to(export_dir)
+        except ValueError:
+            return False
+        parts = rel.parts
+        # parts[0]=INTERFACE, parts[1]=ADDONS, parts[2]=AddonName, ...
+        # Preserve case for parts[2] and deeper (the addon folder and its contents)
+        if len(parts) >= 3 and parts[0].upper() == 'INTERFACE' and parts[1].upper() == 'ADDONS':
+            return True
+        return False
+
     def normalize_export_folder_case(self):
         """
-        Normalize all folder names in export directory to UPPERCASE.
+        Normalize folder names in export directory to UPPERCASE.
 
         This fixes case mismatches from previous runs (e.g., DUNGEONS vs Dungeons)
         by merging lowercase/mixed-case folders into their uppercase equivalents.
+
+        Addon folders under Interface/AddOns/ are excluded — their names must
+        preserve original case because the WoW client uses them as Lua identities.
         """
         export_dir = self.paths.get('export')
         if not export_dir or not export_dir.exists():
@@ -340,6 +381,10 @@ class ResourceParser:
         for dir_path in dirs_to_check:
             if not dir_path.exists():
                 continue  # May have been merged/renamed already
+
+            # Skip addon folders and their children — preserve original case
+            if self._is_addon_dir_or_child(dir_path):
+                continue
 
             dir_name = dir_path.name
             dir_upper = dir_name.upper()
@@ -409,16 +454,15 @@ class ResourceParser:
         self.normalize_export_folder_case()
 
         # Count files to copy
-        # IMPORTANT: Normalize all paths to UPPERCASE for consistency
-        # This prevents duplicate folders with different casing (e.g., DUNGEONS vs Dungeons)
+        # IMPORTANT: Normalize paths to UPPERCASE for consistency, except addon
+        # folder names under Interface/AddOns/ which must preserve original case.
         files_to_copy = []
         for root, dirs, files in os.walk(source):
             for file in files:
                 src_file = Path(root) / file
                 rel_path = src_file.relative_to(source)
-                # Normalize path to uppercase
-                rel_path_upper = Path(str(rel_path).upper())
-                dst_file = export_dir / rel_path_upper
+                rel_path_normed = Path(self.normalize_case(str(rel_path)))
+                dst_file = export_dir / rel_path_normed
                 files_to_copy.append((src_file, dst_file))
 
         self.log(f'Files to copy: {len(files_to_copy):,}')
@@ -489,7 +533,7 @@ class ResourceParser:
         if output_dir.exists():
             self.normalize_export_folder_case()
 
-        # Collect files to copy with UPPERCASE normalization
+        # Collect files to copy with case normalization (preserves addon folder names)
         files_to_copy = []
         for root, dirs, files in os.walk(source_dir):
             for file in files:
@@ -497,8 +541,8 @@ class ResourceParser:
                     continue
                 src_file = Path(root) / file
                 rel_path = src_file.relative_to(source_dir)
-                rel_path_upper = Path(str(rel_path).upper())
-                dst_file = output_dir / rel_path_upper
+                rel_path_normed = Path(self.normalize_case(str(rel_path)))
+                dst_file = output_dir / rel_path_normed
                 files_to_copy.append((src_file, dst_file))
 
         self.log(f'Files to copy: {len(files_to_copy):,}')
