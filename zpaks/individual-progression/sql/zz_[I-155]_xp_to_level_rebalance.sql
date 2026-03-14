@@ -8,12 +8,15 @@
 -- average quest XP boost ratio at each level. Side effect: raw kill XP
 -- becomes slightly less efficient (~30% at peak, levels 47-58).
 --
--- Step 1: Reset to stock WotLK values
--- Step 2: Apply per-level multipliers
---
--- To tune: just change the multiplier in the UPDATE lines below.
+-- Toggle: set @enable = 1 to apply multipliers, 0 for stock WotLK values.
+-- To tune: change the multiplier values in the UPDATE lines below.
 
--- Reset levels 1-69 to stock values
+-- ============================================================
+-- Toggle switch: 1 = compensate for QuestXPFix removal, 0 = stock
+-- ============================================================
+SET @enable = 0;
+
+-- Reset levels 1-69 to stock WotLK values
 DELETE FROM player_xp_for_level WHERE Level BETWEEN 1 AND 69;
 INSERT INTO player_xp_for_level (Level, Experience) VALUES
 (1, 400),    (2, 900),    (3, 1400),   (4, 2100),   (5, 2800),
@@ -31,49 +34,41 @@ INSERT INTO player_xp_for_level (Level, Experience) VALUES
 (61, 574700),(62, 614400),(63, 650300),(64, 682300),(65, 710200),
 (66, 734100),(67, 753700),(68, 768900),(69, 779700);
 
--- Apply multipliers per level
--- Levels 1-6: 1.00 (no change, vanilla = WotLK)
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.02) WHERE Level BETWEEN 7 AND 10;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.01) WHERE Level BETWEEN 11 AND 21;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.02) WHERE Level BETWEEN 22 AND 29;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.03) WHERE Level = 30;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.04) WHERE Level = 31;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.06) WHERE Level = 32;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.08) WHERE Level = 33;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.11) WHERE Level = 34;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.14) WHERE Level = 35;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.17) WHERE Level = 36;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.21) WHERE Level = 37;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.24) WHERE Level = 38;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.27) WHERE Level = 39;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.30) WHERE Level = 40;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.33) WHERE Level = 41;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.36) WHERE Level = 42;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.39) WHERE Level = 43;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.42) WHERE Level = 44;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.44) WHERE Level = 45;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.45) WHERE Level = 46;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.46) WHERE Level = 47;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.46) WHERE Level = 48;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.47) WHERE Level = 49;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.47) WHERE Level = 50;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.47) WHERE Level = 51;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.47) WHERE Level = 52;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.47) WHERE Level = 53;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.48) WHERE Level = 54;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.49) WHERE Level = 55;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.50) WHERE Level = 56;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.51) WHERE Level = 57;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.50) WHERE Level = 58;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.48) WHERE Level = 59;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.44) WHERE Level = 60;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.40) WHERE Level = 61;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.37) WHERE Level = 62;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.35) WHERE Level = 63;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.34) WHERE Level = 64;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.32) WHERE Level = 65;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.31) WHERE Level = 66;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.30) WHERE Level = 67;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.30) WHERE Level = 68;
-UPDATE player_xp_for_level SET Experience = ROUND(Experience * 1.29) WHERE Level = 69;
+-- Apply multipliers per level (halved — quest XP is only part of total XP income)
+-- Formula: Experience * (1 + @enable * adjustment)
+--   @enable = 1 → multiplier applied
+--   @enable = 0 → multiplier = 1.0 (stock values preserved)
+-- Levels 1-29: 1.00 (no meaningful difference, vanilla ≈ WotLK)
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.02)) WHERE Level = 30;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.02)) WHERE Level = 31;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.03)) WHERE Level = 32;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.04)) WHERE Level = 33;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.06)) WHERE Level = 34;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.07)) WHERE Level = 35;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.09)) WHERE Level = 36;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.11)) WHERE Level = 37;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.12)) WHERE Level = 38;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.14)) WHERE Level = 39;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.15)) WHERE Level = 40;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.17)) WHERE Level = 41;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.18)) WHERE Level = 42;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.20)) WHERE Level = 43;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.21)) WHERE Level = 44;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.22)) WHERE Level = 45;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.23)) WHERE Level = 46;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.23)) WHERE Level = 47;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.23)) WHERE Level = 48;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 49;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 50;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 51;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 52;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 53;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 54;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.25)) WHERE Level = 55;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.25)) WHERE Level = 56;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.26)) WHERE Level = 57;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.25)) WHERE Level = 58;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 59;
+UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.22)) WHERE Level = 60;
+-- Levels 61-69: stock values (TBC quest XP matches WotLK, no compensation needed)
 -- Levels 70-79: unchanged (QuestXPFix barely touched WotLK quests)
