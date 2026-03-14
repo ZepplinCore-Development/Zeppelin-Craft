@@ -737,15 +737,16 @@ def sql_reset(ctx, force: bool):
 def sql_rebuild(ctx, force: bool):
     """Full rebuild: reset to stock AC + apply all zpak SQL.
 
-    This is equivalent to: zep sql reset && zep sql changed
+    Drops and recreates acore_world, loads AC base + updates,
+    then applies all zpak customizations.
 
     Examples:
-        zep sql rebuild      # Rebuild with confirmation
-        zep sql rebuild -f   # Rebuild without confirmation
+        zep sql rebuild      # Full rebuild with confirmation
+        zep sql rebuild -f   # Full rebuild without confirmation
     """
     craft_root = ctx.obj['craft_root']
 
-    click.echo(click.style("\n⚠️  WARNING: This will rebuild the entire acore_world database!", fg='red', bold=True))
+    click.echo(click.style("\nWARNING: This will rebuild the entire acore_world database!", fg='red', bold=True))
     click.echo("All data will be reset and zpak customizations re-applied.")
     click.echo("Characters and auth databases are NOT affected.\n")
 
@@ -766,7 +767,7 @@ def sql_rebuild(ctx, force: bool):
 
     click.echo()
     if error_count == 0:
-        click.echo(click.style(f"✓ Rebuild complete! {success_count} zpak file(s) applied", fg='green'))
+        click.echo(click.style(f"Rebuild complete! {success_count} zpak file(s) applied", fg='green'))
     else:
         click.echo(click.style(f"Rebuild completed with errors: {success_count} succeeded, {error_count} failed", fg='yellow'))
         sys.exit(1)
