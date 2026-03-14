@@ -4,8 +4,8 @@
 DELETE FROM `spellvisual` WHERE `id` = 90001;
 INSERT INTO `spellvisual` (`id`, `instant_area_kit`, `impact_area_kit`, `caster_impact_kit`) VALUES (90001, 2064, 2064, 2064);
 
--- Visual 90002: Spirit Communion — bow animation with ghost/spirit effect
--- cast_kit 90001 = custom kit (bow anim + Ghost_state base effect)
+-- Visual 90002: Spirit Communion — ghost/spirit effect + heal glow
+-- cast_kit 90001 = custom kit (Ghost_state + cast directed anim, blends with movement)
 -- caster_impact_kit 232 = Heal_Low_Base (subtle heal glow on self)
 DELETE FROM `spellvisual` WHERE `id` = 90002;
 INSERT INTO `spellvisual` (`id`, `cast_kit`, `caster_impact_kit`) VALUES (90002, 90001, 232);
