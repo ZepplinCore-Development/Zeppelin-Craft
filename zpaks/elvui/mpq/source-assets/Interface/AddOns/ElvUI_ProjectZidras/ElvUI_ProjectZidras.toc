@@ -1,0 +1,23 @@
+## Interface: 30300
+## Author: Zidras
+## Version: 2.1
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff00BFFFProject Zidras|r
+## Notes: |cff00BFFFProject Zidras|r is an |cff1784d1E|r|cffe5e3e3lvUI|r plugin that adds new features to the core addon.
+## SavedVariables: ProjectZidrasDB
+## RequiredDeps: ElvUI
+## DefaultState: Enabled
+## X-Credits: Apollyon, Loaal, Inmortalz, Empress, Kader
+## X-Website: https://github.com/Zidras/ElvUI_ProjectZidras
+## X-Discord: |cf5865F2https://discord.gg/CyVWDWS|r
+## X-Donate: https://streamelements.com/the_zidras/tip
+
+Locales\Load_Locales.xml
+Libraries\Load_Libraries.xml
+Media\Load_Media.xml
+
+ElvUI_ProjectZidras.lua
+
+Core\Load_Core.xml
+Defaults\Load_Defaults.xml
+Modules\Load_Modules.xml
+Options\Load_Options.xml

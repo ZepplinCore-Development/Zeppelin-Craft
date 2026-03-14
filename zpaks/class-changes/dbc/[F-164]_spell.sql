@@ -1970,8 +1970,8 @@ INSERT INTO `spell` SET
 
 -- ----------------------------------------------------------------------------
 -- Living Guardian (900167, 900168, 900169) - 3 rank talent (proc trigger)
--- After receiving a direct heal, increases armor from items by 5/10/15% for 10s.
--- Passive aura that procs Living Guardian buff on direct heal received.
+-- After receiving a direct heal, gains an absorb shield for 10s. 10s ICD.
+-- Passive aura that procs Living Guardian shield on direct heal received.
 -- Cloned from Ancestral Healing (16176). Icon 4408.
 -- proc_flags 557056 = TAKEN_SPELL_NONE_DMG_CLASS_POS | TAKEN_SPELL_MAGIC_DMG_CLASS_POS (no TAKEN_PERIODIC)
 -- ----------------------------------------------------------------------------
@@ -1996,8 +1996,9 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $900170s1% for $900170d after receiving a direct heal.',
+    `spell_desc_enus` = 'When you receive a direct heal, you have a 33% chance to gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
+    `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2009,7 +2010,7 @@ INSERT INTO `spell` SET
     `attributes` = 464,
     `cast_time_index` = 1,
     `proc_flags` = 557056,
-    `proc_chance` = 100,
+    `proc_chance` = 66,
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
@@ -2017,14 +2018,15 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = -1,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
-    `effect_trigger_spell_1` = 900171,
+    `effect_trigger_spell_1` = 900170,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $900171s1% for $900171d after receiving a direct heal.',
+    `spell_desc_enus` = 'When you receive a direct heal, you have a 66% chance to gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
+    `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2044,24 +2046,42 @@ INSERT INTO `spell` SET
     `effect_base_points_1` = -1,
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
-    `effect_trigger_spell_1` = 900172,
+    `effect_trigger_spell_1` = 900170,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $900172s1% for $900172d after receiving a direct heal.',
+    `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
+    `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
 -- ----------------------------------------------------------------------------
--- Living Guardian Buff (900170, 900171, 900172) - 3 ranks
--- Increases armor from items by 5/10/15% for 10 seconds.
--- Triggered by Living Guardian talent when receiving a direct heal.
+-- Living Guardian Shield (900170) - Single buff, all talent ranks trigger this
+-- Absorbs ~225 at level 50, ~285 at level 80 (base 124 + die 1 + ppl 2.0).
+-- Triggered by Living Guardian talent (900167/168/169) on direct heal received.
+-- Aura 69 = SCHOOL_ABSORB, misc_value_a = 127 (all schools).
+-- Uses SpellDescriptionVariable 190 to show correct absorb in both contexts.
+-- NOTE: SP scaling requires a C++ SpellScript (DoEffectCalcAmount handler).
 -- ----------------------------------------------------------------------------
-DELETE FROM `spell` WHERE `id` = 900170;
+
+-- Living Guardian scaling (shared between spell and desc variable 190)
+SET @aw_base = 124;
+SET @aw_die = 1;
+SET @aw_ppl = 2.0;
+
+-- Variable 190: Living Guardian absorb amount
+-- Hardcodes base (base_points + die_sides) and computes ppl*level manually
+DELETE FROM `spelldescriptionvariables` WHERE `id` IN (190, 191, 192);
+INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
+    '$base=${', (@aw_base + @aw_die), '}\n',
+    '$perlevel=${$pl*', @aw_ppl, '}\n',
+    '$total=${$<base>+$<perlevel>}'));
+
+DELETE FROM `spell` WHERE `id` IN (900170, 900171, 900172);
 
 INSERT INTO `spell` SET
     `id` = 900170,
@@ -2073,29 +2093,34 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 4,
+    `effect_die_sides_1` = @aw_die,
+    `effect_base_points_1` = @aw_base,
+    `effect_real_points_per_level_1` = @aw_ppl,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_misc_value_a_1` = 1,
+    `effect_apply_aura_name_1` = 69,
+    `effect_misc_value_a_1` = 127,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 1',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
+    `spell_desc_enus` = 'Absorbs $<total> damage. Lasts $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_desc_variable_id` = 190,
+    `spell_tooltip_enus` = 'Absorbs $<total> damage.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
 
-DELETE FROM `spell` WHERE `id` = 900171;
+-- ----------------------------------------------------------------------------
+-- Living Guardian Cooldown (900186) - Debuff, 10s duration
+-- Visual feedback debuff applied when Living Guardian shield triggers.
+-- Aura 4 = DUMMY, purely cosmetic. ICD on talent passive does actual gating.
+-- Forced negative via spell_custom_attr so it shows as a debuff (red border).
+-- ----------------------------------------------------------------------------
+DELETE FROM `spell` WHERE `id` = 900186;
 
 INSERT INTO `spell` SET
-    `id` = 900171,
-    `attributes` = 0,
-    `attributes_ex_1` = 0,
+    `id` = 900186,
+    `attributes` = 0x04000000,
     `cast_time_index` = 1,
     `proc_chance` = 101,
     `duration_index` = 1,
@@ -2103,47 +2128,15 @@ INSERT INTO `spell` SET
     `equipped_item_class` = -1,
     `effect_1` = 6,
     `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 9,
+    `effect_base_points_1` = -1,
     `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_misc_value_a_1` = 1,
+    `effect_apply_aura_name_1` = 4,
     `spell_icon_id` = 4408,
     `spell_name_enus` = 'Living Guardian',
     `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 2',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
+    `spell_desc_enus` = 'Recently protected by Living Guardian. Cannot gain another shield for $d.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
-    `spell_tooltip_flags` = 16712188,
-    `effect_damage_multiplier_1` = 1.0,
-    `school_mask` = 1;
-
-DELETE FROM `spell` WHERE `id` = 900172;
-
-INSERT INTO `spell` SET
-    `id` = 900172,
-    `attributes` = 0,
-    `attributes_ex_1` = 0,
-    `cast_time_index` = 1,
-    `proc_chance` = 101,
-    `duration_index` = 1,
-    `range_index` = 1,
-    `equipped_item_class` = -1,
-    `effect_1` = 6,
-    `effect_die_sides_1` = 1,
-    `effect_base_points_1` = 14,
-    `effect_implicit_target_a_1` = 1,
-    `effect_apply_aura_name_1` = 142,
-    `effect_misc_value_a_1` = 1,
-    `spell_icon_id` = 4408,
-    `spell_name_enus` = 'Living Guardian',
-    `spell_name_flags` = 16712190,
-    `spell_subtext_enus` = 'Rank 3',
-    `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Increases armor from items by $s1%. Lasts $d.',
-    `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Increases armor from items by $s1%.',
+    `spell_tooltip_enus` = 'Cannot gain Living Guardian shield.',
     `spell_tooltip_flags` = 16712188,
     `effect_damage_multiplier_1` = 1.0,
     `school_mask` = 1;
@@ -2313,9 +2306,8 @@ INSERT INTO `spell` SET
     `power_cost_percentage` = 10,
     `range_index` = 95,
     `equipped_item_class` = -1,
-    `effect_1` = 42,
+    `effect_1` = 41,
     `effect_implicit_target_a_1` = 6,
-    `effect_implicit_target_b_1` = 75,
     `effect_misc_value_a_1` = 10,
     `effect_misc_value_b_1` = 75,
     `effect_multiple_value_1` = 4.0,
