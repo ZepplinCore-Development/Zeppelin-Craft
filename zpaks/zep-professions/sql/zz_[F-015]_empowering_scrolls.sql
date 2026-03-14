@@ -32,7 +32,9 @@ DELETE FROM `spell_group` WHERE `spell_id` = 8112;   -- Spirit
 
 -- Clean up parent group references to now-empty child groups 1066-1070
 -- 1087 (Scrolls) referenced all five; 1083/1084/1085 referenced one each
+-- 1088 (Str+Agi Buffs) referenced 1066 (Agility scroll) and 1067 (Strength scroll)
 DELETE FROM `spell_group` WHERE `id` = 1087 AND `spell_id` IN (-1066, -1067, -1068, -1069, -1070);
+DELETE FROM `spell_group` WHERE `id` = 1088 AND `spell_id` IN (-1066, -1067);
 DELETE FROM `spell_group` WHERE `id` = 1083 AND `spell_id` = -1068;  -- was Intellect
 DELETE FROM `spell_group` WHERE `id` = 1084 AND `spell_id` = -1069;  -- was Stamina
 DELETE FROM `spell_group` WHERE `id` = 1085 AND `spell_id` = -1070;  -- was Spirit
