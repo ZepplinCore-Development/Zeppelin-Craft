@@ -58,5 +58,8 @@
     },
     "Tanaris_Sandfury_Ruins": {
         "normal": [5645, 5646, 5647]
+    },
+    "Swamp_of_Sorrows": {
+        "normal": [745, 746]
     }
 }
