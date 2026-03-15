@@ -167,7 +167,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 
 -- Artisan Jeweler's Kit (91268) - skill 225
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(111, 91268, 10000, 755, 225), (112, 91268, 10000, 755, 225);
+(111, 91268, 10000, 755, 225), (112, 91268, 10000, 755, 225), (113, 91268, 10000, 755, 225);
 
 -- Master Jeweler's Kit (91269) - skill 300
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
