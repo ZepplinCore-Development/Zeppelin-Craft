@@ -26,6 +26,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58550);
 INSERT INTO `item_template`
 SET `entry` = 58550,
     `name` = 'Technique: Scroll of Teleport Ironforge',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Ironforge.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -42,6 +43,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58550);
 -- Barim Jurgenstaad - Scroll of Teleport Ironforge
 INSERT INTO `npc_vendor`
 SET `entry` = 5110,
+    `item` = 58550;
+-- Ginny Longberry - Scroll of Teleport Ironforge
+INSERT INTO `npc_vendor`
+SET `entry` = 5151,
     `item` = 58550;
 
 
@@ -64,6 +69,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58551);
 INSERT INTO `item_template`
 SET `entry` = 58551,
     `name` = 'Technique: Scroll of Teleport Darnassus',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Darnassus.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -102,6 +108,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58552);
 INSERT INTO `item_template`
 SET `entry` = 58552,
     `name` = 'Technique: Scroll of Teleport Undercity',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Undercity.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -144,6 +151,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58553);
 INSERT INTO `item_template`
 SET `entry` = 58553,
     `name` = 'Technique: Scroll of Teleport Thunder Bluff',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Thunder Bluff.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -182,6 +190,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58554);
 INSERT INTO `item_template`
 SET `entry` = 58554,
     `name` = 'Technique: Scroll of Teleport Stormwind',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Stormwind.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -224,6 +233,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58555);
 INSERT INTO `item_template`
 SET `entry` = 58555,
     `name` = 'Technique: Scroll of Teleport Orgrimmar',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Orgrimmar.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -240,6 +250,10 @@ DELETE FROM `npc_vendor` WHERE (`item` = 58555);
 -- Horthus - Scroll of Teleport Orgrimmar
 INSERT INTO `npc_vendor`
 SET `entry` = 3323,
+    `item` = 58555;
+-- Hagrus - Scroll of Teleport Orgrimmar
+INSERT INTO `npc_vendor`
+SET `entry` = 3335,
     `item` = 58555;
 
 
@@ -262,6 +276,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58556);
 INSERT INTO `item_template`
 SET `entry` = 58556,
     `name` = 'Technique: Scroll of Teleport Silvermoon City',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Silvermoon City.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -300,6 +315,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58557);
 INSERT INTO `item_template`
 SET `entry` = 58557,
     `name` = 'Technique: Scroll of Teleport Exodar',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Exodar.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -338,6 +354,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58558);
 INSERT INTO `item_template`
 SET `entry` = 58558,
     `name` = 'Technique: Scroll of Teleport Shattrath',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Shattrath.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -376,6 +393,7 @@ DELETE FROM `item_template` WHERE (`entry` = 58559);
 INSERT INTO `item_template`
 SET `entry` = 58559,
     `name` = 'Technique: Scroll of Teleport Dalaran',
+    `description` = 'Teaches you how to inscribe a Scroll of Teleport: Dalaran.',
     `displayid` = 1103,
     `Quality` = 2,
     `bonding` = 1,
@@ -394,3 +412,109 @@ INSERT INTO `npc_vendor`
 SET `entry` = 29636,
     `item` = 58559;
 
+
+-- ===================================================================
+-- Teleport Locations
+-- ===================================================================
+
+-- Ironforge
+DELETE FROM `spell_target_position` WHERE `ID` = 3562;
+INSERT INTO `spell_target_position`
+SET `ID` = 3562,
+    `PositionX` = -4864.64,
+    `PositionY` = -931.35,
+    `PositionZ` = 502.00,
+    `Orientation` = 3.80;
+
+-- Darnassus
+DELETE FROM `spell_target_position` WHERE `ID` = 3565;
+INSERT INTO `spell_target_position`
+SET `ID` = 3565,
+    `MapID` = 1,
+    `PositionX` = 10038.00,
+    `PositionY` = 2479.00,
+    `PositionZ` = 1318.90,
+    `Orientation` = 1.60;
+
+-- Undercity
+DELETE FROM `spell_target_position` WHERE `ID` = 3563;
+INSERT INTO `spell_target_position`
+SET `ID` = 3563,
+    `PositionX` = 1578.09,
+    `PositionY` = 240.48,
+    `PositionZ` = -61.58,
+    `Orientation` = 0.05;
+
+-- Thunder Bluff
+DELETE FROM `spell_target_position` WHERE `ID` = 3566;
+INSERT INTO `spell_target_position`
+SET `ID` = 3566,
+    `MapID` = 1,
+    `PositionX` = -1214.78,
+    `PositionY` = 62.88,
+    `PositionZ` = 130.59,
+    `Orientation` = 3.49;
+
+-- Stormwind
+DELETE FROM `spell_target_position` WHERE `ID` = 3561;
+INSERT INTO `spell_target_position`
+SET `ID` = 3561,
+    `PositionX` = -8793.40,
+    `PositionY` = 650.84,
+    `PositionZ` = 95.48,
+    `Orientation` = 3.90;
+
+-- Orgrimmar
+DELETE FROM `spell_target_position` WHERE `ID` = 3567;
+INSERT INTO `spell_target_position`
+SET `ID` = 3567,
+    `MapID` = 1,
+    `PositionX` = 1601.94,
+    `PositionY` = -4316.44,
+    `PositionZ` = 2.76,
+    `Orientation` = 4.90;
+
+-- Silvermoon City
+DELETE FROM `spell_target_position` WHERE `ID` = 32272;
+INSERT INTO `spell_target_position`
+SET `ID` = 32272,
+    `PositionX` = 7554.29,
+    `PositionY` = -5331.21,
+    `PositionZ` = 14.07,
+    `Orientation` = 4.52;
+
+-- Exodar
+DELETE FROM `spell_target_position` WHERE `ID` = 32271;
+INSERT INTO `spell_target_position`
+SET `ID` = 32271,
+    `MapID` = 1,
+    `PositionX` = 5656.46,
+    `PositionY` = 6406.67,
+    `PositionZ` = -138.39,
+    `Orientation` = 2.13;
+
+-- Shattrath
+DELETE FROM `spell_target_position` WHERE `ID` = 33690;
+INSERT INTO `spell_target_position`
+SET `ID` = 33690,
+    `MapID` = 530,
+    `PositionX` = -1801.10,
+    `PositionY` = 5157.30,
+    `PositionZ` = -39.70,
+    `Orientation` = 5.50;
+
+-- Dalaran
+DELETE FROM `spell_target_position` WHERE `ID` = 53140;
+INSERT INTO `spell_target_position`
+SET `ID` = 53140,
+    `MapID` = 571,
+    `PositionX` = 5897.95,
+    `PositionY` = 728.94,
+    `PositionZ` = 640.13,
+    `Orientation` = 5.53;
+
+-- ===================================================================
+-- Rune of Teleportation — price and stack adjustments
+-- ===================================================================
+
+UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500, `stackable` = 200 WHERE (`entry` = 17031);

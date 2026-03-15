@@ -2,7 +2,7 @@
 City Teleport Creator (F-017)
 
 Reads city definitions from CSV and generates SQL for inscription-based
-teleport scrolls, technique recipes, and vendor entries.
+teleport scrolls, technique recipes, vendor entries, and teleport positions.
 """
 
 import csv
@@ -38,6 +38,11 @@ class CityTeleport:
     inscription_level: int
     vendor_ids: List[int]
     vendor_names: List[str]
+    map_id: int
+    pos_x: float
+    pos_y: float
+    pos_z: float
+    orientation: float
 
 
 def load_cities(csv_path: Path = CSV_FILE) -> List[CityTeleport]:
@@ -59,12 +64,17 @@ def load_cities(csv_path: Path = CSV_FILE) -> List[CityTeleport]:
                 inscription_level=int(row[6]),
                 vendor_ids=[int(v) for v in row[7].split(';')],
                 vendor_names=[n.strip() for n in row[8].split(';')],
+                map_id=int(row[9]),
+                pos_x=float(row[10]),
+                pos_y=float(row[11]),
+                pos_z=float(row[12]),
+                orientation=float(row[13]),
             ))
     return cities
 
 
 def generate_sql(cities: List[CityTeleport]) -> str:
-    """Generate SQL for all city teleport scrolls, techniques, and vendors."""
+    """Generate SQL for all city teleport scrolls, techniques, vendors, and positions."""
     lines = [SQL_HEADER]
 
     for city in cities:
@@ -90,6 +100,7 @@ def generate_sql(cities: List[CityTeleport]) -> str:
         lines.append(f"INSERT INTO `item_template`")
         lines.append(f"SET `entry` = {city.technique_id},")
         lines.append(f"    `name` = 'Technique: Scroll of Teleport {city.city}',")
+        lines.append(f"    `description` = 'Teaches you how to inscribe a Scroll of Teleport: {city.city}.',")
         lines.append(f"    `displayid` = 1103,")
         lines.append(f"    `Quality` = 2,")
         lines.append(f"    `bonding` = 1,")
@@ -112,6 +123,33 @@ def generate_sql(cities: List[CityTeleport]) -> str:
             lines.append(f"    `item` = {city.technique_id};")
         lines.append("")
         lines.append("")
+
+    # Teleport positions
+    lines.append("-- ===================================================================")
+    lines.append("-- Teleport Locations")
+    lines.append("-- ===================================================================")
+    lines.append("")
+
+    for city in cities:
+        lines.append(f"-- {city.city}")
+        lines.append(f"DELETE FROM `spell_target_position` WHERE `ID` = {city.scroll_spell};")
+        lines.append(f"INSERT INTO `spell_target_position`")
+        lines.append(f"SET `ID` = {city.scroll_spell},")
+        if city.map_id != 0:
+            lines.append(f"    `MapID` = {city.map_id},")
+        lines.append(f"    `PositionX` = {city.pos_x:.2f},")
+        lines.append(f"    `PositionY` = {city.pos_y:.2f},")
+        lines.append(f"    `PositionZ` = {city.pos_z:.2f},")
+        lines.append(f"    `Orientation` = {city.orientation:.2f};")
+        lines.append("")
+
+    # Rune of Teleportation tweaks
+    lines.append("-- ===================================================================")
+    lines.append("-- Rune of Teleportation — price and stack adjustments")
+    lines.append("-- ===================================================================")
+    lines.append("")
+    lines.append("UPDATE `item_template` SET `BuyPrice` = 50000, `SellPrice` = 12500, `stackable` = 200 WHERE (`entry` = 17031);")
+    lines.append("")
 
     return "\n".join(lines)
 
