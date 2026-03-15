@@ -134,7 +134,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 
 -- Adamantite Rivets (91254) - skill 300
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(58, 91254, 50000, 164, 300), (59, 91254, 50000, 164, 300), (618, 91254, 50000, 164, 300);
+(58, 91254, 50000, 164, 300), (59, 91254, 50000, 164, 300);
 
 -- Saronite Rivets (91255) - skill 375
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
@@ -151,7 +151,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 
 -- Truesilver Fasteners (91257) - skill 225
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(111, 91257, 5000, 755, 225), (112, 91257, 5000, 755, 225);
+(111, 91257, 5000, 755, 225), (112, 91257, 5000, 755, 225), (113, 91257, 5000, 755, 225);
 
 -- Adamantite Fasteners (91258) - skill 300
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
