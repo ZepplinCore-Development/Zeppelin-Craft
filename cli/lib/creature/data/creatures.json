@@ -64,5 +64,8 @@
     },
     "Winterspring": {
         "normal": [7428, 7429]
+    },
+    "Western_Plaguelands": {
+        "named_solo_fight": [1788]
     }
 }
