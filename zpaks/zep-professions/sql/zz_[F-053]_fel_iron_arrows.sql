@@ -14,6 +14,7 @@
         `RequiredSkillRank` = 300,
         `spellid_1` = 483, -- Learn Spell
         `spellcharges_1` = -1,
+        `description` = 'Teaches you how to make Fel Iron Arrows.',
         `spellid_2` = 91087,
         `spelltrigger_2` = 6;
 

@@ -261,8 +261,7 @@ DELETE FROM `skilllineability` WHERE `id` = 31558;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (31558, 900, 75593, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 31559;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (31559, 900, 22683, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0);
-DELETE FROM `skilllineability` WHERE `id` = 31560;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (31560, 202, 91079, 0, 0, 0, 0, 1, 0, 0, 305, 295, 0, 0);
+
 DELETE FROM `skilllineability` WHERE `id` = 31561;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (31561, 755, 91085, 0, 0, 0, 0, 1, 0, 0, 330, 310, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 31562;
@@ -325,8 +324,7 @@ DELETE FROM `skilllineability` WHERE `id` = 32007;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (32007, 237, 91065, 0, 128, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 32008;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (32008, 237, 91066, 0, 128, 0, 0, 1, 0, 0, 0, 0, 0, 0);
-DELETE FROM `skilllineability` WHERE `id` = 32009;
-INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (32009, 202, 91087, 0, 0, 0, 0, 1, 0, 0, 330, 310, 0, 0);
+
 DELETE FROM `skilllineability` WHERE `id` = 99986;
 INSERT INTO `skilllineability` (`id`, `skill_line`, `spell_id`, `required_races`, `required_classes`, `excluded_races`, `excluded_classes`, `min_skill_value`, `spell_parent_id`, `acquire_method`, `skill_grey_level`, `skill_yellow_level`, `character_points_1`, `character_points_2`) VALUES (99986, 773, 91139, 0, 0, 0, 0, 1, 0, 0, 275, 265, 0, 0);
 DELETE FROM `skilllineability` WHERE `id` = 99991;
