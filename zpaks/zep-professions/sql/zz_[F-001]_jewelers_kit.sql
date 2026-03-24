@@ -21,7 +21,8 @@ SET `name` = 'Apprentice Jeweler''s Kit',
     `displayid` = 135861, -- AO_CopperCase
     `Quality` = 6,       -- Artifact
     `bonding` = 1,       -- Binds on pickup
-    `maxcount` = 1
+    `maxcount` = 1,
+    `TotemCategory` = 191 -- Jeweler's Kit totem category (required for JC crafting)
 WHERE `entry` = 20815;
 
 -- =====================================================
