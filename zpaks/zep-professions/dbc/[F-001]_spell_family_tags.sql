@@ -97,3 +97,56 @@ UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 4
 UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8
   WHERE id IN (11387,18832,19199,52697,53750)
   AND spell_class_set = 13;
+
+
+-- =====================================================
+-- FOOD CONSUMPTION SPELLS
+-- SpellFamily 14, Mask 4096 (0x00001000, bit 12)
+-- Cooking pot SPELLMOD_EFFECT1 targets this mask to boost health per tick.
+-- Trait: aura 84 (OBS_MOD_HEALTH) in effect_1, seated interrupt flag (262272).
+-- =====================================================
+
+-- Standard food: seated eating spells with health regen in effect_1
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE effect_apply_aura_name_1 = 84
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+-- Outlier food: aura 84 but non-standard interrupt flags
+-- 48720 = underwater food (flags 269), 64345 = immobilizing food (flags 2)
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE effect_apply_aura_name_1 = 84
+  AND id IN (48720, 64345)
+  AND spell_class_set = 0;
+
+-- Brain food: mana via eating (aura 85 in effect_1, seated, named "Brain Food")
+-- Boosted by SPELLMOD_EFFECT1 same as regular food.
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE spell_name_enus = 'Brain Food'
+  AND effect_apply_aura_name_1 = 85
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+
+-- =====================================================
+-- DRINK CONSUMPTION SPELLS
+-- SpellFamily 14, Mask 8192 (0x00002000, bit 13)
+-- Cooking pot SPELLMOD_EFFECT2 targets this mask to boost mana per tick.
+-- Trait: aura 85 (OBS_MOD_POWER) in effect_1, aura 226 in effect_2 (mana amount),
+--        seated interrupt flag (262272).
+-- =====================================================
+
+-- Standard drinks: seated drinking spells with mana amount in effect_2
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 8192
+  WHERE effect_apply_aura_name_1 = 85
+  AND effect_apply_aura_name_2 = 226
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+-- Dual food+drink: already tagged with food mask above, add drink mask.
+-- Trait: aura 84 (health) + aura 85 (mana) in same spell, seated flag.
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8192
+  WHERE effect_apply_aura_name_1 = 84
+  AND effect_apply_aura_name_2 = 85
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 14;

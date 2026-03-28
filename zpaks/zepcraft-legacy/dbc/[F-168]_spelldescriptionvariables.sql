@@ -10,7 +10,12 @@
 -- POC Results:
 --   Round 1: $<food1>/$<drink1> work (per-tick modified values). $o1/$o2 FAIL in variables.
 --   Round 3: Switch to per-second rate display. Values change dynamically with kit —
---            no conditional suffix needed (3750/sec without kit, 6563/sec with GM kit).
+--            no conditional suffix needed (750/sec without kit, 1313/sec with GM kit).
+--
+-- Tick rates (amplitude 0 defaults):
+--   Food: ticks every 5 seconds ($m1 = per-5-sec-tick, divide by 5 for per-second)
+--   Drink: ticks every 5 seconds ($m2 = per-5-sec-tick, divide by 5 for per-second)
+--   Confirmed by stock $o1 math: e.g. spell 45548 base 3750 * (30s/5s) = 22500 total.
 --
 -- Variables:
 --   $ck1-$ck5     = Food bonus % per kit tier (independent checks)
@@ -18,7 +23,8 @@
 --   $dk1-$dk5     = Drink bonus % per kit tier
 --   $ckdrink      = Combined drink %
 --   $fb1/$fb1x    = Food per-tick bonus (min/max) from kit
---   $food1/x      = Food per-second modified value (base + bonus) — amplitude 0 = 1sec ticks
+--   $food1/x      = Food per-tick modified value (base + bonus)
+--   $foodps       = Food per-second modified value ($<food1>/5)
 --   $db2/$db2x    = Drink per-tick bonus (min/max) from kit
 --   $drink1/x     = Drink per-tick modified value (m2 units, base + bonus)
 --   $drinkps      = Drink per-second modified value ($<drink1>/5)
@@ -40,6 +46,7 @@ $fb1=${$m1*$<ckfood>/100}
 $fb1x=${$M1*$<ckfood>/100}
 $food1=${$m1+$<fb1>}
 $food1x=${$M1+$<fb1x>}
+$foodps=${$<food1>/5}
 $db2=${$m2*$<ckdrink>/100}
 $db2x=${$M2*$<ckdrink>/100}
 $drink1=${$m2+$<db2>}
