@@ -198,7 +198,8 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 
 -- Gold Drill (91264) - skill 225 - artisan+ trainers
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`) VALUES
-(92, 91264, 5000, 202, 225), (84, 91264, 5000, 202, 225), (85, 91264, 5000, 202, 225),
+(628, 91264, 5000, 202, 225), (92, 91264, 5000, 202, 225),
+(84, 91264, 5000, 202, 225), (85, 91264, 5000, 202, 225),
 (86, 91264, 5000, 202, 225), (87, 91264, 5000, 202, 225), (88, 91264, 5000, 202, 225),
 (90, 91264, 5000, 202, 225), (91, 91264, 5000, 202, 225), (89, 91264, 5000, 202, 225);
 

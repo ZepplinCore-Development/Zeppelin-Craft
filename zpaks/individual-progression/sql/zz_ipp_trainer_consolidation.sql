@@ -40,6 +40,7 @@ UPDATE `creature_default_trainer` SET `TrainerId` = 638 WHERE `TrainerId` = 637;
 -- --------------------------------------------------------------------------
 -- Alchemy (TrainerId 613)
 -- --------------------------------------------------------------------------
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 613 AND `SpellId` IN (11612, 11460, 15833, 11461, 11465, 11467, 11478, 17551);
 -- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (613, 11612, 50000, 171, 200, 3464, 0, 0, 35);
@@ -56,6 +57,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- --------------------------------------------------------------------------
 -- Blacksmithing (TrainerId 618)
 -- --------------------------------------------------------------------------
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 618 AND `SpellId` IN (9786, 34979, 34981, 9959, 9961, 10001, 9968, 16639, 16640, 16641, 19669, 20201, 34982);
 -- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (618, 9786, 50000, 164, 200, 3538, 0, 0, 35);
@@ -77,6 +79,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- --------------------------------------------------------------------------
 -- Enchanting (TrainerId 623)
 -- --------------------------------------------------------------------------
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 623 AND `SpellId` IN (13921, 7428, 63746, 13905, 13917, 13935, 13937, 13939, 13941, 13943, 13948, 17180, 17181);
 -- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (623, 13921, 50000, 333, 200, 7413, 0, 0, 35);
@@ -98,12 +101,12 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- --------------------------------------------------------------------------
 -- Engineering (TrainerId 628)
 -- --------------------------------------------------------------------------
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 628 AND `SpellId` IN (12657, 12618, 12619, 12621, 12622, 19567, 19788, 23070, 63750);
 -- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (628, 12657, 50000, 202, 200, 4038, 0, 0, 35);
--- Missing trainer-only recipes
+-- Missing trainer-only recipes (91219 Artisan Tinkering Tools handled in F-001 tinkering_tools.sql)
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
-(628, 91219, 5000, 202, 225, 0, 0, 0, 0), -- Artisan Tinkering Tools
 (628, 12618, 2200, 202, 230, 0, 0, 0, 0), -- Rose Colored Goggles
 (628, 12619, 2400, 202, 235, 0, 0, 0, 0), -- Hi-Explosive Bomb
 (628, 12621, 2800, 202, 245, 0, 0, 0, 0), -- Mithril Gyro-Shot
@@ -116,13 +119,27 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- --------------------------------------------------------------------------
 -- Leatherworking (TrainerId 633)
 -- --------------------------------------------------------------------------
--- Artisan rank-up only (no missing Artisan-range recipes)
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 633 AND `SpellId` IN (10663, 10548, 10552, 10556, 10558, 19047, 19058, 22331);
+-- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (633, 10663, 50000, 165, 200, 3811, 0, 0, 35);
+-- Missing trainer-only recipes
+INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
+(633, 10548, 4000, 165, 230, 0, 0, 0, 0), -- Nightscape Pants
+(633, 10552, 4000, 165, 230, 0, 0, 0, 0), -- Turtle Scale Helm
+(633, 10556, 4500, 165, 235, 0, 0, 0, 0), -- Turtle Scale Leggings
+(633, 10558, 4500, 165, 235, 0, 0, 0, 0), -- Nightscape Boots
+(633, 19047, 5000, 165, 250, 0, 0, 0, 0), -- Cured Rugged Hide
+(633, 19058, 5000, 165, 250, 0, 0, 0, 0), -- Rugged Armor Kit
+(633, 22331, 5000, 165, 250, 0, 0, 0, 0); -- Rugged Leather
+
+-- Reassign Master LW trainers still on stock profile to IPP Artisan
+UPDATE `creature_default_trainer` SET `TrainerId` = 633 WHERE `CreatureId` IN (11097, 11098) AND `TrainerId` = 61;
 
 -- --------------------------------------------------------------------------
 -- Tailoring (TrainerId 638)
 -- --------------------------------------------------------------------------
+DELETE FROM `trainer_spell` WHERE `TrainerId` = 638 AND `SpellId` IN (12181, 63742, 12072, 12073, 12074, 12077, 12079, 12088, 12092, 18401, 18402);
 -- Artisan rank-up
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`) VALUES
 (638, 12181, 50000, 197, 200, 3910, 0, 0, 35);

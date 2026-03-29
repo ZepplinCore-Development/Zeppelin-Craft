@@ -216,6 +216,13 @@ INSERT INTO `trainer_spell` SET
 
 -- Artisan Tinkering Tools (skill 225) - artisan+ trainers
 INSERT INTO `trainer_spell` SET
+    `TrainerId` = 628,
+    `SpellId` = 91219,
+    `MoneyCost` = 5000,
+    `ReqSkillLine` = 202,
+    `ReqSkillRank` = 225;
+
+INSERT INTO `trainer_spell` SET
     `TrainerId` = 92,
     `SpellId` = 91219,
     `MoneyCost` = 5000,
