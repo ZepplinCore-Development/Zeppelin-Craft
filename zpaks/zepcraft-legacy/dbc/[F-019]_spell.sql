@@ -111,3 +111,39 @@ UPDATE spell SET
   spell_desc_enus = 'You champion the cause of Silvermoon City. Increases Silvermoon City reputation gained from all sources by $s1%.',
   spell_tooltip_enus = 'Increases Silvermoon City reputation gained from all sources by $s1%.'
 WHERE id = 91213;
+
+-- ==============================================================================
+-- CLASSIC NEUTRAL FACTION TABARDS (Phase 5B)
+-- ==============================================================================
+
+-- Champion of the Argent Dawn (faction 529) - Spell 91300
+-- Uses aura 156 (all sources), icon 2637 (Argent Dawn tabard icon)
+DELETE FROM `spell` WHERE `id` = 91300;
+INSERT INTO `spell` SET
+  `id` = 91300,
+  `attributes` = 2164261120,
+  `attributes_ex_3` = 1048576,
+  `attributes_ex_4` = 128,
+  `attributes_ex_6` = 4096,
+  `cast_time_index` = 1,
+  `proc_chance` = 101,
+  `duration_index` = 21,
+  `range_index` = 1,
+  `equipped_item_class` = -1,
+  `effect_1` = 6,
+  `effect_die_sides_1` = 1,
+  `effect_base_points_1` = 24,
+  `effect_implicit_target_a_1` = 1,
+  `effect_apply_aura_name_1` = 156,
+  `effect_misc_value_a_1` = 529,
+  `spell_icon_id` = 3744,
+  `active_icon_id` = 2625,
+  `spell_name_enus` = 'Champion of the Argent Dawn',
+  `spell_name_flags` = 16712190,
+  `spell_subtext_enus` = '',
+  `spell_subtext_flags` = 16712190,
+  `spell_desc_enus` = 'You champion the cause of the Argent Dawn. Increases Argent Dawn reputation gained from all sources by $s1%.',
+  `spell_desc_flags` = 16712190,
+  `spell_tooltip_enus` = 'Increases Argent Dawn reputation gained from all sources by $s1%.',
+  `spell_tooltip_flags` = 16712190,
+  `effect_damage_multiplier_1` = '1.0000000000000000';

@@ -648,3 +648,45 @@ UPDATE `item_template` SET
     `spellid_1` = 91213,
     `spelltrigger_1` = 1
 WHERE `entry` = 45585; -- Silvermoon City Tabard
+
+-- ==============================================================================
+-- PART 9: CLASSIC NEUTRAL FACTION TABARDS (PHASE 5B)
+-- ==============================================================================
+
+-- Tabard of the Argent Dawn (entry 22999, faction 529) - Spell 91300
+-- Existing item already sold by Argent Quartermaster (16786)
+-- Add 25% rep bonus spell, standardize to F-019 config
+UPDATE `item_template` SET
+    `ItemLevel` = 1,
+    `BuyPrice` = 10000,
+    `SellPrice` = 2500,
+    `bonding` = 1,
+    `RequiredReputationFaction` = 529,
+    `RequiredReputationRank` = 5,
+    `spellid_1` = 91300,
+    `spelltrigger_1` = 1
+WHERE `entry` = 22999; -- Tabard of the Argent Dawn
+
+-- Add tabard to Argent Dawn quartermasters that don't already have it
+-- (16786 already sells it)
+DELETE FROM `npc_vendor` WHERE `entry` IN (10856, 10857, 11536) AND `item` = 22999;
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    (10856, 22999),  -- Argent Quartermaster Hasana (Bulwark, Tirisfal - Horde side)
+    (10857, 22999),  -- Argent Quartermaster Lightspark (Chillwind Camp, WPL - Alliance side)
+    (11536, 22999);  -- Quartermaster Miranda Breechlock (Light's Hope Chapel, EPL - Neutral)
+
+-- Add Tabard of the Argent Dawn to city tabard vendors (neutral faction, both factions)
+DELETE FROM `npc_vendor` WHERE `entry` IN (5049, 5191, 16766, 5193, 5190, 16610, 5188, 5189)
+    AND `item` = 22999;
+
+INSERT INTO `npc_vendor` (`entry`, `item`) VALUES
+    -- Alliance City Vendors
+    (5049, 22999),   -- Lyesa Steelbrow (Ironforge)
+    (5191, 22999),   -- Shalumon (Darnassus)
+    (16766, 22999),  -- Issca (Exodar)
+    (5193, 22999),   -- Rebecca Laughlin (Stormwind)
+    -- Horde City Vendors
+    (5190, 22999),   -- Merill Pleasance (Undercity)
+    (16610, 22999),  -- Kredis (Silvermoon)
+    (5188, 22999),   -- Garyl (Orgrimmar)
+    (5189, 22999);   -- Thrumn (Thunder Bluff)
