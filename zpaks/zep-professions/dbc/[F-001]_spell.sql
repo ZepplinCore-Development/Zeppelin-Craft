@@ -3372,3 +3372,134 @@ INSERT INTO `spell` SET
     `school_mask` = 1,
     `effect_bonus_multiplier_1` = 1.0;
 
+
+-- ============================================================================
+-- Mass SpellFamily tagging for STOCK profession crafting spells
+--
+-- Tags stock spells with their SpellFamily so cast-speed tools apply.
+-- Uses JOIN against skilllineability so any new skillline entries are covered.
+-- Custom spells (80000+) should have spell_class_set/mask in their INSERT SET.
+-- ============================================================================
+--
+-- Also tags potion CONSUMPTION spells (SpellFamily 13) with category masks
+-- so Alchemy Mortar effect 2 (potency boost, targeting mask 0x0E) can match.
+-- See FamilyPotions.json: Health=0x02, Mana=0x04, Rejuv=0x08
+-- ============================================================================
+
+-- Blacksmithing crafting spells (skill_line 164) -> spell_class_set=14, spell_class_mask_1 bit 0
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 1
+  WHERE sla.skill_line = 164 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Leatherworking crafting spells (skill_line 165) -> spell_class_set=14, spell_class_mask_1 bit 4
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 16
+  WHERE sla.skill_line = 165 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Engineering crafting spells (skill_line 202) -> spell_class_set=14, spell_class_mask_1 bit 7
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 128
+  WHERE sla.skill_line = 202 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Alchemy crafting spells (skill_line 171) -> spell_class_set=13, spell_class_mask_1 bit 31
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 13, s.spell_class_mask_1 = s.spell_class_mask_1 | 2147483648
+  WHERE sla.skill_line = 171 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Jewelcrafting crafting spells (skill_line 755) -> spell_class_set=14, spell_class_mask_1 bit 9
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 512
+  WHERE sla.skill_line = 755 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Inscription crafting spells (skill_line 773) -> spell_class_set=14, spell_class_mask_1 bit 11
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 1024
+  WHERE sla.skill_line = 773 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Tailoring crafting spells (skill_line 197) -> spell_class_set=14, spell_class_mask_1 bit 5
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 32
+  WHERE sla.skill_line = 197 AND s.effect_1 = 24 AND s.spell_class_set = 0;
+
+-- Enchanting crafting spells (skill_line 333) -> spell_class_set=14, spell_class_mask_1 bit 8
+-- Enchanting uses effect_1=53 (Enchant Item) and effect_1=24 (Create Item for shards/crystals)
+UPDATE spell s JOIN skilllineability sla ON s.ID = sla.spell_id
+  SET s.spell_class_set = 14, s.spell_class_mask_1 = s.spell_class_mask_1 | 256
+  WHERE sla.skill_line = 333 AND s.effect_1 IN (24, 53) AND s.spell_class_set = 0;
+
+
+-- =====================================================
+-- POTION CONSUMPTION SPELLS (SpellFamily 13)
+-- Tags existing family-13 spells with category masks
+-- for Alchemy Mortar / Alchemist Stone targeting
+-- =====================================================
+
+-- Health Potions: spell_class_mask_1 |= 2 (0x02, bit 2)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 2
+  WHERE id IN (439,440,441,2024,4042,17534,21393,21394,28495,41306,41619,41620,43185,53144,53670,54572,58862,62352,67486,67489)
+  AND spell_class_set = 13;
+
+-- Mana Potions: spell_class_mask_1 |= 4 (0x04, bit 3)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 4
+  WHERE id IN (436,437,438,2023,6612,6613,9512,11903,17528,17530,17531,21395,21396,28499,28718,29236,41304,41617,41618,43186,49748,58864,67487,67490)
+  AND spell_class_set = 13;
+
+-- Rejuvenation Potions: spell_class_mask_1 |= 8 (0x08, bit 4)
+-- (8 others already tagged via [BASE,F-044]_spell.sql)
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8
+  WHERE id IN (11387,18832,19199,52697,53750)
+  AND spell_class_set = 13;
+
+
+-- =====================================================
+-- FOOD CONSUMPTION SPELLS
+-- SpellFamily 14, Mask 4096 (0x00001000, bit 12)
+-- Cooking pot SPELLMOD_EFFECT1 targets this mask to boost health per tick.
+-- Trait: aura 84 (OBS_MOD_HEALTH) in effect_1, seated interrupt flag (262272).
+-- =====================================================
+
+-- Standard food: seated eating spells with health regen in effect_1
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE effect_apply_aura_name_1 = 84
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+-- Outlier food: aura 84 but non-standard interrupt flags
+-- 48720 = underwater food (flags 269), 64345 = immobilizing food (flags 2)
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE effect_apply_aura_name_1 = 84
+  AND id IN (48720, 64345)
+  AND spell_class_set = 0;
+
+-- Brain food: mana via eating (aura 85 in effect_1, seated, named "Brain Food")
+-- Boosted by SPELLMOD_EFFECT1 same as regular food.
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 4096
+  WHERE spell_name_enus = 'Brain Food'
+  AND effect_apply_aura_name_1 = 85
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+
+-- =====================================================
+-- DRINK CONSUMPTION SPELLS
+-- SpellFamily 14, Mask 8192 (0x00002000, bit 13)
+-- Cooking pot SPELLMOD_EFFECT2 targets this mask to boost mana per tick.
+-- Trait: aura 85 (OBS_MOD_POWER) in effect_1, aura 226 in effect_2 (mana amount),
+--        seated interrupt flag (262272).
+-- =====================================================
+
+-- Standard drinks: seated drinking spells with mana amount in effect_2
+UPDATE spell SET spell_class_set = 14, spell_class_mask_1 = spell_class_mask_1 | 8192
+  WHERE effect_apply_aura_name_1 = 85
+  AND effect_apply_aura_name_2 = 226
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 0;
+
+-- Dual food+drink: already tagged with food mask above, add drink mask.
+-- Trait: aura 84 (health) + aura 85 (mana) in same spell, seated flag.
+UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8192
+  WHERE effect_apply_aura_name_1 = 84
+  AND effect_apply_aura_name_2 = 85
+  AND aura_interrupt_flags = 262272
+  AND spell_class_set = 14;
+

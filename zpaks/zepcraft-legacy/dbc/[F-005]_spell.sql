@@ -656,7 +656,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Apprentice Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- Journeyman Riding Crop (crafting)
 DELETE FROM `spell` WHERE `id` = 100021;
@@ -686,7 +688,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Journeyman Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- Expert Riding Crop (crafting)
 DELETE FROM `spell` WHERE `id` = 100022;
@@ -716,7 +720,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Expert Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- Artisan Riding Crop (crafting)
 DELETE FROM `spell` WHERE `id` = 100023;
@@ -746,7 +752,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Artisan Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- Master Riding Crop (crafting)
 DELETE FROM `spell` WHERE `id` = 100024;
@@ -776,7 +784,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Master Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- Grand Master Riding Crop (passive)
 DELETE FROM `spell` WHERE `id` = 100015;
@@ -860,7 +870,9 @@ INSERT INTO `spell` SET
     `spell_desc_enus` = 'Craft a Grand Master Riding Crop.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = '',
-    `spell_tooltip_flags` = 16712190;
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 14,
+    `spell_class_mask_1` = 16;
 
 -- ============================================================================
 -- PART C: RIDING CROP TARGETING (I-049, I-050)
