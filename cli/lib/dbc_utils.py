@@ -1192,6 +1192,40 @@ def compare_modifications(mods1: List[SqlModification], mods2: List[SqlModificat
     return True
 
 
+def extract_tables_from_sql(sql_content: str) -> List[str]:
+    """Extract actual table names from SQL content by parsing statements.
+
+    Scans for DELETE FROM, INSERT INTO, UPDATE, and INSERT SET patterns
+    to find all tables a SQL file modifies. This is more reliable than
+    filename-based extraction for files with descriptive names or
+    multi-table content.
+
+    Args:
+        sql_content: Raw SQL file content.
+
+    Returns:
+        Deduplicated list of lowercase table names, in order of first
+        appearance.
+    """
+    tables = []
+    seen = set()
+
+    # Match: DELETE FROM `table`, INSERT INTO `table`, UPDATE `table`,
+    #        INSERT INTO table SET (no backticks)
+    pattern = re.compile(
+        r'(?:DELETE\s+FROM|INSERT\s+INTO|UPDATE)\s+`?(\w+)`?',
+        re.IGNORECASE,
+    )
+
+    for m in pattern.finditer(sql_content):
+        tbl = m.group(1).lower()
+        if tbl not in seen:
+            seen.add(tbl)
+            tables.append(tbl)
+
+    return tables
+
+
 def extract_table_from_filename(filename: str) -> Optional[str]:
     """Extract table name from DBC SQL filename.
 
@@ -1200,6 +1234,11 @@ def extract_table_from_filename(filename: str) -> Optional[str]:
         [F-004]_spell.sql -> spell
         [F-004,BASE]_spell.sql -> spell
         [I-099]_skillline.sql -> skillline
+
+    NOTE: This is a best-guess based on naming convention. For accurate
+    results (especially with descriptive filenames like
+    [F-157]_lure_spells.sql), prefer extract_tables_from_sql() which
+    parses the actual SQL content.
 
     Args:
         filename: SQL filename (without path)
@@ -1257,31 +1296,43 @@ def detect_dbc_conflicts(
 
     for priority, zpak_name, dbc_path, sql_files in sources:
         for sql_file in sql_files:
-            table_name = extract_table_from_filename(sql_file.name)
-            if not table_name:
-                continue
-
-            if filter_table and table_name != filter_table.lower():
-                continue
-
             try:
                 sql_content = sql_file.read_text()
-                file_mods = parse_sql_modifications(sql_content, table_name)
-                parsed_mods_cache[sql_file] = {table_name: file_mods}
-                affected_ids = set(file_mods.keys())
-
-                if affected_ids:
-                    if table_name not in table_modifications:
-                        table_modifications[table_name] = {}
-
-                    for row_id in affected_ids:
-                        if row_id not in table_modifications[table_name]:
-                            table_modifications[table_name][row_id] = []
-                        table_modifications[table_name][row_id].append(
-                            (zpak_name, priority, sql_file.name, sql_file)
-                        )
             except Exception:
                 continue
+
+            # Parse actual tables from SQL content rather than filename
+            tables = extract_tables_from_sql(sql_content)
+            if not tables:
+                # Fallback to filename-based extraction
+                fn_table = extract_table_from_filename(sql_file.name)
+                tables = [fn_table] if fn_table else []
+
+            file_cache = {}
+            for table_name in tables:
+                if filter_table and table_name != filter_table.lower():
+                    continue
+
+                try:
+                    file_mods = parse_sql_modifications(sql_content, table_name)
+                    file_cache[table_name] = file_mods
+                    affected_ids = set(file_mods.keys())
+
+                    if affected_ids:
+                        if table_name not in table_modifications:
+                            table_modifications[table_name] = {}
+
+                        for row_id in affected_ids:
+                            if row_id not in table_modifications[table_name]:
+                                table_modifications[table_name][row_id] = []
+                            table_modifications[table_name][row_id].append(
+                                (zpak_name, priority, sql_file.name, sql_file)
+                            )
+                except Exception:
+                    continue
+
+            if file_cache:
+                parsed_mods_cache[sql_file] = file_cache
 
     # Find rows with multiple modifiers
     potential_conflicts = {}

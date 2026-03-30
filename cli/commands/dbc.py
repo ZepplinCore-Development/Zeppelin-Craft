@@ -58,6 +58,7 @@ from lib.dbc_utils import (
     parse_sql_modifications,
     compare_modifications,
     extract_table_from_filename,
+    extract_tables_from_sql,
 )
 from lib.registry import Registry
 from lib.manifest import load_manifest, is_feature_disabled, extract_feature_ids
@@ -929,17 +930,25 @@ def dbc_rebuild(ctx, dry_run: bool, force: bool, table: str):
     craft_root = ctx.obj['craft_root']
     config = get_dbc_config(ctx)
 
-    # Helper: check if a SQL filename targets a specific table
+    # Helper: check if a SQL file targets a specific table
     def sql_file_matches_table(sql_path: Path, target_table: str) -> bool:
         """Check if a zpak SQL file targets the given table.
 
-        Matches patterns like:
-            [BASE,F-030]_charstartoutfit.sql
-            [F-022]_charstartoutfit.sql
-            charstartoutfit.sql
+        Parses the actual SQL content for DELETE/INSERT/UPDATE statements
+        to determine which tables are modified, rather than relying solely
+        on filename convention. This handles descriptive filenames like
+        [F-157]_lure_spells.sql (which modifies the 'spell' table) and
+        multi-table files.
         """
-        stem = sql_path.stem  # filename without .sql
-        return stem == target_table or stem.endswith(f'_{target_table}')
+        from lib.dbc_utils import extract_tables_from_sql
+        try:
+            sql_content = sql_path.read_text()
+            tables = extract_tables_from_sql(sql_content)
+            return target_table.lower() in tables
+        except Exception:
+            # Fallback to filename if file can't be read
+            stem = sql_path.stem
+            return stem == target_table or stem.endswith(f'_{target_table}')
 
     mode_label = f"Table: {table}" if table else "Full"
     click.echo(click.style(f"DBC Rebuild ({mode_label}){' (DRY RUN)' if dry_run else ''}", bold=True))
@@ -1647,186 +1656,6 @@ dbc_strip_base.zpak_filter = 'has_dbc'
 
 
 # =============================================================================
-# Squash Command
-# =============================================================================
-
-@db.command('squash')
-@click.argument('target', required=False)
-@click.option('--zpak', '-z', 'zpak_name',
-              help='Squash all DBC files in zpak')
-@click.option('--dry-run', '-n', is_flag=True,
-              help='Preview without modifying files')
-@click.option('--force', '-f', is_flag=True,
-              help='Skip confirmation prompt')
-@click.pass_context
-def dbc_squash(ctx, target: Optional[str], zpak_name: Optional[str], dry_run: bool, force: bool):
-    """Squash DBC SQL file(s) by re-diffing through scratch database.
-
-    Removes redundant edits within a file (e.g., multiple updates to same row
-    become single final value). Useful after iterative development where you
-    have commits like: damage=10, damage=20, damage=30 -> squashes to damage=30.
-
-    Process per file:
-      1. Reset scratch from original_dbc
-      2. Apply the single SQL file to scratch
-      3. Diff scratch vs original
-      4. Rewrite file with squashed SQL
-
-    Examples:
-        zep dbc squash zpaks/my-zpak/dbc/[F-049]_spell.sql  # Single file
-        zep dbc squash --zpak mage-tanking                   # All files in zpak
-        zep dbc squash --zpak mage-tanking --dry-run         # Preview only
-    """
-    craft_root = ctx.obj['craft_root']
-    config = get_dbc_config(ctx)
-
-    # Collect files to squash
-    files_to_squash: List[Path] = []
-
-    if target:
-        # Single file
-        target_path = Path(target)
-        if not target_path.is_absolute():
-            target_path = craft_root / target
-        if not target_path.exists():
-            raise click.ClickException(f"File not found: {target_path}")
-        if not target_path.suffix == '.sql':
-            raise click.ClickException(f"Not a SQL file: {target_path}")
-        files_to_squash.append(target_path)
-
-    elif zpak_name:
-        # All files in zpak
-        sources = collect_dbc_sources(craft_root)
-        for priority, name, dbc_path, sql_files in sources:
-            if name == zpak_name:
-                files_to_squash.extend(sql_files)
-                break
-        if not files_to_squash:
-            raise click.ClickException(f"No DBC files found in zpak: {zpak_name}")
-    else:
-        raise click.ClickException("Specify a file path or use --zpak")
-
-    click.echo(click.style(f"DBC Squash{' (DRY RUN)' if dry_run else ''}", bold=True))
-    click.echo(f"  Files to process: {len(files_to_squash)}")
-    click.echo()
-
-    if not force and not dry_run:
-        if not click.confirm(f"Squash {len(files_to_squash)} file(s)? This will rewrite them."):
-            click.echo("Cancelled.")
-            return
-
-    squashed_count = 0
-    unchanged_count = 0
-    error_count = 0
-
-    for sql_file in files_to_squash:
-        table_name = extract_table_from_filename(sql_file.name)
-        if not table_name:
-            click.echo(click.style(f"  {sql_file.name}: SKIP (can't determine table)", fg='yellow'))
-            continue
-
-        click.echo(f"  {sql_file.name}...", nl=False)
-
-        try:
-            # Read original file
-            original_sql = sql_file.read_text()
-            original_lines = len(original_sql.strip().split('\n'))
-
-            # Step 1: Reset scratch from original
-            with DBCConnection(config) as db_conn:
-                orig_conn = db_conn.get_connection(config.original)
-                scratch_conn = db_conn.get_connection(config.scratch)
-                scratch_cursor = scratch_conn.cursor()
-
-                # Only reset the specific table we need
-                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{table_name}`")
-                scratch_cursor.execute(f"CREATE TABLE `{table_name}` LIKE `{config.original}`.`{table_name}`")
-                scratch_cursor.execute(f"INSERT INTO `{table_name}` SELECT * FROM `{config.original}`.`{table_name}`")
-                scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
-                scratch_conn.commit()
-                scratch_cursor.close()
-
-            # Step 2: Apply file to scratch
-            success, output = run_sql(original_sql, config, config.scratch)
-            if not success:
-                click.echo(click.style(f" FAILED (apply): {output[:50]}", fg='red'))
-                error_count += 1
-                continue
-
-            # Step 3: Diff scratch vs original
-            with DBCConnection(config) as db_conn:
-                diff = get_table_diff(db_conn, table_name, config.scratch, config.original)
-
-                adds = len(diff["only_in_db1"])
-                mods = len(diff["modified"])
-                dels = len(diff["only_in_db2"])
-
-                if adds == 0 and mods == 0 and dels == 0:
-                    click.echo(click.style(" (no changes)", fg='cyan'))
-                    unchanged_count += 1
-                    continue
-
-                # Step 4: Generate squashed SQL
-                squashed_sql = generate_diff_sql(db_conn, table_name, config.scratch, config.original)
-
-            # Preserve header comments from original file
-            header_lines = []
-            for line in original_sql.split('\n'):
-                if line.startswith('--'):
-                    header_lines.append(line)
-                elif line.strip():
-                    break  # Stop at first non-comment, non-empty line
-
-            squashed_lines = len(squashed_sql.strip().split('\n'))
-
-            if dry_run:
-                reduction = original_lines - squashed_lines
-                click.echo(f" {original_lines} -> {squashed_lines} lines ({reduction:+d})")
-            else:
-                # Write squashed file
-                with open(sql_file, 'w') as f:
-                    if header_lines:
-                        f.write('\n'.join(header_lines) + '\n\n')
-                    f.write(squashed_sql)
-                    if not squashed_sql.endswith('\n'):
-                        f.write('\n')
-
-                reduction = original_lines - squashed_lines
-                click.echo(f" {original_lines} -> {squashed_lines} lines ({reduction:+d})")
-                squashed_count += 1
-
-        except Exception as e:
-            click.echo(click.style(f" ERROR: {e}", fg='red'))
-            error_count += 1
-
-    # Clean up scratch
-    try:
-        with DBCConnection(config) as db_conn:
-            scratch_conn = db_conn.get_connection(config.scratch)
-            scratch_cursor = scratch_conn.cursor()
-            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
-            scratch_cursor.execute("SHOW TABLES")
-            for (tbl,) in scratch_cursor.fetchall():
-                scratch_cursor.execute(f"DROP TABLE IF EXISTS `{tbl}`")
-            scratch_cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
-            scratch_conn.commit()
-    except Exception:
-        pass
-
-    # Summary
-    click.echo()
-    if dry_run:
-        click.echo(click.style("DRY RUN - no files modified", fg='yellow'))
-    else:
-        click.echo(click.style(f"Squash complete! {squashed_count} file(s) rewritten", fg='green'))
-    if unchanged_count:
-        click.echo(f"  Unchanged: {unchanged_count}")
-    if error_count:
-        click.echo(click.style(f"  Errors: {error_count}", fg='red'))
-
-
-# =============================================================================
 # Sources Command
 # =============================================================================
 
@@ -2219,36 +2048,39 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
     zpak_priorities = {name: priority for priority, name, _, _ in sources}
 
     for filepath, zpak_name, _ in changed_files:
-        table_name = extract_table_from_filename(filepath.name)
-        if not table_name:
-            continue
-
         try:
             sql_content = filepath.read_text()
-            affected_ids = parse_sql_affected_ids(sql_content, table_name)
-
-            if affected_ids:
-                if table_name not in changed_modifications:
-                    changed_modifications[table_name] = {}
-
-                priority = zpak_priorities.get(zpak_name, 100)
-                for row_id in affected_ids:
-                    if row_id not in changed_modifications[table_name]:
-                        changed_modifications[table_name][row_id] = []
-                    changed_modifications[table_name][row_id].append(
-                        (zpak_name, filepath.name, priority, filepath)
-                    )
         except Exception:
             continue
+
+        # Parse actual tables from SQL content
+        tables = extract_tables_from_sql(sql_content)
+        if not tables:
+            fn_table = extract_table_from_filename(filepath.name)
+            tables = [fn_table] if fn_table else []
+
+        priority = zpak_priorities.get(zpak_name, 100)
+        for table_name in tables:
+            try:
+                affected_ids = parse_sql_affected_ids(sql_content, table_name)
+
+                if affected_ids:
+                    if table_name not in changed_modifications:
+                        changed_modifications[table_name] = {}
+
+                    for row_id in affected_ids:
+                        if row_id not in changed_modifications[table_name]:
+                            changed_modifications[table_name][row_id] = []
+                        changed_modifications[table_name][row_id].append(
+                            (zpak_name, filepath.name, priority, filepath)
+                        )
+            except Exception:
+                continue
 
     # Now check applied files for overlapping IDs
     for applied_filename, (applied_hash, applied_zpak) in applied_hashes.items():
         # Skip if this file is in the changed set (will be re-applied)
         if any(f.name == applied_filename for f, _, _ in changed_files):
-            continue
-
-        table_name = extract_table_from_filename(applied_filename)
-        if not table_name or table_name not in changed_modifications:
             continue
 
         # Find the actual file path
@@ -2266,50 +2098,65 @@ def _check_apply_conflicts(changed_files: List[Tuple[Path, str, str]],
 
         try:
             sql_content = applied_path.read_text()
-            affected_ids = parse_sql_affected_ids(sql_content, table_name)
-            applied_priority = zpak_priorities.get(applied_zpak, 100)
-
-            # Parse full modifications for redundancy check
-            applied_mods = parse_sql_modifications(sql_content, table_name)
-
-            for row_id in affected_ids:
-                if row_id in changed_modifications[table_name]:
-                    # Conflict found - check priority
-                    for changed_zpak, changed_filename, changed_priority, changed_path in changed_modifications[table_name][row_id]:
-                        # Only warn if applied file has HIGHER priority (applied later in rebuild)
-                        # because applying changed file would overwrite higher-priority changes
-                        if applied_priority > changed_priority:
-                            # Second pass: check if redundant (same values) or real conflict
-                            is_redundant = False
-                            try:
-                                changed_sql = changed_path.read_text()
-                                changed_mods = parse_sql_modifications(changed_sql, table_name)
-
-                                if row_id in changed_mods and row_id in applied_mods:
-                                    is_redundant = compare_modifications(
-                                        changed_mods[row_id],
-                                        applied_mods[row_id]
-                                    )
-                            except Exception:
-                                pass
-
-                            conflict_info = {
-                                'table': table_name,
-                                'id': row_id,
-                                'changed_file': changed_filename,
-                                'changed_zpak': changed_zpak,
-                                'changed_priority': changed_priority,
-                                'applied_file': applied_filename,
-                                'applied_zpak': applied_zpak,
-                                'applied_priority': applied_priority,
-                            }
-
-                            if is_redundant:
-                                redundants.append(conflict_info)
-                            else:
-                                conflicts.append(conflict_info)
         except Exception:
             continue
+
+        # Parse actual tables from SQL content
+        applied_tables = extract_tables_from_sql(sql_content)
+        if not applied_tables:
+            fn_table = extract_table_from_filename(applied_filename)
+            applied_tables = [fn_table] if fn_table else []
+
+        applied_priority = zpak_priorities.get(applied_zpak, 100)
+
+        for table_name in applied_tables:
+            if table_name not in changed_modifications:
+                continue
+
+            try:
+                affected_ids = parse_sql_affected_ids(sql_content, table_name)
+
+                # Parse full modifications for redundancy check
+                applied_mods = parse_sql_modifications(sql_content, table_name)
+
+                for row_id in affected_ids:
+                    if row_id in changed_modifications[table_name]:
+                        # Conflict found - check priority
+                        for changed_zpak, changed_filename, changed_priority, changed_path in changed_modifications[table_name][row_id]:
+                            # Only warn if applied file has HIGHER priority (applied later in rebuild)
+                            # because applying changed file would overwrite higher-priority changes
+                            if applied_priority > changed_priority:
+                                # Second pass: check if redundant (same values) or real conflict
+                                is_redundant = False
+                                try:
+                                    changed_sql = changed_path.read_text()
+                                    changed_mods = parse_sql_modifications(changed_sql, table_name)
+
+                                    if row_id in changed_mods and row_id in applied_mods:
+                                        is_redundant = compare_modifications(
+                                            changed_mods[row_id],
+                                            applied_mods[row_id]
+                                        )
+                                except Exception:
+                                    pass
+
+                                conflict_info = {
+                                    'table': table_name,
+                                    'id': row_id,
+                                    'changed_file': changed_filename,
+                                    'changed_zpak': changed_zpak,
+                                    'changed_priority': changed_priority,
+                                    'applied_file': applied_filename,
+                                    'applied_zpak': applied_zpak,
+                                    'applied_priority': applied_priority,
+                                }
+
+                                if is_redundant:
+                                    redundants.append(conflict_info)
+                                else:
+                                    conflicts.append(conflict_info)
+            except Exception:
+                continue
 
     return conflicts, redundants
 
