@@ -398,3 +398,63 @@ INSERT INTO `quest_offer_reward` SET `ID` = 90154, `RewardText` = 'Magnificent w
 INSERT INTO `quest_request_items` SET `ID` = 90154, `EmoteOnComplete` = 1, `CompletionText` = 'Did you bring the vellums and Ink of the Sea?';
 INSERT INTO `creature_queststarter` VALUES (28702, 90154);
 INSERT INTO `creature_questender` VALUES (28702, 90154);
+
+-- =====================================================
+-- CROSS-CITY QUEST CHAIN CONDITIONS
+-- RequiredSkillPoints alone doesn't hide ineligible
+-- quests from the gossip window. Use reference conditions
+-- so completing ANY city's quest unlocks the next tier.
+-- =====================================================
+
+-- Reference condition -90136: completed ANY Journeyman writing table quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90136;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90136, 0, 0, 0, 0, 8, 0, 90136, 0, 0, 0, 0, 0, '', 'JM table rewarded (Stormwind)'),
+(-90136, 0, 0, 0, 1, 8, 0, 90137, 0, 0, 0, 0, 0, '', 'JM table rewarded (Ironforge)'),
+(-90136, 0, 0, 0, 2, 8, 0, 90138, 0, 0, 0, 0, 0, '', 'JM table rewarded (Darnassus)'),
+(-90136, 0, 0, 0, 3, 8, 0, 90139, 0, 0, 0, 0, 0, '', 'JM table rewarded (Exodar)'),
+(-90136, 0, 0, 0, 4, 8, 0, 90140, 0, 0, 0, 0, 0, '', 'JM table rewarded (Orgrimmar)'),
+(-90136, 0, 0, 0, 5, 8, 0, 90141, 0, 0, 0, 0, 0, '', 'JM table rewarded (Thunder Bluff)'),
+(-90136, 0, 0, 0, 6, 8, 0, 90142, 0, 0, 0, 0, 0, '', 'JM table rewarded (Silvermoon)'),
+(-90136, 0, 0, 0, 7, 8, 0, 90143, 0, 0, 0, 0, 0, '', 'JM table rewarded (Undercity)');
+
+-- Reference condition -90144: completed ANY Artisan writing table quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90144;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90144, 0, 0, 0, 0, 8, 0, 90144, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Stormwind)'),
+(-90144, 0, 0, 0, 1, 8, 0, 90145, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Ironforge)'),
+(-90144, 0, 0, 0, 2, 8, 0, 90146, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Darnassus)'),
+(-90144, 0, 0, 0, 3, 8, 0, 90147, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Exodar)'),
+(-90144, 0, 0, 0, 4, 8, 0, 90148, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Orgrimmar)'),
+(-90144, 0, 0, 0, 5, 8, 0, 90149, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Thunder Bluff)'),
+(-90144, 0, 0, 0, 6, 8, 0, 90150, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Silvermoon)'),
+(-90144, 0, 0, 0, 7, 8, 0, 90151, 0, 0, 0, 0, 0, '', 'Artisan table rewarded (Undercity)');
+
+-- Reference condition -90152: completed ANY Master writing table quest
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = -90152;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(-90152, 0, 0, 0, 0, 8, 0, 90152, 0, 0, 0, 0, 0, '', 'Master table rewarded (Michael Schwan)'),
+(-90152, 0, 0, 0, 1, 8, 0, 90153, 0, 0, 0, 0, 0, '', 'Master table rewarded (Neferatti)');
+
+-- Artisan quests: require any Journeyman table
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` BETWEEN 90144 AND 90151;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90144, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (SW) - any JM table'),
+(19, 0, 90145, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (IF) - any JM table'),
+(19, 0, 90146, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (Darn) - any JM table'),
+(19, 0, 90147, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (Exo) - any JM table'),
+(19, 0, 90148, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (Org) - any JM table'),
+(19, 0, 90149, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (TB) - any JM table'),
+(19, 0, 90150, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (SM) - any JM table'),
+(19, 0, 90151, 0, 0, -90136, 0, 0, 0, 0, 0, 0, 0, '', 'Artisan Table (UC) - any JM table');
+
+-- Master quests: require any Artisan table
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` IN (90152, 90153);
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90152, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Schwan) - any Artisan table'),
+(19, 0, 90153, 0, 0, -90144, 0, 0, 0, 0, 0, 0, 0, '', 'Master Table (Neferatti) - any Artisan table');
+
+-- Grand Master quest: require any Master table
+DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 19 AND `SourceEntry` = 90154;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(19, 0, 90154, 0, 0, -90152, 0, 0, 0, 0, 0, 0, 0, '', 'GM Table (Dalaran) - any Master table');
