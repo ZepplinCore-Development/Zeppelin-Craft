@@ -7946,10 +7946,10 @@
     "`dynamic_tooltip_unused_3`": null,
     "`dynamic_tooltip_unused_4`": null,
     "`dynamic_tooltip_flags`": 0,
+    "`extended_ui`": null,
     "`extended_ui_state_var`": 0,
     "`extended_ui_state_var_neutral`": 0,
-    "`extended_ui_state_var_unk_1`": 0,
-    "`extended_ui_state_var_unk_2`": 0
+    "`extended_ui_state_var_unk_1`": 0
   },
   "zep_dbc_updates": {
     "`zpak`": null,
