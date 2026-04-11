@@ -1,4 +1,4 @@
-From 84ca9f156e77bc79f945d1916edc775f82895794 Mon Sep 17 00:00:00 2001
+From 5f61b3d0a7d5a59e300dfd44fb0b6cfb4940b325 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:13:41 +0000
 Subject: [PATCH] F-030: Add Worgen and Goblin race support
@@ -15,14 +15,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Entities/Player/Player.cpp    |  5 +++++
  src/server/game/Handlers/CharacterHandler.cpp |  2 +-
- src/server/shared/SharedDefines.h             | 15 ++++++++-------
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ src/server/shared/SharedDefines.h             | 22 ++++++++++++++++---
+ 3 files changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 290b89419..92d6032fd 100644
+index c4380fa9e..3ab21f788 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -12347,6 +12347,11 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
+@@ -12340,6 +12340,11 @@ float Player::GetReputationPriceDiscount(FactionTemplateEntry const* factionTemp
  {
      float discount = 1.0f;
  
@@ -35,10 +35,10 @@ index 290b89419..92d6032fd 100644
      {
          sScriptMgr->OnPlayerGetReputationPriceDiscount(this, factionTemplate, discount);
 diff --git a/src/server/game/Handlers/CharacterHandler.cpp b/src/server/game/Handlers/CharacterHandler.cpp
-index acc3e15d7..cf78a0d70 100644
+index 40942b333..d0bdf54e8 100644
 --- a/src/server/game/Handlers/CharacterHandler.cpp
 +++ b/src/server/game/Handlers/CharacterHandler.cpp
-@@ -2169,7 +2169,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
+@@ -2177,7 +2177,7 @@ void WorldSession::HandleCharFactionOrRaceChangeCallback(std::shared_ptr<Charact
          trans->Append(stmt);
  
          // Race specific languages
@@ -48,7 +48,7 @@ index acc3e15d7..cf78a0d70 100644
              stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHAR_SKILL_LANGUAGE);
              stmt->SetData(0, lowGuid);
 diff --git a/src/server/shared/SharedDefines.h b/src/server/shared/SharedDefines.h
-index 31b1f84f7..3cf0ed3b7 100644
+index 502a8a743..988621405 100644
 --- a/src/server/shared/SharedDefines.h
 +++ b/src/server/shared/SharedDefines.h
 @@ -76,10 +76,11 @@ enum Races
@@ -66,28 +66,28 @@ index 31b1f84f7..3cf0ed3b7 100644
      //RACE_NAGA           = 13,
      //RACE_BROKEN         = 14,
      //RACE_SKELETON       = 15,
-@@ -92,17 +93,17 @@ enum Races
+@@ -91,6 +92,21 @@ enum Races
+     //RACE_ICE_TROLL      = 21
  };
  
- // max+1 for player race
--#define MAX_RACES         12
++// max+1 for player race
 +#define MAX_RACES         13
- 
- #define RACEMASK_ALL_PLAYABLE \
-     ((1<<(RACE_HUMAN-1))   |(1<<(RACE_ORC-1))          |(1<<(RACE_DWARF-1))   | \
-     (1<<(RACE_NIGHTELF-1))|(1<<(RACE_UNDEAD_PLAYER-1))|(1<<(RACE_TAUREN-1))  | \
--    (1<<(RACE_GNOME-1))   |(1<<(RACE_TROLL-1))        |(1<<(RACE_BLOODELF-1))| \
--    (1<<(RACE_DRAENEI-1)))
++
++#define RACEMASK_ALL_PLAYABLE \
++    ((1<<(RACE_HUMAN-1))   |(1<<(RACE_ORC-1))          |(1<<(RACE_DWARF-1))   | \
++    (1<<(RACE_NIGHTELF-1))|(1<<(RACE_UNDEAD_PLAYER-1))|(1<<(RACE_TAUREN-1))  | \
 +    (1<<(RACE_GNOME-1))   |(1<<(RACE_TROLL-1))        |(1<<(RACE_GOBLIN-1))| \
 +    (1<<(RACE_BLOODELF-1))|(1<<(RACE_DRAENEI-1))      |(1<<(RACE_WORGEN-1)))
- 
- #define RACEMASK_ALLIANCE \
-     ((1<<(RACE_HUMAN-1)) | (1<<(RACE_DWARF-1)) | (1<<(RACE_NIGHTELF-1)) | \
--    (1<<(RACE_GNOME-1)) | (1<<(RACE_DRAENEI-1)))
++
++#define RACEMASK_ALLIANCE \
++    ((1<<(RACE_HUMAN-1)) | (1<<(RACE_DWARF-1)) | (1<<(RACE_NIGHTELF-1)) | \
 +    (1<<(RACE_GNOME-1)) | (1<<(RACE_DRAENEI-1)) | (1<<(RACE_WORGEN-1)))
- 
- #define RACEMASK_HORDE RACEMASK_ALL_PLAYABLE & ~RACEMASK_ALLIANCE
- 
++
++#define RACEMASK_HORDE RACEMASK_ALL_PLAYABLE & ~RACEMASK_ALLIANCE
++
+ // DisplayRace values from CreatureDisplayInfoExtra.dbc
+ enum class DisplayRace : uint8
+ {
 -- 
 2.34.1
 

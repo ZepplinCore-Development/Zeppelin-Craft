@@ -1,44 +1,13 @@
-From 394cf9d07e23be650f8255097932a642055a4d1e Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Sun, 15 Feb 2026 10:16:23 +0000
-Subject: [PATCH 1/4] feat: Add Weak Flux to allowed items (F-020)
+From 6f8d3481787978742ce70cac0d62992dad2d2441 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 11 Apr 2026 12:21:54 +0000
+Subject: [PATCH] Apply zeppelin F 020 Add Weak Flux to allowed items
 
-- Add item 2880 (Weak Flux) to the item vault whitelist
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- server/src/storage/definition/enum/allowed-item-enum.lua | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
-index c9ab569..a296cb8 100644
---- a/server/src/storage/definition/enum/allowed-item-enum.lua
-+++ b/server/src/storage/definition/enum/allowed-item-enum.lua
-@@ -677,4 +677,5 @@ return {
- 	[732] = "Okra",
- 	[1274] = "Hops",
- 	[2296] = "Great Goretusk Snout",
-+	[2880] = "Weak Flux",
- }
--- 
-2.34.1
-
-
-From c4b15a04d6272973c7dae6321782a4598988c64e Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Fri, 20 Feb 2026 13:37:15 +0000
-Subject: [PATCH 2/4] feat: Add search filter to Item Vault UI (F-020)
-
-- Search box at top of vault panel filters items by name in real-time
-- Case-insensitive substring matching with compact grid repositioning
-- Escape clears search and drops focus, placeholder text when empty
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  client/src/1-configuration.lua                |  1 +
  client/src/4-create-panel.lua                 | 84 ++++++++++++++++++-
- .../definition/enum/allowed-item-enum.lua     |  2 +
- 3 files changed, 86 insertions(+), 1 deletion(-)
+ .../definition/enum/allowed-item-enum.lua     | 24 ++++++
+ 3 files changed, 108 insertions(+), 1 deletion(-)
 
 diff --git a/client/src/1-configuration.lua b/client/src/1-configuration.lua
 index 34c8c92..8b64bb5 100644
@@ -159,77 +128,22 @@ index 59e19e2..93c45e2 100644
  
  	local content = CreateFrame("Frame", nil, scroll_frame)
 diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
-index a296cb8..03f9b7e 100644
+index 4d61602..ab92b41 100644
 --- a/server/src/storage/definition/enum/allowed-item-enum.lua
 +++ b/server/src/storage/definition/enum/allowed-item-enum.lua
-@@ -678,4 +678,6 @@ return {
- 	[1274] = "Hops",
- 	[2296] = "Great Goretusk Snout",
- 	[2880] = "Weak Flux",
+@@ -695,4 +695,28 @@ return {
+ 	[19713] = "Bronze Hakkari Bijou",
+ 	[19714] = "Silver Hakkari Bijou",
+ 	[19715] = "Gold Hakkari Bijou",
++	[2880] = "Weak Flux",
 +	[3466] = "Strong Flux",
 +	[11291] = "Star Wood",
- }
--- 
-2.34.1
-
-
-From 5843cea865c4082fef2888b1d0464d4027487f8c Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Sat, 28 Feb 2026 12:19:15 +0000
-Subject: [PATCH 3/4] feat: Add weapon and armor vellums to allowed items
- (F-020)
-
-- Armor Vellum, Armor Vellum II, Armor Vellum III
-- Weapon Vellum, Weapon Vellum II, Weapon Vellum III
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- server/src/storage/definition/enum/allowed-item-enum.lua | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
-index 03f9b7e..e348e5d 100644
---- a/server/src/storage/definition/enum/allowed-item-enum.lua
-+++ b/server/src/storage/definition/enum/allowed-item-enum.lua
-@@ -680,4 +680,10 @@ return {
- 	[2880] = "Weak Flux",
- 	[3466] = "Strong Flux",
- 	[11291] = "Star Wood",
 +	[38682] = "Armor Vellum",
 +	[37602] = "Armor Vellum II",
 +	[43145] = "Armor Vellum III",
 +	[39349] = "Weapon Vellum",
 +	[39350] = "Weapon Vellum II",
 +	[43146] = "Weapon Vellum III",
- }
--- 
-2.34.1
-
-
-From d25634e03b17f9eb251f9b2dabc20d463a15bc16 Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Sat, 14 Mar 2026 12:07:36 +0000
-Subject: [PATCH 4/4] feat: Add F-001 intermediary trade goods to allowed items
- (F-020)
-
-- Rivets: Bronze, Truesilver, Adamantite, Saronite (57009-57012)
-- Fasteners: Bronze, Truesilver, Adamantite, Saronite (57508-57511)
-- Screwdrivers: Bronze, Fel Iron, Saronite (57213-57215)
-- Drills: Bronze, Gold, Fel Iron, Saronite (57216-57219)
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
- .../storage/definition/enum/allowed-item-enum.lua | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/server/src/storage/definition/enum/allowed-item-enum.lua b/server/src/storage/definition/enum/allowed-item-enum.lua
-index e348e5d..efe8f4a 100644
---- a/server/src/storage/definition/enum/allowed-item-enum.lua
-+++ b/server/src/storage/definition/enum/allowed-item-enum.lua
-@@ -686,4 +686,19 @@ return {
- 	[39349] = "Weapon Vellum",
- 	[39350] = "Weapon Vellum II",
- 	[43146] = "Weapon Vellum III",
 +	[57009] = "Bronze Rivets",
 +	[57010] = "Truesilver Rivets",
 +	[57011] = "Adamantite Rivets",

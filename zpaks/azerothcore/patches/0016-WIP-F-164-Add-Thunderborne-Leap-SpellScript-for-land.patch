@@ -1,4 +1,4 @@
-From 2e9e4adf0e07903d286ca3caf527d5dd4cb1035c Mon Sep 17 00:00:00 2001
+From 5d254467aa95f9591ebc0ea75f0e151f42082f98 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 10 Mar 2026 13:33:30 +0000
 Subject: [PATCH] WIP: F-164 - Add Thunderborne Leap SpellScript for landing
@@ -12,14 +12,14 @@ Subject: [PATCH] WIP: F-164 - Add Thunderborne Leap SpellScript for landing
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/server/scripts/Spells/spell_shaman.cpp | 67 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
+ src/server/scripts/Spells/spell_shaman.cpp | 78 ++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
 diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
-index cb7da23d9..3fe3c93e8 100644
+index eef753444..0ed5c4c35 100644
 --- a/src/server/scripts/Spells/spell_shaman.cpp
 +++ b/src/server/scripts/Spells/spell_shaman.cpp
-@@ -87,6 +87,8 @@ enum ShamanSpells
+@@ -86,6 +86,8 @@ enum ShamanSpells
      SPELL_SHAMAN_T10_ENHANCEMENT_4P_BONUS       = 70832,
      SPELL_SHAMAN_LAVA_BURST_BONUS_DAMAGE        = 71824,
      SPELL_SHAMAN_TOTEM_OF_WRATH_SPELL_POWER     = 63283,
@@ -28,7 +28,7 @@ index cb7da23d9..3fe3c93e8 100644
  };
  
  enum ShamanSpellIcons
-@@ -2170,6 +2172,70 @@ class spell_sha_windfury_weapon : public AuraScript
+@@ -2169,6 +2171,81 @@ class spell_sha_windfury_weapon : public AuraScript
      }
  };
  
@@ -110,7 +110,7 @@ index cb7da23d9..3fe3c93e8 100644
  void AddSC_shaman_spell_scripts()
  {
      RegisterSpellScript(spell_sha_totem_of_wrath);
-@@ -2229,4 +2272,5 @@ void AddSC_shaman_spell_scripts()
+@@ -2228,4 +2305,5 @@ void AddSC_shaman_spell_scripts()
      RegisterSpellScript(spell_sha_t9_elemental_4p_bonus);
      RegisterSpellScript(spell_sha_tidal_force_dummy);
      RegisterSpellScript(spell_sha_windfury_weapon);

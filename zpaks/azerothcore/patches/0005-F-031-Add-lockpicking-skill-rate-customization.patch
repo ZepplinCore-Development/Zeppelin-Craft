@@ -1,4 +1,4 @@
-From c3747aa8d9b69376a5f177382160b64cc24bf88a Mon Sep 17 00:00:00 2001
+From 2f527be88460e4acbb3508422d7df89052147a68 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 11:21:56 +0000
 Subject: [PATCH] F-031: Add lockpicking skill rate customization
@@ -13,10 +13,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/PlayerUpdates.cpp b/src/server/game/Entities/Player/PlayerUpdates.cpp
-index 4b0bd93a4..935ed65b6 100644
+index fec393e3e..cb487c784 100644
 --- a/src/server/game/Entities/Player/PlayerUpdates.cpp
 +++ b/src/server/game/Entities/Player/PlayerUpdates.cpp
-@@ -772,16 +772,28 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
+@@ -764,16 +764,28 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue,
                "UpdateGatherSkill(SkillId {} SkillLevel {} RedLevel {})",
                SkillId, SkillValue, RedLevel);
  

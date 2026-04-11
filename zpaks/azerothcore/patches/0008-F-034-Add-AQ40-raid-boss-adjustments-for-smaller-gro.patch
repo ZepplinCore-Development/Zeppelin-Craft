@@ -1,4 +1,4 @@
-From e84bc7e92ccda0dae57c6ec4be629504cbe8bc33 Mon Sep 17 00:00:00 2001
+From 39103ba554f8c854bf3a1826bf0fe34e7db83321 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:17:02 +0000
 Subject: [PATCH] F-034: Add AQ40 raid boss adjustments for smaller groups
@@ -131,7 +131,7 @@ index 782147459..d0039c3f8 100644
          //Body Phase
          uint8 _fleshTentaclesKilled;
 diff --git a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
-index 92d833181..b6ca1cebc 100644
+index f5a82207f..00d40d1ab 100644
 --- a/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
 +++ b/src/server/scripts/Kalimdor/TempleOfAhnQiraj/boss_ouro.cpp
 @@ -131,7 +131,10 @@ struct boss_ouro : public BossAI

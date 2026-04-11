@@ -1,6 +1,6 @@
-From 3b35ad5e82feac8403d4a71152695a5340aebbfe Mon Sep 17 00:00:00 2001
+From 11242949350847ba5ec62b50e44b67c72f5f255d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Fri, 30 Jan 2026 04:46:08 +0000
+Date: Sat, 7 Mar 2026 12:20:03 +0000
 Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import
 
 Rename data/sql/ subfolders to match AzerothCore db-assembler expectations:
@@ -24,6 +24,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/aq_gate_quest.sql               | 0
  data/sql/{world => db-world}/base/aq_war.sql                      | 0
  data/sql/{world => db-world}/base/aq_war_effort.sql               | 0
+ data/sql/{world => db-world}/base/av.sql                          | 0
+ data/sql/{world => db-world}/base/av_creatures.sql                | 0
+ data/sql/{world => db-world}/base/av_gameobjects.sql              | 0
  data/sql/{world => db-world}/base/boss_lord_kazzak.sql            | 0
  data/sql/{world => db-world}/base/class_trainers.sql              | 0
  data/sql/{world => db-world}/base/cs_individualProgression.sql    | 0
@@ -108,7 +111,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/wotlk_emblems.sql               | 0
  data/sql/{world => db-world}/base/wotlk_vendors.sql               | 0
  data/sql/{world => db-world}/base/zone_alterac_mountains.sql      | 0
- data/sql/{world => db-world}/base/zone_alterac_valley.sql         | 0
  data/sql/{world => db-world}/base/zone_arathi_highlands.sql       | 0
  data/sql/{world => db-world}/base/zone_ashenvale.sql              | 0
  data/sql/{world => db-world}/base/zone_azshara.sql                | 0
@@ -116,12 +118,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/zone_barrens.sql                | 0
  data/sql/{world => db-world}/base/zone_blades_edge_mountains.sql  | 0
  data/sql/{world => db-world}/base/zone_blasted_lands.sql          | 0
+ data/sql/{world => db-world}/base/zone_bloodmyst_isle.sql         | 0
  data/sql/{world => db-world}/base/zone_burning_steppes.sql        | 0
  data/sql/{world => db-world}/base/zone_dalaran.sql                | 0
  data/sql/{world => db-world}/base/zone_darkshore.sql              | 0
  data/sql/{world => db-world}/base/zone_darnassus.sql              | 0
  data/sql/{world => db-world}/base/zone_deadwind_pass.sql          | 0
  data/sql/{world => db-world}/base/zone_desolace.sql               | 0
+ data/sql/{world => db-world}/base/zone_dragonblight.sql           | 0
  data/sql/{world => db-world}/base/zone_dun_morogh.sql             | 0
  data/sql/{world => db-world}/base/zone_durotar.sql                | 0
  data/sql/{world => db-world}/base/zone_duskwood.sql               | 0
@@ -167,7 +171,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/zone_zangarmarsh.sql            | 0
  data/sql/{world => db-world}/updates/.gitignore                   | 0
  data/sql/{world => db-world}/updates/.gitkeep                     | 0
- 151 files changed, 0 insertions(+), 0 deletions(-)
+ 155 files changed, 0 insertions(+), 0 deletions(-)
  rename data/sql/{auth => db-auth}/updates/.gitkeep (100%)
  rename data/sql/{characters => db-characters}/updates/.gitkeep (100%)
  rename data/sql/{world => db-world}/base/.gitignore (100%)
@@ -176,6 +180,9 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/aq_gate_quest.sql (100%)
  rename data/sql/{world => db-world}/base/aq_war.sql (100%)
  rename data/sql/{world => db-world}/base/aq_war_effort.sql (100%)
+ rename data/sql/{world => db-world}/base/av.sql (100%)
+ rename data/sql/{world => db-world}/base/av_creatures.sql (100%)
+ rename data/sql/{world => db-world}/base/av_gameobjects.sql (100%)
  rename data/sql/{world => db-world}/base/boss_lord_kazzak.sql (100%)
  rename data/sql/{world => db-world}/base/class_trainers.sql (100%)
  rename data/sql/{world => db-world}/base/cs_individualProgression.sql (100%)
@@ -260,7 +267,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/wotlk_emblems.sql (100%)
  rename data/sql/{world => db-world}/base/wotlk_vendors.sql (100%)
  rename data/sql/{world => db-world}/base/zone_alterac_mountains.sql (100%)
- rename data/sql/{world => db-world}/base/zone_alterac_valley.sql (100%)
  rename data/sql/{world => db-world}/base/zone_arathi_highlands.sql (100%)
  rename data/sql/{world => db-world}/base/zone_ashenvale.sql (100%)
  rename data/sql/{world => db-world}/base/zone_azshara.sql (100%)
@@ -268,12 +274,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/zone_barrens.sql (100%)
  rename data/sql/{world => db-world}/base/zone_blades_edge_mountains.sql (100%)
  rename data/sql/{world => db-world}/base/zone_blasted_lands.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_bloodmyst_isle.sql (100%)
  rename data/sql/{world => db-world}/base/zone_burning_steppes.sql (100%)
  rename data/sql/{world => db-world}/base/zone_dalaran.sql (100%)
  rename data/sql/{world => db-world}/base/zone_darkshore.sql (100%)
  rename data/sql/{world => db-world}/base/zone_darnassus.sql (100%)
  rename data/sql/{world => db-world}/base/zone_deadwind_pass.sql (100%)
  rename data/sql/{world => db-world}/base/zone_desolace.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_dragonblight.sql (100%)
  rename data/sql/{world => db-world}/base/zone_dun_morogh.sql (100%)
  rename data/sql/{world => db-world}/base/zone_durotar.sql (100%)
  rename data/sql/{world => db-world}/base/zone_duskwood.sql (100%)
@@ -352,6 +360,18 @@ diff --git a/data/sql/world/base/aq_war_effort.sql b/data/sql/db-world/base/aq_w
 similarity index 100%
 rename from data/sql/world/base/aq_war_effort.sql
 rename to data/sql/db-world/base/aq_war_effort.sql
+diff --git a/data/sql/world/base/av.sql b/data/sql/db-world/base/av.sql
+similarity index 100%
+rename from data/sql/world/base/av.sql
+rename to data/sql/db-world/base/av.sql
+diff --git a/data/sql/world/base/av_creatures.sql b/data/sql/db-world/base/av_creatures.sql
+similarity index 100%
+rename from data/sql/world/base/av_creatures.sql
+rename to data/sql/db-world/base/av_creatures.sql
+diff --git a/data/sql/world/base/av_gameobjects.sql b/data/sql/db-world/base/av_gameobjects.sql
+similarity index 100%
+rename from data/sql/world/base/av_gameobjects.sql
+rename to data/sql/db-world/base/av_gameobjects.sql
 diff --git a/data/sql/world/base/boss_lord_kazzak.sql b/data/sql/db-world/base/boss_lord_kazzak.sql
 similarity index 100%
 rename from data/sql/world/base/boss_lord_kazzak.sql
@@ -688,10 +708,6 @@ diff --git a/data/sql/world/base/zone_alterac_mountains.sql b/data/sql/db-world/
 similarity index 100%
 rename from data/sql/world/base/zone_alterac_mountains.sql
 rename to data/sql/db-world/base/zone_alterac_mountains.sql
-diff --git a/data/sql/world/base/zone_alterac_valley.sql b/data/sql/db-world/base/zone_alterac_valley.sql
-similarity index 100%
-rename from data/sql/world/base/zone_alterac_valley.sql
-rename to data/sql/db-world/base/zone_alterac_valley.sql
 diff --git a/data/sql/world/base/zone_arathi_highlands.sql b/data/sql/db-world/base/zone_arathi_highlands.sql
 similarity index 100%
 rename from data/sql/world/base/zone_arathi_highlands.sql
@@ -720,6 +736,10 @@ diff --git a/data/sql/world/base/zone_blasted_lands.sql b/data/sql/db-world/base
 similarity index 100%
 rename from data/sql/world/base/zone_blasted_lands.sql
 rename to data/sql/db-world/base/zone_blasted_lands.sql
+diff --git a/data/sql/world/base/zone_bloodmyst_isle.sql b/data/sql/db-world/base/zone_bloodmyst_isle.sql
+similarity index 100%
+rename from data/sql/world/base/zone_bloodmyst_isle.sql
+rename to data/sql/db-world/base/zone_bloodmyst_isle.sql
 diff --git a/data/sql/world/base/zone_burning_steppes.sql b/data/sql/db-world/base/zone_burning_steppes.sql
 similarity index 100%
 rename from data/sql/world/base/zone_burning_steppes.sql
@@ -744,6 +764,10 @@ diff --git a/data/sql/world/base/zone_desolace.sql b/data/sql/db-world/base/zone
 similarity index 100%
 rename from data/sql/world/base/zone_desolace.sql
 rename to data/sql/db-world/base/zone_desolace.sql
+diff --git a/data/sql/world/base/zone_dragonblight.sql b/data/sql/db-world/base/zone_dragonblight.sql
+similarity index 100%
+rename from data/sql/world/base/zone_dragonblight.sql
+rename to data/sql/db-world/base/zone_dragonblight.sql
 diff --git a/data/sql/world/base/zone_dun_morogh.sql b/data/sql/db-world/base/zone_dun_morogh.sql
 similarity index 100%
 rename from data/sql/world/base/zone_dun_morogh.sql

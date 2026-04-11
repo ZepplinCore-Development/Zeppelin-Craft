@@ -1,4 +1,4 @@
-From 743645d2ca80a38d981f2fea603c7c35c262524e Mon Sep 17 00:00:00 2001
+From 07201289cee0a295c09ca86cf285994917e40014 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 12:17:18 +0000
 Subject: [PATCH] F-035: Adjust Auchindoun dungeon bosses for smaller groups
@@ -20,7 +20,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp b/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
-index 67679c091..aec2a13a9 100644
+index 7413ed4f2..5c607cdd1 100644
 --- a/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
 +++ b/src/server/scripts/Outland/Auchindoun/AuchenaiCrypts/boss_exarch_maladaar.cpp
 @@ -46,7 +46,7 @@ enum Spells
@@ -32,7 +32,7 @@ index 67679c091..aec2a13a9 100644
      SPELL_HAMMER_OF_JUSTICE     = 37369,
      SPELL_PLAGUE_STRIKE         = 58839
  };
-@@ -184,7 +184,7 @@ struct npc_stolen_soul : public ScriptedAI
+@@ -180,7 +180,7 @@ struct npc_stolen_soul : public ScriptedAI
                  case CLASS_HUNTER:
                      _scheduler.Schedule(0ms, [this](TaskContext context)
                      {
@@ -42,10 +42,10 @@ index 67679c091..aec2a13a9 100644
                      });
                      break;
 diff --git a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_nexusprince_shaffar.cpp b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_nexusprince_shaffar.cpp
-index 0986ba9c6..28400fdc2 100644
+index 846f786a5..c02450485 100644
 --- a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_nexusprince_shaffar.cpp
 +++ b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_nexusprince_shaffar.cpp
-@@ -83,14 +83,16 @@ struct boss_nexusprince_shaffar : public BossAI
+@@ -79,14 +79,16 @@ struct boss_nexusprince_shaffar : public BossAI
          _JustEngagedWith();
          Talk(SAY_AGGRO);
          summons.DoZoneInCombat();
@@ -65,7 +65,7 @@ index 0986ba9c6..28400fdc2 100644
          {
              DoCastVictim(RAND(SPELL_FROSTBOLT, SPELL_FIREBALL));
 diff --git a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
-index 2612c690e..57be83b1f 100644
+index 04fc2baa3..76ba42b85 100644
 --- a/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
 +++ b/src/server/scripts/Outland/Auchindoun/ManaTombs/boss_pandemonius.cpp
 @@ -50,7 +50,7 @@ float const ROOM_PULL_RANGE    = 70.0f;

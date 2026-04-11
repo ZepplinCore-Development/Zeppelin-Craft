@@ -1,4 +1,4 @@
-From d1a5aa4db30405550381f8f1fd088d9cd5d7030b Mon Sep 17 00:00:00 2001
+From 1407acda0b8dfb0500d04148f3e479bfd477cd3d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Thu, 12 Feb 2026 16:01:21 +0000
 Subject: [PATCH] fix(Core/Spells): Support faction filtering on aura 156 for
@@ -15,10 +15,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
-index 9b02664cb..393842555 100644
+index a1b012a7b..1043f2aa7 100644
 --- a/src/server/game/Entities/Player/Player.cpp
 +++ b/src/server/game/Entities/Player/Player.cpp
-@@ -5863,9 +5863,14 @@ float Player::CalculateReputationGain(ReputationSource source, uint32 creatureOr
+@@ -5854,9 +5854,14 @@ float Player::CalculateReputationGain(ReputationSource source, uint32 creatureOr
  {
      float percent = 100.0f;
  

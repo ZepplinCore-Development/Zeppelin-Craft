@@ -1,33 +1,26 @@
-From 0feb427a7a09e54785133784a3c8c8f57dc6fe3f Mon Sep 17 00:00:00 2001
+From 5171f8fee56c77020ef552e410266fb3b9ba0dbc Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Fri, 30 Jan 2026 12:16:40 +0000
+Date: Sat, 11 Apr 2026 12:35:01 +0000
 Subject: [PATCH] F-033: Add combo point persistence on target switch and death
 
-- Prevent combo point loss when target dies
-- Preserve combo points when switching targets
-- Cap at 5 combo points during target transitions
-
-Allows rogues/druids to maintain combo points across targets.
-
-Co-Authored-By: Claude <noreply@anthropic.com>
 ---
  src/server/game/Entities/Unit/Unit.cpp | 10 +++++++---
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/src/server/game/Entities/Unit/Unit.cpp b/src/server/game/Entities/Unit/Unit.cpp
-index 9f63466b1..e5fad3b1b 100644
+index 644906240..a6cfa39be 100644
 --- a/src/server/game/Entities/Unit/Unit.cpp
 +++ b/src/server/game/Entities/Unit/Unit.cpp
-@@ -11441,7 +11441,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+@@ -11381,7 +11381,7 @@ void Unit::setDeathState(DeathState s, bool despawn)
+     if (s != DeathState::Alive && s != DeathState::JustRespawned)
+     {
          CombatStop();
-         GetThreatMgr().ClearAllThreat();
-         getHostileRefMgr().deleteReferences();
 -        ClearComboPointHolders();                           // any combo points pointed to unit lost at it death
-+        //ClearComboPointHolders();                           // prevents combo point loss on  death
++        //ClearComboPointHolders();                           // prevents combo point loss on death
  
          if (IsNonMeleeSpellCast(false))
              InterruptNonMeleeSpells(false);
-@@ -13350,9 +13350,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
+@@ -13251,9 +13251,13 @@ void Unit::AddComboPoints(Unit* target, int8 count)
          {
              m_comboTarget->RemoveComboPointHolder(this);
          }
