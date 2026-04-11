@@ -2,5 +2,6 @@
 -- Add skinning to beasts that should logically be skinnable
 
 -- Bleeding Hollow Riding Worg (Hellfire Peninsula, level 60-61)
--- Uses Frostwolf skinloot 10981: Thick Leather, Knothide Leather Scraps, Knothide Leather
-UPDATE creature_template SET skinloot = 10981 WHERE entry = 19640;
+-- Uses Helboar skinloot 70160: Knothide Leather Scraps, Knothide Leather, Fel Hide
+-- (matches other Hellfire Peninsula beasts for consistency)
+UPDATE creature_template SET skinloot = 70160 WHERE entry = 19640;
