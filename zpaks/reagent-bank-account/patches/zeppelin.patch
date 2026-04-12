@@ -1,7 +1,7 @@
-From d1a29eda845f6e80d8e6599187e53e87dac8f71d Mon Sep 17 00:00:00 2001
+From a4860964abb53ffddf850fc8219f7b3c755dc2f7 Mon Sep 17 00:00:00 2001
 From: justurn <justurn@live.com>
 Date: Fri, 21 Mar 2025 08:15:49 +0800
-Subject: [PATCH] Update reagent_bank_account_NPC.sql
+Subject: [PATCH 1/2] Update reagent_bank_account_NPC.sql
 
 ---
  .../base/reagent_bank_account_NPC.sql         | 56 +++++++++++++++++--
@@ -73,6 +73,48 @@ index dbce444..02f4a4d 100644
 +(@Entry,0,0,571,0,0,1,1,0,5909.68,621.168,646.725,5.69266,300,0.0,0,120,0,0,0,0,0,'',NULL),
 +(@Entry,0,0,0,0,0,1,1,0,-14467.0,453.038,15.3399,0.674248,300,0.0,0,120,0,0,0,0,0,'',NULL), -- Booty Bay
 +(@Entry,0,0,571,0,0,1,1,0,5705.02,651.497,646.234,2.16229,300,0.0,0,120,0,0,0,0,0,'',NULL);
+-- 
+2.34.1
+
+
+From 30bf874083c6e7adb279072d3e638ebeb739f3b5 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 12 Apr 2026 05:42:20 +0000
+Subject: [PATCH 2/2] I-167: Migrate mechanic_immune_mask to
+ CreatureImmunitiesId
+
+---
+ data/sql/db-world/base/reagent_bank_account_NPC.sql | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/data/sql/db-world/base/reagent_bank_account_NPC.sql b/data/sql/db-world/base/reagent_bank_account_NPC.sql
+index 02f4a4d..1c6cece 100644
+--- a/data/sql/db-world/base/reagent_bank_account_NPC.sql
++++ b/data/sql/db-world/base/reagent_bank_account_NPC.sql
+@@ -16,7 +16,6 @@ INSERT INTO `creature_template` SET
+     `exp` = 0,
+     `faction` = 35,
+     `npcflag` = 1,
+-    `scale` = 1,
+     `rank` = 0,
+     `dmgschool` = 0,
+     `baseattacktime` = 2000,
+@@ -34,10 +33,14 @@ INSERT INTO `creature_template` SET
+     `RacialLeader` = 0,
+     `movementId` = 0,
+     `RegenHealth` = 1,
+-    `mechanic_immune_mask` = 0,
++    `CreatureImmunitiesId` = 0,
+     `flags_extra` = 2,
+     `ScriptName` = 'npc_reagent_banker_account';
+ 
++DELETE FROM `creature_template_model` WHERE (`CreatureID` = @Entry);
++INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`) VALUES
++(@Entry, 0, 0, 1, 1, 0);
++
+ -- Reagent Banker - Spawns
+ DELETE FROM `creature` WHERE (`id1` = @Entry);
+ INSERT INTO `creature` (`id1`, `id2`, `id3`, `map`, `zoneId`, `areaId`, `spawnMask`, `phaseMask`, `equipment_id`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `currentwaypoint`, `curhealth`, `curmana`, `MovementType`, `npcflag`, `unit_flags`, `dynamicflags`, `ScriptName`, `VerifiedBuild`) VALUES
 -- 
 2.34.1
 
