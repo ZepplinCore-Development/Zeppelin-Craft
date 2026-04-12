@@ -3503,3 +3503,14 @@ UPDATE spell SET spell_class_mask_1 = spell_class_mask_1 | 8192
   AND aura_interrupt_flags = 262272
   AND spell_class_set = 14;
 
+-- =====================================================
+-- SIMPLE GRINDER → TOTEM CATEGORY MIGRATION
+-- =====================================================
+-- Stock cutting spells hard-coded totem_1 = 20824 (Simple Grinder item id).
+-- Move them to totem_category_1 = 222 so Artisan+ Jeweler's Kits (cat 223,
+-- mask bits 28+29) also satisfy the requirement.
+UPDATE `spell`
+SET `totem_1` = 0,
+    `totem_category_1` = 222
+WHERE `totem_1` = 20824;
+

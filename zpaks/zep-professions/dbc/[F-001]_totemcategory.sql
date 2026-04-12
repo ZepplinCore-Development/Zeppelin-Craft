@@ -1,9 +1,19 @@
 -- F-001: Custom Profession Tools - TotemCategory entries
 -- Jeweler's Kit, Smithing Hammers, Pruning Shears, Tinkering Tools, Gnomish Army Knife updates
 
--- Jeweler's Kit
+-- Jeweler's Kit (kit-only capability — bit 29)
 DELETE FROM `totemcategory` WHERE `id` = 191;
 INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (191, 'Jeweler\'s Kit', 16712190, 24, 536870912);
+
+-- Simple Grinder (grinder-only capability — bit 28)
+-- Used by stock JC cutting spells; Simple Grinder item (20824) holds this category
+DELETE FROM `totemcategory` WHERE `id` = 222;
+INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (222, 'Simple Grinder', 16712190, 24, 268435456);
+
+-- Artisan Jeweler's Kit (combined kit + grinder — bits 28+29 = 805306368)
+-- Held by Artisan/Master/Grand Master kits so they can both craft and cut gems
+DELETE FROM `totemcategory` WHERE `id` = 223;
+INSERT INTO `totemcategory` (`id`, `name_enus`, `name_flags`, `category_type`, `category_mask`) VALUES (223, 'Artisan Jeweler\'s Kit', 16712190, 24, 805306368);
 
 -- Smithing Hammers (tiered categories)
 DELETE FROM `totemcategory` WHERE `id` = 192;

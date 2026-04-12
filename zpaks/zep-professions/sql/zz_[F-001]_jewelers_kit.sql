@@ -2,6 +2,13 @@
 -- JEWELER'S KIT
 -- Reduces craft time for jewelcrafting recipes
 -- 5 tiers: Apprentice (base, no buff), Journeyman (15%), Artisan (30%), Master (45%), Grand Master (60%)
+--
+-- TotemCategory layout (category_type = 24):
+--   191 — Jeweler's Kit only        (mask 536870912, bit 29) — Apprentice/Journeyman
+--   222 — Simple Grinder only       (mask 268435456, bit 28) — Simple Grinder item (20824)
+--   223 — Artisan Kit (kit+grinder) (mask 805306368, bits 28+29) — Artisan/Master/GM kits
+-- This lets Artisan+ kits satisfy stock cutting spells (which now require cat 222)
+-- as well as the existing JC crafting recipes (which require cat 191).
 -- =====================================================
 
 -- Delete existing entries
@@ -9,6 +16,13 @@ DELETE FROM `item_template` WHERE `entry` IN (57504, 57505, 57506, 57507);
 DELETE FROM `spell_group` WHERE `id` = 1124;
 DELETE FROM `spell_group_stack_rules` WHERE `group_id` = 1124;
 DELETE FROM `spell_ranks` WHERE `first_spell_id` = 91244;
+
+-- =====================================================
+-- SIMPLE GRINDER (20824) — assign new totem category 222
+-- Stock cutting spells now require totem_category_1 = 222 instead of
+-- hard-coded totem_1 = 20824. The grinder still works on its own.
+-- =====================================================
+UPDATE `item_template` SET `TotemCategory` = 222 WHERE `entry` = 20824;
 
 -- =====================================================
 -- MODIFY EXISTING APPRENTICE JEWELER'S KIT (20815)
@@ -73,7 +87,7 @@ SET `entry` = 57505,
     `spellcooldown_1` = -1,
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = -1,
-    `TotemCategory` = 191;
+    `TotemCategory` = 223; -- Kit + Grinder (cuts gems too)
 
 -- Master Jeweler's Kit ITEM TEMPLATE (45% cast time reduction)
 DELETE FROM `item_template` WHERE (`entry` = 57506);
@@ -96,7 +110,7 @@ SET `entry` = 57506,
     `spellcooldown_1` = -1,
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = -1,
-    `TotemCategory` = 191;
+    `TotemCategory` = 223; -- Kit + Grinder (cuts gems too)
 
 -- Grand Master Jeweler's Kit ITEM TEMPLATE (60% cast time reduction)
 DELETE FROM `item_template` WHERE (`entry` = 57507);
@@ -119,7 +133,7 @@ SET `entry` = 57507,
     `spellcooldown_1` = -1,
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = -1,
-    `TotemCategory` = 191;
+    `TotemCategory` = 223; -- Kit + Grinder (cuts gems too)
 
 -- =====================================================
 -- Spell group + ranks: Jeweler's Kit (EXCLUSIVE + rank-aware)
