@@ -14,6 +14,8 @@
   },
   "sql_path": "../Zeppelin-Core/data/sql/base/db_world",
   "sql_updates_path": "../Zeppelin-Core/data/sql/updates/db_world",
+  "sql_chars_updates_path": "../Zeppelin-Core/data/sql/updates/db_characters",
+  "sql_auth_updates_path": "../Zeppelin-Core/data/sql/updates/db_auth",
   "contents": {
     "patches": [
       "patches/*.patch"

@@ -1,15 +1,15 @@
-From 5dc608464fc08a40093130d385478d3b1062a476 Mon Sep 17 00:00:00 2001
+From d7d60414f6cad5bcf09b8b3ecd98ff2c2bf8e346 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Sat, 11 Apr 2026 12:30:29 +0000
+Date: Sun, 12 Apr 2026 05:03:46 +0000
 Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
 
 ---
- src/IndividualProgression.h         |  65 +++++
- src/IndividualProgressionPlayer.cpp | 416 +++++++++++++++++-----------
- 2 files changed, 326 insertions(+), 155 deletions(-)
+ src/IndividualProgression.h         | 65 +++++++++++++++++++++++++++++
+ src/IndividualProgressionPlayer.cpp | 62 +++++++++++++++++++++++++++
+ 2 files changed, 127 insertions(+)
 
 diff --git a/src/IndividualProgression.h b/src/IndividualProgression.h
-index b41cc2d..c32b49f 100644
+index b41cc2d..b3f317c 100644
 --- a/src/IndividualProgression.h
 +++ b/src/IndividualProgression.h
 @@ -73,6 +73,71 @@ enum ProgressionQuestIDs
@@ -68,16 +68,16 @@ index b41cc2d..c32b49f 100644
 +    Alliance_Maraudon_Orange = 441195,
 +    Alliance_Maraudon_Purple = 441207,
 +    Alliance_Maraudon_Pristine_Waters = 441208,
-+    Alliance_Blackrock_Depths_Prison = 441197,
-+    Alliance_Sunken_Temple = 441196,
-+    Alliance_Dire_Maul_East = 441199,
-+    Alliance_Lower_Blackrock_Spire = 441198,
++    Alliance_Blackrock_Depths_Prison = 441196,
++    Alliance_Sunken_Temple = 441197,
++    Alliance_Dire_Maul_East = 441198,
++    Alliance_Lower_Blackrock_Spire = 441199,
 +    Alliance_Dire_Maul_West = 441200,
 +    Alliance_Dire_Maul_North = 441201,
-+    Alliance_Stratholme_Living = 441202,
-+    Alliance_Stratholme_Undead = 441209,
-+    Alliance_Upper_Blackrock_Spire = 441203,
-+    Alliance_Blackrock_Depths_Upper_City = 441210,
++    Alliance_Stratholme_Living = 441209,
++    Alliance_Stratholme_Undead = 441210,
++    Alliance_Upper_Blackrock_Spire = 441202,
++    Alliance_Blackrock_Depths_Upper_City = 441203,
 +    Alliance_Scholomance = 441211,
 +    Alliance_Uldaman_West = 441214,
 +
@@ -85,638 +85,78 @@ index b41cc2d..c32b49f 100644
      MIGHT_OF_KALIMDOR         = 8742,
      BANG_A_GONG               = 8743,
 diff --git a/src/IndividualProgressionPlayer.cpp b/src/IndividualProgressionPlayer.cpp
-index 95357c9..10be604 100644
+index 95357c9..593772f 100644
 --- a/src/IndividualProgressionPlayer.cpp
 +++ b/src/IndividualProgressionPlayer.cpp
-@@ -25,7 +25,19 @@ public:
-             return;
- 
-         if (!sIndividualProgression->isExcludedFromProgression(player))
-+        {
-+            if (player->getClass() == CLASS_DEATH_KNIGHT && sIndividualProgression->deathKnightStartingProgression && !sIndividualProgression->hasPassedProgression(player, static_cast<ProgressionState>(sIndividualProgression->deathKnightStartingProgression)))
-+            {
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(sIndividualProgression->deathKnightStartingProgression));
-+            }
-+            if (sIndividualProgression->startingProgression && !sIndividualProgression->hasPassedProgression(player, static_cast<ProgressionState>(sIndividualProgression->startingProgression)))
-+            {
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(sIndividualProgression->startingProgression));
-+            }
-+
-             sIndividualProgression->checkIPProgression(player);
-+            sIndividualProgression->UpdateProgressionQuests(player);
-+        }
- 
-         if (sIndividualProgression->ExcludedAccountsEarnPvPTitles || !sIndividualProgression->isExcludedFromProgression(player))
-         {
-@@ -36,26 +48,17 @@ public:
- 		if (sIndividualProgression->isExcludedFromProgression(player) && sIndividualProgression->excludeAccounts)
-         {
-             if (player->GetLevel() <= IP_LEVEL_VANILLA)
--                sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(0));
-+            {
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(0));
-+            }
-             else if ((player->GetLevel() > IP_LEVEL_VANILLA) && (player->GetLevel() <= IP_LEVEL_TBC))
--                sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(8));
--            else
--                sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(13));
--        }
--
--        if ((player->getRace() == RACE_DRAENEI || player->getRace() == RACE_BLOODELF) && sIndividualProgression->tbcRacesStartingProgression && !sIndividualProgression->hasPassedProgression(player, static_cast<ProgressionState>(sIndividualProgression->tbcRacesStartingProgression)))
--        {
--            sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(sIndividualProgression->tbcRacesStartingProgression));
--        }
--
--        if (player->getClass() == CLASS_DEATH_KNIGHT && sIndividualProgression->deathKnightStartingProgression && !sIndividualProgression->hasPassedProgression(player, static_cast<ProgressionState>(sIndividualProgression->deathKnightStartingProgression)))
--        {
--            sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(sIndividualProgression->deathKnightStartingProgression));
--        }
--
--        if (sIndividualProgression->startingProgression && !sIndividualProgression->hasPassedProgression(player, static_cast<ProgressionState>(sIndividualProgression->startingProgression)))
--        {
--            sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(sIndividualProgression->startingProgression));
-+            {
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(8));
-+            }
-+            else // (player->GetLevel() <= IP_LEVEL_WOTLK)
-+            {
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(13));
-+            }
-         }
- 
-         sIndividualProgression->CheckAdjustments(player);
-@@ -88,21 +91,24 @@ public:
- 
-     void OnPlayerMapChanged(Player* player) override
-     {
--        if (!sIndividualProgression->enabled || !player || !player->IsInWorld())
-+        if (!player || !player->IsInWorld())
-             return;
- 
-         if (!sIndividualProgression->isExcludedFromProgression(player))
-+        {
-             sIndividualProgression->checkIPProgression(player);
-+            sIndividualProgression->UpdateProgressionQuests(player);
-+        }
- 
-         sIndividualProgression->CheckAdjustments(player);
-     }
- 
--    void OnPlayerUpdateZone(Player* player, uint32 newZone, uint32 /*newArea*/) override
-+    void OnPlayerLevelChanged(Player* player, uint8 /*oldLevel*/) override
-     {
--        if (!sIndividualProgression->enabled || !player || !player->IsInWorld() || !newZone)
-+        if (!player || !player->IsInWorld())
-             return;
--		
--        sIndividualProgression->checkIPPhasing(player, newZone);
-+
-+        sIndividualProgression->CheckAdjustments(player);
-     }
- 
-     void OnPlayerEquip(Player* player, Item* /*it*/, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) override
-@@ -178,6 +184,7 @@ public:
-                     pet->GivePetXP(player->GetGroup() ? amount / 2 : amount);
- 
-                 amount = 0;
-+
-             }
-         }
-     }
-@@ -187,9 +194,6 @@ public:
-         if (!player || !player->IsInWorld())
-             return false;
- 
--        if (!sIndividualProgression->enabled || player->IsGameMaster() || sIndividualProgression->isExcludedFromProgression(player))
--            return true;
--
-         if ((player->GetQuestStatus(NAXX40_ATTUNEMENT_1) == QUEST_STATUS_REWARDED) || (player->GetQuestStatus(NAXX40_ATTUNEMENT_2) == QUEST_STATUS_REWARDED) || (player->GetQuestStatus(NAXX40_ATTUNEMENT_3) == QUEST_STATUS_REWARDED))
-             return true;
-         else
-@@ -220,15 +224,17 @@ public:
-                 if (!player->HasItemCount(ITEM_DRAKEFIRE_AMULET))
-                     return false;
-             }
-- 			else // WotLK
-+			else // WotLK
-             {
-                 if (player->GetLevel() != IP_LEVEL_WOTLK)
-                     return false;
-+                // if (!player->HasItemCount(ITEM_DRAKEFIRE_AMULET))
-+                //     return false;
-             }
-         }
-         if (mapid == MAP_ZUL_GURUB)
-         {
--            uint32 PLAYER_PROGRESSION = sIndividualProgression->GetPlayerProgressionFromQuests(player);
-+            uint32 PLAYER_PROGRESSION = player->GetPlayerSetting("mod-individual-progression", SETTING_PROGRESSION_STATE).value;
-             ProgressionState REQUIRED_ZG_PROGRESSION = static_cast<ProgressionState>(sIndividualProgression->RequiredZulGurubProgression);
- 
-             if (PLAYER_PROGRESSION < REQUIRED_ZG_PROGRESSION)
-@@ -251,21 +257,11 @@ public:
-         {
-             if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-             {
--                uint32 accountId = player->GetSession()->GetAccountId();
--                uint8 highestProgression = sIndividualProgression->GetAccountProgression(accountId);
--
--                if ((highestProgression < sIndividualProgression->tbcRacesProgressionLevel) && (player->getRace() != RACE_DRAENEI && player->getRace() != RACE_BLOODELF))
--                {
--                    ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", sIndividualProgression->tbcRacesProgressionLevel);
--                    return false;
--                }
--                else
--                    return IsTBCRaceStartingZone(mapid, x, y, z);
-+                // The player may be in the Azuremyst area which is on the outlands map - check the area ID
-+                return IsTBCRaceStartingZone(mapid, x, y, z);
-             }
--
-             Map const *map = sMapMgr->FindMap(mapid, 0);
-             uint32 zoneId = map->GetZoneId(0, x, y, z);
--
-             if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_4) && zoneId == AREA_ISLE_OF_QUEL_DANAS)
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_4);
-@@ -320,12 +316,12 @@ public:
-                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_1);
-                 return false;
-             }
-- 			else if (!player->HasItemCount(ITEM_TEMPEST_KEY))
-+			else if (!player->HasItemCount(ITEM_TEMPEST_KEY))
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("You must possess the Tempest Key to enter The Eye.");
-                 return false;
-             }
-- 			else if (player->GetQuestStatus(TRIAL_MAGTHERIDON) != QUEST_STATUS_REWARDED)
-+			else if (player->GetQuestStatus(TRIAL_MAGTHERIDON) != QUEST_STATUS_REWARDED)
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest Trial of the Naaru: Magtheridon to enter The Eye.");
-                 return false;
-@@ -338,7 +334,7 @@ public:
-                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_1);
-                 return false;
-             }
-- 			else if (player->GetQuestStatus(CUDGEL_OF_KARDESH) != QUEST_STATUS_REWARDED)
-+			else if (player->GetQuestStatus(CUDGEL_OF_KARDESH) != QUEST_STATUS_REWARDED)
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest The Cudgel of Kar\'desh to enter Serpentshrine Reservoir.");
-                 return false;
-@@ -351,7 +347,7 @@ public:
-                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_2);
-                 return false;
-             }
-- 			else if (player->GetQuestStatus(VIALS_OF_ETERNITY) != QUEST_STATUS_REWARDED)
-+			else if (player->GetQuestStatus(VIALS_OF_ETERNITY) != QUEST_STATUS_REWARDED)
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest The Vials of Eternity to enter the Battle of Mount Hyjal.");
-                 return false;
-@@ -364,7 +360,7 @@ public:
-                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_2);
-                 return false;
-             }
-- 			else if (!player->HasItemCount(ITEM_MEDALLION_OF_KARABOR) && !player->HasItemCount(ITEM_BLESSED_MEDALLION_OF_KARABOR))
-+			else if (!player->HasItemCount(ITEM_MEDALLION_OF_KARABOR) && !player->HasItemCount(ITEM_BLESSED_MEDALLION_OF_KARABOR))
-             {
-                 ChatHandler(player->GetSession()).PSendSysMessage("You must possess the Medallion of Karabor to enter the Black Temple.");
-                 return false;
-@@ -375,21 +371,24 @@ public:
-         if (instanceTemplate)
-         {
-             if (instanceTemplate->Parent == MAP_OUTLAND && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-+            {
-                 return false;
--
-+            }
-             if (instanceTemplate->Parent == MAP_NORTHREND && mapid != MAP_NAXXRAMAS && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-+            {
-                 return false;
--
-+            }
-             if (instanceTemplate->Parent == MAP_NORTHREND && mapid == MAP_NAXXRAMAS && player->GetLevel() <= IP_LEVEL_TBC && (!isAttuned(player) ||  sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5) ))
-+            {
-                 return false;
-+            }
-         }
--
-         return true;
-     }
- 
-     void OnPlayerCompleteQuest(Player* player, Quest const* quest) override
-     {
--        if (!player || !player->IsInWorld() || !quest || !sIndividualProgression->enabled)
-+        if (!player || !player->IsInWorld() || !quest || !sIndividualProgression->enabled )
-             return;
- 
-         if (sIndividualProgression->questMoneyAtLevelCap)
-@@ -398,9 +397,13 @@ public:
-             int32 XPValue = 0;
- 
-             if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC) && player->GetLevel() == IP_LEVEL_VANILLA)
-+            {
-                 XPValue = quest->XPValue(quest->GetQuestLevel() == -1 ? IP_LEVEL_VANILLA : quest->GetQuestLevel());
-+            }
-             else if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5) && player->GetLevel() == IP_LEVEL_TBC)
-+		    {
-                 XPValue = quest->XPValue(quest->GetQuestLevel() == -1 ? IP_LEVEL_TBC : quest->GetQuestLevel());
-+		    }
- 
-             moneyRew = (XPValue * (6 * COPPER)) * sWorld->getRate(RATE_REWARD_BONUS_MONEY);
- 
-@@ -422,32 +425,106 @@ public:
-         {
-             switch (quest->GetQuestId())
-             {
--            case BANG_A_GONG:
--                if (!sIndividualProgression->disableDefaultProgression)
--                    sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_AQ);
--                break;
--            case SIMPLY_BANG_A_GONG:
--                if (!sIndividualProgression->disableDefaultProgression)
--                    sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_AQ);
--                break;
--            case CHAOS_AND_DESTRUCTION:
--                if (!sIndividualProgression->disableDefaultProgression)
--                    sIndividualProgression->UpdateProgressionState(player, PROGRESSION_AQ_WAR);
--                break;
--            case INTO_THE_BREACH:
--                if (!sIndividualProgression->disableDefaultProgression)
--                    sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_TBC);
--                break;
--            case QUEST_MORROWGRAIN:
--            case QUEST_TROLL_NECKLACE:
--            case QUEST_DEADWOOD:
--            case QUEST_WINTERFALL:
--                if (sIndividualProgression->repeatableVanillaQuestsXp)
--                {
--                    // Reset the quest status so the player can take it and receive rewards again
--                    player->RemoveRewardedQuest(quest->GetQuestId());
--                }
--                break;
-+                case BANG_A_GONG:
-+                    if (!sIndividualProgression->disableDefaultProgression)
-+                    {
-+                        sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_AQ);
-+                        sIndividualProgression->UpdateProgressionQuests(player);
-+                    }
-+                    break;
-+                case SIMPLY_BANG_A_GONG:
-+                    if (!sIndividualProgression->disableDefaultProgression)
-+                    {
-+                        sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_AQ);
-+                        sIndividualProgression->UpdateProgressionQuests(player);
-+                    }
-+                    break;
-+                case CHAOS_AND_DESTRUCTION:
-+                    if (!sIndividualProgression->disableDefaultProgression)
-+                    {
-+                        sIndividualProgression->UpdateProgressionState(player, PROGRESSION_AQ_WAR);
-+                        sIndividualProgression->UpdateProgressionQuests(player);
-+                    }
-+                    break;
-+                case INTO_THE_BREACH:
-+                    if (!sIndividualProgression->disableDefaultProgression)
-+                    {
-+                        sIndividualProgression->UpdateProgressionState(player, PROGRESSION_PRE_TBC);
-+                        sIndividualProgression->UpdateProgressionQuests(player);
-+                    }
-+                    break;
-+                case QUEST_MORROWGRAIN:
-+                case QUEST_TROLL_NECKLACE:
-+                case QUEST_DEADWOOD:
-+                case QUEST_WINTERFALL:
-+                // Zeppelin: Horde Daily Dungeon Quests (F-018)
-+                case Horde_Wailing_Caverns:
-+                case Horde_Ragefire_Chasm:
-+                case Horde_Deadmines:
-+                case Horde_Shadowfang_Keep:
-+                case Horde_Blackfathom_Deeps:
-+                case Horde_Stormwind_Stockade:
-+                case Horde_Scarlet_Monastery_Graveyard:
-+                case Horde_Gnomeregan:
-+                case Horde_Razorfen_Kraul:
-+                case Horde_Razorfen_Downs:
-+                case Horde_Scarlet_Monastery_Library:
-+                case Horde_Scarlet_Monastery_Armory:
-+                case Horde_Scarlet_Monastery_Cathedral:
-+                case Horde_Maraudon_Orange:
-+                case Horde_ZulFarrak:
-+                case Horde_Maraudon_Purple:
-+                case Horde_Uldaman_East:
-+                case Horde_Maraudon_Pristine_Waters:
-+                case Horde_Blackrock_Depths_Prison:
-+                case Horde_Sunken_Temple:
-+                case Horde_Dire_Maul_East:
-+                case Horde_Lower_Blackrock_Spire:
-+                case Horde_Upper_Blackrock_Spire:
-+                case Horde_Dire_Maul_West:
-+                case Horde_Dire_Maul_North:
-+                case Horde_Stratholme_Undead:
-+                case Horde_Stratholme_Living:
-+                case Horde_Scholomance:
-+                case Horde_Blackrock_Depths_Upper_City:
-+                case Horde_Uldaman_West:
-+                // Zeppelin: Alliance Daily Dungeon Quests (F-018)
-+                case Alliance_Wailing_Caverns:
-+                case Alliance_Ragefire_Chasm:
-+                case Alliance_Deadmines:
-+                case Alliance_Shadowfang_Keep:
-+                case Alliance_Blackfathom_Deeps:
-+                case Alliance_Stormwind_Stockade:
-+                case Alliance_Scarlet_Monastery_Graveyard:
-+                case Alliance_Gnomeregan:
-+                case Alliance_Razorfen_Kraul:
-+                case Alliance_Razorfen_Downs:
-+                case Alliance_Scarlet_Monastery_Armory:
-+                case Alliance_Scarlet_Monastery_Cathedral:
-+                case Alliance_Scarlet_Monastery_Library:
-+                case Alliance_Uldaman_East:
-+                case Alliance_ZulFarrak:
-+                case Alliance_Maraudon_Orange:
-+                case Alliance_Maraudon_Purple:
-+                case Alliance_Maraudon_Pristine_Waters:
-+                case Alliance_Blackrock_Depths_Prison:
-+                case Alliance_Sunken_Temple:
-+                case Alliance_Dire_Maul_East:
-+                case Alliance_Lower_Blackrock_Spire:
-+                case Alliance_Dire_Maul_West:
-+                case Alliance_Dire_Maul_North:
-+                case Alliance_Stratholme_Living:
-+                case Alliance_Stratholme_Undead:
-+                case Alliance_Upper_Blackrock_Spire:
-+                case Alliance_Blackrock_Depths_Upper_City:
-+                case Alliance_Scholomance:
-+                case Alliance_Uldaman_West:
-+                    if (sIndividualProgression->repeatableVanillaQuestsXp)
-+                    {
-+                        // Reset the quest status so the player can take it and receive rewards again
-+                        player->RemoveRewardedQuest(quest->GetQuestId());
-+                    }
-+                    break;
-             }
-         }
-     }
-@@ -461,8 +538,8 @@ public:
-             return true;
- 
-         Player* otherPlayer = ObjectAccessor::FindPlayerByName(membername, false);
--        uint8 currentState = sIndividualProgression->GetPlayerProgressionFromQuests(player);
--        uint8 otherPlayerState = sIndividualProgression->GetPlayerProgressionFromQuests(otherPlayer);
-+        uint8 currentState = player->GetPlayerSetting("mod-individual-progression", SETTING_PROGRESSION_STATE).value;
-+        uint8 otherPlayerState = otherPlayer->GetPlayerSetting("mod-individual-progression", SETTING_PROGRESSION_STATE).value;
- 
-         if (sIndividualProgression->enforceGroupRules) // enforceGroupRules enabled
-         {
-@@ -566,98 +643,61 @@ public:
-         }
-     }
- 
-+
-     bool OnPlayerCanGroupAccept(Player* player, Group* group) override
-     {
-         if (!player || !player->IsInWorld() || !group)
-             return false;
- 
-         Player* groupLeader = ObjectAccessor::FindPlayerByLowGUID(group->GetLeaderGUID().GetCounter());
--        uint8 currentState = sIndividualProgression->GetPlayerProgressionFromQuests(player);
--        uint8 groupLeaderState = sIndividualProgression->GetPlayerProgressionFromQuests(groupLeader);
--
--        if (!sIndividualProgression->enabled)
--            return true;
-+        uint8 currentState = player->GetPlayerSetting("mod-individual-progression", SETTING_PROGRESSION_STATE).value;
-+        uint8 otherPlayerState = groupLeader->GetPlayerSetting("mod-individual-progression", SETTING_PROGRESSION_STATE).value;
- 
-         if (sIndividualProgression->isExcludedFromProgression(player))
-         {
--            if (sIndividualProgression->enforceGroupRules)
--            {
--                if (groupLeaderState <= 7) // Group leader is in Vanilla
--                {
--                    if (player->GetLevel() <= 60) // invited excluded player is in Vanilla
--                    {
--                        sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(groupLeaderState));
--                        return true;
--                    }
--                    else
--                        return false;
--                }
--                else if (groupLeaderState > 7 && groupLeaderState < 13) // Group leader is in TBC
--                {
--                    if (player->GetLevel() > 60 && player->GetLevel() <= 70) // invited excluded player is in TBC
--                    {
--                        sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(groupLeaderState));
--                        return true;
--                    }
--                    else
--                        return false;
--                }
--                else // Group leader is in WotLK
--                {
--                    if (player->GetLevel() > 70) // invited excluded player is in WotLK
--                    {
--                        sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(groupLeaderState));
--                        return true;
--                    }
--                    else
--                        return false;
--                }
--            }
--            else // not enforcing Group Rules
-+            if (currentState != otherPlayerState)
-             {
--                if (currentState != groupLeaderState)
--                    sIndividualProgression->ForceUpdateProgressionState(player, static_cast<ProgressionState>(groupLeaderState));
--
--                return true;
-+                sIndividualProgression->UpdateProgressionState(player, static_cast<ProgressionState>(otherPlayerState));
-             }
-+            return true;
-         }
--        else // normal account
-+
-+        if (!sIndividualProgression->enabled || !sIndividualProgression->enforceGroupRules)
-         {
--            if (sIndividualProgression->enforceGroupRules)
--                return (currentState == groupLeaderState);
--            else
--                return true;
-+            return true;
-         }
-+
-+        return (currentState == otherPlayerState);
-     }
- 
-     void OnPlayerCreatureKill(Player* killer, Creature* killed) override
-     {
--        if (!sIndividualProgression->enabled || !killed || !killer || !killer->IsInWorld())
-+        if (!killed || !killer || !killer->IsInWorld())
-             return;
- 
-         switch (killed->GetEntry())
-         {
--        case RHAHK_ZOR:
--            killer->RemoveAura(IPP_PHASE);
--            killer->RemoveAura(IPP_PHASE_II);
--            killer->RemoveAura(IPP_PHASE_III);
--            killer->CastSpell(killer, IPP_PHASE, false);
--            break;
--        case SNEED:
--            killer->RemoveAura(IPP_PHASE);
--            killer->RemoveAura(IPP_PHASE_II);
--            killer->RemoveAura(IPP_PHASE_III);
--            killer->CastSpell(killer, IPP_PHASE, false);
--            killer->CastSpell(killer, IPP_PHASE_II, false);
--            break;
--        case GILNID:
--            killer->RemoveAura(IPP_PHASE);
--            killer->RemoveAura(IPP_PHASE_II);
--            killer->RemoveAura(IPP_PHASE_III);
--            killer->CastSpell(killer, IPP_PHASE, false);
--            killer->CastSpell(killer, IPP_PHASE_II, false);
--            killer->CastSpell(killer, IPP_PHASE_III, false);
--            break;
-+            case RHAHK_ZOR:
-+                killer->RemoveAura(IPP_PHASE);
-+                killer->RemoveAura(IPP_PHASE_II);
-+                killer->RemoveAura(IPP_PHASE_III);
-+                killer->CastSpell(killer, IPP_PHASE, false);
-+                break;
-+            case SNEED:
-+                killer->RemoveAura(IPP_PHASE);
-+                killer->RemoveAura(IPP_PHASE_II);
-+                killer->RemoveAura(IPP_PHASE_III);
-+	            killer->CastSpell(killer, IPP_PHASE, false);
-+                killer->CastSpell(killer, IPP_PHASE_II, false);
-+                break;
-+            case GILNID:
-+                killer->RemoveAura(IPP_PHASE);
-+                killer->RemoveAura(IPP_PHASE_II);
-+                killer->RemoveAura(IPP_PHASE_III);
-+	            killer->CastSpell(killer, IPP_PHASE, false);
-+                killer->CastSpell(killer, IPP_PHASE_II, false);
-+                killer->CastSpell(killer, IPP_PHASE_III, false);
-+                break;
-         }
- 
-         if (killed->GetCreatureTemplate()->rank > CREATURE_ELITE_NORMAL)
-@@ -718,7 +758,7 @@ public:
- 
- };
- 
--class IndividualPlayerProgression_AccountScript : public AccountScript
-+class IndividualPlayerProgression_AccountScript: public AccountScript
- {
- public:
-     IndividualPlayerProgression_AccountScript() : AccountScript("IndividualProgression_AccountScript") { }
-@@ -755,7 +795,7 @@ public:
- class IndividualPlayerProgression_GroupScript : public GroupScript
- {
- public:
--    IndividualPlayerProgression_GroupScript() : GroupScript("IndividualPlayerProgression_GroupScript") { }
-+    IndividualPlayerProgression_GroupScript() : GroupScript("IndividualPlayerProgression_GroupScript") {}
- 
-     void OnAddMember(Group* group, ObjectGuid guid) override
-     {
-@@ -770,6 +810,75 @@ public:
-     }
- };
- 
-+
-+class IndividualPlayerProgression_PetScript : public PetScript
-+{
-+private:
-+    static void CheckAdjustments(Pet* pet)
-+    {
-+        if (!sIndividualProgression->enabled || !pet || !pet->GetOwner())
-+            return;
-+
-+        if (!sIndividualProgression->hasPassedProgression(pet->GetOwner(), PROGRESSION_PRE_TBC))
-+            AdjustVanillaStats(pet);
-+        else if (sIndividualProgression->hasPassedProgression(pet->GetOwner(), PROGRESSION_PRE_TBC) && !sIndividualProgression->hasPassedProgression(pet->GetOwner(), PROGRESSION_TBC_TIER_5))
-+            AdjustTBCStats(pet);
-+    }
-+
-+    static void AdjustVanillaStats(Pet* pet)
-+    {
-+        if (!sIndividualProgression->enabled || !pet || !pet->GetOwner())
-+            return;
-+
-+        float adjustmentValue = -100.0f * (1.0f - sIndividualProgression->vanillaPowerAdjustment);
-+        float adjustmentApplyPercent = (pet->GetLevel() - 10.0f) / 50.0f;
-+        float computedAdjustment = pet->GetLevel() > 10 ? (adjustmentValue * adjustmentApplyPercent) : 0;
-+        float hpAdjustmentValue = -100.0f * (1.0f - sIndividualProgression->vanillaHealthAdjustment);
-+        float hpAdjustment = pet->GetLevel() > 10 ? (hpAdjustmentValue * adjustmentApplyPercent) : 0;
-+        AdjustStats(pet, computedAdjustment, hpAdjustment);
-+    }
-+
-+    static void AdjustTBCStats(Pet* pet)
-+    {
-+        if (!sIndividualProgression->enabled || !pet || !pet->GetOwner())
-+            return;
-+
-+        float adjustmentValue = -100.0f * (1.0f - sIndividualProgression->tbcPowerAdjustment);
-+        float adjustmentApplyPercent = 1;
-+        float computedAdjustment = pet->GetLevel() > 10 ? (adjustmentValue * adjustmentApplyPercent) : 0;
-+        float hpAdjustmentValue = -100.0f * (1.0f - sIndividualProgression->tbcHealthAdjustment);
-+        float hpAdjustment = pet->GetLevel() > 10 ? (hpAdjustmentValue * adjustmentApplyPercent) : 0;
-+        AdjustStats(pet, computedAdjustment, hpAdjustment);
-+    }
-+
-+    static void AdjustStats(Pet* pet, float computedAdjustment, float hpAdjustment)
-+    {
-+        if (!sIndividualProgression->enabled || !pet || !pet->GetOwner())
-+            return;
-+
-+        // int32 bp0 = 0; // This would be the damage taken adjustment value, but we are already adjusting health
-+        auto bp1 = static_cast<int32>(computedAdjustment);
-+        auto bp2 = static_cast<int32>(hpAdjustment);
-+
-+        pet->RemoveAura(ABSORB_SPELL);
-+        pet->CastCustomSpell(pet, ABSORB_SPELL, &bp1, nullptr, nullptr, true);
-+
-+        pet->RemoveAura(HP_AURA_SPELL);
-+        pet->CastCustomSpell(pet, HP_AURA_SPELL, &bp2, nullptr, nullptr, true);
-+    }
-+
-+public:
-+    IndividualPlayerProgression_PetScript() : PetScript("IndividualProgression_PetScript") { }
-+
-+    void OnPetAddToWorld(Pet* pet) override
-+    {
-+        if (!sIndividualProgression->enabled || !pet || !pet->GetOwner())
-+            return;
-+
-+        CheckAdjustments(pet);
-+    }
-+};
-+
- class IndividualPlayerProgression_UnitScript : public UnitScript
- {
- public:
-@@ -805,15 +914,11 @@ public:
-             heal *= sIndividualProgression->tbcHealingAdjustment;
-     }
- 
--    void ModifySpellDamageTaken(Unit* /*target*/, Unit* attacker, int32& damage, SpellInfo const* spellInfo) override
-+    void ModifySpellDamageTaken(Unit* /*target*/, Unit* attacker, int32& damage, SpellInfo const* /*spellInfo*/) override
-     {
-         if (!sIndividualProgression->enabled || !attacker || !damage)
-             return;
- 
--        // 22482 - Blade Flurry extra attack (Rogue); 12723 - Sweeping Strikes extra attack (Warrior)
--        if (spellInfo && (spellInfo->Id == 22482 || spellInfo->Id == 12723))
--            return;
--
-         bool isPet = attacker->GetOwner() && attacker->GetOwner()->GetTypeId() == TYPEID_PLAYER;
-         if (!isPet && attacker->GetTypeId() != TYPEID_PLAYER)
-             return;
-@@ -877,6 +982,7 @@ void AddSC_mod_individual_progression_player()
- {
-     new IndividualPlayerProgression();
-     new IndividualPlayerProgression_GroupScript();
-+    new IndividualPlayerProgression_PetScript();
-     new IndividualPlayerProgression_AccountScript();
-     new IndividualPlayerProgression_UnitScript();
- }
+@@ -442,6 +442,68 @@ public:
+             case QUEST_TROLL_NECKLACE:
+             case QUEST_DEADWOOD:
+             case QUEST_WINTERFALL:
++            // Zeppelin: Horde Daily Dungeon Quests (F-018)
++            case Horde_Wailing_Caverns:
++            case Horde_Ragefire_Chasm:
++            case Horde_Deadmines:
++            case Horde_Shadowfang_Keep:
++            case Horde_Blackfathom_Deeps:
++            case Horde_Stormwind_Stockade:
++            case Horde_Scarlet_Monastery_Graveyard:
++            case Horde_Gnomeregan:
++            case Horde_Razorfen_Kraul:
++            case Horde_Razorfen_Downs:
++            case Horde_Scarlet_Monastery_Library:
++            case Horde_Scarlet_Monastery_Armory:
++            case Horde_Scarlet_Monastery_Cathedral:
++            case Horde_Maraudon_Orange:
++            case Horde_ZulFarrak:
++            case Horde_Maraudon_Purple:
++            case Horde_Uldaman_East:
++            case Horde_Maraudon_Pristine_Waters:
++            case Horde_Blackrock_Depths_Prison:
++            case Horde_Sunken_Temple:
++            case Horde_Dire_Maul_East:
++            case Horde_Lower_Blackrock_Spire:
++            case Horde_Upper_Blackrock_Spire:
++            case Horde_Dire_Maul_West:
++            case Horde_Dire_Maul_North:
++            case Horde_Stratholme_Undead:
++            case Horde_Stratholme_Living:
++            case Horde_Scholomance:
++            case Horde_Blackrock_Depths_Upper_City:
++            case Horde_Uldaman_West:
++            // Zeppelin: Alliance Daily Dungeon Quests (F-018)
++            case Alliance_Wailing_Caverns:
++            case Alliance_Ragefire_Chasm:
++            case Alliance_Deadmines:
++            case Alliance_Shadowfang_Keep:
++            case Alliance_Blackfathom_Deeps:
++            case Alliance_Stormwind_Stockade:
++            case Alliance_Scarlet_Monastery_Graveyard:
++            case Alliance_Gnomeregan:
++            case Alliance_Razorfen_Kraul:
++            case Alliance_Razorfen_Downs:
++            case Alliance_Scarlet_Monastery_Armory:
++            case Alliance_Scarlet_Monastery_Cathedral:
++            case Alliance_Scarlet_Monastery_Library:
++            case Alliance_Uldaman_East:
++            case Alliance_ZulFarrak:
++            case Alliance_Maraudon_Orange:
++            case Alliance_Maraudon_Purple:
++            case Alliance_Maraudon_Pristine_Waters:
++            case Alliance_Blackrock_Depths_Prison:
++            case Alliance_Sunken_Temple:
++            case Alliance_Dire_Maul_East:
++            case Alliance_Lower_Blackrock_Spire:
++            case Alliance_Dire_Maul_West:
++            case Alliance_Dire_Maul_North:
++            case Alliance_Stratholme_Living:
++            case Alliance_Stratholme_Undead:
++            case Alliance_Upper_Blackrock_Spire:
++            case Alliance_Blackrock_Depths_Upper_City:
++            case Alliance_Scholomance:
++            case Alliance_Uldaman_West:
+                 if (sIndividualProgression->repeatableVanillaQuestsXp)
+                 {
+                     // Reset the quest status so the player can take it and receive rewards again
 -- 
 2.34.1
 

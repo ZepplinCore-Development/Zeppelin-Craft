@@ -1,4 +1,4 @@
-From 6af0edb8104a2f2c2a821fa06eb24c294d3ae709 Mon Sep 17 00:00:00 2001
+From b903cc4bca5edb4a1adfc85adcf5413d92152a94 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:42 +0000
 Subject: [PATCH] F-024: Move player_levelstats.sql to optional

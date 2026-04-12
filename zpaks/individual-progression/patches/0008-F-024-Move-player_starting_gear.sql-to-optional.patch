@@ -1,4 +1,4 @@
-From eff063938284df5f7822ae735c76e60b45152a79 Mon Sep 17 00:00:00 2001
+From 746594c20adb241157e1fda5c40aa306b9fb6ce7 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 30 Jan 2026 04:47:58 +0000
 Subject: [PATCH] F-024: Move player_starting_gear.sql to optional

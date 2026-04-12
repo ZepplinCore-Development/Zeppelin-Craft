@@ -51,6 +51,13 @@ CHARS_DB_USER = os.getenv('CHARS_DB_USER', 'chars')
 CHARS_DB_PASS = os.getenv('CHARS_DB_PASS', '')
 CHARS_DB_NAME = os.getenv('CHARS_DB_NAME', 'acore_characters')
 
+# Auth database connection (defaults to world DB credentials)
+AUTH_DB_HOST = os.getenv('AUTH_DB_HOST', DB_HOST)
+AUTH_DB_PORT = os.getenv('AUTH_DB_PORT', DB_PORT)
+AUTH_DB_USER = os.getenv('AUTH_DB_USER', DB_USER)
+AUTH_DB_PASS = os.getenv('AUTH_DB_PASS', DB_PASS)
+AUTH_DB_NAME = os.getenv('AUTH_DB_NAME', 'acore_auth')
+
 # Root credentials for privileged operations (DROP/CREATE DATABASE)
 DB_ROOT_USER = os.getenv('DB_ROOT_USER', 'root')
 DB_ROOT_PASS = os.getenv('DB_ROOT_PASS', '')
@@ -64,7 +71,7 @@ def _create_mysql_config(database: str = 'world') -> str:
     """Create a temporary MySQL config file with credentials.
 
     Args:
-        database: 'world' for acore_world, 'characters' for acore_characters
+        database: 'world', 'characters', or 'auth'
     """
     fd, path = tempfile.mkstemp(suffix='.cnf')
     with os.fdopen(fd, 'w') as f:
@@ -74,6 +81,11 @@ def _create_mysql_config(database: str = 'world') -> str:
             f.write(f"password=\"{CHARS_DB_PASS}\"\n")
             f.write(f"host={CHARS_DB_HOST}\n")
             f.write(f"port={CHARS_DB_PORT}\n")
+        elif database == 'auth':
+            f.write(f"user={AUTH_DB_USER}\n")
+            f.write(f"password={AUTH_DB_PASS}\n")
+            f.write(f"host={AUTH_DB_HOST}\n")
+            f.write(f"port={AUTH_DB_PORT}\n")
         else:
             f.write(f"user={DB_USER}\n")
             f.write(f"password={DB_PASS}\n")
@@ -99,9 +111,14 @@ def get_mysql_command(database: str = DB_NAME, cnf_path: str = None) -> List[str
 def run_mysql_query(query: str, database: str = DB_NAME) -> Tuple[bool, str]:
     """Run a MySQL query and return result.
 
-    Automatically uses characters DB credentials when targeting acore_characters.
+    Automatically routes credentials based on target database.
     """
-    db_type = 'characters' if database == CHARS_DB_NAME else 'world'
+    if database == CHARS_DB_NAME:
+        db_type = 'characters'
+    elif database == AUTH_DB_NAME:
+        db_type = 'auth'
+    else:
+        db_type = 'world'
     cnf_path = _create_mysql_config(db_type)
     try:
         cmd = get_mysql_command(database, cnf_path)
@@ -160,9 +177,17 @@ def calculate_file_hash(filepath: Path) -> str:
     return sha1.hexdigest().upper()
 
 
-def get_stored_hash(filename: str) -> Optional[str]:
-    """Get stored hash for a file from AC's updates table."""
-    query = f"SELECT hash FROM `updates` WHERE name = '{filename}'"
+def get_stored_hash(filename: str, custom_only: bool = False) -> Optional[str]:
+    """Get stored hash for a file from AC's updates table.
+
+    Args:
+        custom_only: If True, only return hashes for CUSTOM state entries.
+            Use this for auth/characters files where RELEASED entries come from
+            AC's world base SQL dump and don't mean the file was actually applied
+            to the target database.
+    """
+    state_filter = " AND state = 'CUSTOM'" if custom_only else ""
+    query = f"SELECT hash FROM `updates` WHERE name = '{filename}'{state_filter}"
     success, result = run_mysql_query(query)
     if success and result:
         lines = result.strip().split('\n')
@@ -181,12 +206,30 @@ def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int)
     run_mysql_query(query)
 
 
+def _resolve_db_name(database: str) -> str:
+    """Map database type to actual database name."""
+    if database == 'characters':
+        return CHARS_DB_NAME
+    elif database == 'auth':
+        return AUTH_DB_NAME
+    return DB_NAME
+
+
+def _db_tag(database: str) -> str:
+    """Coloured tag for non-world databases in CLI output."""
+    if database == 'characters':
+        return f" {click.style('[characters]', fg='cyan')}"
+    if database == 'auth':
+        return f" {click.style('[auth]', fg='magenta')}"
+    return ""
+
+
 def execute_sql_file(sql_file: Path, dry_run: bool = False,
                      database: str = 'world') -> Tuple[bool, str, int]:
     """Execute a SQL file against the database.
 
     Args:
-        database: 'world' for acore_world, 'characters' for acore_characters
+        database: 'world', 'characters', or 'auth'
     """
     if not sql_file.exists():
         return False, f"File not found: {sql_file}", 0
@@ -194,7 +237,7 @@ def execute_sql_file(sql_file: Path, dry_run: bool = False,
     if dry_run:
         return True, "Would execute", 0
 
-    db_name = CHARS_DB_NAME if database == 'characters' else DB_NAME
+    db_name = _resolve_db_name(database)
     cnf_path = _create_mysql_config(database)
     try:
         start_time = time.time()
@@ -303,6 +346,14 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
         updates_dir = (craft_root / manifest['sql_updates_path']).resolve()
         if updates_dir.exists():
             sql_paths.append((updates_dir, 'updates'))
+    if 'sql_chars_updates_path' in manifest:
+        chars_dir = (craft_root / manifest['sql_chars_updates_path']).resolve()
+        if chars_dir.exists():
+            sql_paths.append((chars_dir, 'chars_updates'))
+    if 'sql_auth_updates_path' in manifest:
+        auth_dir = (craft_root / manifest['sql_auth_updates_path']).resolve()
+        if auth_dir.exists():
+            sql_paths.append((auth_dir, 'auth_updates'))
 
     # 2. Check contents.sql and contents.sql_characters paths from zpak.json
     contents = manifest.get('contents', {})
@@ -326,14 +377,20 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
 FOLDER_TYPE_ORDER = [
     'base', 'updates', 'root', 'contents', 'zpak',
     'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak',
+    'auth_updates',
 ]
 
 CHARS_FOLDER_TYPES = {'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak'}
+AUTH_FOLDER_TYPES = {'auth_updates'}
 
 
 def folder_type_to_database(folder_type: str) -> str:
     """Map folder type to target database."""
-    return 'characters' if folder_type in CHARS_FOLDER_TYPES else 'world'
+    if folder_type in CHARS_FOLDER_TYPES:
+        return 'characters'
+    if folder_type in AUTH_FOLDER_TYPES:
+        return 'auth'
+    return 'world'
 
 
 def collect_sql_files_from_paths(paths: List[Tuple[Path, str]]) -> List[Tuple[Path, str]]:
@@ -435,10 +492,11 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
                            continue_on_error: bool = False) -> Tuple[int, int]:
     """Execute new/modified SQL files. Returns (success_count, error_count)."""
     # Collect files (exclude AC base, include AC updates + all zpak SQL)
+    AC_ALLOWED_SOURCES = {'updates', 'zpak', 'chars_updates', 'auth_updates'}
     sql_files = collect_all_sql_files(craft_root)
     sql_files = [
         (f, z, s, db) for f, z, s, db in sql_files
-        if z != 'azerothcore' or s in ('updates', 'zpak')
+        if z != 'azerothcore' or s in AC_ALLOWED_SOURCES
     ]
 
     if not sql_files:
@@ -446,12 +504,16 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         return 0, 0
 
     # Filter by hash - only include new/modified files
+    # For auth/characters, use custom_only=True because AC's world base SQL
+    # pre-loads RELEASED tracking entries that don't mean the file was actually
+    # applied to the target database.
     files_to_execute = []
     skipped = 0
 
     for sql_file, zpak, source, database in sql_files:
         current_hash = calculate_file_hash(sql_file)
-        stored_hash = get_stored_hash(sql_file.name)
+        custom_only = database in ('auth', 'characters')
+        stored_hash = get_stored_hash(sql_file.name, custom_only=custom_only)
         if stored_hash != current_hash:
             files_to_execute.append((sql_file, zpak, source, current_hash, database))
         else:
@@ -480,7 +542,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         # Print folder header when it changes
         if str(rel_folder) != current_folder:
             current_folder = str(rel_folder)
-            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
+            db_tag = _db_tag(database)
             click.echo(f"\n  {rel_folder}/{db_tag}")
 
         success, message, exec_ms = execute_sql_file(sql_file, dry_run, database)
@@ -853,7 +915,7 @@ def tool_list(ctx, zpak_name, changed):
             current_hash = calculate_file_hash(sql_file)
             stored_hash = get_stored_hash(sql_file.name)
 
-            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
+            db_tag = _db_tag(database)
             if stored_hash is None:
                 new_files.append((sql_file, zpak, db_tag))
             elif stored_hash != current_hash:
@@ -933,7 +995,7 @@ def tool_list(ctx, zpak_name, changed):
         if str(rel_folder) != current_folder:
             current_folder = str(rel_folder)
             source_tag = f" ({source})" if source in ['base', 'updates', 'chars_base', 'chars_updates'] else ""
-            db_tag = f" {click.style('[characters]', fg='cyan')}" if database == 'characters' else ""
+            db_tag = _db_tag(database)
             click.echo(f"  {rel_folder}/{source_tag}{db_tag}")
 
         if is_feature_disabled(sql_file.name, disabled_map.get(zpak, set())):
