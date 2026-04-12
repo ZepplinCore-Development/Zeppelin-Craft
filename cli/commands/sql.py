@@ -177,6 +177,15 @@ def calculate_file_hash(filepath: Path) -> str:
     return sha1.hexdigest().upper()
 
 
+def _tracking_key(filename: str, database: str = 'world') -> str:
+    """Namespace tracking keys to avoid collisions between databases."""
+    if database == 'characters':
+        return f"chars__{filename}"
+    if database == 'auth':
+        return f"auth__{filename}"
+    return filename
+
+
 def get_stored_hash(filename: str, custom_only: bool = False) -> Optional[str]:
     """Get stored hash for a file from AC's updates table.
 
@@ -512,8 +521,9 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
 
     for sql_file, zpak, source, database in sql_files:
         current_hash = calculate_file_hash(sql_file)
+        tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        stored_hash = get_stored_hash(sql_file.name, custom_only=custom_only)
+        stored_hash = get_stored_hash(tracking_name, custom_only=custom_only)
         if stored_hash != current_hash:
             files_to_execute.append((sql_file, zpak, source, current_hash, database))
         else:
@@ -553,7 +563,8 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
             click.echo(f"    {icon} {sql_file.name}{time_str}")
             success_count += 1
             if not dry_run:
-                update_tracking(sql_file.name, file_hash, zpak, exec_ms)
+                tracking_name = _tracking_key(sql_file.name, database)
+                update_tracking(tracking_name, file_hash, zpak, exec_ms)
         else:
             icon = click.style("✗", fg='red')
             click.echo(f"    {icon} {sql_file.name}: {message}")
