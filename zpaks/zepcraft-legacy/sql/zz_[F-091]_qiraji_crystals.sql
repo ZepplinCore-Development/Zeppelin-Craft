@@ -238,7 +238,7 @@ SET @BLUE_CRYSTAL = 21218,
         `type` = 2,
         `skinloot` = 100001,
         `HealthModifier` = 8,
-        `mechanic_immune_mask` = 617299803,
+        `CreatureImmunitiesId` = -273,
         `flags_extra` = 2,
         `VerifiedBuild` = '12340';
 

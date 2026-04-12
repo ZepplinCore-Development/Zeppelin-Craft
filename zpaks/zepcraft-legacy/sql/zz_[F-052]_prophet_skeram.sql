@@ -28,7 +28,7 @@ INSERT INTO `creature_template` SET
     `ManaModifier` = 150,
     `ArmorModifier` = '1.3',
     `movementId` = 192,
-    `mechanic_immune_mask` = 617299807,
+    `CreatureImmunitiesId` = -280,
     `ScriptName` = 'boss_skeram',
     `VerifiedBuild` = '12340';
 

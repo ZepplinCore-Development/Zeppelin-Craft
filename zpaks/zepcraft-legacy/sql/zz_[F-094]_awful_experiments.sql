@@ -137,7 +137,7 @@ SET @ABOM := 10564;
             `mingold` = 17,
             `maxgold` = 29,
             `MovementType` = 1,
-            `mechanic_immune_mask` = 8388624,
+            `CreatureImmunitiesId` = -93,
             `VerifiedBuild` = '0';
 
     -- Failed Abominations Creature Template Model

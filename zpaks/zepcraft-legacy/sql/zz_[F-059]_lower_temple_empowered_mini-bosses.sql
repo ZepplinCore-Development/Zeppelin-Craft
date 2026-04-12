@@ -11,7 +11,6 @@
             `maxlevel` = 49,
             `faction` = 14,
             `speed_walk` = '0.666668',
-            `scale` = '1.5',
             `rank` = 1,
             `DamageModifier` = 6,
             `BaseAttackTime` = 2000,
@@ -25,7 +24,7 @@
             `skinloot` = 100044,
             `MovementType` = 1,
             `HealthModifier` = 12,
-            `mechanic_immune_mask` = 16384,
+            `CreatureImmunitiesId` = -68,
             `VerifiedBuild` = '12340';
 
     -- Empowered Deep Lurker Creature Template Model
@@ -34,6 +33,7 @@
             `CreatureID` = '9102595',
             `idx` = 1,
             `CreatureDisplayID` = '631',
+            `DisplayScale` = 1.5,
             `probability` = 1.0;
 
     -- Remove the original Deep Lurker Spawns
@@ -83,7 +83,6 @@
             `minlevel` = 47,
             `maxlevel` = 48,
             `faction` = 14,
-            `scale` = '1.5',
             `rank` = 1,
             `DamageModifier` = 6,
             `BaseAttackTime` = 2000,
@@ -106,6 +105,7 @@
             `CreatureID` = '9102594',
             `idx` = 1,
             `CreatureDisplayID` = '7549',
+            `DisplayScale` = 1.5,
             `probability` = 0.3333333333333333;
 
         INSERT INTO `creature_template_model` SET
@@ -167,7 +167,6 @@
             `minlevel` = 47,
             `maxlevel` = 48,
             `faction` = 14,
-            `scale` = '1.5',
             `rank` = 1,
             `DamageModifier` = 6,
             `BaseAttackTime` = 2000,
@@ -188,6 +187,7 @@
             `CreatureID` = '9102596',
             `idx` = 1,
             `CreatureDisplayID` = '682',
+            `DisplayScale` = 1.5,
             `probability` = 1.0;
 
     -- Remove the original Saturated Ooze Spawns

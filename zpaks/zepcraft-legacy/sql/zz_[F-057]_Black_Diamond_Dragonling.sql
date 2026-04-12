@@ -39,8 +39,13 @@
         `spellid_1` = 91008,
         `spellcooldown_1` = 300000;
 
+-- Custom immunity: DISTRACT|KNOCKOUT|TURN (from old mechanic_immune_mask 8405008)
+    DELETE FROM `creature_immunities` WHERE `ID` = 90570;
+    INSERT INTO `creature_immunities` (`ID`, `SchoolMask`, `DispelTypeMask`, `MechanicsMask`, `Effects`, `Auras`, `ImmuneAoE`, `ImmuneChain`, `Comment`)
+    VALUES (90570, 0, 0, 16810016, '', '', 0, 0, 'mech=0x1008020(DISTRACT|KNOCKOUT|TURN)');
+
 -- Creature Template - Black Diamond Dragonling
-    DELETE FROM `creature_template` 
+    DELETE FROM `creature_template`
     WHERE `entry` = 9102600;
 
     INSERT INTO `creature_template` SET
@@ -59,7 +64,7 @@
         `unit_flags2` = 2048,
         `type` = 9,
         `movementId` = 100,
-        `mechanic_immune_mask` = 8405008,
+        `CreatureImmunitiesId` = 90570,
         `ScriptName` = 'npc_arcanite_dragonling',
         `VerifiedBuild` = 12340;
 

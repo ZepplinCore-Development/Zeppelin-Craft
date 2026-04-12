@@ -1,5 +1,5 @@
 -- Vaelastrasz the Corrupt Scale reduced (was 1.0), modern models make this boy way to big.
-UPDATE `creature_template` SET `scale` = 0.5 WHERE (`entry` = 13020);
+UPDATE `creature_template_model` SET `DisplayScale` = 0.5 WHERE (`CreatureID` = 13020);
 
 -- Burning Adrenaline is made of a spell parts.
 -- The Aura spell triggers the health reduction spell periodically.
