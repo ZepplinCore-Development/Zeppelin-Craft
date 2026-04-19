@@ -1,6 +1,6 @@
-From d3ee6ef38c5b0624fc19f198b0cc2c27c7f4dcba Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Sat, 7 Mar 2026 12:26:25 +0000
+From 49c7d59f6e972d8a046addd9f5d5f8e1abcc4322 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 19 Apr 2026 13:22:41 +0000
 Subject: [PATCH] feat: Use creature kill XP as profession experience baseline
 
 - Base XP = same-level creature kill XP (via Acore::XP::BaseGain)
@@ -11,9 +11,9 @@ Subject: [PATCH] feat: Use creature kill XP as profession experience baseline
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- conf/mod-profession-experience.conf.dist | 61 +++++++--------------
- src/ProfessionExp.cpp                    | 70 ++++++++----------------
- 2 files changed, 43 insertions(+), 88 deletions(-)
+ conf/mod-profession-experience.conf.dist | 61 ++++++-------------
+ src/ProfessionExp.cpp                    | 74 +++++++++---------------
+ 2 files changed, 45 insertions(+), 90 deletions(-)
 
 diff --git a/conf/mod-profession-experience.conf.dist b/conf/mod-profession-experience.conf.dist
 index 3e902bc..2f39db4 100644
@@ -114,7 +114,7 @@ index 3e902bc..2f39db4 100644
  ProfessionExperience.Smelting.Experience       = 0.00
  ProfessionExperience.Tailoring.Experience      = 0.00
 diff --git a/src/ProfessionExp.cpp b/src/ProfessionExp.cpp
-index 4b7a66b..20d2523 100644
+index 71fa482..cb0c2f4 100644
 --- a/src/ProfessionExp.cpp
 +++ b/src/ProfessionExp.cpp
 @@ -5,6 +5,8 @@
@@ -175,10 +175,10 @@ index 4b7a66b..20d2523 100644
      }
  };
  static PEConfigData peConfigData;
-@@ -95,8 +84,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+@@ -98,8 +87,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+         if (zone_skill < 1)
+             zone_skill = 1;
  
-     bool OnPlayerUpdateFishingSkill(Player* player, int32 skill, int32 zone_skill, int32 /*chance*/, int32 /*roll*/) override
-     {
 -        if (float xpFactor = peConfigData.GetConfigValue<float>(PEConfig::FISHING_EXPERIENCE))
 -            RewardXP(player, skill, zone_skill + 100, zone_skill + 50, zone_skill + 25, zone_skill, xpFactor);
 +        if (peConfigData.GetConfigValue<float>(PEConfig::FISHING_EXPERIENCE) > 0.0f)
@@ -186,18 +186,18 @@ index 4b7a66b..20d2523 100644
  
          return true;
      }
-@@ -122,8 +111,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+@@ -125,8 +114,8 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
                  return;
          }
  
 -        if (float xpFactor = peConfigData.GetConfigValue<float>(experienceSetting))
--            RewardXP(player, currentLevel, gray, green, yellow, yellow -25, xpFactor);
+-            RewardXP(player, currentLevel, gray, green, yellow, yellow - 25, xpFactor);
 +        if (peConfigData.GetConfigValue<float>(experienceSetting) > 0.0f)
 +            RewardXP(player, currentLevel, gray, green, yellow);
      }
  
      void OnPlayerUpdateCraftingSkill(Player *player, SkillLineAbilityEntry const* skill, uint32 currentLevel, uint32& /*gain*/) override
-@@ -170,43 +159,32 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
+@@ -173,44 +162,33 @@ RewardExperienceScript() : PlayerScript("RewardExperienceScript", {
              default:
                  return;
          }
@@ -232,7 +232,7 @@ index 4b7a66b..20d2523 100644
 -            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_YELLOW);
 -        else
 -            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_ORANGE);
--
+-        
 -        if (minSkill > 375)
 -            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_GRANDMASTER);
 -        else if (minSkill > 300)
@@ -246,14 +246,17 @@ index 4b7a66b..20d2523 100644
 +            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_YELLOW);
          else
 -            xp = xp * peConfigData.GetConfigValue<float>(PEConfig::MULT_APPRENTICE);
-+            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_ORANGE);
- 
+-        
 -        if (float curve = peConfigData.GetConfigValue<float>(PEConfig::MULT_CURVE))
 -            xp = xp * pow(curve,(minSkill/450));
+-        
++            colorMult = peConfigData.GetConfigValue<float>(PEConfig::MULT_ORANGE);
++
 +        xp = uint32(xp * colorMult * peConfigData.GetConfigValue<float>(PEConfig::KILLS_EQUIVALENT));
- 
++
          player->GiveXP(xp, nullptr);
      }
+ };
 -- 
 2.34.1
 
