@@ -150,6 +150,33 @@ def reset_to_upstream(module_path: Path, upstream_branch: str) -> bool:
         return False
 
 
+def _extract_apply_error(stderr: str) -> str:
+    """Extract meaningful failure lines from `git apply --3way` stderr.
+
+    When a multi-file patch partially applies, stderr interleaves success
+    messages ("Applied patch to 'X' cleanly.") with real errors
+    ("error: patch failed: ...", "U <file>", "error: could not apply ..."),
+    and the real errors usually come after the successes. Return the
+    offending files and any explicit `error:` lines, falling back to the
+    last non-empty line.
+    """
+    lines = [line for line in stderr.splitlines() if line.strip()]
+    if not lines:
+        return "Unknown error"
+
+    signals = []
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("error:") or stripped.startswith("U ") or \
+           stripped.startswith("fatal:") or "conflict" in stripped.lower() or \
+           "Falling back" in stripped:
+            signals.append(stripped)
+
+    if signals:
+        return "; ".join(signals[:4])
+    return lines[-1].strip()
+
+
 def apply_patches(
     module_path: Path,
     patch_files: List[Path]
@@ -189,7 +216,7 @@ def apply_patches(
                 )
 
                 if result.returncode != 0:
-                    error = result.stderr.strip().split('\n')[0] if result.stderr else "Unknown error"
+                    error = _extract_apply_error(result.stderr) if result.stderr else "Unknown error"
                     return applied, f"Failed at {patch_file.name}: {error}"
 
                 # Commit manually
