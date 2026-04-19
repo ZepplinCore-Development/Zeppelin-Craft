@@ -1,5 +1,4 @@
--- F-168: Dynamic Food & Drink Spell Descriptions - SpellDescriptionVariables (ID 186)
--- POC Round 3: Per-second rate display (no $o1 needed, no conditionals needed).
+-- F-168: Food and Drink Overhaul - SpellDescriptionVariables (ID 186)
 --
 -- Follows the additive bonus pattern from F-027 (potion potency, ID 183).
 -- Cooking kit buff spells (91271-91275) store:
@@ -7,26 +6,21 @@
 --   Effect 3 (m3) = Drink bonus percentage
 -- Currently identical values per tier, but tracked separately for correctness.
 --
--- POC Results:
---   Round 1: $<food1>/$<drink1> work (per-tick modified values). $o1/$o2 FAIL in variables.
---   Round 3: Switch to per-second rate display. Values change dynamically with kit —
---            no conditional suffix needed (750/sec without kit, 1313/sec with GM kit).
---
--- Tick rates (amplitude 0 defaults):
---   Food: ticks every 5 seconds ($m1 = per-5-sec-tick, divide by 5 for per-second)
---   Drink: ticks every 5 seconds ($m2 = per-5-sec-tick, divide by 5 for per-second)
---   Confirmed by stock $o1 math: e.g. spell 45548 base 3750 * (30s/5s) = 22500 total.
+-- Food/drink base_points are stored as "per 5 seconds" in the DBC.
+-- The server regen system (Player::RegenerateHealth / Player::Regenerate)
+-- already divides by 5000ms. The variable formulas also divide by 5 for
+-- correct per-second display in tooltips.
 --
 -- Variables:
 --   $ck1-$ck5     = Food bonus % per kit tier (independent checks)
 --   $ckfood       = Combined food % (only one kit active at a time)
 --   $dk1-$dk5     = Drink bonus % per kit tier
 --   $ckdrink      = Combined drink %
---   $fb1/$fb1x    = Food per-tick bonus (min/max) from kit
---   $food1/x      = Food per-tick modified value (base + bonus)
+--   $fb1/$fb1x    = Food per-5-sec bonus (min/max) from kit
+--   $food1/x      = Food per-5-sec modified value (base + bonus)
 --   $foodps       = Food per-second modified value ($<food1>/5)
---   $db2/$db2x    = Drink per-tick bonus (min/max) from kit
---   $drink1/x     = Drink per-tick modified value (m2 units, base + bonus)
+--   $db2/$db2x    = Drink per-5-sec bonus (min/max) from kit
+--   $drink1/x     = Drink per-5-sec modified value (base + bonus)
 --   $drinkps      = Drink per-second modified value ($<drink1>/5)
 
 DELETE FROM `spelldescriptionvariables` WHERE `id` = 186;
