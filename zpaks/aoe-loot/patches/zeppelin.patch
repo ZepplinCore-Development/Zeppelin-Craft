@@ -1,7 +1,7 @@
-From 7aea9a739d22fdbbe3be9a8064fb569cd99c0466 Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Fri, 20 Feb 2026 12:08:05 +0000
-Subject: [PATCH 1/2] fix: Increment unlootedCount for AoE-merged loot items
+From 8448305510ece03f06d64701e4436964bcc67287 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 7 Mar 2026 12:11:27 +0000
+Subject: [PATCH] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -11,43 +11,9 @@ from firing and the skinnable flag from being set.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- src/aoe_loot.cpp | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
-index fd092fd..d5fb9b8 100644
---- a/src/aoe_loot.cpp
-+++ b/src/aoe_loot.cpp
-@@ -177,7 +177,11 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket& packet)
-     for (const auto& item : itemsToAdd)
-     {
-         if (mainLoot->items.size() < 15)
-+        {
-             mainLoot->items.push_back(item);
-+            if (!item.is_looted)
-+                ++mainLoot->unlootedCount;
-+        }
-     }
- 
-     // Add quest items to player inventory
--- 
-2.34.1
-
-
-From 350adf91e27039117d8ce9e5cd213b598d6e22a3 Mon Sep 17 00:00:00 2001
-From: Claude <claude@buttzeppelin>
-Date: Sun, 1 Mar 2026 05:32:27 +0000
-Subject: [PATCH 2/2] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
- (I-086)
-
-MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
-clashes with the module_string table's utf8mb4_unicode_ci, causing
-DELETE/INSERT to fail and leaving the module without registered strings.
-
-Co-Authored-By: Claude <noreply@anthropic.com>
----
  data/sql/db-world/base/aoe_loot_module_string.sql | 1 +
- 1 file changed, 1 insertion(+)
+ src/aoe_loot.cpp                                  | 4 ++++
+ 2 files changed, 5 insertions(+)
 
 diff --git a/data/sql/db-world/base/aoe_loot_module_string.sql b/data/sql/db-world/base/aoe_loot_module_string.sql
 index eb99b3a..f237d5f 100644
@@ -58,6 +24,22 @@ index eb99b3a..f237d5f 100644
  SET @MODULE_STRING := 'mod-aoe-loot';
  
  -- module string
+diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
+index ef34e83..26d48ff 100644
+--- a/src/aoe_loot.cpp
++++ b/src/aoe_loot.cpp
+@@ -227,7 +227,11 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket& packet)
+     for (const auto& item : itemsToAdd)
+     {
+         if (mainLoot->items.size() < MAX_LOOT_ITEMS)
++        {
+             mainLoot->items.push_back(item);
++            if (!item.is_looted)
++                ++mainLoot->unlootedCount;
++        }
+     }
+ 
+     // Add quest items directly to player inventory
 -- 
 2.34.1
 
