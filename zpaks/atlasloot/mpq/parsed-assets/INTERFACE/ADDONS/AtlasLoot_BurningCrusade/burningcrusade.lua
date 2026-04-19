@@ -2845,10 +2845,7 @@ local BabbleZone = AtlasLoot_GetLocaleLibBabble("LibBabble-Zone-3.0")
 	AtlasLoot_Data["GruulGruul"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Gruul the Dragonkiller", "=q5=ALL WILL DROP"};
     { 2, 29434, "", "=q4=Badge of Justice", "", "", "100%" };
-    { 3, 29765, "", "=q4=Leggings of the Fallen Hero", "=ds=#e10#", "", "100%" };
-    { 4, 29766, "", "=q4=Leggings of the Fallen Champion", "=ds=#e10#", "", "100%" };
-    { 5, 29767, "", "=q4=Leggings of the Fallen Defender", "=ds=#e10#", "", "100%" };
-    { 6, 31750, "", "=q1=Earthen Signet", "=ds=#m3#", "", "100%" };
+    { 3, 31750, "", "=q1=Earthen Signet", "=ds=#m3#", "", "100%" };
     { 16, 0, "AO_Unknown", "=q6=Gruul the Dragonkiller", "=q5=ONE WILL DROP"};
     { 17, 28794, "", "=q4=Axe of the Gronn Lords", "=ds=#w1#", "", "7.69%" };
     { 18, 28802, "", "=q4=Bloodmaw Magus-Blade", "=ds=#w10#", "", "7.69%" };
