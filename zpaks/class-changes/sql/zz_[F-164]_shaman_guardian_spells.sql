@@ -57,8 +57,14 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 (900169, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 10000, 0),
 -- Totemic Impact — proc on any totem summon spell, 4 sec ICD
 -- SpellFamilyName=11 (Shaman), Mask0=537399320 (all totem family bits, same as Totemic Focus 16173)
+-- ProcFlags=87040 = all 4 DONE_SPELL_*_DMG_CLASS flags (POS+NEG, MAGIC+NONE):
+--   1024  = PROC_FLAG_DONE_SPELL_NONE_DMG_CLASS_POS  (Searing, Call of the Elements)
+--   4096  = PROC_FLAG_DONE_SPELL_NONE_DMG_CLASS_NEG
+--   16384 = PROC_FLAG_DONE_SPELL_MAGIC_DMG_CLASS_POS (Magma, Stoneclaw, etc.)
+--   65536 = PROC_FLAG_DONE_SPELL_MAGIC_DMG_CLASS_NEG
+-- Family mask + SpellFamilyName still constrain to totem summons only.
 -- Cooldown=4000ms (4 sec ICD)
-(900165, 0, 11, 537399320, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 4000, 0),
+(900165, 0, 11, 537399320, 0, 0, 87040, 0, 1, 0, 0, 0, 0, 0, 4000, 0),
 -- Improved Rockslam — proc block buff on Rockslam cast
 -- SpellFamilyName=11 (Shaman), Mask2=262144 (bit 18, custom Rockslam flag)
 (900181, 0, 11, 0, 0, 262144, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),

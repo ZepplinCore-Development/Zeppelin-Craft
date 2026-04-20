@@ -2217,11 +2217,8 @@ SET @ti_ap_coeff = 0.10;
 -- ============================================================================
 -- Totemic Impact (900165) — passive talent aura, procs on any totem summon
 -- PROC_TRIGGER_SPELL (aura 42) → 900166.
--- proc_flags = 278528 (DONE_SPELL_MAGIC_DMG_CLASS_POS | DONE_SPELL_NONE_DMG_CLASS_POS)
--- Both flags needed: most totem summons are damage_class=1 (MAGIC) but Searing Totem
--- and Call of the Elements/Ancestors/Spirits are damage_class=0 (NONE).
--- 4 sec ICD via spell_proc Cooldown. SpellFamilyMask0=537399320 filters to
--- totem summon spells only (same mask as Totemic Focus 16173).
+-- proc_flags / family mask / phase / ICD all configured in spell_proc table
+-- (single source of truth — see zz_[F-164]_shaman_guardian_spells.sql).
 -- Shaman is the caster so visual plays at shaman and threat goes to shaman.
 DELETE FROM `spell` WHERE `id` = 900165;
 
@@ -2237,7 +2234,6 @@ INSERT INTO `spell` SET
     `effect_implicit_target_a_1` = 1,
     `effect_apply_aura_name_1` = 42,
     `effect_trigger_spell_1` = 900166,
-    `proc_flags` = 278528,
     `proc_chance` = 100,
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
