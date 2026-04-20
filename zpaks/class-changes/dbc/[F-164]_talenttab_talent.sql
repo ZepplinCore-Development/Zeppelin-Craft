@@ -7,7 +7,7 @@
 -- TalentTab
 -- ============================================================================
 DELETE FROM `talenttab` WHERE `id` = 900;
-INSERT INTO `talenttab` (`id`, `name_enus`, `name_flags`, `spell_icon`, `race_mask`, `class_mask`, `creature_family`, `order_index`, `background_file`) VALUES (900, 'Earthwarden', 16712190, 19, 4095, 64, 0, 3, 'ShamanEnhancement');
+INSERT INTO `talenttab` (`id`, `name_enus`, `name_flags`, `spell_icon`, `race_mask`, `class_mask`, `creature_family`, `order_index`, `background_file`) VALUES (900, 'Earthwarden', 16712190, 4610, 4095, 64, 0, 3, 'ShamanEnhancement');
 
 -- race_mask = 4095 (all races) for all talent tabs
 UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 41;
@@ -41,6 +41,8 @@ UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 398;
 UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 399;
 UPDATE `talenttab` SET `race_mask` = 4095 WHERE `id` = 400;
 
--- Talent 605: Natural Endurance (replaces Improved Ghost Wolf)
-DELETE FROM `talent` WHERE `id` = 605;
-INSERT INTO `talent` (`id`, `spec_id`, `tier_id`, `column_index`, `rank_1`, `rank_2`, `rank_3`, `rank_4`, `rank_5`, `rank_6`, `rank_7`, `rank_8`, `rank_9`, `pre_req_talent_1`, `pre_req_talent_2`, `pre_req_talent_3`, `pre_req_rank_1`, `pre_req_rank_2`, `pre_req_rank_3`, `flags`, `req_spell_id`, `allow_for_pet_flags_1`, `allow_for_pet_flags_2`) VALUES (605, 164, 1, 0, 900109, 900110, 900111, 900112, 900113, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+-- Natural Endurance (900109-900113) lives on Earthwarden tree (talent 2905).
+-- Previously this file erroneously inserted talent 605 into spec_id=164 (Fury).
+-- The Fury collision is cleaned up; Enhancement replacement (if desired) should
+-- be added via talent editor at a specific slot.
+DELETE FROM `talent` WHERE `id` = 605 AND `spec_id` = 164;

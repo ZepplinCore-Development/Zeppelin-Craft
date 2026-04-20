@@ -1,0 +1,76 @@
+From 4a4c744408af673d3a0bc965893c8a78e675805b Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sun, 19 Apr 2026 12:21:16 +0000
+Subject: [PATCH] WIP: F-164 - Add Living Guardian SpellScript for SP scaling
+
+- spell_sha_living_guardian_aura adds 10% SP to the absorb amount
+- SCHOOL_ABSORB (aura 69) does not consult spell_bonus_data,
+  so SP scaling on the absorb requires a DoEffectCalcAmount handler
+- Pattern mirrors spell_pri_power_word_shield_aura
+- Bound to 900170/900171/900172 via spell_script_names
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ src/server/scripts/Spells/spell_shaman.cpp | 34 ++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/src/server/scripts/Spells/spell_shaman.cpp b/src/server/scripts/Spells/spell_shaman.cpp
+index 0ed5c4c35..6f4dfa5b4 100644
+--- a/src/server/scripts/Spells/spell_shaman.cpp
++++ b/src/server/scripts/Spells/spell_shaman.cpp
+@@ -88,6 +88,9 @@ enum ShamanSpells
+     SPELL_SHAMAN_TOTEM_OF_WRATH_SPELL_POWER     = 63283,
+     SPELL_SHAMAN_THUNDERBORNE_LEAP              = 900173,
+     SPELL_SHAMAN_THUNDERBORNE_LEAP_IMPACT       = 900174,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R1        = 900170,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R2        = 900171,
++    SPELL_SHAMAN_LIVING_GUARDIAN_BUFF_R3        = 900172,
+ };
+ 
+ enum ShamanSpellIcons
+@@ -2246,6 +2249,36 @@ class spell_sha_thunderborne_leap : public SpellScript
+     }
+ };
+ 
++// Living Guardian (900170/900171/900172) — F-164 absorb shield
++// Adds 10% of caster's Spell Power to the SCHOOL_ABSORB amount,
++// since aura 69 does not consult spell_bonus_data by default.
++// Pattern mirrors spell_pri_power_word_shield_aura.
++class spell_sha_living_guardian_aura : public AuraScript
++{
++    PrepareAuraScript(spell_sha_living_guardian_aura);
++
++    void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount,
++        bool& canBeRecalculated)
++    {
++        canBeRecalculated = false;
++        if (Unit* caster = GetCaster())
++        {
++            float bonus = 0.10f;
++            bonus *= caster->SpellBaseHealingBonusDone(
++                GetSpellInfo()->GetSchoolMask());
++            bonus *= caster->CalculateLevelPenalty(GetSpellInfo());
++            amount += int32(bonus);
++        }
++    }
++
++    void Register() override
++    {
++        DoEffectCalcAmount += AuraEffectCalcAmountFn(
++            spell_sha_living_guardian_aura::CalculateAmount,
++            EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
++    }
++};
++
+ void AddSC_shaman_spell_scripts()
+ {
+     RegisterSpellScript(spell_sha_totem_of_wrath);
+@@ -2306,4 +2339,5 @@ void AddSC_shaman_spell_scripts()
+     RegisterSpellScript(spell_sha_tidal_force_dummy);
+     RegisterSpellScript(spell_sha_windfury_weapon);
+     RegisterSpellScript(spell_sha_thunderborne_leap);
++    RegisterSpellScript(spell_sha_living_guardian_aura);
+ }
+-- 
+2.34.1
+

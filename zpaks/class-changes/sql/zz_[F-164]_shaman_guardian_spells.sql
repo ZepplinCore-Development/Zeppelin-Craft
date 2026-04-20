@@ -6,9 +6,12 @@
 -- ============================================================================
 -- spell_script_names — C++ SpellScript bindings
 -- ============================================================================
-DELETE FROM `spell_script_names` WHERE `spell_id` = 900173;
+DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
-(900173, 'spell_sha_thunderborne_leap');
+(900173, 'spell_sha_thunderborne_leap'),
+(900170, 'spell_sha_living_guardian_aura'),
+(900171, 'spell_sha_living_guardian_aura'),
+(900172, 'spell_sha_living_guardian_aura');
 
 -- ============================================================================
 -- spell_bonus_data
@@ -18,7 +21,7 @@ DELETE FROM `spell_bonus_data` WHERE `entry` IN (900114, 900116, 900117, 900118,
 INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`, `ap_dot_bonus`, `comments`) VALUES
 (900114, 0, 0, 0.10, 0, 'Earthen Reprisal - 10% AP as bonus physical damage'),
 (900119, 0, 0, 0.25, 0, 'Rockslam - 25% AP as bonus physical damage'),
-(900122, 0.20, 0, 0, 0, 'Volcanic Shield (triggered) - 20% SP as AOE fire damage on block'),
+(900122, 0.15, 0, 0, 0, 'Volcanic Shield (triggered) - 15% SP as AOE fire damage on block'),
 (900121, 0, 0, 0.20, 0, 'Tectonic Blast - 20% AP as bonus nature damage'),
 (900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on any totem summon'),
 (900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
@@ -39,7 +42,8 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- spell_proc - Block-only proc filtering (HitMask=64 = PROC_HIT_BLOCK)
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182);
+-- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),

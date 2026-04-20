@@ -296,13 +296,13 @@ INSERT INTO `spell` SET
     `school_mask` = 1;
 
 -- Volcanic Shield scaling (shared between aura buff, triggered spell, and desc variable 187)
-SET @vs_dmg_base = 35;
+SET @vs_dmg_base = 30;
 SET @vs_dmg_die = 1;
-SET @vs_dmg_perlevel = 10;
+SET @vs_dmg_perlevel = 5;
 SET @vs_spell_level = 30;
 SET @vs_base_level = 30;
 SET @vs_max_level = 80;
-SET @vs_sp_coeff = 0.2;
+SET @vs_sp_coeff = 0.15;
 
 -- ----------------------------------------------------------------------------
 -- Volcanic Shield (900116) - Active shield buff, cloned from Lightning Shield
@@ -342,7 +342,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
+    `spell_desc_enus` = 'Surrounds the caster with a shield of volcanic energy. When you block an attack, the shield erupts for $<total> Fire damage, scaling with Spell Power, to all enemies within 8 yards. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][] Lasts $d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Deals $<total> Fire damage to all nearby enemies when you block. Only one eruption will fire every few seconds.$?s900124[ Each activation also restores $900124s1% of your maximum mana.][]$?s900123[ Each activation also restores $900123s1% of your maximum mana.][]',
     `spell_tooltip_flags` = 16712190,
@@ -578,7 +578,7 @@ INSERT INTO `spell` SET
     `school_mask` = 4,
     `effect_damage_multiplier_1` = 1.0,
     `effect_damage_multiplier_2` = 1.0,
-    `effect_bonus_multiplier_1` = 0.2;
+    `effect_bonus_multiplier_1` = 0.15;
 
 -- Variable 187: Volcanic Shield tooltip damage (base + per-level + SP scaling)
 -- Uses hardcoded base instead of $m2 to avoid double-counting per-level in buff tooltip context
@@ -604,23 +604,31 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
+    `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
+    `effect_apply_aura_name_2` = 108,
     `effect_base_points_1` = 2,
+    `effect_base_points_2` = 9,
     `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
+    `effect_misc_value_a_2` = 0,
     `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
+    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When your Volcanic Shield activates, it also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 8;
 
 -- ----------------------------------------------------------------------------
@@ -637,23 +645,31 @@ INSERT INTO `spell` SET
     `range_index` = 1,
     `equipped_item_class` = -1,
     `effect_1` = 6,
+    `effect_2` = 6,
     `effect_apply_aura_name_1` = 107,
+    `effect_apply_aura_name_2` = 108,
     `effect_base_points_1` = 5,
+    `effect_base_points_2` = 19,
     `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
     `effect_misc_value_a_1` = 12,
+    `effect_misc_value_a_2` = 0,
     `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
     `effect_spell_class_mask_a_3` = 32768,
+    `effect_spell_class_mask_b_3` = 32768,
     `spell_icon_id` = 5494,
     `spell_name_enus` = 'Improved Volcanic Shield',
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When your Volcanic Shield activates, it also restores $s1% of your maximum mana.',
+    `spell_desc_enus` = 'Increases the damage dealt by your Volcanic Shield by $s2%, and its activation also restores $s1% of your maximum mana.',
     `spell_desc_flags` = 16712190,
-    `spell_tooltip_enus` = 'Volcanic Shield activation restores $s1% max mana.',
+    `spell_tooltip_enus` = 'Volcanic Shield damage increased by $s2% and activation restores $s1% max mana.',
     `spell_tooltip_flags` = 16712190,
     `spell_class_set` = 11,
     `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
     `school_mask` = 8;
 
 -- Clean up deleted mana return spells (consolidated into 900122 E2 + modifiers)
@@ -1996,7 +2012,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 1',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you have a 33% chance to gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
+    `spell_desc_enus` = 'When you receive a direct heal, you have a 33% chance to gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
     `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
@@ -2024,7 +2040,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 2',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you have a 66% chance to gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
+    `spell_desc_enus` = 'When you receive a direct heal, you have a 66% chance to gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
     `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
@@ -2052,7 +2068,7 @@ INSERT INTO `spell` SET
     `spell_name_flags` = 16712190,
     `spell_subtext_enus` = 'Rank 3',
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs $<total> damage for $900170d. Cannot occur more than once every $900186d.',
+    `spell_desc_enus` = 'When you receive a direct heal, you gain a shield that absorbs $<total> damage (scales with Spell Power) for $900170d. Cannot occur more than once every $900186d.',
     `spell_desc_flags` = 16712190,
     `spell_desc_variable_id` = 190,
     `spell_tooltip_flags` = 16712188,
@@ -2072,14 +2088,17 @@ INSERT INTO `spell` SET
 SET @aw_base = 124;
 SET @aw_die = 1;
 SET @aw_ppl = 2.0;
+SET @aw_sp_coeff = 0.1;
 
--- Variable 190: Living Guardian absorb amount
--- Hardcodes base (base_points + die_sides) and computes ppl*level manually
+-- Variable 190: Living Guardian absorb amount (base + perlevel + 10% SP)
+-- SP scaling is applied via spell_sha_living_guardian_aura C++ script,
+-- since aura 69 SCHOOL_ABSORB does not consult spell_bonus_data.
 DELETE FROM `spelldescriptionvariables` WHERE `id` IN (190, 191, 192);
 INSERT INTO `spelldescriptionvariables` (`id`, `var`) VALUES (190, CONCAT(
     '$base=${', (@aw_base + @aw_die), '}\n',
     '$perlevel=${$pl*', @aw_ppl, '}\n',
-    '$total=${$<base>+$<perlevel>}'));
+    '$spbonus=${$sp*', @aw_sp_coeff, '}\n',
+    '$total=${$<base>+$<perlevel>+$<spbonus>}'));
 
 DELETE FROM `spell` WHERE `id` IN (900170, 900171, 900172);
 
@@ -2223,7 +2242,7 @@ INSERT INTO `spell` SET
     `spell_icon_id` = 5312,
     `spell_name_enus` = 'Totemic Impact',
     `spell_name_flags` = 16712190,
-    `spell_desc_enus` = 'Summoning a totem sends a shockwave through the ground, dealing $<dmg> Nature damage to all nearby enemies and generating 3 times normal threat. Cannot occur more than once every 4 sec.',
+    `spell_desc_enus` = 'Summoning a totem sends a shockwave through the ground, dealing $<dmg> Nature damage, scaling with Attack Power, to all nearby enemies and generating 3 times normal threat. Cannot occur more than once every 4 sec.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Your totem summons deal $<dmg> Nature damage and generate 3x threat. 4 sec cooldown.',
     `spell_tooltip_flags` = 16712190,
@@ -2306,8 +2325,8 @@ INSERT INTO `spell` SET
     `power_cost_percentage` = 10,
     `range_index` = 95,
     `equipped_item_class` = -1,
-    `effect_1` = 41,
-    `effect_implicit_target_a_1` = 6,
+    `effect_1` = 42,
+    `effect_implicit_target_a_1` = 53,
     `effect_misc_value_a_1` = 10,
     `effect_misc_value_b_1` = 75,
     `effect_multiple_value_1` = 4.0,
@@ -2318,7 +2337,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Thunderborne Leap',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712190,
-    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a1 yards, causing $<total> Nature damage and stunning them for $900174d.',
+    `spell_desc_enus` = 'Leap to a targeted location, slamming down on all enemies within $900174a1 yards, causing $<total> Nature damage, scaling with Attack Power, and stunning them for $900174d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_flags` = 16712190,
     `spell_desc_variable_id` = 194,
@@ -2370,7 +2389,7 @@ INSERT INTO `spell` SET
     `spell_name_enus` = 'Thunderborne Leap',
     `spell_name_flags` = 16712190,
     `spell_subtext_flags` = 16712172,
-    `spell_desc_enus` = 'Leap to an enemy target, slamming down on all enemies within $900174a1 yards, dealing $900174s2 Nature damage and stunning them for $900174d.',
+    `spell_desc_enus` = 'Leap to a targeted location, slamming down on all enemies within $900174a1 yards, dealing $900174s2 Nature damage and stunning them for $900174d.',
     `spell_desc_flags` = 16712190,
     `spell_tooltip_enus` = 'Stunned.',
     `spell_tooltip_flags` = 16712190,
@@ -2787,4 +2806,443 @@ INSERT INTO `spell` SET
     `spell_class_set` = 11,
     `damage_class` = 0,
     `prevention_type` = 0,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Bulwark (900187, 900188) - Passive, 2 ranks
+-- Mirrors Critical Block (47294) pattern for Shaman.
+-- E1: aura 253 (MOD_CRITICAL_BLOCK_CHANCE) - chance for blocks to block double.
+-- E2: aura 107 (ADD_FLAT_MODIFIER), misc 7 (SPELLMOD_CRITICAL_CHANCE),
+--     mask_b_3 = 262144 -> targets Rockslam (spell_class_mask_3 bit 18) only.
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` = 900187;
+
+INSERT INTO `spell` SET
+    `id` = 900187,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 9,
+    `effect_base_points_2` = 2,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 253,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_b_3` = 262144,
+    `spell_icon_id` = 5432,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Bulwark',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Your successful blocks have a $s1% chance to block double the normal amount, and increases your chance to critically hit with your Rockslam ability by an additional $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+DELETE FROM `spell` WHERE `id` = 900188;
+
+INSERT INTO `spell` SET
+    `id` = 900188,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 19,
+    `effect_base_points_2` = 5,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_apply_aura_name_1` = 253,
+    `effect_apply_aura_name_2` = 107,
+    `effect_misc_value_a_2` = 7,
+    `effect_spell_class_mask_b_3` = 262144,
+    `spell_icon_id` = 5432,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Bulwark',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Your successful blocks have a $s1% chance to block double the normal amount, and increases your chance to critically hit with your Rockslam ability by an additional $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Ancestral Insight (900189, 900190, 900191) - Passive, 3 ranks
+-- Clone of Mental Quickness (30812/30813/30814) for Earthwarden tree.
+-- Replaces stock Mental Quickness at T4 C2 (talent 2914).
+-- E1: aura 108 ADD_PCT_MODIFIER, misc 14 (SPELLMOD_COST) - instant-cast cost -%
+-- E2: aura 237 MOD_SPELL_DAMAGE_OF_ATTACK_POWER, misc 126 (all magic schools)
+-- E3: aura 238 MOD_SPELL_HEALING_OF_ATTACK_POWER, misc 127 (all schools)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` IN (900189, 900190, 900191);
+
+INSERT INTO `spell` SET
+    `id` = 900189,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_3` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_1` = -3,
+    `effect_base_points_2` = 9,
+    `effect_base_points_3` = 9,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 237,
+    `effect_apply_aura_name_3` = 238,
+    `effect_misc_value_a_1` = 14,
+    `effect_misc_value_a_2` = 126,
+    `effect_misc_value_a_3` = 127,
+    `spell_icon_id` = 5455,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ancestral Insight',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces the mana cost of your instant cast Shaman spells by $s1% and increases your spell power by an amount equal to $s2% of your attack power.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900190,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_3` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_1` = -5,
+    `effect_base_points_2` = 19,
+    `effect_base_points_3` = 19,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 237,
+    `effect_apply_aura_name_3` = 238,
+    `effect_misc_value_a_1` = 14,
+    `effect_misc_value_a_2` = 126,
+    `effect_misc_value_a_3` = 127,
+    `spell_icon_id` = 5455,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ancestral Insight',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces the mana cost of your instant cast Shaman spells by $s1% and increases your spell power by an amount equal to $s2% of your attack power.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900191,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 6,
+    `effect_3` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_die_sides_3` = 1,
+    `effect_base_points_1` = -7,
+    `effect_base_points_2` = 29,
+    `effect_base_points_3` = 29,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_implicit_target_a_3` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_apply_aura_name_2` = 237,
+    `effect_apply_aura_name_3` = 238,
+    `effect_misc_value_a_1` = 14,
+    `effect_misc_value_a_2` = 126,
+    `effect_misc_value_a_3` = 127,
+    `spell_icon_id` = 5455,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ancestral Insight',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Reduces the mana cost of your instant cast Shaman spells by $s1% and increases your spell power by an amount equal to $s2% of your attack power.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `effect_damage_multiplier_3` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Ironhide (900192, 900193, 900194) - Passive, 3 ranks
+-- Clone of Armored to the Teeth (61216/61221/61222) for Shaman.
+-- E1: aura 285 MOD_ATTACK_POWER_OF_ARMOR - base_points is the armor divisor.
+-- E2: DUMMY - carries rank multiplier for tooltip ($m2).
+-- Tooltip: "$s2 AP per $m1*$m2 armor"  ($m1*$m2 always = 108)
+--   Rank 1: bp1=107 ($m1=108), bp2=0 ($m2=1, $s2=1)
+--   Rank 2: bp1=53  ($m1=54),  bp2=1 ($m2=2, $s2=2)
+--   Rank 3: bp1=35  ($m1=36),  bp2=2 ($m2=3, $s2=3)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` IN (900192, 900193, 900194);
+
+INSERT INTO `spell` SET
+    `id` = 900192,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 3,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 107,
+    `effect_base_points_2` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 285,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4614,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ironhide',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your attack power by $s2 for every ${$m1*$m2} armor value you have.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900193,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 3,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 53,
+    `effect_base_points_2` = 1,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 285,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4614,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ironhide',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your attack power by $s2 for every ${$m1*$m2} armor value you have.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900194,
+    `attributes` = 464,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 3,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 35,
+    `effect_base_points_2` = 2,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 285,
+    `effect_misc_value_a_1` = 1,
+    `spell_icon_id` = 4614,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Ironhide',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your attack power by $s2 for every ${$m1*$m2} armor value you have.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+-- ============================================================================
+-- Wild Protector (900195, 900196, 900197) - Passive, 3 ranks
+-- Mirrors Unleashed Rage (30802) pattern but swaps party AP% for party DR.
+-- E1: aura 240 MOD_EXPERTISE (self) - same expertise values as Unleashed Rage
+-- E2: APPLY_AREA_AURA_PARTY (65), aura 87 MOD_DAMAGE_PERCENT_TAKEN,
+--     misc 127 (all schools), radius 30yd - party DR (negative = reduces)
+-- ============================================================================
+DELETE FROM `spell` WHERE `id` IN (900195, 900196, 900197);
+
+INSERT INTO `spell` SET
+    `id` = 900195,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 2,
+    `effect_base_points_2` = -3,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900196,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 5,
+    `effect_base_points_2` = -4,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
+    `school_mask` = 1;
+
+INSERT INTO `spell` SET
+    `id` = 900197,
+    `attributes` = 80,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 101,
+    `spell_level` = 1,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_2` = 65,
+    `effect_die_sides_1` = 1,
+    `effect_die_sides_2` = 1,
+    `effect_base_points_1` = 8,
+    `effect_base_points_2` = -6,
+    `effect_implicit_target_a_1` = 1,
+    `effect_implicit_target_a_2` = 1,
+    `effect_radius_index_2` = 12,
+    `effect_apply_aura_name_1` = 240,
+    `effect_apply_aura_name_2` = 87,
+    `effect_misc_value_a_1` = 1,
+    `effect_misc_value_a_2` = 127,
+    `spell_icon_id` = 5490,
+    `spell_priority` = 50,
+    `spell_name_enus` = 'Wild Protector',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 3',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'Increases your expertise by $s1, and reduces all damage taken by party and raid members within $a2 yards of the Shaman by $s2%.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Increases expertise by $s1. Reduces damage taken by allies within $a2 yards by $s2%.',
+    `spell_tooltip_flags` = 16712188,
+    `effect_damage_multiplier_1` = 1.0,
+    `effect_damage_multiplier_2` = 1.0,
+    `spell_class_set` = 11,
     `school_mask` = 1;
