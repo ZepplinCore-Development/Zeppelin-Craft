@@ -8,15 +8,31 @@
 -- average quest XP boost ratio at each level. Side effect: raw kill XP
 -- becomes slightly less efficient (~30% at peak, levels 47-58).
 --
--- Toggle: set @enable = 1 to apply multipliers, 0 for stock WotLK values.
+-- ----------------------------------------------------------------
+-- Three baselines exist for player_xp_for_level:
+--   1. AC stock  — shipped by AzerothCore's base DB dump; lower
+--                  requirements (e.g. L60 = 290,000).
+--   2. IPP       — `vanilla_xp_tables.sql` REPLACEs AC stock with the
+--                  higher original-expac curve (L60 = 494,000). This
+--                  is what runs on our server by default because IPP
+--                  is installed.
+--   3. This file — re-asserts the IPP baseline and, when @enable = 1,
+--                  applies per-level multipliers on top to compensate
+--                  for the removed QuestXPFix nerf.
+--
+-- With @enable = 0 this file inserts the IPP baseline verbatim, so it
+-- is a no-op against whatever IPP already put in the DB. Flipping to
+-- @enable = 1 layers the compensation multipliers on top.
+--
+-- Toggle: set @enable = 1 to apply multipliers, 0 for IPP baseline.
 -- To tune: change the multiplier values in the UPDATE lines below.
 
 -- ============================================================
--- Toggle switch: 1 = compensate for QuestXPFix removal, 0 = stock
+-- Toggle switch: 1 = compensate for QuestXPFix removal, 0 = IPP baseline
 -- ============================================================
 SET @enable = 0;
 
--- Reset levels 1-69 to stock WotLK values
+-- Reset levels 1-69 to the IPP baseline (original-expac curve)
 DELETE FROM player_xp_for_level WHERE Level BETWEEN 1 AND 69;
 INSERT INTO player_xp_for_level (Level, Experience) VALUES
 (1, 400),    (2, 900),    (3, 1400),   (4, 2100),   (5, 2800),
@@ -37,7 +53,7 @@ INSERT INTO player_xp_for_level (Level, Experience) VALUES
 -- Apply multipliers per level (halved — quest XP is only part of total XP income)
 -- Formula: Experience * (1 + @enable * adjustment)
 --   @enable = 1 → multiplier applied
---   @enable = 0 → multiplier = 1.0 (stock values preserved)
+--   @enable = 0 → multiplier = 1.0 (IPP baseline preserved)
 -- Levels 1-29: 1.00 (no meaningful difference, vanilla ≈ WotLK)
 UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.02)) WHERE Level = 30;
 UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.02)) WHERE Level = 31;
@@ -70,5 +86,6 @@ UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.
 UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.25)) WHERE Level = 58;
 UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.24)) WHERE Level = 59;
 UPDATE player_xp_for_level SET Experience = ROUND(Experience * (1 + @enable * 0.22)) WHERE Level = 60;
--- Levels 61-69: stock values (TBC quest XP matches WotLK, no compensation needed)
--- Levels 70-79: unchanged (QuestXPFix barely touched WotLK quests)
+-- Levels 61-69: IPP baseline (TBC quest XP matches WotLK, no compensation needed)
+-- Levels 70-79: untouched by this file (QuestXPFix barely affected WotLK quests;
+--              IPP's baseline rows for 70-79 remain as IPP set them)
