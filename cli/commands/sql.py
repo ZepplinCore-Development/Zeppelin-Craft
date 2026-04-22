@@ -19,6 +19,7 @@ Tool Commands:
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -797,10 +798,11 @@ def sql_query(ctx, sql_query: Optional[str], sql_file: Optional[str], database: 
     if not sql_query.strip():
         raise click.ClickException("Empty SQL provided")
 
-    # Block modifications - use 'zep sql modify' instead
+    # Block modifications - use 'zep sql modify' instead.
+    # Word-boundary match so column names like ItemDrop1 / UpdateTime don't trigger false positives.
     sql_upper = sql_query.upper()
     for keyword in ['INSERT', 'UPDATE', 'DELETE', 'DROP', 'CREATE', 'ALTER', 'TRUNCATE', 'REPLACE']:
-        if keyword in sql_upper:
+        if re.search(rf'\b{keyword}\b', sql_upper):
             raise click.ClickException(f"Modification detected ({keyword}). Use 'zep sql modify' for write operations.")
 
     db_map = {'world': 'acore_world', 'characters': 'acore_characters', 'auth': 'acore_auth'}
