@@ -197,40 +197,72 @@ def _query_stored_hash(name: str, database: str, state_filter: str = "") -> Opti
     return None
 
 
-def get_stored_hash(filename: str, custom_only: bool = False,
-                    database: str = 'world', native_name: Optional[str] = None) -> Optional[str]:
-    """Get stored hash for a file from AC's updates tables.
+def is_file_applied(filename: str, current_hash: str,
+                    database: str = 'world', native_name: Optional[str] = None,
+                    custom_only: bool = False) -> bool:
+    """Return True if this file has been applied with the current hash.
 
-    Resolution order:
-      1. For auth/characters files, check the target DB's native `updates`
-         table under the unprefixed filename (``native_name``). Migrations
-         applied historically by AC or prior deploys live here. Matches with
-         any state count — if AC recorded a hash for this file, it ran.
-      2. Fall back to ``acore_world.updates`` under the CLI's prefix-keyed
-         name (``filename``), filtered to state=CUSTOM for auth/characters
-         (world base SQL pre-loads RELEASED stubs that don't mean the file
-         was applied to the target DB). This covers CLI-era applies.
+    Checks two tracker locations and treats the file as applied if EITHER
+    contains a row whose hash equals ``current_hash``:
+
+      1. ``acore_world.updates`` under the CLI's prefix-keyed name
+         (``filename``), filtered to state=CUSTOM for auth/characters. This
+         is where CLI-era applies record themselves.
+      2. For auth/characters: the target DB's own native ``updates`` table
+         under ``native_name``. This is where AC or prior deploys record
+         historical applies.
+
+    Returning on any-match is important because a file can have a stale
+    entry in one tracker (e.g. an older hash from a prior version) while the
+    other tracker has the current hash — treating the stale entry as
+    authoritative would cause spurious re-apply on every run.
 
     Args:
-        filename: The tracking key (prefixed, e.g. ``chars__2024_07_05_00.sql``).
-        custom_only: If True, restrict the world DB lookup to state='CUSTOM'.
-        database: Target database type ('world', 'auth', 'characters').
-        native_name: Unprefixed filename used for the target DB's own updates
-            table lookup. If omitted, the native lookup is skipped.
+        filename: The CLI's prefixed tracking key (e.g. ``chars__foo.sql``).
+        current_hash: Uppercase SHA1 of the file's current contents.
+        database: 'world' | 'auth' | 'characters'.
+        native_name: Unprefixed filename for the native tracker lookup.
+        custom_only: If True, restrict world DB lookup to state='CUSTOM'.
     """
-    # Step 1: target DB native lookup (auth/characters only).
-    if database == 'characters' and native_name:
-        h = _query_stored_hash(native_name, database=CHARS_DB_NAME)
-        if h:
-            return h
-    elif database == 'auth' and native_name:
-        h = _query_stored_hash(native_name, database=AUTH_DB_NAME)
-        if h:
-            return h
-
-    # Step 2: world DB prefix-keyed lookup (existing behaviour).
+    # World DB prefix-keyed lookup (CLI convention).
     state_filter = " AND state = 'CUSTOM'" if custom_only else ""
-    return _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
+    world_hash = _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
+    if world_hash == current_hash:
+        return True
+
+    # Target DB native lookup (auth/characters only).
+    if native_name:
+        if database == 'characters':
+            native_hash = _query_stored_hash(native_name, database=CHARS_DB_NAME)
+            if native_hash == current_hash:
+                return True
+        elif database == 'auth':
+            native_hash = _query_stored_hash(native_name, database=AUTH_DB_NAME)
+            if native_hash == current_hash:
+                return True
+
+    return False
+
+
+def get_stored_hash(filename: str, custom_only: bool = False,
+                    database: str = 'world', native_name: Optional[str] = None) -> Optional[str]:
+    """Legacy helper — returns a stored hash for informational output.
+
+    Prefer :func:`is_file_applied` for apply-decision logic. This function
+    is kept for callers that display the stored hash (e.g. list/status views)
+    — it returns the first hash found, preferring the CLI's world DB entry
+    over the native one.
+    """
+    state_filter = " AND state = 'CUSTOM'" if custom_only else ""
+    h = _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
+    if h:
+        return h
+    if native_name:
+        if database == 'characters':
+            return _query_stored_hash(native_name, database=CHARS_DB_NAME)
+        if database == 'auth':
+            return _query_stored_hash(native_name, database=AUTH_DB_NAME)
+    return None
 
 
 def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int):
@@ -551,11 +583,12 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        stored_hash = get_stored_hash(
-            tracking_name, custom_only=custom_only,
+        applied = is_file_applied(
+            tracking_name, current_hash,
             database=database, native_name=sql_file.name,
+            custom_only=custom_only,
         )
-        if stored_hash != current_hash:
+        if not applied:
             files_to_execute.append((sql_file, zpak, source, current_hash, database))
         else:
             skipped += 1
@@ -674,11 +707,12 @@ def _execute_reset(craft_root: Path) -> bool:
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        stored_hash = get_stored_hash(
-            tracking_name, custom_only=custom_only,
+        applied = is_file_applied(
+            tracking_name, current_hash,
             database=database, native_name=sql_file.name,
+            custom_only=custom_only,
         )
-        if stored_hash is None or stored_hash != current_hash:
+        if not applied:
             updates_to_apply.append((sql_file, zpak, source, current_hash))
         else:
             updates_skipped += 1
