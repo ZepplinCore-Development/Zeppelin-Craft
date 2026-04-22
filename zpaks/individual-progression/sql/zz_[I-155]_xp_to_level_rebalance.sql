@@ -24,6 +24,12 @@
 -- is a no-op against whatever IPP already put in the DB. Flipping to
 -- @enable = 1 layers the compensation multipliers on top.
 --
+-- Playtesting note: when tested with @enable = 1, Hellfire Peninsula
+-- ran dry on quests before players out-levelled the zone (a fresh 58
+-- finished every HFP quest before hitting 61). The multipliers
+-- over-compensated for zones already tuned around IPP's baseline, so
+-- the toggle ships at 0. See Joplin note I-155 for full context.
+--
 -- Toggle: set @enable = 1 to apply multipliers, 0 for IPP baseline.
 -- To tune: change the multiplier values in the UPDATE lines below.
 
