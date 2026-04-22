@@ -8,7 +8,7 @@
         `description` = 'Teaches you how to make Thorium Headed Arrows.',
         `displayid` = 6270,
         `SellPrice` = 100000, -- 10G 
-        `Quality` = 3, -- Rare
+        `Quality` = 2, -- Uncommon (matches crafted arrow quality)
         `Flags` = 64, -- PLAYERCAST 
         `bonding` = 1, -- BOP
         `RequiredSkill` = 202, -- Engineering

@@ -7,8 +7,8 @@
         `name` = 'Schematic: Fel Iron Arrows',
         `displayid` = 6270,
         `SellPrice` = 100000, -- 10G 
-        `Quality` = 3, -- UNCOMMON
-        `Flags` = 64, -- PLAYERCAST 
+        `Quality` = 2, -- UNCOMMON (matches crafted arrow quality)
+        `Flags` = 64, -- PLAYERCAST
         `bonding` = 1, -- BOP
         `RequiredSkill` = 202, -- Engineering
         `RequiredSkillRank` = 300,
