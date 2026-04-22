@@ -186,23 +186,51 @@ def _tracking_key(filename: str, database: str = 'world') -> str:
     return filename
 
 
-def get_stored_hash(filename: str, custom_only: bool = False) -> Optional[str]:
-    """Get stored hash for a file from AC's updates table.
-
-    Args:
-        custom_only: If True, only return hashes for CUSTOM state entries.
-            Use this for auth/characters files where RELEASED entries come from
-            AC's world base SQL dump and don't mean the file was actually applied
-            to the target database.
-    """
-    state_filter = " AND state = 'CUSTOM'" if custom_only else ""
-    query = f"SELECT hash FROM `updates` WHERE name = '{filename}'{state_filter}"
-    success, result = run_mysql_query(query)
+def _query_stored_hash(name: str, database: str, state_filter: str = "") -> Optional[str]:
+    """Run a SELECT hash query against a specific database's updates table."""
+    query = f"SELECT hash FROM `updates` WHERE name = '{name}'{state_filter}"
+    success, result = run_mysql_query(query, database=database)
     if success and result:
         lines = result.strip().split('\n')
         if len(lines) > 1:
             return lines[1].strip().upper()
     return None
+
+
+def get_stored_hash(filename: str, custom_only: bool = False,
+                    database: str = 'world', native_name: Optional[str] = None) -> Optional[str]:
+    """Get stored hash for a file from AC's updates tables.
+
+    Resolution order:
+      1. For auth/characters files, check the target DB's native `updates`
+         table under the unprefixed filename (``native_name``). Migrations
+         applied historically by AC or prior deploys live here. Matches with
+         any state count — if AC recorded a hash for this file, it ran.
+      2. Fall back to ``acore_world.updates`` under the CLI's prefix-keyed
+         name (``filename``), filtered to state=CUSTOM for auth/characters
+         (world base SQL pre-loads RELEASED stubs that don't mean the file
+         was applied to the target DB). This covers CLI-era applies.
+
+    Args:
+        filename: The tracking key (prefixed, e.g. ``chars__2024_07_05_00.sql``).
+        custom_only: If True, restrict the world DB lookup to state='CUSTOM'.
+        database: Target database type ('world', 'auth', 'characters').
+        native_name: Unprefixed filename used for the target DB's own updates
+            table lookup. If omitted, the native lookup is skipped.
+    """
+    # Step 1: target DB native lookup (auth/characters only).
+    if database == 'characters' and native_name:
+        h = _query_stored_hash(native_name, database=CHARS_DB_NAME)
+        if h:
+            return h
+    elif database == 'auth' and native_name:
+        h = _query_stored_hash(native_name, database=AUTH_DB_NAME)
+        if h:
+            return h
+
+    # Step 2: world DB prefix-keyed lookup (existing behaviour).
+    state_filter = " AND state = 'CUSTOM'" if custom_only else ""
+    return _query_stored_hash(filename, database=DB_NAME, state_filter=state_filter)
 
 
 def update_tracking(filename: str, file_hash: str, zpak: str, execution_ms: int):
@@ -523,7 +551,10 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
         current_hash = calculate_file_hash(sql_file)
         tracking_name = _tracking_key(sql_file.name, database)
         custom_only = database in ('auth', 'characters')
-        stored_hash = get_stored_hash(tracking_name, custom_only=custom_only)
+        stored_hash = get_stored_hash(
+            tracking_name, custom_only=custom_only,
+            database=database, native_name=sql_file.name,
+        )
         if stored_hash != current_hash:
             files_to_execute.append((sql_file, zpak, source, current_hash, database))
         else:
@@ -639,9 +670,14 @@ def _execute_reset(craft_root: Path) -> bool:
     updates_to_apply = []
     updates_skipped = 0
 
-    for sql_file, zpak, source, _db in update_files:
+    for sql_file, zpak, source, database in update_files:
         current_hash = calculate_file_hash(sql_file)
-        stored_hash = get_stored_hash(sql_file.name)
+        tracking_name = _tracking_key(sql_file.name, database)
+        custom_only = database in ('auth', 'characters')
+        stored_hash = get_stored_hash(
+            tracking_name, custom_only=custom_only,
+            database=database, native_name=sql_file.name,
+        )
         if stored_hash is None or stored_hash != current_hash:
             updates_to_apply.append((sql_file, zpak, source, current_hash))
         else:
@@ -924,7 +960,12 @@ def tool_list(ctx, zpak_name, changed):
 
         for sql_file, zpak, source, database in sql_files:
             current_hash = calculate_file_hash(sql_file)
-            stored_hash = get_stored_hash(sql_file.name)
+            tracking_name = _tracking_key(sql_file.name, database)
+            custom_only = database in ('auth', 'characters')
+            stored_hash = get_stored_hash(
+                tracking_name, custom_only=custom_only,
+                database=database, native_name=sql_file.name,
+            )
 
             db_tag = _db_tag(database)
             if stored_hash is None:
