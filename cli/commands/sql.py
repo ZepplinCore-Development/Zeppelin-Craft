@@ -1139,6 +1139,216 @@ def tool_format(ctx, target, output, dry_run, verbose):
                 traceback.print_exc()
 
 
+@sql_tool.command('align-recipe-quality')
+@click.option('--output', '-o', type=click.Path(),
+              default='zpaks/zep-professions/sql/zz_[F-175]_recipe_quality_alignment.sql',
+              show_default=True, help='Output SQL file path (relative to craft root)')
+@click.option('--dry-run', '-n', is_flag=True, help='Print summary without writing file')
+@click.pass_context
+def tool_align_recipe_quality(ctx, output, dry_run):
+    """Regenerate the recipe-quality alignment SQL (F-175).
+
+    Scans every item that teaches a spell (any spelltrigger_N = 6 — the
+    LEARN_SPELL trigger). For each, follows the taught spell's effect chain
+    to the crafted item and writes UPDATE statements aligning the teaching
+    item's Quality to the crafted item's Quality.
+
+    Merges with existing UPDATEs in the output file (keyed on entry) so the
+    file stays populated after apply and remains rebuild-safe.
+
+    Apply afterwards with: zep world sql changed
+    """
+    import re
+    import mysql.connector
+    from collections import defaultdict
+    from lib.dbc_utils import DBCConfig
+
+    craft_root = ctx.obj['craft_root']
+    env_path = craft_root / 'cli' / '.env'
+    output_path = Path(output)
+    if not output_path.is_absolute():
+        output_path = craft_root / output_path
+
+    world_conn = mysql.connector.connect(
+        host=DB_HOST, port=int(DB_PORT), user=DB_USER, password=DB_PASS,
+        database=DB_NAME,
+    )
+    dbc_config = DBCConfig.from_env(env_path)
+    dbc_conn = mysql.connector.connect(
+        host=dbc_config.host, port=dbc_config.port,
+        user=dbc_config.user, password=dbc_config.password,
+        database=dbc_config.live,
+    )
+
+    LEARN_SPELL_TRIGGER = 6
+    SPELL_EFFECT_LEARN_SPELL = 36
+    SPELL_EFFECT_CREATE_ITEM = 24
+    QUALITY_NAME = {0:'Poor',1:'Common',2:'Uncommon',3:'Rare',4:'Epic',
+                    5:'Legendary',6:'Artifact',7:'Heirloom'}
+
+    # Parse existing file for prior (entry -> target_q) — used to preserve
+    # rebuild-safety after DB state is aligned.
+    prior_updates = {}
+    if output_path.exists():
+        text = output_path.read_text()
+        for match in re.finditer(
+            r"UPDATE\s+item_template\s+SET\s+Quality\s*=\s*(\d+)\s+WHERE\s+entry\s+IN\s*\(([^)]+)\)",
+            text, re.IGNORECASE,
+        ):
+            target_q = int(match.group(1))
+            for eid in match.group(2).split(','):
+                eid = eid.strip()
+                if eid.isdigit():
+                    prior_updates[int(eid)] = target_q
+
+    click.echo("Scanning teaching items (spelltrigger_N = 6)...")
+    with world_conn.cursor(dictionary=True) as cur:
+        cur.execute(f"""
+            SELECT entry, name, Quality,
+                   spellid_1, spellid_2, spellid_3, spellid_4, spellid_5,
+                   spelltrigger_1, spelltrigger_2, spelltrigger_3, spelltrigger_4, spelltrigger_5
+            FROM item_template
+            WHERE spelltrigger_1 = {LEARN_SPELL_TRIGGER}
+               OR spelltrigger_2 = {LEARN_SPELL_TRIGGER}
+               OR spelltrigger_3 = {LEARN_SPELL_TRIGGER}
+               OR spelltrigger_4 = {LEARN_SPELL_TRIGGER}
+               OR spelltrigger_5 = {LEARN_SPELL_TRIGGER}
+        """)
+        teachers = cur.fetchall()
+        cur.execute("SELECT entry, Quality FROM item_template")
+        item_q = {r['entry']: r['Quality'] for r in cur.fetchall()}
+
+    spell_cache = {}
+    def fetch_spells(ids):
+        ids = [i for i in ids if i and i not in spell_cache]
+        if not ids:
+            return
+        with dbc_conn.cursor(dictionary=True) as c:
+            placeholders = ','.join(['%s']*len(ids))
+            c.execute(f"""
+                SELECT id, effect_1, effect_2, effect_3,
+                       effect_trigger_spell_1, effect_trigger_spell_2, effect_trigger_spell_3,
+                       effect_item_type_1, effect_item_type_2, effect_item_type_3
+                FROM spell WHERE id IN ({placeholders})
+            """, tuple(ids))
+            for row in c.fetchall():
+                spell_cache[row['id']] = row
+
+    # Prefetch all spells pointed at by LEARN_SPELL slots (slot_N where spelltrigger_N = 6)
+    teach_spell_ids = set()
+    for t in teachers:
+        for i in (1, 2, 3, 4, 5):
+            if t[f'spelltrigger_{i}'] == LEARN_SPELL_TRIGGER and t[f'spellid_{i}']:
+                teach_spell_ids.add(t[f'spellid_{i}'])
+    fetch_spells(list(teach_spell_ids))
+
+    # Follow any LEARN_SPELL → effect_trigger_spell chain one level deep
+    trigger_targets = set()
+    for s in list(spell_cache.values()):
+        for i in (1, 2, 3):
+            if s[f'effect_{i}'] == SPELL_EFFECT_LEARN_SPELL and s[f'effect_trigger_spell_{i}']:
+                trigger_targets.add(s[f'effect_trigger_spell_{i}'])
+    fetch_spells(list(trigger_targets))
+
+    def find_crafted(sid, depth=0, seen=None):
+        if seen is None:
+            seen = set()
+        if not sid or sid in seen or depth > 4:
+            return None
+        seen.add(sid)
+        s = spell_cache.get(sid)
+        if not s:
+            return None
+        for i in (1, 2, 3):
+            if s[f'effect_{i}'] == SPELL_EFFECT_CREATE_ITEM:
+                return s[f'effect_item_type_{i}']
+        for i in (1, 2, 3):
+            if s[f'effect_{i}'] == SPELL_EFFECT_LEARN_SPELL:
+                trig = s[f'effect_trigger_spell_{i}']
+                if trig:
+                    r = find_crafted(trig, depth + 1, seen)
+                    if r:
+                        return r
+        return None
+
+    # Dict keyed on entry — no duplicates possible; drift auto-corrects; stale entries auto-prune.
+    current_updates = {}
+    live_mismatches = 0
+    matches = 0
+    unresolved = 0
+    for t in teachers:
+        crafted_id = None
+        for i in (1, 2, 3, 4, 5):
+            if t[f'spelltrigger_{i}'] == LEARN_SPELL_TRIGGER and t[f'spellid_{i}']:
+                crafted_id = find_crafted(t[f'spellid_{i}'])
+                if crafted_id:
+                    break
+        if not crafted_id or crafted_id not in item_q:
+            unresolved += 1
+            continue
+        target_q = item_q[crafted_id]
+        if t['Quality'] != target_q:
+            current_updates[t['entry']] = target_q
+            live_mismatches += 1
+        elif t['entry'] in prior_updates:
+            # Aligned now, but previously fixed — preserve for rebuild safety.
+            # Use current target_q so any drift in crafted item's quality is reflected.
+            current_updates[t['entry']] = target_q
+            matches += 1
+        else:
+            matches += 1
+
+    world_conn.close()
+    dbc_conn.close()
+
+    preserved = len(current_updates) - live_mismatches
+    pruned = len(set(prior_updates) - set(current_updates))
+
+    click.echo(f"Scanned {len(teachers)} teaching items.")
+    click.echo(f"  Aligned (no action): {matches - preserved}")
+    click.echo(f"  Live mismatches:     {live_mismatches}")
+    click.echo(f"  Preserved from prior file (rebuild safety): {preserved}")
+    click.echo(f"  Pruned from prior file (entry no longer teaches): {pruned}")
+    click.echo(f"  No crafting chain (skipped): {unresolved}")
+    click.echo(f"  Total UPDATEs in output file: {len(current_updates)}")
+
+    if dry_run:
+        click.echo("\n(dry run — no file written)")
+        return
+
+    by_target = defaultdict(list)
+    for entry, target_q in current_updates.items():
+        by_target[target_q].append(entry)
+
+    lines = []
+    lines.append("-- F-175: Recipe quality aligned to crafted item quality")
+    lines.append("-- Regenerated by: zep world sql tool align-recipe-quality")
+    lines.append(f"-- Total updates: {len(current_updates)}")
+    lines.append("--")
+    lines.append("-- Idempotent — safe to re-apply. Rebuild-safe — UPDATEs persist across")
+    lines.append("-- regenerations so a fresh acore_world rebuild re-applies them.")
+    lines.append("")
+    for target_q in sorted(by_target.keys()):
+        entries = sorted(by_target[target_q])
+        lines.append(f"-- Align {len(entries)} recipes to {QUALITY_NAME.get(target_q, target_q)} (Quality={target_q})")
+        CHUNK = 50
+        for i in range(0, len(entries), CHUNK):
+            chunk = entries[i:i+CHUNK]
+            ids = ', '.join(str(e) for e in chunk)
+            lines.append(f"UPDATE item_template SET Quality = {target_q} WHERE entry IN ({ids});")
+        lines.append("")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text('\n'.join(lines))
+
+    try:
+        rel = output_path.relative_to(craft_root)
+    except ValueError:
+        rel = output_path
+    click.echo(f"\n{click.style('✓', fg='green')} Wrote {rel}")
+    click.echo(f"Apply with: zep world sql changed")
+
+
 @sql_tool.command('refresh-schema')
 @click.pass_context
 def tool_refresh_schema(ctx):
