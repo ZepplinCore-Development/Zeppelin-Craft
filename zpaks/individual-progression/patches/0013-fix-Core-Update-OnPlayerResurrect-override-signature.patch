@@ -1,0 +1,39 @@
+From 80c2a9dc054b495a7787f3f5e95d257d7ca76dd9 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 22 Apr 2026 01:13:26 +0000
+Subject: [PATCH] fix(Core): Update OnPlayerResurrect override signature for
+ bool& hook (I-173)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+AC's PlayerScript hook OnPlayerResurrect takes applySickness by
+reference (bool&) so scripts can cancel the resurrection sickness
+debuff by setting it to false. IPP's override was still declared
+with pass-by-value (bool), which fails to override the virtual and
+breaks the build under current AC.
+
+IPP doesn't use applySickness (param is commented out), so this is
+a pure signature alignment — no behavior change.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+---
+ src/IndividualProgressionPlayer.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/IndividualProgressionPlayer.cpp b/src/IndividualProgressionPlayer.cpp
+index 593772f..20f32bd 100644
+--- a/src/IndividualProgressionPlayer.cpp
++++ b/src/IndividualProgressionPlayer.cpp
+@@ -113,7 +113,7 @@ public:
+         sIndividualProgression->CheckAdjustments(player);
+     }
+ 
+-    void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/) override
++    void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool& /*applySickness*/) override
+     {
+         if (!player || !player->IsInWorld())
+             return;
+-- 
+2.34.1
+
