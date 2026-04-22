@@ -1,4 +1,4 @@
-From 11242949350847ba5ec62b50e44b67c72f5f255d Mon Sep 17 00:00:00 2001
+From 96861fcdf705e97bf3f5a2a62277195e26a6d541 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Mar 2026 12:20:03 +0000
 Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import

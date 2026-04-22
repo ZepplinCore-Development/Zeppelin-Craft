@@ -1,0 +1,52 @@
+From 0646cca56c2cd9d0c123e15d36293d3d27fa0988 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 22 Apr 2026 00:49:40 +0000
+Subject: [PATCH] fix(DB): Split 00_cleanup.sql across db-world and
+ db-characters (I-171)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The original cleanup file used `USE acore_characters;` mid-file to
+DELETE from character_settings after doing world DB cleanup. This
+required the apply user to have grants on both databases — if the
+apply user lacks privilege on acore_characters, the world-DB apply
+fails entirely with access-denied.
+
+Split the characters DELETE into its own file under
+db-characters/base/00_cleanup.sql so it's routed to the right DB with
+the right credentials by the apply tooling, and the world cleanup
+stays purely world.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
+---
+ data/sql/db-characters/base/00_cleanup.sql | 5 +++++
+ data/sql/db-world/base/00_cleanup.sql      | 3 ---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+ create mode 100644 data/sql/db-characters/base/00_cleanup.sql
+
+diff --git a/data/sql/db-characters/base/00_cleanup.sql b/data/sql/db-characters/base/00_cleanup.sql
+new file mode 100644
+index 0000000..50b3361
+--- /dev/null
++++ b/data/sql/db-characters/base/00_cleanup.sql
+@@ -0,0 +1,5 @@
++-- Cleanup for mod-individual-progression settings
++-- Split out of db-world/base/00_cleanup.sql — cross-DB SQL in a single
++-- file required acore user to have grants on both databases (I-171).
++
++DELETE FROM `character_settings` WHERE `source` = 'mod-individual-progression';
+diff --git a/data/sql/db-world/base/00_cleanup.sql b/data/sql/db-world/base/00_cleanup.sql
+index 0258750..579e72b 100644
+--- a/data/sql/db-world/base/00_cleanup.sql
++++ b/data/sql/db-world/base/00_cleanup.sql
+@@ -67,6 +67,3 @@ DELETE FROM `spell_dbc` WHERE `ID` IN
+ 36422, 36428, 37083, 37549, 37952, 37980, 38001, 39508, 39585, 39602, 39806, 39903, 39988, 
+ 40107, 40151, 40232, 40342, 40687, 41644, 41718, 41783, 41830, 41890, 42059, 42069, 42070, 42077, 
+ 42087, 42089, 42093, 42110, 42120, 42125, 42127, 43460, 44071, 44077, 44759, 44847, 44853, 44973);
+-
+-USE acore_characters;
+-DELETE FROM `character_settings` WHERE `source` = 'mod-individual-progression';
+-- 
+2.34.1
+

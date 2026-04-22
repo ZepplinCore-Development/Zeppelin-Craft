@@ -1,4 +1,4 @@
-From d7d60414f6cad5bcf09b8b3ecd98ff2c2bf8e346 Mon Sep 17 00:00:00 2001
+From 943f6d881c0108c46c57edf2e17cca49184d5455 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 12 Apr 2026 05:03:46 +0000
 Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
@@ -9,7 +9,7 @@ Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
  2 files changed, 127 insertions(+)
 
 diff --git a/src/IndividualProgression.h b/src/IndividualProgression.h
-index b41cc2d..b3f317c 100644
+index 482815a..b13c363 100644
 --- a/src/IndividualProgression.h
 +++ b/src/IndividualProgression.h
 @@ -73,6 +73,71 @@ enum ProgressionQuestIDs
