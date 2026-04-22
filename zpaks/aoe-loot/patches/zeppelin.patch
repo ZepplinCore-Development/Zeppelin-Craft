@@ -1,7 +1,7 @@
-From 8448305510ece03f06d64701e4436964bcc67287 Mon Sep 17 00:00:00 2001
+From fdebd84b9f50ec716c0fa6375e7fd07f7d9e1ac9 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
-Date: Sat, 7 Mar 2026 12:11:27 +0000
-Subject: [PATCH] fix: Increment unlootedCount for AoE-merged loot items
+Date: Wed, 22 Apr 2026 06:23:57 +0000
+Subject: [PATCH 1/2] fix: Increment unlootedCount for AoE-merged loot items
  (I-137)
 
 Items merged from nearby corpses into the main creature's loot were not
@@ -11,24 +11,14 @@ from firing and the skinnable flag from being set.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 ---
- data/sql/db-world/base/aoe_loot_module_string.sql | 1 +
- src/aoe_loot.cpp                                  | 4 ++++
- 2 files changed, 5 insertions(+)
+ src/aoe_loot.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/data/sql/db-world/base/aoe_loot_module_string.sql b/data/sql/db-world/base/aoe_loot_module_string.sql
-index eb99b3a..f237d5f 100644
---- a/data/sql/db-world/base/aoe_loot_module_string.sql
-+++ b/data/sql/db-world/base/aoe_loot_module_string.sql
-@@ -1,3 +1,4 @@
-+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
- SET @MODULE_STRING := 'mod-aoe-loot';
- 
- -- module string
 diff --git a/src/aoe_loot.cpp b/src/aoe_loot.cpp
-index ef34e83..26d48ff 100644
+index b72b515..d99111f 100644
 --- a/src/aoe_loot.cpp
 +++ b/src/aoe_loot.cpp
-@@ -227,7 +227,11 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket& packet)
+@@ -228,7 +228,11 @@ bool AOELootServer::CanPacketReceive(WorldSession* session, WorldPacket const& p
      for (const auto& item : itemsToAdd)
      {
          if (mainLoot->items.size() < MAX_LOOT_ITEMS)
@@ -40,6 +30,35 @@ index ef34e83..26d48ff 100644
      }
  
      // Add quest items directly to player inventory
+-- 
+2.34.1
+
+
+From c4211db9e84f5d4499fc340c8e30ce2ad33d3f6c Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Wed, 22 Apr 2026 06:24:02 +0000
+Subject: [PATCH 2/2] fix: Add SET NAMES to fix MySQL 8.4 collation mismatch
+ (I-143)
+
+MySQL 8.4 defaults connection collation to utf8mb4_0900_ai_ci, which
+clashes with the module_string table's utf8mb4_unicode_ci, causing
+DELETE/INSERT to fail with Error 1267 and blocking 'zep world sql
+changed' until -k was passed to skip errors.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+---
+ data/sql/db-world/base/aoe_loot_module_string.sql | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/data/sql/db-world/base/aoe_loot_module_string.sql b/data/sql/db-world/base/aoe_loot_module_string.sql
+index eb99b3a..f237d5f 100644
+--- a/data/sql/db-world/base/aoe_loot_module_string.sql
++++ b/data/sql/db-world/base/aoe_loot_module_string.sql
+@@ -1,3 +1,4 @@
++SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+ SET @MODULE_STRING := 'mod-aoe-loot';
+ 
+ -- module string
 -- 
 2.34.1
 
