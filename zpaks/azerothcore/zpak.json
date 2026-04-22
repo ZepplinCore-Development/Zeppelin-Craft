@@ -19,9 +19,6 @@
   "contents": {
     "patches": [
       "patches/*.patch"
-    ],
-    "sql": [
-      "sql/*.sql"
     ]
   },
   "enabled": true,
