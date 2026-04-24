@@ -126,7 +126,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Moam", "=q5=ALL WILL DROP"};
     { 2, 59337, "", "=q4=Qiraji Weapon Cache", "=ds=#e10#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Moam", "=q5=CHANCE TO DROP"};
-    { 5, 22220, "", "=q3=Plans: Black Grasp of the Destroyer", "=ds=#e2#", "", "15.0%" };
+    { 5, 22220, "", "=q4=Plans: Black Grasp of the Destroyer", "=ds=#e2#", "", "15.0%" };
     { 7, 0, "AO_Unknown", "=q6=Moam", "=q5=ONE WILL DROP"};
     { 8, 21455, "", "=q3=Southwind Helm", "=ds=#a2#", "", "11.1%" };
     { 9, 21468, "", "=q3=Mantle of Maz'Nadir", "=ds=#a1#", "", "11.1%" };
@@ -254,7 +254,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=The Prophet Skeram", "=q5=ALL WILL DROP"};
     { 2, 57610, "", "=q3=Pattern: Drums of the Raid Leader", "=ds=#e2#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=The Prophet Skeram", "=q5=CHANCE TO DROP"};
-    { 5, 22222, "", "=q3=Plans: Thick Obsidian Breastplate", "=ds=#e2#", "", "15.0%" };
+    { 5, 22222, "", "=q4=Plans: Thick Obsidian Breastplate", "=ds=#e2#", "", "15.0%" };
     { 7, 0, "AO_Unknown", "=q6=The Prophet Skeram", "=q5=ONE WILL DROP"};
     { 8, 21698, "", "=q4=Leggings of Immersion", "=ds=#a2#", "", "18.0%" };
     { 9, 21699, "", "=q4=Barrage Shoulders", "=ds=#a3#", "", "18.0%" };
@@ -547,7 +547,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
     { 3, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "55.0%" };
     { 4, 11630, "", "=q3=Rockshard Pellets", "=ds=#e6#", "", "16.0%" };
-    { 5, 11813, "", "=q2=Formula: Smoking Heart of the Mountain", "=ds=#e2#", "", "15.0%" };
+    { 5, 11813, "", "=q3=Formula: Smoking Heart of the Mountain", "=ds=#e2#", "", "15.0%" };
     { 7, 0, "AO_Unknown", "=q6=Lord Roccor", "=q5=ONE WILL DROP"};
     { 8, 11631, "", "=q3=Stoneshell Guard", "=ds=#w8#", "", "25.0%" };
     { 9, 11632, "", "=q3=Earthslag Shoulders", "=ds=#a4#", "", "25.0%" };
@@ -697,12 +697,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 6, 0, "RoM_stellar_dice", "=q6=Lord Incendius", "=q5=CHANCE TO DROP"};
     { 7, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
     { 8, 22527, "", "=q1=Core of Elements", "=ds=#m3#", "", "55.0%" };
-    { 9, 57458, "", "=q2=Technique: Scroll of Fire Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 11, 0, "AO_Unknown", "=q6=Lord Incendius", "=q5=ONE WILL DROP"};
-    { 12, 11764, "", "=q3=Cinderhide Armsplints", "=ds=#a2#", "", "25.0%" };
-    { 13, 11765, "", "=q3=Pyremail Wristguards", "=ds=#a3#", "", "25.0%" };
-    { 14, 11766, "", "=q3=Flameweave Cuffs", "=ds=#a1#", "", "25.0%" };
-    { 15, 11767, "", "=q3=Emberplate Armguards", "=ds=#a4#", "", "25.0%" };
+    { 10, 0, "AO_Unknown", "=q6=Lord Incendius", "=q5=ONE WILL DROP"};
+    { 11, 11764, "", "=q3=Cinderhide Armsplints", "=ds=#a2#", "", "25.0%" };
+    { 12, 11765, "", "=q3=Pyremail Wristguards", "=ds=#a3#", "", "25.0%" };
+    { 13, 11766, "", "=q3=Flameweave Cuffs", "=ds=#a1#", "", "25.0%" };
+    { 14, 11767, "", "=q3=Emberplate Armguards", "=ds=#a4#", "", "25.0%" };
 	};
 
 	AtlasLoot_Data["BRDBaelGar"] = {
@@ -732,7 +731,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 11465, "", "=q1=Marshal Windsor's Lost Information", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Golem Lord Argelmach", "=q5=CHANCE TO DROP"};
     { 6, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "80.0%" };
-    { 7, 21956, "", "=q2=Design: Dark Iron Scorpid", "=ds=#e2#", "", "60.0%" };
+    { 7, 21956, "", "=q3=Design: Dark Iron Scorpid", "=ds=#e2#", "", "60.0%" };
     { 9, 0, "AO_Unknown", "=q6=Golem Lord Argelmach", "=q5=ONE WILL DROP"};
     { 10, 11669, "", "=q3=Naglering", "=ds=#s13#", "", "30.7%" };
     { 11, 11822, "", "=q3=Omnicast Boots", "=ds=#a1#", "", "30.7%" };
@@ -770,13 +769,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDFlamelash"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Ambassador Flamelash", "=q5=CHANCE TO DROP"};
     { 2, 11129, "", "=q1=Essence of the Elements", "=ds=#m3#", "", "80.0%" };
-    { 3, 57458, "", "=q2=Technique: Scroll of Fire Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 5, 0, "AO_Unknown", "=q6=Ambassador Flamelash", "=q5=ONE WILL DROP"};
-    { 6, 11812, "", "=q3=Cape of the Fire Salamander", "=ds=#a1#", "", "31.0%" };
-    { 7, 11814, "", "=q3=Molten Fists", "=ds=#a3#", "", "31.0%" };
-    { 8, 11809, "", "=q3=Flame Wrath", "=ds=#w7#", "", "20.0%" };
-    { 9, 11832, "", "=q3=Burst of Knowledge", "=ds=#s14#", "", "17.0%" };
-    { 10, 11808, "", "=q4=Circle of Flame", "=ds=#a1#", "", "1.00%" };
+    { 4, 0, "AO_Unknown", "=q6=Ambassador Flamelash", "=q5=ONE WILL DROP"};
+    { 5, 11812, "", "=q3=Cape of the Fire Salamander", "=ds=#a1#", "", "31.0%" };
+    { 6, 11814, "", "=q3=Molten Fists", "=ds=#a3#", "", "31.0%" };
+    { 7, 11809, "", "=q3=Flame Wrath", "=ds=#w7#", "", "20.0%" };
+    { 8, 11832, "", "=q3=Burst of Knowledge", "=ds=#s14#", "", "17.0%" };
+    { 9, 11808, "", "=q4=Circle of Flame", "=ds=#a1#", "", "1.00%" };
 	};
 
 	AtlasLoot_Data["BRDPanzor"] = {
@@ -819,7 +817,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["BRDEmperorPrincess"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Emperor Dagran Thaurissan", "=q5=ALL WILL DROP"};
     { 2, 11468, "", "=q1=Dark Iron Fanny Pack", "=ds=#m3#", "", "100%" };
-    { 3, 57206, "", "=q3=Schematic: Thorium Headed Arrows", "=ds=#e2#", "", "100%" };
+    { 3, 57206, "", "=q2=Schematic: Thorium Headed Arrows", "=ds=#e2#", "", "100%" };
     { 4, 57502, "", "=q3=Design: Black Diamond Dragonling", "=ds=#e2#", "", "100%" };
     { 5, 901725, "", "=q1=Emperor's Dark Iron Seal", "=ds=#m3#", "", "100%" };
     { 7, 0, "AO_Unknown", "=q6=Emperor Dagran Thaurissan", "=q5=ONE WILL DROP"};
@@ -1005,7 +1003,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["LBRSZigris"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Quartermaster Zigris", "=q5=CHANCE TO DROP"};
     { 2, 22138, "", "=q1=Blackrock Bracer", "=ds=#m3#", "", "80.0%" };
-    { 3, 21955, "", "=q2=Design: Black Diamond Crab", "=ds=#e2#", "", "60.0%" };
+    { 3, 21955, "", "=q3=Design: Black Diamond Crab", "=ds=#e2#", "", "60.0%" };
     { 4, 12835, "", "=q3=Plans: Annihilator", "=ds=#e2#", "", "13.0%" };
     { 5, 13252, "", "=q3=Cloudrunner Girdle", "=ds=#a2#", "", "20.0%" };
     { 6, 13253, "", "=q3=Hands of Power", "=ds=#a1#", "", "19.0%" };
@@ -1042,7 +1040,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901715, "", "=q1=Wyrmthalak's War Horn", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Overlord Wyrmthalak", "=q5=CHANCE TO DROP"};
     { 6, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
-    { 7, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 7, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 8, 13143, "", "=q4=Mark of the Dragon Lord", "=ds=#s13#", "", "2.00%" };
     { 10, 0, "AO_Unknown", "=q6=Overlord Wyrmthalak", "=q5=ONE WILL DROP"};
     { 11, 13161, "", "=q3=Trindlehaven Staff", "=ds=#w9#", "", "20.0%" };
@@ -1093,12 +1091,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["UBRSSolakar"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Solakar Flamewreath", "=q5=CHANCE TO DROP"};
     { 2, 16786, "", "=q1=Black Dragonspawn Eye", "=ds=#m3#", "", "80.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Solakar Flamewreath", "=q5=ONE WILL DROP"};
-    { 5, 12589, "", "=q3=Dustfeather Sash", "=ds=#a1#", "", "20.0%" };
-    { 6, 12603, "", "=q3=Nightbrace Tunic", "=ds=#a2#", "", "20.0%" };
-    { 7, 12606, "", "=q3=Crystallized Girdle", "=ds=#a2#", "", "20.0%" };
-    { 8, 12609, "", "=q3=Polychromatic Visionwrap", "=ds=#a1#", "", "20.0%" };
-    { 9, 16695, "", "=q3=Devout Mantle", "=ds=#a1#", "", "20.0%" };
+    { 3, 18657, "", "=q3=Schematic: Hyper-Radiant Flame Reflector", "=ds=#e2#", "", "6.00%" };
+    { 5, 0, "AO_Unknown", "=q6=Solakar Flamewreath", "=q5=ONE WILL DROP"};
+    { 6, 12589, "", "=q3=Dustfeather Sash", "=ds=#a1#", "", "20.0%" };
+    { 7, 12603, "", "=q3=Nightbrace Tunic", "=ds=#a2#", "", "20.0%" };
+    { 8, 12606, "", "=q3=Crystallized Girdle", "=ds=#a2#", "", "20.0%" };
+    { 9, 12609, "", "=q3=Polychromatic Visionwrap", "=ds=#a1#", "", "20.0%" };
+    { 10, 16695, "", "=q3=Devout Mantle", "=ds=#a1#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["UBRSFLAME"] = {
@@ -1193,7 +1192,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901720, "", "=q1=Black Dragonflight Cipher", "=ds=#m3#", "", "100%" };
     { 4, 59001, "", "=q3=Drakkisath's Armor Cache - Chest", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=General Drakkisath", "=q5=CHANCE TO DROP"};
-    { 7, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 7, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 8, 15730, "", "=q3=Pattern: Red Dragonscale Breastplate", "=ds=#e2#", "", "4.00%" };
     { 16, 0, "AO_Unknown", "=q6=General Drakkisath", "=q5=ONE WILL DROP"};
     { 17, 12602, "", "=q3=Draconian Deflector", "=ds=#w8#", "", "18.0%" };
@@ -1670,7 +1669,6 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMEPusillin"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Pusillin", "=q5=ALL WILL DROP"};
     { 2, 18261, "", "=q1=Book of Incantations", "=ds=#m3#", "", "100%" };
-    { 3, 18267, "", "=q2=Recipe: Runn Tum Tuber Surprise", "=ds=#e2#", "", "100%" };
 	};
 
 	AtlasLoot_Data["DMEZevrimThornhoof"] = {
@@ -1754,11 +1752,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMNGuardMoldar"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Guard Mol'dar", "=q5=CHANCE TO DROP"};
     { 2, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
-    { 3, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
-    { 4, 18494, "", "=q3=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
-    { 5, 18496, "", "=q3=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
-    { 6, 18497, "", "=q3=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
-    { 7, 18498, "", "=q3=Hedgecutter", "=ds=#w1#", "", "7.69%" };
+    { 3, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
+    { 4, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
+    { 5, 18494, "", "=q3=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
+    { 6, 18496, "", "=q3=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
+    { 7, 18497, "", "=q3=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
+    { 8, 18498, "", "=q3=Hedgecutter", "=ds=#w1#", "", "7.69%" };
 	};
 
 	AtlasLoot_Data["DMNStomperKreeg"] = {
@@ -1769,15 +1768,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMNGuardFengus"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Guard Fengus", "=q5=CHANCE TO DROP"};
     { 2, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Guard Fengus", "=q5=ONE WILL DROP"};
-    { 5, 18450, "", "=q2=Robe of Combustion", "=ds=#a1#", "", "12.5%" };
-    { 6, 18451, "", "=q2=Hyena Hide Belt", "=ds=#a2#", "", "12.5%" };
-    { 7, 18458, "", "=q2=Modest Armguards", "=ds=#a3#", "", "12.5%" };
-    { 8, 18459, "", "=q2=Gallant's Wristguards", "=ds=#a4#", "", "12.5%" };
-    { 9, 18460, "", "=q2=Unsophisticated Hand Cannon", "=ds=#w5#", "", "12.5%" };
-    { 10, 18462, "", "=q2=Jagged Bone Fist", "=ds=#w13#", "", "12.5%" };
-    { 11, 18463, "", "=q2=Ogre Pocket Knife", "=ds=#w10#", "", "12.5%" };
-    { 12, 18464, "", "=q2=Gordok Nose Ring", "=ds=#s13#", "", "12.5%" };
+    { 3, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
+    { 5, 0, "AO_Unknown", "=q6=Guard Fengus", "=q5=ONE WILL DROP"};
+    { 6, 18450, "", "=q2=Robe of Combustion", "=ds=#a1#", "", "12.5%" };
+    { 7, 18451, "", "=q2=Hyena Hide Belt", "=ds=#a2#", "", "12.5%" };
+    { 8, 18458, "", "=q2=Modest Armguards", "=ds=#a3#", "", "12.5%" };
+    { 9, 18459, "", "=q2=Gallant's Wristguards", "=ds=#a4#", "", "12.5%" };
+    { 10, 18460, "", "=q2=Unsophisticated Hand Cannon", "=ds=#w5#", "", "12.5%" };
+    { 11, 18462, "", "=q2=Jagged Bone Fist", "=ds=#w13#", "", "12.5%" };
+    { 12, 18463, "", "=q2=Ogre Pocket Knife", "=ds=#w10#", "", "12.5%" };
+    { 13, 18464, "", "=q2=Gordok Nose Ring", "=ds=#s13#", "", "12.5%" };
 	};
 
 	AtlasLoot_Data["DMNThimblejack"] = {
@@ -1810,11 +1810,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["DMNGuardSlipkik"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Guard Slip'kik", "=q5=CHANCE TO DROP"};
     { 2, 18250, "", "=q2=Gordok Shackle Key", "=ds=#e10#", "", "13.0%" };
-    { 3, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
-    { 4, 18494, "", "=q3=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
-    { 5, 18496, "", "=q3=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
-    { 6, 18497, "", "=q3=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
-    { 7, 18498, "", "=q3=Hedgecutter", "=ds=#w1#", "", "7.69%" };
+    { 3, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "5.00%" };
+    { 4, 18493, "", "=q3=Bulky Iron Spaulders", "=ds=#a4#", "", "7.69%" };
+    { 5, 18494, "", "=q3=Denwatcher's Shoulders", "=ds=#a3#", "", "7.69%" };
+    { 6, 18496, "", "=q3=Heliotrope Cloak", "=ds=#a1#", "", "7.69%" };
+    { 7, 18497, "", "=q3=Sublime Wristguards", "=ds=#a1#", "", "7.69%" };
+    { 8, 18498, "", "=q3=Hedgecutter", "=ds=#w1#", "", "7.69%" };
 	};
 
 	AtlasLoot_Data["DMNCaptainKromcrush"] = {
@@ -1983,12 +1984,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 
 	AtlasLoot_Data["GnomeViscousFallout"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Viscous Fallout", "=q5=CHANCE TO DROP"};
-    { 2, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 3, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
-    { 5, 0, "AO_Unknown", "=q6=Viscous Fallout", "=q5=ONE WILL DROP"};
-    { 6, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
-    { 7, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
-    { 8, 9454, "", "=q3=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
+    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
+    { 4, 0, "AO_Unknown", "=q6=Viscous Fallout", "=q5=ONE WILL DROP"};
+    { 5, 9452, "", "=q3=Hydrocane", "=ds=#w9#", "", "33.3%" };
+    { 6, 9453, "", "=q3=Toxic Revenger", "=ds=#w4#", "", "33.3%" };
+    { 7, 9454, "", "=q3=Acidic Walkers", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["GnomeElectrocutioner"] = {
@@ -1999,11 +1999,9 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["GnomeCrowdPummeler"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Crowd Pummeler 9-60", "=q5=CHANCE TO DROP"};
-    { 2, 11827, "", "=q2=Schematic: Lil' Smoky", "=ds=#e2#", "", "50.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Crowd Pummeler 9-60", "=q5=ONE WILL DROP"};
-    { 5, 9450, "", "=q3=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
-    { 6, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Crowd Pummeler 9-60", "=q5=ONE WILL DROP"};
+    { 2, 9450, "", "=q3=Gnomebot Operating Boots", "=ds=#a2#", "", "60.0%" };
+    { 3, 9449, "", "=q3=Manual Crowd Pummeler", "=ds=#w6#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["GnomeDarkIronAmbassador"] = {
@@ -2018,13 +2016,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["GnomeThermaplugg"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Mekgineer Thermaplugg", "=q5=ALL WILL DROP"};
     { 2, 901708, "", "=q1=Plugg Nuts", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Mekgineer Thermaplugg", "=q5=CHANCE TO DROP"};
-    { 5, 11828, "", "=q2=Schematic: Pet Bombling", "=ds=#e2#", "", "90.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Mekgineer Thermaplugg", "=q5=ONE WILL DROP"};
-    { 8, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "30.0%" };
-    { 9, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "30.0%" };
-    { 10, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
-    { 11, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Mekgineer Thermaplugg", "=q5=ONE WILL DROP"};
+    { 5, 9458, "", "=q3=Thermaplugg's Central Core", "=ds=#w8#", "", "30.0%" };
+    { 6, 9461, "", "=q3=Charged Gear", "=ds=#s13#", "", "30.0%" };
+    { 7, 9459, "", "=q3=Thermaplugg's Left Arm", "=ds=#w1#", "", "20.0%" };
+    { 8, 9492, "", "=q3=Electromagnetic Gigaflux Reactivator", "=ds=#a1#", "", "20.0%" };
 	};
 
 		----------------
@@ -2081,11 +2077,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 901701, "", "=q1=Carved Horn of Remulos", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Celebras the Cursed", "=q5=CHANCE TO DROP"};
     { 5, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 6, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Celebras the Cursed", "=q5=ONE WILL DROP"};
-    { 9, 17738, "", "=q3=Claw of Celebras", "=ds=#w13#", "", "33.3%" };
-    { 10, 17739, "", "=q3=Grovekeeper's Drape", "=ds=#a1#", "", "33.3%" };
-    { 11, 17740, "", "=q3=Soothsayer's Headdress", "=ds=#a2#", "", "33.3%" };
+    { 7, 0, "AO_Unknown", "=q6=Celebras the Cursed", "=q5=ONE WILL DROP"};
+    { 8, 17738, "", "=q3=Claw of Celebras", "=ds=#w13#", "", "33.3%" };
+    { 9, 17739, "", "=q3=Grovekeeper's Drape", "=ds=#a1#", "", "33.3%" };
+    { 10, 17740, "", "=q3=Soothsayer's Headdress", "=ds=#a2#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["MaraLandslide"] = {
@@ -2121,15 +2116,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 901746, "", "=q1=Face of Theradras", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Princess Theradras", "=q5=CHANCE TO DROP"};
     { 5, 17684, "", "=q1=Theradric Crystal Carving", "=ds=#m3#", "", "80.0%" };
-    { 6, 57478, "", "=q2=Technique: Scroll of Nature Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Princess Theradras", "=q5=ONE WILL DROP"};
-    { 9, 17713, "", "=q3=Blackstone Ring", "=ds=#s13#", "", "16.6%" };
-    { 10, 17714, "", "=q3=Bracers of the Stone Princess", "=ds=#a3#", "", "16.6%" };
-    { 11, 17707, "", "=q3=Gemshard Heart", "=ds=#s2#", "", "13.3%" };
-    { 12, 17710, "", "=q3=Charstone Dirk", "=ds=#w4#", "", "13.3%" };
-    { 13, 17711, "", "=q3=Elemental Rockridge Leggings", "=ds=#a4#", "", "13.3%" };
-    { 14, 17715, "", "=q3=Eye of Theradras", "=ds=#a1#", "", "13.3%" };
-    { 15, 17766, "", "=q3=Princess Theradras' Scepter", "=ds=#w6#", "", "13.3%" };
+    { 7, 0, "AO_Unknown", "=q6=Princess Theradras", "=q5=ONE WILL DROP"};
+    { 8, 17713, "", "=q3=Blackstone Ring", "=ds=#s13#", "", "16.6%" };
+    { 9, 17714, "", "=q3=Bracers of the Stone Princess", "=ds=#a3#", "", "16.6%" };
+    { 10, 17707, "", "=q3=Gemshard Heart", "=ds=#s2#", "", "13.3%" };
+    { 11, 17710, "", "=q3=Charstone Dirk", "=ds=#w4#", "", "13.3%" };
+    { 12, 17711, "", "=q3=Elemental Rockridge Leggings", "=ds=#a4#", "", "13.3%" };
+    { 13, 17715, "", "=q3=Eye of Theradras", "=ds=#a1#", "", "13.3%" };
+    { 14, 17766, "", "=q3=Princess Theradras' Scepter", "=ds=#w6#", "", "13.3%" };
 	};
 
 		----------------------
@@ -2139,23 +2133,19 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["RFCTaragaman"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Taragaman the Hungerer", "=q5=ALL WILL DROP"};
     { 2, 14540, "", "=q1=Taragaman the Hungerer's Heart", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Taragaman the Hungerer", "=q5=CHANCE TO DROP"};
-    { 5, 57456, "", "=q2=Technique: Scroll of Fire Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Taragaman the Hungerer", "=q5=ONE WILL DROP"};
-    { 8, 14148, "", "=q3=Crystalline Cuffs", "=ds=#a1#", "", "40.0%" };
-    { 9, 14149, "", "=q3=Subterranean Cape", "=ds=#a1#", "", "40.0%" };
-    { 10, 14145, "", "=q3=Cursed Felblade", "=ds=#w10#", "", "20.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Taragaman the Hungerer", "=q5=ONE WILL DROP"};
+    { 5, 14148, "", "=q3=Crystalline Cuffs", "=ds=#a1#", "", "40.0%" };
+    { 6, 14149, "", "=q3=Subterranean Cape", "=ds=#a1#", "", "40.0%" };
+    { 7, 14145, "", "=q3=Cursed Felblade", "=ds=#w10#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFCJergosh"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Jergosh the Invoker", "=q5=ALL WILL DROP"};
     { 2, 901707, "", "=q1=Searing Stone", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Jergosh the Invoker", "=q5=CHANCE TO DROP"};
-    { 5, 57456, "", "=q2=Technique: Scroll of Fire Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Jergosh the Invoker", "=q5=ONE WILL DROP"};
-    { 8, 14147, "", "=q3=Cavedweller Bracers", "=ds=#a3#", "", "40.0%" };
-    { 9, 14150, "", "=q3=Robe of Evocation", "=ds=#a1#", "", "40.0%" };
-    { 10, 14151, "", "=q3=Chanting Blade", "=ds=#w4#", "", "20.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Jergosh the Invoker", "=q5=ONE WILL DROP"};
+    { 5, 14147, "", "=q3=Cavedweller Bracers", "=ds=#a3#", "", "40.0%" };
+    { 6, 14150, "", "=q3=Robe of Evocation", "=ds=#a1#", "", "40.0%" };
+    { 7, 14151, "", "=q3=Chanting Blade", "=ds=#w4#", "", "20.0%" };
 	};
 
 		----------------------
@@ -2163,22 +2153,19 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 		----------------------
 		
 	AtlasLoot_Data["RFDTutenkash"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Tuten'kash", "=q5=CHANCE TO DROP"};
-    { 2, 57472, "", "=q2=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Tuten'kash", "=q5=ONE WILL DROP"};
-    { 5, 10775, "", "=q3=Carapace of Tuten'kash", "=ds=#a4#", "", "33.3%" };
-    { 6, 10776, "", "=q3=Silky Spider Cape", "=ds=#a1#", "", "33.3%" };
-    { 7, 10777, "", "=q3=Arachnid Gloves", "=ds=#a2#", "", "33.3%" };
+    { 1, 0, "AO_Unknown", "=q6=Tuten'kash", "=q5=ONE WILL DROP"};
+    { 2, 10775, "", "=q3=Carapace of Tuten'kash", "=ds=#a4#", "", "33.3%" };
+    { 3, 10776, "", "=q3=Silky Spider Cape", "=ds=#a1#", "", "33.3%" };
+    { 4, 10777, "", "=q3=Arachnid Gloves", "=ds=#a2#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["RFDMordresh"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Mordresh Fire Eye", "=q5=CHANCE TO DROP"};
-    { 2, 57472, "", "=q2=Technique: Scroll of Shadow Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 3, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
-    { 5, 0, "AO_Unknown", "=q6=Mordresh Fire Eye", "=q5=ONE WILL DROP"};
-    { 6, 10769, "", "=q3=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
-    { 7, 10770, "", "=q3=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
-    { 8, 10771, "", "=q3=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
+    { 2, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
+    { 4, 0, "AO_Unknown", "=q6=Mordresh Fire Eye", "=q5=ONE WILL DROP"};
+    { 5, 10769, "", "=q3=Glowing Eye of Mordresh", "=ds=#s2#", "", "33.3%" };
+    { 6, 10770, "", "=q3=Mordresh's Lifeless Skull", "=ds=#s15#", "", "33.3%" };
+    { 7, 10771, "", "=q3=Deathmage Sash", "=ds=#a1#", "", "33.3%" };
 	};
 
 	AtlasLoot_Data["RFDGlutton"] = {
@@ -2201,14 +2188,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 10420, "", "=q1=Skull of the Coldbringer", "=ds=#m3#", "", "100%" };
     { 3, 901705, "", "=q1=Frozen Bone", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Amnennar the Coldbringer", "=q5=CHANCE TO DROP"};
-    { 6, 57462, "", "=q2=Technique: Scroll of Frost Resistance III", "=ds=#e2#", "", "20.0%" };
-    { 7, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
-    { 9, 0, "AO_Unknown", "=q6=Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
-    { 10, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "20.0%" };
-    { 11, 10762, "", "=q3=Robes of the Lich", "=ds=#a1#", "", "20.0%" };
-    { 12, 10763, "", "=q3=Icemetal Barbute", "=ds=#a4#", "", "20.0%" };
-    { 13, 10764, "", "=q3=Deathchill Armor", "=ds=#a3#", "", "20.0%" };
-    { 14, 10765, "", "=q3=Bonefingers", "=ds=#a2#", "", "20.0%" };
+    { 6, 17, "", "=q6=Martin Fury", "=ds=#a4#", "", "" };
+    { 8, 0, "AO_Unknown", "=q6=Amnennar the Coldbringer", "=q5=ONE WILL DROP"};
+    { 9, 10761, "", "=q3=Coldrage Dagger", "=ds=#w4#", "", "20.0%" };
+    { 10, 10762, "", "=q3=Robes of the Lich", "=ds=#a1#", "", "20.0%" };
+    { 11, 10763, "", "=q3=Icemetal Barbute", "=ds=#a4#", "", "20.0%" };
+    { 12, 10764, "", "=q3=Deathchill Armor", "=ds=#a3#", "", "20.0%" };
+    { 13, 10765, "", "=q3=Bonefingers", "=ds=#a2#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFDPlaguemaw"] = {
@@ -2229,11 +2215,9 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["RFKRamtusk"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Overlord Ramtusk", "=q5=CHANCE TO DROP"};
-    { 2, 57477, "", "=q2=Technique: Scroll of Nature Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Overlord Ramtusk", "=q5=ONE WILL DROP"};
-    { 5, 6686, "", "=q3=Tusken Helm", "=ds=#a3#", "", "60.0%" };
-    { 6, 6687, "", "=q3=Corpsemaker", "=ds=#w1#", "", "40.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Overlord Ramtusk", "=q5=ONE WILL DROP"};
+    { 2, 6686, "", "=q3=Tusken Helm", "=ds=#a3#", "", "60.0%" };
+    { 3, 6687, "", "=q3=Corpsemaker", "=ds=#w1#", "", "40.0%" };
 	};
 
 	AtlasLoot_Data["RFKAgathelos"] = {
@@ -2256,12 +2240,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 5792, "", "=q1=Razorflank's Medallion", "=ds=#m3#", "", "100%" };
     { 3, 5793, "", "=q1=Razorflank's Heart", "=ds=#m3#", "", "100%" };
     { 4, 901704, "", "=q1=Gauntlets of Growth", "=ds=#m3#", "", "100%" };
-    { 6, 0, "RoM_stellar_dice", "=q6=Charlga Razorflank", "=q5=CHANCE TO DROP"};
-    { 7, 57477, "", "=q2=Technique: Scroll of Nature Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Charlga Razorflank", "=q5=ONE WILL DROP"};
-    { 10, 6693, "", "=q3=Agamaggan's Clutch", "=ds=#s13#", "", "40.0%" };
-    { 11, 6694, "", "=q3=Heart of Agamaggan", "=ds=#w8#", "", "40.0%" };
-    { 12, 6692, "", "=q3=Pronged Reaver", "=ds=#w1#", "", "20.0%" };
+    { 6, 0, "AO_Unknown", "=q6=Charlga Razorflank", "=q5=ONE WILL DROP"};
+    { 7, 6693, "", "=q3=Agamaggan's Clutch", "=ds=#s13#", "", "40.0%" };
+    { 8, 6694, "", "=q3=Heart of Agamaggan", "=ds=#w8#", "", "40.0%" };
+    { 9, 6692, "", "=q3=Pronged Reaver", "=ds=#w1#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["RFKHalmgar"] = {
@@ -2279,15 +2261,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SMHerod"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Herod", "=q5=ALL WILL DROP"};
     { 2, 901721, "", "=q1=Herod's War Banner", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Herod", "=q5=CHANCE TO DROP"};
-    { 5, 57457, "", "=q2=Technique: Scroll of Fire Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Herod", "=q5=ONE WILL DROP"};
-    { 8, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
-    { 9, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
-    { 10, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
-    { 11, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
-    { 13, 0, "RoM_stellar_dice", "=q6=Scarlet Trainee", "=q5=CHANCE TO DROP"};
-    { 14, 23192, "", "=q2=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
+    { 4, 0, "AO_Unknown", "=q6=Herod", "=q5=ONE WILL DROP"};
+    { 5, 7717, "", "=q3=Ravager", "=ds=#w1#", "", "25.0%" };
+    { 6, 7718, "", "=q3=Herod's Shoulder", "=ds=#a3#", "", "25.0%" };
+    { 7, 7719, "", "=q3=Raging Berserker's Helm", "=ds=#a3#", "", "25.0%" };
+    { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "25.0%" };
+    { 10, 0, "RoM_stellar_dice", "=q6=Scarlet Trainee", "=q5=CHANCE TO DROP"};
+    { 11, 23192, "", "=q2=Tabard of the Scarlet Crusade", "=ds=#s7#", "", "1.60%" };
 	};
 
 	AtlasLoot_Data["SMCFairbanks"] = {
@@ -2298,23 +2278,20 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SMCMograineWhitemane"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Scarlet Commander Mograine", "=q5=CHANCE TO DROP"};
-    { 2, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Scarlet Commander Mograine", "=q5=ONE WILL DROP"};
-    { 5, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
-    { 6, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
-    { 7, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
-    { 8, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Scarlet Commander Mograine", "=q5=ONE WILL DROP"};
+    { 2, 7726, "", "=q3=Aegis of the Scarlet Commander", "=ds=#w8#", "", "40.0%" };
+    { 3, 7723, "", "=q3=Mograine's Might", "=ds=#w6#", "", "20.0%" };
+    { 4, 7724, "", "=q3=Gauntlets of Divinity", "=ds=#a3#", "", "20.0%" };
+    { 5, 10330, "", "=q3=Scarlet Leggings", "=ds=#a3#", "", "20.0%" };
     { 16, 0, "AO_ChestWithTreasures", "=q6=High Inquisitor Whitemane", "=q5=ALL WILL DROP"};
     { 17, 901722, "", "=q1=Whitemane's Prayer Book", "=ds=#m3#", "", "100%" };
     { 19, 0, "RoM_stellar_dice", "=q6=High Inquisitor Whitemane", "=q5=CHANCE TO DROP"};
-    { 20, 57482, "", "=q2=Technique: Scroll of Holy Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 21, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
-    { 22, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
-    { 24, 0, "AO_Unknown", "=q6=High Inquisitor Whitemane", "=q5=ONE WILL DROP"};
-    { 25, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
-    { 26, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
-    { 27, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
+    { 20, 20976, "", "=q2=Design: Citrine Pendant of Golden Healing", "=ds=#e2#", "", "10.0%" };
+    { 21, 100017, "", "=q6=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 23, 0, "AO_Unknown", "=q6=High Inquisitor Whitemane", "=q5=ONE WILL DROP"};
+    { 24, 7720, "", "=q3=Whitemane's Chapeau", "=ds=#a1#", "", "40.0%" };
+    { 25, 7722, "", "=q3=Triune Amulet", "=ds=#s2#", "", "40.0%" };
+    { 26, 7721, "", "=q3=Hand of Righteousness", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["SMGVishas"] = {
@@ -2368,14 +2345,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["SMLDoan"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Arcanist Doan", "=q5=ALL WILL DROP"};
     { 2, 901723, "", "=q1=Arcane Orb of Doan", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Arcanist Doan", "=q5=CHANCE TO DROP"};
-    { 5, 57467, "", "=q2=Technique: Scroll of Arcane Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Arcanist Doan", "=q5=ONE WILL DROP"};
-    { 8, 7711, "", "=q3=Robe of Doan", "=ds=#a1#", "", "24.0%" };
-    { 9, 7712, "", "=q3=Mantle of Doan", "=ds=#a1#", "", "24.0%" };
-    { 10, 7713, "", "=q3=Illusionary Rod", "=ds=#w9#", "", "24.0%" };
-    { 11, 7714, "", "=q3=Hypnotic Blade", "=ds=#w4#", "", "24.0%" };
-    { 12, 34227, "", "=q4=Deadman's Hand", "=ds=#s13#", "", "4.00%" };
+    { 4, 0, "AO_Unknown", "=q6=Arcanist Doan", "=q5=ONE WILL DROP"};
+    { 5, 7711, "", "=q3=Robe of Doan", "=ds=#a1#", "", "24.0%" };
+    { 6, 7712, "", "=q3=Mantle of Doan", "=ds=#a1#", "", "24.0%" };
+    { 7, 7713, "", "=q3=Illusionary Rod", "=ds=#w9#", "", "24.0%" };
+    { 8, 7714, "", "=q3=Hypnotic Blade", "=ds=#w4#", "", "24.0%" };
+    { 9, 34227, "", "=q4=Deadman's Hand", "=ds=#s13#", "", "4.00%" };
 	};
 
 	AtlasLoot_Data["SMTrash"] = {
@@ -2432,11 +2407,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 901706, "", "=q1=Everliving Spore", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Verdan the Everliving", "=q5=CHANCE TO DROP"};
     { 5, 6443, "", "=q1=Deviate Hide", "=ds=#m3#", "", "80.0%" };
-    { 6, 57476, "", "=q2=Technique: Scroll of Nature Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Verdan the Everliving", "=q5=ONE WILL DROP"};
-    { 9, 6630, "", "=q3=Seedcloud Buckler", "=ds=#w8#", "", "40.0%" };
-    { 10, 6631, "", "=q3=Living Root", "=ds=#w9#", "", "40.0%" };
-    { 11, 6629, "", "=q3=Sporid Cape", "=ds=#a1#", "", "20.0%" };
+    { 7, 0, "AO_Unknown", "=q6=Verdan the Everliving", "=q5=ONE WILL DROP"};
+    { 8, 6630, "", "=q3=Seedcloud Buckler", "=ds=#w8#", "", "40.0%" };
+    { 9, 6631, "", "=q3=Living Root", "=ds=#w9#", "", "40.0%" };
+    { 10, 6629, "", "=q3=Sporid Cape", "=ds=#a1#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["WCSerpentis"] = {
@@ -2476,23 +2450,19 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["WCAnacondra"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Lady Anacondra", "=q5=ALL WILL DROP"};
     { 2, 9739, "", "=q1=Gem of Anacondra", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Lady Anacondra", "=q5=CHANCE TO DROP"};
-    { 5, 57466, "", "=q2=Technique: Scroll of Arcane Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Lady Anacondra", "=q5=ONE WILL DROP"};
-    { 8, 5404, "", "=q3=Serpent's Shoulders", "=ds=#a2#", "", "80.0%" };
-    { 9, 6446, "", "=q3=Snakeskin Bag", "=ds=#e1#", "", "10.0%" };
-    { 10, 10412, "", "=q3=Belt of the Fang", "=ds=#a2#", "", "10.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Lady Anacondra", "=q5=ONE WILL DROP"};
+    { 5, 5404, "", "=q3=Serpent's Shoulders", "=ds=#a2#", "", "80.0%" };
+    { 6, 6446, "", "=q3=Snakeskin Bag", "=ds=#e1#", "", "10.0%" };
+    { 7, 10412, "", "=q3=Belt of the Fang", "=ds=#a2#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["WCCobrahn"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Lord Cobrahn", "=q5=ALL WILL DROP"};
     { 2, 9738, "", "=q1=Gem of Cobrahn", "=ds=#m3#", "", "100%" };
-    { 4, 0, "RoM_stellar_dice", "=q6=Lord Cobrahn", "=q5=CHANCE TO DROP"};
-    { 5, 57476, "", "=q2=Technique: Scroll of Nature Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 0, "AO_Unknown", "=q6=Lord Cobrahn", "=q5=ONE WILL DROP"};
-    { 8, 6465, "", "=q3=Robe of the Moccasin", "=ds=#a1#", "", "60.0%" };
-    { 9, 6460, "", "=q3=Cobrahn's Grasp", "=ds=#a3#", "", "20.0%" };
-    { 10, 10410, "", "=q3=Leggings of the Fang", "=ds=#a2#", "", "20.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Lord Cobrahn", "=q5=ONE WILL DROP"};
+    { 5, 6465, "", "=q3=Robe of the Moccasin", "=ds=#a1#", "", "60.0%" };
+    { 6, 6460, "", "=q3=Cobrahn's Grasp", "=ds=#a3#", "", "20.0%" };
+    { 7, 10410, "", "=q3=Leggings of the Fang", "=ds=#a2#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["WCBoahn"] = {
@@ -2780,9 +2750,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901726, "", "=q1=Gandling's Plague Formula", "=ds=#m3#", "", "100%" };
     { 4, 59000, "", "=q3=Gandling's Armor Cache - Helm", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Darkmaster Gandling", "=q5=CHANCE TO DROP"};
-    { 7, 57473, "", "=q2=Technique: Scroll of Shadow Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 13501, "", "=q2=Recipe: Major Mana Potion", "=ds=#e2#", "", "10.0%" };
-    { 9, 14514, "", "=q4=Pattern: Robe of the Void", "=ds=#e2#", "", "7.00%" };
+    { 7, 14514, "", "=q4=Pattern: Robe of the Void", "=ds=#e2#", "", "7.00%" };
     { 16, 0, "AO_Unknown", "=q6=Darkmaster Gandling", "=q5=ONE WILL DROP"};
     { 17, 13398, "", "=q3=Boots of the Shrieker", "=ds=#a2#", "", "14.0%" };
     { 18, 13938, "", "=q3=Bonecreeper Stylus", "=ds=#w12#", "", "14.0%" };
@@ -2798,13 +2766,11 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Edwin VanCleef", "=q5=ALL WILL DROP"};
     { 2, 2874, "", "=q1=An Unsent Letter", "=ds=#m3#", "", "100%" };
     { 3, 3637, "", "=q1=Head of VanCleef", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Edwin VanCleef", "=q5=CHANCE TO DROP"};
-    { 6, 57471, "", "=q2=Technique: Scroll of Shadow Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Edwin VanCleef", "=q5=ONE WILL DROP"};
-    { 9, 5193, "", "=q3=Cape of the Brotherhood", "=ds=#a1#", "", "30.0%" };
-    { 10, 5202, "", "=q3=Corsair's Overshirt", "=ds=#a1#", "", "30.0%" };
-    { 11, 5191, "", "=q3=Cruel Barb", "=ds=#w10#", "", "20.0%" };
-    { 12, 10399, "", "=q3=Blackened Defias Armor", "=ds=#a2#", "", "20.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Edwin VanCleef", "=q5=ONE WILL DROP"};
+    { 6, 5193, "", "=q3=Cape of the Brotherhood", "=ds=#a1#", "", "30.0%" };
+    { 7, 5202, "", "=q3=Corsair's Overshirt", "=ds=#a1#", "", "30.0%" };
+    { 8, 5191, "", "=q3=Cruel Barb", "=ds=#w10#", "", "20.0%" };
+    { 9, 10399, "", "=q3=Blackened Defias Armor", "=ds=#a2#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["VCGreenskin"] = {
@@ -2819,19 +2785,16 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 901727, "", "=q1=Stabby Patty Secret Formula", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Cookie", "=q5=CHANCE TO DROP"};
     { 5, 8490, "", "=q1=Cat Carrier (Siamese)", "=ds=#e10#", "", "15.0%" };
-    { 6, 57461, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Cookie", "=q5=ONE WILL DROP"};
-    { 9, 5197, "", "=q3=Cookie's Tenderizer", "=ds=#w6#", "", "65.0%" };
-    { 10, 5198, "", "=q3=Cookie's Stirring Rod", "=ds=#w12#", "", "35.0%" };
+    { 7, 0, "AO_Unknown", "=q6=Cookie", "=q5=ONE WILL DROP"};
+    { 8, 5197, "", "=q3=Cookie's Tenderizer", "=ds=#w6#", "", "65.0%" };
+    { 9, 5198, "", "=q3=Cookie's Stirring Rod", "=ds=#w12#", "", "35.0%" };
 	};
 
 	AtlasLoot_Data["VCSmite"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Mr. Smite", "=q5=CHANCE TO DROP"};
-    { 2, 57481, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Mr. Smite", "=q5=ONE WILL DROP"};
-    { 5, 5192, "", "=q3=Thief's Blade", "=ds=#w10#", "", "40.0%" };
-    { 6, 5196, "", "=q3=Smite's Reaver", "=ds=#w1#", "", "40.0%" };
-    { 7, 7230, "", "=q3=Smite's Mighty Hammer", "=ds=#w6#", "", "20.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Mr. Smite", "=q5=ONE WILL DROP"};
+    { 2, 5192, "", "=q3=Thief's Blade", "=ds=#w10#", "", "40.0%" };
+    { 3, 5196, "", "=q3=Smite's Reaver", "=ds=#w1#", "", "40.0%" };
+    { 4, 7230, "", "=q3=Smite's Mighty Hammer", "=ds=#w6#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["VCGilnid"] = {
@@ -2915,16 +2878,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SCHOLORattlegore"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Rattlegore", "=q5=CHANCE TO DROP"};
-    { 2, 57473, "", "=q2=Technique: Scroll of Shadow Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Rattlegore", "=q5=ONE WILL DROP"};
-    { 5, 16711, "", "=q3=Shadowcraft Boots", "=ds=#a2#", "", "16.0%" };
-    { 6, 14528, "", "=q3=Rattlecage Buckler", "=ds=#w8#", "", "14.0%" };
-    { 7, 14531, "", "=q3=Frightskull Shaft", "=ds=#w6#", "", "14.0%" };
-    { 8, 14537, "", "=q3=Corpselight Greaves", "=ds=#a4#", "", "14.0%" };
-    { 9, 14538, "", "=q3=Deadwalker Mantle", "=ds=#a1#", "", "14.0%" };
-    { 10, 14539, "", "=q3=Bone Ring Helm", "=ds=#a2#", "", "14.0%" };
-    { 11, 18686, "", "=q3=Bone Golem Shoulders", "=ds=#a3#", "", "14.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Rattlegore", "=q5=ONE WILL DROP"};
+    { 2, 16711, "", "=q3=Shadowcraft Boots", "=ds=#a2#", "", "16.0%" };
+    { 3, 14528, "", "=q3=Rattlecage Buckler", "=ds=#w8#", "", "14.0%" };
+    { 4, 14531, "", "=q3=Frightskull Shaft", "=ds=#w6#", "", "14.0%" };
+    { 5, 14537, "", "=q3=Corpselight Greaves", "=ds=#a4#", "", "14.0%" };
+    { 6, 14538, "", "=q3=Deadwalker Mantle", "=ds=#a1#", "", "14.0%" };
+    { 7, 14539, "", "=q3=Bone Ring Helm", "=ds=#a2#", "", "14.0%" };
+    { 8, 18686, "", "=q3=Bone Golem Shoulders", "=ds=#a3#", "", "14.0%" };
 	};
 
 	AtlasLoot_Data["SCHOLODeathKnight"] = {
@@ -3033,9 +2994,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 901726, "", "=q1=Gandling's Plague Formula", "=ds=#m3#", "", "100%" };
     { 4, 59000, "", "=q3=Gandling's Armor Cache - Helm", "=ds=#e10#", "", "100%" };
     { 6, 0, "RoM_stellar_dice", "=q6=Darkmaster Gandling", "=q5=CHANCE TO DROP"};
-    { 7, 57473, "", "=q2=Technique: Scroll of Shadow Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 13501, "", "=q2=Recipe: Major Mana Potion", "=ds=#e2#", "", "10.0%" };
-    { 9, 14514, "", "=q4=Pattern: Robe of the Void", "=ds=#e2#", "", "7.00%" };
+    { 7, 14514, "", "=q4=Pattern: Robe of the Void", "=ds=#e2#", "", "7.00%" };
     { 16, 0, "AO_Unknown", "=q6=Darkmaster Gandling", "=q5=ONE WILL DROP"};
     { 17, 13398, "", "=q3=Boots of the Shrieker", "=ds=#a2#", "", "14.0%" };
     { 18, 13938, "", "=q3=Bonecreeper Stylus", "=ds=#w12#", "", "14.0%" };
@@ -3089,19 +3048,15 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	};
 
 	AtlasLoot_Data["SFKSilverlaine"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Baron Silverlaine", "=q5=CHANCE TO DROP"};
-    { 2, 57461, "", "=q2=Technique: Scroll of Frost Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Baron Silverlaine", "=q5=ONE WILL DROP"};
-    { 5, 6323, "", "=q3=Baron's Scepter", "=ds=#w6#", "", "70.0%" };
-    { 6, 6321, "", "=q3=Silverlaine's Family Seal", "=ds=#s13#", "", "30.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Baron Silverlaine", "=q5=ONE WILL DROP"};
+    { 2, 6323, "", "=q3=Baron's Scepter", "=ds=#w6#", "", "70.0%" };
+    { 3, 6321, "", "=q3=Silverlaine's Family Seal", "=ds=#s13#", "", "30.0%" };
 	};
 
 	AtlasLoot_Data["SFKSpringvale"] = {
-    { 1, 0, "RoM_stellar_dice", "=q6=Commander Springvale", "=q5=CHANCE TO DROP"};
-    { 2, 57481, "", "=q2=Technique: Scroll of Holy Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 4, 0, "AO_Unknown", "=q6=Commander Springvale", "=q5=ONE WILL DROP"};
-    { 5, 3191, "", "=q3=Arced War Axe", "=ds=#w1#", "", "50.0%" };
-    { 6, 6320, "", "=q3=Commander's Crest", "=ds=#w8#", "", "50.0%" };
+    { 1, 0, "AO_Unknown", "=q6=Commander Springvale", "=q5=ONE WILL DROP"};
+    { 2, 3191, "", "=q3=Arced War Axe", "=ds=#w1#", "", "50.0%" };
+    { 3, 6320, "", "=q3=Commander's Crest", "=ds=#w8#", "", "50.0%" };
 	};
 
 	AtlasLoot_Data["SFKOdo"] = {
@@ -3126,13 +3081,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Archmage Arugal", "=q5=ALL WILL DROP"};
     { 2, 5442, "", "=q1=Head of Arugal", "=ds=#m3#", "", "100%" };
     { 3, 901703, "", "=q1=Fangfire Amulet", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Archmage Arugal", "=q5=CHANCE TO DROP"};
-    { 6, 57466, "", "=q2=Technique: Scroll of Arcane Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 7, 57471, "", "=q2=Technique: Scroll of Shadow Resistance II", "=ds=#e2#", "", "15.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Archmage Arugal", "=q5=ONE WILL DROP"};
-    { 10, 6324, "", "=q3=Robes of Arugal", "=ds=#a1#", "", "40.0%" };
-    { 11, 6392, "", "=q3=Belt of Arugal", "=ds=#a1#", "", "40.0%" };
-    { 12, 6220, "", "=q3=Meteor Shard", "=ds=#w4#", "", "20.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Archmage Arugal", "=q5=ONE WILL DROP"};
+    { 6, 6324, "", "=q3=Robes of Arugal", "=ds=#a1#", "", "40.0%" };
+    { 7, 6392, "", "=q3=Belt of Arugal", "=ds=#a1#", "", "40.0%" };
+    { 8, 6220, "", "=q3=Meteor Shard", "=ds=#w4#", "", "20.0%" };
 	};
 
 		------------------
@@ -3243,13 +3195,12 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
 	AtlasLoot_Data["STRATArchivistGalford"] = {
     { 1, 0, "RoM_stellar_dice", "=q6=Archivist Galford", "=q5=CHANCE TO DROP"};
     { 2, 12811, "", "=q2=Righteous Orb", "=ds=#e7#", "", "66.0%" };
-    { 3, 22897, "", "=q3=Tome of Conjure Food VII", "=ds=#e2#", "", "14.0%" };
-    { 5, 0, "AO_Unknown", "=q6=Archivist Galford", "=q5=ONE WILL DROP"};
-    { 6, 13386, "", "=q3=Archivist Cape", "=ds=#a1#", "", "22.0%" };
-    { 7, 13387, "", "=q3=Foresight Girdle", "=ds=#a3#", "", "22.0%" };
-    { 8, 16692, "", "=q3=Devout Gloves", "=ds=#a1#", "", "22.0%" };
-    { 9, 18716, "", "=q3=Ash Covered Boots", "=ds=#a2#", "", "22.0%" };
-    { 10, 13385, "", "=q3=Tome of Knowledge", "=ds=#s15#", "", "12.0%" };
+    { 4, 0, "AO_Unknown", "=q6=Archivist Galford", "=q5=ONE WILL DROP"};
+    { 5, 13386, "", "=q3=Archivist Cape", "=ds=#a1#", "", "22.0%" };
+    { 6, 13387, "", "=q3=Foresight Girdle", "=ds=#a3#", "", "22.0%" };
+    { 7, 16692, "", "=q3=Devout Gloves", "=ds=#a1#", "", "22.0%" };
+    { 8, 18716, "", "=q3=Ash Covered Boots", "=ds=#a2#", "", "22.0%" };
+    { 9, 13385, "", "=q3=Tome of Knowledge", "=ds=#s15#", "", "12.0%" };
 	};
 
 	AtlasLoot_Data["STRATBalnazzar"] = {
@@ -3257,8 +3208,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 13250, "", "=q1=Head of Balnazzar", "=ds=#m3#", "", "100%" };
     { 3, 901719, "", "=q1=Dathrohan's Tainted Medallion", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Balnazzar", "=q5=CHANCE TO DROP"};
-    { 6, 57483, "", "=q2=Technique: Scroll of Holy Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 7, 14512, "", "=q4=Pattern: Truefaith Vestments", "=ds=#e2#", "", "6.00%" };
+    { 6, 14512, "", "=q4=Pattern: Truefaith Vestments", "=ds=#e2#", "", "6.00%" };
     { 16, 0, "AO_Unknown", "=q6=Balnazzar", "=q5=ONE WILL DROP"};
     { 17, 12103, "", "=q3=Star of Mystaria", "=ds=#s2#", "", "9.80%" };
     { 18, 13348, "", "=q3=Demonshear", "=ds=#w10#", "", "9.80%" };
@@ -3373,14 +3323,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 3, 12843, "", "=q2=Corruptor's Scourgestone", "=ds=#m3#", "", "100%" };
     { 5, 0, "RoM_stellar_dice", "=q6=Magistrate Barthilas", "=q5=CHANCE TO DROP"};
     { 6, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
-    { 7, 57483, "", "=q2=Technique: Scroll of Holy Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 9, 0, "AO_Unknown", "=q6=Magistrate Barthilas", "=q5=ONE WILL DROP"};
-    { 10, 13376, "", "=q3=Royal Tribunal Cloak", "=ds=#a1#", "", "16.7%" };
-    { 11, 18722, "", "=q3=Death Grips", "=ds=#a4#", "", "16.7%" };
-    { 12, 18725, "", "=q3=Peacemaker", "=ds=#w7#", "", "16.7%" };
-    { 13, 18726, "", "=q3=Magistrate's Cuffs", "=ds=#a2#", "", "16.7%" };
-    { 14, 18727, "", "=q3=Crimson Felt Hat", "=ds=#a1#", "", "16.7%" };
-    { 15, 23198, "", "=q3=Idol of Brutality", "", "", "16.7%" };
+    { 8, 0, "AO_Unknown", "=q6=Magistrate Barthilas", "=q5=ONE WILL DROP"};
+    { 9, 13376, "", "=q3=Royal Tribunal Cloak", "=ds=#a1#", "", "16.7%" };
+    { 10, 18722, "", "=q3=Death Grips", "=ds=#a4#", "", "16.7%" };
+    { 11, 18725, "", "=q3=Peacemaker", "=ds=#w7#", "", "16.7%" };
+    { 12, 18726, "", "=q3=Magistrate's Cuffs", "=ds=#a2#", "", "16.7%" };
+    { 13, 18727, "", "=q3=Crimson Felt Hat", "=ds=#a1#", "", "16.7%" };
+    { 14, 23198, "", "=q3=Idol of Brutality", "", "", "16.7%" };
 	};
 
 	AtlasLoot_Data["STRATRamsteintheGorger"] = {
@@ -3409,7 +3358,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 7, 0, "RoM_stellar_dice", "=q6=Baron Rivendare", "=q5=CHANCE TO DROP"};
     { 8, 13174, "", "=q1=Plagued Flesh Sample", "=ds=#m3#", "", "80.0%" };
     { 9, 100003, "", "=q3=Codex: Prayer of Spirit", "=ds=#e2#", "", "15.0%" };
-    { 10, 100018, "", "=q2=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 10, 100018, "", "=q6=Pattern: Artisan Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 11, 13340, "", "=q3=Cape of the Black Baron", "=ds=#a1#", "", "8.70%" };
     { 12, 13335, "", "=q4=Deathcharger's Reins", "=ds=#e10#", "", "1.00%" };
     { 16, 0, "AO_Unknown", "=q6=Baron Rivendare", "=q5=ONE WILL DROP"};
@@ -3575,11 +3524,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 6212, "", "=q1=Head of Jammal'an", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Jammal'an the Prophet", "=q5=CHANCE TO DROP"};
     { 5, 6181, "", "=q1=Fetish of Hakkar", "=ds=#m3#", "", "80.0%" };
-    { 6, 57468, "", "=q2=Technique: Scroll of Arcane Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Jammal'an the Prophet", "=q5=ONE WILL DROP"};
-    { 9, 10806, "", "=q3=Vestments of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
-    { 10, 10807, "", "=q3=Kilt of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
-    { 11, 10808, "", "=q3=Gloves of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
+    { 7, 0, "AO_Unknown", "=q6=Jammal'an the Prophet", "=q5=ONE WILL DROP"};
+    { 8, 10806, "", "=q3=Vestments of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
+    { 9, 10807, "", "=q3=Kilt of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
+    { 10, 10808, "", "=q3=Gloves of the Atal'ai Prophet", "=ds=#a1#", "", "33.3%" };
     { 16, 0, "RoM_stellar_dice", "=q6=Ogom the Wretched", "=q5=CHANCE TO DROP"};
     { 17, 6181, "", "=q1=Fetish of Hakkar", "=ds=#m3#", "", "80.0%" };
     { 19, 0, "AO_Unknown", "=q6=Ogom the Wretched", "=q5=ONE WILL DROP"};
@@ -3615,16 +3563,14 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Shade of Eranikus", "=q5=ALL WILL DROP"};
     { 2, 10454, "", "=q2=Essence of Eranikus", "=ds=#m3#", "", "100%" };
     { 3, 901713, "", "=q1=Dream Seed", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Shade of Eranikus", "=q5=CHANCE TO DROP"};
-    { 6, 57468, "", "=q2=Technique: Scroll of Arcane Resistance IV", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Shade of Eranikus", "=q5=ONE WILL DROP"};
-    { 9, 10829, "", "=q3=The Dragon's Eye", "=ds=#s2#", "", "17.2%" };
-    { 10, 10833, "", "=q3=Horns of Eranikus", "=ds=#a3#", "", "17.2%" };
-    { 11, 10835, "", "=q3=Crest of Supremacy", "=ds=#w8#", "", "17.2%" };
-    { 12, 10836, "", "=q3=Rod of Corrosion", "=ds=#w12#", "", "17.2%" };
-    { 13, 10828, "", "=q3=Dire Nail", "=ds=#w4#", "", "15.0%" };
-    { 14, 10837, "", "=q3=Tooth of Eranikus", "=ds=#w1#", "", "15.0%" };
-    { 15, 10847, "", "=q4=Dragon's Call", "=ds=#w10#", "", "1.00%" };
+    { 5, 0, "AO_Unknown", "=q6=Shade of Eranikus", "=q5=ONE WILL DROP"};
+    { 6, 10829, "", "=q3=The Dragon's Eye", "=ds=#s2#", "", "17.2%" };
+    { 7, 10833, "", "=q3=Horns of Eranikus", "=ds=#a3#", "", "17.2%" };
+    { 8, 10835, "", "=q3=Crest of Supremacy", "=ds=#w8#", "", "17.2%" };
+    { 9, 10836, "", "=q3=Rod of Corrosion", "=ds=#w12#", "", "17.2%" };
+    { 10, 10828, "", "=q3=Dire Nail", "=ds=#w4#", "", "15.0%" };
+    { 11, 10837, "", "=q3=Tooth of Eranikus", "=ds=#w1#", "", "15.0%" };
+    { 12, 10847, "", "=q4=Dragon's Call", "=ds=#w10#", "", "1.00%" };
 	};
 
 	AtlasLoot_Data["STTrash"] = {
@@ -3694,7 +3640,7 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Ironaya", "=q5=ALL WILL DROP"};
     { 2, 901728, "", "=q1=Titanforged Beacon", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Ironaya", "=q5=CHANCE TO DROP"};
-    { 5, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 5, 100017, "", "=q6=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
     { 7, 0, "AO_Unknown", "=q6=Ironaya", "=q5=ONE WILL DROP"};
     { 8, 9407, "", "=q3=Stoneweaver Leggings", "=ds=#a1#", "", "40.0%" };
     { 9, 9409, "", "=q3=Ironaya's Bracers", "=ds=#a3#", "", "40.0%" };
@@ -3745,12 +3691,10 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Archaedas", "=q5=ALL WILL DROP"};
     { 2, 7672, "", "=q1=Shattered Necklace Power Source", "=ds=#m3#", "", "100%" };
     { 3, 901711, "", "=q1=Resonating Stone of Unity", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Archaedas", "=q5=CHANCE TO DROP"};
-    { 6, 57467, "", "=q2=Technique: Scroll of Arcane Resistance III", "=ds=#e2#", "", "15.0%" };
-    { 8, 0, "AO_Unknown", "=q6=Archaedas", "=q5=ONE WILL DROP"};
-    { 9, 11118, "", "=q3=Archaedic Stone", "=ds=#s13#", "", "60.0%" };
-    { 10, 9413, "", "=q3=The Rockpounder", "=ds=#w6#", "", "20.0%" };
-    { 11, 9418, "", "=q3=Stoneslayer", "=ds=#w10#", "", "20.0%" };
+    { 5, 0, "AO_Unknown", "=q6=Archaedas", "=q5=ONE WILL DROP"};
+    { 6, 11118, "", "=q3=Archaedic Stone", "=ds=#s13#", "", "60.0%" };
+    { 7, 9413, "", "=q3=The Rockpounder", "=ds=#w6#", "", "20.0%" };
+    { 8, 9418, "", "=q3=Stoneslayer", "=ds=#w10#", "", "20.0%" };
 	};
 
 	AtlasLoot_Data["UldTrash"] = {
@@ -3864,7 +3808,6 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 2, 10660, "", "=q1=First Mosh'aru Tablet", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Theka the Martyr", "=q5=CHANCE TO DROP"};
     { 5, 9523, "", "=q1=Troll Temper", "=ds=#m3#", "", "55.0%" };
-    { 6, 57463, "", "=q2=Technique: Scroll of Frost Resistance IV", "=ds=#e2#", "", "15.0%" };
 	};
 
 	AtlasLoot_Data["ZFWitchDoctorZumrah"] = {
@@ -3905,15 +3848,13 @@ local BabbleFaction = AtlasLoot_GetLocaleLibBabble("LibBabble-Faction-3.0")
     { 1, 0, "AO_ChestWithTreasures", "=q6=Sergeant Bly", "=q5=ALL WILL DROP"};
     { 2, 8548, "", "=q1=Divino-matic Rod", "=ds=#m3#", "", "100%" };
     { 4, 0, "RoM_stellar_dice", "=q6=Sergeant Bly", "=q5=CHANCE TO DROP"};
-    { 5, 100017, "", "=q2=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
+    { 5, 100017, "", "=q6=Pattern: Expert Riding Crop", "=ds=#e2#", "", "10.0%" };
 	};
 
 	AtlasLoot_Data["ZFHydromancerVelratha"] = {
     { 1, 0, "AO_ChestWithTreasures", "=q6=Hydromancer Velratha", "=q5=ALL WILL DROP"};
     { 2, 9234, "", "=q1=Tiara of the Deep", "=ds=#m3#", "", "100%" };
     { 3, 10661, "", "=q1=Second Mosh'aru Tablet", "=ds=#m3#", "", "100%" };
-    { 5, 0, "RoM_stellar_dice", "=q6=Hydromancer Velratha", "=q5=CHANCE TO DROP"};
-    { 6, 57463, "", "=q2=Technique: Scroll of Frost Resistance IV", "=ds=#e2#", "", "15.0%" };
 	};
 
 	AtlasLoot_Data["ZFGahzrilla"] = {
