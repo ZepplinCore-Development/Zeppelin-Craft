@@ -1307,39 +1307,36 @@ def dbc_clean(ctx, name: Optional[str], dry_run: bool):
     click.echo(f"Scanning {len(sources)} zpak(s) for redundant rows...")
     _, all_redundants = detect_dbc_conflicts(sources)
 
-    # Build tables_to_clean from redundants that involve the target zpak
+    # Group redundant row keys by (table, filename) — the detector already
+    # knows exactly which file in the target zpak carries each redundant row,
+    # so target that file directly instead of globbing and guessing.
     # Convert string row_keys ("123" or "1|2|3") to int tuples for remove_ids_from_dbc_file
-    tables_to_clean: Dict[str, set] = {}
+    files_to_clean: Dict[Tuple[str, str], set] = {}
     for table_name, row_key, mods_with_values in all_redundants:
-        zpak_names = {m[0] for m in mods_with_values}
-        if name in zpak_names:
-            if table_name not in tables_to_clean:
-                tables_to_clean[table_name] = set()
-            key_tuple = tuple(int(v) for v in row_key.split("|"))
-            tables_to_clean[table_name].add(key_tuple)
+        for zpak_name, _priority, filename, _parsed in mods_with_values:
+            if zpak_name == name:
+                key_tuple = tuple(int(v) for v in row_key.split("|"))
+                files_to_clean.setdefault((table_name, filename), set()).add(key_tuple)
 
-    total_redundant = sum(len(ids) for ids in tables_to_clean.values())
-    click.echo(f"Found {total_redundant} redundant rows in {len(tables_to_clean)} tables for {name}\n")
+    total_redundant = sum(len(ids) for ids in files_to_clean.values())
+    affected_tables = {t for t, _ in files_to_clean.keys()}
+    click.echo(f"Found {total_redundant} redundant rows across {len(files_to_clean)} file(s) in {len(affected_tables)} table(s) for {name}\n")
 
-    if not tables_to_clean:
+    if not files_to_clean:
         click.echo(click.style("No redundant rows to clean.", fg='green'))
         return
 
     total_removed = 0
     files_modified = 0
 
-    for table_name in sorted(tables_to_clean.keys()):
-        ids = tables_to_clean[table_name]
+    for (table_name, filename) in sorted(files_to_clean.keys()):
+        ids = files_to_clean[(table_name, filename)]
+        file_path = dbc_dir / filename
 
-        # Find the SQL file for this table
-        pattern = f"*_{table_name}.sql"
-        matches = list(dbc_dir.glob(pattern))
-
-        if not matches:
-            click.echo(f"  {table_name}: No file found, skipping")
+        if not file_path.exists():
+            click.echo(f"  {table_name} [{filename}]: File missing, skipping")
             continue
 
-        file_path = matches[0]
         lines_before, lines_after, removed, content_empty = remove_ids_from_dbc_file(
             file_path, ids, dry_run
         )
@@ -1349,12 +1346,12 @@ def dbc_clean(ctx, name: Optional[str], dry_run: bool):
             total_removed += removed
             if content_empty:
                 action = "Would delete" if dry_run else "Deleted"
-                click.echo(f"  {table_name}: {action} {file_path.name} (all {removed} rows redundant)")
+                click.echo(f"  {table_name} [{filename}]: {action} (all {removed} rows redundant)")
             else:
                 action = "Would remove" if dry_run else "Removed"
-                click.echo(f"  {table_name}: {action} {removed} rows ({lines_before} -> {lines_after} lines)")
+                click.echo(f"  {table_name} [{filename}]: {action} {removed} rows ({lines_before} -> {lines_after} lines)")
         else:
-            click.echo(f"  {table_name}: No matching rows found in file")
+            click.echo(f"  {table_name} [{filename}]: No matching rows found")
 
     click.echo("")
     action = "Would modify" if dry_run else "Modified"
