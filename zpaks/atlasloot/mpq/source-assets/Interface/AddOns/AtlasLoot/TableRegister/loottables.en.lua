@@ -1514,20 +1514,16 @@ end
   -- Honor Hold
 	AtlasLoot_TableNames["HonorHold1"] = { BabbleFaction["Honor Hold"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["HonorHold2"] = { BabbleFaction["Honor Hold"], "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["HonorHold3"] = { "Honor Hold", "AtlasLootBurningCrusade" };
   -- Keepers of Time
 	AtlasLoot_TableNames["KeepersofTime1"] = { BabbleFaction["Keepers of Time"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["KeepersofTime2"] = { "Keepers of Time", "AtlasLootBurningCrusade" };
   -- Kurenai
 	AtlasLoot_TableNames["Kurenai1"] = { BabbleFaction["Kurenai"], "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["Kurenai2"] = { "Kurenai", "AtlasLootBurningCrusade" };
   -- Lower City
 	AtlasLoot_TableNames["LowerCity1"] = { BabbleFaction["Lower City"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["LowerCity2"] = { "Lower City", "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["LowerCity3"] = { "Lower City", "AtlasLootBurningCrusade" };
   -- The Mag'har
 	AtlasLoot_TableNames["Maghar1"] = { BabbleFaction["The Mag'har"], "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["Maghar2"] = { "Maghar", "AtlasLootBurningCrusade" };
   -- Netherwing
 	AtlasLoot_TableNames["Netherwing1"] = { BabbleFaction["Netherwing"], "AtlasLootBurningCrusade" };
   -- Ogri'la
@@ -1542,7 +1538,6 @@ end
   -- The Sha'tar
 	AtlasLoot_TableNames["Shatar1"] = { BabbleFaction["The Sha'tar"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["Shatar2"] = { "Shatar", "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["Shatar3"] = { "Shatar", "AtlasLootBurningCrusade" };
   -- Exalted with Cenarion Expedition, The Sha'tar and The Aldor/Scryers
 	AtlasLoot_TableNames["ShattrathFlasks1"] = { "Shattrath Flasks", "AtlasLootBurningCrusade" };
   -- Sha'tari Skyguard
@@ -1550,13 +1545,11 @@ end
   -- Shattered Sun Offensive
 	AtlasLoot_TableNames["SunOffensive1"] = { BabbleFaction["Shattered Sun Offensive"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["SunOffensive2"] = { BabbleFaction["Shattered Sun Offensive"], "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["SunOffensive3"] = { BabbleFaction["Shattered Sun Offensive"], "AtlasLootBurningCrusade" };
   -- Sporeggar
 	AtlasLoot_TableNames["Sporeggar1"] = { BabbleFaction["Sporeggar"], "AtlasLootBurningCrusade" };
   -- Thrallmar
 	AtlasLoot_TableNames["Thrallmar1"] = { BabbleFaction["Thrallmar"], "AtlasLootBurningCrusade" };
 	AtlasLoot_TableNames["Thrallmar2"] = { BabbleFaction["Thrallmar"], "AtlasLootBurningCrusade" };
-	AtlasLoot_TableNames["Thrallmar3"] = { "Thrallmar", "AtlasLootBurningCrusade" };
   -- Tranquillien
 	AtlasLoot_TableNames["Tranquillien1"] = { BabbleFaction["Tranquillien"], "AtlasLootBurningCrusade" };
   -- The Violet Eye

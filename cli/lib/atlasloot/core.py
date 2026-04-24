@@ -247,6 +247,37 @@ def ensure_section_registered(section_name: str, display_name: str, addon_name: 
     return register_section(section_name, display_name, addon_name, is_heroic, dry_run)
 
 
+def unregister_section(section_name: str, dry_run: bool = False) -> bool:
+    """Remove a section's registration line from loottables.en.lua.
+
+    Returns True if the line was removed (or would be in dry-run), False if
+    the file is missing or the section was not registered.
+    """
+    if not _TABLE_REGISTRY_FILE or not os.path.exists(_TABLE_REGISTRY_FILE):
+        logger.warning(f"Table registry file not found: {_TABLE_REGISTRY_FILE}")
+        return False
+
+    import re
+    pattern = re.compile(rf'AtlasLoot_TableNames\["{re.escape(section_name)}"\]')
+
+    with open(_TABLE_REGISTRY_FILE, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    new_lines = [line for line in lines if not pattern.search(line)]
+    if len(new_lines) == len(lines):
+        return False
+
+    if dry_run:
+        logger.info(f"DRY RUN: Would unregister section '{section_name}'")
+        return True
+
+    with open(_TABLE_REGISTRY_FILE, 'w', encoding='utf-8') as f:
+        f.writelines(new_lines)
+
+    logger.info(f"Unregistered section '{section_name}' from table registry")
+    return True
+
+
 # =============================================================================
 # Section Generation Functions
 # =============================================================================
@@ -668,12 +699,25 @@ def generate_rep_factions(lua_file_path: str, expansion: str,
             fail += 1
             continue
 
+        # Detect stale pages from prior runs with higher page counts
+        import re as _re
+        parser = AtlasLootParser(lua_file_path)
+        all_sections = parser.get_all_sections()
+        num_pages = len(pages)
+        stale_pages = [
+            name for name in all_sections
+            if (m := _re.match(rf'^{_re.escape(section_base)}(\d+)$', name))
+            and int(m.group(1)) > num_pages
+        ]
+
         if dry_run:
             for page in pages:
                 logger.info(f"DRY RUN: Would write {page['section_name']} ({page['item_count']} items)")
                 if verbose:
                     print(f"\n--- {page['section_name']} ---")
                     print(page['lua_code'])
+            for name in stale_pages:
+                logger.info(f"DRY RUN: Would prune stale page '{name}'")
             success += 1
             continue
 
@@ -730,6 +774,15 @@ def generate_rep_factions(lua_file_path: str, expansion: str,
 
             parser.save_file(backup=False)
             ensure_section_registered(section_name, faction_display, addon_name, dry_run=dry_run)
+
+        # Prune stale pages from prior runs with higher page counts
+        if all_pages_ok and stale_pages:
+            parser = AtlasLootParser(lua_file_path)
+            for name in stale_pages:
+                parser.delete_section(name)
+                unregister_section(name, dry_run=False)
+            parser.save_file(backup=False)
+            logger.info(f"Pruned {len(stale_pages)} stale page(s) for {section_base}: {', '.join(stale_pages)}")
 
         if all_pages_ok:
             total_items = sum(p['item_count'] for p in pages)

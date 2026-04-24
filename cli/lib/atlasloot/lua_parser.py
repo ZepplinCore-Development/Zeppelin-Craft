@@ -265,6 +265,29 @@ class AtlasLootParser:
         """
         return self.find_section_bounds(section_name) is not None
 
+    def delete_section(self, section_name: str) -> bool:
+        """
+        Delete a section and one trailing blank line if present.
+
+        Args:
+            section_name: Section name to remove
+
+        Returns:
+            True if deletion was successful, False if section not found
+        """
+        bounds = self.find_section_bounds(section_name)
+        if not bounds:
+            return False
+
+        start_line, end_line = bounds
+        # Include a single trailing blank line to avoid accumulating blanks
+        if end_line + 1 < len(self.content) and self.content[end_line + 1].strip() == '':
+            end_line += 1
+
+        del self.content[start_line:end_line + 1]
+        logger.info(f"Deleted section '{section_name}'")
+        return True
+
 
 def test_parser():
     """Test the parser on the AtlasLoot originalwow.lua file."""
