@@ -6,7 +6,7 @@
   "author": "Zeppelin Team",
   "type": "mpq",
   "client_patch": "PATCH-A",
-  "feature_id": "F-156",
+  "feature_id": "F-176",
   "contents": {
     "mpq": ["mpq/**/*"]
   },
