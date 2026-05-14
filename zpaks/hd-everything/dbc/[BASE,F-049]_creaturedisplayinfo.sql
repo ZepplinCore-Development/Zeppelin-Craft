@@ -1,8 +1,8 @@
--- [BASE,F-049] hd-everything: creaturedisplayinfo
+-- [BASE,F-049] hd-trees-and-textures: creaturedisplayinfo
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_creaturedisplayinfo.sql with overrides
 
--- creaturedisplayinfo: 8 inserts, 1522 updates, 0 deletes
+-- creaturedisplayinfo: 8 inserts, 1530 updates, 0 deletes
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 32755;
 INSERT INTO `creaturedisplayinfo` (`id`, `model_id`, `sound_id`, `extended_display_info_id`, `creature_model_scale`, `creature_model_alpha`, `texture_variation_1`, `texture_variation_2`, `texture_variation_3`, `portrait_texture_name`, `blood_level`, `blood_id`, `npc_sound_id`, `praticle_color_id`, `creature_geoset_data`, `obj_effect_package_id`) VALUES (32755, 0, 0, 0, '0E-16', 0, '', '', '', '', 0, 0, 0, 0, 0, 0);
 DELETE FROM `creaturedisplayinfo` WHERE `id` = 32773;
@@ -799,8 +799,16 @@ UPDATE `creaturedisplayinfo` SET `model_id` = 5051, `creature_model_scale` = '0.
 UPDATE `creaturedisplayinfo` SET `model_id` = 5003 WHERE `id` = 15586;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5003, `creature_geoset_data` = 1 WHERE `id` = 15587;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5003 WHERE `id` = 15588;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Different1' WHERE `id` = 15654;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Different1' WHERE `id` = 15655;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Red1' WHERE `id` = 15656;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Blue1' WHERE `id` = 15657;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin1' WHERE `id` = 15658;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5036, `creature_model_scale` = '0.6000000238418579', `texture_variation_2` = '', `creature_geoset_data` = 17 WHERE `id` = 15683;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5078, `creature_geoset_data` = 801 WHERE `id` = 15684;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Blue1' WHERE `id` = 15693;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Red1' WHERE `id` = 15694;
+UPDATE `creaturedisplayinfo` SET `texture_variation_2` = 'SilithidTankBossSkin_Different1' WHERE `id` = 15695;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5051, `creature_model_scale` = '1.0299999713897705', `texture_variation_2` = 'CrackElfSkinWhite1', `texture_variation_3` = 'CrackElfSkinWhite2' WHERE `id` = 15925;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5051, `creature_model_scale` = '0.9300000071525574', `texture_variation_2` = 'CrackElfSkinWhite1', `texture_variation_3` = 'CrackElfSkinWhite2' WHERE `id` = 15927;
 UPDATE `creaturedisplayinfo` SET `model_id` = 5016, `creature_model_scale` = '1.2000000476837158', `texture_variation_1` = 'centaur2_brute_3', `creature_geoset_data` = 1192482 WHERE `id` = 15975;

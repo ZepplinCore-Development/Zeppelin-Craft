@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: charsections
+-- [BASE,F-049] hd-trees-and-textures: charsections
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_charsections.sql with overrides
 

@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: spellvisualkit
+-- [BASE,F-049] hd-trees-and-textures: spellvisualkit
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_spellvisualkit.sql with overrides
 

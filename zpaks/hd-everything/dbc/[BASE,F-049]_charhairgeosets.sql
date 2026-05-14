@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: charhairgeosets
+-- [BASE,F-049] hd-trees-and-textures: charhairgeosets
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_charhairgeosets.sql with overrides
 

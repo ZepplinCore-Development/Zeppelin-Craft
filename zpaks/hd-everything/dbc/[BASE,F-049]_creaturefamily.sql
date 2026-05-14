@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: creaturefamily
+-- [BASE,F-049] hd-trees-and-textures: creaturefamily
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_creaturefamily.sql with overrides
 

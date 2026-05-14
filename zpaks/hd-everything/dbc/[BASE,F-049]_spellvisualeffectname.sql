@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: spellvisualeffectname
+-- [BASE,F-049] hd-trees-and-textures: spellvisualeffectname
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_spellvisualeffectname.sql with overrides
 

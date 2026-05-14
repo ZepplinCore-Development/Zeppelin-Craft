@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: emotestextsound
+-- [BASE,F-049] hd-trees-and-textures: emotestextsound
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_emotestextsound.sql with overrides
 

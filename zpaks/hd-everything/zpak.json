@@ -1,14 +1,16 @@
 {
   "$schema": "../../schemas/zpak.schema.json",
   "name": "hd-everything",
-  "version": "1.0.0",
-  "description": "HD upscaled textures and retro-ported tree models",
+  "version": "2.0.0",
+  "description": "HD textures and models from Maribeth's Odyssey Mods pack (Nexus 850). See F-049 note for context.",
   "author": "Maribeth (Odyssey Mods)",
   "type": "mpq",
   "client_patch": "PATCH-Q",
   "source": {
     "type": "nexusmods",
-    "url": "https://www.nexusmods.com/worldofwarcraft/mods/850"
+    "url": "https://www.nexusmods.com/worldofwarcraft/mods/850",
+    "last_imported": "2026-05-12",
+    "notes": "Pulled fresh archive 2026-05-12 (file HD TreesPolygonsTextures-850-9-1-1772923444.zip). Earlier mixed-with-Morfium attribution was dropped after the file-level diff against the fresh Nexus release showed no detectable Morfium-only content. The Morfium MEGA upload is static/unmaintained. Re-import procedure: extract MPQ, strip WORLD/MAPS/*.adt (I-176 recurrence), re-run dbc bin import, rebuild PATCH-Q."
   },
   "feature_id": "F-049",
   "launcher": {
@@ -18,8 +20,12 @@
     "requires": []
   },
   "contents": {
-    "mpq": ["mpq/**/*"],
-    "sql": ["sql/*.sql"]
+    "mpq": [
+      "mpq/**/*"
+    ],
+    "sql": [
+      "sql/*.sql"
+    ]
   },
   "enabled": true,
   "priority": 10

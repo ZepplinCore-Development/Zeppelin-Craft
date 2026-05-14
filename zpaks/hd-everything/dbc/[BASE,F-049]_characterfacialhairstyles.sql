@@ -1,4 +1,4 @@
--- [BASE,F-049] hd-everything: characterfacialhairstyles
+-- [BASE,F-049] hd-trees-and-textures: characterfacialhairstyles
 -- Imported by zep dbc import-module - DO NOT EDIT
 -- To customize, create [F-049]_characterfacialhairstyles.sql with overrides
 
