@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/zpak.schema.json",
+  "name": "gob-retroport",
+  "version": "0.1.0",
+  "description": "Retroported gameobjects, doodads, and WMOs from newer WoW expansions (Cata-DF) backported to 3.3.5a by GmFactoryWoW.",
+  "author": "GmFactoryWoW (+ Appletrey for some WMOs)",
+  "type": "mpq",
+  "client_patch": "PATCH-T",
+  "patch_display_name": "Retroport Doodads",
+  "build": {
+    "preprocessor": "resource-parser",
+    "preprocessor_optional": true,
+    "preprocessor_warning": "Resource Parser scans models for texture dependencies."
+  },
+  "source": {
+    "type": "github",
+    "url": "https://github.com/GmFactoryWoW/gob_retroport",
+    "commit": "3c47af7a629699eed6a74fb9c5a4e65cea25a3c4"
+  },
+  "feature_id": "F-049",
+  "launcher": {
+    "mandatory": false,
+    "enabled_by_default": false,
+    "auto_update": false,
+    "requires": []
+  },
+  "contents": {
+    "mpq": ["mpq/**/*"],
+    "sql": ["sql/*.sql"]
+  },
+  "enabled": false,
+  "priority": 100
+}

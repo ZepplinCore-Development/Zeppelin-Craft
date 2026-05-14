@@ -1,0 +1,63 @@
+Creature\tuskarr_hd\tuskarrmale_hd.m2
+
+
+
+hex to uint32 converter
+https://www.binaryconvert.com/convert_unsigned_int.html?hexadecimal=00000000
+
+
+
+100 Brows
+101 = 0x00000001 = 1 = Little mess
+102 = 0x00000002 = 2 = Long
+103 = 0x00000003 = 3 = Big mess
+104 = 0x00000004 = 4 = Medium
+105 = 0x00000005 = 5 = Nothing 
+
+200 Beard
+202 = 0x00000020 = 32 = Long tied
+203 = 0x00000030 = 48 = Medium
+204 = 0x00000040 = 64 = Viking tied
+205 = 0x00000050 = 80 = Viking breaded
+206 = 0x00000060 = 96 = Long hanging tied
+207 = 0x00000070 = 112 = Nothing
+
+300 Mustach
+301 = 0x00000100 =  256 = Staline
+302 = 0x00000200 =  512 = Medium
+303 = 0x00000300 =  768 = Long
+304 = 0x00000400 = 1024 = Dog
+305 = 0x00000500 = 1280 = Eggman Robotnik
+306 = 0x00000600 = 1536 = Viking tied
+307 = 0x00000700 = 1792 = Long tied
+308 = 0x00000800 = 2048 = Funny
+
+400 Helm
+402 = 0x00002000 =  8192 = Big hat
+403 = 0x00003000 = 12288 = Little hat
+404 = 0x00004000 = 16384 = Nothing
+
+500 Torso
+502 = 0x00020000 = 131072 = Close hot vest
+503 = 0x00030000 = 196608 = Open vest
+504 = 0x00040000 = 262144 = Nothing
+
+600 Disabled mesh because of incompatibility
+602 = 0x00200000 = 2097152 = Nothing
+
+700 Horns
+701 = 0x01000000 =  16777216 = Long
+702 = 0x02000000 =  33554432 = Medium curved
+703 = 0x03000000 =  50331648 = Medium thick
+704 = 0x04000000 =  67108864 = Long broken
+705 = 0x05000000 =  83886080 = Very Long
+706 = 0x06000000 = 100663296 = Short
+707 = 0x07000000 = 117440512 = Nothing
+
+800 Shoulder
+802 = 0x20000000 =  536870912 = Noob fisher
+803 = 0x30000000 =  805306368 = Average fisher
+804 = 0x40000000 = 1073741824 = Expert fisher
+805 = 0x50000000 = 1342177280 = Nothing
+
+
