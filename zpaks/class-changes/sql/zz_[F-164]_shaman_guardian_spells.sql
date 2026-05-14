@@ -43,7 +43,7 @@ INSERT INTO `spell_threat` (`entry`, `flatMod`, `pctMod`, `apPctMod`) VALUES
 -- Matches Felsteel Shield Spike (29455) pattern
 -- ============================================================================
 -- 900123/900124 (Improved Volcanic Shield) are passive modifiers, not procs — clean up stale rows
-DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182);
+DELETE FROM `spell_proc` WHERE `SpellId` IN (900116, 900123, 900124, 900147, 900148, 900149, 900150, 900151, 900152, 900165, 900167, 900168, 900169, 900181, 900182, 900198, 900199, 900200, 900201);
 
 INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFamilyMask0`, `SpellFamilyMask1`, `SpellFamilyMask2`, `ProcFlags`, `SpellTypeMask`, `SpellPhaseMask`, `HitMask`, `AttributesMask`, `DisableEffectsMask`, `ProcsPerMinute`, `Chance`, `Cooldown`, `Charges`) VALUES
 (900116, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 3500, 0),
@@ -75,7 +75,20 @@ INSERT INTO `spell_proc` (`SpellId`, `SchoolMask`, `SpellFamilyName`, `SpellFami
 -- Same pattern as Maelstrom Weapon buff (53817)
 (900150, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
 (900151, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
-(900152, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0);
+(900152, 0, 11, 128, 0, 0, 0, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+-- Improved Tectonic Blast (900198/900199) — passive proc on Tectonic Blast cast
+-- SpellFamilyName=11 (Shaman), SpellFamilyMask1=32768 (Tectonic Blast bit 15)
+-- DBC spell_class_mask_2 maps to SpellFamilyFlags[1] / spell_proc.SpellFamilyMask1
+-- ProcFlags=256 (DONE_SPELL_RANGED_DMG_CLASS, matches TB damage_class=3)
+-- SpellPhaseMask=1 (CAST) — fires reliably even before damage hits
+(900198, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(900199, 0, 11, 0, 32768, 0, 256, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+-- Tectonic Resonance buff (900200/900201) — consumed when Earth Shock is cast
+-- SpellFamilyName=11 (Shaman), SpellFamilyMask0=1048576 (Earth Shock bit 20)
+-- SpellPhaseMask=1 (CAST), AttributesMask=8 (PROC_ATTR_REQ_SPELLMOD)
+-- ProcFlags=81920 = DONE_SPELL_MAGIC_DMG_CLASS_POS+NEG (Earth Shock damage_class=1)
+(900200, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0),
+(900201, 0, 11, 1048576, 0, 0, 81920, 0, 1, 0, 8, 0, 0, 0, 0, 0);
 
 -- ============================================================================
 -- Spirit Communion — consume Spirited buff when active is cast

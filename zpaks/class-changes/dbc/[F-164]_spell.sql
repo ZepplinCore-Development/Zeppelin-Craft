@@ -3219,7 +3219,7 @@ INSERT INTO `spell` SET
     `effect_2` = 65,
     `effect_die_sides_1` = 1,
     `effect_die_sides_2` = 1,
-    `effect_base_points_1` = 8,
+    `effect_base_points_1` = 9,
     `effect_base_points_2` = -6,
     `effect_implicit_target_a_1` = 1,
     `effect_implicit_target_a_2` = 1,
@@ -3242,3 +3242,160 @@ INSERT INTO `spell` SET
     `effect_damage_multiplier_2` = 1.0,
     `spell_class_set` = 11,
     `school_mask` = 1;
+
+-- ============================================================================
+-- Improved Tectonic Blast (900198, 900199) - Passive talent, 2 ranks
+-- After casting Tectonic Blast, gain Tectonic Resonance buff (900200/900201)
+-- for 8 sec, increasing the damage of your next Earth Shock by 10%/20%.
+-- proc filter: Tectonic Blast cast (SpellFamilyMask2=32768, SpellPhaseMask=1)
+-- ProcFlags lives in spell_proc (zz_[F-164]_shaman_guardian_spells.sql)
+-- ============================================================================
+
+-- Improved Tectonic Blast R1 (900198) - triggers Tectonic Resonance R1 (900200)
+DELETE FROM `spell` WHERE `id` = 900198;
+
+INSERT INTO `spell` SET
+    `id` = 900198,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900200,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Improved Tectonic Blast',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 1',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 10% within 8 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 10% for 8 sec.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- Improved Tectonic Blast R2 (900199) - triggers Tectonic Resonance R2 (900201)
+DELETE FROM `spell` WHERE `id` = 900199;
+
+INSERT INTO `spell` SET
+    `id` = 900199,
+    `attributes` = 327760,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_chance` = 100,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 0,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 42,
+    `effect_trigger_spell_1` = 900201,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Improved Tectonic Blast',
+    `spell_name_flags` = 16712190,
+    `spell_subtext_enus` = 'Rank 2',
+    `spell_subtext_flags` = 16712190,
+    `spell_desc_enus` = 'After casting Tectonic Blast, you gain Tectonic Resonance, increasing the damage of your next Earth Shock by 20% within 8 sec.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Tectonic Blast empowers your next Earth Shock by 20% for 8 sec.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- ============================================================================
+-- Tectonic Resonance (900200, 900201) - Buff applied by Improved Tectonic Blast
+-- Aura 108 (ADD_PCT_MODIFIER) misc 0 (SPELLMOD_DAMAGE), filtered to Earth Shock
+-- via effect_spell_class_mask_a_1=1048576 (Earth Shock bit 20).
+-- Consumed when Earth Shock is cast (proc_charges=1, AttributesMask=8 in spell_proc).
+-- ============================================================================
+
+-- Tectonic Resonance R1 (900200) - +10% Earth Shock damage, 8 sec
+DELETE FROM `spell` WHERE `id` = 900200;
+
+INSERT INTO `spell` SET
+    `id` = 900200,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
+    `duration_index` = 31,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 9,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_spell_class_mask_a_1` = 1048576,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Tectonic Resonance',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- Tectonic Resonance R2 (900201) - +20% Earth Shock damage, 8 sec
+DELETE FROM `spell` WHERE `id` = 900201;
+
+INSERT INTO `spell` SET
+    `id` = 900201,
+    `attributes_ex_4` = 32768,
+    `cast_time_index` = 1,
+    `proc_charges` = 1,
+    `proc_chance` = 100,
+    `duration_index` = 31,
+    `range_index` = 1,
+    `equipped_item_class` = -1,
+    `effect_1` = 6,
+    `effect_die_sides_1` = 1,
+    `effect_base_points_1` = 19,
+    `effect_implicit_target_a_1` = 1,
+    `effect_apply_aura_name_1` = 108,
+    `effect_misc_value_a_1` = 0,
+    `effect_spell_class_mask_a_1` = 1048576,
+    `spell_icon_id` = 4635,
+    `spell_name_enus` = 'Tectonic Resonance',
+    `spell_name_flags` = 16712190,
+    `spell_desc_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_desc_flags` = 16712190,
+    `spell_tooltip_enus` = 'Your next Earth Shock will deal $s1% additional damage.',
+    `spell_tooltip_flags` = 16712190,
+    `spell_class_set` = 11,
+    `effect_damage_multiplier_1` = 1.0,
+    `school_mask` = 8;
+
+-- ============================================================================
+-- Earth Shock tooltip — show damage including SP scaling
+--
+-- Stock Earth Shock displays only base damage via $s2. SpellDescriptionVariable
+-- 191 adds spell power scaling to the displayed value; all 10 player ranks
+-- reference it (variable resolves $m2 per-rank).
+--
+-- Coefficient 0.386 matches AC's spell_bonus_data.direct_bonus for ranks 4-10
+-- (R1-R3 use lower coefficients due to level penalty, but those ranks are
+-- only seen at low level — discrepancy is cosmetic).
+-- ============================================================================
+
+DELETE FROM `spelldescriptionvariables` WHERE `id` = 191;
+INSERT INTO `spelldescriptionvariables` SET
+    `id` = 191,
+    `var` = '$spbonus=${$sp*0.386}\n$total=${$m2+$<spbonus>}';
+
+UPDATE `spell` SET
+    `spell_desc_variable_id` = 191,
+    `spell_desc_enus` = 'Instantly shocks the target with concussive force, causing $<total> Nature damage and reducing melee attack speed by $s1% for $d.  Damage scales with spell power.'
+WHERE `id` IN (8042, 8044, 8045, 8046, 10412, 10413, 10414, 25454, 49230, 49231);
