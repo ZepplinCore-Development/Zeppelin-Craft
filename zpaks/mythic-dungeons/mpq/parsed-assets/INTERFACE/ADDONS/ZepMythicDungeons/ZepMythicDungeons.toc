@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: Zep Mythic Dungeons
+## Notes: Adds mythic dungeon difficulty option and mythic item tooltip tag
+## Author: Zeppelin Team
+## Version: 1.0
+## LoadOnDemand: 0
+
+ZepMythicDungeons.lua
