@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: mapdifficulty
+-- [F-060] zep-legacy: mapdifficulty
 -- Classic dungeon map difficulty entries (normal/heroic/mythic)
 
 -- mapdifficulty: 22 inserts, 24 updates

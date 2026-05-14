@@ -1,4 +1,4 @@
--- [F-015] zepcraft-legacy: skilllineability
+-- [F-015] zep-legacy: skilllineability
 -- Magic Resistance Scrolls - Inscription crafting spell skill line entries
 -- Extracted from [BASE,F-044]_skilllineability.sql
 

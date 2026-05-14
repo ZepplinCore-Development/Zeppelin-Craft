@@ -13,7 +13,7 @@ import os
 import sys
 
 ZPAK_SQL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                            '..', '..', 'zpaks', 'zepcraft-legacy', 'sql')
+                            '..', '..', 'zpaks', 'zep-legacy', 'sql')
 
 QUEST_FILES = [
     'zz_[F-001]_skinning_knife_quests.sql',

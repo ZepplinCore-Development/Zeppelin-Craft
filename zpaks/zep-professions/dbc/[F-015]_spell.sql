@@ -1,4 +1,4 @@
--- [F-015] zepcraft-legacy: spell
+-- [F-015] zep-legacy: spell
 -- Magic Resistance Scrolls - buff spells, crafting spells, and Warding: Protection renames
 -- Extracted from [BASE,F-044]_spell.sql
 -- spell: 96 inserts, 48 updates, 96 deletes

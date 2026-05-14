@@ -1,6 +1,6 @@
 -- I-154: Backport Therazane model for Princess Theradras
 -- Adds Therazane model (Cata+) as a new creaturemodeldata entry,
--- then points display ID 32913 to it (used by zepcraft-legacy for Theradras)
+-- then points display ID 32913 to it (used by zep-legacy for Theradras)
 
 -- New creaturemodeldata entry for Therazane model
 -- Based on Tharazun (id 1751) with updated model path

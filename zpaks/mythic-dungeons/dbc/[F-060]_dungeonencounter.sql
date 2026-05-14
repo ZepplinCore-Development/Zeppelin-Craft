@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: dungeonencounter
+-- [F-060] zep-legacy: dungeonencounter
 -- Classic Heroic and Mythic boss encounter entries
 
 -- F-059: Sunken Temple Lower heroic/mythic Atal'alarion encounters

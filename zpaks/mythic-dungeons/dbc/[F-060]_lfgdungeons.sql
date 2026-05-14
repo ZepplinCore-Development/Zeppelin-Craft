@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: lfgdungeons
+-- [F-060] zep-legacy: lfgdungeons
 -- Classic Heroic and Mythic dungeon LFG entries + random queues
 
 -- lfgdungeons: 31 inserts (29 heroic, 29 mythic, 2 random queues + 1 azeroth normal random)

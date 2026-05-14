@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: lfgdungeongroup
+-- [F-060] zep-legacy: lfgdungeongroup
 -- Classic Heroic and Mythic dungeon LFG groups and category renames
 
 -- lfgdungeongroup: 2 inserts, 9 updates

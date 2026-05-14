@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: achievement
+-- [F-060] zep-legacy: achievement
 -- Classic heroic and mythic dungeon achievements
 
 -- achievement: 40 inserts

@@ -1,4 +1,4 @@
--- [F-060] zepcraft-legacy: achievement_criteria
+-- [F-060] zep-legacy: achievement_criteria
 -- Classic heroic and mythic dungeon achievement criteria
 
 -- achievement_criteria: 40 inserts
