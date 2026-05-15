@@ -186,6 +186,8 @@ UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`e
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19066);
 -- Lured Colossus
 UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 20599);
+-- Raging Shardling
+UPDATE `creature_template` SET `type_flags` = 512, `skinloot` = 100026 WHERE (`entry` = 19419);
 
 
 -- TBC Creatures 65 - 69
