@@ -1,4 +1,4 @@
-From 22fccd29bb52c3552f3b6defd9c3c964853e9a4e Mon Sep 17 00:00:00 2001
+From 9f44d1a752b7a9749d750f6bd0bdc0572dcf679e Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Tue, 10 Feb 2026 16:40:23 +0000
 Subject: [PATCH] fix: Remove hardcoded SPELL_SPECIFIC_SCROLL exclusivity

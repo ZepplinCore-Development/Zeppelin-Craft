@@ -1,4 +1,4 @@
-From 10b92002dba802190cc2f2a91988e934f64c7c4d Mon Sep 17 00:00:00 2001
+From cf18ca64e17151c8f1debd5fe797bce3a1c4475d Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Fri, 20 Feb 2026 13:16:21 +0000
 Subject: [PATCH] F-027: Remove Alchemist Stone hardcoded proc handlers

@@ -1,4 +1,4 @@
-From bf529a67c017c5734c06559f419badc5c3ae2c42 Mon Sep 17 00:00:00 2001
+From 0cc0b7f95d22012b89691eacc3eb7b9eab1b2104 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 1 Feb 2026 00:33:21 +0000
 Subject: [PATCH] F-041: Add dynamic patch scanning to map extractors
@@ -23,7 +23,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  3 files changed, 70 insertions(+), 10 deletions(-)
 
 diff --git a/.gitignore b/.gitignore
-index dff3ed7be..91e66e4c3 100644
+index 6db545d09..e8350fdfe 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -11,6 +11,7 @@
