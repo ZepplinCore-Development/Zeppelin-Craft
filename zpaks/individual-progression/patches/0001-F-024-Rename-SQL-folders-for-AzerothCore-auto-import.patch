@@ -1,4 +1,4 @@
-From 96861fcdf705e97bf3f5a2a62277195e26a6d541 Mon Sep 17 00:00:00 2001
+From a5b63da5c9aa36c8db74be0468d122765a9d0039 Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sat, 7 Mar 2026 12:20:03 +0000
 Subject: [PATCH] F-024: Rename SQL folders for AzerothCore auto-import
@@ -87,7 +87,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/si_creatures.sql                | 0
  data/sql/{world => db-world}/base/si_gameobjects.sql              | 0
  data/sql/{world => db-world}/base/spell_restorations.sql          | 0
- data/sql/{world => db-world}/base/tbc_badges.sql                  | 0
  data/sql/{world => db-world}/base/tbc_creatures.sql               | 0
  data/sql/{world => db-world}/base/tbc_item_changes.sql            | 0
  data/sql/{world => db-world}/base/tbc_loot_fixes.sql              | 0
@@ -171,7 +170,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  data/sql/{world => db-world}/base/zone_zangarmarsh.sql            | 0
  data/sql/{world => db-world}/updates/.gitignore                   | 0
  data/sql/{world => db-world}/updates/.gitkeep                     | 0
- 155 files changed, 0 insertions(+), 0 deletions(-)
+ 154 files changed, 0 insertions(+), 0 deletions(-)
  rename data/sql/{auth => db-auth}/updates/.gitkeep (100%)
  rename data/sql/{characters => db-characters}/updates/.gitkeep (100%)
  rename data/sql/{world => db-world}/base/.gitignore (100%)
@@ -243,7 +242,6 @@ Co-Authored-By: Claude <noreply@anthropic.com>
  rename data/sql/{world => db-world}/base/si_creatures.sql (100%)
  rename data/sql/{world => db-world}/base/si_gameobjects.sql (100%)
  rename data/sql/{world => db-world}/base/spell_restorations.sql (100%)
- rename data/sql/{world => db-world}/base/tbc_badges.sql (100%)
  rename data/sql/{world => db-world}/base/tbc_creatures.sql (100%)
  rename data/sql/{world => db-world}/base/tbc_item_changes.sql (100%)
  rename data/sql/{world => db-world}/base/tbc_loot_fixes.sql (100%)
@@ -612,10 +610,6 @@ diff --git a/data/sql/world/base/spell_restorations.sql b/data/sql/db-world/base
 similarity index 100%
 rename from data/sql/world/base/spell_restorations.sql
 rename to data/sql/db-world/base/spell_restorations.sql
-diff --git a/data/sql/world/base/tbc_badges.sql b/data/sql/db-world/base/tbc_badges.sql
-similarity index 100%
-rename from data/sql/world/base/tbc_badges.sql
-rename to data/sql/db-world/base/tbc_badges.sql
 diff --git a/data/sql/world/base/tbc_creatures.sql b/data/sql/db-world/base/tbc_creatures.sql
 similarity index 100%
 rename from data/sql/world/base/tbc_creatures.sql

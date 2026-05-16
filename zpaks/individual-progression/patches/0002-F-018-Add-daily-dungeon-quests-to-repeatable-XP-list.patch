@@ -1,4 +1,4 @@
-From 943f6d881c0108c46c57edf2e17cca49184d5455 Mon Sep 17 00:00:00 2001
+From 08e2c481aa61cfb0dafd313e03e6b4fd1fc1e76b Mon Sep 17 00:00:00 2001
 From: Justin <justurn@live.com>
 Date: Sun, 12 Apr 2026 05:03:46 +0000
 Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
@@ -9,10 +9,10 @@ Subject: [PATCH] F-018: Add daily dungeon quests to repeatable XP list
  2 files changed, 127 insertions(+)
 
 diff --git a/src/IndividualProgression.h b/src/IndividualProgression.h
-index 482815a..b13c363 100644
+index 9a169c3..00b62c3 100644
 --- a/src/IndividualProgression.h
 +++ b/src/IndividualProgression.h
-@@ -73,6 +73,71 @@ enum ProgressionQuestIDs
+@@ -69,6 +69,71 @@ enum ProgressionQuestIDs
      QUEST_MORROWGRAIN         = 3803,
      QUEST_DEADWOOD            = 6221,
      QUEST_WINTERFALL          = 6241,
@@ -85,78 +85,78 @@ index 482815a..b13c363 100644
      MIGHT_OF_KALIMDOR         = 8742,
      BANG_A_GONG               = 8743,
 diff --git a/src/IndividualProgressionPlayer.cpp b/src/IndividualProgressionPlayer.cpp
-index 95357c9..593772f 100644
+index 37ea1f0..f4fac92 100644
 --- a/src/IndividualProgressionPlayer.cpp
 +++ b/src/IndividualProgressionPlayer.cpp
-@@ -442,6 +442,68 @@ public:
-             case QUEST_TROLL_NECKLACE:
-             case QUEST_DEADWOOD:
-             case QUEST_WINTERFALL:
-+            // Zeppelin: Horde Daily Dungeon Quests (F-018)
-+            case Horde_Wailing_Caverns:
-+            case Horde_Ragefire_Chasm:
-+            case Horde_Deadmines:
-+            case Horde_Shadowfang_Keep:
-+            case Horde_Blackfathom_Deeps:
-+            case Horde_Stormwind_Stockade:
-+            case Horde_Scarlet_Monastery_Graveyard:
-+            case Horde_Gnomeregan:
-+            case Horde_Razorfen_Kraul:
-+            case Horde_Razorfen_Downs:
-+            case Horde_Scarlet_Monastery_Library:
-+            case Horde_Scarlet_Monastery_Armory:
-+            case Horde_Scarlet_Monastery_Cathedral:
-+            case Horde_Maraudon_Orange:
-+            case Horde_ZulFarrak:
-+            case Horde_Maraudon_Purple:
-+            case Horde_Uldaman_East:
-+            case Horde_Maraudon_Pristine_Waters:
-+            case Horde_Blackrock_Depths_Prison:
-+            case Horde_Sunken_Temple:
-+            case Horde_Dire_Maul_East:
-+            case Horde_Lower_Blackrock_Spire:
-+            case Horde_Upper_Blackrock_Spire:
-+            case Horde_Dire_Maul_West:
-+            case Horde_Dire_Maul_North:
-+            case Horde_Stratholme_Undead:
-+            case Horde_Stratholme_Living:
-+            case Horde_Scholomance:
-+            case Horde_Blackrock_Depths_Upper_City:
-+            case Horde_Uldaman_West:
-+            // Zeppelin: Alliance Daily Dungeon Quests (F-018)
-+            case Alliance_Wailing_Caverns:
-+            case Alliance_Ragefire_Chasm:
-+            case Alliance_Deadmines:
-+            case Alliance_Shadowfang_Keep:
-+            case Alliance_Blackfathom_Deeps:
-+            case Alliance_Stormwind_Stockade:
-+            case Alliance_Scarlet_Monastery_Graveyard:
-+            case Alliance_Gnomeregan:
-+            case Alliance_Razorfen_Kraul:
-+            case Alliance_Razorfen_Downs:
-+            case Alliance_Scarlet_Monastery_Armory:
-+            case Alliance_Scarlet_Monastery_Cathedral:
-+            case Alliance_Scarlet_Monastery_Library:
-+            case Alliance_Uldaman_East:
-+            case Alliance_ZulFarrak:
-+            case Alliance_Maraudon_Orange:
-+            case Alliance_Maraudon_Purple:
-+            case Alliance_Maraudon_Pristine_Waters:
-+            case Alliance_Blackrock_Depths_Prison:
-+            case Alliance_Sunken_Temple:
-+            case Alliance_Dire_Maul_East:
-+            case Alliance_Lower_Blackrock_Spire:
-+            case Alliance_Dire_Maul_West:
-+            case Alliance_Dire_Maul_North:
-+            case Alliance_Stratholme_Living:
-+            case Alliance_Stratholme_Undead:
-+            case Alliance_Upper_Blackrock_Spire:
-+            case Alliance_Blackrock_Depths_Upper_City:
-+            case Alliance_Scholomance:
-+            case Alliance_Uldaman_West:
-                 if (sIndividualProgression->repeatableVanillaQuestsXp)
-                 {
-                     // Reset the quest status so the player can take it and receive rewards again
+@@ -846,6 +846,68 @@ public:
+         case QUEST_TROLL_NECKLACE:
+         case QUEST_DEADWOOD:
+         case QUEST_WINTERFALL:
++        // Zeppelin: Horde Daily Dungeon Quests (F-018)
++        case Horde_Wailing_Caverns:
++        case Horde_Ragefire_Chasm:
++        case Horde_Deadmines:
++        case Horde_Shadowfang_Keep:
++        case Horde_Blackfathom_Deeps:
++        case Horde_Stormwind_Stockade:
++        case Horde_Scarlet_Monastery_Graveyard:
++        case Horde_Gnomeregan:
++        case Horde_Razorfen_Kraul:
++        case Horde_Razorfen_Downs:
++        case Horde_Scarlet_Monastery_Library:
++        case Horde_Scarlet_Monastery_Armory:
++        case Horde_Scarlet_Monastery_Cathedral:
++        case Horde_Maraudon_Orange:
++        case Horde_ZulFarrak:
++        case Horde_Maraudon_Purple:
++        case Horde_Uldaman_East:
++        case Horde_Maraudon_Pristine_Waters:
++        case Horde_Blackrock_Depths_Prison:
++        case Horde_Sunken_Temple:
++        case Horde_Dire_Maul_East:
++        case Horde_Lower_Blackrock_Spire:
++        case Horde_Upper_Blackrock_Spire:
++        case Horde_Dire_Maul_West:
++        case Horde_Dire_Maul_North:
++        case Horde_Stratholme_Undead:
++        case Horde_Stratholme_Living:
++        case Horde_Scholomance:
++        case Horde_Blackrock_Depths_Upper_City:
++        case Horde_Uldaman_West:
++        // Zeppelin: Alliance Daily Dungeon Quests (F-018)
++        case Alliance_Wailing_Caverns:
++        case Alliance_Ragefire_Chasm:
++        case Alliance_Deadmines:
++        case Alliance_Shadowfang_Keep:
++        case Alliance_Blackfathom_Deeps:
++        case Alliance_Stormwind_Stockade:
++        case Alliance_Scarlet_Monastery_Graveyard:
++        case Alliance_Gnomeregan:
++        case Alliance_Razorfen_Kraul:
++        case Alliance_Razorfen_Downs:
++        case Alliance_Scarlet_Monastery_Armory:
++        case Alliance_Scarlet_Monastery_Cathedral:
++        case Alliance_Scarlet_Monastery_Library:
++        case Alliance_Uldaman_East:
++        case Alliance_ZulFarrak:
++        case Alliance_Maraudon_Orange:
++        case Alliance_Maraudon_Purple:
++        case Alliance_Maraudon_Pristine_Waters:
++        case Alliance_Blackrock_Depths_Prison:
++        case Alliance_Sunken_Temple:
++        case Alliance_Dire_Maul_East:
++        case Alliance_Lower_Blackrock_Spire:
++        case Alliance_Dire_Maul_West:
++        case Alliance_Dire_Maul_North:
++        case Alliance_Stratholme_Living:
++        case Alliance_Stratholme_Undead:
++        case Alliance_Upper_Blackrock_Spire:
++        case Alliance_Blackrock_Depths_Upper_City:
++        case Alliance_Scholomance:
++        case Alliance_Uldaman_West:
+             if (sIndividualProgression->repeatableVanillaQuestsXp)
+             {
+                 // Reset the quest status so the player can take it and receive rewards again
 -- 
 2.34.1
 
