@@ -9,9 +9,7 @@
 DELETE FROM `spell_script_names` WHERE `spell_id` IN (900173, 900170, 900171, 900172);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
 (900173, 'spell_sha_thunderborne_leap'),
-(900170, 'spell_sha_living_guardian_aura'),
-(900171, 'spell_sha_living_guardian_aura'),
-(900172, 'spell_sha_living_guardian_aura');
+(900170, 'spell_sha_living_guardian_aura');
 
 -- ============================================================================
 -- spell_bonus_data
@@ -25,7 +23,7 @@ INSERT INTO `spell_bonus_data` (`entry`, `direct_bonus`, `dot_bonus`, `ap_bonus`
 (900121, 0, 0, 0.20, 0, 'Tectonic Blast - 20% AP as bonus nature damage'),
 (900166, 0, 0, 0.10, 0, 'Totemic Impact (triggered) - 10% AP as AOE nature + 3.0x threat on any totem summon'),
 (900174, 0, 0, 0.20, 0, 'Thunderborne Leap (triggered) - 20% AP as AOE nature damage on landing');
--- NOTE: Living Guardian (900170-900172) SP scaling requires a C++ SpellScript
+-- NOTE: Living Guardian (900170) SP scaling requires a C++ SpellScript
 -- (DoEffectCalcAmount handler), same as PW:S. spell_bonus_data has no effect
 -- on SPELL_AURA_SCHOOL_ABSORB auras. Base + ppl scaling works without script.
 
