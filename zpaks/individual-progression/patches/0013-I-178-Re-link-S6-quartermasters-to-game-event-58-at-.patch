@@ -1,0 +1,63 @@
+From 32cd07158ec48a758520ca7d441ce873f5e678df Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 16 May 2026 06:04:03 +0000
+Subject: [PATCH] I-178: Re-link S6 quartermasters to game event 58 at IPP
+ GUIDs
+
+AC update 2026_04_28_04.sql adds game_event_creature rows for S6
+Armor Quartermasters at stock GUIDs 208509-208512, but this module's
+zone_orgrimmar.sql and zone_stormwind.sql relocate the same creatures
+to the @CGUID block (659012/659016/659032/659036) for progression
+ScriptName gating. The event linkage was never updated, leaving four
+orphan rows that fire startup warnings.
+
+Add idempotent DELETE+INSERT against game_event_creature in both zone
+files so the event tag follows the creature INSERTs.
+---
+ data/sql/db-world/base/zone_orgrimmar.sql | 9 +++++++++
+ data/sql/db-world/base/zone_stormwind.sql | 9 +++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/data/sql/db-world/base/zone_orgrimmar.sql b/data/sql/db-world/base/zone_orgrimmar.sql
+index 20fd160..d810cda 100644
+--- a/data/sql/db-world/base/zone_orgrimmar.sql
++++ b/data/sql/db-world/base/zone_orgrimmar.sql
+@@ -153,6 +153,15 @@ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S6' WHERE `guid` IN (@CGUID+
+ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S7' WHERE `guid` IN (@CGUID+13, @CGUID+17);
+ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S8' WHERE `guid` IN (@CGUID+14, @CGUID+18);
+ 
++-- Re-link S6 Armor Quartermasters to game event 58 at IPP GUIDs.
++-- AC update 2026_04_28_04.sql adds game_event_creature rows at stock GUIDs
++-- 208509/208510, but the creature INSERTs above relocate them to the @CGUID
++-- block. Without this fix the event_creature rows orphan on every rebuild.
++DELETE FROM `game_event_creature` WHERE `guid` IN (208509, 208510, @CGUID+12, @CGUID+16) AND `eventEntry` = 58;
++INSERT INTO `game_event_creature` (`guid`, `eventEntry`) VALUES
++(@CGUID+12, 58),  -- Sergeant Thunderhorn (34036)
++(@CGUID+16, 58);  -- Doris Volanthius (34058)
++
+ /* Hide certain vendor items until the player has reached the progression tier for them */
+ DELETE FROM `conditions` WHERE `SourceTypeOrReferenceId` = 23 AND `SourceGroup` IN (12796, 12792, 26397, 14581, 26396) AND `ConditionValue1` IN (66002, 66006, 66008);
+ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, 
+diff --git a/data/sql/db-world/base/zone_stormwind.sql b/data/sql/db-world/base/zone_stormwind.sql
+index 1da7c6d..1759755 100644
+--- a/data/sql/db-world/base/zone_stormwind.sql
++++ b/data/sql/db-world/base/zone_stormwind.sql
+@@ -114,6 +114,15 @@ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S6'  WHERE `guid` IN (@CGUID
+ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S7'  WHERE `guid` IN (@CGUID+33, @CGUID+37);
+ UPDATE `creature` SET `ScriptName` = 'npc_ipp_wotlk_S8'  WHERE `guid` IN (@CGUID+34, @CGUID+38);
+ 
++-- Re-link S6 Armor Quartermasters to game event 58 at IPP GUIDs.
++-- AC update 2026_04_28_04.sql adds game_event_creature rows at stock GUIDs
++-- 208511/208512, but the creature INSERTs above relocate them to the @CGUID
++-- block. Without this fix the event_creature rows orphan on every rebuild.
++DELETE FROM `game_event_creature` WHERE `guid` IN (208511, 208512, @CGUID+32, @CGUID+36) AND `eventEntry` = 58;
++INSERT INTO `game_event_creature` (`guid`, `eventEntry`) VALUES
++(@CGUID+32, 58),  -- Captain Dirgehammer (34073)
++(@CGUID+36, 58);  -- Lieutenant Tristia (34076)
++
+ /*  Captain Dirgehammer  */
+ UPDATE `creature_template` SET `minlevel` = 55, `maxlevel` = 55 WHERE `entry` IN (12777);
+ UPDATE `creature_template` SET `minlevel` = 65, `maxlevel` = 65 WHERE `entry` IN (26393, 34075);
+-- 
+2.34.1
+
