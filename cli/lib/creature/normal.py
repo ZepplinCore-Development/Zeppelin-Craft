@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Tuple
 
 from .common import DATA_DIR, get_db_connection, seed_random, write_sql_file
 
-OUTPUT_FILENAME = "zz_[AUTO,F-074]_de-L33TER.sql"
+OUTPUT_FILENAME = "zz_[AUTO,F-080]_de-L33TER.sql"
 
 COLUMNS = ["name", "DamageModifier", "HealthModifier", "Rank", "spell_school_immune_mask"]
 
