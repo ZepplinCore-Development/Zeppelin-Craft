@@ -1,0 +1,41 @@
+From 8cb3c86560de22c104df5f0ba97c7668bef78464 Mon Sep 17 00:00:00 2001
+From: Justin <justurn@live.com>
+Date: Sat, 16 May 2026 08:38:18 +0000
+Subject: [PATCH] F-024: Migrate remaining base SQL files to db-world/base/
+
+Three files in data/sql/world/base/ were missed in the original F-024
+folder rename:
+
+- tbc_vendors.sql
+- vanilla_pvp_system.sql
+- zone_isle_of_queldanas.sql
+
+These never auto-imported, so the IPP vanilla PvP gates (gameobjects
+26262 / 626262 / 631660 / 631661 with gobject_ipp_pvp_open|closed
+ScriptNames), Sunwell Isle progression edits, and TBC vendor setup
+all sat dormant in the database. Move them alongside the other
+already-migrated files so zep world sql changed picks them up.
+---
+ data/sql/{world => db-world}/base/tbc_vendors.sql            | 0
+ data/sql/{world => db-world}/base/vanilla_pvp_system.sql     | 0
+ data/sql/{world => db-world}/base/zone_isle_of_queldanas.sql | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ rename data/sql/{world => db-world}/base/tbc_vendors.sql (100%)
+ rename data/sql/{world => db-world}/base/vanilla_pvp_system.sql (100%)
+ rename data/sql/{world => db-world}/base/zone_isle_of_queldanas.sql (100%)
+
+diff --git a/data/sql/world/base/tbc_vendors.sql b/data/sql/db-world/base/tbc_vendors.sql
+similarity index 100%
+rename from data/sql/world/base/tbc_vendors.sql
+rename to data/sql/db-world/base/tbc_vendors.sql
+diff --git a/data/sql/world/base/vanilla_pvp_system.sql b/data/sql/db-world/base/vanilla_pvp_system.sql
+similarity index 100%
+rename from data/sql/world/base/vanilla_pvp_system.sql
+rename to data/sql/db-world/base/vanilla_pvp_system.sql
+diff --git a/data/sql/world/base/zone_isle_of_queldanas.sql b/data/sql/db-world/base/zone_isle_of_queldanas.sql
+similarity index 100%
+rename from data/sql/world/base/zone_isle_of_queldanas.sql
+rename to data/sql/db-world/base/zone_isle_of_queldanas.sql
+-- 
+2.34.1
+
