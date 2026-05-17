@@ -27,6 +27,13 @@ CHARS_DB_USER = os.getenv('CHARS_DB_USER', 'chars')
 CHARS_DB_PASS = os.getenv('CHARS_DB_PASS', '')
 CHARS_DB_NAME = os.getenv('CHARS_DB_NAME', 'acore_characters')
 
+# World database connection (item_template lookups for `mail`)
+WORLD_DB_HOST = os.getenv('DB_HOST', '192.168.0.55')
+WORLD_DB_PORT = os.getenv('DB_PORT', '3306')
+WORLD_DB_USER = os.getenv('DB_USER', 'acore')
+WORLD_DB_PASS = os.getenv('DB_PASS', 'acore')
+WORLD_DB_NAME = 'acore_world'
+
 # Race name -> ID mapping (display order)
 RACE_LIST = [
     ('human', 1),
@@ -79,6 +86,38 @@ def _run_query(query: str) -> Tuple[bool, str]:
         return False, str(e)
     finally:
         os.unlink(cnf_path)
+
+
+def _create_world_mysql_config() -> str:
+    """Create a temporary MySQL config file with world DB credentials."""
+    fd, path = tempfile.mkstemp(suffix='.cnf')
+    with os.fdopen(fd, 'w') as f:
+        f.write("[client]\n")
+        f.write(f"user={WORLD_DB_USER}\n")
+        f.write(f"password=\"{WORLD_DB_PASS}\"\n")
+        f.write(f"host={WORLD_DB_HOST}\n")
+        f.write(f"port={WORLD_DB_PORT}\n")
+    return path
+
+
+def _run_world_query(query: str) -> Tuple[bool, str]:
+    """Run a MySQL query against the world database."""
+    cnf_path = _create_world_mysql_config()
+    try:
+        cmd = ["mysql", f"--defaults-extra-file={cnf_path}", WORLD_DB_NAME, "-e", query]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            return False, result.stderr.strip()
+        return True, result.stdout.strip()
+    except Exception as e:
+        return False, str(e)
+    finally:
+        os.unlink(cnf_path)
+
+
+def _sql_escape(s: str) -> str:
+    """Escape single quotes for SQL string literals (CLAUDE.md convention)."""
+    return s.replace("'", "''")
 
 
 def _parse_race(value: str) -> int:
@@ -297,3 +336,168 @@ def char_reset_talents(name: str):
         raise click.ClickException(f"Update failed: {output}")
 
     click.echo(f"  {char_name}: talents and talent spells cleared, will reset on next login")
+
+
+MAX_MAIL_ITEMS = 12
+ENCHANTMENTS_BLANK = '0 ' * 36  # 12 slots × 3 values, space-separated, trailing space
+CHARGES_BLANK = '0 0 0 0 0 '
+
+
+def _alloc_id(table: str, column: str, offset: int) -> int:
+    """Pick a guid/id far enough ahead of the worldserver's in-memory generator
+    to avoid the REPLACE INTO race documented in F-178."""
+    success, output = _run_query(f"SELECT COALESCE(MAX({column}), 0) FROM {table}")
+    if not success:
+        raise click.ClickException(f"MAX({column}) query on {table} failed: {output}")
+    lines = output.strip().split('\n')
+    if len(lines) < 2:
+        raise click.ClickException(f"unexpected output from MAX({column}): {output!r}")
+    return int(lines[1]) + offset
+
+
+@char.command('mail')
+@click.argument('name')
+@click.argument('items', nargs=-1, metavar='ITEM_ID[:COUNT]')
+@click.option('--subject', default='Mail from System', help='Mail subject')
+@click.option('--body', default='', help='Mail body text')
+@click.option('--money', type=int, default=0, help='Copper attached to the mail')
+@click.option('--cod', type=int, default=0, help='COD copper (receiver pays before claiming)')
+@click.option('--offset', 'offset', type=int, default=50_000_000,
+              help='Guid allocation offset above MAX(guid) — outruns the worldserver in-memory generator')
+@click.option('--dry-run', is_flag=True, help='Print the composed SQL block without executing')
+def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
+              money: int, cod: int, offset: int, dry_run: bool):
+    """Mail items and/or money to a character (system sender).
+
+    Examples:
+        zep world char mail Vera 13926                       # 1× Golden Pearl
+        zep world char mail Vera 13926:5 12811:1 --subject "Pearls"
+        zep world char mail Vera --money 100000 --subject "Compensation"
+    """
+    if not items and money == 0 and cod == 0:
+        raise click.ClickException("must supply items, --money, or --cod")
+    if money < 0 or cod < 0 or offset < 0:
+        raise click.ClickException("--money, --cod, and --offset must be ≥ 0")
+
+    # Parse ENTRY[:COUNT] tokens
+    parsed: List[Tuple[int, int]] = []
+    for raw in items:
+        if ':' in raw:
+            entry_s, count_s = raw.split(':', 1)
+        else:
+            entry_s, count_s = raw, '1'
+        try:
+            entry = int(entry_s)
+            count = int(count_s)
+        except ValueError:
+            raise click.ClickException(f"bad item arg '{raw}' — expected ENTRY[:COUNT]")
+        if entry <= 0:
+            raise click.ClickException(f"item entry must be > 0 (got {entry})")
+        if count <= 0:
+            raise click.ClickException(f"item {entry} count must be ≥ 1 (got {count})")
+        parsed.append((entry, count))
+
+    # Look up receiver
+    success, output = _run_query(
+        f"SELECT guid, name FROM characters WHERE name = '{_sql_escape(name)}'"
+    )
+    if not success:
+        raise click.ClickException(f"Query failed: {output}")
+    lines = output.strip().split('\n')
+    if len(lines) < 2:
+        raise click.ClickException(f"Character '{name}' not found")
+    fields = lines[1].split('\t')
+    receiver_guid = int(fields[0])
+    char_name = fields[1]
+
+    # Resolve each item entry against world DB, split stacks
+    item_rows: List[Tuple[int, int, str, int]] = []  # (entry, count, name, durability)
+    for entry, count in parsed:
+        success, output = _run_world_query(
+            f"SELECT entry, name, stackable, MaxDurability FROM item_template WHERE entry = {entry}"
+        )
+        if not success:
+            raise click.ClickException(f"World query failed for item {entry}: {output}")
+        lines = output.strip().split('\n')
+        if len(lines) < 2:
+            raise click.ClickException(f"item {entry} not found in item_template")
+        f = lines[1].split('\t')
+        iname = f[1]
+        stackable = max(1, int(f[2]))
+        durability = int(f[3])
+        remaining = count
+        while remaining > 0:
+            chunk = min(remaining, stackable)
+            item_rows.append((entry, chunk, iname, durability))
+            remaining -= chunk
+
+    if len(item_rows) > MAX_MAIL_ITEMS:
+        raise click.ClickException(
+            f"{len(item_rows)} item rows after stack splitting — exceeds MAX_MAIL_ITEMS ({MAX_MAIL_ITEMS})"
+        )
+
+    # Allocate ids (single SELECT MAX per table; race-safe via offset)
+    base_item_guid = _alloc_id('item_instance', 'guid', offset) if item_rows else 0
+    mail_id = _alloc_id('mail', 'id', offset)
+
+    # Compose SQL
+    subj_esc = _sql_escape(subject)
+    body_esc = _sql_escape(body)
+    has_items = 1 if item_rows else 0
+
+    statements: List[str] = ['START TRANSACTION;']
+    item_guids: List[int] = []
+    for i, (entry, count, _, durability) in enumerate(item_rows):
+        gid = base_item_guid + i
+        item_guids.append(gid)
+        statements.append(
+            "INSERT INTO item_instance "
+            "(guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, "
+            "charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
+            f"VALUES ({gid}, {entry}, {receiver_guid}, 0, 0, {count}, 0, "
+            f"'{CHARGES_BLANK}', 0, '{ENCHANTMENTS_BLANK}', 0, {durability}, 0, NULL);"
+        )
+
+    statements.append(
+        "INSERT INTO mail "
+        "(id, messageType, stationery, mailTemplateId, sender, receiver, subject, body, "
+        "has_items, expire_time, deliver_time, money, cod, checked) "
+        f"VALUES ({mail_id}, 0, 41, 0, 0, {receiver_guid}, '{subj_esc}', '{body_esc}', "
+        f"{has_items}, UNIX_TIMESTAMP()+2592000, UNIX_TIMESTAMP(), {money}, {cod}, 16);"
+    )
+    for gid in item_guids:
+        statements.append(
+            f"INSERT INTO mail_items (mail_id, item_guid, receiver) "
+            f"VALUES ({mail_id}, {gid}, {receiver_guid});"
+        )
+    statements.append('COMMIT;')
+
+    sql_block = '\n'.join(statements)
+
+    if dry_run:
+        click.echo(sql_block)
+        return
+
+    success, output = _run_query(sql_block)
+    if not success:
+        raise click.ClickException(f"Insert failed: {output}")
+
+    # Summary
+    if item_rows:
+        summary = ', '.join(f"{c}× {n} ({e})" for e, c, n, _ in item_rows)
+    else:
+        summary = '—'
+    parts = [f"  {char_name}: mailed {summary}"]
+    if money:
+        parts.append(f"+ {money}c money")
+    if cod:
+        parts.append(f"(COD {cod}c)")
+    click.echo(' '.join(parts))
+    if item_guids:
+        if len(item_guids) == 1:
+            click.echo(f"  mail id {mail_id}  item guid {item_guids[0]}")
+        else:
+            click.echo(f"  mail id {mail_id}  item guids {item_guids[0]}..{item_guids[-1]}")
+    else:
+        click.echo(f"  mail id {mail_id}")
+    click.echo(f"  note: {char_name} must relog (or zone-change) to see the new mail")
