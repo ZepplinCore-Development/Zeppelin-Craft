@@ -432,7 +432,7 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
     if 'sql_characters' in contents:
         sql_paths.extend(_resolve_content_globs(zpak_dir, contents['sql_characters'], 'chars_contents'))
 
-    # 3. Check zpak's own sql/ and sql_characters/ folders
+    # 3. Check zpak's own sql/, sql_characters/, and sql_auth/ folders
     zpak_sql = zpak_dir / 'sql'
     if zpak_sql.exists():
         sql_paths.append((zpak_sql, 'zpak'))
@@ -441,17 +441,21 @@ def get_zpak_sql_paths(craft_root: Path, zpak_name: str, manifest: Dict) -> List
     if zpak_chars_sql.exists():
         sql_paths.append((zpak_chars_sql, 'chars_zpak'))
 
+    zpak_auth_sql = zpak_dir / 'sql_auth'
+    if zpak_auth_sql.exists():
+        sql_paths.append((zpak_auth_sql, 'auth_zpak'))
+
     return sql_paths
 
 
 FOLDER_TYPE_ORDER = [
     'base', 'updates', 'root', 'contents', 'zpak',
     'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak',
-    'auth_updates',
+    'auth_updates', 'auth_zpak',
 ]
 
 CHARS_FOLDER_TYPES = {'chars_base', 'chars_updates', 'chars_root', 'chars_contents', 'chars_zpak'}
-AUTH_FOLDER_TYPES = {'auth_updates'}
+AUTH_FOLDER_TYPES = {'auth_updates', 'auth_zpak'}
 
 
 def folder_type_to_database(folder_type: str) -> str:
@@ -562,7 +566,7 @@ def _execute_changed_files(craft_root: Path, dry_run: bool = False,
                            continue_on_error: bool = False) -> Tuple[int, int]:
     """Execute new/modified SQL files. Returns (success_count, error_count)."""
     # Collect files (exclude AC base, include AC updates + all zpak SQL)
-    AC_ALLOWED_SOURCES = {'updates', 'zpak', 'chars_updates', 'auth_updates'}
+    AC_ALLOWED_SOURCES = {'updates', 'zpak', 'chars_updates', 'auth_updates', 'auth_zpak'}
     sql_files = collect_all_sql_files(craft_root)
     sql_files = [
         (f, z, s, db) for f, z, s, db in sql_files
