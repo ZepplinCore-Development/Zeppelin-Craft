@@ -340,7 +340,6 @@ def char_reset_talents(name: str):
 
 MAX_MAIL_ITEMS = 12
 ENCHANTMENTS_BLANK = '0 ' * 36  # 12 slots × 3 values, space-separated, trailing space
-CHARGES_BLANK = '0 0 0 0 0 '
 
 
 def _alloc_id(table: str, column: str, offset: int) -> int:
@@ -411,10 +410,12 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
     char_name = fields[1]
 
     # Resolve each item entry against world DB, split stacks
-    item_rows: List[Tuple[int, int, str, int]] = []  # (entry, count, name, durability)
+    item_rows: List[Tuple[int, int, str, int, str]] = []  # (entry, count, name, durability, charges_str)
     for entry, count in parsed:
         success, output = _run_world_query(
-            f"SELECT entry, name, stackable, MaxDurability FROM item_template WHERE entry = {entry}"
+            "SELECT entry, name, stackable, MaxDurability, "
+            "spellcharges_1, spellcharges_2, spellcharges_3, spellcharges_4, spellcharges_5 "
+            f"FROM item_template WHERE entry = {entry}"
         )
         if not success:
             raise click.ClickException(f"World query failed for item {entry}: {output}")
@@ -425,10 +426,11 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
         iname = f[1]
         stackable = max(1, int(f[2]))
         durability = int(f[3])
+        charges_str = ' '.join(f[4:9]) + ' '
         remaining = count
         while remaining > 0:
             chunk = min(remaining, stackable)
-            item_rows.append((entry, chunk, iname, durability))
+            item_rows.append((entry, chunk, iname, durability, charges_str))
             remaining -= chunk
 
     if len(item_rows) > MAX_MAIL_ITEMS:
@@ -447,7 +449,7 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
 
     statements: List[str] = ['START TRANSACTION;']
     item_guids: List[int] = []
-    for i, (entry, count, _, durability) in enumerate(item_rows):
+    for i, (entry, count, _, durability, charges_str) in enumerate(item_rows):
         gid = base_item_guid + i
         item_guids.append(gid)
         statements.append(
@@ -455,7 +457,7 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
             "(guid, itemEntry, owner_guid, creatorGuid, giftCreatorGuid, count, duration, "
             "charges, flags, enchantments, randomPropertyId, durability, playedTime, text) "
             f"VALUES ({gid}, {entry}, {receiver_guid}, 0, 0, {count}, 0, "
-            f"'{CHARGES_BLANK}', 0, '{ENCHANTMENTS_BLANK}', 0, {durability}, 0, NULL);"
+            f"'{charges_str}', 0, '{ENCHANTMENTS_BLANK}', 0, {durability}, 0, NULL);"
         )
 
     statements.append(
@@ -484,7 +486,7 @@ def char_mail(name: str, items: Tuple[str, ...], subject: str, body: str,
 
     # Summary
     if item_rows:
-        summary = ', '.join(f"{c}× {n} ({e})" for e, c, n, _ in item_rows)
+        summary = ', '.join(f"{c}× {n} ({e})" for e, c, n, _, _ in item_rows)
     else:
         summary = '—'
     parts = [f"  {char_name}: mailed {summary}"]
