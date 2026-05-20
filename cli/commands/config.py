@@ -58,6 +58,7 @@ DIST_SOURCES = {
     "modules/mod_ahbot.conf.dist": ZEPPELIN_CORE / "modules/mod-ah-bot-plus/conf/mod_ahbot.conf.dist",
     "modules/mod_ale.conf.dist": ZEPPELIN_CORE / "modules/mod-ale/conf/mod_ale.conf.dist",
     "modules/mod_eluna.conf.dist": ZEPPELIN_CORE / "modules/mod-eluna/conf/mod_eluna.conf.dist",
+    "modules/mod-profession-experience.conf.dist": ZEPPELIN_CORE / "modules/mod-profession-experience/conf/mod-profession-experience.conf.dist",
     "modules/mod_starterguild.conf.dist": ZEPPELIN_CORE / "modules/mod-starter-guild/conf/mod_starterguild.conf.dist",
     "modules/mod_worgoblin.conf.dist": ZEPPELIN_CORE / "modules/mod-worgoblin/conf/mod_worgoblin.conf.dist",
     "modules/RacialTraitSwap.conf.dist": ZEPPELIN_CORE / "modules/mod-racial-trait-swap/conf/RacialTraitSwap.conf.dist",
