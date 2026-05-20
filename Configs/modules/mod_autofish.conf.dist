@@ -14,7 +14,7 @@ AutoFish.Enabled = 1
 #        Description: Sets the delay, in milliseconds, between checking the bobber for a hooked fish
 #        Default:     200
 #
-AuoFish.TickMs = 200
+AutoFish.TickMs = 200
 
 #
 #    AutoFish.ScanRange
