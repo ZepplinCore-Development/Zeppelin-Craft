@@ -399,6 +399,28 @@ def find_config_pairs(include_modules: bool = True) -> List[Tuple[Path, Path]]:
     return sorted(pairs, key=lambda x: x[0].name)
 
 
+def _strip_empty_sync_marker(lines: List[str]) -> List[str]:
+    """Drop the 'Options added by zep config sync' header if nothing follows it."""
+    marker = '# Options added by zep config sync'
+    try:
+        idx = next(i for i, line in enumerate(lines) if line.strip() == marker)
+    except StopIteration:
+        return lines
+
+    if any(parse_option_line(line) for line in lines[idx + 1:]):
+        return lines
+
+    # Expand the slice to swallow the surrounding blank/comment frame.
+    start = idx
+    while start > 0 and lines[start - 1].strip() in ('', '#'):
+        start -= 1
+    end = idx + 1
+    while end < len(lines) and lines[end].strip() in ('', '#'):
+        end += 1
+
+    return lines[:start] + lines[end:]
+
+
 def apply_changes(conf_path: Path, additions: List[Tuple[str, str]],
                   removals: List[str]) -> bool:
     """Apply changes to the config file."""
@@ -422,7 +444,7 @@ def apply_changes(conf_path: Path, additions: List[Tuple[str, str]],
 
                 new_lines.append(line)
 
-            lines = new_lines
+            lines = _strip_empty_sync_marker(new_lines)
 
         if additions:
             if lines and not lines[-1].endswith('\n'):
