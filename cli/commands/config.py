@@ -44,29 +44,33 @@ class Colors:
 # DIST FILE SOURCES - Maps destination to source location
 # =============================================================================
 
-DIST_SOURCES = {
-    # Core configs
+# Core configs live under src/ with varied paths — keep explicit.
+CORE_DIST_SOURCES = {
     "authserver.conf.dist": ZEPPELIN_CORE / "src/server/apps/authserver/authserver.conf.dist",
     "worldserver.conf.dist": ZEPPELIN_CORE / "src/server/apps/worldserver/worldserver.conf.dist",
     "dbimport.conf.dist": ZEPPELIN_CORE / "src/tools/dbimport/dbimport.conf.dist",
-
-    # Module configs (destination relative to CONFIG_DIR/modules/)
-    "modules/AutoBalance.conf.dist": ZEPPELIN_CORE / "modules/mod-autobalance/conf/AutoBalance.conf.dist",
-    "modules/dungeonrespawn.conf.dist": ZEPPELIN_CORE / "modules/DungeonRespawn/conf/dungeonrespawn.conf.dist",
-    "modules/individualProgression.conf.dist": ZEPPELIN_CORE / "modules/mod-individual-progression/conf/individualProgression.conf.dist",
-    "modules/mod_accountbound.conf.dist": ZEPPELIN_CORE / "modules/mod-accountbound/conf/mod_accountbound.conf.dist",
-    "modules/mod_ahbot.conf.dist": ZEPPELIN_CORE / "modules/mod-ah-bot-plus/conf/mod_ahbot.conf.dist",
-    "modules/mod_ale.conf.dist": ZEPPELIN_CORE / "modules/mod-ale/conf/mod_ale.conf.dist",
-    "modules/mod_eluna.conf.dist": ZEPPELIN_CORE / "modules/mod-eluna/conf/mod_eluna.conf.dist",
-    "modules/mod-profession-experience.conf.dist": ZEPPELIN_CORE / "modules/mod-profession-experience/conf/mod-profession-experience.conf.dist",
-    "modules/mod_starterguild.conf.dist": ZEPPELIN_CORE / "modules/mod-starter-guild/conf/mod_starterguild.conf.dist",
-    "modules/mod_worgoblin.conf.dist": ZEPPELIN_CORE / "modules/mod-worgoblin/conf/mod_worgoblin.conf.dist",
-    "modules/RacialTraitSwap.conf.dist": ZEPPELIN_CORE / "modules/mod-racial-trait-swap/conf/RacialTraitSwap.conf.dist",
-    "modules/RaidTeleporter.conf.dist": ZEPPELIN_CORE / "modules/RaidTeleporter/conf/RaidTeleporter.conf.dist",
-    "modules/reagent_bank_account.conf.dist": ZEPPELIN_CORE / "modules/mod-reagent-bank-account/conf/reagent_bank_account.conf.dist",
-    "modules/reusablepotion.conf.dist": ZEPPELIN_CORE / "modules/ReusablePotion/conf/reusablepotion.conf.dist",
-    "modules/SoloLfg.conf.dist": ZEPPELIN_CORE / "modules/mod-solo-lfg/conf/SoloLfg.conf.dist",
 }
+
+
+def discover_dist_sources() -> Dict[str, Path]:
+    """Build dest→source map: core dists + auto-discovered modules + deployed orphans."""
+    sources: Dict[str, Path] = dict(CORE_DIST_SOURCES)
+
+    # Modules: glob every conf.dist shipped by a module in Zeppelin-Core.
+    for src in (ZEPPELIN_CORE / "modules").glob("*/conf/*.conf.dist"):
+        sources[f"modules/{src.name}"] = src
+
+    # Surface deployed dists that have no matching source so they don't drift silently.
+    modules_dir = CONFIG_DIR / "modules"
+    if modules_dir.is_dir():
+        for dst in modules_dir.glob("*.conf.dist"):
+            rel = f"modules/{dst.name}"
+            if rel not in sources:
+                # Point at the conventional source path so the missing-source message is meaningful.
+                base = dst.name[:-len(".conf.dist")].replace("_", "-")
+                sources[rel] = ZEPPELIN_CORE / "modules" / base / "conf" / dst.name
+
+    return sources
 
 # Files to skip (different format)
 SKIP_FILES = {"wowchat.conf"}
@@ -160,7 +164,7 @@ def sync_dist_files(do_sync: bool = False) -> Tuple[int, int, int]:
 
     click.echo(f"\n{Colors.BOLD}Checking .conf.dist files...{Colors.RESET}\n")
 
-    for rel_path, src_path in sorted(DIST_SOURCES.items()):
+    for rel_path, src_path in sorted(discover_dist_sources().items()):
         dst_path = CONFIG_DIR / rel_path
 
         update_needed, reason = compare_dist_files(src_path, dst_path)
