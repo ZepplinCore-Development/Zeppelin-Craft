@@ -8,11 +8,23 @@
 # Profession Experience Configuration
 ########################################
 #
+#    ProfessionExperience.KillsEquivalent
+#        Description: How many same-level creature kills each profession action is worth.
+#                     Base XP is calculated as if the player killed a creature at their own level,
+#                     then multiplied by this value. Recipe difficulty color applies on top.
+#        Default:     1.0
+#
+
+ProfessionExperience.KillsEquivalent = 1.0
+
+
+#
 #    ProfessionExperience.MultGray
 #    ProfessionExperience.MultGreen
 #    ProfessionExperience.MultYellow
 #    ProfessionExperience.MultOrange
-#        Description: Multiplicator to experience when using a skill with this difficulty
+#        Description: Multiplier based on recipe difficulty color.
+#                     Gray recipes give no XP. Green gives -25%, Yellow is baseline, Orange gives +25%.
 #        Default:     0.0  - (ProfessionExperience.MultGray)
 #                     0.75 - (ProfessionExperience.MultGreen)
 #                     1.0  - (ProfessionExperience.MultYellow)
@@ -25,45 +37,10 @@ ProfessionExperience.MultOrange = 1.25
 
 
 #
-#    ProfessionExperience.MultApprentice    1-75
-#    ProfessionExperience.MultJourneyman   76-150
-#    ProfessionExperience.MultExpert      151-225
-#    ProfessionExperience.MultArtisan     226-300
-#    ProfessionExperience.MultMaster      301-375
-#    ProfessionExperience.MultGrandMaster 376-450
-#        Description: Multiplicator to experience when using a skill in this skill range
-#        Default:     1.0 - (ProfessionExperience.MultApprentice)
-#                     1.0 - (ProfessionExperience.MultJourneyman)
-#                     1.0 - (ProfessionExperience.MultExpert)
-#                     1.0 - (ProfessionExperience.MultArtisan)
-#                     1.0 - (ProfessionExperience.MultMaster)
-#                     1.0 - (ProfessionExperience.MultGrandMaster)
-
-ProfessionExperience.MultApprentice  = 1.0
-ProfessionExperience.MultJourneyman  = 1.0
-ProfessionExperience.MultExpert      = 1.0
-ProfessionExperience.MultArtisan     = 1.0
-ProfessionExperience.MultMaster      = 1.0
-ProfessionExperience.MultGrandMaster = 1.0
-
-
-#
-#    ProfessionExperience.MultCurve
-#        Description: Multiplicator to Experience applied as an inverted exponential curve. Formula is "xp x mult ^ (1 - minSkill/450)".
-#                     Full multiplier at skill 1, tapering down to 1x at skill 450.
-#                     With default 5.0: ~5x at skill 1, ~2.2x at skill 225, 1x at skill 450.
-#        Default:     5.0
-#        Disabled:    0.0
-
-ProfessionExperience.MultCurve = 5.0
-
-
-#
 #    ProfessionExperience.*.Experience
-#        Description: Part of a level gained for performing the action
-#        Default:     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Herbalism.Experience)
-#                     0.002 - (0.2% base, scaled by MultCurve to ~1% at skill 1, ProfessionExperience.Mining.Experience)
-#                     0.00  - (Disabled, the rest)
+#        Description: Enable/disable XP for each profession. Set to 1.0 to enable, 0.0 to disable.
+#        Default:     1.0 - (Enabled: Herbalism, Mining)
+#                     0.0 - (Disabled: everything else)
 
 ProfessionExperience.Alchemy.Experience        = 0.00
 ProfessionExperience.Blacksmith.Experience     = 0.00
@@ -73,12 +50,12 @@ ProfessionExperience.Enchanting.Experience     = 0.00
 ProfessionExperience.Engineering.Experience    = 0.00
 ProfessionExperience.Fishing.Experience        = 0.00
 ProfessionExperience.FirstAid.Experience       = 0.00
-ProfessionExperience.Herbalism.Experience      = 0.002
+ProfessionExperience.Herbalism.Experience      = 1.00
 ProfessionExperience.Inscription.Experience    = 0.00
 ProfessionExperience.Jewelcrafting.Experience  = 0.00
 ProfessionExperience.Leatherworking.Experience = 0.00
 ProfessionExperience.Lockpick.Experience       = 0.00
-ProfessionExperience.Mining.Experience         = 0.002
+ProfessionExperience.Mining.Experience         = 1.00
 ProfessionExperience.Skinning.Experience       = 0.00
 ProfessionExperience.Smelting.Experience       = 0.00
 ProfessionExperience.Tailoring.Experience      = 0.00
